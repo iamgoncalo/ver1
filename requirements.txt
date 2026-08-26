@@ -1,9 +1,16 @@
-# Pinned per request. NOTE: as of this commit, src/ uses ONLY the Python 3.9+
-# standard library (csv, json, re, random, hashlib, datetime) — nothing below
-# is currently imported anywhere in the pipeline. They are pinned here so the
-# environment is ready if a future step (e.g. a heavier taxonomy model) needs
-# them, and run_pipeline.sh does not hard-fail if `pip install` has no network
-# access, since the actual analysis does not depend on it.
+# src/ uses ONLY the Python 3.9+ standard library for the analysis pipeline
+# (csv, json, re, random, hashlib, datetime) - none of pandas/numpy/
+# scikit-learn below are imported by anything under src/. `make all` does
+# not depend on any of them.
+#
+# streamlit IS a real dependency: dashboard/app.py (`make app`), the local
+# control room. Pinned to the version this repo was built and tested
+# against.
+streamlit==1.38.0
+
+# Pinned per an earlier explicit instruction in this session, kept in case
+# a future step needs them; harmless if unused - `make all`/`make refresh`
+# do not fail if these can't install (no network required for `make all`).
 pandas==2.2.2
 numpy==1.26.4
 scikit-learn==1.5.0

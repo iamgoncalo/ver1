@@ -1,0 +1,122 @@
+# Requirements ledger for the Versuni Air Treatment case (Project 1 only).
+# Status values: PASS, PARTIAL, BLOCKED, NOT_APPLICABLE.
+# Update this file, not STATUS.md, when a requirement's status changes;
+# STATUS.md summarizes this file plus live command output.
+
+data_evidence:
+  consumer_reviews_real:
+    status: PASS
+    detail: "10,547 real Amazon reviews, 237 real hand-validated purifier products"
+    source: data/raw/consumer_reviews.csv
+  trend_corpus_real:
+    status: PASS
+    detail: "12 real, individually fetched and archived documents"
+    source: data/raw/trend_corpus.json
+  market_metrics_real:
+    status: PASS
+    detail: "2 real, archived, genuinely disagreeing sources (Mordor 5.37% vs IMARC 6.54%)"
+    source: data/raw/market_metrics.json
+  wtp_evidence:
+    status: PASS
+    detail: "Honestly marked NOT AVAILABLE (no direct/proxy WTP data exists); real
+            price-exposure indicator reported separately, correctly labelled"
+    source: data/processed/wtp_real.json
+
+questions:
+  Q1_framing_measures:
+    status: PASS
+    detail: "3 measures fixed in src/config.py::DECISION_METRICS, held throughout"
+  Q2_data_quality:
+    status: PASS
+    detail: "Real defects found (not planted): 239 sentiment conflicts, 18 empty
+            text, 0 duplicate bursts, 0 volume anomalies - all genuine findings"
+  Q3_taxonomy:
+    status: PARTIAL
+    detail: "Real bottom-up taxonomy complete (6 themes). Human-label validation
+            BLOCKED - data/hand_label_sample_BLANK.csv awaits a real human labeller."
+    blocker: human_action
+  Q4_wtp:
+    status: PASS
+    detail: "Honest 'not available' answer + real price-exposure proxy, correctly
+            distinguished from WTP"
+  Q5_market_disagreement:
+    status: PASS
+    detail: "2 real archived sources; executable --market-scenario sensitivity
+            (CLI + dashboard Scenario Lab); verdict confirmed invariant"
+  Q6_recommendation:
+    status: PASS
+    detail: "Recomputed from real evidence. Winner: Reliability-Verified Air
+            Purifiers (changed from the earlier synthetic-fixture winner because
+            the real data does not support the old recommendation)"
+
+deliverables:
+  insight_pack_5_slides: {status: PASS, source: deliverables/insight_pack.md}
+  technical_note_2_pages: {status: PASS, source: deliverables/technical_note.md}
+  evidence_table: {status: PASS, source: deliverables/evidence_table.csv}
+  data_quality_report: {status: PASS, source: deliverables/data_quality_report.md}
+  ai_use_log: {status: PASS, source: deliverables/ai_use_log.md}
+
+control_room:
+  makefile: {status: PASS, detail: "refresh/all/test/verify/app/live-check, all tested"}
+  verification_engine:
+    status: PASS
+    detail: "scripts/verify_submission.py, 16 checks + 1 bonus, 229/229 passing;
+            negative-test proof done this session (broke one row, verify failed,
+            restored, verify passed)"
+  claim_trace_tool:
+    status: PASS
+    detail: "scripts/trace_claim.py - single shared implementation, imported by
+            both the CLI and dashboard EVIDENCE tab, no duplicate logic"
+  dashboard:
+    status: PASS
+    detail: "dashboard/app.py, all 8 required tabs, verified via real browser
+            session (not just headless): raw-review search, human-labelling
+            with proven blinding, a real SCENARIO LAB run confirmed via git
+            status to leave data/raw and data/processed untouched (writes
+            only to data/runtime/scenario_result.json). NOTE: this
+            untouched guarantee applies to the Scenario Lab specifically -
+            the EVIDENCE tab's make test/verify/live-check buttons
+            deliberately DO run the real CLI/pipeline and can rewrite
+            data/processed/*.json, by design (rehearsing the exact live-
+            session commands). An independent review of this layer also
+            found and this session then fixed: (a) verdict['recommended']
+            had been a hardcoded 'OS-1' literal despite scores being
+            computed live - replaced with pick_winner(), a real comparator,
+            proven to flip under synthetic score inputs; (b) OS-1/OS-2
+            theme stats were sourced from the frozen snapshot even when a
+            scenario passed filtered rows - fixed to recompute via
+            compute_theme_stats()/compute_price_exposure() on the actual
+            rows passed in; (c) a labelling-blinding leak where the
+            Representative Excerpts widget could show a review's automated
+            theme before its blind label was saved - fixed by excluding the
+            50 blind-sample review_ids from that widget's pool."
+  ci_workflow:
+    status: PASS
+    detail: ".github/workflows/verify.yml prepared locally, NOT pushed;
+            runs make all/test/verify/live-check, no network/API keys needed"
+
+reproducibility:
+  offline_frozen_build: {status: PASS, detail: "make all reads data/real_raw/ only, no network"}
+  network_refresh_path: {status: PASS, detail: "make refresh re-streams real source data; optional"}
+  fixed_seeds: {status: PASS, detail: "src/config.py RANDOM_STATE=42 used wherever sampling occurs"}
+  test_suite: {status: PASS, source: tests/test_real_pipeline.py}
+  verification_engine: {status: PASS, source: scripts/verify_submission.py}
+
+interview_readiness:
+  live_rehearsal_doc: {status: PASS, source: LIVE_REHEARSAL.md}
+  localhost_control_room: {status: PASS, source: dashboard/app.py}
+  q5_scenario_lab: {status: PASS, detail: "same underlying function as CLI, verified"}
+  claim_trace_tool: {status: PASS, source: scripts/trace_claim.py}
+  human_labelling_ui: {status: PASS, detail: "blinded by construction; see dashboard CONSUMERS tab"}
+
+blockers_requiring_a_human:
+  - id: hand_label_50_reviews
+    what: "Label data/hand_label_sample_BLANK.csv (50 real reviews) against the
+          codebook in technical_note.md, save as data/manual/hand_labels.csv"
+    who: goncalo
+  - id: repo_visibility_decision
+    what: "Repo is currently public; brief wants private. Decide before submission."
+    who: goncalo
+  - id: push_decision
+    what: "This repair is committed locally only, not pushed."
+    who: goncalo

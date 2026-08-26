@@ -188,6 +188,32 @@ def emit_blank_sample(rows, n=50, seed=None):
     return picked[:n]
 
 
+def compute_theme_stats(rows):
+    """Pure function: real theme prevalence/CSAT stats for an arbitrary row
+    set. The ONE implementation used by main() below AND by
+    dashboard/app.py's Scenario Lab (e.g. for an "exclude one product"
+    or "exclude one source" run) - never duplicated inside the dashboard."""
+    trusted = [r for r in rows if r.get("rating_trusted") == "true"]
+    ratings = [float(r["rating"]) for r in trusted if r["rating"] not in (None, "")]
+    corpus_mean = sum(ratings) / len(ratings) if ratings else None
+
+    theme_of = {r["review_id"]: classify(r["review_text"]) for r in rows}
+    stats = {}
+    for tid, (name, kws) in THEMES.items():
+        present = [r for r in rows if theme_of[r["review_id"]] == tid]
+        present_trusted = [r for r in present if r.get("rating_trusted") == "true"]
+        th_ratings = [float(r["rating"]) for r in present_trusted if r["rating"] not in (None, "")]
+        mean_r = sum(th_ratings) / len(th_ratings) if th_ratings else None
+        stats[tid] = {
+            "theme_name": name, "keyword_count": len(kws),
+            "n_reviews": len(present),
+            "prevalence_pct": round(100.0 * len(present) / len(rows), 2) if rows else None,
+            "mean_rating": round(mean_r, 3) if mean_r is not None else None,
+            "csat_impact": round(mean_r - corpus_mean, 3) if (mean_r is not None and corpus_mean) else None,
+        }
+    return stats, (round(corpus_mean, 3) if corpus_mean else None), theme_of
+
+
 def main():
     rows = load_clean()
     if not rows:
@@ -217,30 +243,11 @@ def main():
         return
 
     # ---- classify ----
-    assign = []
-    for r in rows:
-        assign.append({"review_id": r["review_id"], "product_sku": r["product_sku"],
-                       "rating": r["rating"], "rating_trusted": r.get("rating_trusted"),
-                       "theme": classify(r["review_text"])})
+    stats, corpus_mean, theme_of = compute_theme_stats(rows)
+    assign = [{"review_id": r["review_id"], "product_sku": r["product_sku"],
+              "rating": r["rating"], "rating_trusted": r.get("rating_trusted"),
+              "theme": theme_of[r["review_id"]]} for r in rows]
     by_id = {a["review_id"]: a for a in assign}
-
-    trusted = [r for r in rows if r.get("rating_trusted") == "true"]
-    ratings = [float(r["rating"]) for r in trusted if r["rating"] not in (None, "")]
-    corpus_mean = sum(ratings) / len(ratings) if ratings else None
-
-    stats = {}
-    for tid, (name, kws) in THEMES.items():
-        present = [r for r in rows if classify(r["review_text"]) == tid]
-        present_trusted = [r for r in present if r.get("rating_trusted") == "true"]
-        th_ratings = [float(r["rating"]) for r in present_trusted if r["rating"] not in (None, "")]
-        mean_r = sum(th_ratings) / len(th_ratings) if th_ratings else None
-        stats[tid] = {
-            "theme_name": name, "keyword_count": len(kws),
-            "n_reviews": len(present),
-            "prevalence_pct": round(100.0 * len(present) / len(rows), 2) if rows else None,
-            "mean_rating": round(mean_r, 3) if mean_r is not None else None,
-            "csat_impact": round(mean_r - corpus_mean, 3) if (mean_r is not None and corpus_mean) else None,
-        }
 
     validation = {"status": "HUMAN_ACTION_REQUIRED - data/hand_label_sample.csv not "
                             "found or not yet completed by a human labeller"}

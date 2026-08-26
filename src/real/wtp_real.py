@@ -53,15 +53,10 @@ def load_prices():
     return prices
 
 
-def main():
-    rows = load_clean()
-    if not rows:
-        print("No cleaned real reviews yet.")
-        return
-    prices = load_prices()
-
-    n_with_price = sum(1 for r in rows if r["product_sku"] in prices)
-
+def compute_price_exposure(rows, prices):
+    """Pure function: per-theme price-weighted exposure for an arbitrary row
+    set. The ONE implementation used by main() below AND
+    dashboard/app.py's Scenario Lab."""
     per_theme = {}
     for tid, (name, _kws) in THEMES.items():
         affected = [r for r in rows if classify(r["review_text"]) == tid]
@@ -87,6 +82,18 @@ def main():
                 "price/value/refund language. This is a proxy for whether the friction is "
                 "ALSO experienced as a value-for-money complaint, not a WTP measurement."),
         }
+    return per_theme
+
+
+def main():
+    rows = load_clean()
+    if not rows:
+        print("No cleaned real reviews yet.")
+        return
+    prices = load_prices()
+
+    n_with_price = sum(1 for r in rows if r["product_sku"] in prices)
+    per_theme = compute_price_exposure(rows, prices)
 
     price_summary = None
     priced_values = list(prices.values())

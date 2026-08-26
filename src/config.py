@@ -57,13 +57,20 @@ MARKETPLACES = [
 
 # ---------------------------------------------------------------- Q1 measures
 # The three measures fixed at Q1 and held unchanged through Q6.
+# NOTE: these definitions describe the REAL-data pipeline (src/real/). The
+# original synthetic-fixture phase used a different Financial Value Proxy
+# definition (EUR-millions aftermarket revenue at risk) - that definition
+# lives only in tests/synthetic_fixtures/ now and must not be shown as the
+# current measure (caught via dashboard/app.py EXECUTIVE tab review).
 DECISION_METRICS = [
     ("friction_prevalence_pct", "Friction Prevalence %",
-     "Share of cleaned reviews whose text carries the theme."),
+     "Share of real reviews whose text carries the theme (polarity-gated)."),
     ("csat_impact", "CSAT Impact",
-     "Mean star rating of reviews carrying the theme minus corpus mean (stars)."),
-    ("financial_value_proxy_eur_m", "Financial Value Proxy",
-     "Annual EUR millions of OEM aftermarket revenue at risk, attributed to the theme."),
+     "Mean star rating of real reviews carrying the theme minus corpus mean (stars)."),
+    ("financial_value_proxy_usd", "Financial Value Proxy",
+     "Price-Weighted Exposure (USD): sum of real observed listed prices across "
+     "affected real reviews with a known price. A relative reach x price "
+     "indicator, NOT a revenue, market-size, or WTP estimate."),
 ]
 
 OPPORTUNITY_SPACES = [

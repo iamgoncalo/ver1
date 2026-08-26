@@ -1,0 +1,31 @@
+name: Verify submission
+
+# Runs the exact offline reproduction path against the frozen real evidence
+# already committed to the repo - no network access, no API keys. This must
+# stay true: `make all` reads data/real_raw/ only.
+on:
+  push:
+    branches: [main, repair/real-evidence]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Regenerate every deliverable from frozen real evidence (offline)
+        run: make all
+
+      - name: Run test suite
+        run: make test
+
+      - name: Run submission integrity verification
+        run: make verify
+
+      - name: Run live-session command smoke test
+        run: make live-check

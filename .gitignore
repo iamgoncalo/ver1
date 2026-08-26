@@ -1,3 +1,7 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Scenario Lab scratch output - regenerated per session, not submission
+# evidence. data/manual/hand_labels.csv is NOT ignored - that one is real.
+data/runtime/*.json
