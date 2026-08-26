@@ -68,7 +68,8 @@ SOURCES = [
     {
         "id": "versuni_philips", "name": "Versuni / Philips official", "category": "products",
         "status": "LIVE_VERIFIED_THIS_SESSION",
-        "contributes": "1 of ~20 candidate SKUs verified with real spec + real downloaded/hashed official image (PureProtect 3200, AC3220/10). "
+        "contributes": "3 of ~20 candidate SKUs verified with real spec + real downloaded/hashed official image "
+                       "(PureProtect 3200 AC3220/10, PureProtect Mini 900 AC0950/10, PureProtect Pro 4200 AC4220/12). "
                        "The rest of the candidate SKU list is NOT yet verified - shown as UNKNOWN, not inferred.",
         "method": "web search + direct page fetch", "last_verified": "2026-08-26",
     },

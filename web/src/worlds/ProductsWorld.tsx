@@ -80,19 +80,26 @@ export function ProductsWorld() {
       {mode === "distilled" ? (
         <div className="scrollY" style={{ flex: 1 }}>
           {officialProducts && officialProducts.length > 0 && (
-            <div style={{ display: "flex", gap: 20, alignItems: "center", padding: "16px 20px", background: "var(--surface)", border: "1px solid var(--accent-blue)", borderRadius: 16, marginBottom: 20, maxWidth: 640 }}>
-              <img src={`/products/${officialProducts[0].local_asset.split("/").pop()}`} alt={officialProducts[0].official_name}
-                style={{ width: 90, height: 90, objectFit: "contain" }} />
-              <div>
-                <Pill tone="good">OFFICIAL VERSUNI/PHILIPS · {officialProducts[0].status}</Pill>
-                <div style={{ fontWeight: 600, fontSize: 15, marginTop: 6 }}>{officialProducts[0].official_name}</div>
-                <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 2 }}>
-                  SKU {officialProducts[0].sku} · CADR {officialProducts[0].specs.cadr_m3h} m³/h · {officialProducts[0].specs.room_coverage_m2} m² ·{" "}
-                  <a href={officialProducts[0].official_url} target="_blank" rel="noopener noreferrer">official source →</a>
-                </div>
-                <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4 }}>
-                  1 of ~20 candidate families verified this session — the rest are honestly UNVERIFIED, not inferred. See Sources.
-                </div>
+            <div style={{ marginBottom: 20 }}>
+              <SectionLabel>Official Versuni/Philips products — verified, not the Amazon corpus below</SectionLabel>
+              <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+                {officialProducts.map((p) => (
+                  <div key={p.product_id} style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", background: "var(--surface)", border: "1px solid var(--accent-blue)", borderRadius: 16, maxWidth: 340 }}>
+                    <img src={`/products/${p.local_asset.split("/").pop()}`} alt={p.official_name}
+                      style={{ width: 70, height: 70, objectFit: "contain", flexShrink: 0 }} />
+                    <div>
+                      <Pill tone="good">{p.status}</Pill>
+                      <div style={{ fontWeight: 600, fontSize: 13, marginTop: 6, lineHeight: 1.3 }}>{p.official_name}</div>
+                      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>
+                        {p.sku} · {p.specs.cadr_m3h} m³/h · {p.specs.room_coverage_m2} m²
+                      </div>
+                      <a href={p.official_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11 }}>official source →</a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 8 }}>
+                {officialProducts.length} of ~20 candidate families verified this session — the rest are honestly UNVERIFIED, not inferred. See Sources.
               </div>
             </div>
           )}

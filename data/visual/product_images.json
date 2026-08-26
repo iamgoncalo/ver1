@@ -1,5 +1,5 @@
 {
-  "_provenance": "Official Versuni/Philips product images - each entry individually verified this session against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (1 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. See NEXT_ACTION.md for the remaining verification work.",
+  "_provenance": "Official Versuni/Philips product images - each entry individually verified this session against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (3 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. See NEXT_ACTION.md for the remaining verification work.",
   "generated_by": "manual verification session 2026-08-26",
   "products": [
     {
@@ -25,11 +25,58 @@
         "app": true,
         "confidence": "HIGH - read directly off the official product page this session"
       }
+    },
+    {
+      "product_id": "AC0950_10",
+      "family": "PureProtect Mini 900 Series",
+      "sku": "AC0950/10",
+      "region": "UK (philips.co.uk)",
+      "official_name": "PureProtect Mini 900 Series Smart Air Purifier",
+      "official_url": "https://www.philips.co.uk/c-p/AC0950_10/pureprotect-mini-900-series",
+      "image_url": "https://images.philips.com/is/image/philipsconsumer/vrs_ca36dae9_2797_4864_b5d4a395cb8d93e5",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-26",
+      "local_asset": "web/public/products/AC0950_10.png",
+      "sha256": "15e2a80a7b270f8bd6e89380fc4f22b2946fb894c1593508cab2f1e5a1f40934",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 250,
+        "room_coverage_m2": 65,
+        "noise_min_dba": 20.5,
+        "filter_architecture": "3-layer: pre-filter, HEPA NanoProtect, Active Carbon",
+        "connectivity": "App control, real-time monitoring (per official page)",
+        "sensors": "AeraSense (implied by product family - not independently confirmed on this specific page)",
+        "app": true,
+        "confidence": "HIGH - read directly off the official product page this session"
+      }
+    },
+    {
+      "product_id": "AC4220_12",
+      "family": "PureProtect Pro 4200 Series",
+      "sku": "AC4220/12",
+      "region": "AU (philips.com.au) - a distinct AC4221/11 variant exists in other regions; NOT assumed equivalent",
+      "official_name": "PureProtect Pro 4200 Series Smart Air Purifier",
+      "official_url": "https://www.philips.com.au/c-p/AC4220_12/smart-air-purifier",
+      "image_url": "https://images.philips.com/is/image/philipsconsumer/vrs_7919e04a_a915_41d3_a73892eca20ca504",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-26",
+      "local_asset": "web/public/products/AC4220_12.png",
+      "sha256": "e33b032ed2d96624d3d787d4ff3f103d73c59973ae3e3dcff0b1ac60885b5729",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 600,
+        "room_coverage_m2": 156,
+        "noise_min_dba": 15,
+        "filter_architecture": "4-layer: pre-filter, HEPA NanoProtect, double Active Carbon layer",
+        "connectivity": "Philips Air+ app, PM2.5 + gas sensors",
+        "sensors": "PM2.5 and gas sensors",
+        "app": true,
+        "confidence": "HIGH - read directly off the official product page this session"
+      }
     }
   ],
   "candidates_not_yet_verified": [
-    "600/600i", "800/800i", "PureProtect Mini 900", "1000i",
-    "PureProtect Quiet 2200", "3000/3000i", "PureProtect Water 3400",
-    "PureProtect Pro 4200", "2000 Series 3-in-1", "Air Performer 7000", "Air Performer 8000"
+    "600/600i", "800/800i", "1000i", "PureProtect Quiet 2200", "3000/3000i",
+    "PureProtect Water 3400", "2000 Series 3-in-1", "Air Performer 7000", "Air Performer 8000"
   ]
 }
