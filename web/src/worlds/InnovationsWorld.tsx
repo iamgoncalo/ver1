@@ -15,6 +15,29 @@ const KIND_LABEL: Record<string, string> = {
   signal: "SIGNAL", trend_doc: "TREND DOC", paper: "PEER-REVIEWED PAPER",
   keyword_search: "KEYWORD SEARCH", unresolved: "UNRESOLVED",
 };
+const KIND_ICON: Record<string, string> = {
+  signal: "◆", trend_doc: "▲", paper: "●", keyword_search: "○", unresolved: "✕",
+};
+const KIND_TONE: Record<string, "neutral" | "blue" | "teal" | "amber" | "rose" | "good"> = {
+  signal: "blue", trend_doc: "amber", paper: "good", keyword_search: "neutral", unresolved: "rose",
+};
+const KIND_COLOR_VAR: Record<string, string> = {
+  blue: "var(--accent-blue)", teal: "var(--accent-teal)", amber: "var(--amber)",
+  rose: "var(--rose)", good: "var(--good)", neutral: "var(--ink-dim)",
+};
+
+function TraceLegend() {
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 14, padding: "8px 12px", background: "var(--surface-2)", borderRadius: 10 }}>
+      {Object.entries(KIND_LABEL).map(([kind, label]) => (
+        <div key={kind} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 10.5, color: "var(--ink-dim)" }}>
+          <span style={{ color: KIND_COLOR_VAR[KIND_TONE[kind]] }}>{KIND_ICON[kind]}</span>
+          {label}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function TraceTree({ nodes, depth = 0 }: { nodes: TraceNode[]; depth?: number }) {
   return (
@@ -22,7 +45,7 @@ function TraceTree({ nodes, depth = 0 }: { nodes: TraceNode[]; depth?: number })
       {nodes.map((n) => (
         <div key={n.id} style={{ marginBottom: 10, paddingLeft: depth > 0 ? 12 : 0, borderLeft: depth > 0 ? "2px solid var(--line)" : "none" }}>
           <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-            <Pill tone={n.kind === "unresolved" ? "rose" : n.kind === "paper" ? "good" : "neutral"}>{KIND_LABEL[n.kind]}</Pill>
+            <Pill tone={KIND_TONE[n.kind] ?? "neutral"}>{KIND_ICON[n.kind]} {KIND_LABEL[n.kind]}</Pill>
             <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>{n.id}</span>
           </div>
           <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4 }}>
@@ -85,7 +108,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
             5 · WHAT WINS — WHAT SHOULD VERSUNI TEST?
           </div>
           <h1 style={{ fontSize: 30 }}>What Wins?</h1>
-          <div style={{ fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", marginTop: -4, marginBottom: 8 }}>BETS</div>
+          <div style={{ fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", marginTop: -4, marginBottom: 8 }}>INNOVATIONS</div>
         </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
@@ -122,9 +145,21 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                 <Pill tone={isWinner ? "good" : s.consumer_pain.gate_passed ? "neutral" : "rose"}>
                   {isWinner ? "CURRENT WINNER" : s.consumer_pain.gate_passed ? "ALTERNATIVE" : "GATE FAILED"}
                 </Pill>
-                <Pill>{id}</Pill>
+                {mode === "raw" && <Pill>{id}</Pill>}
               </div>
-              <h3 style={{ fontSize: 17, marginBottom: 10, lineHeight: 1.3 }}>{s.name}</h3>
+              <h3 style={{ fontSize: 18, marginBottom: 6, lineHeight: 1.3 }}>{s.name}</h3>
+
+              {s.typical_market_price_usd != null && (
+                <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: 28, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
+                    ${s.typical_market_price_usd.toFixed(2)}
+                  </span>
+                  <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>
+                    typical real price in this segment today (median of {s.typical_market_price_n_products} real products)
+                  </span>
+                </div>
+              )}
+
               <p style={{ fontSize: 12, color: "var(--ink-dim)", marginBottom: 14, lineHeight: 1.5 }}>{s.friction}</p>
 
               {s.consumer_pain.gate_passed ? (
@@ -137,7 +172,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                   </div>
                   <div style={{ marginBottom: 8 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
-                      <span>Economic Value (price-weighted exposure)</span><span className="mono">${(s.economic_value ?? 0).toLocaleString()}</span>
+                      <span>Market exposure (price-weighted)</span><span className="mono">${(s.economic_value ?? 0).toLocaleString()}</span>
                     </div>
                     <MiniBar value={s.economic_value ?? 0} max={maxEcon} tone="teal" />
                     <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}>
@@ -176,7 +211,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                   </div>
                   <button onClick={() => setTraceId(id)}
                     style={{ marginTop: 12, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-                    TRACE THIS BET →
+                    TRACE THIS INNOVATION →
                   </button>
                 </>
               )}
@@ -205,13 +240,14 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
         </div>
       )}
 
-      <FocusPanel open={!!traceId} onClose={() => setTraceId(null)} eyebrow="Trace this bet — reverse to raw evidence" title={traceId ? data?.scores[traceId]?.name ?? traceId : ""}>
+      <FocusPanel open={!!traceId} onClose={() => setTraceId(null)} eyebrow="Trace this innovation — reverse to raw evidence" title={traceId ? data?.scores[traceId]?.name ?? traceId : ""}>
         {traceId && data && (
           <>
             <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
               Every edge below is a genuine cross-reference already present in the real data — nothing invented to
               make this look connected. Where no link exists, it says so.
             </p>
+            <TraceLegend />
             <TraceTree nodes={traceEvidenceIds(data.scores[traceId].evidence_ids, { signals, research })} />
           </>
         )}

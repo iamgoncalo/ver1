@@ -112,6 +112,8 @@ def generate_possibilities():
                 "consumer_pain_prevalence_pct": stats["prevalence_pct"],
                 "gate_passed": gate_passed,
                 "economic_value": price_exposure[theme_id]["price_weighted_exposure_usd"],
+                "typical_market_price_usd": price_exposure[theme_id]["median_real_price_usd"],
+                "typical_market_price_n_products": price_exposure[theme_id]["n_distinct_priced_products_affected"],
                 "feasibility_2_5y": {"rating": FEASIBILITY.get(
                     {"reliability": "OS-1", "noise": "OS-2"}.get(theme_id, ""), {}).get(
                         "rating", "medium"),

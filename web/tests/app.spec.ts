@@ -39,7 +39,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
       { nav: "SIGNALS", heading: "WHAT IS CHANGING?" },
       { nav: "RIVALS", heading: "WHERE IS EVERYONE ELSE?" },
       { nav: "COUNTERFACTUALS", heading: "WHAT BECOMES POSSIBLE?" },
-      { nav: "BETS", heading: "WHAT SHOULD VERSUNI TEST?" },
+      { nav: "INNOVATIONS", heading: "WHAT SHOULD VERSUNI TEST?" },
     ];
     for (const { nav, heading } of expectations) {
       await page.getByRole("button", { name: new RegExp(nav) }).click();
@@ -84,7 +84,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("Bets world: decision priority toggle genuinely flips the winner", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /BETS/ }).click();
+    await page.getByRole("button", { name: /INNOVATIONS/ }).click();
     await expect(page.getByText("CURRENT WINNER")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("WINNER CHANGED")).toHaveCount(0);
     await page.getByRole("button", { name: "Economic Value override" }).click();
@@ -93,12 +93,12 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("Trace This Bet resolves real evidence, no fabricated links", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /BETS/ }).click();
+    await page.getByRole("button", { name: /INNOVATIONS/ }).click();
     await page.getByRole("button", { name: "raw" }).click();
-    await page.getByRole("button", { name: "TRACE THIS BET →" }).first().click();
-    await expect(page.getByText("Trace this bet — reverse to raw evidence")).toBeVisible({ timeout: 5000 });
+    await page.getByRole("button", { name: "TRACE THIS INNOVATION →" }).first().click();
+    await expect(page.getByText("Trace this innovation — reverse to raw evidence")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("NO VERIFIED LINK")).toHaveCount(0);
-    await expect(page.getByText("SIGNAL", { exact: true })).toBeVisible();
+    await expect(page.getByText("◆ SIGNAL")).toBeVisible();
   });
 
   test("Sources dock reports honest, non-fabricated statuses", async ({ page }) => {

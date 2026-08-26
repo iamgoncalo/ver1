@@ -1,0 +1,511 @@
+{
+  "_provenance": "Critic verdicts derived ONLY from real signals already computed by magic_box_real.py (gate_passed, economic_value vs. corpus median, is_white_space/competitor_gap_brands). 5 of 8 requested Critic dimensions (HUMAN/PHYSICAL/VERSUNI_FIT/TIMING/ROBUSTNESS) have no real evidence anywhere in this pipeline and are honestly reported NEEDS_EVIDENCE, never guessed. Evolution stage is derived from the possibility's real position in the already-computed funnel (generated/gate/evidence/non-dominated/finalist) and graveyard membership.",
+  "generated_by": "src/real/critic_real.py",
+  "verdict_vocabulary": [
+    "SURVIVE",
+    "CHALLENGE",
+    "NEEDS_EVIDENCE",
+    "REJECT"
+  ],
+  "evolution_stages": [
+    "SEED",
+    "CHALLENGED",
+    "SURVIVOR",
+    "FINALIST",
+    "REJECTED"
+  ],
+  "concepts": [
+    {
+      "possibility_id": "reliability:PREDICT",
+      "name": "Predictive Failure Warning",
+      "evolution_stage": "FINALIST",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (1.58%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($26,358) is at or above the corpus median ($13,380)."
+        },
+        "COMPETITIVE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real white space: 7 named real rivals are measurably weaker on this theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      }
+    },
+    {
+      "possibility_id": "reliability:MATERIALISE",
+      "name": "Physical Health Indicator",
+      "evolution_stage": "SURVIVOR",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (1.58%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($26,358) is at or above the corpus median ($13,380)."
+        },
+        "COMPETITIVE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real white space: 7 named real rivals are measurably weaker on this theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      }
+    },
+    {
+      "possibility_id": "noise:AMBIENT",
+      "name": "Ambient Night Mode",
+      "evolution_stage": "SURVIVOR",
+      "critic_overall": "NEEDS_EVIDENCE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, CSAT -0.571 - materially above the gate floor."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($84,016) is at or above the corpus median ($13,380)."
+        },
+        "COMPETITIVE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real white space: 11 named real rivals are measurably weaker on this theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      }
+    },
+    {
+      "possibility_id": "noise:TEMPORAL_SHIFT",
+      "name": "Pre-Sleep Purification Window",
+      "evolution_stage": "SURVIVOR",
+      "critic_overall": "NEEDS_EVIDENCE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, CSAT -0.571 - materially above the gate floor."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($84,016) is at or above the corpus median ($13,380)."
+        },
+        "COMPETITIVE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real white space: 11 named real rivals are measurably weaker on this theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      }
+    },
+    {
+      "possibility_id": "value_effectiveness:CONCENTRATE",
+      "name": "Single-Metric Trust Score",
+      "evolution_stage": "FINALIST",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (0.77%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Real price-weighted exposure ($10,648) is below the corpus median ($13,380) - a real but comparatively modest signal."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      }
+    },
+    {
+      "possibility_id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "name": "Verified-Clean Certification",
+      "evolution_stage": "FINALIST",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (0.77%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Real price-weighted exposure ($10,648) is below the corpus median ($13,380) - a real but comparatively modest signal."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      }
+    },
+    {
+      "possibility_id": "customer_service:INVERT",
+      "name": "Proactive Warranty Contact",
+      "evolution_stage": "REJECTED",
+      "critic_overall": "REJECT",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "REJECT",
+          "reasoning": "Consumer Pain evidence-sufficiency gate failed - no real, materially-prevalent friction to build against."
+        },
+        "ECONOMIC": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Real price-weighted exposure ($8,125) is below the corpus median ($13,380) - a real but comparatively modest signal."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
+      "why_it_existed": "Generated from a real friction (Customer service / returns / warranty) x real design operator (INVERT) combination.",
+      "what_killed_it": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+    },
+    {
+      "possibility_id": "customer_service:REMOVE",
+      "name": "No-Ticket Replacement",
+      "evolution_stage": "REJECTED",
+      "critic_overall": "REJECT",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "REJECT",
+          "reasoning": "Consumer Pain evidence-sufficiency gate failed - no real, materially-prevalent friction to build against."
+        },
+        "ECONOMIC": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Real price-weighted exposure ($8,125) is below the corpus median ($13,380) - a real but comparatively modest signal."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
+      "why_it_existed": "Generated from a real friction (Customer service / returns / warranty) x real design operator (REMOVE) combination.",
+      "what_killed_it": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+    },
+    {
+      "possibility_id": "filter_cost:DISTRIBUTE",
+      "name": "Micro-Filter Subscription",
+      "evolution_stage": "REJECTED",
+      "critic_overall": "REJECT",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "REJECT",
+          "reasoning": "Consumer Pain evidence-sufficiency gate failed - no real, materially-prevalent friction to build against."
+        },
+        "ECONOMIC": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Real price-weighted exposure ($7,391) is below the corpus median ($13,380) - a real but comparatively modest signal."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
+      "why_it_existed": "Generated from a real friction (Filter cost / replacement (weak real signal)) x real design operator (DISTRIBUTE) combination.",
+      "what_killed_it": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
+    },
+    {
+      "possibility_id": "filter_cost:MERGE",
+      "name": "Filter-Inclusive Pricing",
+      "evolution_stage": "REJECTED",
+      "critic_overall": "REJECT",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "REJECT",
+          "reasoning": "Consumer Pain evidence-sufficiency gate failed - no real, materially-prevalent friction to build against."
+        },
+        "ECONOMIC": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Real price-weighted exposure ($7,391) is below the corpus median ($13,380) - a real but comparatively modest signal."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
+      "why_it_existed": "Generated from a real friction (Filter cost / replacement (weak real signal)) x real design operator (MERGE) combination.",
+      "what_killed_it": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
+    },
+    {
+      "possibility_id": "ozone_odor_safety:MOVE",
+      "name": "Sensor-Led Placement Guidance",
+      "evolution_stage": "REJECTED",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (0.81%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($16,113) is at or above the corpus median ($13,380)."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
+      "why_it_existed": "Generated from a real friction (Ozone / smell / irritation (weak real signal)) x real design operator (MOVE) combination.",
+      "what_killed_it": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
+    },
+    {
+      "possibility_id": "ozone_odor_safety:PERSONALISE",
+      "name": "Sensitivity-Aware Auto Mode",
+      "evolution_stage": "REJECTED",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (0.81%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($16,113) is at or above the corpus median ($13,380)."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
+      "why_it_existed": "Generated from a real friction (Ozone / smell / irritation (weak real signal)) x real design operator (PERSONALISE) combination.",
+      "what_killed_it": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
+    }
+  ]
+}
