@@ -4,13 +4,21 @@ import type { MagicBoxResponse, Possibility } from "../lib/types";
 import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 
+interface CategoryAssumption {
+  assumption_id: string; text: string; status: string; evidence_for_prevalence: string;
+  real_evidence_that_bears_on_it: string[]; evidence_note: string; counterfactual: string;
+}
+
 export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
   const [data, setData] = useState<MagicBoxResponse | null>(null);
   const [focus, setFocus] = useState<Possibility | null>(null);
   const [showRejected, setShowRejected] = useState(false);
   const [mode, setMode] = useState<ViewMode>("distilled");
+  const [assumptions, setAssumptions] = useState<CategoryAssumption[] | null>(null);
+  const [assumptionFocus, setAssumptionFocus] = useState<CategoryAssumption | null>(null);
 
   useEffect(() => { api.magicBox().then(setData).catch(() => setData(null)); }, []);
+  useEffect(() => { api.assumptions().then((r) => setAssumptions(r.assumptions)).catch(() => setAssumptions(null)); }, []);
 
   const possibilities = useMemo(() => {
     const all = data?.possibilities ?? [];
@@ -39,6 +47,23 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
         </div>
         <DistilledRawToggle mode={mode} onChange={setMode} />
       </div>
+
+      {mode === "distilled" && (
+        <div style={{ marginBottom: 14, flexShrink: 0 }}>
+          <SectionLabel>Category assumption map — click to break one</SectionLabel>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {(assumptions ?? []).map((a) => (
+              <button key={a.assumption_id} onClick={() => setAssumptionFocus(a)}
+                style={{
+                  fontSize: 11.5, padding: "6px 12px", borderRadius: 999, cursor: "pointer",
+                  border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink-dim)",
+                }}>
+                {a.text}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* funnel */}
       <div style={{ display: "flex", gap: 6, marginBottom: 14, flexShrink: 0 }}>
@@ -150,6 +175,27 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
               <SectionLabel>Evidence IDs</SectionLabel>
               <div className="mono" style={{ fontSize: 12, color: "var(--ink-dim)" }}>{focus.evidence_ids.join(", ")}</div>
             </div>
+          </>
+        )}
+      </FocusPanel>
+
+      <FocusPanel open={!!assumptionFocus} onClose={() => setAssumptionFocus(null)} eyebrow={`Category assumption · ${assumptionFocus?.status}`} title={assumptionFocus?.text ?? ""}>
+        {assumptionFocus && (
+          <>
+            <div style={{ marginBottom: 16 }}>
+              <SectionLabel>How entrenched is this, really?</SectionLabel>
+              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>{assumptionFocus.evidence_for_prevalence}</p>
+            </div>
+            <div style={{ marginBottom: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>What real evidence bears on it</SectionLabel>
+              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>{assumptionFocus.evidence_note}</p>
+              {assumptionFocus.real_evidence_that_bears_on_it.length > 0 && (
+                <div className="mono" style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6 }}>
+                  {assumptionFocus.real_evidence_that_bears_on_it.join(", ")}
+                </div>
+              )}
+            </div>
+            <CounterfactualPrompt>{assumptionFocus.counterfactual}</CounterfactualPrompt>
           </>
         )}
       </FocusPanel>

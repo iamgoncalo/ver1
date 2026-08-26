@@ -80,6 +80,9 @@ python3 src/real/signals_from_research_real.py
 echo "== stage 8d/9: Dutch economics truth (real, verified anchors) =="
 python3 src/real/economics_real.py
 
+echo "== stage 8e/9: category assumption map (real, evidence-linked) =="
+python3 src/real/assumptions_real.py
+
 echo "== stage 9/9: evidence table + tests =="
 python3 src/real/build_evidence_table_real.py
 python3 -m unittest tests.test_real_pipeline -v

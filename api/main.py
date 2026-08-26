@@ -63,6 +63,11 @@ def economics():
     return read_json("economics_real.json")
 
 
+@app.get("/api/assumptions")
+def assumptions():
+    return read_json("category_assumptions.json")
+
+
 @app.get("/api/research")
 def research_index():
     return read_json("research_index.json")
