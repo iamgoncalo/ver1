@@ -73,6 +73,63 @@ def sources():
     return read_json("sources_real.json")
 
 
+@app.get("/api/how-we-got-here")
+def how_we_got_here():
+    """Aggregates ALREADY-COMPUTED real counts from the other endpoints'
+    underlying files into one funnel - no new analysis happens here, no
+    count is invented or hardcoded as an example. If a file is missing,
+    that stage is honestly reported as unavailable rather than guessed."""
+    def count_of(name, path_in_doc=None):
+        try:
+            doc = read_json(name)
+        except HTTPException:
+            return None
+        if path_in_doc is None:
+            return doc
+        for key in path_in_doc:
+            doc = doc[key]
+        return doc
+
+    reviews_manifest = count_of("products_real.json")
+    signals = count_of("signals_real.json")
+    research = count_of("research_index.json")
+    tensions = count_of("research_tensions.json")
+    rivals = count_of("rivals_real.json")
+    white_space = count_of("white_space_real.json")
+    magic_box = count_of("magic_box_real.json")
+    assumptions = count_of("category_assumptions.json")
+    decision = count_of("decision_framework_real.json")
+
+    try:
+        with open(os.path.join(ROOT, "data", "visual", "product_images.json"), encoding="utf-8") as fh:
+            official_products = json.load(fh)
+    except FileNotFoundError:
+        official_products = None
+
+    stages = [
+        {"id": "reviews", "label": "Real consumer reviews", "count": sum(p["n_real_reviews_in_corpus"] for p in reviews_manifest["products"]) if reviews_manifest else None},
+        {"id": "products", "label": "Real hand-validated products (Amazon corpus)", "count": len(reviews_manifest["products"]) if reviews_manifest else None},
+        {"id": "signals", "label": "Signals derived", "count": signals["count"] if signals else None},
+        {"id": "research", "label": "Verified research documents", "count": research["corpus_size"] if research else None},
+        {"id": "tensions", "label": "Evidence-grounded tensions", "count": len(tensions["tensions"]) if tensions else None},
+        {"id": "official_products", "label": "Verified official Versuni/Philips products", "count": len(official_products["products"]) if official_products else None},
+        {"id": "assumptions", "label": "Category assumptions mapped", "count": len(assumptions["assumptions"]) if assumptions else None},
+        {"id": "rivals", "label": "Real competitor brands analysed", "count": len(rivals["rivals"]) if rivals else None},
+        {"id": "white_space", "label": "Real white-space opportunities", "count": sum(1 for s in white_space["spaces"] if s["is_white_space"]) if white_space else None},
+        {"id": "possibilities_generated", "label": "Possibilities generated (Magic Box)", "count": magic_box["funnel"][0]["count"] if magic_box else None},
+        {"id": "possibilities_finalists", "label": "Finalists surviving gate→evidence→dominance", "count": len(magic_box["finalists"]) if magic_box else None},
+        {"id": "possibilities_rejected", "label": "Rejected candidates", "count": len(magic_box["graveyard"]) if magic_box else None},
+        {"id": "bet", "label": "Final bet", "count": 1 if decision else None},
+    ]
+    return {
+        "_provenance": "Every count here is read live from the same processed files the rest of the app reads - "
+                       "nothing is a hardcoded example. A null count means that stage's source file was not "
+                       "available when this was computed, reported honestly rather than guessed.",
+        "stages": stages,
+        "bet_name": decision["verdict"]["recommended_name"] if decision else None,
+    }
+
+
 @app.get("/api/product-images")
 def product_images():
     path = os.path.join(ROOT, "data", "visual", "product_images.json")

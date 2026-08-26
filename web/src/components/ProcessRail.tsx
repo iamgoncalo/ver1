@@ -1,5 +1,6 @@
 import { Logo } from "./Logo";
 import { SourcesDock } from "./SourcesDock";
+import { HowWeGotHere } from "./HowWeGotHere";
 
 const STAGES = [
   { n: 1, process: "WHAT IS", world: "PRODUCTS", q: "What exists?" },
@@ -48,6 +49,7 @@ export function ProcessRail({ active, onSelect }: { active: number; onSelect: (n
         })}
       </nav>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <HowWeGotHere />
         <SourcesDock />
         <a href="http://localhost:8501" target="_blank" rel="noopener noreferrer"
           style={{ fontSize: 12, color: "var(--ink-dim)", textDecoration: "none", border: "1px solid var(--line)", padding: "6px 10px", borderRadius: 8 }}>

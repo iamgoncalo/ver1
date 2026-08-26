@@ -19,6 +19,7 @@ export const api = {
   economics: () => j<any>("/api/economics"),
   assumptions: () => j<any>("/api/assumptions"),
   sources: () => j<any>("/api/sources"),
+  howWeGotHere: () => j<any>("/api/how-we-got-here"),
   productImages: () => j<any>("/api/product-images"),
   researchTensions: () => j<any>("/api/research/tensions"),
   innovationsFrozen: () => j<InnovationsResponse>("/api/innovations"),
