@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 import type { Rival, RivalsResponse, WhiteSpaceResponse } from "../lib/types";
-import { Card, Pill, StatRow, SectionLabel } from "../components/ui";
+import { Card, Pill, StatRow, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 
 export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: string) => void }) {
   const [data, setData] = useState<RivalsResponse | null>(null);
   const [whiteSpace, setWhiteSpace] = useState<WhiteSpaceResponse | null>(null);
   const [focus, setFocus] = useState<Rival | null>(null);
-  const [showWhiteSpace, setShowWhiteSpace] = useState(false);
+  const [mode, setMode] = useState<ViewMode>("distilled");
+  const [showWhiteSpace, setShowWhiteSpace] = useState(true);
 
   useEffect(() => {
     api.rivals().then(setData).catch(() => setData(null));
@@ -17,6 +18,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
 
   const sorted = useMemo(() => [...(data?.rivals ?? [])].sort((a, b) => b.n_reviews - a.n_reviews), [data]);
   const spaces = whiteSpace?.spaces?.filter((s) => s.is_white_space) ?? [];
+  const showBrandGrid = mode === "raw" && !showWhiteSpace;
 
   function weakestTheme(r: Rival) {
     return [...r.theme_gaps].sort((a, b) => b.delta_pp - a.delta_pp)[0];
@@ -27,20 +29,50 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            3 · COMPARE — WHERE IS EVERYONE ELSE?
+            3 · WHAT'S MISSING — WHERE IS EVERYONE ELSE?
           </div>
           <h1 style={{ fontSize: 30 }}>Rivals</h1>
         </div>
-        <button
-          onClick={() => setShowWhiteSpace((v) => !v)}
-          style={{ padding: "10px 18px", borderRadius: 10, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
-            background: "linear-gradient(120deg, var(--accent-blue), var(--accent-teal))", color: "white" }}
-        >
-          {showWhiteSpace ? "← Back to brands" : "Show white space"}
-        </button>
+        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          {mode === "raw" && (
+            <button
+              onClick={() => setShowWhiteSpace((v) => !v)}
+              style={{ padding: "10px 18px", borderRadius: 10, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
+                background: "linear-gradient(120deg, var(--accent-blue), var(--accent-teal))", color: "white" }}
+            >
+              {showWhiteSpace ? "← Back to brands" : "Show white space"}
+            </button>
+          )}
+          <DistilledRawToggle mode={mode} onChange={setMode} />
+        </div>
       </div>
 
-      {!showWhiteSpace ? (
+      {mode === "distilled" && (
+        <div className="scrollY" style={{ flex: 1 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 20 }}>
+            <HeroMetric label="Real brands analysed" value={sorted.length || "…"} />
+            <HeroMetric label="Real white-space opportunities" value={spaces.length} />
+            <HeroMetric label="Category reviews" value={data?.n_category_reviews.toLocaleString() ?? "…"} />
+            <HeroMetric label="Min. reviews/brand floor" value={data?.min_reviews_floor ?? "…"} />
+          </div>
+          {spaces.map((s) => (
+            <div key={s.opportunity_id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 16, padding: 20, marginBottom: 12, maxWidth: 640 }}>
+              <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
+              <h3 style={{ fontSize: 18, marginTop: 8 }}>{s.name}</h3>
+              <div style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 6 }}>
+                {s.rivals_measurably_weak_here.length} real rivals measurably weaker here · feasibility {s.feasibility}
+              </div>
+              <button onClick={() => onSendToMagicBox(s.theme)}
+                style={{ marginTop: 10, padding: "8px 14px", borderRadius: 8, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+                Send to Counterfactual Engine →
+              </button>
+            </div>
+          ))}
+          <CounterfactualPrompt>What if the category's weakest capability is the one Versuni could own outright?</CounterfactualPrompt>
+        </div>
+      )}
+
+      {mode === "raw" && (showBrandGrid ? (
         <>
           <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 12, flexShrink: 0 }}>
             {sorted.length} real brands, ≥{data?.min_reviews_floor ?? 40} reviews each, from {data?.n_category_reviews.toLocaleString()} category reviews.
@@ -86,7 +118,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
                   onClick={() => onSendToMagicBox(s.theme)}
                   style={{ padding: "9px 16px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}
                 >
-                  Send to Magic Box →
+                  Send to Counterfactual Engine →
                 </button>
               </div>
               <div style={{ display: "flex", gap: 24, marginTop: 14 }}>
@@ -103,7 +135,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
           ))}
           {!whiteSpace && <div style={{ color: "var(--ink-faint)" }}>Loading white space evidence…</div>}
         </div>
-      )}
+      ))}
 
       <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow="Rival brand" title={focus?.brand ?? ""}>
         {focus && (

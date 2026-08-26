@@ -1,5 +1,52 @@
 import type { ReactNode } from "react";
 
+export type ViewMode = "distilled" | "raw";
+
+export function DistilledRawToggle({ mode, onChange }: { mode: ViewMode; onChange: (m: ViewMode) => void }) {
+  return (
+    <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
+      {(["distilled", "raw"] as ViewMode[]).map((m) => (
+        <button key={m} onClick={() => onChange(m)}
+          style={{
+            padding: "7px 16px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
+            fontFamily: "var(--font-mono)", letterSpacing: "0.04em", textTransform: "uppercase",
+            background: mode === m ? "var(--surface)" : "transparent", fontWeight: mode === m ? 700 : 500,
+            color: mode === m ? "var(--ink)" : "var(--ink-faint)",
+            boxShadow: mode === m ? "var(--shadow)" : "none",
+          }}>
+          {m}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export function HeroMetric({ label, value }: { label: string; value: ReactNode }) {
+  return (
+    <div>
+      <div className="mono" style={{ fontSize: 32, fontWeight: 600, color: "var(--ink)", lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6, textTransform: "uppercase", letterSpacing: "0.04em" }}>{label}</div>
+    </div>
+  );
+}
+
+export function CounterfactualPrompt({ children }: { children: ReactNode }) {
+  return (
+    <div style={{
+      marginTop: 24, padding: "18px 22px", borderRadius: 14,
+      background: "linear-gradient(120deg, rgba(28,63,170,0.07), rgba(14,156,140,0.07))",
+      border: "1px solid var(--line)", maxWidth: 640,
+    }}>
+      <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 6 }}>
+        WHAT IF?
+      </div>
+      <div style={{ fontSize: 16, fontFamily: "var(--font-display)", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.4 }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export function Pill({ children, tone = "neutral" }: { children: ReactNode; tone?: "neutral" | "blue" | "teal" | "amber" | "rose" | "good" }) {
   const colors: Record<string, string> = {
     neutral: "var(--ink-dim)", blue: "var(--accent-blue-ink)", teal: "var(--accent-teal)",

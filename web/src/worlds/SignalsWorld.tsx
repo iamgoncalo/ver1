@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import type { Signal, SignalsResponse } from "../lib/types";
-import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel } from "../components/ui";
+import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+
+interface ResearchPaper {
+  research_id: string; title: string; journal: string; year: number; doi: string; pmid: string | null;
+  study_design: string; territories: string[]; found: string; does_not_establish: string; limitations: string;
+}
+interface ResearchIndex { peer_reviewed_count: number; technical_regulatory_count: number; peer_reviewed_papers: ResearchPaper[] }
 
 const STATE_TONE: Record<string, "good" | "amber" | "rose" | "neutral"> = {
   CONVERGING: "good", SINGLE_SOURCE_FAMILY: "amber", CONTESTED: "rose",
@@ -16,8 +22,12 @@ const STATE_LABEL: Record<string, string> = {
 export function SignalsWorld() {
   const [data, setData] = useState<SignalsResponse | null>(null);
   const [focus, setFocus] = useState<Signal | null>(null);
+  const [mode, setMode] = useState<ViewMode>("distilled");
+  const [research, setResearch] = useState<ResearchIndex | null>(null);
+  const [paperFocus, setPaperFocus] = useState<ResearchPaper | null>(null);
 
   useEffect(() => { api.signals().then(setData).catch(() => setData(null)); }, []);
+  useEffect(() => { api.research().then(setResearch).catch(() => setResearch(null)); }, []);
   const signals = data?.signals ?? [];
   const withPrevalence = signals.filter((s) => s.prevalence_pct !== null);
   const researchOnly = signals.filter((s) => s.prevalence_pct === null);
@@ -63,31 +73,57 @@ export function SignalsWorld() {
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
       <div style={{ marginBottom: 14, flexShrink: 0 }}>
         <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-          2 · DISTILL — WHAT IS CHANGING?
+          2 · WHAT CHANGES — WHAT IS CHANGING?
         </div>
         <h1 style={{ fontSize: 30 }}>Signals</h1>
-        <p style={{ fontSize: 12, color: "var(--ink-faint)", marginTop: 6, maxWidth: 820 }}>
-          {signals.length} signals from real consumer-review taxonomy + a 12-paper verified peer-reviewed research corpus
-          (10 new papers verified against PubMed this session) + real regulatory/standards sources.
-          {" "}{counts.converging} converging, {counts.single} single-source, {counts.contested} genuinely contested — never padded to a target count.
-        </p>
+      </div>
+      <div style={{ marginBottom: 12, flexShrink: 0 }}>
+        <DistilledRawToggle mode={mode} onChange={setMode} />
       </div>
 
-      <div className="scrollY" style={{ flex: 1 }}>
-        <SectionLabel>Consumer + research (taxonomy-grounded)</SectionLabel>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start", marginBottom: 20 }}>
-          {withPrevalence.map((s) => <SignalCard key={s.id} s={s} />)}
+      {mode === "distilled" ? (
+        <div className="scrollY" style={{ flex: 1 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 20 }}>
+            <HeroMetric label="Converging signals" value={counts.converging} />
+            <HeroMetric label="Single-source" value={counts.single} />
+            <HeroMetric label="Contested" value={counts.contested} />
+            <HeroMetric label="Peer-reviewed papers" value={research?.peer_reviewed_count ?? "…"} />
+          </div>
+          <SectionLabel>Consumer + research (taxonomy-grounded)</SectionLabel>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start", marginBottom: 20 }}>
+            {withPrevalence.map((s) => <SignalCard key={s.id} s={s} />)}
+          </div>
+          {researchOnly.length > 0 && (
+            <>
+              <SectionLabel>Research-only (no consumer-taxonomy analogue)</SectionLabel>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start" }}>
+                {researchOnly.map((s) => <SignalCard key={s.id} s={s} />)}
+              </div>
+            </>
+          )}
+          {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real signal evidence…</div>}
+          <CounterfactualPrompt>What if the most important smart feature is knowing when not to trust the sensor?</CounterfactualPrompt>
         </div>
-        {researchOnly.length > 0 && (
-          <>
-            <SectionLabel>Research-only (no consumer-taxonomy analogue)</SectionLabel>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start" }}>
-              {researchOnly.map((s) => <SignalCard key={s.id} s={s} />)}
-            </div>
-          </>
-        )}
-        {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real signal evidence…</div>}
-      </div>
+      ) : (
+        <div className="scrollY" style={{ flex: 1 }}>
+          <SectionLabel>Raw peer-reviewed corpus ({research?.peer_reviewed_papers.length ?? 0} papers, {research?.technical_regulatory_count ?? 0} technical/regulatory sources not shown here — see research.md)</SectionLabel>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {(research?.peer_reviewed_papers ?? []).map((p) => (
+              <div key={p.research_id} onClick={() => setPaperFocus(p)} role="button" tabIndex={0}
+                style={{ display: "flex", justifyContent: "space-between", gap: 16, padding: "12px 16px", border: "1px solid var(--line)", borderRadius: 10, background: "var(--surface)", cursor: "pointer" }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 500 }}>{p.title}</div>
+                  <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 3 }}>{p.journal} · {p.year} · {p.study_design}</div>
+                </div>
+                <div style={{ display: "flex", gap: 4, alignItems: "flex-start", flexShrink: 0 }}>
+                  {p.territories.map((t) => <Pill key={t}>{t}</Pill>)}
+                </div>
+              </div>
+            ))}
+            {!research && <div style={{ color: "var(--ink-faint)" }}>Loading raw research corpus…</div>}
+          </div>
+        </div>
+      )}
 
       <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow="Signal" title={focus?.name ?? ""}>
         {focus && (
@@ -140,6 +176,37 @@ export function SignalsWorld() {
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
               <SectionLabel>Evidence IDs</SectionLabel>
               <div className="mono" style={{ fontSize: 12, color: "var(--ink-dim)" }}>{focus.evidence_ids.join(", ")}</div>
+            </div>
+          </>
+        )}
+      </FocusPanel>
+
+      <FocusPanel open={!!paperFocus} onClose={() => setPaperFocus(null)} eyebrow={paperFocus ? `${paperFocus.journal} · ${paperFocus.year}` : ""} title={paperFocus?.title ?? ""}>
+        {paperFocus && (
+          <>
+            <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
+              {paperFocus.territories.map((t) => <Pill key={t} tone="blue">{t}</Pill>)}
+            </div>
+            <StatRow label="Method" value={paperFocus.study_design} />
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Found</SectionLabel>
+              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{paperFocus.found}</p>
+            </div>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Does NOT establish</SectionLabel>
+              <p style={{ fontSize: 12.5, color: "var(--rose)", lineHeight: 1.5 }}>{paperFocus.does_not_establish}</p>
+            </div>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Limitations</SectionLabel>
+              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{paperFocus.limitations}</p>
+            </div>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Source</SectionLabel>
+              <StatRow label="DOI" value={paperFocus.doi} />
+              {paperFocus.pmid && <StatRow label="PMID" value={paperFocus.pmid} />}
+              <a href={`https://doi.org/${paperFocus.doi}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12.5, display: "inline-block", marginTop: 8 }}>
+                View source →
+              </a>
             </div>
           </>
         )}

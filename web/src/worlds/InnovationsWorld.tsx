@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import type { InnovationsResponse } from "../lib/types";
-import { Pill, StatRow, MiniBar, SectionLabel } from "../components/ui";
+import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, type ViewMode } from "../components/ui";
 
 const PRIORITIES = [
   { key: "pain_feasibility_majority", label: "Pain + Feasibility majority (default)" },
@@ -13,6 +13,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
   const [priority, setPriority] = useState("pain_feasibility_majority");
   const [baseline, setBaseline] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<ViewMode>("distilled");
 
   useEffect(() => {
     setLoading(true);
@@ -36,19 +37,23 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            5 · DECIDE — WHAT SHOULD VERSUNI TEST?
+            5 · WHAT WINS — WHAT SHOULD VERSUNI TEST?
           </div>
-          <h1 style={{ fontSize: 30 }}>Innovations</h1>
+          <h1 style={{ fontSize: 30 }}>What Wins?</h1>
+          <div style={{ fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", marginTop: -4, marginBottom: 8 }}>BETS</div>
         </div>
-        <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
-          {PRIORITIES.map((p) => (
-            <button key={p.key} onClick={() => setPriority(p.key)}
-              style={{ padding: "7px 12px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
-                background: priority === p.key ? "var(--surface)" : "transparent", fontWeight: priority === p.key ? 600 : 400,
-                boxShadow: priority === p.key ? "var(--shadow)" : "none", maxWidth: 220 }}>
-              {p.label}
-            </button>
-          ))}
+        <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
+            {PRIORITIES.map((p) => (
+              <button key={p.key} onClick={() => setPriority(p.key)}
+                style={{ padding: "7px 12px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
+                  background: priority === p.key ? "var(--surface)" : "transparent", fontWeight: priority === p.key ? 600 : 400,
+                  boxShadow: priority === p.key ? "var(--shadow)" : "none", maxWidth: 220 }}>
+                {p.label}
+              </button>
+            ))}
+          </div>
+          <DistilledRawToggle mode={mode} onChange={setMode} />
         </div>
       </div>
 
@@ -106,6 +111,22 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                 <SectionLabel>Feasibility rationale</SectionLabel>
                 <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{s.feasibility_2_5y.rationale}</p>
               </div>
+              {mode === "raw" && (
+                <>
+                  <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
+                    <SectionLabel>Assumptions</SectionLabel>
+                    {s.assumptions.map((a, i) => <p key={i} style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 4 }}>• {a}</p>)}
+                  </div>
+                  <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
+                    <SectionLabel>Uncertainty</SectionLabel>
+                    {s.uncertainty.map((u, i) => <p key={i} style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.5, marginBottom: 4 }}>• {u}</p>)}
+                  </div>
+                  <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
+                    <SectionLabel>Evidence IDs</SectionLabel>
+                    <div className="mono" style={{ fontSize: 11, color: "var(--ink-dim)" }}>{s.evidence_ids.join(", ")}</div>
+                  </div>
+                </>
+              )}
             </div>
           );
         })}
@@ -116,6 +137,18 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
         <div style={{ flexShrink: 0, marginTop: 12, padding: "12px 16px", background: "var(--surface-2)", borderRadius: 12, fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>
           <b style={{ color: "var(--ink)" }}>Decision type: {data.verdict.decision_type}.</b> No overall innovation score — no candidate dominates on all
           three real dimensions. {data.verdict.why}
+          {mode === "raw" && (
+            <>
+              <div style={{ marginTop: 10 }}><b style={{ color: "var(--ink)" }}>Sensitivity: </b>{data.verdict.sensitivity}</div>
+              <div style={{ marginTop: 10 }}><b style={{ color: "var(--ink)" }}>First experiment: </b>{data.verdict.first_experiment}</div>
+              <div style={{ marginTop: 6 }}><b style={{ color: "var(--ink)" }}>Abandon signal: </b>{data.verdict.abandon_signal}</div>
+              {data.verdict.killed.map((k) => (
+                <div key={k.id} style={{ marginTop: 10 }}>
+                  <b style={{ color: "var(--rose)" }}>Killed — {k.id}: </b>{k.reason}
+                </div>
+              ))}
+            </>
+          )}
         </div>
       )}
     </div>

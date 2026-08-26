@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 import type { Product, ProductsResponse } from "../lib/types";
-import { Card, Pill, StatRow, TruthBadge, SectionLabel } from "../components/ui";
+import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 
 const LENS = {
@@ -22,10 +22,16 @@ export function ProductsWorld() {
   const [lensKey, setLensKey] = useState<keyof typeof LENS>("type");
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState<Product | null>(null);
+  const [mode, setMode] = useState<ViewMode>("distilled");
 
   useEffect(() => { api.products().then(setData).catch(() => setData(null)); }, []);
 
   const products = data?.products ?? [];
+  const connectedShare = products.length
+    ? Math.round((products.filter((p) => p.cluster_intelligence !== "manual").length / products.length) * 100)
+    : 0;
+  const pricesKnown = products.filter((p) => p.price_usd).map((p) => p.price_usd as number);
+  const priceRange = pricesKnown.length ? [Math.min(...pricesKnown), Math.max(...pricesKnown)] : [0, 0];
   const filtered = useMemo(
     () => products.filter((p) => (query ? (p.name + p.brand).toLowerCase().includes(query.toLowerCase()) : true)),
     [products, query]
@@ -47,11 +53,31 @@ export function ProductsWorld() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            1 · OBSERVE — WHAT EXISTS?
+            1 · WHAT IS — WHAT EXISTS?
           </div>
           <h1 style={{ fontSize: 30 }}>Products</h1>
         </div>
-        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+        <DistilledRawToggle mode={mode} onChange={setMode} />
+      </div>
+
+      {mode === "distilled" ? (
+        <div className="scrollY" style={{ flex: 1 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 8 }}>
+            <HeroMetric label="Real products" value={products.length || "…"} />
+            <HeroMetric label="Connected / reactive share" value={`${connectedShare}%`} />
+            <HeroMetric label="Price range" value={priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "…"} />
+            <HeroMetric label="Real reviews behind this" value={products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString() || "…"} />
+          </div>
+          <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 28, fontFamily: "var(--font-display)" }}>
+            The portfolio is moving from pure air-cleaning performance toward sensing and connectivity —
+            but {100 - connectedShare}% of this real corpus is still fully manual, and CADR/room-coverage
+            data isn't available to test whether performance itself has plateaued.
+          </p>
+          <CounterfactualPrompt>What if "air purifier" is the wrong unit of innovation?</CounterfactualPrompt>
+        </div>
+      ) : (
+      <>
+      <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 12, flexShrink: 0 }}>
           <input
             value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search 237 products…"
             style={{ padding: "8px 12px", borderRadius: 10, border: "1px solid var(--line)", background: "var(--surface)", fontSize: 13, width: 220, color: "var(--ink)" }}
@@ -66,14 +92,10 @@ export function ProductsWorld() {
               </button>
             ))}
           </div>
-        </div>
-      </div>
-
-      <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 12, flexShrink: 0 }}>
-        {filtered.length} real, hand-validated products from {" "}
-        <span className="mono">{products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString()}</span> real Amazon reviews.
-        Two verified cluster lenses shown — Performance / Context / Generation lenses are intentionally omitted: no real CADR,
-        room-coverage, or generation-lineage evidence exists in this corpus. Missing stays missing, never inferred.
+          <span style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>
+            {filtered.length} real, hand-validated products. Two verified cluster lenses — Performance/Context/Generation
+            omitted: no real CADR/room-coverage/generation-lineage evidence exists. Missing stays missing, never inferred.
+          </span>
       </div>
 
       <div className="scrollY" style={{ flex: 1, display: "flex", flexDirection: "column", gap: 18 }}>
@@ -108,6 +130,8 @@ export function ProductsWorld() {
         ))}
         {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real product evidence…</div>}
       </div>
+      </>
+      )}
 
       <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow={focus?.brand} title={focus?.name ?? ""}>
         {focus && (

@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 import type { MagicBoxResponse, Possibility } from "../lib/types";
-import { Card, Pill, StatRow, TruthBadge, SectionLabel } from "../components/ui";
+import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 
 export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
   const [data, setData] = useState<MagicBoxResponse | null>(null);
   const [focus, setFocus] = useState<Possibility | null>(null);
   const [showRejected, setShowRejected] = useState(false);
+  const [mode, setMode] = useState<ViewMode>("distilled");
 
   useEffect(() => { api.magicBox().then(setData).catch(() => setData(null)); }, []);
 
@@ -23,16 +24,20 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
-      <div style={{ marginBottom: 10, flexShrink: 0 }}>
-        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-          4 · CREATE — WHAT BECOMES POSSIBLE?
-        </div>
-        <h1 style={{ fontSize: 30 }}>Magic Box</h1>
-        {themeFilter && (
-          <div style={{ fontSize: 11.5, color: "var(--accent-teal)", marginTop: 4 }}>
-            Filtered from Rivals white space → theme: <span className="mono">{themeFilter}</span>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, flexShrink: 0 }}>
+        <div>
+          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
+            4 · WHAT IF — WHAT BECOMES POSSIBLE?
           </div>
-        )}
+          <h1 style={{ fontSize: 30 }}>What If?</h1>
+          <div style={{ fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", marginTop: -4, marginBottom: 8 }}>MAGIC BOX / COUNTERFACTUAL ENGINE</div>
+          {themeFilter && (
+            <div style={{ fontSize: 11.5, color: "var(--accent-teal)", marginTop: 4 }}>
+              Filtered from Rivals white space → theme: <span className="mono">{themeFilter}</span>
+            </div>
+          )}
+        </div>
+        <DistilledRawToggle mode={mode} onChange={setMode} />
       </div>
 
       {/* funnel */}
@@ -48,6 +53,27 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
         ))}
       </div>
 
+      {mode === "distilled" ? (
+        <div className="scrollY" style={{ flex: 1 }}>
+          <SectionLabel>Finalists — {data?.finalists.length ?? 0} of {data?.funnel[0]?.count ?? 0} generated survived gate → evidence → dominance</SectionLabel>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12, alignContent: "start", marginBottom: 8 }}>
+            {(data?.finalists ?? []).map((p) => (
+              <Card key={p.id} onClick={() => setFocus(p)} active>
+                <Pill tone="good">FINALIST</Pill>
+                <div style={{ fontWeight: 600, fontSize: 15, marginTop: 8 }}>{p.name}</div>
+                <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 10px" }}>
+                  {p.friction_theme_name.split(" / ")[0]} × {p.operator}
+                </div>
+                <StatRow label="Economic value" value={`$${p.economic_value.toLocaleString()}`} />
+                <StatRow label="Feasibility" value={p.feasibility_2_5y.rating} />
+              </Card>
+            ))}
+            {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real Magic Box output…</div>}
+          </div>
+          <CounterfactualPrompt>What if the winning idea isn't the most powerful one, but the one competitors are least able to copy?</CounterfactualPrompt>
+        </div>
+      ) : (
+      <>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexShrink: 0 }}>
         <SectionLabel>{showRejected ? "Graveyard — killed candidates" : `Candidates — deterministic operator × friction combinations (${possibilities.length})`}</SectionLabel>
         <button onClick={() => setShowRejected((v) => !v)}
@@ -90,6 +116,8 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
           </div>
         )}
       </div>
+      </>
+      )}
 
       <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow={focus ? `${focus.friction_theme_name} × ${focus.operator}` : ""} title={focus?.name ?? ""}>
         {focus && (

@@ -1,11 +1,11 @@
 import { Logo } from "./Logo";
 
 const STAGES = [
-  { n: 1, process: "OBSERVE", world: "PRODUCTS", q: "What exists?" },
-  { n: 2, process: "DISTILL", world: "SIGNALS", q: "What is changing?" },
-  { n: 3, process: "COMPARE", world: "RIVALS", q: "Where is everyone else?" },
-  { n: 4, process: "CREATE", world: "MAGIC BOX", q: "What becomes possible?" },
-  { n: 5, process: "DECIDE", world: "INNOVATIONS", q: "What should Versuni test?" },
+  { n: 1, process: "WHAT IS", world: "PRODUCTS", q: "What exists?" },
+  { n: 2, process: "WHAT CHANGES", world: "SIGNALS", q: "What is changing?" },
+  { n: 3, process: "WHAT'S MISSING", world: "RIVALS", q: "Where is everyone else?" },
+  { n: 4, process: "WHAT IF", world: "COUNTERFACTUALS", q: "What becomes possible?" },
+  { n: 5, process: "WHAT WINS", world: "BETS", q: "What should Versuni test?" },
 ] as const;
 
 export function ProcessRail({ active, onSelect }: { active: number; onSelect: (n: number) => void }) {
