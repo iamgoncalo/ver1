@@ -204,9 +204,21 @@ def compute_theme_stats(rows):
         present_trusted = [r for r in present if r.get("rating_trusted") == "true"]
         th_ratings = [float(r["rating"]) for r in present_trusted if r["rating"] not in (None, "")]
         mean_r = sum(th_ratings) / len(th_ratings) if th_ratings else None
+        present_dates = sorted(r["review_date"] for r in present if r.get("review_date"))
+        n_verified = sum(1 for r in present if r.get("verified_purchase") == "true")
         stats[tid] = {
             "theme_name": name, "keyword_count": len(kws),
             "n_reviews": len(present),
+            "n_distinct_products": len(set(r["product_sku"] for r in present)),
+            "review_date_range": [present_dates[0], present_dates[-1]] if present_dates else None,
+            "pct_verified_purchase": round(100.0 * n_verified / len(present), 1) if present else None,
+            "method": ("Deterministic keyword classification of real Amazon.com customer review "
+                      "text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - "
+                      "NOT an academic study, survey, or panel. Each review is assigned to the theme "
+                      "whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest "
+                      "in its text; CSAT impact is that theme's mean real star rating minus the "
+                      "corpus-wide mean real star rating, both restricted to reviews flagged "
+                      "rating_trusted."),
             "prevalence_pct": round(100.0 * len(present) / len(rows), 2) if rows else None,
             "mean_rating": round(mean_r, 3) if mean_r is not None else None,
             "csat_impact": round(mean_r - corpus_mean, 3) if (mean_r is not None and corpus_mean) else None,

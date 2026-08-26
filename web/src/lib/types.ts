@@ -29,10 +29,15 @@ export interface WhiteSpace {
 }
 export interface WhiteSpaceResponse { _provenance: string; spaces: WhiteSpace[] }
 
+export interface ConsumerPainMethodology {
+  method: string; n_reviews: number; n_distinct_products: number;
+  review_date_range: [string, string] | null; pct_verified_purchase: number | null; source: string;
+}
 export interface Possibility {
   id: string; name: string; friction_theme: string; friction_theme_name: string;
   operator: string; operator_definition: string; consumer_pain_csat: number;
-  consumer_pain_prevalence_pct: number; gate_passed: boolean; economic_value: number;
+  consumer_pain_prevalence_pct: number; consumer_pain_methodology: ConsumerPainMethodology;
+  gate_passed: boolean; economic_value: number;
   typical_market_price_usd: number | null; typical_market_price_n_products: number;
   feasibility_2_5y: { rating: string; rank: number };
   is_white_space: boolean; competitor_gap_brands: string[]; evidence_ids: string[]; truth_class: string;
@@ -47,7 +52,8 @@ export interface MagicBoxResponse {
 
 export interface OpportunityScore {
   name: string; usage_context: string; friction: string;
-  consumer_pain: { severity_csat: number | null; prevalence_pct: number; gate_passed: boolean };
+  consumer_pain: { severity_csat: number | null; prevalence_pct: number; gate_passed: boolean;
+                   methodology?: ConsumerPainMethodology };
   economic_value: number | null;
   typical_market_price_usd: number | null; typical_market_price_n_products: number;
   feasibility_2_5y: { rating: string; rank: number; evidence_ids: string[]; rationale: string };

@@ -205,6 +205,15 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
                 {" "}transformed by operator <b style={{ color: "var(--ink)" }}>{focus.operator}</b> — {focus.operator_definition}
                 {focus.competitor_gap_brands.length > 0 && <> Rivals measurably weak here: {focus.competitor_gap_brands.join(", ")}.</>}
               </p>
+              {focus.consumer_pain_methodology && (
+                <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 8 }}>
+                  <b>Consumer Pain source — </b>
+                  WHO: real Amazon.com customers ({focus.consumer_pain_methodology.pct_verified_purchase}% verified purchase) ·
+                  {" "}HOW MANY: {focus.consumer_pain_methodology.n_reviews} reviews across {focus.consumer_pain_methodology.n_distinct_products} real products ·
+                  {" "}WHEN: {focus.consumer_pain_methodology.review_date_range?.[0]}–{focus.consumer_pain_methodology.review_date_range?.[1]} ·
+                  {" "}WHAT STUDIES: none — {focus.consumer_pain_methodology.method}
+                </p>
+              )}
             </div>
             {focus.typical_market_price_usd != null && (
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 12 }}>

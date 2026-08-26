@@ -169,6 +169,15 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                       <span>Consumer Pain (CSAT)</span><span className="mono">{s.consumer_pain.severity_csat}</span>
                     </div>
                     <MiniBar value={s.consumer_pain.severity_csat ?? 0} max={maxPain} tone="rose" />
+                    {s.consumer_pain.methodology && (
+                      <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}>
+                        WHO: real Amazon.com customers ({s.consumer_pain.methodology.pct_verified_purchase}% verified
+                        purchase) · HOW MANY: {s.consumer_pain.methodology.n_reviews} reviews across{" "}
+                        {s.consumer_pain.methodology.n_distinct_products} real products · WHEN:{" "}
+                        {s.consumer_pain.methodology.review_date_range?.[0]}–{s.consumer_pain.methodology.review_date_range?.[1]} ·
+                        WHAT STUDIES: none — this is deterministic keyword classification of real review text, not a survey or panel.
+                      </p>
+                    )}
                   </div>
                   <div style={{ marginBottom: 8 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>

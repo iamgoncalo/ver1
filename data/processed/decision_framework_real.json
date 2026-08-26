@@ -12,7 +12,18 @@
       "consumer_pain": {
         "severity_csat": -2.223,
         "prevalence_pct": 1.58,
-        "gate_passed": true
+        "gate_passed": true,
+        "methodology": {
+          "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+          "n_reviews": 166,
+          "n_distinct_products": 60,
+          "review_date_range": [
+            "2006-04-20",
+            "2023-08-27"
+          ],
+          "pct_verified_purchase": 85.5,
+          "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+        }
       },
       "economic_value": 26357.86,
       "typical_market_price_usd": 199.99,
@@ -54,7 +65,18 @@
       "consumer_pain": {
         "severity_csat": -0.571,
         "prevalence_pct": 3.5,
-        "gate_passed": true
+        "gate_passed": true,
+        "methodology": {
+          "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+          "n_reviews": 369,
+          "n_distinct_products": 77,
+          "review_date_range": [
+            "2004-10-14",
+            "2023-08-08"
+          ],
+          "pct_verified_purchase": 69.6,
+          "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+        }
       },
       "economic_value": 84015.62,
       "typical_market_price_usd": 179.99,
