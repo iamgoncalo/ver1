@@ -129,8 +129,37 @@ blockers_requiring_a_human:
           codebook in technical_note.md, save as data/manual/hand_labels.csv"
     who: goncalo
   - id: repo_visibility_decision
-    what: "Repo is currently public; brief wants private. Decide before submission."
+    what: "Repo is currently public; brief wants private. origin/main is also
+          still at the OLD synthetic-data commit b6e96f8 - none of this
+          session's real-data repair has been pushed. Decide before submission."
     who: goncalo
   - id: push_decision
-    what: "This repair is committed locally only, not pushed."
+    what: "All real-data-repair, control-room, and Q6-rework work is
+          committed locally only (latest: 5531d48 on branch
+          design/innovation-explorer), not pushed."
     who: goncalo
+
+v1_innovation_explorer:
+  # Honestly assessed 2026-08-26T20:31:44Z per user-requested governance
+  # audit - do not upgrade this status without an actual browser
+  # verification against CHECKLIST.md sections 14-17 and 20.
+  status: NOT_STARTED
+  detail: "web/src/ is empty - no App.tsx, no components, no worlds, no
+          navigation, no process rail exist as code. Backend groundwork DOES
+          exist and is smoke-tested working: api/main.py (FastAPI, serves
+          real view-models + a live, non-mutating scenario-recompute
+          endpoint), and three new real-data generators
+          (src/real/rivals_real.py, magic_box_real.py,
+          products_signals_real.py) producing genuinely computed
+          data/processed/{rivals,white_space,magic_box,products,signals}_real.json.
+          None of this is committed yet. The five-world visual experience
+          itself has not been started."
+  backend_smoke_tested:
+    - "GET /api/health -> real git commit"
+    - "GET /api/products -> 237 real products"
+    - "GET /api/innovations -> OS-1 (matches CLI)"
+    - "GET /api/innovations/scenario?decision_priority=economic_value_override -> OS-2 (live flip, matches CLI)"
+  brand_asset:
+    status: PASS
+    detail: "web/public/brand/versuni-logo.png + SOURCE.md - real official
+            asset from versuni.com/newsroom, hash-recorded, unmodified"

@@ -44,11 +44,22 @@ live-interview quality, on real evidence only.
   a viewer, never a second source of calculation.
 
 ## Branding (applies to every visual deliverable — deck, dashboard, exports)
-Always include the Versuni logo, and always credit **Disruptive Innovation
-Team, Amsterdam**. In extreme high quality — this is a standing requirement,
-not a one-off. Deferred until the explicit visual-design stage begins (do
-not start that stage until told to); until then, plain-text attribution
-("Disruptive Innovation Team, Amsterdam") in doc footers/headers is fine.
+Always include the official Versuni logo (see `web/public/brand/SOURCE.md`
+for provenance — never redrawn/approximated), and always credit
+**Disruptive Innovation Team, Amsterdam**. In extreme high quality — this is
+a standing requirement, not a one-off. The visual-design stage (V1, the
+five-world Innovation Explorer) is now authorized and underway.
+
+## Permanent process gate
+BEFORE every major task: read `STATUS.md` and `CHECKLIST.md`.
+AFTER every major task: execute the relevant `CHECKLIST.md` gates, update
+`STATUS.md`, and STOP for review.
+
+Never advance V1 → V2 → V3 automatically. A green implementation is not
+approval to begin the next stage — that approval comes from the user.
+A "major task" = any analytical change, data/source change, UI/world
+change, Magic Box change, agent change, LLM change, decision change, or
+release change. Trivial typo-only edits don't need the full checklist.
 
 ## Where things live
 - Real pipeline: `src/real/`
@@ -63,5 +74,6 @@ not start that stage until told to); until then, plain-text attribution
 - Shared claim-trace logic (CLI + dashboard both call this): `scripts/trace_claim.py`
 
 ## Read before changing anything
-`STATUS.md` for current state, `CASE_REQUIREMENTS.yaml` for what's still
-open, `AUDIT_CURRENT_PROJECT.md` for why this repair exists at all.
+`STATUS.md` for current state, `CHECKLIST.md` for the permanent quality
+gate, `CASE_REQUIREMENTS.yaml` for what's still open, `AUDIT_CURRENT_PROJECT.md`
+for why this repair exists at all.
