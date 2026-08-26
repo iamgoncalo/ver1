@@ -162,6 +162,27 @@ def research_clusters():
     return read_json("research_clusters.json")
 
 
+@app.get("/api/market")
+def market_metrics():
+    path = os.path.join(ROOT, "data", "raw", "market_metrics.json")
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+@app.get("/api/trends")
+def trend_corpus():
+    """Industry/regulatory/technical/manufacturer documents - explicitly
+    NOT search-interest data (see /api/sources for Google Trends'
+    honest NOT_IMPLEMENTED status)."""
+    path = os.path.join(ROOT, "data", "raw", "trend_corpus.json")
+    with open(path, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    promoted = {"TC-R06", "TC-R10"}
+    doc["articles"] = [a for a in doc["articles"] if a["article_id"] not in promoted]
+    doc["article_count"] = len(doc["articles"])
+    return doc
+
+
 @app.get("/api/rivals")
 def rivals():
     return read_json("rivals_real.json")

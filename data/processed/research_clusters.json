@@ -21,8 +21,8 @@
         "RP-03",
         "RP-05",
         "RP-08",
-        "TC-R05",
-        "TC-R06"
+        "RP-11",
+        "TC-R05"
       ],
       "count": 5
     },
@@ -31,9 +31,10 @@
       "name": "Behaviour + noise + adherence",
       "member_ids": [
         "RP-05",
-        "RP-07"
+        "RP-07",
+        "RP-12"
       ],
-      "count": 2
+      "count": 3
     },
     {
       "territory_id": "R4",
@@ -50,9 +51,10 @@
       "name": "Particle sources + spatial dynamics",
       "member_ids": [
         "RP-04",
-        "RP-06"
+        "RP-06",
+        "RP-11"
       ],
-      "count": 2
+      "count": 3
     },
     {
       "territory_id": "R6",
@@ -77,7 +79,7 @@
     "similarity_edge_threshold": 0.12,
     "clusters": [
       {
-        "cluster_id": 0,
+        "cluster_id": 2,
         "members": [
           "RP-01",
           "RP-02",
@@ -90,7 +92,7 @@
         "dominant_territory_share": 0.83
       },
       {
-        "cluster_id": 2,
+        "cluster_id": 3,
         "members": [
           "RP-04"
         ],
@@ -98,12 +100,14 @@
         "dominant_territory_share": 1.0
       },
       {
-        "cluster_id": 3,
+        "cluster_id": 0,
         "members": [
-          "RP-05"
+          "RP-05",
+          "RP-11",
+          "RP-12"
         ],
         "dominant_territory": "R2",
-        "dominant_territory_share": 1.0
+        "dominant_territory_share": 0.67
       },
       {
         "cluster_id": 1,
@@ -119,32 +123,32 @@
       {
         "from": "RP-09",
         "to": "RP-10",
-        "cosine_similarity": 0.1856
+        "cosine_similarity": 0.2485
       },
       {
         "from": "RP-03",
         "to": "RP-08",
-        "cosine_similarity": 0.1795
+        "cosine_similarity": 0.2013
       },
       {
         "from": "RP-03",
         "to": "RP-06",
-        "cosine_similarity": 0.1679
+        "cosine_similarity": 0.1863
       },
       {
         "from": "RP-02",
         "to": "RP-03",
-        "cosine_similarity": 0.1561
+        "cosine_similarity": 0.1727
       },
       {
         "from": "RP-01",
         "to": "RP-03",
-        "cosine_similarity": 0.1436
+        "cosine_similarity": 0.157
       },
       {
         "from": "RP-01",
         "to": "RP-06",
-        "cosine_similarity": 0.1258
+        "cosine_similarity": 0.1441
       }
     ]
   }

@@ -1,5 +1,5 @@
 {
-  "_provenance": "Distilled QUESTION/FOUND/ESTABLISHES/DOES_NOT_ESTABLISH/TENSION/DESIGN_CONSEQUENCE/COUNTERFACTUAL objects for the 10 peer-reviewed papers verified this session. Distillation authored from each paper's real PubMed abstract, not generated independent of source.",
+  "_provenance": "Distilled QUESTION/FOUND/ESTABLISHES/DOES_NOT_ESTABLISH/TENSION/DESIGN_CONSEQUENCE/COUNTERFACTUAL objects for all 12 peer-reviewed papers verified this session (10 via PubMed API, 2 promoted from trend_corpus.json - RP-11 via PubMed, RP-12 via direct fetch/archive, outside PubMed's economics-excluded scope). Distillation authored from each paper's real verified abstract, not generated independent of source.",
   "generated_by": "src/real/research_corpus_real.py",
   "cards": [
     {
@@ -205,6 +205,47 @@
       "design_consequence": "Any on-device number shown to a consumer should be understood (and ideally labelled) as relative-trend-grade or calibrated-absolute-grade, not treated as equivalent.",
       "counterfactual": "What if the UI showed confidence/trend instead of a bare number the sensor cannot actually guarantee?",
       "limitations": "Two specific consumer sensor models only; one co-location site; short 5-30 minute averaging windows tested.",
+      "incoming_ids": [],
+      "outgoing_ids": []
+    },
+    {
+      "research_id": "RP-11",
+      "title": "Toward Better and Healthier Air Quality: Global PM2.5 and O3 Pollution Status and Risk Assessment Based on the New WHO Air Quality Guidelines for 2021",
+      "year": 2024,
+      "territories": [
+        "R2",
+        "R5"
+      ],
+      "doi": "10.1002/gch2.202300258",
+      "question": "Against the WHO's tightened 2021 PM2.5/O3 guideline, how much of the world's urban population still lives with unhealthy ambient air, and where?",
+      "method": "Observational analysis of daily outdoor PM2.5/O3 monitoring data, 618 cities worldwide, 2019-2022, assessed against the WHO's 2021 Air Quality Guidelines",
+      "found": "Across 618 cities (2019-2022), only ~10% of days globally met the new WHO PM2.5 guideline (<=15 ug/m3); over 35% of cities show compound PM2.5-O3 pollution; exposure-risk categories are markedly worse for cities in China/India than for economically developed cities.",
+      "establishes": "Ambient/outdoor PM2.5 exposure against the tightened 2021 WHO guideline remains widespread globally - a demand-context fact (a large population is still exposed to guideline-exceeding outdoor air), not a claim about any indoor air cleaner's effectiveness.",
+      "does_not_establish": "Anything about portable/indoor air cleaner performance, sales, or consumer behaviour - this is outdoor ambient monitoring-station data only, with no purifier or indoor-environment measurement.",
+      "tension": "The scale of unmet WHO compliance globally could be used to over-claim indoor-purifier necessity, when this evidence only supports 'ambient air pollution is real and widespread', not 'a purifier fixes it'.",
+      "design_consequence": "Category-relevance / demand-context evidence (why air treatment matters at all) should stay visibly separate from device-efficacy evidence (whether a specific purifier works) - this paper is the former, not the latter.",
+      "counterfactual": "What if messaging clearly separated 'the outdoor air quality problem is real and global' from 'this specific product measurably fixes your indoor air' - conflating the two overclaims from evidence that only supports the first?",
+      "limitations": "Outdoor monitoring-station data only, 618 cities, 2019-2022 - no indoor measurements, no purifier-brand data, no causal claim about any intervention.",
+      "incoming_ids": [],
+      "outgoing_ids": []
+    },
+    {
+      "research_id": "RP-12",
+      "title": "A Burning Issue: Wildfire Smoke Exposure, Retail Sales, and Demand for Adaptation in Healthcare",
+      "year": 2024,
+      "territories": [
+        "R3"
+      ],
+      "doi": "10.1007/s10640-024-00925-3",
+      "question": "When wildfire smoke hits an area, does that show up as a genuine, measurable bump in real retail demand for air purifiers - and how long does it last?",
+      "method": "Retail-scanner-data econometric study linking local wildfire smoke exposure to retail purchases (air purifiers, bottled water, cold/cough/nasal remedies) with lagged effects. Economics journal - outside PubMed's biomedical scope, verified by direct fetch/archive rather than the PubMed API (see data/real_raw/trend_sources/repec_han_wildfire_retail.html).",
+      "found": "Wildfire smoke exposure increases retail sales of air purifiers, bottled water, and cold/cough/nasal remedies, with a documented lagged effect (smoke from prior weeks still elevates current-week sales).",
+      "establishes": "A review-volume or sales burst coinciding with a wildfire event is a genuine, external-shock-driven demand signal, not a data anomaly to discount by default - directly relevant to how this project's own burst-detection judgment calls should treat wildfire-coincident spikes.",
+      "does_not_establish": "Anything about product performance, review sentiment, or which brand/features people bought - this is an aggregate sales-volume study, not a product-quality or preference study.",
+      "tension": "A demand spike caused by an external environmental shock (wildfire smoke) can look identical in the data to organic, sustained category growth, but the two have very different implications for forecasting.",
+      "design_consequence": "External-shock-correlated demand bursts (wildfire smoke, and by analogy other acute pollution events) should be flagged and reasoned about separately from steady-state category trend, not folded into the same growth-rate estimate.",
+      "counterfactual": "What if seasonal/event-driven demand forecasting explicitly modelled wildfire-smoke exposure as its own input, instead of treating all demand growth as one undifferentiated trend line?",
+      "limitations": "US retail-scanner data only; sales volume is a purchase-intent proxy, not a satisfaction or efficacy measure; the paywalled full study was archived but only its accessible listing/abstract-level detail is used here.",
       "incoming_ids": [],
       "outgoing_ids": []
     }

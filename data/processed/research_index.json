@@ -18,9 +18,9 @@
   "territory_counts": {
     "R1": 5,
     "R2": 5,
-    "R3": 2,
+    "R3": 3,
     "R4": 3,
-    "R5": 2,
+    "R5": 3,
     "R6": 7
   },
   "peer_reviewed_papers": [
@@ -279,6 +279,57 @@
       "design_consequence": "Any on-device number shown to a consumer should be understood (and ideally labelled) as relative-trend-grade or calibrated-absolute-grade, not treated as equivalent.",
       "counterfactual": "What if the UI showed confidence/trend instead of a bare number the sensor cannot actually guarantee?",
       "limitations": "Two specific consumer sensor models only; one co-location site; short 5-30 minute averaging windows tested."
+    },
+    {
+      "research_id": "RP-11",
+      "title": "Toward Better and Healthier Air Quality: Global PM2.5 and O3 Pollution Status and Risk Assessment Based on the New WHO Air Quality Guidelines for 2021",
+      "authors": "Liu J, He C, Si Y, et al.",
+      "journal": "Global Challenges (Hoboken, NJ)",
+      "year": 2024,
+      "pmid": "38617028",
+      "pmcid": "PMC11009431",
+      "doi": "10.1002/gch2.202300258",
+      "canonical_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11009431/",
+      "source_type": "PEER_REVIEWED",
+      "peer_reviewed": true,
+      "study_design": "Observational analysis of daily outdoor PM2.5/O3 monitoring data, 618 cities worldwide, 2019-2022, assessed against the WHO's 2021 Air Quality Guidelines",
+      "territories": [
+        "R2",
+        "R5"
+      ],
+      "question": "Against the WHO's tightened 2021 PM2.5/O3 guideline, how much of the world's urban population still lives with unhealthy ambient air, and where?",
+      "found": "Across 618 cities (2019-2022), only ~10% of days globally met the new WHO PM2.5 guideline (<=15 ug/m3); over 35% of cities show compound PM2.5-O3 pollution; exposure-risk categories are markedly worse for cities in China/India than for economically developed cities.",
+      "establishes": "Ambient/outdoor PM2.5 exposure against the tightened 2021 WHO guideline remains widespread globally - a demand-context fact (a large population is still exposed to guideline-exceeding outdoor air), not a claim about any indoor air cleaner's effectiveness.",
+      "does_not_establish": "Anything about portable/indoor air cleaner performance, sales, or consumer behaviour - this is outdoor ambient monitoring-station data only, with no purifier or indoor-environment measurement.",
+      "tension": "The scale of unmet WHO compliance globally could be used to over-claim indoor-purifier necessity, when this evidence only supports 'ambient air pollution is real and widespread', not 'a purifier fixes it'.",
+      "design_consequence": "Category-relevance / demand-context evidence (why air treatment matters at all) should stay visibly separate from device-efficacy evidence (whether a specific purifier works) - this paper is the former, not the latter.",
+      "counterfactual": "What if messaging clearly separated 'the outdoor air quality problem is real and global' from 'this specific product measurably fixes your indoor air' - conflating the two overclaims from evidence that only supports the first?",
+      "limitations": "Outdoor monitoring-station data only, 618 cities, 2019-2022 - no indoor measurements, no purifier-brand data, no causal claim about any intervention."
+    },
+    {
+      "research_id": "RP-12",
+      "title": "A Burning Issue: Wildfire Smoke Exposure, Retail Sales, and Demand for Adaptation in Healthcare",
+      "authors": "Han J, Li S, Wang Z.",
+      "journal": "Environmental & Resource Economics",
+      "year": 2024,
+      "pmid": null,
+      "pmcid": null,
+      "doi": "10.1007/s10640-024-00925-3",
+      "canonical_url": "https://ideas.repec.org/a/kap/enreec/v87y2024i11d10.1007_s10640-024-00925-3.html",
+      "source_type": "PEER_REVIEWED",
+      "peer_reviewed": true,
+      "study_design": "Retail-scanner-data econometric study linking local wildfire smoke exposure to retail purchases (air purifiers, bottled water, cold/cough/nasal remedies) with lagged effects. Economics journal - outside PubMed's biomedical scope, verified by direct fetch/archive rather than the PubMed API (see data/real_raw/trend_sources/repec_han_wildfire_retail.html).",
+      "territories": [
+        "R3"
+      ],
+      "question": "When wildfire smoke hits an area, does that show up as a genuine, measurable bump in real retail demand for air purifiers - and how long does it last?",
+      "found": "Wildfire smoke exposure increases retail sales of air purifiers, bottled water, and cold/cough/nasal remedies, with a documented lagged effect (smoke from prior weeks still elevates current-week sales).",
+      "establishes": "A review-volume or sales burst coinciding with a wildfire event is a genuine, external-shock-driven demand signal, not a data anomaly to discount by default - directly relevant to how this project's own burst-detection judgment calls should treat wildfire-coincident spikes.",
+      "does_not_establish": "Anything about product performance, review sentiment, or which brand/features people bought - this is an aggregate sales-volume study, not a product-quality or preference study.",
+      "tension": "A demand spike caused by an external environmental shock (wildfire smoke) can look identical in the data to organic, sustained category growth, but the two have very different implications for forecasting.",
+      "design_consequence": "External-shock-correlated demand bursts (wildfire smoke, and by analogy other acute pollution events) should be flagged and reasoned about separately from steady-state category trend, not folded into the same growth-rate estimate.",
+      "counterfactual": "What if seasonal/event-driven demand forecasting explicitly modelled wildfire-smoke exposure as its own input, instead of treating all demand growth as one undifferentiated trend line?",
+      "limitations": "US retail-scanner data only; sales volume is a purchase-intent proxy, not a satisfaction or efficacy measure; the paywalled full study was archived but only its accessible listing/abstract-level detail is used here."
     }
   ],
   "existing_technical_regulatory": [
@@ -468,32 +519,6 @@
   ],
   "existing_manufacturer_and_industry": [
     {
-      "article_id": "TC-R06",
-      "title": "Toward Better and Healthier Air Quality: Global PM2.5 and O3 Pollution Status and Risk Assessment Based on the New WHO Air Quality Guidelines for 2021",
-      "publisher": "Global Challenges (Wiley) - Liu, He, Si, Li, Wu, Ni, Zhao, Hu, Du, Lu, Jin, Xu (2024)",
-      "source_domain": "pmc.ncbi.nlm.nih.gov",
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11009431/",
-      "url_verified": true,
-      "url_status": "FETCHED_AND_ARCHIVED",
-      "published_date": "2024-03-26",
-      "retrieved_at": "2026-08-26",
-      "retrieval_method": "webfetch_and_curl_archive",
-      "archive_file": "data/real_raw/trend_sources/pmc_liu_2024_pm25_who.html",
-      "document_type": "peer_reviewed",
-      "credibility_tier": "tier_1_authoritative",
-      "geographic_scope": "Global",
-      "themes": [
-        "health_evidence",
-        "measurement_validity",
-        "regulation"
-      ],
-      "scope_note": "Observational analysis of daily air-quality monitoring data, 618 cities, 2019-2022. Finds only 10% of days globally met the WHO 2021 PM2.5 guideline (<=15 ug/m3); >35% of cities show compound PM2.5-ozone pollution. Supports the claim that ambient/indoor-relevant PM2.5 exposure remains widespread against current WHO guidance - a demand-context claim, not a purifier-efficacy claim.",
-      "paywalled": false,
-      "full_text_stored": true,
-      "language": "en",
-      "category_relevance": "Connected Air Treatment"
-    },
-    {
       "article_id": "TC-R07",
       "title": "Philips Domestic Appliances launches first all-in-one air purifier with AI technology",
       "publisher": "Versuni Newsroom",
@@ -516,32 +541,6 @@
       ],
       "scope_note": "MANUFACTURER'S OWN PRESS RELEASE about the Philips Air Performer 3-in-1 - describes AI-driven sensing, Wi-Fi/app control (Air+ app), NanoProtect HEPA. Treated as a primary product claim, not independent validation of performance or of category-wide AI adoption - the brief's own instruction to 'treat a vendor promoting its own product differently from an industry body' applies directly here.",
       "paywalled": false,
-      "full_text_stored": true,
-      "language": "en",
-      "category_relevance": "Connected Air Treatment"
-    },
-    {
-      "article_id": "TC-R10",
-      "title": "A Burning Issue: Wildfire Smoke Exposure, Retail Sales, and Demand for Adaptation in Healthcare",
-      "publisher": "Environmental & Resource Economics, Vol. 87(11) - Han, Li, Wang (2024)",
-      "source_domain": "ideas.repec.org",
-      "url": "https://ideas.repec.org/a/kap/enreec/v87y2024i11d10.1007_s10640-024-00925-3.html",
-      "url_verified": true,
-      "url_status": "FETCHED_AND_ARCHIVED",
-      "published_date": "2024-01-01",
-      "retrieved_at": "2026-08-26",
-      "retrieval_method": "webfetch_and_curl_archive",
-      "archive_file": "data/real_raw/trend_sources/repec_han_wildfire_retail.html",
-      "document_type": "peer_reviewed",
-      "credibility_tier": "tier_1_authoritative",
-      "geographic_scope": "US",
-      "themes": [
-        "demand_seasonality",
-        "climate",
-        "external_shock"
-      ],
-      "scope_note": "Peer-reviewed retail-scanner-data study: wildfire smoke exposure increases sales of air purifiers, bottled water, cold/cough/nasal remedies, with a documented lagged effect (prior weeks' smoke still affects current sales). Directly supports treating a review-volume burst coinciding with a wildfire event as a genuine demand signal rather than an anomaly by default - relevant to Q2's burst-detection judgment calls.",
-      "paywalled": true,
       "full_text_stored": true,
       "language": "en",
       "category_relevance": "Connected Air Treatment"

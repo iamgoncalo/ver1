@@ -10,6 +10,11 @@ interface ResearchPaper {
   study_design: string; territories: string[]; found: string; does_not_establish: string; limitations: string;
 }
 interface ResearchIndex { peer_reviewed_count: number; technical_regulatory_count: number; peer_reviewed_papers: ResearchPaper[] }
+interface TrendDoc {
+  article_id: string; title: string; publisher: string; url: string; published_date: string | null;
+  document_type: string; credibility_tier: string; geographic_scope: string; themes: string[]; scope_note: string;
+}
+interface TrendCorpus { article_count: number; articles: TrendDoc[] }
 
 const STATE_TONE: Record<string, "good" | "amber" | "rose" | "neutral"> = {
   CONVERGING: "good", SINGLE_SOURCE_FAMILY: "amber", CONTESTED: "rose",
@@ -19,16 +24,38 @@ const STATE_LABEL: Record<string, string> = {
   SINGLE_SOURCE_FAMILY: "Single source family — real, but not yet independently corroborated",
   CONTESTED: "Contested — real evidence genuinely disagrees; not resolved either way",
 };
+const DOC_TYPE_LABEL: Record<string, string> = {
+  regulatory_guidance: "Regulatory guidance", technical_standard: "Technical standard",
+  industry_association: "Industry association", manufacturer_primary: "Manufacturer statement",
+  syndicated_research: "Syndicated market research", peer_reviewed: "Peer-reviewed (see Research tab)",
+};
+const TIER_TONE: Record<string, "good" | "amber" | "neutral"> = {
+  tier_1_authoritative: "good", tier_2_trade_technical: "amber", tier_3_vendor_primary: "neutral",
+};
+type Tab = "consumers" | "research" | "trends" | "market";
+const TABS: { key: Tab; label: string; hint: string }[] = [
+  { key: "consumers", label: "CONSUMERS", hint: "real Amazon review text" },
+  { key: "research", label: "RESEARCH", hint: "peer-reviewed papers" },
+  { key: "trends", label: "TRENDS", hint: "regulatory / standards / industry" },
+  { key: "market", label: "MARKET", hint: "syndicated market sizing" },
+];
 
 export function SignalsWorld() {
   const [data, setData] = useState<SignalsResponse | null>(null);
   const [focus, setFocus] = useState<Signal | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
+  const [tab, setTab] = useState<Tab>("consumers");
   const [research, setResearch] = useState<ResearchIndex | null>(null);
   const [paperFocus, setPaperFocus] = useState<ResearchPaper | null>(null);
+  const [trends, setTrends] = useState<TrendCorpus | null>(null);
+  const [trendFocus, setTrendFocus] = useState<TrendDoc | null>(null);
+  const [market, setMarket] = useState<any>(null);
 
   useEffect(() => { api.signals().then(setData).catch(() => setData(null)); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => setResearch(null)); }, []);
+  useEffect(() => { api.trends().then(setTrends).catch(() => setTrends(null)); }, []);
+  useEffect(() => { api.market().then(setMarket).catch(() => setMarket(null)); }, []);
+
   const signals = data?.signals ?? [];
   const withPrevalence = signals.filter((s) => s.prevalence_pct !== null);
   const researchOnly = signals.filter((s) => s.prevalence_pct === null);
@@ -38,6 +65,12 @@ export function SignalsWorld() {
     single: signals.filter((s) => s.state === "SINGLE_SOURCE_FAMILY").length,
     contested: signals.filter((s) => s.state === "CONTESTED").length,
   };
+  const trendGroups = trends
+    ? trends.articles.reduce((acc: Record<string, TrendDoc[]>, a) => {
+        (acc[a.document_type] ??= []).push(a);
+        return acc;
+      }, {})
+    : {};
 
   function SignalCard({ s }: { s: Signal }) {
     return (
@@ -72,42 +105,63 @@ export function SignalsWorld() {
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
-      <div style={{ marginBottom: 14, flexShrink: 0 }}>
+      <div style={{ marginBottom: 10, flexShrink: 0 }}>
         <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
           2 · WHAT CHANGES — WHAT IS CHANGING?
         </div>
         <h1 style={{ fontSize: 30 }}>Signals</h1>
       </div>
-      <div style={{ marginBottom: 12, flexShrink: 0 }}>
+
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexShrink: 0, gap: 12 }}>
+        <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
+          {TABS.map((t) => (
+            <button key={t.key} onClick={() => setTab(t.key)} title={t.hint}
+              style={{ padding: "7px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
+                background: tab === t.key ? "var(--surface)" : "transparent", fontWeight: tab === t.key ? 600 : 400,
+                boxShadow: tab === t.key ? "var(--shadow)" : "none" }}>
+              {t.label}
+            </button>
+          ))}
+        </div>
         <DistilledRawToggle mode={mode} onChange={setMode} />
       </div>
+      <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, flexShrink: 0 }}>
+        {TABS.find((t) => t.key === tab)?.hint} — each of these four is a genuinely different evidence type,
+        computed a different way. They are kept apart deliberately, never blended into one number.
+      </p>
 
-      {mode === "distilled" ? (
+      {tab === "consumers" && (
         <div className="scrollY" style={{ flex: 1 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, auto)", gap: 40, marginBottom: 16 }}>
             <HeroMetric label="Converging signals" value={counts.converging} />
             <HeroMetric label="Single-source" value={counts.single} />
             <HeroMetric label="Contested" value={counts.contested} />
-            <HeroMetric label="Peer-reviewed papers" value={research?.peer_reviewed_count ?? "…"} />
           </div>
-          <SectionLabel>Consumer + research (taxonomy-grounded)</SectionLabel>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start", marginBottom: 20 }}>
+          <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
+            Source: real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real purifier products
+            only), classified by a deterministic keyword method — see each card for n reviews. This is NOT a survey,
+            panel, or study; it is what real customers wrote, machine-classified.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start" }}>
             {withPrevalence.map((s) => <SignalCard key={s.id} s={s} />)}
           </div>
-          {researchOnly.length > 0 && (
-            <>
-              <SectionLabel>Research-only (no consumer-taxonomy analogue)</SectionLabel>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start" }}>
-                {researchOnly.map((s) => <SignalCard key={s.id} s={s} />)}
-              </div>
-            </>
-          )}
-          {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real signal evidence…</div>}
+          {!data && <div style={{ color: "var(--ink-faint)", marginTop: 12 }}>Loading real signal evidence…</div>}
           <CounterfactualPrompt>What if the most important smart feature is knowing when not to trust the sensor?</CounterfactualPrompt>
         </div>
-      ) : (
+      )}
+
+      {tab === "research" && (
         <div className="scrollY" style={{ flex: 1 }}>
-          {research && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, auto)", gap: 40, marginBottom: 12 }}>
+            <HeroMetric label="Peer-reviewed papers" value={research?.peer_reviewed_count ?? "…"} />
+            <HeroMetric label="Research-grounded signals" value={researchOnly.length} />
+          </div>
+          <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
+            Source: independently-verified academic literature (10 verified live against the PubMed API by
+            PMID/PMCID → DOI conversion; 2 verified by direct publisher/PMC fetch where the paper sits outside
+            PubMed's scope). Every paper below has a real DOI you can open.
+          </p>
+          {mode === "raw" && research && (
             <div style={{ marginBottom: 24 }}>
               <ScienceConstellation onPaperClick={(id) => {
                 const p = research.peer_reviewed_papers.find((x) => x.research_id === id);
@@ -115,7 +169,15 @@ export function SignalsWorld() {
               }} />
             </div>
           )}
-          <SectionLabel>Full table ({research?.peer_reviewed_papers.length ?? 0} papers, {research?.technical_regulatory_count ?? 0} technical/regulatory sources not shown here — see research.md)</SectionLabel>
+          {researchOnly.length > 0 && (
+            <>
+              <SectionLabel>Signals grounded only in research (no consumer-review analogue)</SectionLabel>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start", marginBottom: 20 }}>
+                {researchOnly.map((s) => <SignalCard key={s.id} s={s} />)}
+              </div>
+            </>
+          )}
+          <SectionLabel>All papers ({research?.peer_reviewed_papers.length ?? 0})</SectionLabel>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {(research?.peer_reviewed_papers ?? []).map((p) => (
               <div key={p.research_id} onClick={() => setPaperFocus(p)} role="button" tabIndex={0}
@@ -131,6 +193,73 @@ export function SignalsWorld() {
             ))}
             {!research && <div style={{ color: "var(--ink-faint)" }}>Loading raw research corpus…</div>}
           </div>
+        </div>
+      )}
+
+      {tab === "trends" && (
+        <div className="scrollY" style={{ flex: 1 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, auto)", gap: 40, marginBottom: 12 }}>
+            <HeroMetric label="Trend documents" value={trends?.article_count ?? "…"} />
+            <HeroMetric label="Google Trends (search interest)" value="NOT IMPLEMENTED" />
+          </div>
+          <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 680, lineHeight: 1.5 }}>
+            These are real regulatory, technical-standard, industry-association, manufacturer, and syndicated-research
+            documents — individually fetched and archived, each with a credibility tier. This is deliberately NOT
+            "what people are searching the internet for": no Google Trends or other search-interest connector is
+            implemented in this pipeline (see Sources — status is honestly reported as NOT_IMPLEMENTED, not faked).
+          </p>
+          {Object.entries(trendGroups).map(([docType, docs]) => (
+            <div key={docType} style={{ marginBottom: 18 }}>
+              <SectionLabel>{DOC_TYPE_LABEL[docType] ?? docType} · {docs.length}</SectionLabel>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 10 }}>
+                {docs.map((d) => (
+                  <Card key={d.article_id} onClick={() => setTrendFocus(d)}>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}>
+                      <Pill tone={TIER_TONE[d.credibility_tier] ?? "neutral"}>{d.credibility_tier.replace(/_/g, " ")}</Pill>
+                      <span className="mono" style={{ fontSize: 10, color: "var(--ink-faint)" }}>{d.geographic_scope}</span>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.35 }}>{d.title}</div>
+                    <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6 }}>{d.publisher}</div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ))}
+          {!trends && <div style={{ color: "var(--ink-faint)" }}>Loading real trend corpus…</div>}
+        </div>
+      )}
+
+      {tab === "market" && (
+        <div className="scrollY" style={{ flex: 1 }}>
+          {market ? (
+            <>
+              <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 680, lineHeight: 1.5 }}>
+                Two syndicated market-research vendors, both real, both covering "Europe Air Purifier Market" —
+                shown side by side rather than averaged, because they disagree and averaging would hide why.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 20 }}>
+                {market.sources.map((s: any) => (
+                  <div key={s.source_id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, padding: 16 }}>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, marginBottom: 6 }}>{s.vendor}</div>
+                    <div style={{ fontSize: 24, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>{s.metric.value}%</div>
+                    <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginBottom: 10 }}>
+                      CAGR, {s.metric.period.start_year}–{s.metric.period.end_year} ({s.metric.basis}, {s.metric.currency})
+                    </div>
+                    <StatRow label="Base value" value={`$${s.market_size.base_value_usd_b}B (${s.market_size.base_year})`} />
+                    <StatRow label="Forecast value" value={`$${s.market_size.forecast_value_usd_b}B (${s.market_size.forecast_year})`} />
+                    <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, display: "inline-block", marginTop: 8 }}>source →</a>
+                  </div>
+                ))}
+              </div>
+              <div style={{ padding: "14px 18px", background: "var(--surface-2)", borderRadius: 12 }}>
+                <SectionLabel>Why they disagree — {market.conflict_summary.spread_pp}pp spread</SectionLabel>
+                <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.55 }}>{market.conflict_summary.headline}</p>
+                <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>{market.conflict_summary.note_on_realism}</p>
+              </div>
+            </>
+          ) : (
+            <div style={{ color: "var(--ink-faint)" }}>Loading real market data…</div>
+          )}
         </div>
       )}
 
@@ -217,6 +346,27 @@ export function SignalsWorld() {
                 View source →
               </a>
             </div>
+          </>
+        )}
+      </FocusPanel>
+
+      <FocusPanel open={!!trendFocus} onClose={() => setTrendFocus(null)} eyebrow={trendFocus ? DOC_TYPE_LABEL[trendFocus.document_type] ?? trendFocus.document_type : ""} title={trendFocus?.title ?? ""}>
+        {trendFocus && (
+          <>
+            <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
+              <Pill tone={TIER_TONE[trendFocus.credibility_tier] ?? "neutral"}>{trendFocus.credibility_tier.replace(/_/g, " ")}</Pill>
+              {trendFocus.themes.map((t) => <Pill key={t} tone="blue">{t}</Pill>)}
+            </div>
+            <StatRow label="Publisher" value={trendFocus.publisher} />
+            <StatRow label="Geographic scope" value={trendFocus.geographic_scope} />
+            {trendFocus.published_date && <StatRow label="Published" value={trendFocus.published_date} />}
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Scope note</SectionLabel>
+              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{trendFocus.scope_note}</p>
+            </div>
+            <a href={trendFocus.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12.5, display: "inline-block", marginTop: 16 }}>
+              View source →
+            </a>
           </>
         )}
       </FocusPanel>

@@ -282,18 +282,81 @@ PEER_REVIEWED = [
         "counterfactual": "What if the UI showed confidence/trend instead of a bare number the sensor cannot actually guarantee?",
         "limitations": "Two specific consumer sensor models only; one co-location site; short 5-30 minute averaging windows tested.",
     },
+    # RP-11/RP-12: verified 2026-08-27 via mcp__plugin_bio-research_pubmed.
+    # Previously present only as TC-R06/TC-R10 inside trend_corpus.json
+    # (document_type "peer_reviewed") - counted toward peer_reviewed_count
+    # but never actually rendered as a full research card, so the UI's
+    # "12 peer-reviewed papers" claim did not match the 10 cards a user
+    # could actually open. Promoted here to the same full distillation
+    # standard as RP-01..RP-10, closing that count/display gap honestly
+    # instead of just lowering the displayed count.
+    {
+        "research_id": "RP-11",
+        "title": "Toward Better and Healthier Air Quality: Global PM2.5 and O3 Pollution Status and Risk Assessment Based on the New WHO Air Quality Guidelines for 2021",
+        "authors": "Liu J, He C, Si Y, et al.",
+        "journal": "Global Challenges (Hoboken, NJ)",
+        "year": 2024,
+        "pmid": "38617028",
+        "pmcid": "PMC11009431",
+        "doi": "10.1002/gch2.202300258",
+        "canonical_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11009431/",
+        "source_type": "PEER_REVIEWED",
+        "peer_reviewed": True,
+        "study_design": "Observational analysis of daily outdoor PM2.5/O3 monitoring data, 618 cities worldwide, 2019-2022, assessed against the WHO's 2021 Air Quality Guidelines",
+        "territories": ["R2", "R5"],
+        "question": "Against the WHO's tightened 2021 PM2.5/O3 guideline, how much of the world's urban population still lives with unhealthy ambient air, and where?",
+        "found": "Across 618 cities (2019-2022), only ~10% of days globally met the new WHO PM2.5 guideline (<=15 ug/m3); over 35% of cities show compound PM2.5-O3 pollution; exposure-risk categories are markedly worse for cities in China/India than for economically developed cities.",
+        "establishes": "Ambient/outdoor PM2.5 exposure against the tightened 2021 WHO guideline remains widespread globally - a demand-context fact (a large population is still exposed to guideline-exceeding outdoor air), not a claim about any indoor air cleaner's effectiveness.",
+        "does_not_establish": "Anything about portable/indoor air cleaner performance, sales, or consumer behaviour - this is outdoor ambient monitoring-station data only, with no purifier or indoor-environment measurement.",
+        "tension": "The scale of unmet WHO compliance globally could be used to over-claim indoor-purifier necessity, when this evidence only supports 'ambient air pollution is real and widespread', not 'a purifier fixes it'.",
+        "design_consequence": "Category-relevance / demand-context evidence (why air treatment matters at all) should stay visibly separate from device-efficacy evidence (whether a specific purifier works) - this paper is the former, not the latter.",
+        "counterfactual": "What if messaging clearly separated 'the outdoor air quality problem is real and global' from 'this specific product measurably fixes your indoor air' - conflating the two overclaims from evidence that only supports the first?",
+        "limitations": "Outdoor monitoring-station data only, 618 cities, 2019-2022 - no indoor measurements, no purifier-brand data, no causal claim about any intervention.",
+    },
+    {
+        "research_id": "RP-12",
+        "title": "A Burning Issue: Wildfire Smoke Exposure, Retail Sales, and Demand for Adaptation in Healthcare",
+        "authors": "Han J, Li S, Wang Z.",
+        "journal": "Environmental & Resource Economics",
+        "year": 2024,
+        "pmid": None,
+        "pmcid": None,
+        "doi": "10.1007/s10640-024-00925-3",
+        "canonical_url": "https://ideas.repec.org/a/kap/enreec/v87y2024i11d10.1007_s10640-024-00925-3.html",
+        "source_type": "PEER_REVIEWED",
+        "peer_reviewed": True,
+        "study_design": "Retail-scanner-data econometric study linking local wildfire smoke exposure to retail purchases (air purifiers, bottled water, cold/cough/nasal remedies) with lagged effects. Economics journal - outside PubMed's biomedical scope, verified by direct fetch/archive rather than the PubMed API (see data/real_raw/trend_sources/repec_han_wildfire_retail.html).",
+        "territories": ["R3"],
+        "question": "When wildfire smoke hits an area, does that show up as a genuine, measurable bump in real retail demand for air purifiers - and how long does it last?",
+        "found": "Wildfire smoke exposure increases retail sales of air purifiers, bottled water, and cold/cough/nasal remedies, with a documented lagged effect (smoke from prior weeks still elevates current-week sales).",
+        "establishes": "A review-volume or sales burst coinciding with a wildfire event is a genuine, external-shock-driven demand signal, not a data anomaly to discount by default - directly relevant to how this project's own burst-detection judgment calls should treat wildfire-coincident spikes.",
+        "does_not_establish": "Anything about product performance, review sentiment, or which brand/features people bought - this is an aggregate sales-volume study, not a product-quality or preference study.",
+        "tension": "A demand spike caused by an external environmental shock (wildfire smoke) can look identical in the data to organic, sustained category growth, but the two have very different implications for forecasting.",
+        "design_consequence": "External-shock-correlated demand bursts (wildfire smoke, and by analogy other acute pollution events) should be flagged and reasoned about separately from steady-state category trend, not folded into the same growth-rate estimate.",
+        "counterfactual": "What if seasonal/event-driven demand forecasting explicitly modelled wildfire-smoke exposure as its own input, instead of treating all demand growth as one undifferentiated trend line?",
+        "limitations": "US retail-scanner data only; sales volume is a purchase-intent proxy, not a satisfaction or efficacy measure; the paywalled full study was archived but only its accessible listing/abstract-level detail is used here.",
+    },
 ]
 
 # Re-used, already-verified technical/regulatory/manufacturer/industry
 # documents from the existing real trend_corpus.json - re-classified into
 # research territories here, not re-fetched.
+#
+# TC-R06 and TC-R10 are peer-reviewed papers that ALSO exist inside
+# trend_corpus.json (an earlier session filed them there since that corpus
+# predates this one splitting peer-reviewed papers out as first-class).
+# They are now promoted to RP-11/RP-12 above with full distillation -
+# excluded here (and from every count/bucket below) so each paper is
+# counted and displayed exactly once, not as both a "trend document" and a
+# "peer-reviewed paper".
+PROMOTED_TREND_IDS = {"TC-R06", "TC-R10"}
+
 EXISTING_TERRITORY_MAP = {
     "TC-R01": ["R6"],          # EPA Guide to Air Cleaners - sizing, source control, limits
     "TC-R02": ["R6"],          # ENERGY STAR Room Air Cleaners criteria - CADR/W, IEF, ozone
     "TC-R03": ["R6"],          # AHAM Verifide directory - CADR certification
     "TC-R04": ["R6"],          # CARB certified device list - ozone/regulatory constraint
     "TC-R05": ["R2"],          # WHO IAQ guidelines - health-evidence anchor
-    "TC-R06": ["R2"],          # PM2.5/O3 global status - health evidence context (not device-specific)
     "TC-R08": ["R4"],          # Matter Air Quality Sensor spec - connectivity/sensing standard
     "TC-R09": ["R6"],          # EU Ecodesign working plan - regulatory/energy direction
 }
@@ -317,6 +380,8 @@ def build_manifest_rows(existing):
             "retrieved_at": "2026-08-26", "verification_method": "pubmed_mcp_get_article_metadata",
         })
     for a in existing["articles"]:
+        if a["article_id"] in PROMOTED_TREND_IDS:
+            continue
         rows.append({
             "research_id": a["article_id"], "title": a["title"], "authors": a.get("publisher", ""),
             "journal_or_publisher": a["publisher"],
@@ -331,12 +396,13 @@ def build_manifest_rows(existing):
 
 
 def build_research_index(existing):
+    remaining = [a for a in existing["articles"] if a["article_id"] not in PROMOTED_TREND_IDS]
     n_peer = len(PEER_REVIEWED)
-    n_existing_peer = sum(1 for a in existing["articles"] if a["document_type"] == "peer_reviewed")
-    n_technical = sum(1 for a in existing["articles"]
+    n_existing_peer = sum(1 for a in remaining if a["document_type"] == "peer_reviewed")
+    n_technical = sum(1 for a in remaining
                        if a["document_type"] in ("regulatory_guidance", "technical_standard", "industry_association"))
-    n_manufacturer = sum(1 for a in existing["articles"] if a["document_type"] == "manufacturer_primary")
-    n_industry_survey = sum(1 for a in existing["articles"] if a["document_type"] == "syndicated_research")
+    n_manufacturer = sum(1 for a in remaining if a["document_type"] == "manufacturer_primary")
+    n_industry_survey = sum(1 for a in remaining if a["document_type"] == "syndicated_research")
 
     territory_counts = {t: 0 for t in TERRITORIES}
     for p in PEER_REVIEWED:
@@ -356,7 +422,7 @@ def build_research_index(existing):
             "(data/real_raw/trend_sources/). See research.md for the full query log."
         ),
         "generated_by": "src/real/research_corpus_real.py",
-        "corpus_size": len(PEER_REVIEWED) + len(existing["articles"]),
+        "corpus_size": len(PEER_REVIEWED) + len(remaining),
         "peer_reviewed_count": n_peer + n_existing_peer,
         "technical_regulatory_count": n_technical,
         "manufacturer_count": n_manufacturer,
@@ -366,12 +432,12 @@ def build_research_index(existing):
         "territory_counts": territory_counts,
         "peer_reviewed_papers": PEER_REVIEWED,
         "existing_technical_regulatory": [
-            a for a in existing["articles"]
+            a for a in remaining
             if a["document_type"] in ("regulatory_guidance", "technical_standard", "industry_association")
         ],
         "existing_manufacturer_and_industry": [
-            a for a in existing["articles"]
-            if a["document_type"] in ("manufacturer_primary", "syndicated_research", "peer_reviewed")
+            a for a in remaining
+            if a["document_type"] in ("manufacturer_primary", "syndicated_research")
         ],
     }
 
@@ -379,9 +445,12 @@ def build_research_index(existing):
 def build_evidence_cards():
     return {
         "_provenance": "Distilled QUESTION/FOUND/ESTABLISHES/DOES_NOT_ESTABLISH/TENSION/"
-                        "DESIGN_CONSEQUENCE/COUNTERFACTUAL objects for the 10 peer-reviewed "
-                        "papers verified this session. Distillation authored from each "
-                        "paper's real PubMed abstract, not generated independent of source.",
+                        "DESIGN_CONSEQUENCE/COUNTERFACTUAL objects for all {} peer-reviewed "
+                        "papers verified this session (10 via PubMed API, 2 promoted from "
+                        "trend_corpus.json - RP-11 via PubMed, RP-12 via direct fetch/archive, "
+                        "outside PubMed's economics-excluded scope). Distillation authored from "
+                        "each paper's real verified abstract, not generated independent of "
+                        "source.".format(len(PEER_REVIEWED)),
         "generated_by": "src/real/research_corpus_real.py",
         "cards": [
             {
