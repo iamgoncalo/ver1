@@ -7,9 +7,13 @@ export interface Product {
 export interface ProductsResponse { _provenance: string; products: Product[] }
 
 export interface Signal {
-  id: string; name: string; prevalence_pct: number; csat_impact: number; n_reviews: number;
+  id: string; name: string; meaning: string;
+  prevalence_pct: number | null; csat_impact: number | null; n_reviews: number | null;
+  n_independent_studies: number;
   source_families: string[]; state: string; related_trend_docs: { id?: string; title?: string; url?: string }[];
   evidence_ids: string[]; truth_class: string;
+  direction: string; limitations: string; contradictions: string; design_consequence: string;
+  research_support: { research_id: string; title: string; found: string }[];
 }
 export interface SignalsResponse { _provenance: string; signals: Signal[] }
 

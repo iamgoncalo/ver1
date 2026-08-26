@@ -1,0 +1,76 @@
+{
+  "_provenance": "MODEL A only (canonical, analyst-defined research territories). MODEL B (emergent TF-IDF + cosine-similarity textual clustering) is NOT implemented in this pass - deferred, see NEXT_ACTION.md. Do not present Model A as if it were machine-derived.",
+  "generated_by": "src/real/research_corpus_real.py",
+  "model_a_canonical_territories": [
+    {
+      "territory_id": "R1",
+      "name": "Real-world effectiveness + spatial performance",
+      "member_ids": [
+        "RP-01",
+        "RP-02",
+        "RP-03",
+        "RP-06",
+        "RP-07"
+      ],
+      "count": 5
+    },
+    {
+      "territory_id": "R2",
+      "name": "Health outcomes + evidence limits",
+      "member_ids": [
+        "RP-03",
+        "RP-05",
+        "RP-08",
+        "TC-R05",
+        "TC-R06"
+      ],
+      "count": 5
+    },
+    {
+      "territory_id": "R3",
+      "name": "Behaviour + noise + adherence",
+      "member_ids": [
+        "RP-05",
+        "RP-07"
+      ],
+      "count": 2
+    },
+    {
+      "territory_id": "R4",
+      "name": "Sensing + automation + sensor trust",
+      "member_ids": [
+        "RP-09",
+        "RP-10",
+        "TC-R08"
+      ],
+      "count": 3
+    },
+    {
+      "territory_id": "R5",
+      "name": "Particle sources + spatial dynamics",
+      "member_ids": [
+        "RP-04",
+        "RP-06"
+      ],
+      "count": 2
+    },
+    {
+      "territory_id": "R6",
+      "name": "Energy + performance + standards",
+      "member_ids": [
+        "RP-06",
+        "RP-07",
+        "TC-R01",
+        "TC-R02",
+        "TC-R03",
+        "TC-R04",
+        "TC-R09"
+      ],
+      "count": 7
+    }
+  ],
+  "model_b_emergent_textual_similarity": {
+    "status": "NOT_IMPLEMENTED",
+    "reason": "Deferred this pass - requires a documented TF-IDF + cosine-similarity + deterministic agglomerative-clustering implementation over verified titles/abstracts. Tracked in NEXT_ACTION.md."
+  }
+}

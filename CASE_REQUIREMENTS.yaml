@@ -139,6 +139,68 @@ blockers_requiring_a_human:
           design/innovation-explorer), not pushed."
     who: goncalo
 
+research_corpus:
+  # Added 2026-08-26T22:10:00Z per user-requested research-truth audit.
+  # A prior pass left research under-visible and thin on peer-reviewed
+  # evidence (only 2 of 12 existing docs were peer-reviewed, and neither
+  # addressed device-level effectiveness/health/sensing directly). Fixed
+  # this session with a genuinely verified 10-paper addition.
+  status: PASS
+  detail: "22 total real documents (data/processed/research_index.json):
+          12 peer-reviewed (10 verified this session against the live
+          PubMed API by PMID/PMCID->DOI conversion + get_article_metadata
+          - title/authors/journal/year/abstract read back from PubMed, not
+          accepted from any prompt-provided claim; 2 already in the
+          existing corpus), 7 technical/regulatory (EPA, ENERGY STAR,
+          AHAM, CARB, WHO, Matter/CSA-IOT, EU Ecodesign - already
+          individually fetched and archived in an earlier session), 2
+          manufacturer-primary and 1 industry-survey kept as separate,
+          clearly-labelled non-independent evidence classes. 0
+          quarantined (see research-quality.md audit - every existing
+          document passed re-audit). 6 canonical research territories
+          (R1-R6, Model A) implemented; Model B (TF-IDF emergent textual
+          clustering) explicitly NOT implemented, reported honestly as
+          NOT_IMPLEMENTED in data/processed/research_clusters.json rather
+          than faked. 10 distilled evidence objects
+          (QUESTION/FOUND/ESTABLISHES/DOES_NOT_ESTABLISH/TENSION/
+          DESIGN_CONSEQUENCE/COUNTERFACTUAL) in evidence_cards.json. 6
+          evidence-grounded tensions in research_tensions.json (each
+          citing >=1 real evidence_id per side). Signals REBUILT (not
+          preserved) from this evidence: 10 signals total (up from 6) -
+          2 existing consumer-taxonomy signals (noise, value_effectiveness)
+          genuinely upgraded to CONVERGING on new peer-reviewed backing,
+          4 new pure-research signals added (sensor_trust,
+          operating_mode_tradeoff, spatial_resuspension, and
+          health_outcome_uncertainty - correctly flagged CONTESTED, the
+          one case where two real studies genuinely disagree, per tension
+          T6). 14 new integration tests (tests/test_research_corpus.py)
+          gate research_id uniqueness, real identifiers, zero-evidence
+          signals, and honest Model-B status. 5 documented real
+          Research->Counterfactual chains (research-clusters.md). NOT done
+          this session: the 9 signature research illustrations (Science
+          Constellation, Air Mechanism, Performance Tension, Sensor Trust
+          Ladder, Floor<->Air, Science Says/Does Not Say, etc.) - the
+          research data is exposed via the existing Signals world
+          card+focus-panel UI, not the dedicated illustration suite the
+          brief describes; TF-IDF emergent clustering (Model B); Dutch
+          economics/Wallet rebuild; Products cluster overhaul with
+          official Versuni/Philips imagery; the Counterfactual Engine UI.
+          All explicitly deferred, not silently dropped - see
+          NEXT_ACTION.md."
+  files:
+    - research.md
+    - research-clusters.md
+    - research-quality.md
+    - data/raw/research/research_manifest.csv
+    - data/processed/research_index.json
+    - data/processed/evidence_cards.json
+    - data/processed/research_tensions.json
+    - data/processed/research_clusters.json
+  api_smoke_tested:
+    - "GET /api/research -> peer_reviewed_count=12, technical_regulatory_count=7"
+    - "GET /api/research/tensions -> 6 tensions"
+    - "GET /api/signals -> 10 signals (rebuilt), browser-verified no crash"
+
 v1_innovation_explorer:
   # Updated 2026-08-26T21:35:00Z after building the full V1 frontend and
   # real-browser-verifying it this session. Do NOT upgrade further (e.g. to

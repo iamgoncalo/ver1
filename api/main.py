@@ -58,6 +58,26 @@ def signals():
     return read_json("signals_real.json")
 
 
+@app.get("/api/research")
+def research_index():
+    return read_json("research_index.json")
+
+
+@app.get("/api/research/evidence")
+def research_evidence():
+    return read_json("evidence_cards.json")
+
+
+@app.get("/api/research/tensions")
+def research_tensions():
+    return read_json("research_tensions.json")
+
+
+@app.get("/api/research/clusters")
+def research_clusters():
+    return read_json("research_clusters.json")
+
+
 @app.get("/api/rivals")
 def rivals():
     return read_json("rivals_real.json")

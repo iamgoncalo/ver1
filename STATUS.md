@@ -125,6 +125,24 @@ vs. `economic_value_override`
    (confirmed via diff this session), but the CONTENT-vs-BUILD-METADATA
    separation requested earlier has not been implemented.
 
+## RESEARCH CORPUS (new this session)
+
+RESEARCH TRUTH CHECKPOINT READY — 22 verified documents: 12 peer-reviewed
+(10 verified live against the PubMed API this session, by PMID/PMCID →
+DOI conversion + metadata read-back, not accepted from any prompt claim),
+7 technical/regulatory, 0 quarantined, 6 research territories. Signals
+REBUILT (not preserved): 10 signals, 2 upgraded to CONVERGING on genuine
+new research backing, 4 new pure-research signals, 1 correctly flagged
+CONTESTED (health_outcome_uncertainty — real evidence genuinely disagrees).
+14 new integration tests pass. Full detail: `research.md`,
+`research-clusters.md`, `research-quality.md`,
+`CASE_REQUIREMENTS.yaml::research_corpus`.
+
+NOT done: the 9 signature research illustrations, TF-IDF emergent
+clustering (Model B), Dutch economics/Wallet rebuild, Products cluster
+overhaul with official imagery, Counterfactual Engine UI. All explicitly
+deferred — see NEXT_ACTION.md.
+
 ## NEXT ACTION
 
 See NEXT_ACTION.md for the exact resume point.

@@ -1,0 +1,67 @@
+{
+  "_provenance": "Tensions accepted only where at least one verified evidence object supports each side of the trade-off - see evidence_ids per tension.",
+  "generated_by": "src/real/research_corpus_real.py",
+  "tensions": [
+    {
+      "tension_id": "T1",
+      "name": "Filtration vs. noise-driven adherence",
+      "evidence_ids": [
+        "RP-05",
+        "RP-01",
+        "RP-02"
+      ],
+      "statement": "Higher measured filtration performance generally requires longer runtime, but RP-05 found noise was a named reason real users under-ran DIY cleaners - a device that filters best in the lab may filter worst in practice if nobody keeps it on.",
+      "design_consequence": "Optimize for hours-actually-run under real noise tolerance, not peak lab CADR."
+    },
+    {
+      "tension_id": "T2",
+      "name": "Constant vs. automatic operation",
+      "evidence_ids": [
+        "RP-07"
+      ],
+      "statement": "RP-07's own three-arm trial shows constant operation removes more PM2.5 (66%) than auto mode (40%), but auto mode sharply cuts runtime/noise/energy - there is no operating mode that wins on both axes at once.",
+      "design_consequence": "Ship the trade-off as a visible, explainable choice rather than a single hidden factory default."
+    },
+    {
+      "tension_id": "T3",
+      "name": "CADR theory vs. real-home performance",
+      "evidence_ids": [
+        "RP-07",
+        "RP-01",
+        "RP-06"
+      ],
+      "statement": "RP-07 explicitly reports a discrepancy between theoretical CADR-based sizing and measured performance; RP-01 shows lab-style single-room performance doesn't fully carry to a second room; RP-06 shows raw real-home averages can even look wrong unless corrected for source strength.",
+      "design_consequence": "Any consumer-facing performance number sourced from CADR alone should be treated as a lab upper bound, not a real-home promise."
+    },
+    {
+      "tension_id": "T4",
+      "name": "More sensing vs. sensor trust",
+      "evidence_ids": [
+        "RP-09",
+        "RP-10"
+      ],
+      "statement": "RP-09's systematic review and RP-10's co-location study both find that consumer-grade sensors can be precise (track relative change well) while still being inaccurate (wrong absolute value) - especially as humidity, temperature and pollutant source vary.",
+      "design_consequence": "A 'smart' control claim needs an honest confidence signal, not just a raw sensor number."
+    },
+    {
+      "tension_id": "T5",
+      "name": "Room-level cleaning vs. spatial/floor sources",
+      "evidence_ids": [
+        "RP-04"
+      ],
+      "statement": "RP-04 shows ordinary walking measurably resuspends floor-deposited particles back into room air - a real spatial source the standard stationary-room-purifier model does not directly address. NOT ESTABLISHED: that a floor-level or mobile purifier would outperform a conventional purifier - RP-04 tested no purifier placement at all.",
+      "design_consequence": "Spatial-source modeling should not assume deposited particles stay deposited, but no placement claim follows from this evidence alone."
+    },
+    {
+      "tension_id": "T6",
+      "name": "Pollutant reduction vs. clinical outcome certainty",
+      "evidence_ids": [
+        "RP-08",
+        "RP-03",
+        "RP-05"
+      ],
+      "statement": "RP-08 found a measurable asthma-control benefit (ACT score, symptom-free days) from real HEPA filtration in one RCT; RP-03 (ammonia) and RP-05 (self-reported symptoms) found PM/exposure changes did NOT correspond to the specific outcomes they measured. The real literature is not unanimous that pollutant reduction equals a felt health benefit.",
+      "design_consequence": "Never assert a health-outcome claim from PM-reduction evidence alone; RP-08's result needs independent replication before being treated as settled."
+    }
+  ]
+}

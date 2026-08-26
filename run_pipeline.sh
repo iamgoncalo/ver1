@@ -73,6 +73,10 @@ python3 src/real/products_signals_real.py
 python3 src/real/rivals_real.py
 python3 src/real/magic_box_real.py
 
+echo "== stage 8c/9: verified research corpus + research-grounded signal rebuild (real) =="
+python3 src/real/research_corpus_real.py
+python3 src/real/signals_from_research_real.py
+
 echo "== stage 9/9: evidence table + tests =="
 python3 src/real/build_evidence_table_real.py
 python3 -m unittest tests.test_real_pipeline -v
