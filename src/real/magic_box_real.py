@@ -79,6 +79,66 @@ POSSIBILITY_NAMES = {
 }
 
 
+def _load_json_or_none(name):
+    try:
+        with open(os.path.join(PROC, name), encoding="utf-8") as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        return None
+
+
+MISSING_UNVERIFIED = {"status": "MISSING_UNVERIFIED"}
+
+
+def compute_design_dna(theme_id, evidence_ids, is_white_space, competitor_gap_brands,
+                       economic_value, signals_by_id, tensions, assumptions):
+    """The F/S/T/R/C/A/E/O parent lineage the brief calls "Design DNA" -
+    every parent below is a genuine join against already-computed real
+    files (signals_real.json / research_tensions.json /
+    category_assumptions.json), never invented. A parent with no real join
+    is reported MISSING_UNVERIFIED rather than silently omitted or guessed.
+    """
+    signal = signals_by_id.get(theme_id)
+    signal_paper_ids = {r["research_id"] for r in (signal.get("research_support") or [])} if signal else set()
+
+    dna = {
+        "F": {"status": "PRESENT", "kind": "consumer_friction", "id": "taxonomy:{}".format(theme_id),
+              "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."},
+        "O": {"status": "PRESENT", "kind": "design_operator", "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."},
+    }
+
+    dna["S"] = ({"status": "PRESENT", "kind": "signal", "id": theme_id, "detail": signal["meaning"]}
+                if signal else dict(MISSING_UNVERIFIED, kind="signal", detail="No real signal object exists for this friction theme."))
+
+    matching_tensions = [t for t in tensions if signal_paper_ids & set(t["evidence_ids"])] if signal_paper_ids else []
+    dna["T"] = ({"status": "PRESENT", "kind": "scientific_tension",
+                "ids": [t["tension_id"] for t in matching_tensions],
+                "detail": "; ".join(t["name"] for t in matching_tensions)}
+                if matching_tensions else dict(MISSING_UNVERIFIED, kind="scientific_tension",
+                    detail="No real research tension shares a paper with this theme's signal evidence."))
+
+    dna["R"] = ({"status": "PRESENT", "kind": "rival_gap", "brands": competitor_gap_brands,
+                "detail": "{} named real rivals measurably weaker on this theme.".format(len(competitor_gap_brands))}
+                if is_white_space and competitor_gap_brands else
+                dict(MISSING_UNVERIFIED, kind="rival_gap", detail="No real rival-weakness data clears the white-space threshold for this theme."))
+
+    dna["C"] = dict(MISSING_UNVERIFIED, kind="versuni_capability",
+                    detail="No real Versuni internal capability/org-readiness dataset exists in this pipeline.")
+
+    matching_assumptions = [a for a in assumptions if signal_paper_ids & set(a["real_evidence_that_bears_on_it"])] if signal_paper_ids else []
+    dna["A"] = ({"status": "PRESENT", "kind": "category_assumption",
+                "ids": [a["assumption_id"] for a in matching_assumptions],
+                "detail": "; ".join(a["text"] for a in matching_assumptions)}
+                if matching_assumptions else dict(MISSING_UNVERIFIED, kind="category_assumption",
+                    detail="No category assumption shares a paper with this theme's signal evidence."))
+
+    dna["E"] = ({"status": "PRESENT", "kind": "economic_condition",
+                "detail": "Real price-weighted exposure computed for this theme (${:,.2f}).".format(economic_value)}
+                if economic_value else dict(MISSING_UNVERIFIED, kind="economic_condition",
+                    detail="No real price coverage for this theme's affected reviews."))
+    return dna
+
+
 def generate_possibilities():
     """Stage 1 of the funnel: every (theme, operator) pair the fixed table
     defines, regardless of gate status - the raw candidate pool."""
@@ -92,6 +152,13 @@ def generate_possibilities():
             white_space = {s["theme"]: s for s in json.load(fh)["spaces"]}
     except FileNotFoundError:
         white_space = {}
+
+    signals_doc = _load_json_or_none("signals_real.json")
+    signals_by_id = {s["id"]: s for s in signals_doc["signals"]} if signals_doc else {}
+    tensions_doc = _load_json_or_none("research_tensions.json")
+    tensions = tensions_doc["tensions"] if tensions_doc else []
+    assumptions_doc = _load_json_or_none("category_assumptions.json")
+    assumptions = assumptions_doc["assumptions"] if assumptions_doc else []
 
     possibilities = []
     for theme_id, ops in THEME_OPERATORS.items():
@@ -132,6 +199,11 @@ def generate_possibilities():
                 "competitor_gap_brands": ws["rivals_measurably_weak_here"] if ws else [],
                 "evidence_ids": ["taxonomy:{}".format(theme_id)],
                 "truth_class": "DESIGN_POSSIBILITY",
+                "design_dna": compute_design_dna(
+                    theme_id, ["taxonomy:{}".format(theme_id)],
+                    bool(ws and ws.get("is_white_space")), ws["rivals_measurably_weak_here"] if ws else [],
+                    price_exposure[theme_id]["price_weighted_exposure_usd"],
+                    signals_by_id, tensions, assumptions),
             })
     return possibilities
 

@@ -70,7 +70,60 @@
       "evidence_ids": [
         "taxonomy:reliability"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
     },
     {
       "id": "reliability:MATERIALISE",
@@ -113,7 +166,60 @@
       "evidence_ids": [
         "taxonomy:reliability"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
     },
     {
       "id": "noise:AMBIENT",
@@ -160,7 +266,74 @@
       "evidence_ids": [
         "taxonomy:noise"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
     },
     {
       "id": "noise:TEMPORAL_SHIFT",
@@ -207,7 +380,74 @@
       "evidence_ids": [
         "taxonomy:noise"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
     },
     {
       "id": "value_effectiveness:CONCENTRATE",
@@ -242,7 +482,61 @@
       "evidence_ids": [
         "taxonomy:value_effectiveness"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
     },
     {
       "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
@@ -277,7 +571,61 @@
       "evidence_ids": [
         "taxonomy:value_effectiveness"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
     },
     {
       "id": "customer_service:INVERT",
@@ -312,7 +660,51 @@
       "evidence_ids": [
         "taxonomy:customer_service"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:customer_service",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "customer_service",
+          "detail": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
+        }
+      }
     },
     {
       "id": "customer_service:REMOVE",
@@ -347,7 +739,51 @@
       "evidence_ids": [
         "taxonomy:customer_service"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:customer_service",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "customer_service",
+          "detail": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
+        }
+      }
     },
     {
       "id": "filter_cost:DISTRIBUTE",
@@ -382,7 +818,51 @@
       "evidence_ids": [
         "taxonomy:filter_cost"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:filter_cost",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "filter_cost",
+          "detail": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
+        }
+      }
     },
     {
       "id": "filter_cost:MERGE",
@@ -417,7 +897,51 @@
       "evidence_ids": [
         "taxonomy:filter_cost"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:filter_cost",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "filter_cost",
+          "detail": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
+        }
+      }
     },
     {
       "id": "ozone_odor_safety:MOVE",
@@ -452,7 +976,51 @@
       "evidence_ids": [
         "taxonomy:ozone_odor_safety"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      }
     },
     {
       "id": "ozone_odor_safety:PERSONALISE",
@@ -487,7 +1055,51 @@
       "evidence_ids": [
         "taxonomy:ozone_odor_safety"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      }
     }
   ],
   "finalists": [
@@ -524,7 +1136,61 @@
       "evidence_ids": [
         "taxonomy:value_effectiveness"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
     },
     {
       "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
@@ -559,7 +1225,61 @@
       "evidence_ids": [
         "taxonomy:value_effectiveness"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
     },
     {
       "id": "reliability:PREDICT",
@@ -602,7 +1322,60 @@
       "evidence_ids": [
         "taxonomy:reliability"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
     }
   ],
   "non_dominated": [
@@ -647,7 +1420,60 @@
       "evidence_ids": [
         "taxonomy:reliability"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
     },
     {
       "id": "reliability:MATERIALISE",
@@ -690,7 +1516,60 @@
       "evidence_ids": [
         "taxonomy:reliability"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
     },
     {
       "id": "noise:AMBIENT",
@@ -737,7 +1616,74 @@
       "evidence_ids": [
         "taxonomy:noise"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
     },
     {
       "id": "noise:TEMPORAL_SHIFT",
@@ -784,7 +1730,74 @@
       "evidence_ids": [
         "taxonomy:noise"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real rivals measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
     },
     {
       "id": "value_effectiveness:CONCENTRATE",
@@ -819,7 +1832,61 @@
       "evidence_ids": [
         "taxonomy:value_effectiveness"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
     },
     {
       "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
@@ -854,7 +1921,61 @@
       "evidence_ids": [
         "taxonomy:value_effectiveness"
       ],
-      "truth_class": "DESIGN_POSSIBILITY"
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
     }
   ],
   "graveyard": [
@@ -892,6 +2013,50 @@
         "taxonomy:customer_service"
       ],
       "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:customer_service",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "customer_service",
+          "detail": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
+        }
+      },
       "killed_by": "NO_OBSERVED_PAIN",
       "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
     },
@@ -929,6 +2094,50 @@
         "taxonomy:customer_service"
       ],
       "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:customer_service",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "customer_service",
+          "detail": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
+        }
+      },
       "killed_by": "NO_OBSERVED_PAIN",
       "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
     },
@@ -966,6 +2175,50 @@
         "taxonomy:filter_cost"
       ],
       "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:filter_cost",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "filter_cost",
+          "detail": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
+        }
+      },
       "killed_by": "NO_OBSERVED_PAIN",
       "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
     },
@@ -1003,6 +2256,50 @@
         "taxonomy:filter_cost"
       ],
       "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:filter_cost",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "filter_cost",
+          "detail": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
+        }
+      },
       "killed_by": "NO_OBSERVED_PAIN",
       "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
     },
@@ -1040,6 +2337,50 @@
         "taxonomy:ozone_odor_safety"
       ],
       "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      },
       "killed_by": "DOMINATED",
       "kill_reason": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
     },
@@ -1077,6 +2418,50 @@
         "taxonomy:ozone_odor_safety"
       ],
       "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      },
       "killed_by": "DOMINATED",
       "kill_reason": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
     }

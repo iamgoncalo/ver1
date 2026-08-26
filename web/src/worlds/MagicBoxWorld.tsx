@@ -3,6 +3,7 @@ import { api } from "../lib/api";
 import type { MagicBoxResponse, Possibility } from "../lib/types";
 import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+import type { DesignDna } from "../lib/types";
 
 interface CategoryAssumption {
   assumption_id: string; text: string; status: string; evidence_for_prevalence: string;
@@ -21,6 +22,35 @@ const STAGE_TONE: Record<string, "neutral" | "amber" | "teal" | "good" | "rose">
 const VERDICT_TONE: Record<string, "good" | "amber" | "neutral" | "rose"> = {
   SURVIVE: "good", CHALLENGE: "amber", NEEDS_EVIDENCE: "neutral", REJECT: "rose",
 };
+const DNA_LETTER_NAME: Record<string, string> = {
+  F: "Friction", S: "Signal", T: "Tension", R: "Rival gap",
+  C: "Versuni capability", A: "Assumption", E: "Economic condition", O: "Design operator",
+};
+const DNA_ORDER = ["F", "S", "T", "R", "C", "A", "E", "O"] as const;
+
+function DnaBadgeRow({ dna, compact }: { dna: DesignDna; compact?: boolean }) {
+  return (
+    <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+      {DNA_ORDER.map((letter) => {
+        const p = dna[letter as keyof DesignDna];
+        const present = p.status === "PRESENT";
+        return (
+          <span key={letter} title={`${DNA_LETTER_NAME[letter]}: ${present ? "present" : "missing / unverified"} — ${p.detail}`}
+            style={{
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              width: compact ? 20 : 24, height: compact ? 20 : 24, borderRadius: 6,
+              fontSize: compact ? 10 : 11, fontFamily: "var(--font-mono)", fontWeight: 700,
+              color: present ? "var(--good)" : "var(--ink-faint)",
+              background: present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
+              border: `1px solid ${present ? "var(--good)" : "var(--line)"}`, opacity: present ? 1 : 0.6,
+            }}>
+            {letter}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
 
 export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
   const [data, setData] = useState<MagicBoxResponse | null>(null);
@@ -123,6 +153,9 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
                   )}
                   <StatRow label="Market exposure (price-weighted)" value={`$${p.economic_value.toLocaleString()}`} />
                   <StatRow label="Feasibility" value={p.feasibility_2_5y.rating} />
+                  <div style={{ marginTop: 8 }}>
+                    <DnaBadgeRow dna={p.design_dna} compact />
+                  </div>
                 </Card>
               );
             })}
@@ -165,6 +198,9 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
                 )}
                 <StatRow label="Market exposure (price-weighted)" value={`$${p.economic_value.toLocaleString()}`} />
                 <StatRow label="Feasibility" value={p.feasibility_2_5y.rating} />
+                <div style={{ marginTop: 6 }}>
+                  <DnaBadgeRow dna={p.design_dna} compact />
+                </div>
               </Card>
               );
             })}
@@ -214,6 +250,33 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
                   {" "}WHAT STUDIES: none — {focus.consumer_pain_methodology.method}
                 </p>
               )}
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <SectionLabel>Design DNA — genuine parent lineage only</SectionLabel>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {DNA_ORDER.map((letter) => {
+                  const p = focus.design_dna[letter as keyof typeof focus.design_dna];
+                  const present = p.status === "PRESENT";
+                  return (
+                    <div key={letter} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                      <span style={{
+                        flexShrink: 0, width: 22, height: 22, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 11, fontFamily: "var(--font-mono)", fontWeight: 700,
+                        color: present ? "var(--good)" : "var(--ink-faint)",
+                        background: present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
+                        border: `1px solid ${present ? "var(--good)" : "var(--line)"}`,
+                      }}>{letter}</span>
+                      <div style={{ fontSize: 12, lineHeight: 1.45 }}>
+                        <b style={{ color: "var(--ink)" }}>{DNA_LETTER_NAME[letter]}</b>
+                        {" — "}
+                        <span style={{ color: present ? "var(--ink-dim)" : "var(--ink-faint)" }}>
+                          {present ? p.detail : "MISSING / UNVERIFIED — " + p.detail}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
             {focus.typical_market_price_usd != null && (
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 12 }}>

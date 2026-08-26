@@ -33,6 +33,11 @@ export interface ConsumerPainMethodology {
   method: string; n_reviews: number; n_distinct_products: number;
   review_date_range: [string, string] | null; pct_verified_purchase: number | null; source: string;
 }
+export interface DesignDnaParent {
+  status: "PRESENT" | "MISSING_UNVERIFIED"; kind: string; detail: string;
+  id?: string; ids?: string[]; brands?: string[];
+}
+export type DesignDna = Record<"F" | "S" | "T" | "R" | "C" | "A" | "E" | "O", DesignDnaParent>;
 export interface Possibility {
   id: string; name: string; friction_theme: string; friction_theme_name: string;
   operator: string; operator_definition: string; consumer_pain_csat: number;
@@ -41,6 +46,7 @@ export interface Possibility {
   typical_market_price_usd: number | null; typical_market_price_n_products: number;
   feasibility_2_5y: { rating: string; rank: number };
   is_white_space: boolean; competitor_gap_brands: string[]; evidence_ids: string[]; truth_class: string;
+  design_dna: DesignDna;
 }
 export interface Graveyard { id: string; name: string; killed_by: string; kill_reason: string }
 export interface FunnelStage { stage: string; label: string; count: number }
