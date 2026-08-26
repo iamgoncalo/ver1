@@ -89,7 +89,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
                 <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 10px" }}>
                   {p.friction_theme_name.split(" / ")[0]} × {p.operator}
                 </div>
-                <StatRow label="Economic value" value={`$${p.economic_value.toLocaleString()}`} />
+                <StatRow label="Economic value (price-weighted exposure)" value={`$${p.economic_value.toLocaleString()}`} />
                 <StatRow label="Feasibility" value={p.feasibility_2_5y.rating} />
               </Card>
             ))}
@@ -121,7 +121,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
                 <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 10px" }}>
                   {p.friction_theme_name.split(" / ")[0]} × {p.operator}
                 </div>
-                <StatRow label="Economic value" value={`$${p.economic_value.toLocaleString()}`} />
+                <StatRow label="Economic value (price-weighted exposure)" value={`$${p.economic_value.toLocaleString()}`} />
                 <StatRow label="Feasibility" value={p.feasibility_2_5y.rating} />
               </Card>
             ))}
@@ -161,7 +161,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
               </p>
             </div>
             <StatRow label="Gate passed (real pain evidence)" value={focus.gate_passed ? "yes" : "no"} />
-            <StatRow label="Economic value" value={`$${focus.economic_value.toLocaleString()}`} />
+            <StatRow label="Economic value (price-weighted exposure)" value={`$${focus.economic_value.toLocaleString()}`} />
             <StatRow label="Feasibility (2–5yr)" value={`${focus.feasibility_2_5y.rating} (rank ${focus.feasibility_2_5y.rank})`} />
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
               <SectionLabel>Why it may fail</SectionLabel>

@@ -68,6 +68,18 @@ def assumptions():
     return read_json("category_assumptions.json")
 
 
+@app.get("/api/sources")
+def sources():
+    return read_json("sources_real.json")
+
+
+@app.get("/api/product-images")
+def product_images():
+    path = os.path.join(ROOT, "data", "visual", "product_images.json")
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 @app.get("/api/research")
 def research_index():
     return read_json("research_index.json")
@@ -174,6 +186,7 @@ def system_health():
 if os.path.isdir(WEB_DIST):
     app.mount("/assets", StaticFiles(directory=os.path.join(WEB_DIST, "assets")), name="assets")
     app.mount("/brand", StaticFiles(directory=os.path.join(WEB_DIST, "brand")), name="brand")
+    app.mount("/products", StaticFiles(directory=os.path.join(WEB_DIST, "products")), name="products")
 
     @app.get("/{full_path:path}")
     def spa(full_path: str):

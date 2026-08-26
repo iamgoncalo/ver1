@@ -18,6 +18,8 @@ export const api = {
   research: () => j<any>("/api/research"),
   economics: () => j<any>("/api/economics"),
   assumptions: () => j<any>("/api/assumptions"),
+  sources: () => j<any>("/api/sources"),
+  productImages: () => j<any>("/api/product-images"),
   researchTensions: () => j<any>("/api/research/tensions"),
   innovationsFrozen: () => j<InnovationsResponse>("/api/innovations"),
   innovationsScenario: (marketScenario = "mordor", decisionPriority = "pain_feasibility_majority") =>

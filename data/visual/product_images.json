@@ -1,0 +1,35 @@
+{
+  "_provenance": "Official Versuni/Philips product images - each entry individually verified this session against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (1 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. See NEXT_ACTION.md for the remaining verification work.",
+  "generated_by": "manual verification session 2026-08-26",
+  "products": [
+    {
+      "product_id": "AC3220_10",
+      "family": "PureProtect 3200 Series",
+      "sku": "AC3220/10",
+      "region": "AU (philips.com.au) - other regions may carry a different SKU suffix (e.g. AC3210/12 seen on Amazon US) with slightly different specs; NOT assumed equivalent",
+      "official_name": "PureProtect 3200 Series Smart Air Purifier",
+      "official_url": "https://www.philips.com.au/c-p/AC3220_10/pureprotect-3200-series",
+      "image_url": "https://images.philips.com/is/image/philipsconsumer/vrs_40c85bc1_49cb_4ef3_8b1bdd4b4e93bc76",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-26",
+      "local_asset": "web/public/products/AC3220_10.png",
+      "sha256": "34e69f951dd4b168070d4857f8644bf32144361b3adff3cacf19bdaef05dd7a9",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 520,
+        "room_coverage_m2": 135,
+        "noise_min_dba": 15,
+        "filter_architecture": "3-layer: pre-filter, HEPA NanoProtect, Active Carbon",
+        "connectivity": "Philips Air+ app, AeraSense real-time monitoring",
+        "sensors": "AeraSense (PM/air quality)",
+        "app": true,
+        "confidence": "HIGH - read directly off the official product page this session"
+      }
+    }
+  ],
+  "candidates_not_yet_verified": [
+    "600/600i", "800/800i", "PureProtect Mini 900", "1000i",
+    "PureProtect Quiet 2200", "3000/3000i", "PureProtect Water 3400",
+    "PureProtect Pro 4200", "2000 Series 3-in-1", "Air Performer 7000", "Air Performer 8000"
+  ]
+}

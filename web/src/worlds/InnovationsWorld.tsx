@@ -92,9 +92,13 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                   </div>
                   <div style={{ marginBottom: 8 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
-                      <span>Economic Value</span><span className="mono">${(s.economic_value ?? 0).toLocaleString()}</span>
+                      <span>Economic Value (price-weighted exposure)</span><span className="mono">${(s.economic_value ?? 0).toLocaleString()}</span>
                     </div>
                     <MiniBar value={s.economic_value ?? 0} max={maxEcon} tone="teal" />
+                    <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}>
+                      Sum of real listed prices across reviews affected by this friction — a relative
+                      indicator of which friction touches pricier products, not a revenue or market-size estimate.
+                    </p>
                   </div>
                 </>
               ) : (

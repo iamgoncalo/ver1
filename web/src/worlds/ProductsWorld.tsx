@@ -24,9 +24,11 @@ export function ProductsWorld() {
   const [focus, setFocus] = useState<Product | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [econ, setEcon] = useState<any>(null);
+  const [officialProducts, setOfficialProducts] = useState<any[] | null>(null);
 
   useEffect(() => { api.products().then(setData).catch(() => setData(null)); }, []);
   useEffect(() => { api.economics().then(setEcon).catch(() => setEcon(null)); }, []);
+  useEffect(() => { api.productImages().then((r) => setOfficialProducts(r.products)).catch(() => setOfficialProducts(null)); }, []);
 
   function dutchWallet(priceUsd: number) {
     if (!econ) return null;
@@ -77,6 +79,23 @@ export function ProductsWorld() {
 
       {mode === "distilled" ? (
         <div className="scrollY" style={{ flex: 1 }}>
+          {officialProducts && officialProducts.length > 0 && (
+            <div style={{ display: "flex", gap: 20, alignItems: "center", padding: "16px 20px", background: "var(--surface)", border: "1px solid var(--accent-blue)", borderRadius: 16, marginBottom: 20, maxWidth: 640 }}>
+              <img src={`/products/${officialProducts[0].local_asset.split("/").pop()}`} alt={officialProducts[0].official_name}
+                style={{ width: 90, height: 90, objectFit: "contain" }} />
+              <div>
+                <Pill tone="good">OFFICIAL VERSUNI/PHILIPS · {officialProducts[0].status}</Pill>
+                <div style={{ fontWeight: 600, fontSize: 15, marginTop: 6 }}>{officialProducts[0].official_name}</div>
+                <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 2 }}>
+                  SKU {officialProducts[0].sku} · CADR {officialProducts[0].specs.cadr_m3h} m³/h · {officialProducts[0].specs.room_coverage_m2} m² ·{" "}
+                  <a href={officialProducts[0].official_url} target="_blank" rel="noopener noreferrer">official source →</a>
+                </div>
+                <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4 }}>
+                  1 of ~20 candidate families verified this session — the rest are honestly UNVERIFIED, not inferred. See Sources.
+                </div>
+              </div>
+            </div>
+          )}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 8 }}>
             <HeroMetric label="Real products" value={products.length || "…"} />
             <HeroMetric label="Connected / reactive share" value={`${connectedShare}%`} />
@@ -102,6 +121,9 @@ export function ProductsWorld() {
         </div>
       ) : (
       <>
+      <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--rose)", letterSpacing: "0.04em", marginBottom: 10, flexShrink: 0 }}>
+        CONSUMER REVIEW CORPUS — real competitor brands from Amazon reviews. This is evidence, not Versuni's official portfolio (see the verified official product above in Distilled).
+      </div>
       <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 12, flexShrink: 0 }}>
           <input
             value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search 237 products…"
