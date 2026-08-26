@@ -81,7 +81,7 @@ export function ProductsWorld() {
         <div className="scrollY" style={{ flex: 1 }}>
           {officialProducts && officialProducts.length > 0 && (
             <div style={{ marginBottom: 20 }}>
-              <SectionLabel>Official Versuni/Philips products — verified, not the Amazon corpus below</SectionLabel>
+              <SectionLabel>Verified case portfolio — official Versuni/Philips products, not the Amazon corpus below</SectionLabel>
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
                 {officialProducts.map((p) => (
                   <div key={p.product_id} style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", background: "var(--surface)", border: "1px solid var(--accent-blue)", borderRadius: 16, maxWidth: 340 }}>

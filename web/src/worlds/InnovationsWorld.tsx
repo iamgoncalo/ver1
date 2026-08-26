@@ -59,11 +59,14 @@ function TraceTree({ nodes, depth = 0 }: { nodes: TraceNode[]; depth?: number })
   );
 }
 
+type FetchStatus = "loading" | "success" | "empty" | "error" | "timeout";
+const TIMEOUT_MS = 15000;
+
 export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) => void }) {
   const [data, setData] = useState<InnovationsResponse | null>(null);
   const [priority, setPriority] = useState(DEFAULT_PRIORITY);
   const [baseline, setBaseline] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<FetchStatus>("loading");
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [signals, setSignals] = useState<any[]>([]);
   const [research, setResearch] = useState<any>(null);
@@ -83,17 +86,24 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
 
   useEffect(() => {
     let stale = false;
-    setLoading(true);
+    setStatus("loading");
+    const timeoutId = setTimeout(() => { if (!stale) setStatus("timeout"); }, TIMEOUT_MS);
     api.innovationsScenario("mordor", priority).then((d) => {
       if (stale) return; // a newer request for a different priority already landed - ignore this out-of-order response
+      clearTimeout(timeoutId);
       setData(d);
       onData(d);
-      setLoading(false);
-    }).catch(() => { if (!stale) setLoading(false); });
-    return () => { stale = true; };
+      setStatus(Object.keys(d.scores ?? {}).length > 0 ? "success" : "empty");
+    }).catch(() => {
+      if (stale) return;
+      clearTimeout(timeoutId);
+      setStatus("error");
+    });
+    return () => { stale = true; clearTimeout(timeoutId); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [priority]);
 
+  const loading = status === "loading";
   const ids = data ? Object.keys(data.scores) : [];
   const maxEcon = data ? Math.max(...ids.map((id) => data.scores[id].economic_value ?? 0), 1) : 1;
   const maxPain = data ? Math.max(...ids.map((id) => Math.abs(data.scores[id].consumer_pain.severity_csat ?? 0)), 1) : 1;
@@ -131,7 +141,34 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
         </div>
       )}
 
-      <div className="scrollY" style={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14, alignContent: "start", opacity: loading ? 0.6 : 1 }}>
+      {status === "loading" && (
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-faint)", fontSize: 13 }}>
+          Computing live decision from real evidence…
+        </div>
+      )}
+      {status === "empty" && (
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-faint)", fontSize: 13, textAlign: "center", padding: 20 }}>
+          No candidates cleared the evidence gate for this scenario — the decision engine ran but found nothing to recommend.
+        </div>
+      )}
+      {status === "error" && (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "var(--rose)", fontSize: 13, textAlign: "center", padding: 20 }}>
+          <div>Couldn't load the live decision — the API request failed.</div>
+          <button onClick={() => setPriority((p) => p)} style={{ fontSize: 12, padding: "6px 14px", borderRadius: 8, border: "1px solid var(--rose)", background: "transparent", color: "var(--rose)", cursor: "pointer" }}>
+            Retry
+          </button>
+        </div>
+      )}
+      {status === "timeout" && (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "var(--amber)", fontSize: 13, textAlign: "center", padding: 20 }}>
+          <div>Still no response after {TIMEOUT_MS / 1000}s — the live decision engine may be stuck.</div>
+          <button onClick={() => setPriority((p) => p)} style={{ fontSize: 12, padding: "6px 14px", borderRadius: 8, border: "1px solid var(--amber)", background: "transparent", color: "var(--amber)", cursor: "pointer" }}>
+            Retry
+          </button>
+        </div>
+      )}
+      {status === "success" && (
+      <div className="scrollY" style={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14, alignContent: "start" }}>
         {ids.map((id) => {
           const s = data!.scores[id];
           const isWinner = id === winnerId;
@@ -227,8 +264,8 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
             </div>
           );
         })}
-        {!data && <div style={{ color: "var(--ink-faint)" }}>Computing live decision from real evidence…</div>}
       </div>
+      )}
 
       {data && (
         <div style={{ flexShrink: 0, marginTop: 12, padding: "12px 16px", background: "var(--surface-2)", borderRadius: 12, fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>
