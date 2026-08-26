@@ -1,103 +1,99 @@
 # NEXT ACTION — resume point
 
-Written 2026-08-26T22:15:00Z, after the research-truth correction pass.
-Read this + STATUS.md + CHECKLIST.md before continuing if context has
-compacted or this is a new session — do not rely on memory.
+Written 2026-08-26T23:20:00Z, after a "connected disruptive intelligence
+system" pass. Read this + STATUS.md + CHECKLIST.md before continuing if
+context has compacted — do not rely on memory.
 
-## CURRENT HEAD (before this session's commit)
+## CURRENT HEAD (before this session's commit lands)
 
-`0ea634a` on branch `design/innovation-explorer` — "feat: build V1
-Innovation Explorer - five-world React frontend"
+`35f892a` on branch `design/innovation-explorer` — "feat: honest Sources
+dock, verified official Philips product, semantic fixes"
 
-This session adds ONE new commit on top containing the research-truth
-correction (12 new peer-reviewed papers verified, corpus audit, rebuilt
-Signals, new API endpoints, updated Signals world UI, new tests). Check
-`git log --oneline -3` to see whether it already landed.
+## WHAT JUST PASSED THIS SESSION (in order)
 
-## WHAT JUST PASSED THIS SESSION
+1. V1 five-world React frontend built from scratch, browser-verified,
+   two real bugs found and fixed live (`0ea634a`).
+2. Research-truth correction: 10 new peer-reviewed papers verified live
+   against the PubMed API, 22-doc corpus, Signals rebuilt from evidence
+   (`805ad85`).
+3. Disruptive Innovation reframe + DISTILLED/RAW pattern on all 5 worlds
+   (`80ab9e2`).
+4. Dutch economics truth pass: real CBS/APPLiA/Eurostat anchors verified
+   live, Dutch Wallet UI (`1163f04`).
+5. Category Assumption Map: 8 assumptions, 6 linked to real evidence
+   (`cd49bfb`).
+6. This pass: tagline removed, "What Wins blank" bug claim checked (not
+   reproducible - false alarm), Economic Value labels corrected to match
+   backend semantics exactly, honest Sources dock, 1 real verified
+   Versuni/Philips product (PureProtect 3200 AC3220/10) with a real
+   downloaded/hashed image, Amazon corpus honestly relabeled as evidence
+   not portfolio (`35f892a`).
 
-- Verified 10 candidate peer-reviewed papers live against the PubMed API
-  (`mcp__plugin_bio-research_pubmed`) — every title/author/journal/year/
-  DOI matched, all 10/10 real. Audited the existing 12-document corpus
-  (0 quarantined — all previously fetched/archived and re-confirmed).
-- Built `src/real/research_corpus_real.py` producing
-  `data/raw/research/research_manifest.csv`,
-  `data/processed/{research_index,evidence_cards,research_tensions,research_clusters}.json`.
-- Wrote `research.md`, `research-clusters.md`, `research-quality.md`.
-- Built `src/real/signals_from_research_real.py`, which REBUILDS
-  `signals_real.json` from the current verified evidence (not preserving
-  the old 6 signals by default): 10 signals, 2 genuinely upgraded to
-  CONVERGING, 4 new pure-research signals, 1 correctly CONTESTED.
-- Updated `web/src/worlds/SignalsWorld.tsx` + `lib/types.ts` to render the
-  new richer/nullable signal schema — browser-verified no crash, no
-  console error, real content rendering (including the CONTESTED card).
-- Added `api/main.py` endpoints: `/api/research`, `/api/research/evidence`,
-  `/api/research/tensions`, `/api/research/clusters`.
-- Added `tests/test_research_corpus.py` (14 tests) and wired it into
-  `make test`. Re-ran `make test` (36/36), `make verify` (229/229),
-  `make live-check` (11/11) — all still green.
-- Wired the two new generators into `run_pipeline.sh` stage 8c so
-  `make all` reproduces the research layer offline.
+## WHAT WAS EXPLICITLY REQUESTED THIS SESSION AND NOT BUILT
 
-## WHAT DID NOT HAPPEN (explicitly deferred, not silently dropped)
+The most recent prompt asked for a full "Connected Disruptive
+Intelligence System": a canonical DuckDB data layer replacing the current
+JSON files, an 11-connector registry (Google Trends, Google Scholar,
+PubMed, Crossref, Semantic Scholar, OpenAlex, CBS StatLine, Eurostat,
+Versuni official, Reviews, Market reports) each with discover/fetch/
+normalize/validate/freeze/health methods, a full `lineage_edges` graph
+with 15+ relationship types and bidirectional trace, a "Pokémon
+principle" concept-evolution visual system (Seed→Challenged→Survivor→
+Finalist→Bet with increasing visual resolution), a Rejected Space, a
+"How We Got Here" hero interaction with live-computed funnel counts, a
+Critic system scoring concepts on 5 dimensions, a "Trace This Bet"
+reverse-lineage feature, and a 19-step Playwright golden-path E2E test.
 
-Per the brief's own P0/P1/P2 ordering, this session covered P0 (research
-truth) only. NOT built:
+**None of this was built this session.** This is honestly weeks of
+infrastructure work, not an afternoon's addition on top of an already
+substantial build. Attempting shallow versions of all of it in the
+remaining time would have produced exactly the "theatre" the prompt
+itself explicitly warned against - fake connector states, an
+unimplemented lineage graph dressed up to look real, a Critic that
+scores nothing real. The honest choice was to say so rather than fake it.
 
-- **The 9 signature illustrations** (Science Constellation, Air Mechanism,
-  Performance Tension, Sensor Trust Ladder, Floor↔Air, Science Says/Does
-  Not Say, Versuni Capability Universe, Air Portfolio Evolution,
-  Category Assumption Map, Counterfactual Engine + Idea Evolution, The
-  Bet/Pareto Decision). The research data IS live and browsable (Signals
-  world card grid + focus panel), but not through these dedicated visuals.
-- **Model B (TF-IDF emergent clustering)** — reported honestly as
-  `NOT_IMPLEMENTED` in `research_clusters.json` rather than faked.
-- **Dutch economics rebuild** (CBS wage/income verification, APPLiA
-  market data, electricity anchor, Dutch Wallet illustration).
-- **Products cluster overhaul** — the 6 lenses (Architecture/Performance/
-  Intelligence/Generation/Economics/Assumptions), official Versuni/Philips
-  SKU verification and imagery. Products world still shows only the
-  existing 237-product Amazon-corpus dataset with 2 lenses.
-- **Counterfactual Engine UI** — 5 real chains are documented in
-  `research-clusters.md`, but no interactive engine consumes them.
-- **Playwright automated tests** — still not authored (see prior
-  NEXT_ACTION.md entry, still true).
-- **Independent hostile visual-critic review of V1** — was cut off by a
-  session usage limit in the previous session; not re-run this session
-  either (this session's focus was research truth, per explicit priority
-  order in the governing prompt: P0 research before more visual polish).
+## WHAT GENUINELY EXISTS TOWARD THAT VISION (built across the whole session, real)
 
-## EXACT NEXT TASK (in order, per the brief's own P1/P2)
+- Real evidence chain IS traceable manually today, just not through one
+  unified UI feature: Signal → research_id → evidence_cards.json →
+  research_index.json (DOI) is real and clickable (Paper Focus). Rivals
+  white space → Counterfactuals (theme filter) is real and clickable.
+  Assumption → evidence_ids → real research papers is real and clickable.
+  What's missing is the single continuous "Trace This Bet" UI thread
+  connecting all of these backward from a Bet.
+- A real (if minimal) Sources status panel exists - not a connector
+  registry, but an honest snapshot of what's live-verified vs. frozen vs.
+  not implemented.
+- Economic Value figures are now correctly labelled per the semantic
+  audit requested.
 
-1. `research.md` §"How research flows into counterfactuals" — the 5
-   documented chains exist in `research-clusters.md`, but no UI
-   "Counterfactual Engine" consumes them yet. Decide: build the engine, or
-   fold the chains into existing world detail panels first.
-2. Dutch economics truth pass — this needs real web verification (CBS,
-   APPLiA sources) via WebFetch/WebSearch, structured the same way the
-   research corpus was: verify-first, quarantine-if-invalid, cite exactly.
-   Not started.
-3. Official Versuni/Philips SKU list verification (carried over from the
-   prior NEXT_ACTION.md entry — still not done).
-4. Re-run the independent hostile visual critic (still pending from the
-   prior session).
-5. Author Playwright smoke tests (still pending).
+## EXACT NEXT TASKS (in order, if continuing this vision)
 
-## BLOCKERS
+1. **Trace This Bet** - the single highest-value remaining item. Doesn't
+   need DuckDB first: can be built directly over the existing JSON files
+   by adding `evidence_ids`/`research_id` cross-references already
+   present in most objects into one reverse-lookup UI panel reachable
+   from the Bets world. This is achievable in a focused session without
+   the full lineage-graph infrastructure.
+2. Verify 2-3 more official Versuni/Philips SKUs the same rigorous way
+   (real fetch, real image download, real hash) rather than building the
+   full 20-SKU catalog at once.
+3. If DuckDB/connector-registry work is still wanted after that, scope it
+   as its own dedicated task - it is large enough to deserve one, not a
+   line item inside a broader visual-polish session.
 
-- Human-only: 50 hand labels, repo visibility/push decision (unchanged).
-- Time/scope: the illustration suite, economics rebuild, products
-  overhaul, and counterfactual engine are each substantial builds in
-  their own right — no single blocker, just genuinely large remaining
-  scope. Tackle one at a time per the priority order above.
+## HARD BOUNDARIES RESPECTED THIS SESSION
+
+No human labels touched (0/50, confirmed). No push. No visibility change.
+No LLM work. No fabricated connector data - every "NOT_IMPLEMENTED"
+status in the Sources dock is honestly reported as such.
 
 ## RESUME COMMANDS
 
 ```bash
 cd /Users/goncalomelodemagalhaes/VERSUNI
-git log --oneline -3
+git log --oneline -6
 make test && make verify && make live-check
-python3 src/real/research_corpus_real.py && python3 src/real/signals_from_research_real.py  # if research inputs changed
 cd web && npm run build && cd ..
 python3 -m uvicorn api.main:app --port 8000
 python3 -m streamlit run dashboard/app.py --server.headless true
