@@ -1,0 +1,51 @@
+review_id,rating,review_text,hand_label,labeller_note
+CR-000373,5,At speed one you genuinely cannot hear it from the bed. Setting up a night schedule in the app took under a minute.,none,praise only - quiet and easy scheduling
+CR-001742,4,"Setting up a night schedule in the app took under a minute. It looks like a piece of furniture rather than an appliance, which sold my partner on it.",none,praise only - setup and design
+CR-002465,1,There is a high pitched whine from the motor that I cannot unhear. Sensor readings disagree completely with my standalone PM2.5 meter.,noise,whine leads; sensor complaint second
+CR-000471,1,"Constant Wi-Fi disconnects, the app shows it offline more often than online. Stopped responding entirely after four months and had to be replaced under warranty.",connectivity,wi-fi disconnects lead; reliability second
+CR-001098,2,"The device falls off the network after every router reboot and re-pairing is painful. The air quality sensor seems to read whatever it likes, it sat on red in an empty clean room.",connectivity,falls off network after router reboot leads
+CR-002512,3,Decent unit but the smart features are more of a novelty than a reason to buy. Setting up a night schedule in the app took under a minute. On anything above speed two it is far too loud to sit in the same room.,noise,novelty remark is not a friction; too loud is
+CR-000491,1,"The air quality sensor seems to read whatever it likes, it sat on red in an empty clean room. Will not hold a connection to my 2.4GHz network for more than a week at a time.",sensor_trust,sensor reads whatever it likes leads
+CR-002965,1,On anything above speed two it is far too loud to sit in the same room. App crashes on Android every time I open the air quality history.,noise,too loud leads; app crash second
+CR-000139,2,The filter life indicator reset itself and now demands a new filter every two months. Stopped responding entirely after four months and had to be replaced under warranty.,filter_cost,filter life indicator forcing early replacement
+CR-003372,1,"Replacement filters cost almost half the price of the unit, which is absurd. It drops off the Wi-Fi every couple of days and needs a full re-pair.",filter_cost,filter price leads; wi-fi second
+CR-001162,3,"Fine for a medium sized room, would not push it much bigger than that.",none,room capacity limit - outside taxonomy
+CR-003093,1,"Sensor readings disagree completely with my standalone PM2.5 meter. Turbo mode sounds like a hairdryer, we never use it.",sensor_trust,sensor disagreement leads; hairdryer second
+CR-001567,4,Our bedroom air feels noticeably lighter overnight and I wake up without a blocked nose.,none,praise only
+CR-000111,2,The filter life indicator reset itself and now demands a new filter every two months.,filter_cost,forced early filter replacement
+CR-000119,2,On anything above speed two it is far too loud to sit in the same room.,noise,single complaint
+CR-002411,5,"Whisper quiet at the lower settings, which is all we need overnight.",none,"praise - quiet is the compliment, not the friction"
+CR-003219,5,Setting up a night schedule in the app took under a minute. Build quality feels solid and the filter change is a thirty second job.,none,praise only
+CR-000314,2,"The app is slow, logs me out at random and lost all my schedules after an update.",app_software,"app slow, logout, lost schedules"
+CR-003230,2,Stopped responding entirely after four months and had to be replaced under warranty. Firmware update bricked the app connection and support had no answer.,reliability,unit stopped responding leads; firmware second
+CR-001027,4,The PM2.5 readout drops from red to blue within about twenty minutes in our living room. Worth the money for the coverage it gives in an open plan space. Setting up a night schedule in the app took under a minute.,none,praise only
+CR-001545,3,"Good hardware, average software.",app_software,'average software' is a mild software complaint
+CR-002986,2,On anything above speed two it is far too loud to sit in the same room.,noise,single complaint
+CR-000860,3,"Good hardware, average software.",app_software,'average software'
+CR-000011,3,Decent unit but the smart features are more of a novelty than a reason to buy.,app_software,smart features not worth it - value of the app layer
+CR-002324,3,Decent unit but the smart features are more of a novelty than a reason to buy. I like being able to check the air quality history for the past week from my phone. Filters are expensive and only available from one supplier.,app_software,novelty remark leads; filter cost mentioned third
+CR-001866,5,"The app paired on the first try and the scheduling actually works. Hay fever season was genuinely bearable this year for the first time. Compact footprint, does not dominate the room.",none,praise only
+CR-002337,1,"Filters are expensive and only available from one supplier. The air quality sensor seems to read whatever it likes, it sat on red in an empty clean room.",filter_cost,filter price and single supplier lead
+CR-003460,3,"Fine for a medium sized room, would not push it much bigger than that. Worth the money for the coverage it gives in an open plan space. The touch panel became unresponsive within weeks.",reliability,touch panel failure is the only complaint
+CR-002299,2,On anything above speed two it is far too loud to sit in the same room.,noise,single complaint
+CR-002372,3,"Works as described, though the manual is close to useless.",none,manual quality - outside taxonomy
+CR-003353,1,The touch panel became unresponsive within weeks. There is a high pitched whine from the motor that I cannot unhear.,reliability,touch panel failure leads; whine second
+CR-000168,5,"The sensor is responsive enough that I mostly just leave it on auto and forget it. At speed one you genuinely cannot hear it from the bed. Compact footprint, does not dominate the room.",none,praise only
+CR-000891,1,Sensor readings disagree completely with my standalone PM2.5 meter. There is a high pitched whine from the motor that I cannot unhear.,sensor_trust,sensor disagreement leads; whine second
+CR-001465,5,Our bedroom air feels noticeably lighter overnight and I wake up without a blocked nose.,none,praise only
+CR-001071,5,Build quality feels solid and the filter change is a thirty second job. Worth the money for the coverage it gives in an open plan space. I like being able to check the air quality history for the past week from my phone.,none,praise only
+CR-001391,5,"It looks like a piece of furniture rather than an appliance, which sold my partner on it.",none,praise only
+CR-002001,2,Stopped responding entirely after four months and had to be replaced under warranty. Sensor readings disagree completely with my standalone PM2.5 meter.,reliability,stopped responding leads; sensor second
+CR-000105,1,Stopped responding entirely after four months and had to be replaced under warranty.,reliability,single complaint
+CR-001118,1,"Replacement filters cost almost half the price of the unit, which is absurd. Sensor readings disagree completely with my standalone PM2.5 meter.",filter_cost,filter price leads; sensor second
+CR-000441,1,There is a high pitched whine from the motor that I cannot unhear.,noise,single complaint
+CR-000733,4,The app paired on the first try and the scheduling actually works. At speed one you genuinely cannot hear it from the bed. Auto mode ramps up when I open a window and settles back down on its own.,none,praise only
+CR-002837,2,"Filters are expensive and only available from one supplier. The app is slow, logs me out at random and lost all my schedules after an update.",filter_cost,filter price leads; app second
+CR-000488,4,"Worth the money for the coverage it gives in an open plan space. Build quality feels solid and the filter change is a thirty second job. Works as described, though the manual is close to useless.",none,praise; manual remark outside taxonomy
+CR-000438,4,"Cheaper to run than I expected, the energy draw on auto is minimal. Whisper quiet at the lower settings, which is all we need overnight.",none,praise only
+CR-000975,2,"The app is slow, logs me out at random and lost all my schedules after an update. On anything above speed two it is far too loud to sit in the same room.",app_software,app problems lead; noise second
+CR-001285,4,"I like being able to check the air quality history for the past week from my phone. Auto mode ramps up when I open a window and settles back down on its own. Whisper quiet at the lower settings, which is all we need overnight. Works as described, though the manual is close to useless.",none,praise; manual remark outside taxonomy
+CR-001017,1,"Constant Wi-Fi disconnects, the app shows it offline more often than online. The air quality sensor seems to read whatever it likes, it sat on red in an empty clean room.",connectivity,wi-fi disconnects lead; sensor second
+CR-000862,2,Sensor readings disagree completely with my standalone PM2.5 meter. It drops off the Wi-Fi every couple of days and needs a full re-pair.,sensor_trust,sensor disagreement leads; wi-fi second
+CR-000630,1,"The app is slow, logs me out at random and lost all my schedules after an update.",app_software,single complaint
+CR-001593,4,Build quality feels solid and the filter change is a thirty second job. Hay fever season was genuinely bearable this year for the first time. Worth the money for the coverage it gives in an open plan space.,none,praise only

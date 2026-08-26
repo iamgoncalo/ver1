@@ -1,0 +1,211 @@
+{
+  "_provenance": "SYNTHETIC FIXTURE - generated locally with a fixed seed. Figures, URLs and vendor attributions are illustrative placeholders and must not be cited, published or treated as licensed vendor data.",
+  "generated_by": "src/taxonomy.py",
+  "random_state": 42,
+  "n_reviews_classified": 3200,
+  "corpus_mean_rating_trusted": 3.932,
+  "method": "lift-ranked term induction (--induce) -> manual consolidation into 6 themes -> weighted keyword classifier -> hand-label validation",
+  "themes": {
+    "connectivity": {
+      "theme_name": "Connectivity & pairing loss",
+      "monetisable_surface": "hardware",
+      "keyword_count": 11,
+      "n_reviews": 213,
+      "friction_prevalence_pct": 6.66,
+      "n_reviews_topic_mentioned": 213,
+      "topic_prevalence_pct": 6.66,
+      "n_reviews_rating_trusted": 196,
+      "mean_rating": 1.556,
+      "csat_impact": -2.376,
+      "pct_of_theme_that_is_negative": 84.69,
+      "confidence": "medium",
+      "confidence_reason": "large corpus support but thin hand-labelled support"
+    },
+    "app_software": {
+      "theme_name": "App & firmware quality",
+      "monetisable_surface": "hardware",
+      "keyword_count": 11,
+      "n_reviews": 208,
+      "friction_prevalence_pct": 6.5,
+      "n_reviews_topic_mentioned": 598,
+      "topic_prevalence_pct": 18.69,
+      "n_reviews_rating_trusted": 194,
+      "mean_rating": 1.691,
+      "csat_impact": -2.241,
+      "pct_of_theme_that_is_negative": 80.41,
+      "confidence": "high",
+      "confidence_reason": "large corpus support and validated on >=5 hand-labelled reviews"
+    },
+    "noise": {
+      "theme_name": "Noise at night",
+      "monetisable_surface": "hardware",
+      "keyword_count": 12,
+      "n_reviews": 205,
+      "friction_prevalence_pct": 6.41,
+      "n_reviews_topic_mentioned": 1000,
+      "topic_prevalence_pct": 31.25,
+      "n_reviews_rating_trusted": 193,
+      "mean_rating": 1.637,
+      "csat_impact": -2.295,
+      "pct_of_theme_that_is_negative": 81.87,
+      "confidence": "high",
+      "confidence_reason": "large corpus support and validated on >=5 hand-labelled reviews"
+    },
+    "filter_cost": {
+      "theme_name": "Filter cost & availability",
+      "monetisable_surface": "consumable",
+      "keyword_count": 7,
+      "n_reviews": 137,
+      "friction_prevalence_pct": 4.28,
+      "n_reviews_topic_mentioned": 471,
+      "topic_prevalence_pct": 14.72,
+      "n_reviews_rating_trusted": 127,
+      "mean_rating": 1.677,
+      "csat_impact": -2.255,
+      "pct_of_theme_that_is_negative": 79.53,
+      "confidence": "low",
+      "confidence_reason": "fewer than 200 reviews carry the theme"
+    },
+    "sensor_trust": {
+      "theme_name": "Sensor accuracy & trust",
+      "monetisable_surface": "hardware",
+      "keyword_count": 8,
+      "n_reviews": 105,
+      "friction_prevalence_pct": 3.28,
+      "n_reviews_topic_mentioned": 751,
+      "topic_prevalence_pct": 23.47,
+      "n_reviews_rating_trusted": 98,
+      "mean_rating": 1.439,
+      "csat_impact": -2.493,
+      "pct_of_theme_that_is_negative": 92.86,
+      "confidence": "low",
+      "confidence_reason": "fewer than 200 reviews carry the theme"
+    },
+    "reliability": {
+      "theme_name": "Hardware reliability",
+      "monetisable_surface": "hardware",
+      "keyword_count": 7,
+      "n_reviews": 91,
+      "friction_prevalence_pct": 2.84,
+      "n_reviews_topic_mentioned": 188,
+      "topic_prevalence_pct": 5.88,
+      "n_reviews_rating_trusted": 85,
+      "mean_rating": 1.518,
+      "csat_impact": -2.414,
+      "pct_of_theme_that_is_negative": 89.41,
+      "confidence": "low",
+      "confidence_reason": "fewer than 200 reviews carry the theme"
+    }
+  },
+  "unassigned_pct": 78.12,
+  "validation": {
+    "n_labelled": 50,
+    "raw_agreement_pct": 82.0,
+    "cohens_kappa": 0.7674,
+    "target_pct": 85.0,
+    "meets_target": false,
+    "per_theme": {
+      "app_software": {
+        "support": 7,
+        "precision": 1.0,
+        "recall": 0.429
+      },
+      "connectivity": {
+        "support": 3,
+        "precision": 0.75,
+        "recall": 1.0
+      },
+      "filter_cost": {
+        "support": 6,
+        "precision": 0.8,
+        "recall": 0.667
+      },
+      "noise": {
+        "support": 7,
+        "precision": 0.875,
+        "recall": 1.0
+      },
+      "none": {
+        "support": 18,
+        "precision": 0.783,
+        "recall": 1.0
+      },
+      "reliability": {
+        "support": 5,
+        "precision": 0.75,
+        "recall": 0.6
+      },
+      "sensor_trust": {
+        "support": 4,
+        "precision": 1.0,
+        "recall": 0.75
+      }
+    },
+    "disagreements": [
+      {
+        "review_id": "CR-000491",
+        "rating": "1",
+        "hand": "sensor_trust",
+        "auto": "connectivity",
+        "text": "The air quality sensor seems to read whatever it likes, it sat on red in an empty clean room. Will not hold a "
+      },
+      {
+        "review_id": "CR-000139",
+        "rating": "2",
+        "hand": "filter_cost",
+        "auto": "reliability",
+        "text": "The filter life indicator reset itself and now demands a new filter every two months. Stopped responding entir"
+      },
+      {
+        "review_id": "CR-000111",
+        "rating": "2",
+        "hand": "filter_cost",
+        "auto": "none",
+        "text": "The filter life indicator reset itself and now demands a new filter every two months."
+      },
+      {
+        "review_id": "CR-001545",
+        "rating": "3",
+        "hand": "app_software",
+        "auto": "none",
+        "text": "Good hardware, average software."
+      },
+      {
+        "review_id": "CR-000860",
+        "rating": "3",
+        "hand": "app_software",
+        "auto": "none",
+        "text": "Good hardware, average software."
+      },
+      {
+        "review_id": "CR-000011",
+        "rating": "3",
+        "hand": "app_software",
+        "auto": "none",
+        "text": "Decent unit but the smart features are more of a novelty than a reason to buy."
+      },
+      {
+        "review_id": "CR-002324",
+        "rating": "3",
+        "hand": "app_software",
+        "auto": "filter_cost",
+        "text": "Decent unit but the smart features are more of a novelty than a reason to buy. I like being able to check the "
+      },
+      {
+        "review_id": "CR-003460",
+        "rating": "3",
+        "hand": "reliability",
+        "auto": "none",
+        "text": "Fine for a medium sized room, would not push it much bigger than that. Worth the money for the coverage it giv"
+      },
+      {
+        "review_id": "CR-003353",
+        "rating": "1",
+        "hand": "reliability",
+        "auto": "noise",
+        "text": "The touch panel became unresponsive within weeks. There is a high pitched whine from the motor that I cannot u"
+      }
+    ],
+    "labelling_protocol": "data/hand_labeled_sample.csv - one primary theme per review, assigned by reading the text against the codebook in deliverables/technical_note.md before any automated label was computed."
+  }
+}

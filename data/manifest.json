@@ -1,0 +1,249 @@
+{
+  "_provenance": "SYNTHETIC FIXTURE - generated locally with a fixed seed. Figures, URLs and vendor attributions are illustrative placeholders and must not be cited, published or treated as licensed vendor data.",
+  "_synthetic": true,
+  "schema_version": "1.0.0",
+  "manifest_of": "data/raw",
+  "category": "Connected Air Treatment",
+  "business_unit": "Versuni - Home Air",
+  "repository": "versuni-connected-air-treatment",
+  "built_at": "2026-08-26T13:01:31+00:00",
+  "built_by": "src/build_manifest.py",
+  "generator_seed": 42,
+  "reproducible": true,
+  "reproduce_with": [
+    "python3 src/generate_reviews.py",
+    "python3 src/generate_market_metrics.py",
+    "python3 src/generate_trend_corpus.py",
+    "python3 src/generate_aftermarket_signals.py",
+    "python3 src/build_manifest.py"
+  ],
+  "file_count": 4,
+  "total_bytes": 1059227,
+  "files": [
+    {
+      "filename": "consumer_reviews.csv",
+      "relative_path": "data/raw/consumer_reviews.csv",
+      "bytes": 1032651,
+      "sha256": "fd3673b21662386367dd6044f0e2bfcaa69539c3a1a3756f8e005b6b7f94a3bd",
+      "retrieved_at": "2026-08-26T09:00:00+02:00",
+      "generated_at": "2026-08-26T13:01:31+00:00",
+      "immutable": true,
+      "format": "csv",
+      "origin": {
+        "type": "consumer_review_scrape_simulation",
+        "described_as": "marketplace review sell-out feed",
+        "vendors_simulated": [
+          "amazon_de",
+          "amazon_fr",
+          "amazon_nl",
+          "amazon_uk",
+          "bol_nl",
+          "coolblue_nl",
+          "currys_uk",
+          "fnac_fr",
+          "mediamarkt_de",
+          "versuni_dtc"
+        ],
+        "collection_method": "synthetic generation (src/generate_reviews.py)",
+        "real_world_equivalent": "licensed marketplace review API / panel feed",
+        "pii": "none - reviewer_id values are synthetic surrogates"
+      },
+      "record_count": 3500,
+      "column_count": 16,
+      "columns": [
+        "review_id",
+        "product_sku",
+        "product_name",
+        "brand",
+        "marketplace",
+        "country",
+        "language",
+        "review_date",
+        "rating",
+        "review_title",
+        "review_text",
+        "verified_purchase",
+        "helpful_votes",
+        "reviewer_id",
+        "reviewer_review_count",
+        "source_ingested_at"
+      ],
+      "period_covered": [
+        "2024-09-01",
+        "2026-08-20"
+      ],
+      "encoding": "utf-8",
+      "known_defects": [
+        {
+          "defect_id": "a",
+          "type": "burst_duplicate_reviews",
+          "count": 300,
+          "window": [
+            "2026-03-14",
+            "2026-03-16"
+          ],
+          "affected_sku": "VS-AP-8000i",
+          "severity": "high",
+          "impact": "inflates rating and volume for one SKU in one 3-day window",
+          "detection": "duplicate review_text + near-sequential reviewer_id + daily volume z-score"
+        },
+        {
+          "defect_id": "b",
+          "type": "rating_text_sentiment_conflict",
+          "count": 50,
+          "severity": "medium",
+          "impact": "star rating is an unreliable label for text sentiment models",
+          "detection": "sentiment score vs star rating disagreement beyond threshold"
+        },
+        {
+          "defect_id": "c",
+          "type": "malformed_date_string",
+          "count": 120,
+          "severity": "medium",
+          "impact": "silent row loss or mis-bucketing in any time series",
+          "detection": "strict ISO-8601 parse with explicit failure bucket"
+        }
+      ],
+      "ground_truth_ref": "tests/fixtures/defect_ground_truth.json"
+    },
+    {
+      "filename": "market_metrics.json",
+      "relative_path": "data/raw/market_metrics.json",
+      "bytes": 7861,
+      "sha256": "61168b58fa4448f840643dd73bd3ca8c3ce7eb65dba7b0b2b64548627015efa1",
+      "retrieved_at": "2026-08-26T09:00:00+02:00",
+      "generated_at": "2026-08-26T13:01:31+00:00",
+      "immutable": true,
+      "format": "json",
+      "origin": {
+        "type": "syndicated_market_research_extract",
+        "vendors_simulated": [
+          "Euromonitor International",
+          "Statista Market Insights"
+        ],
+        "collection_method": "synthetic generation (src/generate_market_metrics.py)",
+        "real_world_equivalent": "Euromonitor Passport / Statista Market Insights export",
+        "licence_note": "Figures are illustrative placeholders, NOT licensed vendor data."
+      },
+      "record_count": 2,
+      "supporting_metric_count": 5,
+      "known_defects": [
+        {
+          "defect_id": "m1",
+          "type": "unreconciled_source_conflict",
+          "count": 1,
+          "severity": "high",
+          "impact": "5.4pp CAGR spread between two sources labelled as the same category",
+          "detection": "compare sources[*].metric.value under differing scope blocks",
+          "resolution_ref": "reconciliation.recommended_planning_basis",
+          "question_ref": "Q5"
+        }
+      ]
+    },
+    {
+      "filename": "trend_corpus.json",
+      "relative_path": "data/raw/trend_corpus.json",
+      "bytes": 16758,
+      "sha256": "75c5778816f755344294f0c31e7a78ae81ad0b5a864d94201a4cbb88db7302ea",
+      "retrieved_at": "2026-08-26T09:00:00+02:00",
+      "generated_at": "2026-08-26T13:01:31+00:00",
+      "immutable": true,
+      "format": "json",
+      "origin": {
+        "type": "desk_research_corpus_metadata",
+        "publishers_simulated": [
+          "ACM Transactions on the Web",
+          "APPLiA Europe",
+          "CTA (Consumer Technology Association)",
+          "Connectivity Standards Alliance",
+          "European Commission",
+          "Financial Times",
+          "IEEE Spectrum",
+          "Nature Communications",
+          "Parks Associates",
+          "Reuters",
+          "Stiftung Warentest",
+          "The Wall Street Journal",
+          "Which?",
+          "World Health Organization"
+        ],
+        "collection_method": "synthetic generation (src/generate_trend_corpus.py)",
+        "real_world_equivalent": "manual desk research / news API harvest",
+        "copyright_note": "Metadata only - no article body text is stored or redistributed. Resolve and re-verify each URL against the licensed source before citing."
+      },
+      "record_count": 15,
+      "date_range": [
+        "2025-07-21",
+        "2026-06-17"
+      ],
+      "known_defects": [
+        {
+          "defect_id": "t1",
+          "type": "unverified_urls",
+          "count": 15,
+          "severity": "high",
+          "impact": "URLs are placeholders and resolve to nothing; citing them would fabricate a source",
+          "detection": "url_verified == false",
+          "resolution": "resolve each URL against the live publisher and re-stamp the record"
+        }
+      ]
+    },
+    {
+      "filename": "aftermarket_signals.csv",
+      "relative_path": "data/raw/aftermarket_signals.csv",
+      "bytes": 1957,
+      "sha256": "369f3faa3197239b0cb123f29a594323898dce126b481c3f6523eddde408e694",
+      "retrieved_at": "2026-08-26T09:00:00+02:00",
+      "generated_at": "2026-08-26T13:01:31+00:00",
+      "immutable": true,
+      "format": "csv",
+      "origin": {
+        "type": "consumable_sell_through_and_panel_simulation",
+        "described_as": "per-SKU filter repurchase and third-party attach behaviour",
+        "collection_method": "synthetic generation (src/generate_aftermarket_signals.py)",
+        "real_world_equivalent": "OEM consumable sell-through + retail panel share data",
+        "pii": "none - aggregate SKU level only"
+      },
+      "record_count": 9,
+      "column_count": 15,
+      "columns": [
+        "product_sku",
+        "product_name",
+        "brand",
+        "connected",
+        "installed_base_units_eu",
+        "msrp_eur",
+        "oem_filter_price_eur",
+        "third_party_filter_price_eur",
+        "filters_per_year",
+        "oem_filter_repurchase_rate",
+        "third_party_filter_attach_rate",
+        "filter_subscription_attach_rate",
+        "observation_window",
+        "source",
+        "confidence"
+      ],
+      "period_covered": [
+        "2025-09-01",
+        "2026-08-20"
+      ],
+      "encoding": "utf-8",
+      "known_defects": [
+        {
+          "defect_id": "w1",
+          "type": "small_n_and_low_confidence",
+          "count": 9,
+          "severity": "medium",
+          "impact": "9 SKUs cannot support a regression; Q4 is directional only",
+          "detection": "record_count == 9; confidence field == 'low' on every row",
+          "resolution": "replace with licensed consumable sell-through, or a conjoint / Gabor-Granger study measuring WTP directly"
+        }
+      ]
+    }
+  ],
+  "downstream_contract": {
+    "raw_is_read_only": true,
+    "rule": "Nothing in data/raw is ever edited in place. Cleaning writes to data/processed and records which defect ids it addressed.",
+    "checksum_gate": "Re-run src/build_manifest.py and diff the sha256 values to prove the raw layer is unchanged."
+  }
+}
