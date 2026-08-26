@@ -5,8 +5,9 @@ import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, type ViewMode
 import { FocusPanel } from "../components/FocusPanel";
 import { traceEvidenceIds, type TraceNode } from "../lib/trace";
 
+const DEFAULT_PRIORITY = "pain_feasibility_majority";
 const PRIORITIES = [
-  { key: "pain_feasibility_majority", label: "Pain + Feasibility majority (default)" },
+  { key: DEFAULT_PRIORITY, label: "Pain + Feasibility majority (default)" },
   { key: "economic_value_override", label: "Economic Value override" },
 ];
 
@@ -37,7 +38,7 @@ function TraceTree({ nodes, depth = 0 }: { nodes: TraceNode[]; depth?: number })
 
 export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) => void }) {
   const [data, setData] = useState<InnovationsResponse | null>(null);
-  const [priority, setPriority] = useState("pain_feasibility_majority");
+  const [priority, setPriority] = useState(DEFAULT_PRIORITY);
   const [baseline, setBaseline] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<ViewMode>("distilled");
@@ -48,14 +49,25 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
   useEffect(() => { api.signals().then((r) => setSignals(r.signals)).catch(() => {}); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
 
+  // Baseline is fetched ONCE, independently of whatever priority the user is
+  // currently toggling to - if it were set from "whichever priority request
+  // resolves first", a fast toggle before the default request lands would
+  // set baseline from the OVERRIDE result instead, making baseline===winnerId
+  // and permanently hiding the WINNER CHANGED banner.
   useEffect(() => {
+    api.innovationsScenario("mordor", DEFAULT_PRIORITY).then((d) => setBaseline(d.verdict.recommended)).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    let stale = false;
     setLoading(true);
     api.innovationsScenario("mordor", priority).then((d) => {
+      if (stale) return; // a newer request for a different priority already landed - ignore this out-of-order response
       setData(d);
       onData(d);
-      if (baseline === null) setBaseline(d.verdict.recommended);
       setLoading(false);
-    }).catch(() => setLoading(false));
+    }).catch(() => { if (!stale) setLoading(false); });
+    return () => { stale = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [priority]);
 

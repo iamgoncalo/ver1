@@ -9,3 +9,7 @@ data/runtime/*.json
 # Frontend build artifacts - reproducible via `cd web && npm install && npm run build`
 web/node_modules/
 web/dist/
+
+# Playwright test artifacts
+web/test-results/
+web/playwright-report/

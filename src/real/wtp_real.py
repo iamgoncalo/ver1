@@ -56,10 +56,20 @@ def load_prices():
 def compute_price_exposure(rows, prices):
     """Pure function: per-theme price-weighted exposure for an arbitrary row
     set. The ONE implementation used by main() below AND
-    dashboard/app.py's Scenario Lab."""
+    dashboard/app.py's Scenario Lab.
+
+    Classifies each row exactly once (previously classify() ran once PER
+    THEME PER ROW inside the loop below - 6x redundant work that made the
+    live scenario endpoint take 6+ real seconds per request; same output,
+    same classify() logic, just not recomputed six times over)."""
+    classified = [(r, classify(r["review_text"])) for r in rows]
+    by_theme = {}
+    for r, tid in classified:
+        by_theme.setdefault(tid, []).append(r)
+
     per_theme = {}
     for tid, (name, _kws) in THEMES.items():
-        affected = [r for r in rows if classify(r["review_text"]) == tid]
+        affected = by_theme.get(tid, [])
         affected_priced = [r for r in affected if r["product_sku"] in prices]
         value_language_hits = sum(1 for r in affected
                                   if VALUE_LANGUAGE_RE.search(r["review_text"] or ""))
