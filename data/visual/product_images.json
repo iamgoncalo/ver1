@@ -1,6 +1,6 @@
 {
-  "_provenance": "Official Versuni/Philips product images - each entry individually verified this session against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (3 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. See NEXT_ACTION.md for the remaining verification work.",
-  "generated_by": "manual verification session 2026-08-26",
+  "_provenance": "Official Versuni/Philips product images - each entry individually verified against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (7 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. See NEXT_ACTION.md for the remaining verification work.",
+  "generated_by": "manual verification session 2026-08-26 and 2026-08-27",
   "products": [
     {
       "product_id": "AC3220_10",
@@ -73,10 +73,108 @@
         "app": true,
         "confidence": "HIGH - read directly off the official product page this session"
       }
+    },
+    {
+      "product_id": "AC0850_41",
+      "family": "800i Series Compact Air Purifier",
+      "sku": "AC0850/41",
+      "region": "US (usa.philips.com)",
+      "official_name": "800i Series Compact Air Purifier",
+      "official_url": "https://www.usa.philips.com/c-p/AC0850_41/800i-series-compact-air-purifier",
+      "image_url": "https://images.philips.com/is/image/philipsconsumer/vrs_6333c0bd_3b99_4c73_9a67e486e4bacc0e",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-27",
+      "local_asset": "web/public/products/AC0850_41.png",
+      "sha256": "206f405ad330b0459fcf8d0cbc1094c5c07a25bd12a58f2112e8321138086ef7",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": null,
+        "cadr_cfm": 93,
+        "room_coverage_m2": null,
+        "room_coverage_ft2": 144,
+        "noise_min_dba": null,
+        "filter_architecture": "3-layer: pre-filter, HEPA NanoProtect, Active Carbon",
+        "connectivity": "Philips Air+ app, remote control",
+        "app": true,
+        "confidence": "HIGH - read directly off the official US product page this session",
+        "note": "This US-region page reports CADR/coverage in imperial units (93 CFM / 144 sq ft) rather than metric - recorded as-is, not converted or reconciled with other regional pages that may show different figures for a differently-suffixed SKU (e.g. AC0850/70)."
+      }
+    },
+    {
+      "product_id": "AC1715_10",
+      "family": "1000i Series Air Purifier",
+      "sku": "AC1715/10",
+      "region": "Global (philips.com)",
+      "official_name": "Air Purifier 1000i Series",
+      "official_url": "https://www.philips.com/c-p/AC1715_10/air-purifier-1000i-series",
+      "image_url": "https://images.philips.com/is/image/philipsconsumer/d63f120585ff4ac3b3f5adb200af4898",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-27",
+      "local_asset": "web/public/products/AC1715_10.png",
+      "sha256": "e2db5a6a405b9773aee60e879980062388d23d8077065f627207bd0e50004bf6",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 300,
+        "room_coverage_m2": 78,
+        "noise_min_dba": 15,
+        "noise_max_dba": 50,
+        "max_power_w": 27,
+        "filter_architecture": "3-layer: pre-filter, HEPA NanoProtect, Active Carbon",
+        "connectivity": "Clean Home+ app, Wi-Fi, Alexa/Google Home voice control",
+        "app": true,
+        "confidence": "HIGH - read directly off the official product page this session"
+      }
+    },
+    {
+      "product_id": "AC2220_10",
+      "family": "PureProtect Quiet 2200 Series",
+      "sku": "AC2220/10",
+      "region": "UK (home-appliances.philips/gb)",
+      "official_name": "PureProtect Quiet 2200 Series Smart Air Purifier",
+      "official_url": "https://www.home-appliances.philips/gb/en/p/AC2220_10",
+      "image_url": "https://dam.versuni.com/transform/webp1024x1024/af8ba124-649f-460d-93bd-16e1c4e59333/CC_2025_AC2220_10_Product-with-phone_1x1-tif.webp",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-27",
+      "local_asset": "web/public/products/AC2220_10.webp",
+      "sha256": "7adba8b779ae5785990cabbc672f406aaca15e35c497c71ce1e48bec85ef48e4",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 420,
+        "room_coverage_m2": 109,
+        "noise_min_dba": 13,
+        "noise_max_dba": 45,
+        "max_power_w": 28,
+        "filter_architecture": "3-layer: pre-filter, HEPA NanoProtect, Active Carbon (3-year life)",
+        "connectivity": "Philips Air+ app, Wi-Fi, Google Home/Alexa, Auto+ AI mode",
+        "app": true,
+        "confidence": "HIGH - read directly off the official product page this session"
+      }
+    },
+    {
+      "product_id": "AMF765_70",
+      "family": "Air Performer 7000 Series",
+      "sku": "AMF765/70",
+      "region": "AU (philips.com.au)",
+      "official_name": "Air Performer 7000 series 2-in-1 Air Purifier and Fan",
+      "official_url": "https://www.philips.com.au/c-p/AMF765_70/air-performer-7000-series-2-in-1-air-purifier-and-fan",
+      "image_url": "https://images.philips.com/is/image/philipsconsumer/vrs_69cd245d_9555_429c_86ba1083ab18ff4d",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-27",
+      "local_asset": "web/public/products/AMF765_70.png",
+      "sha256": "f8d0e3e5400a9dfa21eabaed66e0439b53b49cf5fad0647b9fadc3d861417432",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 270,
+        "room_coverage_m2": 70,
+        "noise_min_dba": null,
+        "filter_architecture": "NanoProtect HEPA + active carbon + pre-filter (2-in-1 purifier/fan)",
+        "connectivity": "Philips Air+ app, AI auto-sensing, oscillation control",
+        "app": true,
+        "confidence": "HIGH - read directly off the official product page this session"
+      }
     }
   ],
   "candidates_not_yet_verified": [
-    "600/600i", "800/800i", "1000i", "PureProtect Quiet 2200", "3000/3000i",
-    "PureProtect Water 3400", "2000 Series 3-in-1", "Air Performer 7000", "Air Performer 8000"
+    "600/600i", "3000/3000i", "PureProtect Water 3400", "2000 Series 3-in-1", "Air Performer 8000"
   ]
 }
