@@ -1,249 +1,127 @@
 {
-  "_provenance": "SYNTHETIC FIXTURE - generated locally with a fixed seed. Figures, URLs and vendor attributions are illustrative placeholders and must not be cited, published or treated as licensed vendor data.",
-  "_synthetic": true,
-  "schema_version": "1.0.0",
+  "_provenance": "REAL raw data layer - every file below traces to a live, named, dated source fetched during this repair. Supersedes an earlier fully synthetic manifest; see AUDIT_CURRENT_PROJECT.md.",
+  "_synthetic": false,
+  "schema_version": "2.0.0-real",
   "manifest_of": "data/raw",
   "category": "Connected Air Treatment",
   "business_unit": "Versuni - Home Air",
   "repository": "versuni-connected-air-treatment",
-  "built_at": "2026-08-26T13:01:31+00:00",
-  "built_by": "src/build_manifest.py",
-  "generator_seed": 42,
+  "built_at": "2026-08-26T18:42:17+00:00",
+  "built_by": "src/real/build_manifest_real.py",
   "reproducible": true,
   "reproduce_with": [
-    "python3 src/generate_reviews.py",
-    "python3 src/generate_market_metrics.py",
-    "python3 src/generate_trend_corpus.py",
-    "python3 src/generate_aftermarket_signals.py",
-    "python3 src/build_manifest.py"
+    "python3 src/real/filter_purifier_products.py (streams McAuley-Lab Amazon-Reviews-2023 category metadata; see script for source URLs)",
+    "python3 src/real/reclassify_purifiers.py",
+    "python3 src/real/filter_reviews_by_asin.py (streams the matching review file)",
+    "python3 src/real/build_reviews_csv.py",
+    "python3 src/real/build_market_metrics.py",
+    "python3 src/real/build_trend_corpus.py",
+    "python3 src/real/build_manifest_real.py"
   ],
-  "file_count": 4,
-  "total_bytes": 1059227,
+  "reproducibility_caveat": "The two upstream McAuley-Lab source files (Appliances.jsonl, Home_and_Kitchen.jsonl) are hosted on HuggingFace and are NOT bundled with this repository - they are streamed and filtered live, per §3.5 of the brief ('where a source cannot be redistributed, ship the fetching script and the manifest entry instead'). The FILTERED, purifier-only output (data/real_raw/reviews_appliances.jsonl, reviews_hk.jsonl - a few thousand rows, not the full multi-GB source) IS bundled and is what data/raw/consumer_reviews.csv is actually built from, so re-running build_reviews_csv.py alone reproduces it without any network access. Re-running the two filter_*.py steps requires network access to huggingface.co and will take significant time (~886MB + ~31GB streamed).",
+  "file_count": 3,
+  "total_bytes": 6637999,
   "files": [
     {
       "filename": "consumer_reviews.csv",
       "relative_path": "data/raw/consumer_reviews.csv",
-      "bytes": 1032651,
-      "sha256": "fd3673b21662386367dd6044f0e2bfcaa69539c3a1a3756f8e005b6b7f94a3bd",
-      "retrieved_at": "2026-08-26T09:00:00+02:00",
-      "generated_at": "2026-08-26T13:01:31+00:00",
+      "bytes": 6610287,
+      "sha256": "89296d913d84036a66bf9a91b3ff9eae8a1c503db79e0bd1a1f301663ecd7395",
+      "retrieved_at": "2026-08-26",
+      "generated_at": "2026-08-26T18:42:17+00:00",
       "immutable": true,
       "format": "csv",
       "origin": {
-        "type": "consumer_review_scrape_simulation",
-        "described_as": "marketplace review sell-out feed",
-        "vendors_simulated": [
-          "amazon_de",
-          "amazon_fr",
-          "amazon_nl",
-          "amazon_uk",
-          "bol_nl",
-          "coolblue_nl",
-          "currys_uk",
-          "fnac_fr",
-          "mediamarkt_de",
-          "versuni_dtc"
-        ],
-        "collection_method": "synthetic generation (src/generate_reviews.py)",
-        "real_world_equivalent": "licensed marketplace review API / panel feed",
-        "pii": "none - reviewer_id values are synthetic surrogates"
+        "type": "real_consumer_review_export",
+        "described_as": "McAuley-Lab Amazon-Reviews-2023 (Appliances + Home_and_Kitchen categories), filtered to real air purifier products only",
+        "dataset_url": "https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023",
+        "dataset_licence": "Public HuggingFace dataset, research/academic use; see dataset card for full terms",
+        "collection_method": "streamed + filtered against a 237-product, manually-validated purifier allowlist (src/real/reclassify_purifiers.py)",
+        "product_inclusion_exclusion_logic": "data/real_raw/purifier_products_frozen.jsonl + src/real/reclassify_purifiers.py",
+        "pii": "reviewer_id is Amazon's own pseudonymous user_id, already de-identified in the published dataset - no PII collected by this project"
       },
-      "record_count": 3500,
-      "column_count": 16,
+      "record_count": 10547,
+      "distinct_real_products": 237,
+      "column_count": 14,
       "columns": [
         "review_id",
         "product_sku",
         "product_name",
         "brand",
         "marketplace",
-        "country",
-        "language",
         "review_date",
+        "review_date_raw_epoch_ms",
         "rating",
         "review_title",
         "review_text",
         "verified_purchase",
         "helpful_votes",
         "reviewer_id",
-        "reviewer_review_count",
         "source_ingested_at"
       ],
-      "period_covered": [
-        "2024-09-01",
-        "2026-08-20"
-      ],
       "encoding": "utf-8",
-      "known_defects": [
-        {
-          "defect_id": "a",
-          "type": "burst_duplicate_reviews",
-          "count": 300,
-          "window": [
-            "2026-03-14",
-            "2026-03-16"
-          ],
-          "affected_sku": "VS-AP-8000i",
-          "severity": "high",
-          "impact": "inflates rating and volume for one SKU in one 3-day window",
-          "detection": "duplicate review_text + near-sequential reviewer_id + daily volume z-score"
-        },
-        {
-          "defect_id": "b",
-          "type": "rating_text_sentiment_conflict",
-          "count": 50,
-          "severity": "medium",
-          "impact": "star rating is an unreliable label for text sentiment models",
-          "detection": "sentiment score vs star rating disagreement beyond threshold"
-        },
-        {
-          "defect_id": "c",
-          "type": "malformed_date_string",
-          "count": 120,
-          "severity": "medium",
-          "impact": "silent row loss or mis-bucketing in any time series",
-          "detection": "strict ISO-8601 parse with explicit failure bucket"
-        }
-      ],
-      "ground_truth_ref": "tests/fixtures/defect_ground_truth.json"
+      "who_is_missing": "Amazon-only (no other retailer); English-language reviews only; corpus spans 2004-2023 so skews toward older purifier generations and under-represents 2024-2026 connected/smart models; review text over-represents the delighted and the furious, as the brief itself warns - this is a real limitation of review data generally, not specific to this extraction.",
+      "known_defects_ref": "data/processed/defect_detection_report_real.json"
     },
     {
       "filename": "market_metrics.json",
       "relative_path": "data/raw/market_metrics.json",
-      "bytes": 7861,
-      "sha256": "61168b58fa4448f840643dd73bd3ca8c3ce7eb65dba7b0b2b64548627015efa1",
-      "retrieved_at": "2026-08-26T09:00:00+02:00",
-      "generated_at": "2026-08-26T13:01:31+00:00",
+      "bytes": 8740,
+      "sha256": "b9d63ea3efe271154410512226b41a0dd1bef00fbb138b04fb19ca179783071e",
+      "retrieved_at": "2026-08-26",
+      "generated_at": "2026-08-26T18:42:17+00:00",
       "immutable": true,
       "format": "json",
       "origin": {
-        "type": "syndicated_market_research_extract",
-        "vendors_simulated": [
-          "Euromonitor International",
-          "Statista Market Insights"
+        "type": "syndicated_market_research_summary_pages",
+        "vendors": [
+          "Mordor Intelligence",
+          "IMARC Group"
         ],
-        "collection_method": "synthetic generation (src/generate_market_metrics.py)",
-        "real_world_equivalent": "Euromonitor Passport / Statista Market Insights export",
-        "licence_note": "Figures are illustrative placeholders, NOT licensed vendor data."
+        "collection_method": "individually fetched and archived (data/real_raw/market_sources/)",
+        "licence_note": "Free public summary pages only - full paid reports were not purchased or accessed."
       },
       "record_count": 2,
-      "supporting_metric_count": 5,
-      "known_defects": [
-        {
-          "defect_id": "m1",
-          "type": "unreconciled_source_conflict",
-          "count": 1,
-          "severity": "high",
-          "impact": "5.4pp CAGR spread between two sources labelled as the same category",
-          "detection": "compare sources[*].metric.value under differing scope blocks",
-          "resolution_ref": "reconciliation.recommended_planning_basis",
-          "question_ref": "Q5"
-        }
-      ]
+      "known_defects_ref": "Q5 conflict documented in the file's own conflict_summary/reconciliation blocks"
     },
     {
       "filename": "trend_corpus.json",
       "relative_path": "data/raw/trend_corpus.json",
-      "bytes": 16758,
-      "sha256": "75c5778816f755344294f0c31e7a78ae81ad0b5a864d94201a4cbb88db7302ea",
-      "retrieved_at": "2026-08-26T09:00:00+02:00",
-      "generated_at": "2026-08-26T13:01:31+00:00",
+      "bytes": 18972,
+      "sha256": "a7390e9baa81b6e6cbaf14e7a01b54d7770f32b4a7b4a012a699dc3511b722ab",
+      "retrieved_at": "2026-08-26",
+      "generated_at": "2026-08-26T18:42:17+00:00",
       "immutable": true,
       "format": "json",
       "origin": {
-        "type": "desk_research_corpus_metadata",
-        "publishers_simulated": [
-          "ACM Transactions on the Web",
-          "APPLiA Europe",
-          "CTA (Consumer Technology Association)",
-          "Connectivity Standards Alliance",
-          "European Commission",
-          "Financial Times",
-          "IEEE Spectrum",
-          "Nature Communications",
-          "Parks Associates",
-          "Reuters",
-          "Stiftung Warentest",
-          "The Wall Street Journal",
-          "Which?",
-          "World Health Organization"
+        "type": "desk_research_corpus",
+        "publishers": [
+          "Association of Home Appliance Manufacturers (AHAM)",
+          "California Air Resources Board (CARB)",
+          "Connectivity Standards Alliance (CSA-IOT)",
+          "Dyson Newsroom",
+          "Environmental & Resource Economics, Vol. 87(11) - Han, Li, Wang (2024)",
+          "European Commission (Directorate-General for Environment)",
+          "Global Challenges (Wiley) - Liu, He, Si, Li, Wu, Ni, Zhao, Hu, Du, Lu, Jin, Xu (2024)",
+          "TechSee",
+          "U.S. EPA / ENERGY STAR",
+          "U.S. Environmental Protection Agency (EPA)",
+          "Versuni Newsroom",
+          "World Health Organization (WHO)"
         ],
-        "collection_method": "synthetic generation (src/generate_trend_corpus.py)",
-        "real_world_equivalent": "manual desk research / news API harvest",
-        "copyright_note": "Metadata only - no article body text is stored or redistributed. Resolve and re-verify each URL against the licensed source before citing."
+        "collection_method": "individually fetched and archived (data/real_raw/trend_sources/)",
+        "copyright_note": "Metadata + archived HTML/PDF copies where the source's terms permit low-volume automated retrieval (all sources here are public regulatory, standards-body, or newsroom pages; no login or paywall was circumvented). One source (TC-R10) is a peer-reviewed journal article behind a publisher paywall - only its public abstract page was archived, consistent with 'do not circumvent paywalls.'"
       },
-      "record_count": 15,
+      "record_count": 12,
       "date_range": [
-        "2025-07-21",
-        "2026-06-17"
-      ],
-      "known_defects": [
-        {
-          "defect_id": "t1",
-          "type": "unverified_urls",
-          "count": 15,
-          "severity": "high",
-          "impact": "URLs are placeholders and resolve to nothing; citing them would fabricate a source",
-          "detection": "url_verified == false",
-          "resolution": "resolve each URL against the live publisher and re-stamp the record"
-        }
-      ]
-    },
-    {
-      "filename": "aftermarket_signals.csv",
-      "relative_path": "data/raw/aftermarket_signals.csv",
-      "bytes": 1957,
-      "sha256": "369f3faa3197239b0cb123f29a594323898dce126b481c3f6523eddde408e694",
-      "retrieved_at": "2026-08-26T09:00:00+02:00",
-      "generated_at": "2026-08-26T13:01:31+00:00",
-      "immutable": true,
-      "format": "csv",
-      "origin": {
-        "type": "consumable_sell_through_and_panel_simulation",
-        "described_as": "per-SKU filter repurchase and third-party attach behaviour",
-        "collection_method": "synthetic generation (src/generate_aftermarket_signals.py)",
-        "real_world_equivalent": "OEM consumable sell-through + retail panel share data",
-        "pii": "none - aggregate SKU level only"
-      },
-      "record_count": 9,
-      "column_count": 15,
-      "columns": [
-        "product_sku",
-        "product_name",
-        "brand",
-        "connected",
-        "installed_base_units_eu",
-        "msrp_eur",
-        "oem_filter_price_eur",
-        "third_party_filter_price_eur",
-        "filters_per_year",
-        "oem_filter_repurchase_rate",
-        "third_party_filter_attach_rate",
-        "filter_subscription_attach_rate",
-        "observation_window",
-        "source",
-        "confidence"
-      ],
-      "period_covered": [
-        "2025-09-01",
-        "2026-08-20"
-      ],
-      "encoding": "utf-8",
-      "known_defects": [
-        {
-          "defect_id": "w1",
-          "type": "small_n_and_low_confidence",
-          "count": 9,
-          "severity": "medium",
-          "impact": "9 SKUs cannot support a regression; Q4 is directional only",
-          "detection": "record_count == 9; confidence field == 'low' on every row",
-          "resolution": "replace with licensed consumable sell-through, or a conjoint / Gabor-Granger study measuring WTP directly"
-        }
+        "2010-01-01",
+        "2026-08-03"
       ]
     }
   ],
   "downstream_contract": {
     "raw_is_read_only": true,
-    "rule": "Nothing in data/raw is ever edited in place. Cleaning writes to data/processed and records which defect ids it addressed.",
-    "checksum_gate": "Re-run src/build_manifest.py and diff the sha256 values to prove the raw layer is unchanged."
+    "rule": "data/raw is never edited in place. Cleaning writes to data/processed.",
+    "checksum_gate": "Re-run src/real/build_manifest_real.py and diff sha256 values."
   }
 }

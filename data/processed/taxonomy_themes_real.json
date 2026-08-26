@@ -1,0 +1,60 @@
+{
+  "_provenance": "Themes induced from REAL review text; treated as hypotheses, not carried over uncritically from the synthetic-fixture phase.",
+  "generated_by": "src/real/taxonomy_real.py",
+  "n_reviews_classified": 10529,
+  "corpus_mean_rating_trusted": 4.172,
+  "themes": {
+    "reliability": {
+      "theme_name": "Reliability / stopped working",
+      "keyword_count": 11,
+      "n_reviews": 166,
+      "prevalence_pct": 1.58,
+      "mean_rating": 1.95,
+      "csat_impact": -2.223
+    },
+    "value_effectiveness": {
+      "theme_name": "Perceived value / does it actually clean the air",
+      "keyword_count": 12,
+      "n_reviews": 81,
+      "prevalence_pct": 0.77,
+      "mean_rating": 1.449,
+      "csat_impact": -2.724
+    },
+    "customer_service": {
+      "theme_name": "Customer service / returns / warranty",
+      "keyword_count": 9,
+      "n_reviews": 36,
+      "prevalence_pct": 0.34,
+      "mean_rating": 1.743,
+      "csat_impact": -2.429
+    },
+    "filter_cost": {
+      "theme_name": "Filter cost / replacement (weak real signal)",
+      "keyword_count": 4,
+      "n_reviews": 27,
+      "prevalence_pct": 0.26,
+      "mean_rating": 2.92,
+      "csat_impact": -1.252
+    },
+    "noise": {
+      "theme_name": "Noise / motor sound (weak real signal)",
+      "keyword_count": 7,
+      "n_reviews": 369,
+      "prevalence_pct": 3.5,
+      "mean_rating": 3.602,
+      "csat_impact": -0.571
+    },
+    "ozone_odor_safety": {
+      "theme_name": "Ozone / smell / irritation (weak real signal)",
+      "keyword_count": 6,
+      "n_reviews": 85,
+      "prevalence_pct": 0.81,
+      "mean_rating": 3.07,
+      "csat_impact": -1.102
+    }
+  },
+  "unassigned_pct": 92.74,
+  "validation": {
+    "status": "HUMAN_ACTION_REQUIRED - data/hand_label_sample.csv not found or not yet completed by a human labeller"
+  }
+}

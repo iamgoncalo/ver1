@@ -1,0 +1,75 @@
+{
+  "_provenance": "REAL observed prices (McAuley-Lab Amazon-Reviews-2023 product metadata) and REAL review text. No fabricated behavioural WTP proxy.",
+  "generated_by": "src/real/wtp_real.py",
+  "direct_wtp_available": false,
+  "direct_wtp_statement": "The assembled evidence does not directly measure willingness to pay. No conjoint, Gabor-Granger, or stated-preference instrument was collected, and no real consumable-switching/attach-rate behavioural data is obtainable from a public product review export.",
+  "what_would_replace_the_proxy": [
+    "A Gabor-Granger or conjoint study asking real owners to trade dollars against each of the six real friction themes directly.",
+    "OEM/retailer consumable sell-through data (not obtainable from a public review dataset) to measure real filter-repurchase and third-party-attach behaviour.",
+    "A/B priced pilot on a reliability-extended-warranty offer, observing real take-up rates."
+  ],
+  "real_price_coverage": {
+    "n_products_with_real_observed_price": 75,
+    "n_products_total": 237,
+    "min_usd": 3.81,
+    "median_usd": 79.99,
+    "max_usd": 1100.0
+  },
+  "n_reviews_with_known_real_price": 7440,
+  "per_theme": {
+    "reliability": {
+      "theme_name": "Reliability / stopped working",
+      "n_reviews_affected": 166,
+      "n_affected_with_known_real_price": 104,
+      "price_weighted_exposure_usd": 26357.86,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "value_language_prevalence_pct": 19.3,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "value_effectiveness": {
+      "theme_name": "Perceived value / does it actually clean the air",
+      "n_reviews_affected": 81,
+      "n_affected_with_known_real_price": 49,
+      "price_weighted_exposure_usd": 10648.05,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "value_language_prevalence_pct": 72.8,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "customer_service": {
+      "theme_name": "Customer service / returns / warranty",
+      "n_reviews_affected": 36,
+      "n_affected_with_known_real_price": 27,
+      "price_weighted_exposure_usd": 8124.56,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "value_language_prevalence_pct": 41.7,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "filter_cost": {
+      "theme_name": "Filter cost / replacement (weak real signal)",
+      "n_reviews_affected": 27,
+      "n_affected_with_known_real_price": 20,
+      "price_weighted_exposure_usd": 7390.66,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "value_language_prevalence_pct": 81.5,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "noise": {
+      "theme_name": "Noise / motor sound (weak real signal)",
+      "n_reviews_affected": 369,
+      "n_affected_with_known_real_price": 264,
+      "price_weighted_exposure_usd": 84015.62,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "value_language_prevalence_pct": 32.8,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "ozone_odor_safety": {
+      "theme_name": "Ozone / smell / irritation (weak real signal)",
+      "n_reviews_affected": 85,
+      "n_affected_with_known_real_price": 63,
+      "price_weighted_exposure_usd": 16112.87,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "value_language_prevalence_pct": 30.6,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    }
+  }
+}

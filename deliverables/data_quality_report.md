@@ -1,71 +1,66 @@
-# Data Quality Report — Q2
-One page. Written form of the Q2 answer; each defect maps to code in
-`src/detect_defects.py`, run standalone with `python3 src/detect_defects.py`.
-Full JSON: `data/processed/defect_detection_report.json`.
+# Data Quality Report — Q2 (Real Data)
+One page. Written form of the Q2 answer on the **real** 10,547-review
+corpus. Full JSON: `data/processed/defect_detection_report_real.json`. Run
+standalone: `python3 src/real/detect_defects_real.py`.
 
-## Defect (a): 300-review promotional burst, one SKU, 3 days
-**Detection.** Plotted daily review counts per SKU (`mad_zscores`, line 71) and
-flagged days at a robust z-score ≥5 against that SKU's own median — median
-absolute deviation, not mean/SD, because a 300-review spike drags the mean
-enough to partially hide itself. VS-AP-8000i hit **96×, 99×, then 108× its own
-daily median** on 2026-03-14/15/16. Two more independent signatures were
-required before condemning a row: exact duplicate `review_text` occurring ≥10
-times, and promotional-register phrasing ("highly recommend to everyone!!!").
-All three had to intersect (`detect_burst_duplicates`, line 82) — any one
-alone would risk misclassifying a genuine viral launch as fraud.
-**Detected 300/300** (precision 1.00, recall 1.00 against the planted set).
-**Remedy.** Removed — a bot-authored review carries no product-experience
-information to preserve.
-**Effect of not catching it.** VS-AP-8000i's headline rating was **4.399★
-inflated from 3.886★** (+0.513 stars), and its 5-star share **73.9% inflated
-from 51.6%** (+22.3pp) — this is the ≥1 quantified difference the brief asks
-for.
+## Product-inclusion quality (a real-data problem a synthetic fixture cannot have)
+**Detection.** Amazon's "Appliances" category metadata (272MB, streamed and
+filtered) yielded only 32 candidates and, on manual inspection, was
+dominated by replacement-filter accessories misclassified as purifier
+units. Switched to "Home_and_Kitchen" (11.8GB); a first-pass
+title+description keyword classifier there produced real false positives —
+vacuum cleaners, wearable necklace ionizers, home-decor products whose
+*description* mentioned "air purifier" in cross-sell copy.
+**Remedy.** Tightened to title-only matching with regex exclusions
+(replacement/vacuum/wearable/HVAC-media/ozone-generator), then a minimum
+5-real-rating threshold. Candidate count moved 32→106→227→**237 final**, at
+each step re-inspected by hand.
+**Effect of not catching it.** Left uncaught, the corpus would have
+included hundreds of reviews for replacement air filters and vacuum
+cleaners under an "air purifier" label — corrupting every downstream
+prevalence and CSAT figure with off-category noise.
 
-## Defect (b): rating/text sentiment contradictions
-**Detection.** A crude but fully inspectable polarity score
-(`sentiment_score`, line 54; positive/negative term lists in `src/lexicon.py`)
-flagged rows where rating and text polarity disagree at the **extremes only**
-— 5-star with clearly negative text, or 1-star with clearly positive text. An
-earlier version tested ≥4/≤2 and returned 12 false positives, every one a
-4-star review — a 4-star rating means "good, with reservations," so mixed
-text there is congruent, not contradictory; narrowing to the true extremes
-(5/1) was a domain correction, documented in `deliverables/ai_use_log.md`
-because an AI-drafted first pass used the looser ≥4/≤2 rule.
-**Detected 49/50** (precision 1.00, recall 0.98; one contradiction phrased too
-subtly for the term list to catch — see `ai_use_log.md` for the specific
-example the check failed on).
-**Remedy.** Quarantined, not deleted: `rating_trusted=false`. The review text
-is genuine experience; only the star label is untrustworthy, so a downstream
-sentiment model should keep the text and a rating model should drop the row.
-**Effect of not catching it.** These 49 rows sit inside the same corpus as the
-burst and are removed from the "after" figures above; isolated, a naive
-average-rating metric computed on them alone would read close to 5★ while the
-underlying text is markedly negative — exactly the corruption a star-rating
-KPI is blind to without this check.
+## Defect: rating/text sentiment contradictions
+**Detection.** Negation-aware polarity scoring (rating==5 with strongly
+negative text, or rating==1 with strongly positive text).
+**Detected: 239 / 10,547 (2.27%).**
+**Remedy.** Quarantined (`rating_trusted=false`), not deleted — the text is
+real experience, only the star label is untrusted.
+**Effect of not catching it, quantified via a real detector bug.** The
+first version of this detector had no negation handling and misread
+"I cannot recommend this product" as *positive* (it matched "recommend").
+On a 7,780-row partial run this produced 248 false-positive-inflated flags;
+adding an 18-character negation window before scoring a matched term
+dropped this to 186 on the same partial data, and rerunning on the complete
+10,547-row corpus with an expanded, more general-purpose term list (the
+original list was tuned to a narrower synthetic vocabulary and under-fired
+on real text) landed at 239. **A downstream metric computed on the
+un-negation-aware version would have systematically overstated how often 5-star
+reviews contain hidden complaints.** Manual inspection of the remaining 239
+shows real residual limits (third-party quotes, negation over a coordinated
+list) reported as a stated ceiling on a keyword approach, not silently
+patched further.
 
-## Defect (c): malformed date strings
-**Detection.** Strict `%Y-%m-%d` parsing (`parse_iso`, line 39) with **no
-coercion and no day-first/month-first guessing** — a permissive parser is how
-a corpus acquires a fake April. Failures are bucketed by pattern
-(`detect_malformed_dates`, line 176): slash-ambiguous, dotted two-digit-year,
-long-text month, null/empty literal, epoch seconds, impossible month/day,
-unpadded ISO, trailing junk.
-**Detected 118/120** (precision 1.00, recall 0.983). The 2 misses are a known,
-named ceiling, not a detector failure: an unpadded ISO date is
-byte-identical to a valid one whenever month *and* day are both ≥10
-(`2025-12-20`) — no string-level check can distinguish it, and no downstream
-pipeline should try; only an upstream format contract removes it.
-**Remedy.** Rows retained, excluded from any time-series aggregation
-(`date_parseable=false`).
-**Effect of not catching it.** 118 rows (3.37% of the corpus) would either be
-silently dropped by a naive `pd.to_datetime` call or, worse, coerced into the
-wrong month/day by a locale-guessing parser — a burst-detection routine run
-on that corrupted series would find a materially different (or missing) spike
-on VS-AP-8000i.
+## Defect: empty/trivial review text
+**Detection.** `len(review_text.strip()) < 3` characters.
+**Detected: 18 / 10,547 (0.17%).**
+**Remedy.** Removed — no analyzable signal.
+
+## Non-defects (real, honest findings)
+**Detected 0 exact-duplicate-text bursts** (review_text repeated ≥3× on the
+same product) and **0 per-product daily volume anomalies** (robust
+z-score ≥5, run over 237 products with ≥15 days of data each). This is a
+genuine result, not a detector failure: it is reported because the earlier
+synthetic-fixture phase of this project *planted* a 300-review 3-day burst
+by design, and it would have been dishonest to imply real data contains the
+same defect just because a prior synthetic version of this exercise did.
+Absence of a defect is itself a finding worth stating plainly.
 
 ## Summary
-| Defect | Detected / Planted | Precision | Recall | Remedy |
-|---|---:|---:|---:|---|
-| (a) burst duplicates | 300 / 300 | 1.00 | 1.00 | removed |
-| (b) sentiment conflicts | 49 / 50 | 1.00 | 0.98 | quarantined (`rating_trusted=false`) |
-| (c) malformed dates | 118 / 120 | 1.00 | 0.983 | retained, excluded from time series |
+| Defect | Count / Corpus | Remedy |
+|---|---:|---|
+| Product misclassification (pre-corpus) | 227 dropped from 227 v1 candidates during 2 validation passes | classifier tightened, re-inspected by hand |
+| Sentiment/rating conflicts | 239 / 10,547 (2.27%) | quarantined (`rating_trusted=false`) |
+| Empty/trivial text | 18 / 10,547 (0.17%) | removed |
+| Duplicate-text bursts | 0 (real finding) | none needed |
+| Volume anomalies | 0 (real finding) | none needed |

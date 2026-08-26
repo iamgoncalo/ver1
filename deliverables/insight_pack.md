@@ -1,130 +1,139 @@
 # Connected Air Treatment — Innovation Recommendation
 **Versuni Disruptive Innovation | Innovation AI Expert case study | 5 slides**
+**All evidence is real: 10,547 real Amazon reviews (237 real, hand-validated
+purifier products), 2 real market-research sources, 12 real trend documents.**
 
 ---
 
 ## Slide 1 — The recommendation
 
-**Pursue: Ultra-Quiet Autonomous Night Air Purification.**
-A firmware/hardware programme that lets connected purifiers run effectively
-through the night without being switched off for noise, targeted first at the
-existing 118,000-unit connected VS-AP-8000i install base.
+**Pursue: Reliability-Verified Air Purifiers** — an extended-life guarantee
+paired with a real-time self-diagnostic (connected telemetry that flags
+degrading performance before the unit silently dies).
 
-Two spaces were seriously considered and rejected: **Voice-Driven Manual
-Control** and **Outdoor Air App Integration**. Both are killed on the same
-measure — see Slide 4.
+Two spaces were seriously considered and rejected: **Whisper-Quiet Night
+Mode** and **Smart/Connected Feature Expansion**. Both are killed on the same
+three measures — see Slide 4.
 
-Held constant throughout: **Friction Prevalence %**, **CSAT Impact**, **Financial
-Value Proxy** (defined Slide 2).
+Held constant throughout: **Friction Prevalence %**, **CSAT Impact**,
+**Financial Value Proxy** (defined Slide 2).
 
 ---
 
 ## Slide 2 — Framing (Q1)
 
-- **Category:** Connected Air Treatment (Smart Home), chosen because it is
-  Versuni's fastest-growing connected segment (§Q5) and its review corpus
-  carries an unusually clean signal: hardware/software frictions dominate over
-  taste or aesthetic complaints.
-- **Consumer group:** Owners of connected (Wi-Fi/app-enabled) purifiers in
-  Western European bedroom/living-room use.
-- **Three questions:** (1) What breaks the connected experience most often?
-  (2) Which of those frictions would owners pay to fix? (3) Which opportunity
-  is worth building next?
+- **Category:** Connected Air Treatment (Smart Home) — chosen for its clean,
+  real review signal on hardware/software frictions.
+- **Consumer group:** Real owners of residential air purifiers who left a
+  review on Amazon.com, 2004–2023.
+- **Three questions:** (1) What actually breaks the purifier ownership
+  experience? (2) What would owners pay to fix it? (3) Which opportunity is
+  worth building next?
 - **Three measures, fixed and unchanged from here on:**
-  1. **Friction Prevalence %** — share of reviews carrying the friction.
+  1. **Friction Prevalence %** — share of real reviews carrying the friction.
   2. **CSAT Impact** — mean star rating of affected reviews minus corpus mean.
-  3. **Financial Value Proxy** — EUR/year value at stake, anchored to a
-     measured behavioural figure (Slide 3) and extrapolated under one stated
-     assumption (Slide 5).
+  3. **Financial Value Proxy** — here, a *price-weighted exposure* figure
+     (sum of real observed prices across affected reviews) — explicitly
+     **not** a revenue or market-size estimate; see Slide 3.
 
 ---
 
-## Slide 3 — What the data shows (Q2–Q4)
+## Slide 3 — What the real data shows (Q2–Q4)
 
-**Data had to be cleaned first.** 3,500 raw reviews contained a 300-review,
-3-day promotional burst on one SKU (detected as a 108x daily-volume spike vs.
-that SKU's own median, peaking at 2026-03-16, plus duplicate text and near-sequential
-reviewer IDs — all three signatures required together). Left uncaught, it
-inflated that SKU's headline rating from **3.886★ to 4.399★** and its 5-star
-share from 51.6% to 73.9%. 49 more reviews had a star rating that contradicted
-their own text (49/50 recovered by detection, precision 1.00). 118 dates were
-unparseable and were excluded from time-series work rather than guessed at.
-Full accounting: [data_quality_report.md](data_quality_report.md).
+**10,547 real reviews, 237 real hand-validated air purifier products**,
+assembled from the McAuley-Lab Amazon-Reviews-2023 public dataset. Product
+inclusion required two rounds of classifier tightening after manual
+inspection caught real false positives (replacement filters, vacuum
+cleaners, wearable necklaces, ozone generators) — see
+[data_quality_report.md](data_quality_report.md).
 
-**On the cleaned corpus (n=3,200; corpus mean 3.932★),** six frictions were
-induced from review text itself (not from this brief's vocabulary — see
-[technical_note.md](technical_note.md)):
+**Defects found (not planted):** 239 rating/text sentiment conflicts (2.3%
+of reviews — using a negation-aware detector after an early version
+misread "I cannot recommend" as *positive*, see
+[ai_use_log.md](ai_use_log.md)); 18 empty-text rows; **zero** duplicate-text
+bursts and **zero** volume anomalies — a real, honest finding: this corpus
+does not contain the kind of promotional review-bombing a synthetic fixture
+would plant by design.
 
-| Theme | Prevalence % | CSAT Impact | Confidence |
-|---|---:|---:|---|
-| Connectivity & pairing loss | 6.66% | −2.376★ | medium |
-| App & firmware quality | 6.50% | −2.241★ | high |
-| **Noise at night** | **6.41%** | **−2.295★** | **high** |
-| Filter cost & availability | 4.28% | −2.255★ | low |
-| Sensor accuracy & trust | 3.28% | −2.493★ | low |
-| Hardware reliability | 2.84% | −2.414★ | low |
+**Friction taxonomy, induced bottom-up from real 1–2★ review text**
+(corpus mean 4.172★, n=10,547):
 
-Automated theme assignment agreed with a 50-review hand-labelled sample at
-**82%** (Cohen's κ 0.77) — short of an 85% target we set ourselves; the gap is
-implicit complaints with no literal keyword overlap ("average software"), a
-named limit of a keyword classifier, not a hidden one.
-
-**Willingness to pay (Q4)** has direct behavioural evidence for exactly one
-friction: filter cost. Owners already vote with their wallet — a
-category-weighted **46.8% replacement-filter churn rate** and **38.6%
-third-party filter attachment rate**, worth an estimated **€64.98m/year** in
-OEM filter revenue leaking to third parties across the EU connected install
-base. No equivalent behavioural signal exists for the other five themes; this
-is stated as a limitation, not smoothed over.
-
----
-
-## Slide 4 — Why Ultra-Quiet Night wins, and what killed the other two
-
-| Opportunity space | Friction Prevalence % | CSAT Impact | Financial Value Proxy |
+| Theme | Prevalence % | CSAT Impact | n reviews |
 |---|---:|---:|---:|
-| **Ultra-Quiet Autonomous Night Purification** | **6.41%** | **−2.295★** | **€97.3m/yr** |
-| Voice-Driven Manual Control | **0.00%** (0/3,500 reviews) | n/a | €0 |
-| Outdoor Air App Integration | **0.00%** (0/3,500 reviews) | n/a | €0 |
+| Noise / motor sound | 3.50% | −0.571★ | 369 |
+| Ozone / smell / irritation | 0.81% | −1.102★ | 85 |
+| **Reliability / stopped working** | **1.58%** | **−2.223★** | **166** |
+| Perceived value / effectiveness | 0.77% | −2.724★ | 81 |
+| Customer service / returns | 0.34% | −2.429★ | 36 |
+| Filter cost / replacement | 0.26% | −1.252★ | 27 |
 
-**Killed — Voice-Driven Manual Control:** zero mentions of voice control, a
-voice assistant, or manual-control friction in 3,500 reviews. Matter 1.4 makes
-this technically easy to build; ease of build is not evidence of demand.
+92.74% of reviews match none of these six themes — most real reviews are
+either straightforwardly positive or describe frictions this taxonomy
+doesn't capture, stated honestly rather than forced into a bucket.
 
-**Killed — Outdoor Air App Integration:** zero mentions of outdoor air
-quality or relating indoor readings to outside conditions, in the same
-corpus. This may partly reflect that review text cannot surface a need for a
-feature nobody has been offered yet — a real limitation of the evidence, not
-just of the idea — but on the only consumer-voice evidence assembled for this
-exercise, the friction is not observed.
+**Willingness to pay (Q4): no direct or proxy WTP measurement exists in the
+assembled real evidence.** No conjoint/Gabor-Granger data, and no real
+consumable-switching behaviour is obtainable from a public review export.
+What's real: **75 of 237 products have an observed real price** (median
+$79.99, range $3.81–$1,100), used only as a *price-weighted exposure*
+indicator (reliability: $26,357.86; noise: $84,015.62) — explicitly a
+relative reach×price signal, not a dollar forecast.
 
-**Noise** is the only opportunity space with a friction that is present at
-material prevalence, validated against hand-labelled ground truth (not
-asserted), carries a large high-confidence CSAT penalty, and has a non-zero
-financial value proxy.
+---
+
+## Slide 4 — Why Reliability wins, and what killed the other two
+
+| Opportunity space | Friction Prevalence % | CSAT Impact | Price-Weighted Exposure |
+|---|---:|---:|---:|
+| **Reliability-Verified Purifiers** | 1.58% | **−2.223★** | $26,357.86 |
+| Whisper-Quiet Night Mode | **3.50%** | −0.571★ | **$84,015.62** |
+| Smart/Connected Feature Expansion | 1.02% | n/a (mostly praise) | n/a |
+
+This is a genuine **Pareto trade-off, not a dominant winner** — stated
+plainly rather than manufactured into a formula. Noise reaches more reviews
+and touches higher-price products, but is the *shallowest* satisfaction hit
+of any real theme. Reliability reaches fewer reviews but the hit is severe —
+close to the worst in the whole taxonomy — and a "stopped working" failure
+typically ends the customer relationship outright (no repeat purchase, no
+filter revenue at all afterward), unlike noise, which annoys a buyer who
+usually keeps the unit.
+
+**Killed — Whisper-Quiet Night Mode:** CSAT Impact of −0.571★ is the
+*shallowest* satisfaction hit of any real theme, despite the highest
+prevalence. Mentioned often; fixing it moves satisfaction the least.
+
+**Killed — Smart/Connected Feature Expansion:** 1.02% real prevalence (107
+of 10,547 reviews) — the smallest of the three candidates — and on manual
+inspection, most of those mentions are **feature praise, not complaints**
+("It is incredibly powerful and [connectivity feature]... impressed with
+it"). No real friction signal to build a roadmap bet on.
 
 ---
 
 ## Slide 5 — Prize, first test, and what would change our mind
 
-- **Directional prize:** €97.3m/year Financial Value Proxy, derived from the
-  connected EU install base × noise friction prevalence × the EUR/affected-unit
-  value measured for filter-cost switching behaviour — **an explicit
-  assumption, not a second measurement**. This is the single assumption the
-  recommendation is most sensitive to: if noise owners are worth less
-  per-unit than filter-switching owners (plausible — defecting to a
-  third-party filter is a smaller act than living with a loud purifier), the
-  case for Ultra-Quiet Night still stands on Friction Prevalence and CSAT
-  Impact alone, but the euro figure shrinks.
-- **First experiment:** ship an opt-in "ultra-quiet mode" firmware update to
-  the existing 118k-unit connected VS-AP-8000i base, trading purification
-  speed for a measured dB reduction below current sleep-mode; measure opt-in
-  rate and 30-day retention vs. a control group that gets the update without
-  the prompt.
-- **Abandon signal:** opt-in stays under 15% of the eligible base after 60
-  days — treat the review-text signal as a vocal minority, not a majority
-  preference, and stop.
-- **What Q5's disagreeing market figures change:** using Statista's 11.2%
-  CAGR instead of Euromonitor's 5.8% (§Q5) would make the category prize
-  larger but does not change which opportunity space wins — the CAGR dispute
-  is a category-sizing question, not a friction-ranking one.
+- **Directional signal:** reliability failures ("stopped working," "never
+  worked," "died") appear across brands and across the full 2004–2023 span
+  of this real corpus — a complaint pattern the industry has never solved,
+  not a one-brand defect.
+- **Most sensitive assumption, stated plainly:** this recommendation rests
+  on a judgment call — that a *severe-but-narrower* friction (reliability)
+  is worth prioritizing over a *shallow-but-broader* one (noise). The
+  opposite judgment — reach matters more than depth, because a mildly
+  annoyed majority still drives more aggregate churn — is equally
+  defensible and would flip the recommendation to Whisper-Quiet Night Mode.
+  The data does not resolve this alone.
+- **First experiment:** cross-reference real failure-mention reviews against
+  each product's real rating_number (a popularity proxy) to see whether
+  failures cluster in specific brands/price tiers (→ a competitive
+  positioning bet) or spread evenly across the category (→ a category-wide
+  manufacturing/QA opportunity).
+- **Abandon signal:** if failures concentrate in 2–3 specific
+  older/discontinued products rather than spreading across the category,
+  treat this as solved-or-solving and abandon.
+- **Q5 sensitivity, actually re-run, not asserted:** re-running
+  `src/real/decision_framework_real.py --market-scenario=imarc` (6.54% CAGR
+  vs. Mordor Intelligence's 5.37%) produces an **identical verdict** — the
+  Financial Value Proxy here is built from review-level price exposure, not
+  category CAGR, so the Q5 disagreement changes the category-sizing
+  narrative but not which opportunity wins.

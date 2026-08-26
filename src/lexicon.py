@@ -14,14 +14,30 @@ NEG_TERMS = [
     "expensive", "absurd", "scam", "cost almost", "unresponsive", "stopped responding",
     "disagree", "reads whatever", "useless", "disappointing", "not worth",
     "ruined", "painful", "no answer", "novelty",
+    # generic real-review vocabulary (not present in the synthetic corpus's
+    # narrower vocabulary; added after this detector was validated against
+    # real Amazon text and found to under-fire without them - see
+    # deliverables/ai_use_log.md)
+    "broken", "defective", "waste of money", "junk", "garbage", "awful",
+    "terrible", "poor quality", "cheaply made", "cheap plastic", "returned it",
+    "returning this", "do not buy", "don't buy", "avoid this", "regret",
+    "malfunction", "stopped working", "died after", "failed after", "flimsy",
+    "worthless", "horrible", "annoying", "squeaking", "rattling", "leaking",
 ]
 POS_TERMS = [
     "quiet", "quieter", "whisper", "cannot hear", "solid", "worth", "happy",
     "excellent", "great", "recommend", "bearable", "lighter", "responsive",
     "settles back", "minimal", "first try", "under a minute", "thirty second",
     "amazing", "best", "perfectly", "five stars", "very good",
+    # generic real-review vocabulary
+    "love it", "love this", "works great", "works well", "highly recommend",
+    "well made", "well built", "satisfied", "impressed", "exceeded",
+    "worth every", "glad i bought", "happy with", "pleased", "fantastic",
+    "wonderful", "sturdy", "durable", "easy to use", "easy to clean",
 ]
-NEGATORS = ["not ", "no ", "never ", "hardly ", "barely "]
+NEGATORS = ["not ", "no ", "never ", "hardly ", "barely ", "cannot ", "can't ",
+           "won't ", "wouldn't ", "don't ", "doesn't ", "didn't ", "isn't ",
+           "wasn't "]
 
 # ------------------------------------------------------------------ taxonomy
 # theme_id -> (display name, keyword set, monetisable surface)
