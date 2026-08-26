@@ -1,0 +1,43 @@
+{
+  "_provenance": "White space = real Consumer Pain gate passed + >=2 real rivals measurably worse than category average on that theme + real Feasibility evidence exists. Reuses decision_framework_real.py's own gate, not a new metric.",
+  "spaces": [
+    {
+      "opportunity_id": "OS-1",
+      "name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
+      "theme": "reliability",
+      "consumer_pain_csat": -2.223,
+      "feasibility": "high",
+      "rivals_measurably_weak_here": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "is_white_space": true
+    },
+    {
+      "opportunity_id": "OS-2",
+      "name": "Whisper-Quiet Night Mode",
+      "theme": "noise",
+      "consumer_pain_csat": -0.571,
+      "feasibility": "medium",
+      "rivals_measurably_weak_here": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "is_white_space": true
+    }
+  ]
+}

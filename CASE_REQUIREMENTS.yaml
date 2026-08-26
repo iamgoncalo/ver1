@@ -140,25 +140,53 @@ blockers_requiring_a_human:
     who: goncalo
 
 v1_innovation_explorer:
-  # Honestly assessed 2026-08-26T20:31:44Z per user-requested governance
-  # audit - do not upgrade this status without an actual browser
-  # verification against CHECKLIST.md sections 14-17 and 20.
-  status: NOT_STARTED
-  detail: "web/src/ is empty - no App.tsx, no components, no worlds, no
-          navigation, no process rail exist as code. Backend groundwork DOES
-          exist and is smoke-tested working: api/main.py (FastAPI, serves
-          real view-models + a live, non-mutating scenario-recompute
-          endpoint), and three new real-data generators
-          (src/real/rivals_real.py, magic_box_real.py,
-          products_signals_real.py) producing genuinely computed
-          data/processed/{rivals,white_space,magic_box,products,signals}_real.json.
-          None of this is committed yet. The five-world visual experience
-          itself has not been started."
+  # Updated 2026-08-26T21:35:00Z after building the full V1 frontend and
+  # real-browser-verifying it this session. Do NOT upgrade further (e.g. to
+  # a "reviewed" status) without re-running the independent hostile visual
+  # critic - it was started this session but cut off by a usage limit
+  # before returning findings. See NEXT_ACTION.md.
+  status: IMPLEMENTED_BROWSER_VERIFIED
+  detail: "web/src/ now contains the full five-world React/TS/Vite app
+          (App.tsx, ProcessRail, FocusPanel, AskShell, ErrorBoundary, five
+          world components), consuming api/main.py's real endpoints.
+          `make app` builds + serves it on http://localhost:8000 on one
+          port; `make analyst` runs the existing Streamlit control room
+          separately. Real-browser-verified this session (Claude_Browser
+          tool, not source-reading): all five worlds render real data;
+          no document-level scroll at 1440x900/1366x768/1280x720 (checked
+          via scrollHeight/scrollWidth on the two densest worlds); keyboard
+          nav (1-5, arrows, SPACE, ESC) works; FocusPanel detail drawer
+          works; Rivals 'Show white space' -> 'Send to Magic Box' handoff
+          correctly filters Magic Box by theme; Innovations
+          decision-priority toggle genuinely flips the winner (OS-1->OS-2)
+          live in the UI with a visible WINNER CHANGED banner, matching the
+          CLI. Two real defects were found live in-browser and fixed: (1) a
+          Framer Motion AnimatePresence world-switch transition that
+          permanently desynced the rendered world from nav state after the
+          first click - root-caused via direct DOM/JS ground-truth checks
+          proving React state updated correctly while the rendered subtree
+          froze; (2) a null economic_value/severity_csat crash on the
+          Innovations world's gate-failed OS-3 candidate that unmounted the
+          entire React tree with no error boundary, discovered via a
+          window.onerror listener after the app went fully blank. Fix: all
+          framer-motion removed from interactive overlays (replaced with
+          plain CSS transitions - same failure class recurred in
+          FocusPanel/AskShell after the first fix, so the dependency itself
+          was treated as unreliable in this environment rather than
+          patched a third time), and an ErrorBoundary added around each
+          world. NOT done: independent hostile visual-critic review did not
+          complete (session usage limit); Playwright automated tests not
+          authored (verification was real manual browser-tool testing, not
+          source-only, but not an automated regression suite); the user's
+          candidate official Versuni/Philips SKU list was not verified
+          against official sources - Products world uses the existing real
+          237-product Amazon-review-corpus dataset only."
   backend_smoke_tested:
     - "GET /api/health -> real git commit"
     - "GET /api/products -> 237 real products"
     - "GET /api/innovations -> OS-1 (matches CLI)"
     - "GET /api/innovations/scenario?decision_priority=economic_value_override -> OS-2 (live flip, matches CLI)"
+    - "Full frontend build (npm run build) clean, 0 TypeScript errors"
   brand_asset:
     status: PASS
     detail: "web/public/brand/versuni-logo.png + SOURCE.md - real official

@@ -1,0 +1,2220 @@
+{
+  "_provenance": "Computed from REAL review + real product-brand data. Every axis is one of the same six real taxonomy themes used throughout Q3/Q6 - no invented competitive dimension.",
+  "generated_by": "src/real/rivals_real.py",
+  "min_reviews_floor": 40,
+  "n_category_reviews": 10529,
+  "category_theme_rates_pct": {
+    "reliability": 1.58,
+    "value_effectiveness": 0.77,
+    "customer_service": 0.34,
+    "filter_cost": 0.26,
+    "noise": 3.5,
+    "ozone_odor_safety": 0.81
+  },
+  "rivals": [
+    {
+      "brand": "HATHASPACE",
+      "n_reviews": 2798,
+      "n_products": 1,
+      "mean_rating": 4.461,
+      "theme_gaps": [
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.39,
+          "category_rate_pct": 0.34,
+          "delta_pp": 0.05
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.75,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.02
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.14,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.11
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.64,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.16
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.89,
+          "category_rate_pct": 1.58,
+          "delta_pp": -0.68
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 1.68,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.82
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "customer_service",
+        "theme_name": "Customer service / returns / warranty",
+        "brand_rate_pct": 0.39,
+        "category_rate_pct": 0.34,
+        "delta_pp": 0.05
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 1.68,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.82
+      },
+      "evidence": "src/real/rivals_real.py, n=2798 real reviews across 1 real products"
+    },
+    {
+      "brand": "Rabbit Air",
+      "n_reviews": 1029,
+      "n_products": 8,
+      "mean_rating": 4.544,
+      "theme_gaps": [
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 1.26,
+          "category_rate_pct": 0.81,
+          "delta_pp": 0.46
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.58,
+          "category_rate_pct": 0.26,
+          "delta_pp": 0.33
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.29,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.05
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 3.4,
+          "category_rate_pct": 3.5,
+          "delta_pp": -0.1
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.19,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.57
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.58,
+          "category_rate_pct": 1.58,
+          "delta_pp": -0.99
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "ozone_odor_safety",
+        "theme_name": "Ozone / smell / irritation (weak real signal)",
+        "brand_rate_pct": 1.26,
+        "category_rate_pct": 0.81,
+        "delta_pp": 0.46
+      },
+      "strongest_area": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 0.58,
+        "category_rate_pct": 1.58,
+        "delta_pp": -0.99
+      },
+      "evidence": "src/real/rivals_real.py, n=1029 real reviews across 8 real products"
+    },
+    {
+      "brand": "Alen",
+      "n_reviews": 877,
+      "n_products": 4,
+      "mean_rating": 4.387,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 5.36,
+          "category_rate_pct": 3.5,
+          "delta_pp": 1.85
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.57,
+          "category_rate_pct": 0.34,
+          "delta_pp": 0.23
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.34,
+          "category_rate_pct": 0.26,
+          "delta_pp": 0.09
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 1.25,
+          "category_rate_pct": 1.58,
+          "delta_pp": -0.32
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.46,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.35
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.34,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.43
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 5.36,
+        "category_rate_pct": 3.5,
+        "delta_pp": 1.85
+      },
+      "strongest_area": {
+        "theme": "value_effectiveness",
+        "theme_name": "Perceived value / does it actually clean the air",
+        "brand_rate_pct": 0.34,
+        "category_rate_pct": 0.77,
+        "delta_pp": -0.43
+      },
+      "evidence": "src/real/rivals_real.py, n=877 real reviews across 4 real products"
+    },
+    {
+      "brand": "Dyson",
+      "n_reviews": 416,
+      "n_products": 4,
+      "mean_rating": 3.882,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 6.97,
+          "category_rate_pct": 3.5,
+          "delta_pp": 3.47
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 2.16,
+          "category_rate_pct": 1.58,
+          "delta_pp": 0.59
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.24,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.02
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.24,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.1
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.48,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.29
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 6.97,
+        "category_rate_pct": 3.5,
+        "delta_pp": 3.47
+      },
+      "strongest_area": {
+        "theme": "ozone_odor_safety",
+        "theme_name": "Ozone / smell / irritation (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.81,
+        "delta_pp": -0.81
+      },
+      "evidence": "src/real/rivals_real.py, n=416 real reviews across 4 real products"
+    },
+    {
+      "brand": "O3 Pure",
+      "n_reviews": 415,
+      "n_products": 2,
+      "mean_rating": 3.986,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 3.13,
+          "category_rate_pct": 1.58,
+          "delta_pp": 1.56
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 2.17,
+          "category_rate_pct": 0.81,
+          "delta_pp": 1.36
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.48,
+          "category_rate_pct": 0.34,
+          "delta_pp": 0.14
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.48,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.29
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 2.41,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.09
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 3.13,
+        "category_rate_pct": 1.58,
+        "delta_pp": 1.56
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 2.41,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.09
+      },
+      "evidence": "src/real/rivals_real.py, n=415 real reviews across 2 real products"
+    },
+    {
+      "brand": "MELEDEN",
+      "n_reviews": 368,
+      "n_products": 3,
+      "mean_rating": 3.755,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 3.53,
+          "category_rate_pct": 1.58,
+          "delta_pp": 1.96
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.82,
+          "category_rate_pct": 0.77,
+          "delta_pp": 0.05
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.27,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.07
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.54,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 1.9,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.6
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 3.53,
+        "category_rate_pct": 1.58,
+        "delta_pp": 1.96
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 1.9,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.6
+      },
+      "evidence": "src/real/rivals_real.py, n=368 real reviews across 3 real products"
+    },
+    {
+      "brand": "Kanberra Gel",
+      "n_reviews": 270,
+      "n_products": 1,
+      "mean_rating": 4.3,
+      "theme_gaps": [
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 1.48,
+          "category_rate_pct": 0.81,
+          "delta_pp": 0.67
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 1.11,
+          "category_rate_pct": 0.77,
+          "delta_pp": 0.34
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 1.58,
+          "delta_pp": -1.58
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 3.5,
+          "delta_pp": -3.5
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "ozone_odor_safety",
+        "theme_name": "Ozone / smell / irritation (weak real signal)",
+        "brand_rate_pct": 1.48,
+        "category_rate_pct": 0.81,
+        "delta_pp": 0.67
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 3.5,
+        "delta_pp": -3.5
+      },
+      "evidence": "src/real/rivals_real.py, n=270 real reviews across 1 real products"
+    },
+    {
+      "brand": "Holmes",
+      "n_reviews": 251,
+      "n_products": 5,
+      "mean_rating": 4.179,
+      "theme_gaps": [
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.4,
+          "category_rate_pct": 0.26,
+          "delta_pp": 0.14
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.4,
+          "category_rate_pct": 0.34,
+          "delta_pp": 0.06
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 3.19,
+          "category_rate_pct": 3.5,
+          "delta_pp": -0.32
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.4,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.37
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.4,
+          "category_rate_pct": 1.58,
+          "delta_pp": -1.18
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "filter_cost",
+        "theme_name": "Filter cost / replacement (weak real signal)",
+        "brand_rate_pct": 0.4,
+        "category_rate_pct": 0.26,
+        "delta_pp": 0.14
+      },
+      "strongest_area": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 0.4,
+        "category_rate_pct": 1.58,
+        "delta_pp": -1.18
+      },
+      "evidence": "src/real/rivals_real.py, n=251 real reviews across 5 real products"
+    },
+    {
+      "brand": "OVICISK",
+      "n_reviews": 242,
+      "n_products": 1,
+      "mean_rating": 3.136,
+      "theme_gaps": [
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 1.65,
+          "category_rate_pct": 0.77,
+          "delta_pp": 0.88
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.83,
+          "category_rate_pct": 1.58,
+          "delta_pp": -0.75
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 3.5,
+          "delta_pp": -3.5
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "value_effectiveness",
+        "theme_name": "Perceived value / does it actually clean the air",
+        "brand_rate_pct": 1.65,
+        "category_rate_pct": 0.77,
+        "delta_pp": 0.88
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 3.5,
+        "delta_pp": -3.5
+      },
+      "evidence": "src/real/rivals_real.py, n=242 real reviews across 1 real products"
+    },
+    {
+      "brand": "Unknown",
+      "n_reviews": 210,
+      "n_products": 13,
+      "mean_rating": 3.424,
+      "theme_gaps": [
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 2.86,
+          "category_rate_pct": 0.77,
+          "delta_pp": 2.09
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.95,
+          "category_rate_pct": 0.26,
+          "delta_pp": 0.7
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.95,
+          "category_rate_pct": 0.34,
+          "delta_pp": 0.61
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 3.81,
+          "category_rate_pct": 3.5,
+          "delta_pp": 0.3
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.95,
+          "category_rate_pct": 1.58,
+          "delta_pp": -0.62
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "value_effectiveness",
+        "theme_name": "Perceived value / does it actually clean the air",
+        "brand_rate_pct": 2.86,
+        "category_rate_pct": 0.77,
+        "delta_pp": 2.09
+      },
+      "strongest_area": {
+        "theme": "ozone_odor_safety",
+        "theme_name": "Ozone / smell / irritation (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.81,
+        "delta_pp": -0.81
+      },
+      "evidence": "src/real/rivals_real.py, n=210 real reviews across 13 real products"
+    },
+    {
+      "brand": "Plixio",
+      "n_reviews": 179,
+      "n_products": 1,
+      "mean_rating": 3.966,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 8.38,
+          "category_rate_pct": 3.5,
+          "delta_pp": 4.88
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 3.35,
+          "category_rate_pct": 1.58,
+          "delta_pp": 1.78
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 1.68,
+          "category_rate_pct": 0.77,
+          "delta_pp": 0.91
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 1.12,
+          "category_rate_pct": 0.81,
+          "delta_pp": 0.31
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 8.38,
+        "category_rate_pct": 3.5,
+        "delta_pp": 4.88
+      },
+      "strongest_area": {
+        "theme": "customer_service",
+        "theme_name": "Customer service / returns / warranty",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.34,
+        "delta_pp": -0.34
+      },
+      "evidence": "src/real/rivals_real.py, n=179 real reviews across 1 real products"
+    },
+    {
+      "brand": "Oreck",
+      "n_reviews": 163,
+      "n_products": 4,
+      "mean_rating": 4.239,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 9.2,
+          "category_rate_pct": 3.5,
+          "delta_pp": 5.7
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.61,
+          "category_rate_pct": 0.26,
+          "delta_pp": 0.36
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.61,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.19
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 1.23,
+          "category_rate_pct": 1.58,
+          "delta_pp": -0.35
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 9.2,
+        "category_rate_pct": 3.5,
+        "delta_pp": 5.7
+      },
+      "strongest_area": {
+        "theme": "value_effectiveness",
+        "theme_name": "Perceived value / does it actually clean the air",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.77,
+        "delta_pp": -0.77
+      },
+      "evidence": "src/real/rivals_real.py, n=163 real reviews across 4 real products"
+    },
+    {
+      "brand": "FULMINARE",
+      "n_reviews": 160,
+      "n_products": 2,
+      "mean_rating": 4.112,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 5.0,
+          "category_rate_pct": 3.5,
+          "delta_pp": 1.5
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 2.5,
+          "category_rate_pct": 1.58,
+          "delta_pp": 0.92
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.62,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.14
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 5.0,
+        "category_rate_pct": 3.5,
+        "delta_pp": 1.5
+      },
+      "strongest_area": {
+        "theme": "ozone_odor_safety",
+        "theme_name": "Ozone / smell / irritation (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.81,
+        "delta_pp": -0.81
+      },
+      "evidence": "src/real/rivals_real.py, n=160 real reviews across 2 real products"
+    },
+    {
+      "brand": "Air Choice",
+      "n_reviews": 151,
+      "n_products": 1,
+      "mean_rating": 4.742,
+      "theme_gaps": [
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.66,
+          "category_rate_pct": 1.58,
+          "delta_pp": -0.91
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 1.99,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.52
+        }
+      ],
+      "biggest_weakness": null,
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 1.99,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.52
+      },
+      "evidence": "src/real/rivals_real.py, n=151 real reviews across 1 real products"
+    },
+    {
+      "brand": "Green Air",
+      "n_reviews": 145,
+      "n_products": 1,
+      "mean_rating": 4.524,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 2.76,
+          "category_rate_pct": 1.58,
+          "delta_pp": 1.18
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.69,
+          "category_rate_pct": 0.26,
+          "delta_pp": 0.43
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.69,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.08
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 0.69,
+          "category_rate_pct": 3.5,
+          "delta_pp": -2.81
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 2.76,
+        "category_rate_pct": 1.58,
+        "delta_pp": 1.18
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 0.69,
+        "category_rate_pct": 3.5,
+        "delta_pp": -2.81
+      },
+      "evidence": "src/real/rivals_real.py, n=145 real reviews across 1 real products"
+    },
+    {
+      "brand": "balight",
+      "n_reviews": 132,
+      "n_products": 1,
+      "mean_rating": 4.189,
+      "theme_gaps": [
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 3.03,
+          "category_rate_pct": 0.81,
+          "delta_pp": 2.22
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 2.27,
+          "category_rate_pct": 1.58,
+          "delta_pp": 0.7
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 0.76,
+          "category_rate_pct": 3.5,
+          "delta_pp": -2.75
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "ozone_odor_safety",
+        "theme_name": "Ozone / smell / irritation (weak real signal)",
+        "brand_rate_pct": 3.03,
+        "category_rate_pct": 0.81,
+        "delta_pp": 2.22
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 0.76,
+        "category_rate_pct": 3.5,
+        "delta_pp": -2.75
+      },
+      "evidence": "src/real/rivals_real.py, n=132 real reviews across 1 real products"
+    },
+    {
+      "brand": "Envion",
+      "n_reviews": 129,
+      "n_products": 3,
+      "mean_rating": 3.915,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 5.43,
+          "category_rate_pct": 1.58,
+          "delta_pp": 3.85
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 3.1,
+          "category_rate_pct": 0.34,
+          "delta_pp": 2.76
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 6.2,
+          "category_rate_pct": 3.5,
+          "delta_pp": 2.7
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.78,
+          "category_rate_pct": 0.77,
+          "delta_pp": 0.01
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 5.43,
+        "category_rate_pct": 1.58,
+        "delta_pp": 3.85
+      },
+      "strongest_area": {
+        "theme": "ozone_odor_safety",
+        "theme_name": "Ozone / smell / irritation (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.81,
+        "delta_pp": -0.81
+      },
+      "evidence": "src/real/rivals_real.py, n=129 real reviews across 3 real products"
+    },
+    {
+      "brand": "Wynd",
+      "n_reviews": 125,
+      "n_products": 2,
+      "mean_rating": 3.856,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 5.6,
+          "category_rate_pct": 3.5,
+          "delta_pp": 2.1
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 3.2,
+          "category_rate_pct": 1.58,
+          "delta_pp": 1.62
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.8,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.01
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 5.6,
+        "category_rate_pct": 3.5,
+        "delta_pp": 2.1
+      },
+      "strongest_area": {
+        "theme": "value_effectiveness",
+        "theme_name": "Perceived value / does it actually clean the air",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.77,
+        "delta_pp": -0.77
+      },
+      "evidence": "src/real/rivals_real.py, n=125 real reviews across 2 real products"
+    },
+    {
+      "brand": "Molekule",
+      "n_reviews": 123,
+      "n_products": 1,
+      "mean_rating": 3.179,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 15.45,
+          "category_rate_pct": 3.5,
+          "delta_pp": 11.94
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 4.07,
+          "category_rate_pct": 0.81,
+          "delta_pp": 3.26
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 3.25,
+          "category_rate_pct": 0.77,
+          "delta_pp": 2.48
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 2.44,
+          "category_rate_pct": 0.26,
+          "delta_pp": 2.18
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 1.63,
+          "category_rate_pct": 1.58,
+          "delta_pp": 0.05
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 15.45,
+        "category_rate_pct": 3.5,
+        "delta_pp": 11.94
+      },
+      "strongest_area": {
+        "theme": "customer_service",
+        "theme_name": "Customer service / returns / warranty",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.34,
+        "delta_pp": -0.34
+      },
+      "evidence": "src/real/rivals_real.py, n=123 real reviews across 1 real products"
+    },
+    {
+      "brand": "OION Technologies",
+      "n_reviews": 117,
+      "n_products": 2,
+      "mean_rating": 3.949,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 3.42,
+          "category_rate_pct": 1.58,
+          "delta_pp": 1.84
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 1.71,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.8
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 3.42,
+        "category_rate_pct": 1.58,
+        "delta_pp": 1.84
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 1.71,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.8
+      },
+      "evidence": "src/real/rivals_real.py, n=117 real reviews across 2 real products"
+    },
+    {
+      "brand": "EdenPURE",
+      "n_reviews": 81,
+      "n_products": 3,
+      "mean_rating": 3.309,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 6.17,
+          "category_rate_pct": 1.58,
+          "delta_pp": 4.6
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 2.47,
+          "category_rate_pct": 0.81,
+          "delta_pp": 1.66
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 1.23,
+          "category_rate_pct": 0.34,
+          "delta_pp": 0.89
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 2.47,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.04
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 6.17,
+        "category_rate_pct": 1.58,
+        "delta_pp": 4.6
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 2.47,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.04
+      },
+      "evidence": "src/real/rivals_real.py, n=81 real reviews across 3 real products"
+    },
+    {
+      "brand": "isinlive",
+      "n_reviews": 79,
+      "n_products": 1,
+      "mean_rating": 4.835,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 5.06,
+          "category_rate_pct": 3.5,
+          "delta_pp": 1.56
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 1.58,
+          "delta_pp": -1.58
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 5.06,
+        "category_rate_pct": 3.5,
+        "delta_pp": 1.56
+      },
+      "strongest_area": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 1.58,
+        "delta_pp": -1.58
+      },
+      "evidence": "src/real/rivals_real.py, n=79 real reviews across 1 real products"
+    },
+    {
+      "brand": "Himalayan",
+      "n_reviews": 65,
+      "n_products": 1,
+      "mean_rating": 3.985,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 4.62,
+          "category_rate_pct": 1.58,
+          "delta_pp": 3.04
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 3.5,
+          "delta_pp": -3.5
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 4.62,
+        "category_rate_pct": 1.58,
+        "delta_pp": 3.04
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 3.5,
+        "delta_pp": -3.5
+      },
+      "evidence": "src/real/rivals_real.py, n=65 real reviews across 1 real products"
+    },
+    {
+      "brand": "BLANDSTRS",
+      "n_reviews": 60,
+      "n_products": 2,
+      "mean_rating": 2.733,
+      "theme_gaps": [
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 8.33,
+          "category_rate_pct": 0.77,
+          "delta_pp": 7.56
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 1.67,
+          "category_rate_pct": 0.81,
+          "delta_pp": 0.86
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 1.67,
+          "category_rate_pct": 1.58,
+          "delta_pp": 0.09
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 1.67,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.84
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "value_effectiveness",
+        "theme_name": "Perceived value / does it actually clean the air",
+        "brand_rate_pct": 8.33,
+        "category_rate_pct": 0.77,
+        "delta_pp": 7.56
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 1.67,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.84
+      },
+      "evidence": "src/real/rivals_real.py, n=60 real reviews across 2 real products"
+    },
+    {
+      "brand": "HAPHID",
+      "n_reviews": 60,
+      "n_products": 2,
+      "mean_rating": 3.017,
+      "theme_gaps": [
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 8.33,
+          "category_rate_pct": 0.77,
+          "delta_pp": 7.56
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 1.58,
+          "delta_pp": -1.58
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 3.5,
+          "delta_pp": -3.5
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "value_effectiveness",
+        "theme_name": "Perceived value / does it actually clean the air",
+        "brand_rate_pct": 8.33,
+        "category_rate_pct": 0.77,
+        "delta_pp": 7.56
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 3.5,
+        "delta_pp": -3.5
+      },
+      "evidence": "src/real/rivals_real.py, n=60 real reviews across 2 real products"
+    },
+    {
+      "brand": "AMEIFU",
+      "n_reviews": 56,
+      "n_products": 1,
+      "mean_rating": 4.518,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 7.14,
+          "category_rate_pct": 3.5,
+          "delta_pp": 3.64
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 1.79,
+          "category_rate_pct": 0.26,
+          "delta_pp": 1.53
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 1.58,
+          "delta_pp": -1.58
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 7.14,
+        "category_rate_pct": 3.5,
+        "delta_pp": 3.64
+      },
+      "strongest_area": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 1.58,
+        "delta_pp": -1.58
+      },
+      "evidence": "src/real/rivals_real.py, n=56 real reviews across 1 real products"
+    },
+    {
+      "brand": "AZEUS",
+      "n_reviews": 50,
+      "n_products": 2,
+      "mean_rating": 4.62,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 6.0,
+          "category_rate_pct": 3.5,
+          "delta_pp": 2.5
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 1.58,
+          "delta_pp": -1.58
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 6.0,
+        "category_rate_pct": 3.5,
+        "delta_pp": 2.5
+      },
+      "strongest_area": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 1.58,
+        "delta_pp": -1.58
+      },
+      "evidence": "src/real/rivals_real.py, n=50 real reviews across 2 real products"
+    },
+    {
+      "brand": "AIRTHEREAL",
+      "n_reviews": 49,
+      "n_products": 1,
+      "mean_rating": 4.265,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 18.37,
+          "category_rate_pct": 3.5,
+          "delta_pp": 14.86
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 2.04,
+          "category_rate_pct": 0.34,
+          "delta_pp": 1.7
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 1.58,
+          "delta_pp": -1.58
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 18.37,
+        "category_rate_pct": 3.5,
+        "delta_pp": 14.86
+      },
+      "strongest_area": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 1.58,
+        "delta_pp": -1.58
+      },
+      "evidence": "src/real/rivals_real.py, n=49 real reviews across 1 real products"
+    },
+    {
+      "brand": "Egofine",
+      "n_reviews": 48,
+      "n_products": 1,
+      "mean_rating": 3.625,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 6.25,
+          "category_rate_pct": 3.5,
+          "delta_pp": 2.75
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 4.17,
+          "category_rate_pct": 1.58,
+          "delta_pp": 2.59
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 6.25,
+        "category_rate_pct": 3.5,
+        "delta_pp": 2.75
+      },
+      "strongest_area": {
+        "theme": "ozone_odor_safety",
+        "theme_name": "Ozone / smell / irritation (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 0.81,
+        "delta_pp": -0.81
+      },
+      "evidence": "src/real/rivals_real.py, n=48 real reviews across 1 real products"
+    },
+    {
+      "brand": "SHARPER IMAGE",
+      "n_reviews": 47,
+      "n_products": 3,
+      "mean_rating": 4.106,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 2.13,
+          "category_rate_pct": 1.58,
+          "delta_pp": 0.55
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 2.13,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.38
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 2.13,
+        "category_rate_pct": 1.58,
+        "delta_pp": 0.55
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 2.13,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.38
+      },
+      "evidence": "src/real/rivals_real.py, n=47 real reviews across 3 real products"
+    },
+    {
+      "brand": "Belita Amy",
+      "n_reviews": 47,
+      "n_products": 1,
+      "mean_rating": 3.149,
+      "theme_gaps": [
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 4.26,
+          "category_rate_pct": 0.77,
+          "delta_pp": 3.49
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 4.26,
+          "category_rate_pct": 1.58,
+          "delta_pp": 2.68
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 3.5,
+          "delta_pp": -3.5
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "value_effectiveness",
+        "theme_name": "Perceived value / does it actually clean the air",
+        "brand_rate_pct": 4.26,
+        "category_rate_pct": 0.77,
+        "delta_pp": 3.49
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 3.5,
+        "delta_pp": -3.5
+      },
+      "evidence": "src/real/rivals_real.py, n=47 real reviews across 1 real products"
+    },
+    {
+      "brand": "MOONQUAKE",
+      "n_reviews": 44,
+      "n_products": 1,
+      "mean_rating": 3.659,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 4.55,
+          "category_rate_pct": 1.58,
+          "delta_pp": 2.97
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.77,
+          "delta_pp": -0.77
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 2.27,
+          "category_rate_pct": 3.5,
+          "delta_pp": -1.23
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 4.55,
+        "category_rate_pct": 1.58,
+        "delta_pp": 2.97
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 2.27,
+        "category_rate_pct": 3.5,
+        "delta_pp": -1.23
+      },
+      "evidence": "src/real/rivals_real.py, n=44 real reviews across 1 real products"
+    },
+    {
+      "brand": "ZOCALOK",
+      "n_reviews": 41,
+      "n_products": 2,
+      "mean_rating": 2.951,
+      "theme_gaps": [
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 4.88,
+          "category_rate_pct": 1.58,
+          "delta_pp": 3.3
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 2.44,
+          "category_rate_pct": 0.77,
+          "delta_pp": 1.67
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.26,
+          "delta_pp": -0.26
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.34,
+          "delta_pp": -0.34
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 3.5,
+          "delta_pp": -3.5
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 4.88,
+        "category_rate_pct": 1.58,
+        "delta_pp": 3.3
+      },
+      "strongest_area": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 3.5,
+        "delta_pp": -3.5
+      },
+      "evidence": "src/real/rivals_real.py, n=41 real reviews across 2 real products"
+    },
+    {
+      "brand": "Elechomes",
+      "n_reviews": 40,
+      "n_products": 1,
+      "mean_rating": 3.6,
+      "theme_gaps": [
+        {
+          "theme": "noise",
+          "theme_name": "Noise / motor sound (weak real signal)",
+          "brand_rate_pct": 7.5,
+          "category_rate_pct": 3.5,
+          "delta_pp": 4.0
+        },
+        {
+          "theme": "filter_cost",
+          "theme_name": "Filter cost / replacement (weak real signal)",
+          "brand_rate_pct": 2.5,
+          "category_rate_pct": 0.26,
+          "delta_pp": 2.24
+        },
+        {
+          "theme": "customer_service",
+          "theme_name": "Customer service / returns / warranty",
+          "brand_rate_pct": 2.5,
+          "category_rate_pct": 0.34,
+          "delta_pp": 2.16
+        },
+        {
+          "theme": "value_effectiveness",
+          "theme_name": "Perceived value / does it actually clean the air",
+          "brand_rate_pct": 2.5,
+          "category_rate_pct": 0.77,
+          "delta_pp": 1.73
+        },
+        {
+          "theme": "ozone_odor_safety",
+          "theme_name": "Ozone / smell / irritation (weak real signal)",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 0.81,
+          "delta_pp": -0.81
+        },
+        {
+          "theme": "reliability",
+          "theme_name": "Reliability / stopped working",
+          "brand_rate_pct": 0.0,
+          "category_rate_pct": 1.58,
+          "delta_pp": -1.58
+        }
+      ],
+      "biggest_weakness": {
+        "theme": "noise",
+        "theme_name": "Noise / motor sound (weak real signal)",
+        "brand_rate_pct": 7.5,
+        "category_rate_pct": 3.5,
+        "delta_pp": 4.0
+      },
+      "strongest_area": {
+        "theme": "reliability",
+        "theme_name": "Reliability / stopped working",
+        "brand_rate_pct": 0.0,
+        "category_rate_pct": 1.58,
+        "delta_pp": -1.58
+      },
+      "evidence": "src/real/rivals_real.py, n=40 real reviews across 1 real products"
+    }
+  ]
+}

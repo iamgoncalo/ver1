@@ -1,0 +1,146 @@
+{
+  "_provenance": "Signals = the same six real taxonomy themes used throughout Q3/Q6, joined against the real 12-document trend corpus by an explicit theme-tag mapping (theme_trend_map in this file). A signal is only reported CONVERGING when a real trend document actually exists for it - never asserted.",
+  "generated_by": "src/real/products_signals_real.py",
+  "signals": [
+    {
+      "id": "noise",
+      "name": "Noise / motor sound (weak real signal)",
+      "prevalence_pct": 3.5,
+      "csat_impact": -0.571,
+      "n_reviews": 369,
+      "source_families": [
+        "Consumer"
+      ],
+      "state": "SINGLE_SOURCE_FAMILY",
+      "related_trend_docs": [],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DERIVED"
+    },
+    {
+      "id": "reliability",
+      "name": "Reliability / stopped working",
+      "prevalence_pct": 1.58,
+      "csat_impact": -2.223,
+      "n_reviews": 166,
+      "source_families": [
+        "Consumer"
+      ],
+      "state": "SINGLE_SOURCE_FAMILY",
+      "related_trend_docs": [],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DERIVED"
+    },
+    {
+      "id": "ozone_odor_safety",
+      "name": "Ozone / smell / irritation (weak real signal)",
+      "prevalence_pct": 0.81,
+      "csat_impact": -1.102,
+      "n_reviews": 85,
+      "source_families": [
+        "Consumer",
+        "Science/Trend"
+      ],
+      "state": "CONVERGING",
+      "related_trend_docs": [
+        {
+          "id": "TC-R01",
+          "title": "Air Cleaners and Air Filters in the Home",
+          "publisher": "U.S. Environmental Protection Agency (EPA)",
+          "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home"
+        },
+        {
+          "id": "TC-R02",
+          "title": "Room Air Cleaners Key Product Criteria (ENERGY STAR)",
+          "publisher": "U.S. EPA / ENERGY STAR",
+          "url": "https://www.energystar.gov/products/air_purifiers_cleaners/key_product_criteria"
+        },
+        {
+          "id": "TC-R03",
+          "title": "Find a Certified Room Air Cleaner (AHAM Verifide directory)",
+          "publisher": "Association of Home Appliance Manufacturers (AHAM)",
+          "url": "https://ahamverifide.org/directory-of-air-cleaners/"
+        },
+        {
+          "id": "TC-R04",
+          "title": "List of CARB-Certified Air Cleaning Devices",
+          "publisher": "California Air Resources Board (CARB)",
+          "url": "https://ww2.arb.ca.gov/list-carb-certified-air-cleaning-devices"
+        },
+        {
+          "id": "TC-R05",
+          "title": "WHO Guidelines for Indoor Air Quality: Selected Pollutants",
+          "publisher": "World Health Organization (WHO)",
+          "url": "https://www.who.int/publications/i/item/9789289002134"
+        },
+        {
+          "id": "TC-R06",
+          "title": "Toward Better and Healthier Air Quality: Global PM2.5 and O3 Pollution Status and Risk Assessment Based on the New WHO Air Quality Guidelines for 2021",
+          "publisher": "Global Challenges (Wiley) - Liu, He, Si, Li, Wu, Ni, Zhao, Hu, Du, Lu, Jin, Xu (2024)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11009431/"
+        }
+      ],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety",
+        "TC-R01",
+        "TC-R02",
+        "TC-R03",
+        "TC-R04",
+        "TC-R05",
+        "TC-R06"
+      ],
+      "truth_class": "DERIVED"
+    },
+    {
+      "id": "value_effectiveness",
+      "name": "Perceived value / does it actually clean the air",
+      "prevalence_pct": 0.77,
+      "csat_impact": -2.724,
+      "n_reviews": 81,
+      "source_families": [
+        "Consumer"
+      ],
+      "state": "SINGLE_SOURCE_FAMILY",
+      "related_trend_docs": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DERIVED"
+    },
+    {
+      "id": "customer_service",
+      "name": "Customer service / returns / warranty",
+      "prevalence_pct": 0.34,
+      "csat_impact": -2.429,
+      "n_reviews": 36,
+      "source_families": [
+        "Consumer"
+      ],
+      "state": "SINGLE_SOURCE_FAMILY",
+      "related_trend_docs": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DERIVED"
+    },
+    {
+      "id": "filter_cost",
+      "name": "Filter cost / replacement (weak real signal)",
+      "prevalence_pct": 0.26,
+      "csat_impact": -1.252,
+      "n_reviews": 27,
+      "source_families": [
+        "Consumer"
+      ],
+      "state": "SINGLE_SOURCE_FAMILY",
+      "related_trend_docs": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DERIVED"
+    }
+  ]
+}

@@ -1,0 +1,747 @@
+{
+  "_provenance": "Every count is len() of a real filtered Python list. Dominance reuses src/real/decision_framework_real.py::dominates() exactly, generalized to N candidates.",
+  "generated_by": "src/real/magic_box_real.py",
+  "funnel": [
+    {
+      "stage": "generated",
+      "label": "Possibilities generated",
+      "count": 12
+    },
+    {
+      "stage": "gate",
+      "label": "Pass Consumer Pain evidence gate",
+      "count": 8
+    },
+    {
+      "stage": "evidence",
+      "label": "Have real Economic Value coverage",
+      "count": 8
+    },
+    {
+      "stage": "dominance",
+      "label": "Non-dominated (Pareto frontier)",
+      "count": 6
+    },
+    {
+      "stage": "finalists",
+      "label": "Finalists (top 3 by Consumer Pain)",
+      "count": 3
+    }
+  ],
+  "possibilities": [
+    {
+      "id": "reliability:PREDICT",
+      "name": "Predictive Failure Warning",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "PREDICT",
+      "operator_definition": "Reactive -> anticipatory.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "reliability:MATERIALISE",
+      "name": "Physical Health Indicator",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "MATERIALISE",
+      "operator_definition": "Turn digital perception/information into physical intervention.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "noise:AMBIENT",
+      "name": "Ambient Night Mode",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "AMBIENT",
+      "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "noise:TEMPORAL_SHIFT",
+      "name": "Pre-Sleep Purification Window",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "TEMPORAL_SHIFT",
+      "operator_definition": "Move the job earlier/later.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "value_effectiveness:CONCENTRATE",
+      "name": "Single-Metric Trust Score",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CONCENTRATE",
+      "operator_definition": "Multiple systems -> one system.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "name": "Verified-Clean Certification",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "customer_service:INVERT",
+      "name": "Proactive Warranty Contact",
+      "friction_theme": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "operator": "INVERT",
+      "operator_definition": "Act before instead of after.",
+      "consumer_pain_csat": -2.429,
+      "consumer_pain_prevalence_pct": 0.34,
+      "gate_passed": false,
+      "economic_value": 8124.56,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "customer_service:REMOVE",
+      "name": "No-Ticket Replacement",
+      "friction_theme": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "operator": "REMOVE",
+      "operator_definition": "Eliminate an interaction/component.",
+      "consumer_pain_csat": -2.429,
+      "consumer_pain_prevalence_pct": 0.34,
+      "gate_passed": false,
+      "economic_value": 8124.56,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "filter_cost:DISTRIBUTE",
+      "name": "Micro-Filter Subscription",
+      "friction_theme": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "operator": "DISTRIBUTE",
+      "operator_definition": "One large system -> several smaller systems.",
+      "consumer_pain_csat": -1.252,
+      "consumer_pain_prevalence_pct": 0.26,
+      "gate_passed": false,
+      "economic_value": 7390.66,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "filter_cost:MERGE",
+      "name": "Filter-Inclusive Pricing",
+      "friction_theme": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "operator": "MERGE",
+      "operator_definition": "Combine functions / objects / jobs.",
+      "consumer_pain_csat": -1.252,
+      "consumer_pain_prevalence_pct": 0.26,
+      "gate_passed": false,
+      "economic_value": 7390.66,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "ozone_odor_safety:MOVE",
+      "name": "Sensor-Led Placement Guidance",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "MOVE",
+      "operator_definition": "Change physical location.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "ozone_odor_safety:PERSONALISE",
+      "name": "Sensitivity-Aware Auto Mode",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    }
+  ],
+  "finalists": [
+    {
+      "id": "value_effectiveness:CONCENTRATE",
+      "name": "Single-Metric Trust Score",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CONCENTRATE",
+      "operator_definition": "Multiple systems -> one system.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "name": "Verified-Clean Certification",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "reliability:PREDICT",
+      "name": "Predictive Failure Warning",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "PREDICT",
+      "operator_definition": "Reactive -> anticipatory.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    }
+  ],
+  "non_dominated": [
+    {
+      "id": "reliability:PREDICT",
+      "name": "Predictive Failure Warning",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "PREDICT",
+      "operator_definition": "Reactive -> anticipatory.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "reliability:MATERIALISE",
+      "name": "Physical Health Indicator",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "MATERIALISE",
+      "operator_definition": "Turn digital perception/information into physical intervention.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "noise:AMBIENT",
+      "name": "Ambient Night Mode",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "AMBIENT",
+      "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "noise:TEMPORAL_SHIFT",
+      "name": "Pre-Sleep Purification Window",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "TEMPORAL_SHIFT",
+      "operator_definition": "Move the job earlier/later.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "value_effectiveness:CONCENTRATE",
+      "name": "Single-Metric Trust Score",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CONCENTRATE",
+      "operator_definition": "Multiple systems -> one system.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    },
+    {
+      "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "name": "Verified-Clean Certification",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY"
+    }
+  ],
+  "graveyard": [
+    {
+      "id": "customer_service:INVERT",
+      "name": "Proactive Warranty Contact",
+      "friction_theme": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "operator": "INVERT",
+      "operator_definition": "Act before instead of after.",
+      "consumer_pain_csat": -2.429,
+      "consumer_pain_prevalence_pct": 0.34,
+      "gate_passed": false,
+      "economic_value": 8124.56,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "killed_by": "NO_OBSERVED_PAIN",
+      "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+    },
+    {
+      "id": "customer_service:REMOVE",
+      "name": "No-Ticket Replacement",
+      "friction_theme": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "operator": "REMOVE",
+      "operator_definition": "Eliminate an interaction/component.",
+      "consumer_pain_csat": -2.429,
+      "consumer_pain_prevalence_pct": 0.34,
+      "gate_passed": false,
+      "economic_value": 8124.56,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "killed_by": "NO_OBSERVED_PAIN",
+      "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+    },
+    {
+      "id": "filter_cost:DISTRIBUTE",
+      "name": "Micro-Filter Subscription",
+      "friction_theme": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "operator": "DISTRIBUTE",
+      "operator_definition": "One large system -> several smaller systems.",
+      "consumer_pain_csat": -1.252,
+      "consumer_pain_prevalence_pct": 0.26,
+      "gate_passed": false,
+      "economic_value": 7390.66,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "killed_by": "NO_OBSERVED_PAIN",
+      "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
+    },
+    {
+      "id": "filter_cost:MERGE",
+      "name": "Filter-Inclusive Pricing",
+      "friction_theme": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "operator": "MERGE",
+      "operator_definition": "Combine functions / objects / jobs.",
+      "consumer_pain_csat": -1.252,
+      "consumer_pain_prevalence_pct": 0.26,
+      "gate_passed": false,
+      "economic_value": 7390.66,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "killed_by": "NO_OBSERVED_PAIN",
+      "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
+    },
+    {
+      "id": "ozone_odor_safety:MOVE",
+      "name": "Sensor-Led Placement Guidance",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "MOVE",
+      "operator_definition": "Change physical location.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "killed_by": "DOMINATED",
+      "kill_reason": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
+    },
+    {
+      "id": "ozone_odor_safety:PERSONALISE",
+      "name": "Sensitivity-Aware Auto Mode",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "killed_by": "DOMINATED",
+      "kill_reason": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
+    }
+  ],
+  "operators": {
+    "MOVE": "Change physical location.",
+    "MERGE": "Combine functions / objects / jobs.",
+    "REMOVE": "Eliminate an interaction/component.",
+    "INVERT": "Act before instead of after.",
+    "DISTRIBUTE": "One large system -> several smaller systems.",
+    "CONCENTRATE": "Multiple systems -> one system.",
+    "PREDICT": "Reactive -> anticipatory.",
+    "PERSONALISE": "Room/system -> individual/context.",
+    "AMBIENT": "Explicit interaction -> invisible environmental behaviour.",
+    "TEMPORAL_SHIFT": "Move the job earlier/later.",
+    "CROSS_CATEGORY_TRANSFER": "Transfer a verified capability from another product/category.",
+    "MATERIALISE": "Turn digital perception/information into physical intervention."
+  }
+}

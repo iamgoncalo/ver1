@@ -1,0 +1,221 @@
+"""MAGIC BOX - deterministic possibility generation from real evidence.
+
+This is NOT a generative-AI idea machine. It is a fixed, transparent,
+reproducible RULE TABLE: for each real friction theme that clears the same
+evidence gate Q6 uses, one or two DESIGN OPERATORS (a named vocabulary, not
+evidence - see DESIGN_TRANSFORMATIONS below) are deterministically applied to
+produce a POSSIBILITY. Every possibility carries its full derivation chain
+(friction, evidence_ids, competitor gap if any, operator) so it can always be
+traced back to real data. Re-running this script on the same evidence always
+produces the same possibilities in the same order - nothing here is sampled
+or invented per-run.
+
+The funnel (52 -> gates -> dominance -> finalists in the brief's own example
+language) is REAL here: every count below is len() of an actual filtered
+list, never a hardcoded number.
+
+Run:  python3 src/real/magic_box_real.py
+"""
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from taxonomy_real import THEMES  # noqa: E402
+from decision_framework_real import (compute as compute_decision, dominates,  # noqa: E402
+                                      pain_score, MATERIALITY_FLOOR_PCT, FEASIBILITY,
+                                      FEASIBILITY_RANK)
+from wtp_real import load_prices, compute_price_exposure  # noqa: E402
+from taxonomy_real import load_clean, compute_theme_stats  # noqa: E402
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROC = os.path.join(ROOT, "data", "processed")
+
+# The fixed design-operator vocabulary. These are DESIGN OPERATORS, not
+# evidence - applying MOVE to a real friction does not make the resulting
+# possibility a fact. Every possibility is explicitly typed as such
+# downstream (visual_truth_classes: DESIGN POSSIBILITY / HYPOTHESIS).
+OPERATORS = {
+    "MOVE": "Change physical location.",
+    "MERGE": "Combine functions / objects / jobs.",
+    "REMOVE": "Eliminate an interaction/component.",
+    "INVERT": "Act before instead of after.",
+    "DISTRIBUTE": "One large system -> several smaller systems.",
+    "CONCENTRATE": "Multiple systems -> one system.",
+    "PREDICT": "Reactive -> anticipatory.",
+    "PERSONALISE": "Room/system -> individual/context.",
+    "AMBIENT": "Explicit interaction -> invisible environmental behaviour.",
+    "TEMPORAL_SHIFT": "Move the job earlier/later.",
+    "CROSS_CATEGORY_TRANSFER": "Transfer a verified capability from another product/category.",
+    "MATERIALISE": "Turn digital perception/information into physical intervention.",
+}
+
+# Fixed, transparent, author-reviewed mapping: which operator(s) fit which
+# real friction theme. This table itself is the "design judgment" layer -
+# declared once, applied deterministically, never per-run randomness.
+THEME_OPERATORS = {
+    "reliability": ["PREDICT", "MATERIALISE"],
+    "noise": ["AMBIENT", "TEMPORAL_SHIFT"],
+    "value_effectiveness": ["CONCENTRATE", "CROSS_CATEGORY_TRANSFER"],
+    "customer_service": ["INVERT", "REMOVE"],
+    "filter_cost": ["DISTRIBUTE", "MERGE"],
+    "ozone_odor_safety": ["MOVE", "PERSONALISE"],
+}
+
+POSSIBILITY_NAMES = {
+    ("reliability", "PREDICT"): "Predictive Failure Warning",
+    ("reliability", "MATERIALISE"): "Physical Health Indicator",
+    ("noise", "AMBIENT"): "Ambient Night Mode",
+    ("noise", "TEMPORAL_SHIFT"): "Pre-Sleep Purification Window",
+    ("value_effectiveness", "CONCENTRATE"): "Single-Metric Trust Score",
+    ("value_effectiveness", "CROSS_CATEGORY_TRANSFER"): "Verified-Clean Certification",
+    ("customer_service", "INVERT"): "Proactive Warranty Contact",
+    ("customer_service", "REMOVE"): "No-Ticket Replacement",
+    ("filter_cost", "DISTRIBUTE"): "Micro-Filter Subscription",
+    ("filter_cost", "MERGE"): "Filter-Inclusive Pricing",
+    ("ozone_odor_safety", "MOVE"): "Sensor-Led Placement Guidance",
+    ("ozone_odor_safety", "PERSONALISE"): "Sensitivity-Aware Auto Mode",
+}
+
+
+def generate_possibilities():
+    """Stage 1 of the funnel: every (theme, operator) pair the fixed table
+    defines, regardless of gate status - the raw candidate pool."""
+    rows = load_clean()
+    theme_stats, corpus_mean, _ = compute_theme_stats(rows)
+    prices = load_prices()
+    price_exposure = compute_price_exposure(rows, prices)
+
+    try:
+        with open(os.path.join(PROC, "white_space_real.json"), encoding="utf-8") as fh:
+            white_space = {s["theme"]: s for s in json.load(fh)["spaces"]}
+    except FileNotFoundError:
+        white_space = {}
+
+    possibilities = []
+    for theme_id, ops in THEME_OPERATORS.items():
+        stats = theme_stats[theme_id]
+        for op in ops:
+            pid = "{}:{}".format(theme_id, op)
+            gate_passed = (stats["csat_impact"] is not None
+                          and (stats["prevalence_pct"] or 0) >= MATERIALITY_FLOOR_PCT)
+            ws = white_space.get(theme_id)
+            possibilities.append({
+                "id": pid,
+                "name": POSSIBILITY_NAMES.get((theme_id, op), "{} x {}".format(theme_id, op)),
+                "friction_theme": theme_id,
+                "friction_theme_name": THEMES[theme_id][0],
+                "operator": op,
+                "operator_definition": OPERATORS[op],
+                "consumer_pain_csat": stats["csat_impact"],
+                "consumer_pain_prevalence_pct": stats["prevalence_pct"],
+                "gate_passed": gate_passed,
+                "economic_value": price_exposure[theme_id]["price_weighted_exposure_usd"],
+                "feasibility_2_5y": {"rating": FEASIBILITY.get(
+                    {"reliability": "OS-1", "noise": "OS-2"}.get(theme_id, ""), {}).get(
+                        "rating", "medium"),
+                    "rank": FEASIBILITY_RANK.get(FEASIBILITY.get(
+                        {"reliability": "OS-1", "noise": "OS-2"}.get(theme_id, ""), {}).get(
+                            "rating", "medium"), 2)},
+                "is_white_space": bool(ws and ws.get("is_white_space")),
+                "competitor_gap_brands": ws["rivals_measurably_weak_here"] if ws else [],
+                "evidence_ids": ["taxonomy:{}".format(theme_id)],
+                "truth_class": "DESIGN_POSSIBILITY",
+            })
+    return possibilities
+
+
+def run_funnel():
+    """Every stage count below is len() of a real filtered list - the
+    funnel numbers are computed, never hardcoded."""
+    all_possibilities = generate_possibilities()
+    stage1 = all_possibilities
+    stage2_gate = [p for p in stage1 if p["gate_passed"]]
+    stage3_evidence = [p for p in stage2_gate if p["economic_value"] not in (None, 0)]
+
+    # Pairwise dominance over the surviving possibilities, reusing the exact
+    # same dominates() function decision_framework_real.py uses for Q6 -
+    # generalized here to N candidates instead of 3.
+    def profile_for_dominance(p):
+        return {"consumer_pain": {"severity_csat": p["consumer_pain_csat"]},
+               "economic_value": p["economic_value"],
+               "feasibility_2_5y": {"rank": p["feasibility_2_5y"]["rank"]}}
+
+    non_dominated = []
+    for a in stage3_evidence:
+        pa = profile_for_dominance(a)
+        dominated = False
+        for b in stage3_evidence:
+            if a is b:
+                continue
+            if dominates(profile_for_dominance(b), pa):
+                dominated = True
+                break
+        if not dominated:
+            non_dominated.append(a)
+    stage4_dominance = non_dominated
+
+    stage5_finalists = sorted(
+        stage4_dominance, key=lambda p: pain_score(profile_for_dominance(p)) or 0,
+        reverse=True)[:3]
+
+    graveyard = []
+    for p in stage1:
+        if p in stage2_gate:
+            continue
+        graveyard.append({**p, "killed_by": "NO_OBSERVED_PAIN",
+                          "kill_reason": "Consumer Pain evidence-sufficiency gate failed - "
+                                        "prevalence {}% below the {}% floor, or no real "
+                                        "CSAT signal.".format(
+                                            p["consumer_pain_prevalence_pct"], MATERIALITY_FLOOR_PCT)})
+    for p in stage2_gate:
+        if p in stage3_evidence:
+            continue
+        graveyard.append({**p, "killed_by": "INSUFFICIENT_ECONOMIC_EVIDENCE",
+                          "kill_reason": "No real observed-price coverage for this theme's "
+                                        "affected reviews - cannot size Economic Value."})
+    for p in stage3_evidence:
+        if p in stage4_dominance:
+            continue
+        graveyard.append({**p, "killed_by": "DOMINATED",
+                          "kill_reason": "Strictly dominated by another surviving "
+                                        "possibility on Consumer Pain, Economic Value and "
+                                        "Feasibility simultaneously."})
+
+    return {
+        "_provenance": "Every count is len() of a real filtered Python list. Dominance "
+                       "reuses src/real/decision_framework_real.py::dominates() exactly, "
+                       "generalized to N candidates.",
+        "generated_by": "src/real/magic_box_real.py",
+        "funnel": [
+            {"stage": "generated", "label": "Possibilities generated", "count": len(stage1)},
+            {"stage": "gate", "label": "Pass Consumer Pain evidence gate", "count": len(stage2_gate)},
+            {"stage": "evidence", "label": "Have real Economic Value coverage", "count": len(stage3_evidence)},
+            {"stage": "dominance", "label": "Non-dominated (Pareto frontier)", "count": len(stage4_dominance)},
+            {"stage": "finalists", "label": "Finalists (top 3 by Consumer Pain)", "count": len(stage5_finalists)},
+        ],
+        "possibilities": stage1,
+        "finalists": stage5_finalists,
+        "non_dominated": stage4_dominance,
+        "graveyard": graveyard,
+        "operators": OPERATORS,
+    }
+
+
+def main():
+    doc = run_funnel()
+    os.makedirs(PROC, exist_ok=True)
+    with open(os.path.join(PROC, "magic_box_real.json"), "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    print("wrote magic_box_real.json")
+    for s in doc["funnel"]:
+        print("  {:<12} {:>3}  {}".format(s["stage"], s["count"], s["label"]))
+    print("  finalists: {}".format([p["name"] for p in doc["finalists"]]))
+    print("  graveyard: {} killed".format(len(doc["graveyard"])))
+    return doc
+
+
+if __name__ == "__main__":
+    main()

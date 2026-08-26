@@ -1,0 +1,130 @@
+import { useEffect, useMemo, useState } from "react";
+import { api } from "../lib/api";
+import type { Rival, RivalsResponse, WhiteSpaceResponse } from "../lib/types";
+import { Card, Pill, StatRow, SectionLabel } from "../components/ui";
+import { FocusPanel } from "../components/FocusPanel";
+
+export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: string) => void }) {
+  const [data, setData] = useState<RivalsResponse | null>(null);
+  const [whiteSpace, setWhiteSpace] = useState<WhiteSpaceResponse | null>(null);
+  const [focus, setFocus] = useState<Rival | null>(null);
+  const [showWhiteSpace, setShowWhiteSpace] = useState(false);
+
+  useEffect(() => {
+    api.rivals().then(setData).catch(() => setData(null));
+    api.whiteSpace().then(setWhiteSpace).catch(() => setWhiteSpace(null));
+  }, []);
+
+  const sorted = useMemo(() => [...(data?.rivals ?? [])].sort((a, b) => b.n_reviews - a.n_reviews), [data]);
+  const spaces = whiteSpace?.spaces?.filter((s) => s.is_white_space) ?? [];
+
+  function weakestTheme(r: Rival) {
+    return [...r.theme_gaps].sort((a, b) => b.delta_pp - a.delta_pp)[0];
+  }
+
+  return (
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
+        <div>
+          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
+            3 · COMPARE — WHERE IS EVERYONE ELSE?
+          </div>
+          <h1 style={{ fontSize: 30 }}>Rivals</h1>
+        </div>
+        <button
+          onClick={() => setShowWhiteSpace((v) => !v)}
+          style={{ padding: "10px 18px", borderRadius: 10, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
+            background: "linear-gradient(120deg, var(--accent-blue), var(--accent-teal))", color: "white" }}
+        >
+          {showWhiteSpace ? "← Back to brands" : "Show white space"}
+        </button>
+      </div>
+
+      {!showWhiteSpace ? (
+        <>
+          <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 12, flexShrink: 0 }}>
+            {sorted.length} real brands, ≥{data?.min_reviews_floor ?? 40} reviews each, from {data?.n_category_reviews.toLocaleString()} category reviews.
+            Weakness = the theme each brand under-performs the category average on the most.
+          </div>
+          <div className="scrollY" style={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10, alignContent: "start" }}>
+            {sorted.map((r) => {
+              const w = weakestTheme(r);
+              return (
+                <Card key={r.brand} onClick={() => setFocus(r)}>
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <span style={{ fontWeight: 600, fontSize: 14 }}>{r.brand}</span>
+                    <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>★{r.mean_rating}</span>
+                  </div>
+                  <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 10px" }}>
+                    {r.n_reviews.toLocaleString()} reviews · {r.n_products} product{r.n_products !== 1 ? "s" : ""}
+                  </div>
+                  {w && (
+                    <Pill tone={w.delta_pp > 0 ? "rose" : "good"}>
+                      {w.delta_pp > 0 ? "weak" : "strong"}: {w.theme_name.split(" / ")[0]} ({w.delta_pp > 0 ? "+" : ""}{w.delta_pp}pp)
+                    </Pill>
+                  )}
+                </Card>
+              );
+            })}
+            {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real competitive evidence…</div>}
+          </div>
+        </>
+      ) : (
+        <div className="scrollY" style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14, alignContent: "start" }}>
+          <div style={{ fontSize: 12, color: "var(--ink-dim)" }}>
+            White space requires all three, real: a Consumer Pain gate pass, ≥2 real rivals measurably weaker on that theme, and
+            real 2–5yr feasibility evidence.
+          </div>
+          {spaces.map((s) => (
+            <div key={s.opportunity_id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 16, padding: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <div>
+                  <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
+                  <h3 style={{ fontSize: 19, marginTop: 8 }}>{s.name}</h3>
+                </div>
+                <button
+                  onClick={() => onSendToMagicBox(s.theme)}
+                  style={{ padding: "9px 16px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}
+                >
+                  Send to Magic Box →
+                </button>
+              </div>
+              <div style={{ display: "flex", gap: 24, marginTop: 14 }}>
+                <StatRow label="Consumer pain CSAT" value={s.consumer_pain_csat} />
+                <StatRow label="Feasibility (2–5yr)" value={s.feasibility} />
+              </div>
+              <div style={{ marginTop: 8 }}>
+                <SectionLabel>Rivals measurably weak here ({s.rivals_measurably_weak_here.length})</SectionLabel>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {s.rivals_measurably_weak_here.map((b) => <Pill key={b}>{b}</Pill>)}
+                </div>
+              </div>
+            </div>
+          ))}
+          {!whiteSpace && <div style={{ color: "var(--ink-faint)" }}>Loading white space evidence…</div>}
+        </div>
+      )}
+
+      <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow="Rival brand" title={focus?.brand ?? ""}>
+        {focus && (
+          <>
+            <StatRow label="Real reviews" value={focus.n_reviews.toLocaleString()} />
+            <StatRow label="Products in corpus" value={focus.n_products} />
+            <StatRow label="Mean rating" value={focus.mean_rating} />
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Theme gaps vs. category average</SectionLabel>
+              {[...focus.theme_gaps].sort((a, b) => b.delta_pp - a.delta_pp).map((g) => (
+                <div key={g.theme} style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
+                  <span style={{ color: "var(--ink-dim)" }}>{g.theme_name}</span>
+                  <span className="mono" style={{ color: g.delta_pp > 0 ? "var(--rose)" : "var(--good)" }}>
+                    {g.brand_rate_pct}% vs {g.category_rate_pct}% ({g.delta_pp > 0 ? "+" : ""}{g.delta_pp}pp)
+                  </span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </FocusPanel>
+    </div>
+  );
+}

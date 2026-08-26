@@ -68,6 +68,11 @@ python3 src/real/taxonomy_real.py
 python3 src/real/wtp_real.py
 python3 src/real/decision_framework_real.py
 
+echo "== stage 8b/9: V1 view-models (real) - products/signals, rivals/white-space, magic box =="
+python3 src/real/products_signals_real.py
+python3 src/real/rivals_real.py
+python3 src/real/magic_box_real.py
+
 echo "== stage 9/9: evidence table + tests =="
 python3 src/real/build_evidence_table_real.py
 python3 -m unittest tests.test_real_pipeline -v
