@@ -2,11 +2,38 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import type { InnovationsResponse } from "../lib/types";
 import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, type ViewMode } from "../components/ui";
+import { FocusPanel } from "../components/FocusPanel";
+import { traceEvidenceIds, type TraceNode } from "../lib/trace";
 
 const PRIORITIES = [
   { key: "pain_feasibility_majority", label: "Pain + Feasibility majority (default)" },
   { key: "economic_value_override", label: "Economic Value override" },
 ];
+
+const KIND_LABEL: Record<string, string> = {
+  signal: "SIGNAL", trend_doc: "TREND DOC", paper: "PEER-REVIEWED PAPER",
+  keyword_search: "KEYWORD SEARCH", unresolved: "UNRESOLVED",
+};
+
+function TraceTree({ nodes, depth = 0 }: { nodes: TraceNode[]; depth?: number }) {
+  return (
+    <div style={{ marginLeft: depth * 18 }}>
+      {nodes.map((n) => (
+        <div key={n.id} style={{ marginBottom: 10, paddingLeft: depth > 0 ? 12 : 0, borderLeft: depth > 0 ? "2px solid var(--line)" : "none" }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <Pill tone={n.kind === "unresolved" ? "rose" : n.kind === "paper" ? "good" : "neutral"}>{KIND_LABEL[n.kind]}</Pill>
+            <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>{n.id}</span>
+          </div>
+          <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4 }}>
+            {n.url ? <a href={n.url} target="_blank" rel="noopener noreferrer">{n.label}</a> : n.label}
+          </div>
+          <div style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 2 }}>{n.detail}</div>
+          {n.children.length > 0 && <TraceTree nodes={n.children} depth={depth + 1} />}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) => void }) {
   const [data, setData] = useState<InnovationsResponse | null>(null);
@@ -14,6 +41,12 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
   const [baseline, setBaseline] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<ViewMode>("distilled");
+  const [signals, setSignals] = useState<any[]>([]);
+  const [research, setResearch] = useState<any>(null);
+  const [traceId, setTraceId] = useState<string | null>(null);
+
+  useEffect(() => { api.signals().then((r) => setSignals(r.signals)).catch(() => {}); }, []);
+  useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -129,6 +162,10 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                     <SectionLabel>Evidence IDs</SectionLabel>
                     <div className="mono" style={{ fontSize: 11, color: "var(--ink-dim)" }}>{s.evidence_ids.join(", ")}</div>
                   </div>
+                  <button onClick={() => setTraceId(id)}
+                    style={{ marginTop: 12, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
+                    TRACE THIS BET →
+                  </button>
                 </>
               )}
             </div>
@@ -155,6 +192,18 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
           )}
         </div>
       )}
+
+      <FocusPanel open={!!traceId} onClose={() => setTraceId(null)} eyebrow="Trace this bet — reverse to raw evidence" title={traceId ? data?.scores[traceId]?.name ?? traceId : ""}>
+        {traceId && data && (
+          <>
+            <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
+              Every edge below is a genuine cross-reference already present in the real data — nothing invented to
+              make this look connected. Where no link exists, it says so.
+            </p>
+            <TraceTree nodes={traceEvidenceIds(data.scores[traceId].evidence_ids, { signals, research })} />
+          </>
+        )}
+      </FocusPanel>
     </div>
   );
 }
