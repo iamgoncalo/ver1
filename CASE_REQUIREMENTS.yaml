@@ -45,9 +45,23 @@ questions:
             (CLI + dashboard Scenario Lab); verdict confirmed invariant"
   Q6_recommendation:
     status: PASS
-    detail: "Recomputed from real evidence. Winner: Reliability-Verified Air
-            Purifiers (changed from the earlier synthetic-fixture winner because
-            the real data does not support the old recommendation)"
+    detail: "Three real Versuni dimensions - Consumer Pain (CSAT severity, gated
+            by prevalence), Economic Value (price-weighted exposure), 2-5 Year
+            Feasibility (ordinal, grounded in real trend-corpus citations).
+            Winner computed via gate -> Pareto dominance -> named judgment rule
+            (src/real/decision_framework_real.py::evaluate/dominates/break_tie),
+            never a fixed literal. Current real-data result: NON_DOMINATED_PLUS_
+            JUDGMENT, decision_priority=pain_feasibility_majority, winner OS-1
+            (Reliability-Verified Air Purifiers). Proven genuinely dynamic by
+            tests/test_dynamic_winner.py (8 tests: current-evidence winner,
+            dominance-flips-winner, judgment-flip flips winner to OS-2 under
+            --decision-priority=economic_value_override, order-independence,
+            no hardcoded winner literal in src/real/) and by an independent
+            review (found + this session fixed: a stale dashboard field
+            reference (enabling_trend) after the schema change, an
+            unvalidated decision_priority silently defaulting instead of
+            raising, and an unreachable-in-practice empty-profiles crash -
+            now a clear error instead)."
 
 deliverables:
   insight_pack_5_slides: {status: PASS, source: deliverables/insight_pack.md}

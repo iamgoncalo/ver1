@@ -43,6 +43,13 @@ live-interview quality, on real evidence only.
   frozen local outputs only and calls production analysis functions — it is
   a viewer, never a second source of calculation.
 
+## Branding (applies to every visual deliverable — deck, dashboard, exports)
+Always include the Versuni logo, and always credit **Disruptive Innovation
+Team, Amsterdam**. In extreme high quality — this is a standing requirement,
+not a one-off. Deferred until the explicit visual-design stage begins (do
+not start that stage until told to); until then, plain-text attribution
+("Disruptive Innovation Team, Amsterdam") in doc footers/headers is fine.
+
 ## Where things live
 - Real pipeline: `src/real/`
 - Real raw data: `data/raw/`, archived source material: `data/real_raw/`

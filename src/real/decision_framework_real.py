@@ -1,12 +1,15 @@
-"""Q6 (real data) - score real opportunity spaces against the three Q1
-measures, using ONLY evidence produced by this repair's real pipeline
-(Q2 detection, Q3 taxonomy, Q4 pricing). The synthetic-fixture phase's
-winner ("Ultra-Quiet Night Purification") is NOT assumed to still win -
-this recomputes from the real numbers and reports whatever they support.
+"""Q6 (real data) - score real opportunity spaces on the three Versuni case
+dimensions (Consumer Pain, Economic Value, 2-5 Year Feasibility), using ONLY
+evidence produced by this repair's real pipeline (Q2 detection, Q3 taxonomy,
+Q4 pricing, real trend corpus). Nothing here is a fixed winner: every score
+is recomputed from current rows/evidence, dominance is checked pairwise, and
+where no candidate dominates, an explicit, NAMED, PARAMETERIZED judgment rule
+picks the winner - not prose that describes a decision the code doesn't run.
 
 Usage:
-  python3 src/real/decision_framework_real.py                  # primary market scenario
-  python3 src/real/decision_framework_real.py --market-scenario=imarc   # Q5 sensitivity
+  python3 src/real/decision_framework_real.py
+  python3 src/real/decision_framework_real.py --market-scenario=imarc
+  python3 src/real/decision_framework_real.py --decision-priority=economic_value_override
 """
 import csv
 import json
@@ -24,17 +27,40 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 PROC = os.path.join(ROOT, "data", "processed")
 CLEAN = os.path.join(ROOT, "data", "processed", "reviews_clean_real.csv")
 
+MATERIALITY_FLOOR_PCT = 0.5  # Consumer Pain evidence-sufficiency gate
+FEASIBILITY_RANK = {"high": 3, "medium": 2, "low": 1}
 
-def load_clean():
-    with open(CLEAN, newline="", encoding="utf-8") as fh:
-        return list(csv.DictReader(fh))
-
-
-def keyword_prevalence(rows, pattern):
-    pat = re.compile(pattern, re.I)
-    n = sum(1 for r in rows if pat.search(r["review_text"] or ""))
-    return n, round(100.0 * n / len(rows), 3)
-
+FEASIBILITY = {
+    "OS-1": {
+        "rating": "high",
+        "evidence_ids": ["TC-R02", "TC-R08"],
+        "rationale": ("Two real, already-standardized frameworks exist to build on "
+                      "directly: TC-R02 (ENERGY STAR already requires measured, "
+                      "verified ongoing performance criteria - a real regulatory "
+                      "template for an ongoing-performance-verified claim) and TC-R08 "
+                      "(Matter's Air Quality Sensor cluster is an already-standardized "
+                      "connectivity layer that could carry a self-diagnostic/runtime "
+                      "health signal without inventing a new protocol)."),
+    },
+    "OS-2": {
+        "rating": "medium",
+        "evidence_ids": ["TC-R11"],
+        "rationale": ("No real trend document in this 12-document corpus directly "
+                      "addresses acoustic/noise engineering - TC-R11 (Dyson's sensor "
+                      "press release) is only tangential. Achievable, but without an "
+                      "external standard or precedent to build on, this requires "
+                      "proprietary acoustic R&D from a colder start than OS-1."),
+    },
+    "OS-3": {
+        "rating": "high",
+        "evidence_ids": ["TC-R07", "TC-R08"],
+        "rationale": ("Technically the easiest of the three: TC-R07 shows Versuni "
+                      "already ships Wi-Fi/app connectivity today, and TC-R08 is an "
+                      "already-standardized protocol layer. High feasibility does NOT "
+                      "rescue this opportunity - it fails the upstream Consumer Pain "
+                      "evidence gate below. Ease of build is not evidence of demand."),
+    },
+}
 
 FIRST_EXPERIMENT = {
     "OS-1": ("Cross-reference the real review corpus's product-level failure mentions "
@@ -58,44 +84,192 @@ ABANDON_SIGNAL = {
             "software cannot move, and abandon."),
 }
 
+ASSUMPTIONS = {
+    "OS-1": ["Reliability complaints in review text reflect genuine hardware/QA "
+            "failures, not disproportionately impatient reviewers.",
+            "A self-diagnostic signal can be delivered over the existing Matter "
+            "connectivity layer without a new certification cycle."],
+    "OS-2": ["Acoustic engineering can meaningfully reduce PERCEIVED loudness without "
+            "breaking the cost or power-draw envelope.",
+            "Reviewers who mention noise would actually change their rating if it "
+            "were fixed, rather than noise being one complaint among several."],
+    "OS-3": ["A friction not visible in review text could still exist but be "
+            "unarticulated - review text structurally cannot surface demand for a "
+            "feature nobody has been offered yet."],
+}
+UNCERTAINTY = {
+    "OS-1": ["Price-weighted exposure covers only 75/237 real products with a known "
+            "observed price - a real coverage gap, not the full category.",
+            "No direct WTP measurement exists for this or any theme (Q4)."],
+    "OS-2": ["Same price-coverage gap as OS-1.",
+            "No direct WTP measurement exists for this or any theme (Q4)."],
+    "OS-3": ["Keyword-search prevalence has no polarity gate, so this number is a "
+            "topic-mention count, not a friction measure - a materially weaker "
+            "evidence class than OS-1/OS-2's polarity-gated taxonomy themes."],
+}
 
-def pick_winner(scores):
-    """The ONE decision rule, as executable code, not prose the code then
-    ignores. An earlier version of this function set "recommended": "OS-1"
-    as a literal string - scores were computed live but the verdict was not,
-    so no scenario could ever change it. Caught by an independent review of
-    this control-room layer, not by the person who wrote the bug.
 
-    Rule (matches insight_pack.md's stated judgment, now actually executed):
-      1. A space with no CSAT signal (None) or negligible prevalence is
-         disqualified - it has nothing to be severe OR broad about.
-      2. Among survivors, the winner is whichever has the more severe
-         (more negative) CSAT Impact - the stated "severity over reach"
-         call. This is a real, statable, ALTERNATIVE-ABLE rule: swapping
-         min() for a prevalence-first comparator would flip it toward reach,
-         exactly the alternative judgment named in verdict["sensitivity"].
+def load_clean():
+    with open(CLEAN, newline="", encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
+def keyword_prevalence(rows, pattern):
+    pat = re.compile(pattern, re.I)
+    n = sum(1 for r in rows if pat.search(r["review_text"] or ""))
+    return n, round(100.0 * n / len(rows), 3)
+
+
+def pain_score(profile):
+    """Higher = more painful = more attractive to fix. The negative sign is
+    the ONLY place 'more severe CSAT hit' is turned into 'bigger number is
+    better' - kept in one function so the sign convention can't drift."""
+    csat = profile["consumer_pain"]["severity_csat"]
+    return None if csat is None else -csat
+
+
+def dominates(a, b):
+    """True if profile a is at least as good as b on all three real
+    dimensions and strictly better on at least one - textbook Pareto
+    dominance, not a weighted score. Both must have passed the Consumer
+    Pain evidence gate (checked by the caller) before this is meaningful."""
+    pa, pb = pain_score(a), pain_score(b)
+    ea, eb = a["economic_value"] or 0, b["economic_value"] or 0
+    fa, fb = a["feasibility_2_5y"]["rank"], b["feasibility_2_5y"]["rank"]
+    ge_all = pa >= pb and ea >= eb and fa >= fb
+    gt_any = pa > pb or ea > eb or fa > fb
+    return ge_all and gt_any
+
+
+def break_tie(id_a, profile_a, id_b, profile_b, decision_priority):
+    """The ONE tie-break judgment rule, executed as code, not asserted in
+    prose. Two named, real rules are implemented - which one runs is a
+    parameter, so flipping it is a one-argument scenario, not a rewrite.
+
+    'pain_feasibility_majority' (default): count how many of the 3
+    dimensions each candidate strictly wins; more wins takes it. This is
+    the "severity/feasibility over reach" judgment named in past drafts of
+    this file, now literally counted rather than asserted.
+
+    'economic_value_override': Economic Value alone decides, on the
+    business judgment that reach x price matters more than severity or
+    build ease. The named FLIP for the live session.
     """
-    MATERIALITY_FLOOR_PCT = 0.5
-    survivors = {sid: s for sid, s in scores.items()
-                if s["csat_impact"] is not None and (s["friction_prevalence_pct"] or 0) >= MATERIALITY_FLOOR_PCT}
+    valid = ("pain_feasibility_majority", "economic_value_override")
+    if decision_priority not in valid:
+        raise ValueError("unknown decision_priority {!r} - must be one of {}. An "
+                         "unrecognized value silently defaulting to the majority rule "
+                         "would be exactly the kind of hidden fallback this decision "
+                         "path is required not to have.".format(decision_priority, valid))
+
+    pa, pb = pain_score(profile_a), pain_score(profile_b)
+    ea, eb = profile_a["economic_value"] or 0, profile_b["economic_value"] or 0
+    fa, fb = profile_a["feasibility_2_5y"]["rank"], profile_b["feasibility_2_5y"]["rank"]
+
+    if decision_priority == "economic_value_override":
+        if ea != eb:
+            return (id_a, "economic_value_override") if ea > eb else (id_b, "economic_value_override")
+        # Economic Value tied - fall back to pain as the secondary criterion.
+        return (id_a if (pa or 0) >= (pb or 0) else id_b), "economic_value_override_tiebreak_pain"
+
+    # default: pain_feasibility_majority
+    a_wins = sum([pa > pb, ea > eb, fa > fb])
+    b_wins = sum([pb > pa, eb > ea, fb > fa])
+    if a_wins != b_wins:
+        return (id_a if a_wins > b_wins else id_b), "pain_feasibility_majority"
+    return (id_a if (pa or 0) >= (pb or 0) else id_b), "pain_feasibility_majority_tiebreak_pain"
+
+
+def evaluate(profiles, decision_priority="pain_feasibility_majority"):
+    """Runs the gate -> dominance -> judgment sequence over an arbitrary
+    number of candidates and returns (winner_id, dominance_status_by_id,
+    decision_reason_by_id). Order-independent: iterates profiles.items()
+    but never relies on dict/list order to break a tie - every comparison
+    is a real pairwise check."""
+    survivors = {pid: p for pid, p in profiles.items()
+                if p["consumer_pain"]["gate_passed"]}
+    status = {}
+    reasons = {}
+    for pid, p in profiles.items():
+        if pid not in survivors:
+            status[pid] = "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE"
+            reasons[pid] = ("Consumer Pain evidence-sufficiency gate failed: prevalence "
+                            "{}% is below the {}% materiality floor, or no real CSAT "
+                            "signal exists for this theme at all - there is nothing to "
+                            "be severe OR broad about, regardless of Economic Value or "
+                            "Feasibility.").format(p["consumer_pain"]["prevalence_pct"],
+                                                   MATERIALITY_FLOOR_PCT)
+
+    if not profiles:
+        raise ValueError("evaluate() called with zero opportunity profiles - nothing "
+                         "to recommend. Not reachable via the real pipeline (compute() "
+                         "always builds exactly OS-1/OS-2/OS-3), guarded here so a "
+                         "future caller gets a clear error instead of a raw IndexError.")
+
     if not survivors:
-        survivors = scores  # degenerate case: nothing survives, compare everyone anyway
-    winner_id = min(survivors.items(), key=lambda kv: kv[1]["csat_impact"])[0]
-    return winner_id
+        # Degenerate case: nothing clears the gate. Fall back to comparing
+        # everyone rather than crashing - still order-independent.
+        survivors = dict(profiles)
+
+    if len(survivors) == 1:
+        only_id = next(iter(survivors))
+        status[only_id] = "ONLY_SURVIVOR"
+        reasons[only_id] = "Only candidate to clear the Consumer Pain evidence-sufficiency gate."
+        return only_id, status, reasons
+
+    # Pairwise dominance among survivors (handles >2 candidates generically,
+    # though the real data here always narrows to 2). `reasons` already holds
+    # gate-failure entries for non-survivors from above - extended, not reset,
+    # so those aren't lost.
+    ids = list(survivors.keys())
+    dominant = None
+    for i, a in enumerate(ids):
+        dominated_by_someone = False
+        for b in ids:
+            if a == b:
+                continue
+            if dominates(survivors[b], survivors[a]):
+                dominated_by_someone = True
+                status[a] = "DOMINATED_BY_{}".format(b)
+                reasons[a] = "Dominated by {}: equal-or-worse on all three real " \
+                            "dimensions, strictly worse on at least one.".format(b)
+                break
+        if not dominated_by_someone:
+            if dominant is None:
+                dominant = a
+
+    non_dominated = [pid for pid in ids if not status.get(pid, "").startswith("DOMINATED_BY")]
+    if len(non_dominated) == 1:
+        winner_id = non_dominated[0]
+        status[winner_id] = "DOMINATES_ALL_OTHERS"
+        reasons[winner_id] = "Strictly dominates every other survivor on the three " \
+                             "real dimensions - no judgment call needed."
+        return winner_id, status, reasons
+
+    # Multiple non-dominated survivors: genuine Pareto frontier, judgment required.
+    winner_id = non_dominated[0]
+    for other in non_dominated[1:]:
+        winner_id, rule_used = break_tie(winner_id, survivors[winner_id],
+                                         other, survivors[other], decision_priority)
+    for pid in non_dominated:
+        status[pid] = "NON_DOMINATED"
+    reasons[winner_id] = "Non-dominated vs. {} - picked by the '{}' decision rule.".format(
+        [p for p in non_dominated if p != winner_id], rule_used)
+    for pid in non_dominated:
+        if pid != winner_id:
+            reasons[pid] = "Non-dominated vs. {}, but the '{}' decision rule favours " \
+                           "{}.".format(winner_id, rule_used, winner_id)
+    return winner_id, status, reasons
 
 
-def compute(scenario="mordor", rows=None, tax=None, wtp=None):
+def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority="pain_feasibility_majority"):
     """Pure computation, no file writes - the ONE scoring implementation
     shared by the CLI (main, below) and dashboard/app.py's Scenario Lab.
 
-    Callers may pass rows= to recompute theme/price stats over a FILTERED
-    row set (e.g. the dashboard's "exclude one product" scenario) - when
-    rows is given, reliability/noise/price-exposure are recomputed live via
-    compute_theme_stats()/compute_price_exposure() rather than read from the
-    frozen data/processed/*.json snapshot, so a scenario that meaningfully
-    changes the data can actually change the score (and, via pick_winner()
-    below, the recommendation). tax=/wtp= let a caller that already has the
-    frozen snapshot loaded skip re-reading it when rows is None.
+    rows= lets a caller recompute theme/price stats over a FILTERED row set
+    (e.g. the dashboard's "exclude one product" scenario) rather than the
+    frozen data/processed/*.json snapshot. decision_priority= selects which
+    named tie-break rule runs when no candidate dominates - see break_tie().
     """
     rows = rows if rows is not None else load_clean()
     if tax is None or rows is not None:
@@ -118,7 +292,15 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None):
     scenario_source = {"mordor": "Mordor Intelligence (primary planning basis)",
                        "imarc": "IMARC Group (Q5 alternative)"}.get(scenario)
 
-    scores = {
+    def gate(csat, prevalence_pct):
+        return csat is not None and (prevalence_pct or 0) >= MATERIALITY_FLOOR_PCT
+
+    def feasibility_block(oid):
+        f = FEASIBILITY[oid]
+        return {"rating": f["rating"], "rank": FEASIBILITY_RANK[f["rating"]],
+                "evidence_ids": f["evidence_ids"], "rationale": f["rationale"]}
+
+    profiles = {
         "OS-1": {
             "name": "Reliability-Verified Air Purifiers (extended-life guarantee "
                     "+ real-time self-diagnostic)",
@@ -129,152 +311,183 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None):
                        "return window - a complaint pattern visible across brands and "
                        "across the full 2004-2023 span of this real corpus, meaning it "
                        "has never been solved industry-wide",
-            "enabling_trend": "TC-R08 (Matter Air Quality Sensor cluster - the same "
-                              "connectivity layer could carry a self-diagnostic/runtime "
-                              "health signal); TC-R02 (ENERGY STAR IEF/CADR measurement "
-                              "already requires performance verification, a template for "
-                              "an ongoing performance-verified claim)",
-            "friction_prevalence_pct": reliability["prevalence_pct"],
-            "csat_impact": reliability["csat_impact"],
-            "price_weighted_exposure_usd": price_exposure["reliability"]["price_weighted_exposure_usd"],
+            "consumer_pain": {"severity_csat": reliability["csat_impact"],
+                              "prevalence_pct": reliability["prevalence_pct"],
+                              "gate_passed": gate(reliability["csat_impact"], reliability["prevalence_pct"])},
+            "economic_value": price_exposure["reliability"]["price_weighted_exposure_usd"],
+            "feasibility_2_5y": feasibility_block("OS-1"),
             "n_reviews_supporting": reliability["n_reviews"],
+            "evidence_ids": ["taxonomy:reliability"] + FEASIBILITY["OS-1"]["evidence_ids"],
+            "assumptions": ASSUMPTIONS["OS-1"], "uncertainty": UNCERTAINTY["OS-1"],
             "evidence": "src/real/taxonomy_real.py theme 'reliability', "
                        "polarity-gated real-text classification, n={} reviews".format(
                            reliability["n_reviews"]),
+            # legacy field names some prose/tests still read
+            "friction_prevalence_pct": reliability["prevalence_pct"],
+            "csat_impact": reliability["csat_impact"],
+            "price_weighted_exposure_usd": price_exposure["reliability"]["price_weighted_exposure_usd"],
         },
         "OS-2": {
             "name": "Whisper-Quiet Night Mode",
             "usage_context": "Bedroom, overnight use",
             "friction": "Motor/fan noise at higher speeds",
-            "enabling_trend": "TC-R11 (Dyson formaldehyde-sensor press release, "
-                              "tangential); no real trend document in this corpus "
-                              "directly addresses acoustic engineering",
+            "consumer_pain": {"severity_csat": noise["csat_impact"],
+                              "prevalence_pct": noise["prevalence_pct"],
+                              "gate_passed": gate(noise["csat_impact"], noise["prevalence_pct"])},
+            "economic_value": price_exposure["noise"]["price_weighted_exposure_usd"],
+            "feasibility_2_5y": feasibility_block("OS-2"),
+            "n_reviews_supporting": noise["n_reviews"],
+            "evidence_ids": ["taxonomy:noise"] + FEASIBILITY["OS-2"]["evidence_ids"],
+            "assumptions": ASSUMPTIONS["OS-2"], "uncertainty": UNCERTAINTY["OS-2"],
+            "evidence": "src/real/taxonomy_real.py theme 'noise', n={} reviews".format(
+                noise["n_reviews"]),
             "friction_prevalence_pct": noise["prevalence_pct"],
             "csat_impact": noise["csat_impact"],
             "price_weighted_exposure_usd": price_exposure["noise"]["price_weighted_exposure_usd"],
-            "n_reviews_supporting": noise["n_reviews"],
-            "evidence": "src/real/taxonomy_real.py theme 'noise', n={} reviews".format(
-                noise["n_reviews"]),
         },
         "OS-3": {
             "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
             "usage_context": "Smart-speaker / connected-home households",
             "friction": "Presumed friction with manual app/physical control",
-            "enabling_trend": "TC-R08 (Matter Air Quality Sensor device type), "
-                              "TC-R07 (Versuni's own AI-purifier launch)",
-            "friction_prevalence_pct": smart_pct,
-            "csat_impact": None,
-            "price_weighted_exposure_usd": None,
+            "consumer_pain": {"severity_csat": None, "prevalence_pct": smart_pct,
+                              "gate_passed": gate(None, smart_pct)},
+            "economic_value": None,
+            "feasibility_2_5y": feasibility_block("OS-3"),
             "n_reviews_supporting": smart_n,
+            "evidence_ids": ["keyword_search:connectivity"] + FEASIBILITY["OS-3"]["evidence_ids"],
+            "assumptions": ASSUMPTIONS["OS-3"], "uncertainty": UNCERTAINTY["OS-3"],
             "evidence": "keyword search across all {} real reviews: {} matches "
                        "({}%); reviews that DO mention connectivity skew POSITIVE "
                        "(feature praise, not complaint) on manual inspection".format(
                            len(rows), smart_n, smart_pct),
+            "friction_prevalence_pct": smart_pct, "csat_impact": None,
+            "price_weighted_exposure_usd": None,
         },
     }
 
-    winner_id = pick_winner(scores)
-    runner_up_id = next(sid for sid in ("OS-1", "OS-2") if sid != winner_id)
-    winner, runner_up, os3 = scores[winner_id], scores[runner_up_id], scores["OS-3"]
+    winner_id, dominance_status, decision_reasons = evaluate(profiles, decision_priority)
+    for pid, p in profiles.items():
+        p["dominance_status"] = dominance_status.get(pid, "UNKNOWN")
+        p["decision_reason"] = decision_reasons.get(pid, "")
+
+    scores = profiles  # legacy alias - old code/tests read out.scores
+    winner = profiles[winner_id]
+    others = [pid for pid in ("OS-1", "OS-2", "OS-3") if pid != winner_id]
+    runner_up_id = next((pid for pid in others if profiles[pid]["consumer_pain"]["gate_passed"]),
+                        others[0])
+    runner_up = profiles[runner_up_id]
+
+    decision_type = "DOMINANT" if winner["dominance_status"] == "DOMINATES_ALL_OTHERS" \
+        else "NON_DOMINATED_PLUS_JUDGMENT"
 
     verdict = {
         "recommended": winner_id, "recommended_name": winner["name"],
+        "decision_type": decision_type,
+        "decision_priority_used": decision_priority,
         "why": (
-            "Real data presents a genuine Pareto trade-off, not a dominant winner: {ru_name} "
-            "({ru_id}) reaches {reach} reviews ({runp}% vs {winp}%) and touches "
-            "{exposure} products (${rue:,.0f} vs ${wne:,.0f}), but its satisfaction hit is "
-            "{sev} of the two ({ruc} stars vs {winc} stars). {win_name} ({win_id}) was picked "
-            "by the stated decision rule (src/real/decision_framework_real.py::pick_winner): "
-            "among candidates with a real CSAT signal and non-trivial prevalence, the most "
-            "SEVERE satisfaction hit wins over the broadest reach. That is an explicit, "
-            "reversible judgment call, not a formula with only one answer - see 'most "
-            "sensitive assumption' below."
+            "DATA: {ru_name} ({ru_id}) — Consumer Pain {ruc} stars, prevalence {runp}%, "
+            "Economic Value ${rue:,.0f}, Feasibility {ruf}. "
+            "DATA: {win_name} ({win_id}) — Consumer Pain {winc} stars, prevalence {winp}%, "
+            "Economic Value ${wne:,.0f}, Feasibility {winf}. "
+            "{dt} "
+            "JUDGMENT: decision_priority='{dp}' was applied ({rule}). "
+            "See 'most sensitive assumption' for the exact flip."
         ).format(ru_name=runner_up["name"].split(" (")[0], ru_id=runner_up_id,
-                 reach="more" if runner_up["friction_prevalence_pct"] > winner["friction_prevalence_pct"] else "fewer",
-                 runp=runner_up["friction_prevalence_pct"], winp=winner["friction_prevalence_pct"],
-                 exposure="higher-price-exposure" if (runner_up["price_weighted_exposure_usd"] or 0) > (winner["price_weighted_exposure_usd"] or 0) else "lower-price-exposure",
-                 rue=runner_up["price_weighted_exposure_usd"] or 0, wne=winner["price_weighted_exposure_usd"] or 0,
-                 sev="the mildest" if runner_up["csat_impact"] > winner["csat_impact"] else "more severe",
-                 ruc=runner_up["csat_impact"], winc=winner["csat_impact"],
-                 win_name=winner["name"].split(" (")[0], win_id=winner_id),
+                 ruc=runner_up["consumer_pain"]["severity_csat"],
+                 runp=runner_up["consumer_pain"]["prevalence_pct"],
+                 rue=runner_up["economic_value"] or 0, ruf=runner_up["feasibility_2_5y"]["rating"],
+                 win_name=winner["name"].split(" (")[0], win_id=winner_id,
+                 winc=winner["consumer_pain"]["severity_csat"],
+                 winp=winner["consumer_pain"]["prevalence_pct"],
+                 wne=winner["economic_value"] or 0, winf=winner["feasibility_2_5y"]["rating"],
+                 dt="No candidate strictly dominates the other on all three real "
+                    "dimensions - this is a genuine Pareto trade-off." if decision_type == "NON_DOMINATED_PLUS_JUDGMENT"
+                    else "{} strictly dominates on all three real dimensions.".format(winner["name"].split(" (")[0]),
+                 dp=decision_priority, rule=winner["decision_reason"]),
         "killed": [
             {"id": runner_up_id, "name": runner_up["name"],
-             "killing_metric": "CSAT Impact = {} stars vs the winner's {} stars - {} "
-                               "satisfaction hit of the two candidates with a real CSAT "
-                               "signal".format(
-                                   runner_up["csat_impact"], winner["csat_impact"],
-                                   "the shallowest" if runner_up["csat_impact"] > winner["csat_impact"] else "still less severe"),
-             "reason": ("Between the two frictions with a measurable satisfaction impact, "
-                       "{} loses on severity even though it may reach more reviews. A euro "
-                       "spent here buys less improvement in the metric that actually "
-                       "predicts whether a buyer stays a customer than the same euro spent "
-                       "on {}.".format(runner_up["name"].split(" (")[0], winner["name"].split(" (")[0]))},
-            {"id": "OS-3", "name": os3["name"],
-             "killing_metric": "Friction Prevalence % = {}% ({} of {} reviews) - and on "
-                               "manual inspection, most of those mentions are FEATURE "
-                               "PRAISE, not complaints".format(
-                                   smart_pct, smart_n, len(rows)),
+             "killing_metric": "decision_priority='{}' favours {} ({})".format(
+                 decision_priority, winner["name"].split(" (")[0], winner["decision_reason"]),
+             "reason": runner_up["decision_reason"] or "Lower priority under the active decision rule."},
+        ] + [
+            {"id": pid, "name": profiles[pid]["name"],
+             "killing_metric": "{} ({}% prevalence, {} of {} reviews)".format(
+                 profiles[pid]["dominance_status"], profiles[pid]["consumer_pain"]["prevalence_pct"],
+                 profiles[pid]["n_reviews_supporting"], len(rows)),
              "reason": ("Unlike the earlier synthetic-fixture version of this exercise, "
                        "connectivity mentions are not literally zero in real data (~1%) - "
-                       "but they are the smallest of the three real candidates AND skew "
-                       "positive when they do appear (e.g., 'It is incredibly powerful and "
-                       "[connectivity feature]... impressed with it'). There is no real "
-                       "friction signal here to build a roadmap bet on, only a feature "
-                       "people occasionally mention liking.")},
+                       "but they fail the Consumer Pain evidence-sufficiency gate (no real "
+                       "CSAT signal) and skew positive when they do appear. High technical "
+                       "Feasibility does not rescue a candidate with no real friction "
+                       "evidence to build against.") if pid == "OS-3" else profiles[pid]["decision_reason"]}
+            for pid in others if pid != runner_up_id
         ],
         "sensitivity": (
-            "The recommendation is most sensitive to the priority rule in "
-            "pick_winner(): severity (most negative CSAT Impact) currently outranks reach "
-            "(Friction Prevalence %) among candidates with a real CSAT signal. Swapping that "
-            "comparator to prevalence-first would flip the winner to {}. This is a genuine, "
-            "reversible judgment call - not resolved by the data alone, and not hidden "
-            "behind a formula the code doesn't actually run."
-        ).format(runner_up["name"].split(" (")[0]),
+            "FLIP ASSUMPTION: decision_priority. Currently '{dp}' ({rule_desc}). Running "
+            "with decision_priority='economic_value_override' (Economic Value decides "
+            "outright) flips the recommendation to whichever candidate has the higher "
+            "Price-Weighted Exposure - {alt}. This is a genuine, reversible, NAMED "
+            "judgment call - run "
+            "`python3 src/real/decision_framework_real.py --decision-priority="
+            "economic_value_override` to see it happen live, not asserted in prose."
+        ).format(dp=decision_priority,
+                 rule_desc="severity+feasibility majority decides" if decision_priority == "pain_feasibility_majority"
+                 else "Economic Value decides outright",
+                 alt=(runner_up["name"].split(" (")[0] if (runner_up["economic_value"] or 0) > (winner["economic_value"] or 0)
+                      else winner["name"].split(" (")[0])),
         "first_experiment": FIRST_EXPERIMENT.get(winner_id, FIRST_EXPERIMENT["OS-1"]),
         "abandon_signal": ABANDON_SIGNAL.get(winner_id, ABANDON_SIGNAL["OS-1"]),
-        # kept for anything still reading the old OS-1-specific key names
         "first_experiment_os1": FIRST_EXPERIMENT.get(winner_id, FIRST_EXPERIMENT["OS-1"]),
         "abandon_signal_os1": ABANDON_SIGNAL.get(winner_id, ABANDON_SIGNAL["OS-1"]),
         "market_scenario": {"used": scenario_source, "cagr_pct": scenario_cagr,
                             "note": ("The Q6 scores above do not depend on category CAGR at "
                                     "all - they are built entirely from review-level "
-                                    "prevalence/CSAT/price-exposure, so this scenario flag "
-                                    "changes the category-sizing narrative in Q5/insight_pack "
-                                    "but changes NOTHING in this file's scores or verdict. "
-                                    "Run with --market-scenario=imarc to see this "
-                                    "confirmed live.")},
+                                    "Consumer Pain/Economic Value/Feasibility, so this "
+                                    "scenario flag changes the category-sizing narrative in "
+                                    "Q5/insight_pack but changes NOTHING in this file's "
+                                    "scores or verdict. Run with --market-scenario=imarc to "
+                                    "see this confirmed live.")},
     }
 
     return {
         "_provenance": "Recomputed from REAL Q2/Q3/Q4 outputs during this repair - not "
-                       "carried over from the synthetic-fixture phase.",
+                       "carried over from the synthetic-fixture phase. Winner is computed "
+                       "via gate -> Pareto dominance -> named judgment rule "
+                       "(src/real/decision_framework_real.py::evaluate), never a fixed "
+                       "literal - see CASE_REQUIREMENTS.yaml for the history of why that "
+                       "distinction is written down explicitly.",
         "generated_by": "src/real/decision_framework_real.py",
         "market_scenario_used": scenario,
         "scenario_cagr_pct": scenario_cagr,
+        "decision_priority_used": decision_priority,
         "scores": scores, "verdict": verdict,
     }
 
 
 def main():
     scenario = "mordor"
+    decision_priority = "pain_feasibility_majority"
     for a in sys.argv[1:]:
         if a.startswith("--market-scenario="):
             scenario = a.split("=", 1)[1]
+        elif a.startswith("--decision-priority="):
+            decision_priority = a.split("=", 1)[1]
 
-    out = compute(scenario)
+    out = compute(scenario, decision_priority=decision_priority)
     scores, verdict = out["scores"], out["verdict"]
 
     with open(os.path.join(PROC, "decision_framework_real.json"), "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
 
-    print("Q6 (real data) decision framework - market scenario: {} (CAGR {}%)".format(
-        scenario, out["scenario_cagr_pct"]))
+    print("Q6 (real data) decision framework - market scenario: {} (CAGR {}%) - "
+         "decision_priority: {}".format(scenario, out["scenario_cagr_pct"], decision_priority))
     for sid, s in scores.items():
-        print("  {:<6} {:<38} prev={:>6}% csat={} price_exp={}".format(
-            sid, s["name"][:38], s["friction_prevalence_pct"], s["csat_impact"],
-            s["price_weighted_exposure_usd"]))
-    print("\n  RECOMMEND: {} - {}".format(verdict["recommended"], verdict["recommended_name"]))
+        print("  {:<6} {:<38} pain={} econ=${} feas={} status={}".format(
+            sid, s["name"][:38], s["consumer_pain"]["severity_csat"],
+            s["economic_value"], s["feasibility_2_5y"]["rating"], s["dominance_status"]))
+    print("\n  DECISION TYPE: {}".format(verdict["decision_type"]))
+    print("  RECOMMEND: {} - {}".format(verdict["recommended"], verdict["recommended_name"]))
     for k in verdict["killed"]:
         print("  KILL: {} - {}".format(k["id"], k["killing_metric"]))
     return out

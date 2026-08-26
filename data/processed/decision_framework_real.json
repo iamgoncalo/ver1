@@ -1,62 +1,148 @@
 {
-  "_provenance": "Recomputed from REAL Q2/Q3/Q4 outputs during this repair - not carried over from the synthetic-fixture phase.",
+  "_provenance": "Recomputed from REAL Q2/Q3/Q4 outputs during this repair - not carried over from the synthetic-fixture phase. Winner is computed via gate -> Pareto dominance -> named judgment rule (src/real/decision_framework_real.py::evaluate), never a fixed literal - see CASE_REQUIREMENTS.yaml for the history of why that distinction is written down explicitly.",
   "generated_by": "src/real/decision_framework_real.py",
   "market_scenario_used": "imarc",
   "scenario_cagr_pct": 6.54,
+  "decision_priority_used": "pain_feasibility_majority",
   "scores": {
     "OS-1": {
       "name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
       "usage_context": "Any household buying a purifier as a health/allergy necessity, not a discretionary gadget",
       "friction": "Unit silently 'stops working' or 'dies' well before its expected life, with no warning and often outside a short return window - a complaint pattern visible across brands and across the full 2004-2023 span of this real corpus, meaning it has never been solved industry-wide",
-      "enabling_trend": "TC-R08 (Matter Air Quality Sensor cluster - the same connectivity layer could carry a self-diagnostic/runtime health signal); TC-R02 (ENERGY STAR IEF/CADR measurement already requires performance verification, a template for an ongoing performance-verified claim)",
+      "consumer_pain": {
+        "severity_csat": -2.223,
+        "prevalence_pct": 1.58,
+        "gate_passed": true
+      },
+      "economic_value": 26357.86,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+      },
+      "n_reviews_supporting": 166,
+      "evidence_ids": [
+        "taxonomy:reliability",
+        "TC-R02",
+        "TC-R08"
+      ],
+      "assumptions": [
+        "Reliability complaints in review text reflect genuine hardware/QA failures, not disproportionately impatient reviewers.",
+        "A self-diagnostic signal can be delivered over the existing Matter connectivity layer without a new certification cycle."
+      ],
+      "uncertainty": [
+        "Price-weighted exposure covers only 75/237 real products with a known observed price - a real coverage gap, not the full category.",
+        "No direct WTP measurement exists for this or any theme (Q4)."
+      ],
+      "evidence": "src/real/taxonomy_real.py theme 'reliability', polarity-gated real-text classification, n=166 reviews",
       "friction_prevalence_pct": 1.58,
       "csat_impact": -2.223,
       "price_weighted_exposure_usd": 26357.86,
-      "n_reviews_supporting": 166,
-      "evidence": "src/real/taxonomy_real.py theme 'reliability', polarity-gated real-text classification, n=166 reviews"
+      "dominance_status": "NON_DOMINATED",
+      "decision_reason": "Non-dominated vs. ['OS-2'] - picked by the 'pain_feasibility_majority' decision rule."
     },
     "OS-2": {
       "name": "Whisper-Quiet Night Mode",
       "usage_context": "Bedroom, overnight use",
       "friction": "Motor/fan noise at higher speeds",
-      "enabling_trend": "TC-R11 (Dyson formaldehyde-sensor press release, tangential); no real trend document in this corpus directly addresses acoustic engineering",
+      "consumer_pain": {
+        "severity_csat": -0.571,
+        "prevalence_pct": 3.5,
+        "gate_passed": true
+      },
+      "economic_value": 84015.62,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than OS-1."
+      },
+      "n_reviews_supporting": 369,
+      "evidence_ids": [
+        "taxonomy:noise",
+        "TC-R11"
+      ],
+      "assumptions": [
+        "Acoustic engineering can meaningfully reduce PERCEIVED loudness without breaking the cost or power-draw envelope.",
+        "Reviewers who mention noise would actually change their rating if it were fixed, rather than noise being one complaint among several."
+      ],
+      "uncertainty": [
+        "Same price-coverage gap as OS-1.",
+        "No direct WTP measurement exists for this or any theme (Q4)."
+      ],
+      "evidence": "src/real/taxonomy_real.py theme 'noise', n=369 reviews",
       "friction_prevalence_pct": 3.5,
       "csat_impact": -0.571,
       "price_weighted_exposure_usd": 84015.62,
-      "n_reviews_supporting": 369,
-      "evidence": "src/real/taxonomy_real.py theme 'noise', n=369 reviews"
+      "dominance_status": "NON_DOMINATED",
+      "decision_reason": "Non-dominated vs. OS-1, but the 'pain_feasibility_majority' decision rule favours OS-1."
     },
     "OS-3": {
       "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
       "usage_context": "Smart-speaker / connected-home households",
       "friction": "Presumed friction with manual app/physical control",
-      "enabling_trend": "TC-R08 (Matter Air Quality Sensor device type), TC-R07 (Versuni's own AI-purifier launch)",
+      "consumer_pain": {
+        "severity_csat": null,
+        "prevalence_pct": 1.016,
+        "gate_passed": false
+      },
+      "economic_value": null,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R07",
+          "TC-R08"
+        ],
+        "rationale": "Technically the easiest of the three: TC-R07 shows Versuni already ships Wi-Fi/app connectivity today, and TC-R08 is an already-standardized protocol layer. High feasibility does NOT rescue this opportunity - it fails the upstream Consumer Pain evidence gate below. Ease of build is not evidence of demand."
+      },
+      "n_reviews_supporting": 107,
+      "evidence_ids": [
+        "keyword_search:connectivity",
+        "TC-R07",
+        "TC-R08"
+      ],
+      "assumptions": [
+        "A friction not visible in review text could still exist but be unarticulated - review text structurally cannot surface demand for a feature nobody has been offered yet."
+      ],
+      "uncertainty": [
+        "Keyword-search prevalence has no polarity gate, so this number is a topic-mention count, not a friction measure - a materially weaker evidence class than OS-1/OS-2's polarity-gated taxonomy themes."
+      ],
+      "evidence": "keyword search across all 10529 real reviews: 107 matches (1.016%); reviews that DO mention connectivity skew POSITIVE (feature praise, not complaint) on manual inspection",
       "friction_prevalence_pct": 1.016,
       "csat_impact": null,
       "price_weighted_exposure_usd": null,
-      "n_reviews_supporting": 107,
-      "evidence": "keyword search across all 10529 real reviews: 107 matches (1.016%); reviews that DO mention connectivity skew POSITIVE (feature praise, not complaint) on manual inspection"
+      "dominance_status": "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE",
+      "decision_reason": "Consumer Pain evidence-sufficiency gate failed: prevalence 1.016% is below the 0.5% materiality floor, or no real CSAT signal exists for this theme at all - there is nothing to be severe OR broad about, regardless of Economic Value or Feasibility."
     }
   },
   "verdict": {
     "recommended": "OS-1",
     "recommended_name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
-    "why": "Real data presents a genuine Pareto trade-off, not a dominant winner: Whisper-Quiet Night Mode (OS-2) reaches more reviews (3.5% vs 1.58%) and touches higher-price-exposure products ($84,016 vs $26,358), but its satisfaction hit is the mildest of the two (-0.571 stars vs -2.223 stars). Reliability-Verified Air Purifiers (OS-1) was picked by the stated decision rule (src/real/decision_framework_real.py::pick_winner): among candidates with a real CSAT signal and non-trivial prevalence, the most SEVERE satisfaction hit wins over the broadest reach. That is an explicit, reversible judgment call, not a formula with only one answer - see 'most sensitive assumption' below.",
+    "decision_type": "NON_DOMINATED_PLUS_JUDGMENT",
+    "decision_priority_used": "pain_feasibility_majority",
+    "why": "DATA: Whisper-Quiet Night Mode (OS-2) — Consumer Pain -0.571 stars, prevalence 3.5%, Economic Value $84,016, Feasibility medium. DATA: Reliability-Verified Air Purifiers (OS-1) — Consumer Pain -2.223 stars, prevalence 1.58%, Economic Value $26,358, Feasibility high. No candidate strictly dominates the other on all three real dimensions - this is a genuine Pareto trade-off. JUDGMENT: decision_priority='pain_feasibility_majority' was applied (Non-dominated vs. ['OS-2'] - picked by the 'pain_feasibility_majority' decision rule.). See 'most sensitive assumption' for the exact flip.",
     "killed": [
       {
         "id": "OS-2",
         "name": "Whisper-Quiet Night Mode",
-        "killing_metric": "CSAT Impact = -0.571 stars vs the winner's -2.223 stars - the shallowest satisfaction hit of the two candidates with a real CSAT signal",
-        "reason": "Between the two frictions with a measurable satisfaction impact, Whisper-Quiet Night Mode loses on severity even though it may reach more reviews. A euro spent here buys less improvement in the metric that actually predicts whether a buyer stays a customer than the same euro spent on Reliability-Verified Air Purifiers."
+        "killing_metric": "decision_priority='pain_feasibility_majority' favours Reliability-Verified Air Purifiers (Non-dominated vs. ['OS-2'] - picked by the 'pain_feasibility_majority' decision rule.)",
+        "reason": "Non-dominated vs. OS-1, but the 'pain_feasibility_majority' decision rule favours OS-1."
       },
       {
         "id": "OS-3",
         "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
-        "killing_metric": "Friction Prevalence % = 1.016% (107 of 10529 reviews) - and on manual inspection, most of those mentions are FEATURE PRAISE, not complaints",
-        "reason": "Unlike the earlier synthetic-fixture version of this exercise, connectivity mentions are not literally zero in real data (~1%) - but they are the smallest of the three real candidates AND skew positive when they do appear (e.g., 'It is incredibly powerful and [connectivity feature]... impressed with it'). There is no real friction signal here to build a roadmap bet on, only a feature people occasionally mention liking."
+        "killing_metric": "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE (1.016% prevalence, 107 of 10529 reviews)",
+        "reason": "Unlike the earlier synthetic-fixture version of this exercise, connectivity mentions are not literally zero in real data (~1%) - but they fail the Consumer Pain evidence-sufficiency gate (no real CSAT signal) and skew positive when they do appear. High technical Feasibility does not rescue a candidate with no real friction evidence to build against."
       }
     ],
-    "sensitivity": "The recommendation is most sensitive to the priority rule in pick_winner(): severity (most negative CSAT Impact) currently outranks reach (Friction Prevalence %) among candidates with a real CSAT signal. Swapping that comparator to prevalence-first would flip the winner to Whisper-Quiet Night Mode. This is a genuine, reversible judgment call - not resolved by the data alone, and not hidden behind a formula the code doesn't actually run.",
+    "sensitivity": "FLIP ASSUMPTION: decision_priority. Currently 'pain_feasibility_majority' (severity+feasibility majority decides). Running with decision_priority='economic_value_override' (Economic Value decides outright) flips the recommendation to whichever candidate has the higher Price-Weighted Exposure - Whisper-Quiet Night Mode. This is a genuine, reversible, NAMED judgment call - run `python3 src/real/decision_framework_real.py --decision-priority=economic_value_override` to see it happen live, not asserted in prose.",
     "first_experiment": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",
     "abandon_signal": "If the failure-mention cross-reference above shows reliability complaints concentrated in 2-3 specific older/discontinued products rather than spread across the category, treat this as a solved-or-solving problem rather than a live opportunity, and abandon.",
     "first_experiment_os1": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",
@@ -64,7 +150,7 @@
     "market_scenario": {
       "used": "IMARC Group (Q5 alternative)",
       "cagr_pct": 6.54,
-      "note": "The Q6 scores above do not depend on category CAGR at all - they are built entirely from review-level prevalence/CSAT/price-exposure, so this scenario flag changes the category-sizing narrative in Q5/insight_pack but changes NOTHING in this file's scores or verdict. Run with --market-scenario=imarc to see this confirmed live."
+      "note": "The Q6 scores above do not depend on category CAGR at all - they are built entirely from review-level Consumer Pain/Economic Value/Feasibility, so this scenario flag changes the category-sizing narrative in Q5/insight_pack but changes NOTHING in this file's scores or verdict. Run with --market-scenario=imarc to see this confirmed live."
     }
   }
 }

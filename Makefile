@@ -15,7 +15,7 @@ all:
 	bash run_pipeline.sh --analysis-only
 
 test:
-	python3 -m unittest tests.test_real_pipeline -v
+	python3 -m unittest tests.test_real_pipeline tests.test_dynamic_winner -v
 
 verify:
 	python3 scripts/verify_submission.py

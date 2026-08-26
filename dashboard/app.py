@@ -358,9 +358,15 @@ with tabs[4]:
 # =========================================================== 6. OPPORTUNITIES
 with tabs[5]:
     st.header("Opportunity spaces")
-    st.caption("Exactly three fixed measures per space. No weighted overall score.")
+    st.caption("Exactly three fixed dimensions per space - Consumer Pain, Economic "
+              "Value, 2-5 Year Feasibility. No weighted overall score. Winner is "
+              "computed live (gate -> Pareto dominance -> named judgment rule), "
+              "never a fixed literal - see EVIDENCE tab / CASE_REQUIREMENTS.yaml.")
     dec = load_json("data/processed/decision_framework_real.json")
-    winner_id = dec["verdict"]["recommended"]
+    verdict = dec["verdict"]
+    winner_id = verdict["recommended"]
+    st.info(md("**Decision type:** {}  |  **Decision priority used:** {}".format(
+        verdict["decision_type"], verdict["decision_priority_used"])))
     ordering = [winner_id] + [sid for sid in ("OS-1", "OS-2", "OS-3") if sid != winner_id]
     for sid in ordering:
         label = "WINNER" if sid == winner_id else "REJECTED"
@@ -368,16 +374,20 @@ with tabs[5]:
         box = st.success if label == "WINNER" else st.error
         box(md("**{} — {}**".format(label, s["name"])))
         c1, c2, c3 = st.columns(3)
-        c1.metric("Friction Prevalence %", "{}%".format(s["friction_prevalence_pct"]))
-        c2.metric("CSAT Impact", str(s["csat_impact"]) if s["csat_impact"] is not None else "n/a")
-        c3.metric("Financial Value Proxy",
-                 "${:,.0f}".format(s["price_weighted_exposure_usd"])
-                 if s.get("price_weighted_exposure_usd") else "n/a")
-        with st.expander("Consumer / friction / trend + evidence"):
+        pain = s["consumer_pain"]
+        c1.metric("Consumer Pain", "{}★".format(pain["severity_csat"]) if pain["severity_csat"] is not None else "n/a",
+                  help="Gate: prevalence {}% (floor 0.5%) -> {}".format(
+                      pain["prevalence_pct"], "PASSED" if pain["gate_passed"] else "FAILED"))
+        c2.metric("Economic Value", "${:,.0f}".format(s["economic_value"]) if s.get("economic_value") else "n/a")
+        c3.metric("2-5yr Feasibility", s["feasibility_2_5y"]["rating"].upper())
+        st.caption(md("Dominance status: **{}** — {}".format(s["dominance_status"], s["decision_reason"])))
+        with st.expander("Consumer / friction / feasibility / evidence / assumptions"):
             st.markdown("**Usage context:** " + md(s["usage_context"]))
             st.markdown("**Friction:** " + md(s["friction"]))
-            st.markdown("**Enabling trend:** " + md(s["enabling_trend"]))
-            st.markdown("**Evidence:** " + md(s["evidence"]))
+            st.markdown("**Feasibility rationale:** " + md(s["feasibility_2_5y"]["rationale"]))
+            st.markdown("**Evidence IDs:** " + ", ".join(s["evidence_ids"]))
+            st.markdown("**Assumptions:** " + "; ".join(s["assumptions"]))
+            st.markdown("**Uncertainty:** " + "; ".join(s["uncertainty"]))
         st.divider()
 
 # =========================================================== 7. SCENARIO LAB
@@ -398,12 +408,18 @@ with tabs[6]:
                                    if s == "mordor" else "IMARC Group (6.54% CAGR)")
         exclude_product = st.selectbox("Exclude one product (optional)",
                                        ["(none)"] + products)
+        decision_priority = st.radio(
+            "Decision priority — THE most-sensitive assumption (Q6)",
+            ["pain_feasibility_majority", "economic_value_override"],
+            format_func=lambda p: "Severity + Feasibility majority (current default)"
+            if p == "pain_feasibility_majority" else "Economic Value overrides (the named flip)")
     with col2:
         min_r = st.slider("Rating floor for 'trusted' reviews (theme recompute)", 1, 5, 1)
         prediction = st.text_input(
             "EXPECTED DIRECTION — state your prediction before running",
-            placeholder="e.g. 'excluding this product should barely move reliability "
-                       "prevalence since it's a small share of reviews'")
+            placeholder="e.g. 'switching to economic_value_override should flip the "
+                       "winner to Whisper-Quiet Night Mode, since it has the higher "
+                       "Economic Value'")
 
     run_disabled = not prediction.strip()
     if run_disabled:
@@ -418,15 +434,35 @@ with tabs[6]:
         prices = load_real_prices()
         baseline_exposure = compute_price_exposure(all_rows, prices)
         scenario_exposure = compute_price_exposure(scenario_rows, prices)
-        baseline_dec = compute_decision("mordor")
-        scenario_dec = compute_decision(market_scenario, rows=scenario_rows)
+        # BASELINE is always the unmodified default (mordor + majority rule),
+        # so "what changed" is always measured against the same fixed point,
+        # regardless of which controls above were touched.
+        baseline_dec = compute_decision("mordor", decision_priority="pain_feasibility_majority")
+        scenario_dec = compute_decision(market_scenario, rows=scenario_rows,
+                                        decision_priority=decision_priority)
+
+        winner_changed = baseline_dec["verdict"]["recommended"] != scenario_dec["verdict"]["recommended"]
+        what_changed = []
+        if market_scenario != "mordor":
+            what_changed.append("Q5 market source -> {}".format(market_scenario))
+        if exclude_product != "(none)":
+            what_changed.append("excluded product: {}".format(exclude_product))
+        if min_r != 1:
+            what_changed.append("rating floor -> {}".format(min_r))
+        if decision_priority != "pain_feasibility_majority":
+            what_changed.append("decision priority -> {}".format(decision_priority))
+        if not what_changed:
+            what_changed.append("(nothing - scenario == baseline)")
 
         result = {
             "prediction": prediction, "market_scenario": market_scenario,
             "exclude_product": exclude_product, "min_rating": min_r,
+            "decision_priority": decision_priority,
             "baseline_recommended": baseline_dec["verdict"]["recommended"],
             "scenario_recommended": scenario_dec["verdict"]["recommended"],
-            "winner_changed": baseline_dec["verdict"]["recommended"] != scenario_dec["verdict"]["recommended"],
+            "winner_changed": winner_changed,
+            "what_changed": what_changed,
+            "why": scenario_dec["verdict"]["why"],
             "run_at": datetime.now(timezone.utc).isoformat(),
         }
         with open(os.path.join(RUNTIME_DIR, "scenario_result.json"), "w", encoding="utf-8") as fh:
@@ -434,9 +470,11 @@ with tabs[6]:
 
         st.subheader("Result")
         c1, c2, c3 = st.columns(3)
-        c1.metric("BASELINE winner", result["baseline_recommended"])
-        c2.metric("SCENARIO winner", result["scenario_recommended"])
+        c1.metric("BASELINE WINNER", result["baseline_recommended"])
+        c2.metric("NEW WINNER", result["scenario_recommended"])
         c3.metric("WINNER CHANGED", "YES" if result["winner_changed"] else "NO")
+        st.markdown("**WHAT CHANGED:** " + "; ".join(what_changed))
+        st.markdown(md("**WHY:** " + result["why"]))
 
         st.markdown("**Baseline vs scenario theme deltas**")
         delta_rows = []
