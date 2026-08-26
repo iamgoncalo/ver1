@@ -106,9 +106,36 @@ class TestSignalsIntegrity(unittest.TestCase):
 
 
 class TestClustersIntegrity(unittest.TestCase):
-    def test_model_b_status_is_honestly_reported(self):
+    def test_model_b_is_implemented_and_deterministic(self):
         clusters = load("research_clusters.json")
-        self.assertEqual(clusters["model_b_emergent_textual_similarity"]["status"], "NOT_IMPLEMENTED")
+        model_b = clusters["model_b_emergent_textual_similarity"]
+        self.assertIn("clusters", model_b)
+        self.assertIn("method", model_b)
+        self.assertNotEqual(model_b.get("status"), "NOT_IMPLEMENTED")
+
+    def test_model_b_clusters_cover_every_peer_reviewed_paper_exactly_once(self):
+        clusters = load("research_clusters.json")["model_b_emergent_textual_similarity"]
+        index = load("research_index.json")
+        all_ids = {p["research_id"] for p in index["peer_reviewed_papers"]}
+        clustered_ids = [m for c in clusters["clusters"] for m in c["members"]]
+        self.assertEqual(len(clustered_ids), len(set(clustered_ids)), "a paper appears in more than one cluster")
+        self.assertEqual(set(clustered_ids), all_ids, "every peer-reviewed paper must be clustered exactly once")
+
+    def test_model_b_is_reproducible(self):
+        # Re-running the deterministic clustering script must produce the
+        # same cluster membership - this is a cross-check, not a fresh
+        # opinion generator.
+        import importlib
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, "src", "real"))
+        mod = importlib.import_module("emergent_clustering_real")
+        first = load("research_clusters.json")["model_b_emergent_textual_similarity"]["clusters"]
+        mod.main()
+        second = load("research_clusters.json")["model_b_emergent_textual_similarity"]["clusters"]
+        self.assertEqual(
+            sorted(tuple(sorted(c["members"])) for c in first),
+            sorted(tuple(sorted(c["members"])) for c in second),
+        )
 
 
 if __name__ == "__main__":

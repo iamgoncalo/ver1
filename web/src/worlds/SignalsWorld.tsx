@@ -3,6 +3,7 @@ import { api } from "../lib/api";
 import type { Signal, SignalsResponse } from "../lib/types";
 import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+import { ScienceConstellation } from "../components/ScienceConstellation";
 
 interface ResearchPaper {
   research_id: string; title: string; journal: string; year: number; doi: string; pmid: string | null;
@@ -106,7 +107,15 @@ export function SignalsWorld() {
         </div>
       ) : (
         <div className="scrollY" style={{ flex: 1 }}>
-          <SectionLabel>Raw peer-reviewed corpus ({research?.peer_reviewed_papers.length ?? 0} papers, {research?.technical_regulatory_count ?? 0} technical/regulatory sources not shown here — see research.md)</SectionLabel>
+          {research && (
+            <div style={{ marginBottom: 24 }}>
+              <ScienceConstellation onPaperClick={(id) => {
+                const p = research.peer_reviewed_papers.find((x) => x.research_id === id);
+                if (p) setPaperFocus(p);
+              }} />
+            </div>
+          )}
+          <SectionLabel>Full table ({research?.peer_reviewed_papers.length ?? 0} papers, {research?.technical_regulatory_count ?? 0} technical/regulatory sources not shown here — see research.md)</SectionLabel>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {(research?.peer_reviewed_papers ?? []).map((p) => (
               <div key={p.research_id} onClick={() => setPaperFocus(p)} role="button" tabIndex={0}

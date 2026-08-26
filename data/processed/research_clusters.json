@@ -70,7 +70,82 @@
     }
   ],
   "model_b_emergent_textual_similarity": {
-    "status": "NOT_IMPLEMENTED",
-    "reason": "Deferred this pass - requires a documented TF-IDF + cosine-similarity + deterministic agglomerative-clustering implementation over verified titles/abstracts. Tracked in NEXT_ACTION.md."
+    "_provenance": "Model B - deterministic TF-IDF (unigrams+bigrams, English stopwords, max 500 features) + cosine similarity + agglomerative average-linkage clustering (scikit-learn), fixed n_clusters=4 and edge threshold=0.12 - not tuned per-result. Clusters text similarity of each paper's real title + distilled found/does-not-establish/method text - not an embedding API, not an LLM. This is a cross-check against Model A's analyst-defined territories (research_corpus_real.py), not a replacement for it - text similarity and strategic-question territory are different axes and are not expected to agree perfectly.",
+    "generated_by": "src/real/emergent_clustering_real.py",
+    "method": "TF-IDF + cosine similarity + agglomerative average-linkage clustering",
+    "n_clusters": 4,
+    "similarity_edge_threshold": 0.12,
+    "clusters": [
+      {
+        "cluster_id": 0,
+        "members": [
+          "RP-01",
+          "RP-02",
+          "RP-03",
+          "RP-06",
+          "RP-07",
+          "RP-08"
+        ],
+        "dominant_territory": "R1",
+        "dominant_territory_share": 0.83
+      },
+      {
+        "cluster_id": 2,
+        "members": [
+          "RP-04"
+        ],
+        "dominant_territory": "R5",
+        "dominant_territory_share": 1.0
+      },
+      {
+        "cluster_id": 3,
+        "members": [
+          "RP-05"
+        ],
+        "dominant_territory": "R2",
+        "dominant_territory_share": 1.0
+      },
+      {
+        "cluster_id": 1,
+        "members": [
+          "RP-09",
+          "RP-10"
+        ],
+        "dominant_territory": "R4",
+        "dominant_territory_share": 1.0
+      }
+    ],
+    "similarity_edges": [
+      {
+        "from": "RP-09",
+        "to": "RP-10",
+        "cosine_similarity": 0.1856
+      },
+      {
+        "from": "RP-03",
+        "to": "RP-08",
+        "cosine_similarity": 0.1795
+      },
+      {
+        "from": "RP-03",
+        "to": "RP-06",
+        "cosine_similarity": 0.1679
+      },
+      {
+        "from": "RP-02",
+        "to": "RP-03",
+        "cosine_similarity": 0.1561
+      },
+      {
+        "from": "RP-01",
+        "to": "RP-03",
+        "cosine_similarity": 0.1436
+      },
+      {
+        "from": "RP-01",
+        "to": "RP-06",
+        "cosine_similarity": 0.1258
+      }
+    ]
   }
 }
