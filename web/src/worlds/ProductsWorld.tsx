@@ -23,8 +23,23 @@ export function ProductsWorld() {
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState<Product | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
+  const [econ, setEcon] = useState<any>(null);
 
   useEffect(() => { api.products().then(setData).catch(() => setData(null)); }, []);
+  useEffect(() => { api.economics().then(setEcon).catch(() => setEcon(null)); }, []);
+
+  function dutchWallet(priceUsd: number) {
+    if (!econ) return null;
+    const fx = econ.anchors.eur_usd_spot_rate.eur_per_usd;
+    const priceEur = Math.round(priceUsd * fx * 100) / 100;
+    const wage = econ.anchors.median_gross_hourly_wage_eur.value;
+    const meanIncome = econ.anchors.mean_disposable_household_income_eur.value;
+    return {
+      priceEur, fx,
+      workHours: Math.round((priceEur / wage) * 10) / 10,
+      shareOfIncomePct: Math.round((priceEur / meanIncome) * 1000) / 10,
+    };
+  }
 
   const products = data?.products ?? [];
   const connectedShare = products.length
@@ -73,6 +88,16 @@ export function ProductsWorld() {
             but {100 - connectedShare}% of this real corpus is still fully manual, and CADR/room-coverage
             data isn't available to test whether performance itself has plateaued.
           </p>
+          {econ && (
+            <div style={{ marginTop: 20, padding: "16px 20px", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, maxWidth: 640 }}>
+              <SectionLabel>Dutch household context (real, verified)</SectionLabel>
+              <div style={{ display: "flex", gap: 32 }}>
+                <StatRow label="Mean household disposable income" value={`€${econ.anchors.mean_disposable_household_income_eur.value.toLocaleString()}/yr (2024)`} />
+                <StatRow label="Appliance-market turnover/household" value={`€${econ.derived.appliance_market_turnover_per_household_eur} (2025)`} />
+              </div>
+              <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6 }}>Click any product for its own affordability context.</p>
+            </div>
+          )}
           <CounterfactualPrompt>What if "air purifier" is the wrong unit of innovation?</CounterfactualPrompt>
         </div>
       ) : (
@@ -150,6 +175,23 @@ export function ProductsWorld() {
               <SectionLabel>Evidence</SectionLabel>
               <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{focus.evidence}</p>
             </div>
+            {focus.price_usd && econ && (() => {
+              const w = dutchWallet(focus.price_usd as number);
+              if (!w) return null;
+              return (
+                <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                  <SectionLabel>Dutch Wallet — affordability context, not WTP</SectionLabel>
+                  <StatRow label="Price (EUR, modelled from real spot rate)" value={`€${w.priceEur}`} />
+                  <StatRow label="Median gross work hours" value={w.workHours} />
+                  <StatRow label="Share of mean household disposable income" value={`${w.shareOfIncomePct}%`} />
+                  <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 8 }}>
+                    Wage anchor €{econ.anchors.median_gross_hourly_wage_eur.value}/hr (2025, {econ.anchors.median_gross_hourly_wage_eur.confidence} confidence
+                    — see economics.md for a documented cross-source conflict on this figure). Income anchor €{econ.anchors.mean_disposable_household_income_eur.value.toLocaleString()}
+                    /household (CBS, 2024 preliminary). This is affordability context, never willingness to pay.
+                  </p>
+                </div>
+              );
+            })()}
           </>
         )}
       </FocusPanel>

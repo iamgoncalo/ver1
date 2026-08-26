@@ -16,6 +16,7 @@ export const api = {
   whiteSpace: () => j<WhiteSpaceResponse>("/api/white-space"),
   magicBox: () => j<MagicBoxResponse>("/api/magic-box"),
   research: () => j<any>("/api/research"),
+  economics: () => j<any>("/api/economics"),
   researchTensions: () => j<any>("/api/research/tensions"),
   innovationsFrozen: () => j<InnovationsResponse>("/api/innovations"),
   innovationsScenario: (marketScenario = "mordor", decisionPriority = "pain_feasibility_majority") =>
