@@ -44,8 +44,8 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await page.goto("/");
     const expectations = [
       { nav: "PRODUCTS", heading: "WHAT EXISTS?" },
-      { nav: "SIGNALS", heading: "WHAT IS CHANGING?" },
-      { nav: "COMPETITORS", heading: "WHERE IS EVERYONE ELSE?" },
+      { nav: "SIGNALS", heading: "WHAT IS CHANGING" },
+      { nav: "MAGIC BOX", heading: "PATTERN INTELLIGENCE" },
       { nav: "CRITERIA", heading: "HOW INTELLIGENCE DECIDES" },
       { nav: "INNOVATIONS", heading: "WHAT SHOULD VERSUNI TEST?" },
     ];
@@ -60,11 +60,11 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
   test("keyboard navigation (1-5, arrows) moves between worlds", async ({ page }) => {
     await page.goto("/");
     await page.keyboard.press("3");
-    await expect(page.getByText("WHERE IS EVERYONE ELSE?")).toBeVisible();
+    await expect(page.getByText("PATTERN INTELLIGENCE")).toBeVisible();
     await page.keyboard.press("ArrowRight");
     await expect(page.getByText("HOW INTELLIGENCE DECIDES")).toBeVisible();
     await page.keyboard.press("ArrowLeft");
-    await expect(page.getByText("WHERE IS EVERYONE ELSE?")).toBeVisible();
+    await expect(page.getByText("PATTERN INTELLIGENCE")).toBeVisible();
     await page.keyboard.press("1");
     await expect(page.getByText("WHAT EXISTS?")).toBeVisible();
   });
@@ -111,6 +111,16 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await expect(page.getByText("◆ SIGNAL").first()).toBeVisible();
   });
 
+  test("Competitors tab (within Signals) shows white space and sends a theme to Magic Box", async ({ page }) => {
+    await page.goto("/");
+    await navButton(page, /SIGNALS/).click();
+    await page.getByRole("button", { name: "COMPETITORS" }).click();
+    await expect(page.getByText("Real competitors analysed")).toBeVisible({ timeout: 5000 });
+    await page.getByRole("button", { name: "Send to Magic Box →" }).first().click();
+    await expect(page.getByText("PATTERN INTELLIGENCE")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/Filtered from Competitors' white space/)).toBeVisible();
+  });
+
   test("Sources dock reports honest, non-fabricated statuses", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: /^SOURCES/ }).click();
@@ -127,15 +137,15 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("Category Assumption Map is evidence-linked and clickable", async ({ page }) => {
     await page.goto("/");
-    await navButton(page, /CRITERIA/).click();
+    await navButton(page, /MAGIC BOX/).click();
     await page.getByRole("button", { name: /CADR/ }).click();
     await expect(page.getByText("WHAT REAL EVIDENCE BEARS ON IT")).toBeVisible({ timeout: 5000 });
   });
 
   test("Trace This Concept resolves signal/tension/assumption evidence, no fabricated links", async ({ page }) => {
     await page.goto("/");
-    await navButton(page, /CRITERIA/).click();
-    await page.locator("text=Finalists —").waitFor({ timeout: 5000 });
+    await navButton(page, /MAGIC BOX/).click();
+    await page.locator("text=real concepts the machine generated").waitFor({ timeout: 5000 });
     await page.locator('[role="button"]').filter({ hasText: "$" }).first().click();
     await page.getByRole("button", { name: "TRACE THIS CONCEPT →" }).click();
     await expect(page.getByText("Trace this concept — signal, tension, and assumption down to their real papers")).toBeVisible({ timeout: 5000 });

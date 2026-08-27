@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
-import type { Signal, SignalsResponse } from "../lib/types";
+import type { Signal, SignalsResponse, Rival, RivalsResponse, WhiteSpace, WhiteSpaceResponse } from "../lib/types";
 import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { ScienceConstellation } from "../components/ScienceConstellation";
@@ -33,15 +33,16 @@ const DOC_TYPE_LABEL: Record<string, string> = {
 const TIER_TONE: Record<string, "good" | "amber" | "neutral"> = {
   tier_1_authoritative: "good", tier_2_trade_technical: "amber", tier_3_vendor_primary: "neutral",
 };
-type Tab = "consumers" | "research" | "trends" | "market";
+type Tab = "consumers" | "research" | "trends" | "market" | "competitors";
 const TABS: { key: Tab; label: string; hint: string }[] = [
   { key: "consumers", label: "CONSUMERS", hint: "real Amazon review text" },
   { key: "research", label: "RESEARCH", hint: "peer-reviewed papers" },
   { key: "trends", label: "TRENDS", hint: "regulatory / standards / industry" },
   { key: "market", label: "MARKET", hint: "syndicated market sizing" },
+  { key: "competitors", label: "COMPETITORS", hint: "real Amazon competitor brands" },
 ];
 
-export function SignalsWorld() {
+export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: string) => void }) {
   const [data, setData] = useState<SignalsResponse | null>(null);
   const [focus, setFocus] = useState<Signal | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
@@ -52,11 +53,18 @@ export function SignalsWorld() {
   const [trendFocus, setTrendFocus] = useState<TrendDoc | null>(null);
   const [market, setMarket] = useState<any>(null);
   const [metricFocus, setMetricFocus] = useState<MetricTrace | null>(null);
+  const [rivals, setRivals] = useState<RivalsResponse | null>(null);
+  const [whiteSpace, setWhiteSpace] = useState<WhiteSpaceResponse | null>(null);
+  const [rivalFocus, setRivalFocus] = useState<Rival | null>(null);
+  const [spaceFocus, setSpaceFocus] = useState<WhiteSpace | null>(null);
+  const [showWhiteSpace, setShowWhiteSpace] = useState(true);
 
   useEffect(() => { api.signals().then(setData).catch(() => setData(null)); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => setResearch(null)); }, []);
   useEffect(() => { api.trends().then(setTrends).catch(() => setTrends(null)); }, []);
   useEffect(() => { api.market().then(setMarket).catch(() => setMarket(null)); }, []);
+  useEffect(() => { api.rivals().then(setRivals).catch(() => setRivals(null)); }, []);
+  useEffect(() => { api.whiteSpace().then(setWhiteSpace).catch(() => setWhiteSpace(null)); }, []);
 
   const signals = data?.signals ?? [];
   const withPrevalence = signals.filter((s) => s.prevalence_pct !== null);
@@ -73,6 +81,11 @@ export function SignalsWorld() {
         return acc;
       }, {})
     : {};
+  const sortedRivals = useMemo(() => [...(rivals?.rivals ?? [])].sort((a, b) => b.n_reviews - a.n_reviews), [rivals]);
+  const spaces = whiteSpace?.spaces?.filter((s) => s.is_white_space) ?? [];
+  function weakestTheme(r: Rival) {
+    return [...r.theme_gaps].sort((a, b) => b.delta_pp - a.delta_pp)[0];
+  }
 
   function SignalCard({ s }: { s: Signal }) {
     return (
@@ -91,12 +104,17 @@ export function SignalsWorld() {
         {s.prevalence_pct !== null ? (
           <div style={{ marginTop: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
-              <span>prevalence</span><span className="mono">{s.prevalence_pct}%</span>
+              <span>share of reviews mentioning this</span><span className="mono">{s.prevalence_pct}%</span>
             </div>
             <MiniBar value={s.prevalence_pct} max={maxPrevalence} tone="blue" />
-            <div style={{ marginTop: 8, fontSize: 11.5, color: "var(--ink-dim)" }}>
-              CSAT <span className="mono" style={{ color: (s.csat_impact ?? 0) < 0 ? "var(--rose)" : "var(--good)" }}>{s.csat_impact}</span>
-              {" · "}n={s.n_reviews} · {s.source_families.join(" + ")}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 10 }}>
+              <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>star-rating impact</span>
+              <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: (s.csat_impact ?? 0) < 0 ? "var(--rose)" : "var(--good)" }}>
+                {(s.csat_impact ?? 0) < 0 ? "▼" : "▲"} {Math.abs(s.csat_impact ?? 0).toFixed(3)}★
+              </span>
+            </div>
+            <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4 }}>
+              {(s.n_reviews ?? 0).toLocaleString()} real reviews · {s.source_families.join(" + ")}
             </div>
           </div>
         ) : (
@@ -275,6 +293,120 @@ export function SignalsWorld() {
         </div>
       )}
 
+      {tab === "competitors" && (
+        <div className="scrollY" style={{ flex: 1 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 16 }}>
+            <TraceableMetric label="Real competitors analysed" value={sortedRivals.length || "…"}
+              onClick={() => setMetricFocus({ label: "Real competitors analysed", value: sortedRivals.length,
+                trace: "GET /api/rivals -> len(data/processed/rivals_real.json[\"rivals\"]), built by src/real/rivals_real.py: real Amazon-review competitor brands with >= min_reviews_floor real reviews in the same real category corpus." })} />
+            <TraceableMetric label="Real white-space opportunities" value={spaces.length}
+              onClick={() => setMetricFocus({ label: "Real white-space opportunities", value: spaces.length,
+                trace: "GET /api/white-space -> count of data/processed/white_space_real.json[\"spaces\"] where is_white_space === true, built by src/real/rivals_real.py. Requires all three, real: a Consumer Pain gate pass, >=2 real competitors measurably weaker on that theme, and real 2-5yr feasibility evidence - never inferred from an absence of online evidence." })} />
+            <TraceableMetric label="Category reviews" value={rivals?.n_category_reviews.toLocaleString() ?? "…"}
+              onClick={() => setMetricFocus({ label: "Category reviews", value: rivals?.n_category_reviews.toLocaleString() ?? "NO VERIFIED DATA",
+                trace: "GET /api/rivals -> data/processed/rivals_real.json[\"n_category_reviews\"]: real count of Amazon reviews in the full purifier category corpus, used as the denominator for every real per-brand theme rate." })} />
+            <TraceableMetric label="Min. reviews/brand floor" value={rivals?.min_reviews_floor ?? "…"}
+              onClick={() => setMetricFocus({ label: "Min. reviews/brand floor", value: rivals?.min_reviews_floor ?? "NO VERIFIED DATA",
+                trace: "GET /api/rivals -> data/processed/rivals_real.json[\"min_reviews_floor\"]: a fixed evidence-sufficiency floor declared in src/real/rivals_real.py - a brand with fewer real reviews than this is excluded from competitor analysis rather than analysed on thin evidence." })} />
+          </div>
+
+          {mode === "distilled" ? (
+            <>
+              {spaces.map((s) => (
+                <Card key={s.opportunity_id} onClick={() => setSpaceFocus(s)} focusable={false} style={{ marginBottom: 12, maxWidth: 640 }}>
+                  <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
+                  <h3 style={{ fontSize: 18, marginTop: 8 }}>{s.name}</h3>
+                  <div style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 6 }}>
+                    {s.rivals_measurably_weak_here.length} real competitors measurably weaker here · feasibility {s.feasibility}
+                  </div>
+                  <button onClick={(e) => { e.stopPropagation(); onSendToMagicBox(s.theme); }}
+                    style={{ marginTop: 10, padding: "8px 14px", borderRadius: 8, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+                    Send to Magic Box →
+                  </button>
+                </Card>
+              ))}
+              <CounterfactualPrompt>What if the category's weakest capability is the one Versuni could own outright?</CounterfactualPrompt>
+            </>
+          ) : (
+            <>
+              <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
+                <button
+                  onClick={() => setShowWhiteSpace((v) => !v)}
+                  style={{ padding: "8px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600,
+                    background: "linear-gradient(120deg, var(--accent-blue), var(--accent-teal))", color: "white" }}
+                >
+                  {showWhiteSpace ? "← Back to brands" : "Show white space"}
+                </button>
+              </div>
+              {showWhiteSpace ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: 14, alignContent: "start" }}>
+                  <div style={{ fontSize: 12, color: "var(--ink-dim)" }}>
+                    White space requires all three, real: a Consumer Pain gate pass, ≥2 real competitors measurably weaker on that theme, and
+                    real 2–5yr feasibility evidence.
+                  </div>
+                  {spaces.map((s) => (
+                    <Card key={s.opportunity_id} onClick={() => setSpaceFocus(s)} focusable={false}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                        <div>
+                          <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
+                          <h3 style={{ fontSize: 19, marginTop: 8 }}>{s.name}</h3>
+                        </div>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); onSendToMagicBox(s.theme); }}
+                          style={{ padding: "9px 16px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}
+                        >
+                          Send to Magic Box →
+                        </button>
+                      </div>
+                      <div style={{ display: "flex", gap: 24, marginTop: 14 }}>
+                        <StatRow label="Consumer pain CSAT" value={s.consumer_pain_csat} />
+                        <StatRow label="Feasibility (2–5yr)" value={s.feasibility} />
+                      </div>
+                      <div style={{ marginTop: 8 }}>
+                        <SectionLabel>Competitors measurably weak here ({s.rivals_measurably_weak_here.length})</SectionLabel>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                          {s.rivals_measurably_weak_here.map((b) => <Pill key={b}>{b}</Pill>)}
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                  {!whiteSpace && <div style={{ color: "var(--ink-faint)" }}>Loading white space evidence…</div>}
+                </div>
+              ) : (
+                <>
+                  <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 12 }}>
+                    {sortedRivals.length} real competitors, ≥{rivals?.min_reviews_floor ?? 40} reviews each, from {rivals?.n_category_reviews.toLocaleString()} category reviews.
+                    Weakness = the theme each brand under-performs the category average on the most.
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10, alignContent: "start" }}>
+                    {sortedRivals.map((r) => {
+                      const w = weakestTheme(r);
+                      return (
+                        <Card key={r.brand} onClick={() => setRivalFocus(r)}>
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <span style={{ fontWeight: 600, fontSize: 14 }}>{r.brand}</span>
+                            <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>★{r.mean_rating}</span>
+                          </div>
+                          <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 10px" }}>
+                            {r.n_reviews.toLocaleString()} reviews · {r.n_products} product{r.n_products !== 1 ? "s" : ""}
+                          </div>
+                          {w && (
+                            <Pill tone={w.delta_pp > 0 ? "rose" : "good"}>
+                              {w.delta_pp > 0 ? "weak" : "strong"}: {w.theme_name.split(" / ")[0]} ({w.delta_pp > 0 ? "+" : ""}{w.delta_pp}pp)
+                            </Pill>
+                          )}
+                        </Card>
+                      );
+                    })}
+                    {!rivals && <div style={{ color: "var(--ink-faint)" }}>Loading real competitive evidence…</div>}
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
       <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow="Signal" title={focus?.name ?? ""}>
         {focus && (
           <>
@@ -385,6 +517,50 @@ export function SignalsWorld() {
             <a href={trendFocus.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12.5, display: "inline-block", marginTop: 16 }}>
               View source →
             </a>
+          </>
+        )}
+      </FocusPanel>
+
+      <FocusPanel open={!!rivalFocus} onClose={() => setRivalFocus(null)} eyebrow="Competitor brand" title={rivalFocus?.brand ?? ""}>
+        {rivalFocus && (
+          <>
+            <StatRow label="Real reviews" value={rivalFocus.n_reviews.toLocaleString()} />
+            <StatRow label="Products in corpus" value={rivalFocus.n_products} />
+            <StatRow label="Mean rating" value={rivalFocus.mean_rating} />
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Theme gaps vs. category average</SectionLabel>
+              {[...rivalFocus.theme_gaps].sort((a, b) => b.delta_pp - a.delta_pp).map((g) => (
+                <div key={g.theme} style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
+                  <span style={{ color: "var(--ink-dim)" }}>{g.theme_name}</span>
+                  <span className="mono" style={{ color: g.delta_pp > 0 ? "var(--rose)" : "var(--good)" }}>
+                    {g.brand_rate_pct}% vs {g.category_rate_pct}% ({g.delta_pp > 0 ? "+" : ""}{g.delta_pp}pp)
+                  </span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </FocusPanel>
+
+      <FocusPanel open={!!spaceFocus} onClose={() => setSpaceFocus(null)} eyebrow={spaceFocus ? `White space · ${spaceFocus.opportunity_id}` : ""} title={spaceFocus?.name ?? ""}>
+        {spaceFocus && (
+          <>
+            <StatRow label="Consumer pain CSAT" value={spaceFocus.consumer_pain_csat} />
+            <StatRow label="Feasibility (2–5yr)" value={spaceFocus.feasibility} />
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Competitors measurably weak here ({spaceFocus.rivals_measurably_weak_here.length})</SectionLabel>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {spaceFocus.rivals_measurably_weak_here.map((b) => <Pill key={b}>{b}</Pill>)}
+              </div>
+            </div>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Trace</SectionLabel>
+              <p className="mono" style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>
+                GET /api/white-space -&gt; data/processed/white_space_real.json["spaces"], built by src/real/rivals_real.py.
+                Requires all three, real: a Consumer Pain gate pass, &gt;=2 real competitors measurably weaker on theme "{spaceFocus.theme}",
+                and real 2-5yr feasibility evidence - never inferred from an absence of online evidence.
+              </p>
+            </div>
           </>
         )}
       </FocusPanel>

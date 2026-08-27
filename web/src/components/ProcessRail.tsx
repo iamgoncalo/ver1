@@ -4,9 +4,9 @@ import { HowWeGotHere } from "./HowWeGotHere";
 
 const STAGES = [
   { n: 1, process: "WHAT IS", world: "PRODUCTS", q: "What exists?" },
-  { n: 2, process: "WHAT CHANGES", world: "SIGNALS", q: "What is changing?" },
-  { n: 3, process: "WHAT'S MISSING", world: "COMPETITORS", q: "Where is everyone else?" },
-  { n: 4, process: "WHAT IF", world: "CRITERIA", q: "What becomes possible, and by what test?" },
+  { n: 2, process: "WHAT CHANGES", world: "SIGNALS", q: "What is changing, and where is everyone else?" },
+  { n: 3, process: "WHAT COULD EXIST", world: "MAGIC BOX", q: "Which real concepts did the machine generate?" },
+  { n: 4, process: "WHAT IF", world: "CRITERIA", q: "By what test does a concept survive?" },
   { n: 5, process: "WHAT'S NEXT", world: "INNOVATIONS", q: "What should Versuni build?" },
 ] as const;
 

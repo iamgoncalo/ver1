@@ -122,7 +122,7 @@ export function TerritoryIcon({ territory, size = 40 }: { territory: TerritoryId
   return <span style={{ display: "inline-flex", width: size, height: size, color: "var(--accent-teal)" }}>{node}</span>;
 }
 
-export type FamilyId = "CONSUMERS" | "RESEARCH" | "TRENDS" | "MARKET" | "TECHNOLOGY_AI";
+export type FamilyId = "CONSUMERS" | "RESEARCH" | "TRENDS" | "MARKET" | "TECHNOLOGY_AI" | "COMPETITORS";
 
 const FAMILY_ICON: Record<FamilyId, React.ReactNode> = {
   CONSUMERS: (
@@ -158,6 +158,14 @@ const FAMILY_ICON: Record<FamilyId, React.ReactNode> = {
     <IconFrame>
       <rect x="13" y="13" width="14" height="14" rx="2" {...STROKE} />
       <path d="M20 6 V13 M20 27 V34 M6 20 H13 M27 20 H34" {...STROKE} />
+    </IconFrame>
+  ),
+  COMPETITORS: (
+    <IconFrame>
+      <circle cx="13" cy="15" r="5" {...STROKE} />
+      <circle cx="27" cy="15" r="5" {...STROKE} />
+      <path d="M6 32 C6 25.5 9.5 22 13 22 C16.5 22 20 25.5 20 32" {...STROKE} />
+      <path d="M20 32 C20 25.5 23.5 22 27 22 C30.5 22 34 25.5 34 32" {...STROKE} />
     </IconFrame>
   ),
 };

@@ -43,7 +43,7 @@ const STAGES: { key: FunnelStageKey; label: string; tagline: string }[] = [
 // A world to jump to for each real RADAR family - not every family has one
 // (ECONOMICS/PATENTS/NATURE have no dedicated page yet).
 const FAMILY_WORLD: Record<string, number> = {
-  RESEARCH: 2, TRENDS: 2, CONSUMERS: 2, MARKET: 2, TECHNOLOGY_AI: 2, PRODUCTS: 1, RIVALS: 3,
+  RESEARCH: 2, TRENDS: 2, CONSUMERS: 2, MARKET: 2, TECHNOLOGY_AI: 2, PRODUCTS: 1, RIVALS: 2,
 };
 
 function timeAgo(iso: string) {
@@ -187,7 +187,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
           </div>
 
           <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 18, flexShrink: 0 }}>
-            {[["Products", 1], ["Signals", 2], ["Competitors", 3], ["Criteria", 4], ["Innovations", 5]].map(([label, n]) => (
+            {[["Products", 1], ["Signals", 2], ["Magic Box", 3], ["Criteria", 4], ["Innovations", 5]].map(([label, n]) => (
               <button key={label as string} onClick={() => onGoToWorld(n as number)}
                 style={{ fontSize: 11.5, padding: "6px 12px", borderRadius: 8, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer" }}>
                 {label} →
@@ -266,9 +266,9 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
             {Object.entries(hf.magic_box.pattern_type_counts).map(([k, v]) => (
               <StatRow key={k} label={k.replace(/_/g, " ")} value={v} />
             ))}
-            <button onClick={() => goTo(4)}
+            <button onClick={() => goTo(3)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              Explore Criteria →
+              Explore Magic Box →
             </button>
             <Source text="GET /api/funnel -> homepage_funnel.magic_box — src/real/magic_box_real.py, funnel stage 'generated'." />
           </>

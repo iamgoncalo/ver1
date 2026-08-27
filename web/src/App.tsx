@@ -4,7 +4,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { AskShell } from "./components/AskShell";
 import { ProductsWorld } from "./worlds/ProductsWorld";
 import { SignalsWorld } from "./worlds/SignalsWorld";
-import { RivalsWorld } from "./worlds/RivalsWorld";
+import { MagicBoxWorld } from "./worlds/MagicBoxWorld";
 import { InnovationsWorld } from "./worlds/InnovationsWorld";
 import { CriteriaWorld } from "./worlds/CriteriaWorld";
 import { FunnelWorld } from "./worlds/FunnelWorld";
@@ -38,9 +38,9 @@ export default function App() {
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
-  const goSendToCriteria = useCallback((theme: string) => {
+  const goSendToMagicBox = useCallback((theme: string) => {
     setThemeFilter(theme);
-    setWorld(4);
+    setWorld(3);
   }, []);
 
   useEffect(() => {
@@ -65,13 +65,13 @@ export default function App() {
     switch (world) {
       case 0: return <FunnelWorld key="funnel" onGoToWorld={setWorld} />;
       case 1: return <ProductsWorld key="products" />;
-      case 2: return <SignalsWorld key="signals" />;
-      case 3: return <RivalsWorld key="rivals" onSendToCriteria={goSendToCriteria} />;
-      case 4: return <CriteriaWorld key="criteria" themeFilter={themeFilter} />;
+      case 2: return <SignalsWorld key="signals" onSendToMagicBox={goSendToMagicBox} />;
+      case 3: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} />;
+      case 4: return <CriteriaWorld key="criteria" />;
       case 5: return <InnovationsWorld key="innovations" onData={setInnovations} />;
       default: return null;
     }
-  }, [world, themeFilter, goSendToCriteria]);
+  }, [world, themeFilter, goSendToMagicBox]);
 
   return (
     <div style={{ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column", overflow: "hidden" }}>
