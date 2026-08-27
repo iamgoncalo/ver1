@@ -154,7 +154,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                 </div>
                 {themeFromEvidenceIds(s.evidence_ids) && <FrictionIcon theme={themeFromEvidenceIds(s.evidence_ids)!} size={32} />}
               </div>
-              <h3 style={{ fontSize: 18, marginBottom: 6, lineHeight: 1.3 }}>{s.name}</h3>
+              <h3 style={{ fontSize: 18, marginBottom: 6, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.name}>{s.name}</h3>
 
               {s.typical_market_price_usd != null && (
                 <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 10 }}>
@@ -167,7 +167,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                 </div>
               )}
 
-              <p style={{ fontSize: 12, color: "var(--ink-dim)", marginBottom: 14, lineHeight: 1.5 }}>{s.friction}</p>
+              <p style={{ fontSize: 12, color: "var(--ink-dim)", marginBottom: 14, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.friction}>{s.friction}</p>
 
               {s.consumer_pain.gate_passed ? (
                 <>
@@ -177,12 +177,10 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                     </div>
                     <MiniBar value={s.consumer_pain.severity_csat ?? 0} max={maxPain} tone="rose" />
                     {s.consumer_pain.methodology && (
-                      <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}>
-                        WHO: real Amazon.com customers ({s.consumer_pain.methodology.pct_verified_purchase}% verified
-                        purchase) · HOW MANY: {s.consumer_pain.methodology.n_reviews} reviews across{" "}
-                        {s.consumer_pain.methodology.n_distinct_products} real products · WHEN:{" "}
-                        {s.consumer_pain.methodology.review_date_range?.[0]}–{s.consumer_pain.methodology.review_date_range?.[1]} ·
-                        WHAT STUDIES: none — this is deterministic keyword classification of real review text, not a survey or panel.
+                      <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}
+                        title="Keyword-classified real Amazon review text, not a survey or panel.">
+                        {s.consumer_pain.methodology.pct_verified_purchase}% verified purchase · {s.consumer_pain.methodology.n_reviews} reviews,{" "}
+                        {s.consumer_pain.methodology.n_distinct_products} products · {s.consumer_pain.methodology.review_date_range?.[0]}–{s.consumer_pain.methodology.review_date_range?.[1]}
                       </p>
                     )}
                   </div>
@@ -192,14 +190,14 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                     </div>
                     <MiniBar value={s.economic_value ?? 0} max={maxEcon} tone="teal" />
                     <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}>
-                      Sum of real listed prices across reviews affected by this friction — a relative
-                      indicator of which friction touches pricier products, not a revenue or market-size estimate.
+                      Sum of real listed prices on affected reviews — a relative indicator, not a revenue estimate.
                     </p>
                   </div>
                 </>
               ) : (
                 <div style={{ marginBottom: 8, padding: "8px 12px", background: "rgba(166,67,63,0.08)", border: "1px solid rgba(166,67,63,0.25)", borderRadius: 8 }}>
-                  <div style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.5 }}>
+                  <div style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}
+                    title={s.decision_reason ?? "Consumer Pain evidence-sufficiency gate failed — no real CSAT signal exists for this theme."}>
                     {s.decision_reason ?? "Consumer Pain evidence-sufficiency gate failed — no real CSAT signal exists for this theme."}
                   </div>
                 </div>
@@ -209,7 +207,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
 
               <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
                 <SectionLabel>Feasibility rationale</SectionLabel>
-                <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{s.feasibility_2_5y.rationale}</p>
+                <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.feasibility_2_5y.rationale}>{s.feasibility_2_5y.rationale}</p>
               </div>
               {mode === "raw" && (
                 <>

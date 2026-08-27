@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-2",
-    "last_run_started_at": "2026-08-27T11:14:47.561106+00:00",
-    "last_run_finished_at": "2026-08-27T11:37:43.668024+00:00",
-    "last_checked_at": "2026-08-27T11:37:43.668024+00:00",
-    "check_count": 58,
-    "input_snapshot_hash": "f40831da82834061a010ed107ed49be75fc7287300ac610749c434cb063aac1e",
-    "changed_since_last_run": false,
+    "last_run_id": "run-3",
+    "last_run_started_at": "2026-08-27T14:50:39.856692+00:00",
+    "last_run_finished_at": "2026-08-27T14:50:39.856692+00:00",
+    "last_checked_at": "2026-08-27T14:50:39.856692+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "5f2fe14b6f16d7e839b0d65c014ad71d1b671bb40c00c08f42953103f82ecfb5",
+    "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 2,
+    "total_runs_recorded": 3,
     "errors": []
   },
   "stages": [
@@ -781,7 +781,7 @@
           "RP-05",
           "RP-07"
         ],
-        "detail": "Independent evidence families agree: Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+        "detail": "Independent evidence families agree: Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
       },
       {
         "id": "convergence:ozone_odor_safety",
@@ -789,7 +789,7 @@
         "parent_ids": [
           "ozone_odor_safety"
         ],
-        "detail": "Independent evidence families agree: Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+        "detail": "Independent evidence families agree: Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
       },
       {
         "id": "convergence:value_effectiveness",
@@ -801,7 +801,7 @@
           "RP-06",
           "RP-07"
         ],
-        "detail": "Independent evidence families agree: Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+        "detail": "Independent evidence families agree: Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
       },
       {
         "id": "convergence:sensor_trust",

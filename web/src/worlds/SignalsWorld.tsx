@@ -93,12 +93,12 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8, gap: 8 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
             <FrictionIcon theme={s.id} size={22} />
-            <div style={{ fontWeight: 600, fontSize: 14.5, lineHeight: 1.3, overflowWrap: "break-word" }}>{s.name}</div>
+            <div style={{ fontWeight: 600, fontSize: 14.5, lineHeight: 1.3, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.name}>{s.name}</div>
           </div>
           <TruthBadge truthClass={s.truth_class} />
         </div>
         <Pill tone={STATE_TONE[s.state] ?? "neutral"}>{s.state.replace(/_/g, " ")}</Pill>
-        <p style={{ fontSize: 11.5, color: "var(--ink-dim)", margin: "10px 0 0", lineHeight: 1.45, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+        <p style={{ fontSize: 11.5, color: "var(--ink-dim)", margin: "10px 0 0", lineHeight: 1.45, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.meaning}>
           {s.meaning}
         </p>
         {s.prevalence_pct !== null ? (
@@ -214,8 +214,8 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                   <TerritoryIcon territory={p.territories[0]} size={24} />
                 </div>
                 <div style={{ flex: "1 1 auto", minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 500, overflowWrap: "break-word" }}>{p.title}</div>
-                  <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 3, overflowWrap: "break-word" }}>{p.journal} · {p.year} · {p.study_design}</div>
+                  <div style={{ fontSize: 13, fontWeight: 500, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={p.title}>{p.title}</div>
+                  <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 3, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={`${p.journal} · ${p.year} · ${p.study_design}`}>{p.journal} · {p.year} · {p.study_design}</div>
                 </div>
                 <div style={{ display: "flex", gap: 4, alignItems: "flex-start", flexShrink: 0 }}>
                   {p.territories.map((t) => <Pill key={t}>{t}</Pill>)}
@@ -252,7 +252,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                       <Pill tone={TIER_TONE[d.credibility_tier] ?? "neutral"}>{d.credibility_tier.replace(/_/g, " ")}</Pill>
                       <span className="mono" style={{ fontSize: 10, color: "var(--ink-faint)" }}>{d.geographic_scope}</span>
                     </div>
-                    <div style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.35 }}>{d.title}</div>
+                    <div style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.35, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={d.title}>{d.title}</div>
                     <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6 }}>{d.publisher}</div>
                   </Card>
                 ))}

@@ -31,6 +31,7 @@ export function ProductsWorld() {
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [econ, setEcon] = useState<any>(null);
   const [officialProducts, setOfficialProducts] = useState<any[] | null>(null);
+  const [showAllOfficial, setShowAllOfficial] = useState(false);
 
   useEffect(() => { api.products().then(setData).catch(() => setData(null)); }, []);
   useEffect(() => { api.economics().then(setEcon).catch(() => setEcon(null)); }, []);
@@ -88,28 +89,22 @@ export function ProductsWorld() {
           {officialProducts && officialProducts.length > 0 && (
             <div style={{ marginBottom: 20 }}>
               <SectionLabel>Verified official portfolio — not the Amazon corpus below</SectionLabel>
-              <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 640, lineHeight: 1.5, marginBottom: 12 }}>
-                Versuni/Philips sells roughly 20 real air-purifier product families. {officialProducts.length} of them have
-                been individually checked this session against their own official product page — each one below,
-                real spec by real spec. The other ~{20 - officialProducts.length} are not shown here, not guessed at:
-                genuinely unverified is a real state, not a gap to paper over.
+              <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 640, lineHeight: 1.5, marginBottom: 12, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                Versuni/Philips sells ~20 real air-purifier families. {officialProducts.length} have been checked this session
+                against their own official page — the other ~{20 - officialProducts.length} aren't shown or guessed at, genuinely unverified.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 14 }}>
-                {officialProducts.map((p) => (
-                  <Card key={p.product_id} onClick={() => setOfficialFocus(p)} focusable={false}
-                    style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", borderColor: "var(--accent-blue)", borderRadius: 16, boxSizing: "border-box" }}>
-                    <img src={`/products/${p.local_asset.split("/").pop()}`} alt={p.official_name}
-                      style={{ width: 70, height: 70, objectFit: "contain", flexShrink: 0 }} />
-                    <div style={{ flex: "1 1 auto", minWidth: 0 }}>
-                      <div className="mono" style={{ fontSize: 10.5, color: "var(--accent-blue-ink)", letterSpacing: "0.03em" }}>{p.sku}</div>
-                      <div style={{ fontWeight: 600, fontSize: 13, marginTop: 4, lineHeight: 1.3, overflowWrap: "break-word" }}>{p.official_name}</div>
-                      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2, overflowWrap: "break-word" }}>
-                        {p.specs.cadr_m3h} m³/h · {p.specs.room_coverage_m2} m²
-                      </div>
-                      <a href={p.official_url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ fontSize: 11 }}>official source →</a>
-                    </div>
-                  </Card>
+                {officialProducts.slice(0, 6).map((p) => (
+                  <OfficialProductCard key={p.product_id} p={p} onClick={() => setOfficialFocus(p)} />
                 ))}
+                {officialProducts.length > 6 && (
+                  <button onClick={() => setShowAllOfficial(true)}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 90, borderRadius: 16,
+                      border: "1px dashed var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)",
+                      cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
+                    +{officialProducts.length - 6} more →
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -127,10 +122,9 @@ export function ProductsWorld() {
               onClick={() => setMetricFocus({ label: "Real reviews behind this", value: products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString(),
                 trace: "Computed live from data/processed/products_real.json: sum of n_real_reviews_in_corpus across all 237 real products - the real, hand-validated Amazon review count each product's evidence is drawn from (src/real/build_reviews_csv.py)." })} />
           </div>
-          <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 28, fontFamily: "var(--font-display)" }}>
-            The portfolio is moving from pure air-cleaning performance toward sensing and connectivity —
-            but {100 - connectedShare}% of this real corpus is still fully manual, and CADR/room-coverage
-            data isn't available to test whether performance itself has plateaued.
+          <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 28, fontFamily: "var(--font-display)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+            The portfolio is moving from air-cleaning toward sensing and connectivity — but {100 - connectedShare}%
+            of this real corpus is still fully manual.
           </p>
           {econ && (
             <div style={{ marginTop: 20, padding: "16px 20px", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, maxWidth: 640 }}>
@@ -277,6 +271,50 @@ export function ProductsWorld() {
       </FocusPanel>
 
       <MetricFocusPanel metric={metricFocus} onClose={() => setMetricFocus(null)} />
+
+      {showAllOfficial && officialProducts && (
+        <>
+          <div onClick={() => setShowAllOfficial(false)} style={{ position: "fixed", inset: 0, background: "rgba(10,12,16,0.42)", zIndex: 60 }} />
+          <div style={{
+            position: "fixed", top: "8vh", left: "50%", transform: "translateX(-50%)", width: "min(920px, 94vw)", maxHeight: "84vh",
+            background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 18, boxShadow: "var(--shadow)",
+            zIndex: 61, display: "flex", flexDirection: "column", overflow: "hidden",
+          }}>
+            <div style={{ padding: "18px 24px", borderBottom: "1px solid var(--line)", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
+              <div>
+                <SectionLabel>Verified official portfolio</SectionLabel>
+                <div style={{ fontWeight: 600, fontSize: 17, marginTop: 4 }}>All {officialProducts.length} checked products</div>
+              </div>
+              <button onClick={() => setShowAllOfficial(false)} style={{ border: "1px solid var(--line)", background: "var(--surface-2)", borderRadius: 8, width: 30, height: 30, cursor: "pointer" }}>✕</button>
+            </div>
+            <div className="scrollY" style={{ padding: 20, flex: 1 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+                {officialProducts.map((p) => (
+                  <OfficialProductCard key={p.product_id} p={p} onClick={() => { setOfficialFocus(p); setShowAllOfficial(false); }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
+  );
+}
+
+function OfficialProductCard({ p, onClick }: { p: any; onClick: () => void }) {
+  return (
+    <Card onClick={onClick} focusable={false}
+      style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", borderColor: "var(--accent-blue)", borderRadius: 16, boxSizing: "border-box" }}>
+      <img src={`/products/${p.local_asset.split("/").pop()}`} alt={p.official_name}
+        style={{ width: 70, height: 70, objectFit: "contain", flexShrink: 0 }} />
+      <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+        <div className="mono" style={{ fontSize: 10.5, color: "var(--accent-blue-ink)", letterSpacing: "0.03em" }}>{p.sku}</div>
+        <div style={{ fontWeight: 600, fontSize: 13, marginTop: 4, lineHeight: 1.3, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={p.official_name}>{p.official_name}</div>
+        <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2, overflowWrap: "break-word" }}>
+          {p.specs.cadr_m3h} m³/h · {p.specs.room_coverage_m2} m²
+        </div>
+        <a href={p.official_url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ fontSize: 11 }}>official source →</a>
+      </div>
+    </Card>
   );
 }

@@ -47,8 +47,8 @@ export function ScienceConstellation({ onPaperClick }: { onPaperClick: (id: stri
         }}>
           {id.replace("RP-", "")}
         </div>
-        <div style={{ fontSize: 9.5, color: "var(--ink-dim)", textAlign: "center", lineHeight: 1.25 }}>
-          {p.title.slice(0, 40)}…
+        <div style={{ fontSize: 9.5, color: "var(--ink-dim)", textAlign: "center", lineHeight: 1.25, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+          {p.title}
         </div>
       </button>
     );

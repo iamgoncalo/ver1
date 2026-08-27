@@ -53,7 +53,7 @@
     {
       "id": "noise",
       "name": "Noise / motor sound (weak real signal)",
-      "meaning": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner.",
+      "meaning": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use.",
       "prevalence_pct": 3.5,
       "csat_impact": -0.571,
       "n_reviews": 369,
@@ -90,7 +90,7 @@
     {
       "id": "ozone_odor_safety",
       "name": "Ozone / smell / irritation (weak real signal)",
-      "meaning": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits.",
+      "meaning": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits.",
       "prevalence_pct": 0.81,
       "csat_impact": -1.102,
       "n_reviews": 85,
@@ -157,7 +157,7 @@
     {
       "id": "value_effectiveness",
       "name": "Perceived value / does it actually clean the air",
-      "meaning": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials.",
+      "meaning": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials.",
       "prevalence_pct": 0.77,
       "csat_impact": -2.724,
       "n_reviews": 81,
@@ -241,7 +241,7 @@
     {
       "id": "reliability",
       "name": "Reliability / stopped working",
-      "meaning": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact.",
+      "meaning": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact.",
       "prevalence_pct": 1.58,
       "csat_impact": -2.223,
       "n_reviews": 166,
@@ -264,7 +264,7 @@
     {
       "id": "customer_service",
       "name": "Customer service / returns / warranty",
-      "meaning": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question.",
+      "meaning": "Customer service and warranty handling — a real, operational issue, not a research question.",
       "prevalence_pct": 0.34,
       "csat_impact": -2.429,
       "n_reviews": 36,
@@ -287,7 +287,7 @@
     {
       "id": "filter_cost",
       "name": "Filter cost / replacement (weak real signal)",
-      "meaning": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus.",
+      "meaning": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature.",
       "prevalence_pct": 0.26,
       "csat_impact": -1.252,
       "n_reviews": 27,

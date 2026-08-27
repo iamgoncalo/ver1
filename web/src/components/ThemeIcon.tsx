@@ -9,9 +9,9 @@ const STROKE = { fill: "none", stroke: "currentColor", strokeWidth: 2.6, strokeL
 export type FrictionThemeId = "reliability" | "noise" | "value_effectiveness" | "customer_service" | "filter_cost" | "ozone_odor_safety";
 export type TerritoryId = "R1" | "R2" | "R3" | "R4" | "R5" | "R6";
 
-function IconFrame({ children, size = 40 }: { children: React.ReactNode; size?: number }) {
+function IconFrame({ children }: { children: React.ReactNode }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" style={{ display: "block" }}>
+    <svg width="100%" height="100%" viewBox="0 0 40 40" style={{ display: "block" }}>
       {children}
     </svg>
   );

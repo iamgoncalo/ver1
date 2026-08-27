@@ -55,12 +55,12 @@ def load_evidence_cards():
 
 
 TAXONOMY_MEANING = {
-    "noise": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner.",
-    "reliability": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact.",
-    "ozone_odor_safety": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits.",
-    "value_effectiveness": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials.",
-    "customer_service": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question.",
-    "filter_cost": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus.",
+    "noise": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use.",
+    "reliability": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact.",
+    "ozone_odor_safety": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits.",
+    "value_effectiveness": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials.",
+    "customer_service": "Customer service and warranty handling — a real, operational issue, not a research question.",
+    "filter_cost": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature.",
 }
 
 

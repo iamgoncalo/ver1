@@ -92,7 +92,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "reliability",
-          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -193,7 +193,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "reliability",
-          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -297,7 +297,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "noise",
-          "detail": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
         },
         "T": {
           "status": "PRESENT",
@@ -415,7 +415,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "noise",
-          "detail": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
         },
         "T": {
           "status": "PRESENT",
@@ -522,7 +522,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "value_effectiveness",
-          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
         },
         "T": {
           "status": "PRESENT",
@@ -616,7 +616,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "value_effectiveness",
-          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
         },
         "T": {
           "status": "PRESENT",
@@ -707,7 +707,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "customer_service",
-          "detail": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question."
+          "detail": "Customer service and warranty handling — a real, operational issue, not a research question."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -788,7 +788,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "customer_service",
-          "detail": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question."
+          "detail": "Customer service and warranty handling — a real, operational issue, not a research question."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -869,7 +869,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "filter_cost",
-          "detail": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus."
+          "detail": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -950,7 +950,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "filter_cost",
-          "detail": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus."
+          "detail": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -1034,7 +1034,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "ozone_odor_safety",
-          "detail": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -1118,7 +1118,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "ozone_odor_safety",
-          "detail": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -1204,7 +1204,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "value_effectiveness",
-          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
         },
         "T": {
           "status": "PRESENT",
@@ -1298,7 +1298,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "value_effectiveness",
-          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
         },
         "T": {
           "status": "PRESENT",
@@ -1400,7 +1400,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "reliability",
-          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -1503,7 +1503,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "reliability",
-          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -1604,7 +1604,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "reliability",
-          "detail": "Units reported as 'stopped working' or failing early is the single most severe real complaint theme by CSAT impact."
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -1708,7 +1708,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "noise",
-          "detail": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
         },
         "T": {
           "status": "PRESENT",
@@ -1826,7 +1826,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "noise",
-          "detail": "Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
         },
         "T": {
           "status": "PRESENT",
@@ -1933,7 +1933,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "value_effectiveness",
-          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
         },
         "T": {
           "status": "PRESENT",
@@ -2027,7 +2027,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "value_effectiveness",
-          "detail": "Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
         },
         "T": {
           "status": "PRESENT",
@@ -2120,7 +2120,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "customer_service",
-          "detail": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question."
+          "detail": "Customer service and warranty handling — a real, operational issue, not a research question."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -2203,7 +2203,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "customer_service",
-          "detail": "Customer service, returns, and warranty handling is a real, distinct complaint theme with no research-literature analogue - it is an operational issue, not a research question."
+          "detail": "Customer service and warranty handling — a real, operational issue, not a research question."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -2286,7 +2286,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "filter_cost",
-          "detail": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus."
+          "detail": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -2369,7 +2369,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "filter_cost",
-          "detail": "Filter replacement cost/frequency is a real complaint theme with no matching peer-reviewed literature in this corpus."
+          "detail": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -2455,7 +2455,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "ozone_odor_safety",
-          "detail": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
@@ -2541,7 +2541,7 @@
           "status": "PRESENT",
           "kind": "signal",
           "id": "ozone_odor_safety",
-          "detail": "Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
         },
         "T": {
           "status": "MISSING_UNVERIFIED",
