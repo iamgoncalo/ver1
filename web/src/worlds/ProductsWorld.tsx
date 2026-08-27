@@ -88,7 +88,16 @@ export function ProductsWorld() {
         <div className="scrollY" style={{ flex: 1 }}>
           {officialProducts && officialProducts.length > 0 && (
             <div style={{ marginBottom: 20 }}>
-              <SectionLabel>Verified official portfolio — not the Amazon corpus below</SectionLabel>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 4 }}>
+                <SectionLabel>Verified official portfolio — not the Amazon corpus below</SectionLabel>
+                {officialProducts.length > 4 && (
+                  <button onClick={() => setShowAllOfficial(true)}
+                    style={{ flexShrink: 0, fontSize: 12, fontWeight: 600, padding: "4px 10px", borderRadius: 999,
+                      border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer" }}>
+                    +{officialProducts.length - 4} more →
+                  </button>
+                )}
+              </div>
               <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 640, lineHeight: 1.5, marginBottom: 12, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                 Versuni/Philips sells ~20 real air-purifier families. {officialProducts.length} have been checked this session
                 against their own official page — the other ~{20 - officialProducts.length} aren't shown or guessed at, genuinely unverified.
@@ -97,14 +106,6 @@ export function ProductsWorld() {
                 {officialProducts.slice(0, 4).map((p) => (
                   <OfficialProductCard key={p.product_id} p={p} onClick={() => setOfficialFocus(p)} />
                 ))}
-                {officialProducts.length > 4 && (
-                  <button onClick={() => setShowAllOfficial(true)}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 90, borderRadius: 16,
-                      border: "1px dashed var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)",
-                      cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
-                    +{officialProducts.length - 4} more →
-                  </button>
-                )}
               </div>
             </div>
           )}

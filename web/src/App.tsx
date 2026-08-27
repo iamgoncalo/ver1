@@ -86,10 +86,6 @@ export default function App() {
         <span>Versuni — Disruptive Innovation Team, Amsterdam</span>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <HowWeGotHere />
-          <a href="http://localhost:8501" target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink-faint)" }}>
-            Analyst Mode →
-          </a>
-          <span title="← → move between worlds · 0 home · 1–5 jump to a world · SPACE ask · ESC close" style={{ cursor: "default" }}>Shortcuts</span>
         </div>
       </footer>
       <AskShell open={askOpen} onClose={() => setAskOpen(false)} ctx={{ innovations, magicBox, rivals, whiteSpace }} />

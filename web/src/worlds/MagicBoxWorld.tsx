@@ -315,11 +315,8 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
               </p>
               {conceptFocus.consumer_pain_methodology && (
                 <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 8 }}>
-                  <b>Consumer Pain source — </b>
-                  WHO: real Amazon.com customers ({conceptFocus.consumer_pain_methodology.pct_verified_purchase}% verified purchase) ·
-                  {" "}HOW MANY: {conceptFocus.consumer_pain_methodology.n_reviews} reviews across {conceptFocus.consumer_pain_methodology.n_distinct_products} real products ·
-                  {" "}WHEN: {conceptFocus.consumer_pain_methodology.review_date_range?.[0]}–{conceptFocus.consumer_pain_methodology.review_date_range?.[1]} ·
-                  {" "}WHAT STUDIES: none — {conceptFocus.consumer_pain_methodology.method}
+                  {conceptFocus.consumer_pain_methodology.pct_verified_purchase}% verified purchase · {conceptFocus.consumer_pain_methodology.n_reviews} reviews,{" "}
+                  {conceptFocus.consumer_pain_methodology.n_distinct_products} products · {conceptFocus.consumer_pain_methodology.review_date_range?.[0]}–{conceptFocus.consumer_pain_methodology.review_date_range?.[1]}
                 </p>
               )}
             </div>
@@ -337,34 +334,6 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
               <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 6 }}>{conceptFocus.feasibility_2_5y.rationale}</p>
             )}
 
-            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Design DNA — genuine parent lineage only</SectionLabel>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {DNA_ORDER.map((letter) => {
-                  const p = conceptFocus.design_dna[letter as keyof DesignDna];
-                  const present = p.status === "PRESENT";
-                  return (
-                    <div key={letter} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                      <span style={{
-                        flexShrink: 0, width: 22, height: 22, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: 11, fontFamily: "var(--font-mono)", fontWeight: 700,
-                        color: present ? "var(--good)" : "var(--ink-faint)",
-                        background: present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
-                        border: `1px solid ${present ? "var(--good)" : "var(--line)"}`,
-                      }}>{letter}</span>
-                      <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 12, lineHeight: 1.45, overflowWrap: "break-word" }}>
-                        <b style={{ color: "var(--ink)" }}>{DNA_LETTER_NAME[letter]}</b>
-                        {" — "}
-                        <span style={{ color: present ? "var(--ink-dim)" : "var(--ink-faint)" }}>
-                          {present ? p.detail : "MISSING / UNVERIFIED — " + p.detail}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
             {conceptFocus.critic_dimensions && (
               <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
                 <SectionLabel>Critic — overall: {conceptFocus.critic_overall?.replace(/_/g, " ")}</SectionLabel>
@@ -379,17 +348,51 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
               </div>
             )}
 
-            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Every criterion this concept was tested against</SectionLabel>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {Object.entries(conceptFocus.criteria).map(([cid, r]) => (
-                  <div key={cid} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
-                    <div style={{ width: 110, flexShrink: 0 }}><Pill tone={STATUS_TONE[r.status]}>{cid} {r.status}</Pill></div>
-                    <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.4, overflowWrap: "break-word" }}>{r.note}</div>
-                  </div>
-                ))}
+            <details style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <summary style={{ cursor: "pointer", fontSize: 11.5, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>
+                FULL EVIDENCE TRAIL — {Object.keys(conceptFocus.criteria).length} criteria, 8 design-DNA parents
+              </summary>
+
+              <div style={{ marginTop: 14 }}>
+                <SectionLabel>Design DNA — genuine parent lineage only</SectionLabel>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {DNA_ORDER.map((letter) => {
+                    const p = conceptFocus.design_dna[letter as keyof DesignDna];
+                    const present = p.status === "PRESENT";
+                    return (
+                      <div key={letter} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                        <span style={{
+                          flexShrink: 0, width: 22, height: 22, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: 11, fontFamily: "var(--font-mono)", fontWeight: 700,
+                          color: present ? "var(--good)" : "var(--ink-faint)",
+                          background: present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
+                          border: `1px solid ${present ? "var(--good)" : "var(--line)"}`,
+                        }}>{letter}</span>
+                        <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 12, lineHeight: 1.45, overflowWrap: "break-word" }}>
+                          <b style={{ color: "var(--ink)" }}>{DNA_LETTER_NAME[letter]}</b>
+                          {" — "}
+                          <span style={{ color: present ? "var(--ink-dim)" : "var(--ink-faint)" }}>
+                            {present ? p.detail : "MISSING / UNVERIFIED — " + p.detail}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+
+              <div style={{ marginTop: 16 }}>
+                <SectionLabel>Every criterion this concept was tested against</SectionLabel>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {Object.entries(conceptFocus.criteria).map(([cid, r]) => (
+                    <div key={cid} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
+                      <div style={{ width: 110, flexShrink: 0 }}><Pill tone={STATUS_TONE[r.status]}>{cid} {r.status}</Pill></div>
+                      <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.4, overflowWrap: "break-word" }}>{r.note}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </details>
 
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
               <SectionLabel>Evidence IDs</SectionLabel>
