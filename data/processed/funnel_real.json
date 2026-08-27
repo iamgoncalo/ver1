@@ -3,18 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-9",
-    "last_run_started_at": "2026-08-27T16:32:39.755754+00:00",
-    "last_run_finished_at": "2026-08-27T16:32:39.755754+00:00",
-    "last_checked_at": "2026-08-27T16:32:39.755754+00:00",
+    "last_run_id": "run-10",
+    "last_run_started_at": "2026-08-27T18:48:52.514562+00:00",
+    "last_run_finished_at": "2026-08-27T18:48:52.514562+00:00",
+    "last_checked_at": "2026-08-27T18:48:52.514562+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "188a9775d9568167b2514ff07909874f0827101ef3d1877307812121279b68a7",
+    "input_snapshot_hash": "bf15be70651a87e3330a97c9b0341a1761ad74ad66517841dd1229f163e2bb9e",
     "changed_since_last_run": true,
-    "new_since_last_run": {
-      "magic_box": 3,
-      "innovations": 4
-    },
-    "total_runs_recorded": 9,
+    "new_since_last_run": {},
+    "total_runs_recorded": 10,
     "errors": []
   },
   "stages": [
@@ -100,7 +97,7 @@
         },
         {
           "type": "CAPABILITY_TRANSFER",
-          "example": "Self-Testing Status Light"
+          "example": "Self-Testing Air Purifier"
         }
       ],
       "inputs": [
@@ -136,91 +133,91 @@
       "candidates_preview": [
         {
           "id": "reliability:PREDICT",
-          "name": "Predictive Failure Warning",
+          "name": "Predictive-Maintenance Air Purifier",
           "friction_theme": "reliability",
           "typical_market_price_usd": 199.99
         },
         {
           "id": "reliability:MATERIALISE",
-          "name": "Physical Health Indicator",
+          "name": "Health-Indicator Air Purifier",
           "friction_theme": "reliability",
           "typical_market_price_usd": 199.99
         },
         {
           "id": "reliability:CROSS_CATEGORY_TRANSFER",
-          "name": "Self-Testing Status Light",
+          "name": "Self-Testing Air Purifier",
           "friction_theme": "reliability",
           "typical_market_price_usd": 199.99
         },
         {
           "id": "noise:AMBIENT",
-          "name": "Ambient Night Mode",
+          "name": "Ambient-Sensing Night Purifier",
           "friction_theme": "noise",
           "typical_market_price_usd": 179.99
         },
         {
           "id": "noise:TEMPORAL_SHIFT",
-          "name": "Pre-Sleep Purification Window",
+          "name": "Pre-Sleep Air Purifier",
           "friction_theme": "noise",
           "typical_market_price_usd": 179.99
         },
         {
           "id": "noise:CROSS_CATEGORY_TRANSFER",
-          "name": "Active Noise-Cancelling Fan Mode",
+          "name": "Noise-Cancelling Air Purifier",
           "friction_theme": "noise",
           "typical_market_price_usd": 179.99
         },
         {
           "id": "value_effectiveness:CONCENTRATE",
-          "name": "Single-Metric Trust Score",
+          "name": "Verified-Performance Air Purifier",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99
         },
         {
           "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-          "name": "Verified-Clean Certification",
+          "name": "Certified-Clean Air Purifier",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99
         },
         {
           "id": "value_effectiveness:PERSONALISE",
-          "name": "Personal Clean-Air Zone",
+          "name": "Personal Air Purifier",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99
         },
         {
           "id": "customer_service:INVERT",
-          "name": "Proactive Warranty Contact",
+          "name": "Self-Reporting Air Purifier",
           "friction_theme": "customer_service",
           "typical_market_price_usd": 249.0
         },
         {
           "id": "customer_service:REMOVE",
-          "name": "No-Ticket Replacement",
+          "name": "Swap-Ready Air Purifier",
           "friction_theme": "customer_service",
           "typical_market_price_usd": 249.0
         },
         {
           "id": "filter_cost:DISTRIBUTE",
-          "name": "Micro-Filter Subscription",
+          "name": "Micro-Filter Air Purifier",
           "friction_theme": "filter_cost",
           "typical_market_price_usd": 249.5
         },
         {
           "id": "filter_cost:MERGE",
-          "name": "Filter-Inclusive Pricing",
+          "name": "All-Inclusive Air Purifier",
           "friction_theme": "filter_cost",
           "typical_market_price_usd": 249.5
         },
         {
           "id": "ozone_odor_safety:MOVE",
-          "name": "Sensor-Led Placement Guidance",
+          "name": "Placement-Sensing Air Purifier",
           "friction_theme": "ozone_odor_safety",
           "typical_market_price_usd": 79.99
         },
         {
           "id": "ozone_odor_safety:PERSONALISE",
-          "name": "Sensitivity-Aware Auto Mode",
+          "name": "Sensitivity-Aware Air Purifier",
           "friction_theme": "ozone_odor_safety",
           "typical_market_price_usd": 79.99
         },
@@ -251,16 +248,16 @@
       },
       "why_ideas_are_dying": [
         {
-          "name": "Proactive Warranty Contact",
-          "reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+          "name": "Self-Reporting Air Purifier",
+          "reason": "Not enough real complaint evidence — 0.34% is below the 0.5% floor."
         },
         {
-          "name": "No-Ticket Replacement",
-          "reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+          "name": "Swap-Ready Air Purifier",
+          "reason": "Not enough real complaint evidence — 0.34% is below the 0.5% floor."
         },
         {
-          "name": "Micro-Filter Subscription",
-          "reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
+          "name": "Micro-Filter Air Purifier",
+          "reason": "Not enough real complaint evidence — 0.26% is below the 0.5% floor."
         }
       ],
       "inputs": [
@@ -276,9 +273,9 @@
       "label": "FINALISTS",
       "count": 3,
       "finalist_names": [
-        "Single-Metric Trust Score",
-        "Verified-Clean Certification",
-        "Personal Clean-Air Zone"
+        "Verified-Performance Air Purifier",
+        "Certified-Clean Air Purifier",
+        "Personal Air Purifier"
       ],
       "bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
       "inputs": [
@@ -578,77 +575,77 @@
       "possibilities": [
         {
           "id": "reliability:PREDICT",
-          "name": "Predictive Failure Warning",
+          "name": "Predictive-Maintenance Air Purifier",
           "friction_theme": "reliability"
         },
         {
           "id": "reliability:MATERIALISE",
-          "name": "Physical Health Indicator",
+          "name": "Health-Indicator Air Purifier",
           "friction_theme": "reliability"
         },
         {
           "id": "reliability:CROSS_CATEGORY_TRANSFER",
-          "name": "Self-Testing Status Light",
+          "name": "Self-Testing Air Purifier",
           "friction_theme": "reliability"
         },
         {
           "id": "noise:AMBIENT",
-          "name": "Ambient Night Mode",
+          "name": "Ambient-Sensing Night Purifier",
           "friction_theme": "noise"
         },
         {
           "id": "noise:TEMPORAL_SHIFT",
-          "name": "Pre-Sleep Purification Window",
+          "name": "Pre-Sleep Air Purifier",
           "friction_theme": "noise"
         },
         {
           "id": "noise:CROSS_CATEGORY_TRANSFER",
-          "name": "Active Noise-Cancelling Fan Mode",
+          "name": "Noise-Cancelling Air Purifier",
           "friction_theme": "noise"
         },
         {
           "id": "value_effectiveness:CONCENTRATE",
-          "name": "Single-Metric Trust Score",
+          "name": "Verified-Performance Air Purifier",
           "friction_theme": "value_effectiveness"
         },
         {
           "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-          "name": "Verified-Clean Certification",
+          "name": "Certified-Clean Air Purifier",
           "friction_theme": "value_effectiveness"
         },
         {
           "id": "value_effectiveness:PERSONALISE",
-          "name": "Personal Clean-Air Zone",
+          "name": "Personal Air Purifier",
           "friction_theme": "value_effectiveness"
         },
         {
           "id": "customer_service:INVERT",
-          "name": "Proactive Warranty Contact",
+          "name": "Self-Reporting Air Purifier",
           "friction_theme": "customer_service"
         },
         {
           "id": "customer_service:REMOVE",
-          "name": "No-Ticket Replacement",
+          "name": "Swap-Ready Air Purifier",
           "friction_theme": "customer_service"
         },
         {
           "id": "filter_cost:DISTRIBUTE",
-          "name": "Micro-Filter Subscription",
+          "name": "Micro-Filter Air Purifier",
           "friction_theme": "filter_cost"
         },
         {
           "id": "filter_cost:MERGE",
-          "name": "Filter-Inclusive Pricing",
+          "name": "All-Inclusive Air Purifier",
           "friction_theme": "filter_cost"
         },
         {
           "id": "ozone_odor_safety:MOVE",
-          "name": "Sensor-Led Placement Guidance",
+          "name": "Placement-Sensing Air Purifier",
           "friction_theme": "ozone_odor_safety"
         },
         {
           "id": "ozone_odor_safety:PERSONALISE",
-          "name": "Sensitivity-Aware Auto Mode",
+          "name": "Sensitivity-Aware Air Purifier",
           "friction_theme": "ozone_odor_safety"
         },
         {
@@ -674,63 +671,63 @@
       "candidates": [
         {
           "id": "reliability:PREDICT",
-          "name": "Predictive Failure Warning",
+          "name": "Predictive-Maintenance Air Purifier",
           "friction_theme": "reliability",
           "typical_market_price_usd": 199.99,
           "critic_overall": "CHALLENGE"
         },
         {
           "id": "reliability:MATERIALISE",
-          "name": "Physical Health Indicator",
+          "name": "Health-Indicator Air Purifier",
           "friction_theme": "reliability",
           "typical_market_price_usd": 199.99,
           "critic_overall": "CHALLENGE"
         },
         {
           "id": "reliability:CROSS_CATEGORY_TRANSFER",
-          "name": "Self-Testing Status Light",
+          "name": "Self-Testing Air Purifier",
           "friction_theme": "reliability",
           "typical_market_price_usd": 199.99,
           "critic_overall": null
         },
         {
           "id": "noise:AMBIENT",
-          "name": "Ambient Night Mode",
+          "name": "Ambient-Sensing Night Purifier",
           "friction_theme": "noise",
           "typical_market_price_usd": 179.99,
           "critic_overall": "NEEDS_EVIDENCE"
         },
         {
           "id": "noise:TEMPORAL_SHIFT",
-          "name": "Pre-Sleep Purification Window",
+          "name": "Pre-Sleep Air Purifier",
           "friction_theme": "noise",
           "typical_market_price_usd": 179.99,
           "critic_overall": "NEEDS_EVIDENCE"
         },
         {
           "id": "noise:CROSS_CATEGORY_TRANSFER",
-          "name": "Active Noise-Cancelling Fan Mode",
+          "name": "Noise-Cancelling Air Purifier",
           "friction_theme": "noise",
           "typical_market_price_usd": 179.99,
           "critic_overall": null
         },
         {
           "id": "value_effectiveness:CONCENTRATE",
-          "name": "Single-Metric Trust Score",
+          "name": "Verified-Performance Air Purifier",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99,
           "critic_overall": "CHALLENGE"
         },
         {
           "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-          "name": "Verified-Clean Certification",
+          "name": "Certified-Clean Air Purifier",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99,
           "critic_overall": "CHALLENGE"
         },
         {
           "id": "value_effectiveness:PERSONALISE",
-          "name": "Personal Clean-Air Zone",
+          "name": "Personal Air Purifier",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99,
           "critic_overall": null
@@ -742,7 +739,7 @@
       "products": [
         {
           "id": "value_effectiveness:CONCENTRATE",
-          "name": "Single-Metric Trust Score",
+          "name": "Verified-Performance Air Purifier",
           "friction_theme_name": "Perceived value / does it actually clean the air",
           "operator": "CONCENTRATE",
           "typical_market_price_usd": 199.99,
@@ -751,7 +748,7 @@
         },
         {
           "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-          "name": "Verified-Clean Certification",
+          "name": "Certified-Clean Air Purifier",
           "friction_theme_name": "Perceived value / does it actually clean the air",
           "operator": "CROSS_CATEGORY_TRANSFER",
           "typical_market_price_usd": 199.99,
@@ -760,7 +757,7 @@
         },
         {
           "id": "value_effectiveness:PERSONALISE",
-          "name": "Personal Clean-Air Zone",
+          "name": "Personal Air Purifier",
           "friction_theme_name": "Perceived value / does it actually clean the air",
           "operator": "PERSONALISE",
           "typical_market_price_usd": 199.99,
@@ -1039,7 +1036,7 @@
     "CAPABILITY_TRANSFER": [
       {
         "id": "capability_transfer:reliability:CROSS_CATEGORY_TRANSFER",
-        "name": "Self-Testing Status Light",
+        "name": "Self-Testing Air Purifier",
         "parent_ids": [
           "reliability:CROSS_CATEGORY_TRANSFER",
           "reliability",
@@ -1049,7 +1046,7 @@
       },
       {
         "id": "capability_transfer:noise:CROSS_CATEGORY_TRANSFER",
-        "name": "Active Noise-Cancelling Fan Mode",
+        "name": "Noise-Cancelling Air Purifier",
         "parent_ids": [
           "noise:CROSS_CATEGORY_TRANSFER",
           "noise",
@@ -1059,7 +1056,7 @@
       },
       {
         "id": "capability_transfer:value_effectiveness:CROSS_CATEGORY_TRANSFER",
-        "name": "Verified-Clean Certification",
+        "name": "Certified-Clean Air Purifier",
         "parent_ids": [
           "value_effectiveness:CROSS_CATEGORY_TRANSFER",
           "value_effectiveness",
@@ -1120,7 +1117,7 @@
     "TEMPORAL_SHIFT": [
       {
         "id": "temporal_shift:noise:TEMPORAL_SHIFT",
-        "name": "Pre-Sleep Purification Window",
+        "name": "Pre-Sleep Air Purifier",
         "parent_ids": [
           "noise:TEMPORAL_SHIFT",
           "noise",

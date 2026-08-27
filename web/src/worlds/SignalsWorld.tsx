@@ -286,8 +286,8 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               </div>
               <div style={{ padding: "14px 18px", background: "var(--surface-2)", borderRadius: 12 }}>
                 <SectionLabel>Why they disagree — {market.conflict_summary.spread_pp}pp spread</SectionLabel>
-                <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.55 }}>{market.conflict_summary.headline}</p>
-                <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>{market.conflict_summary.note_on_realism}</p>
+                <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.55, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{market.conflict_summary.headline}</p>
+                <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{market.conflict_summary.note_on_realism}</p>
               </div>
             </>
           ) : (

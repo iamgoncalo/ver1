@@ -31,7 +31,7 @@
   "possibilities": [
     {
       "id": "reliability:PREDICT",
-      "name": "Predictive Failure Warning",
+      "name": "Predictive-Maintenance Air Purifier",
       "friction_theme": "reliability",
       "friction_theme_name": "Reliability / stopped working",
       "operator": "PREDICT",
@@ -132,7 +132,7 @@
     },
     {
       "id": "reliability:MATERIALISE",
-      "name": "Physical Health Indicator",
+      "name": "Health-Indicator Air Purifier",
       "friction_theme": "reliability",
       "friction_theme_name": "Reliability / stopped working",
       "operator": "MATERIALISE",
@@ -233,7 +233,7 @@
     },
     {
       "id": "reliability:CROSS_CATEGORY_TRANSFER",
-      "name": "Self-Testing Status Light",
+      "name": "Self-Testing Air Purifier",
       "friction_theme": "reliability",
       "friction_theme_name": "Reliability / stopped working",
       "operator": "CROSS_CATEGORY_TRANSFER",
@@ -334,7 +334,7 @@
     },
     {
       "id": "noise:AMBIENT",
-      "name": "Ambient Night Mode",
+      "name": "Ambient-Sensing Night Purifier",
       "friction_theme": "noise",
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "AMBIENT",
@@ -452,7 +452,7 @@
     },
     {
       "id": "noise:TEMPORAL_SHIFT",
-      "name": "Pre-Sleep Purification Window",
+      "name": "Pre-Sleep Air Purifier",
       "friction_theme": "noise",
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "TEMPORAL_SHIFT",
@@ -570,7 +570,7 @@
     },
     {
       "id": "noise:CROSS_CATEGORY_TRANSFER",
-      "name": "Active Noise-Cancelling Fan Mode",
+      "name": "Noise-Cancelling Air Purifier",
       "friction_theme": "noise",
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "CROSS_CATEGORY_TRANSFER",
@@ -688,7 +688,7 @@
     },
     {
       "id": "value_effectiveness:CONCENTRATE",
-      "name": "Single-Metric Trust Score",
+      "name": "Verified-Performance Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CONCENTRATE",
@@ -782,7 +782,7 @@
     },
     {
       "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-      "name": "Verified-Clean Certification",
+      "name": "Certified-Clean Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CROSS_CATEGORY_TRANSFER",
@@ -876,7 +876,7 @@
     },
     {
       "id": "value_effectiveness:PERSONALISE",
-      "name": "Personal Clean-Air Zone",
+      "name": "Personal Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "PERSONALISE",
@@ -970,7 +970,7 @@
     },
     {
       "id": "customer_service:INVERT",
-      "name": "Proactive Warranty Contact",
+      "name": "Self-Reporting Air Purifier",
       "friction_theme": "customer_service",
       "friction_theme_name": "Customer service / returns / warranty",
       "operator": "INVERT",
@@ -1051,7 +1051,7 @@
     },
     {
       "id": "customer_service:REMOVE",
-      "name": "No-Ticket Replacement",
+      "name": "Swap-Ready Air Purifier",
       "friction_theme": "customer_service",
       "friction_theme_name": "Customer service / returns / warranty",
       "operator": "REMOVE",
@@ -1132,7 +1132,7 @@
     },
     {
       "id": "filter_cost:DISTRIBUTE",
-      "name": "Micro-Filter Subscription",
+      "name": "Micro-Filter Air Purifier",
       "friction_theme": "filter_cost",
       "friction_theme_name": "Filter cost / replacement (weak real signal)",
       "operator": "DISTRIBUTE",
@@ -1213,7 +1213,7 @@
     },
     {
       "id": "filter_cost:MERGE",
-      "name": "Filter-Inclusive Pricing",
+      "name": "All-Inclusive Air Purifier",
       "friction_theme": "filter_cost",
       "friction_theme_name": "Filter cost / replacement (weak real signal)",
       "operator": "MERGE",
@@ -1294,7 +1294,7 @@
     },
     {
       "id": "ozone_odor_safety:MOVE",
-      "name": "Sensor-Led Placement Guidance",
+      "name": "Placement-Sensing Air Purifier",
       "friction_theme": "ozone_odor_safety",
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "MOVE",
@@ -1378,7 +1378,7 @@
     },
     {
       "id": "ozone_odor_safety:PERSONALISE",
-      "name": "Sensitivity-Aware Auto Mode",
+      "name": "Sensitivity-Aware Air Purifier",
       "friction_theme": "ozone_odor_safety",
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "PERSONALISE",
@@ -1548,7 +1548,7 @@
   "finalists": [
     {
       "id": "value_effectiveness:CONCENTRATE",
-      "name": "Single-Metric Trust Score",
+      "name": "Verified-Performance Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CONCENTRATE",
@@ -1642,7 +1642,7 @@
     },
     {
       "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-      "name": "Verified-Clean Certification",
+      "name": "Certified-Clean Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CROSS_CATEGORY_TRANSFER",
@@ -1736,7 +1736,7 @@
     },
     {
       "id": "value_effectiveness:PERSONALISE",
-      "name": "Personal Clean-Air Zone",
+      "name": "Personal Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "PERSONALISE",
@@ -1832,7 +1832,7 @@
   "non_dominated": [
     {
       "id": "reliability:PREDICT",
-      "name": "Predictive Failure Warning",
+      "name": "Predictive-Maintenance Air Purifier",
       "friction_theme": "reliability",
       "friction_theme_name": "Reliability / stopped working",
       "operator": "PREDICT",
@@ -1933,7 +1933,7 @@
     },
     {
       "id": "reliability:MATERIALISE",
-      "name": "Physical Health Indicator",
+      "name": "Health-Indicator Air Purifier",
       "friction_theme": "reliability",
       "friction_theme_name": "Reliability / stopped working",
       "operator": "MATERIALISE",
@@ -2034,7 +2034,7 @@
     },
     {
       "id": "reliability:CROSS_CATEGORY_TRANSFER",
-      "name": "Self-Testing Status Light",
+      "name": "Self-Testing Air Purifier",
       "friction_theme": "reliability",
       "friction_theme_name": "Reliability / stopped working",
       "operator": "CROSS_CATEGORY_TRANSFER",
@@ -2135,7 +2135,7 @@
     },
     {
       "id": "noise:AMBIENT",
-      "name": "Ambient Night Mode",
+      "name": "Ambient-Sensing Night Purifier",
       "friction_theme": "noise",
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "AMBIENT",
@@ -2253,7 +2253,7 @@
     },
     {
       "id": "noise:TEMPORAL_SHIFT",
-      "name": "Pre-Sleep Purification Window",
+      "name": "Pre-Sleep Air Purifier",
       "friction_theme": "noise",
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "TEMPORAL_SHIFT",
@@ -2371,7 +2371,7 @@
     },
     {
       "id": "noise:CROSS_CATEGORY_TRANSFER",
-      "name": "Active Noise-Cancelling Fan Mode",
+      "name": "Noise-Cancelling Air Purifier",
       "friction_theme": "noise",
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "CROSS_CATEGORY_TRANSFER",
@@ -2489,7 +2489,7 @@
     },
     {
       "id": "value_effectiveness:CONCENTRATE",
-      "name": "Single-Metric Trust Score",
+      "name": "Verified-Performance Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CONCENTRATE",
@@ -2583,7 +2583,7 @@
     },
     {
       "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-      "name": "Verified-Clean Certification",
+      "name": "Certified-Clean Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CROSS_CATEGORY_TRANSFER",
@@ -2677,7 +2677,7 @@
     },
     {
       "id": "value_effectiveness:PERSONALISE",
-      "name": "Personal Clean-Air Zone",
+      "name": "Personal Air Purifier",
       "friction_theme": "value_effectiveness",
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "PERSONALISE",
@@ -2773,7 +2773,7 @@
   "graveyard": [
     {
       "id": "customer_service:INVERT",
-      "name": "Proactive Warranty Contact",
+      "name": "Self-Reporting Air Purifier",
       "friction_theme": "customer_service",
       "friction_theme_name": "Customer service / returns / warranty",
       "operator": "INVERT",
@@ -2852,11 +2852,11 @@
         }
       },
       "killed_by": "NO_OBSERVED_PAIN",
-      "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+      "kill_reason": "Not enough real complaint evidence — 0.34% is below the 0.5% floor."
     },
     {
       "id": "customer_service:REMOVE",
-      "name": "No-Ticket Replacement",
+      "name": "Swap-Ready Air Purifier",
       "friction_theme": "customer_service",
       "friction_theme_name": "Customer service / returns / warranty",
       "operator": "REMOVE",
@@ -2935,11 +2935,11 @@
         }
       },
       "killed_by": "NO_OBSERVED_PAIN",
-      "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+      "kill_reason": "Not enough real complaint evidence — 0.34% is below the 0.5% floor."
     },
     {
       "id": "filter_cost:DISTRIBUTE",
-      "name": "Micro-Filter Subscription",
+      "name": "Micro-Filter Air Purifier",
       "friction_theme": "filter_cost",
       "friction_theme_name": "Filter cost / replacement (weak real signal)",
       "operator": "DISTRIBUTE",
@@ -3018,11 +3018,11 @@
         }
       },
       "killed_by": "NO_OBSERVED_PAIN",
-      "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
+      "kill_reason": "Not enough real complaint evidence — 0.26% is below the 0.5% floor."
     },
     {
       "id": "filter_cost:MERGE",
-      "name": "Filter-Inclusive Pricing",
+      "name": "All-Inclusive Air Purifier",
       "friction_theme": "filter_cost",
       "friction_theme_name": "Filter cost / replacement (weak real signal)",
       "operator": "MERGE",
@@ -3101,11 +3101,11 @@
         }
       },
       "killed_by": "NO_OBSERVED_PAIN",
-      "kill_reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
+      "kill_reason": "Not enough real complaint evidence — 0.26% is below the 0.5% floor."
     },
     {
       "id": "ozone_odor_safety:MOVE",
-      "name": "Sensor-Led Placement Guidance",
+      "name": "Placement-Sensing Air Purifier",
       "friction_theme": "ozone_odor_safety",
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "MOVE",
@@ -3187,11 +3187,11 @@
         }
       },
       "killed_by": "DOMINATED",
-      "kill_reason": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
+      "kill_reason": "Another concept beats it on pain, value, and feasibility."
     },
     {
       "id": "ozone_odor_safety:PERSONALISE",
-      "name": "Sensitivity-Aware Auto Mode",
+      "name": "Sensitivity-Aware Air Purifier",
       "friction_theme": "ozone_odor_safety",
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "PERSONALISE",
@@ -3273,7 +3273,7 @@
         }
       },
       "killed_by": "DOMINATED",
-      "kill_reason": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
+      "kill_reason": "Another concept beats it on pain, value, and feasibility."
     },
     {
       "id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
@@ -3359,7 +3359,7 @@
         }
       },
       "killed_by": "DOMINATED",
-      "kill_reason": "Strictly dominated by another surviving possibility on Consumer Pain, Economic Value and Feasibility simultaneously."
+      "kill_reason": "Another concept beats it on pain, value, and feasibility."
     }
   ],
   "operators": {

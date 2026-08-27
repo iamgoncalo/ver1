@@ -512,7 +512,7 @@ def build():
     graveyard = [{
         "id": g["id"], "name": g["name"], "killed_by": g["killed_by"],
         "kill_reason_class": KILL_REASON_MAP.get(g["killed_by"], g["killed_by"]),
-        "why_did_this_die": g["kill_reason"],
+        "why_not_selected": g["kill_reason"],
     } for g in magic_box["graveyard"]]
 
     assumptions = _load("category_assumptions.json")["assumptions"]

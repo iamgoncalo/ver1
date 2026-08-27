@@ -6,7 +6,7 @@
   "category": "Connected Air Treatment",
   "business_unit": "Versuni - Home Air",
   "repository": "versuni-connected-air-treatment",
-  "built_at": "2026-08-27T09:26:27+00:00",
+  "built_at": "2026-08-27T18:50:44+00:00",
   "built_by": "src/real/build_manifest_real.py",
   "reproducible": true,
   "reproduce_with": [
@@ -20,7 +20,7 @@
   ],
   "reproducibility_caveat": "The two upstream McAuley-Lab source files (Appliances.jsonl, Home_and_Kitchen.jsonl) are hosted on HuggingFace and are NOT bundled with this repository - they are streamed and filtered live, per §3.5 of the brief ('where a source cannot be redistributed, ship the fetching script and the manifest entry instead'). The FILTERED, purifier-only output (data/real_raw/reviews_appliances.jsonl, reviews_hk.jsonl - a few thousand rows, not the full multi-GB source) IS bundled and is what data/raw/consumer_reviews.csv is actually built from, so re-running build_reviews_csv.py alone reproduces it without any network access. Re-running the two filter_*.py steps requires network access to huggingface.co and will take significant time (~886MB + ~31GB streamed).",
   "file_count": 3,
-  "total_bytes": 6637999,
+  "total_bytes": 6637370,
   "files": [
     {
       "filename": "consumer_reviews.csv",
@@ -28,7 +28,7 @@
       "bytes": 6610287,
       "sha256": "89296d913d84036a66bf9a91b3ff9eae8a1c503db79e0bd1a1f301663ecd7395",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-27T09:26:27+00:00",
+      "generated_at": "2026-08-27T18:50:44+00:00",
       "immutable": true,
       "format": "csv",
       "origin": {
@@ -66,10 +66,10 @@
     {
       "filename": "market_metrics.json",
       "relative_path": "data/raw/market_metrics.json",
-      "bytes": 8740,
-      "sha256": "c87b846c3c85f09bba2cc0b4f846103cea76adb8241d29cc1a3bdcfecbdfc357",
+      "bytes": 8111,
+      "sha256": "861f39099dc3fdef6b373a1294b42a3230919643bf02f8b195e5843ebb22e036",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-27T09:26:27+00:00",
+      "generated_at": "2026-08-27T18:50:44+00:00",
       "immutable": true,
       "format": "json",
       "origin": {
@@ -90,7 +90,7 @@
       "bytes": 18972,
       "sha256": "7bc505262a08da27a9df6f4287b8e9758ad4f4f39989974a4ff4e86d365931e4",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-27T09:26:27+00:00",
+      "generated_at": "2026-08-27T18:50:44+00:00",
       "immutable": true,
       "format": "json",
       "origin": {

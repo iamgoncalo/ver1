@@ -38,23 +38,15 @@ DOC = {
         "status": "RESOLVED_BY_ANALYST_JUDGMENT",
         "question_ref": "Q5",
         "headline": (
-            "Two syndicated market-research firms report CAGR for the same nominal segment "
-            "- 'Europe Air Purifier Market', both revenue-basis, both covering standalone + "
-            "in-duct across residential/commercial/industrial - that still differ by 1.17 "
-            "percentage points, primarily because they use different forecast windows and "
-            "each firm's own proprietary base-year estimate."
+            "Same segment, same scope — still 1.17pp apart. "
+            "Different forecast windows and base years."
         ),
         "spread_pp": 1.17,
         "root_cause": "different_forecast_period_and_proprietary_methodology",
         "conflicting_metric": "cagr_pct",
         "source_ids": ["mordor_2026_europe_air_purifier", "imarc_2026_europe_air_purifier"],
         "note_on_realism": (
-            "This spread (1.17pp) is smaller than a dramatic textbook example - that is what "
-            "a genuine disagreement between two firms nominally covering the SAME scope "
-            "usually looks like. A large spread almost always means the two firms are "
-            "measuring different things (see the connected-vs-total, EU-vs-worldwide "
-            "cross-check we deliberately did NOT need here, because these two already "
-            "disagree despite near-identical stated scope)."
+            "A small spread despite matching scope. Real disagreement."
         ),
     },
 

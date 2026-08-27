@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
-import { Card, Pill, SectionLabel, StatRow, TruthBadge, DistilledRawToggle, CounterfactualPrompt, MiniBar, type ViewMode } from "../components/ui";
+import { Card, Pill, SectionLabel, StatRow, DistilledRawToggle, CounterfactualPrompt, MiniBar, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { FrictionIcon, ImageProvenance } from "../components/ThemeIcon";
 import { OperatorIcon, OPERATOR_TAGLINE, type OperatorId } from "../components/OperatorIcon";
@@ -29,7 +29,7 @@ interface Assumption {
   assumption_id: string; text: string; status: string; evidence_for_prevalence: string;
   real_evidence_that_bears_on_it: string[]; evidence_note: string; counterfactual: string;
 }
-interface Graveyard { id: string; name: string; killed_by: string; kill_reason_class: string; why_did_this_die: string }
+interface Graveyard { id: string; name: string; killed_by: string; kill_reason_class: string; why_not_selected: string }
 interface FunnelStage { stage: string; label: string; count: number }
 interface CriteriaDoc {
   criteria_library: Criterion[];
@@ -48,9 +48,6 @@ interface CriteriaDoc {
 
 const STATUS_TONE: Record<string, "good" | "amber" | "neutral" | "rose"> = {
   PASS: "good", CHALLENGE: "amber", NEEDS_EVIDENCE: "neutral", KILL: "rose", "N/A": "neutral",
-};
-const STAGE_TONE: Record<string, "neutral" | "amber" | "teal" | "good" | "rose"> = {
-  SEED: "neutral", CHALLENGED: "amber", SURVIVOR: "teal", FINALIST: "good", REJECTED: "rose",
 };
 const VERDICT_TONE: Record<string, "good" | "amber" | "neutral" | "rose"> = {
   SURVIVE: "good", CHALLENGE: "amber", NEEDS_EVIDENCE: "neutral", REJECT: "rose",
@@ -101,12 +98,7 @@ function DnaBadgeRow({ dna, compact }: { dna: DesignDna; compact?: boolean }) {
 function ConceptCard({ p, onClick, maxEcon }: { p: Concept; onClick: () => void; maxEcon: number }) {
   return (
     <Card onClick={onClick} active={p.is_finalist}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, gap: 8 }}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-          {p.evolution_stage && <Pill tone={STAGE_TONE[p.evolution_stage] ?? "neutral"}>{p.evolution_stage}</Pill>}
-          {p.critic_overall && <Pill tone={VERDICT_TONE[p.critic_overall] ?? "neutral"}>CRITIC: {p.critic_overall.replace(/_/g, " ")}</Pill>}
-          {p.is_white_space && <Pill tone="amber">competitors weak here</Pill>}
-        </div>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 4 }}>
         <FrictionIcon theme={p.friction_theme} size={22} />
       </div>
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 10 }}>
@@ -200,7 +192,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
           ) : (
             <>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                <SectionLabel>{showRejected ? "Rejected — why did each one die?" : `Concepts — deterministic operator × friction combinations (${conceptsFiltered.length})`}</SectionLabel>
+                <SectionLabel>{showRejected ? "Not selected — why" : `Concepts — deterministic operator × friction combinations (${conceptsFiltered.length})`}</SectionLabel>
                 <button onClick={() => setShowRejected((v) => !v)}
                   style={{ fontSize: 12, padding: "6px 12px", borderRadius: 8, border: "1px solid var(--line)", background: "var(--surface-2)", cursor: "pointer" }}>
                   {showRejected ? "← View concepts" : `View rejected (${data.graveyard.length})`}
@@ -217,7 +209,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
                       style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", gap: 16, padding: "10px 14px", border: "1px solid var(--line)", borderRadius: 10, background: "var(--surface)" }}>
                       <div>
                         <div style={{ fontWeight: 500, fontSize: 13 }}>{g.name}</div>
-                        <div style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 2 }}>{g.why_did_this_die}</div>
+                        <div style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 2 }}>{g.why_not_selected}</div>
                       </div>
                       <Pill tone="rose">{g.kill_reason_class}</Pill>
                     </div>
@@ -284,37 +276,51 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
       <FocusPanel open={!!conceptFocus} onClose={() => setConceptFocus(null)} eyebrow={conceptFocus ? `${conceptFocus.friction_theme_name} × ${conceptFocus.operator}` : ""} title={conceptFocus?.name ?? ""}>
         {conceptFocus && (
           <>
-            <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 16 }}>
-              <div style={{ width: 56, height: 56, borderRadius: 14, background: "var(--surface-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <FrictionIcon theme={conceptFocus.friction_theme} size={36} />
+            <div style={{
+              display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 12,
+              padding: "28px 20px", marginBottom: 18, borderRadius: 20,
+              background: "linear-gradient(160deg, var(--accent-blue) 0%, var(--accent-teal) 100%)",
+            }}>
+              <div style={{ width: 88, height: 88, borderRadius: 22, background: "rgba(255,255,255,0.16)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ color: "white", width: 52, height: 52, display: "inline-flex" }}>
+                  <OperatorIcon operator={conceptFocus.operator} size={52} />
+                </span>
               </div>
-              <ImageProvenance state="EDITORIAL" />
-            </div>
-            <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
-              <TruthBadge truthClass={conceptFocus.truth_class} />
-              {conceptFocus.evolution_stage && <Pill tone={STAGE_TONE[conceptFocus.evolution_stage] ?? "neutral"}>{conceptFocus.evolution_stage}</Pill>}
-              {conceptFocus.is_white_space && <Pill tone="amber">competitors weak here</Pill>}
+              <div style={{ fontSize: 19, fontWeight: 700, color: "white", lineHeight: 1.35, maxWidth: 340 }}>
+                {OPERATOR_TAGLINE[conceptFocus.operator as OperatorId] ?? conceptFocus.operator}
+              </div>
+              {conceptFocus.typical_market_price_usd != null && (
+                <div style={{ fontSize: 30, fontWeight: 700, color: "white", fontVariantNumeric: "tabular-nums", marginTop: 4 }}>
+                  ${conceptFocus.typical_market_price_usd.toFixed(2)}
+                </div>
+              )}
+              <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.75)", display: "flex", alignItems: "center", gap: 6 }}>
+                <ImageProvenance state="EDITORIAL" /><span>illustration, not a real product photo</span>
+              </div>
             </div>
 
             {(() => {
               const grave = data?.graveyard.find((g) => g.id === conceptFocus.id);
               return grave ? (
                 <div style={{ marginBottom: 16, padding: "10px 14px", background: "rgba(166,67,63,0.08)", border: "1px solid rgba(166,67,63,0.25)", borderRadius: 8 }}>
-                  <SectionLabel>Why did this die?</SectionLabel>
-                  <p style={{ fontSize: 12.5, color: "var(--rose)", lineHeight: 1.5 }}>{grave.why_did_this_die}</p>
+                  <SectionLabel>Why this wasn't selected</SectionLabel>
+                  <p style={{ fontSize: 12.5, color: "var(--rose)", lineHeight: 1.5 }}>{grave.why_not_selected}</p>
                 </div>
               ) : null;
             })()}
 
             <div style={{ marginBottom: 16 }}>
-              <SectionLabel>Derivation</SectionLabel>
-              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
-                Friction: <b style={{ color: "var(--ink)" }}>{conceptFocus.friction_theme_name}</b> (CSAT {conceptFocus.consumer_pain_csat}, {conceptFocus.consumer_pain_prevalence_pct}% of reviews)
-                {" "}transformed by operator <b style={{ color: "var(--ink)" }}>{conceptFocus.operator}</b> — {conceptFocus.operator_definition}
-                {conceptFocus.competitor_gap_brands.length > 0 && <> Competitors measurably weak here: {conceptFocus.competitor_gap_brands.join(", ")}.</>}
+              <SectionLabel>Where this came from</SectionLabel>
+              <p style={{ fontSize: 13, color: "var(--ink)", lineHeight: 1.5 }}>
+                <b>{conceptFocus.friction_theme_name}</b> — a real friction — transformed by <b>{conceptFocus.operator}</b>: {conceptFocus.operator_definition}
               </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
+                <Pill tone={(conceptFocus.consumer_pain_csat ?? 0) < 0 ? "rose" : "good"}>CSAT {conceptFocus.consumer_pain_csat}</Pill>
+                <Pill>{conceptFocus.consumer_pain_prevalence_pct}% of reviews</Pill>
+                {conceptFocus.competitor_gap_brands.length > 0 && <Pill tone="amber">{conceptFocus.competitor_gap_brands.length} competitors weak here</Pill>}
+              </div>
               {conceptFocus.consumer_pain_methodology && (
-                <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 8 }}>
+                <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 10 }}>
                   {conceptFocus.consumer_pain_methodology.pct_verified_purchase}% verified purchase · {conceptFocus.consumer_pain_methodology.n_reviews} reviews,{" "}
                   {conceptFocus.consumer_pain_methodology.n_distinct_products} products · {conceptFocus.consumer_pain_methodology.review_date_range?.[0]}–{conceptFocus.consumer_pain_methodology.review_date_range?.[1]}
                 </p>
@@ -323,7 +329,6 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
 
             {conceptFocus.typical_market_price_usd != null && (
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 12 }}>
-                <span style={{ fontSize: 26, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>${conceptFocus.typical_market_price_usd.toFixed(2)}</span>
                 <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>typical real price in this segment today (median of {conceptFocus.typical_market_price_n_products} real products)</span>
               </div>
             )}

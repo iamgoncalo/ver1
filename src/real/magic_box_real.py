@@ -64,21 +64,21 @@ THEME_OPERATORS = {
 }
 
 POSSIBILITY_NAMES = {
-    ("reliability", "PREDICT"): "Predictive Failure Warning",
-    ("reliability", "MATERIALISE"): "Physical Health Indicator",
-    ("reliability", "CROSS_CATEGORY_TRANSFER"): "Self-Testing Status Light",
-    ("noise", "AMBIENT"): "Ambient Night Mode",
-    ("noise", "TEMPORAL_SHIFT"): "Pre-Sleep Purification Window",
-    ("noise", "CROSS_CATEGORY_TRANSFER"): "Active Noise-Cancelling Fan Mode",
-    ("value_effectiveness", "CONCENTRATE"): "Single-Metric Trust Score",
-    ("value_effectiveness", "CROSS_CATEGORY_TRANSFER"): "Verified-Clean Certification",
-    ("value_effectiveness", "PERSONALISE"): "Personal Clean-Air Zone",
-    ("customer_service", "INVERT"): "Proactive Warranty Contact",
-    ("customer_service", "REMOVE"): "No-Ticket Replacement",
-    ("filter_cost", "DISTRIBUTE"): "Micro-Filter Subscription",
-    ("filter_cost", "MERGE"): "Filter-Inclusive Pricing",
-    ("ozone_odor_safety", "MOVE"): "Sensor-Led Placement Guidance",
-    ("ozone_odor_safety", "PERSONALISE"): "Sensitivity-Aware Auto Mode",
+    ("reliability", "PREDICT"): "Predictive-Maintenance Air Purifier",
+    ("reliability", "MATERIALISE"): "Health-Indicator Air Purifier",
+    ("reliability", "CROSS_CATEGORY_TRANSFER"): "Self-Testing Air Purifier",
+    ("noise", "AMBIENT"): "Ambient-Sensing Night Purifier",
+    ("noise", "TEMPORAL_SHIFT"): "Pre-Sleep Air Purifier",
+    ("noise", "CROSS_CATEGORY_TRANSFER"): "Noise-Cancelling Air Purifier",
+    ("value_effectiveness", "CONCENTRATE"): "Verified-Performance Air Purifier",
+    ("value_effectiveness", "CROSS_CATEGORY_TRANSFER"): "Certified-Clean Air Purifier",
+    ("value_effectiveness", "PERSONALISE"): "Personal Air Purifier",
+    ("customer_service", "INVERT"): "Self-Reporting Air Purifier",
+    ("customer_service", "REMOVE"): "Swap-Ready Air Purifier",
+    ("filter_cost", "DISTRIBUTE"): "Micro-Filter Air Purifier",
+    ("filter_cost", "MERGE"): "All-Inclusive Air Purifier",
+    ("ozone_odor_safety", "MOVE"): "Placement-Sensing Air Purifier",
+    ("ozone_odor_safety", "PERSONALISE"): "Sensitivity-Aware Air Purifier",
     ("ozone_odor_safety", "CROSS_CATEGORY_TRANSFER"): "Wearable Odor/Ozone Safety Clip",
 }
 
@@ -289,23 +289,19 @@ def run_funnel():
         if p in stage2_gate:
             continue
         graveyard.append({**p, "killed_by": "NO_OBSERVED_PAIN",
-                          "kill_reason": "Consumer Pain evidence-sufficiency gate failed - "
-                                        "prevalence {}% below the {}% floor, or no real "
-                                        "CSAT signal.".format(
+                          "kill_reason": "Not enough real complaint evidence — {}% is below "
+                                        "the {}% floor.".format(
                                             p["consumer_pain_prevalence_pct"], MATERIALITY_FLOOR_PCT)})
     for p in stage2_gate:
         if p in stage3_evidence:
             continue
         graveyard.append({**p, "killed_by": "INSUFFICIENT_ECONOMIC_EVIDENCE",
-                          "kill_reason": "No real observed-price coverage for this theme's "
-                                        "affected reviews - cannot size Economic Value."})
+                          "kill_reason": "No real price data for this theme."})
     for p in stage3_evidence:
         if p in stage4_dominance:
             continue
         graveyard.append({**p, "killed_by": "DOMINATED",
-                          "kill_reason": "Strictly dominated by another surviving "
-                                        "possibility on Consumer Pain, Economic Value and "
-                                        "Feasibility simultaneously."})
+                          "kill_reason": "Another concept beats it on pain, value, and feasibility."})
 
     return {
         "_provenance": "Every count is len() of a real filtered Python list. Dominance "
