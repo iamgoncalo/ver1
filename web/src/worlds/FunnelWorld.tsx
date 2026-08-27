@@ -32,12 +32,12 @@ interface FunnelDoc {
 }
 
 const STAGES: { key: FunnelStageKey; label: string; tagline: string }[] = [
-  { key: "radar", label: "RADAR", tagline: "See reality." },
-  { key: "paths", label: "PATHS", tagline: "Where it's moving." },
-  { key: "field", label: "FIELD", tagline: "The world now." },
-  { key: "magic_box", label: "MAGIC BOX", tagline: "What could exist." },
-  { key: "innovations", label: "INNOVATIONS", tagline: "Test possibilities." },
-  { key: "new_products", label: "NEW PRODUCTS", tagline: "Made physical." },
+  { key: "radar", label: "RADAR", tagline: "See reality" },
+  { key: "paths", label: "PATHS", tagline: "It's moving" },
+  { key: "field", label: "FIELD", tagline: "World now" },
+  { key: "magic_box", label: "MAGIC BOX", tagline: "Could exist" },
+  { key: "innovations", label: "INNOVATIONS", tagline: "Being tested" },
+  { key: "new_products", label: "NEW PRODUCTS", tagline: "Made real" },
 ];
 
 // A world to jump to for each real RADAR family - not every family has one
@@ -118,8 +118,9 @@ function StageTile({ stage, hf, status, onOpen }: { stage: typeof STAGES[number]
       onMouseLeave={() => setHover(false)}
       title={`${stage.label} — click for detail and trace`}
       style={{
-        flex: "1 1 0", minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center",
-        gap: 8, padding: "22px 12px", borderRadius: 20, border: "1px solid",
+        flex: "1 1 0", minWidth: 0, maxWidth: 190, height: 200, display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center", gap: 6, padding: "16px 10px", borderRadius: 20,
+        border: "1px solid", overflow: "hidden", boxSizing: "border-box",
         borderColor: hover ? "var(--accent-teal)" : "var(--line)",
         background: "var(--surface)", cursor: "pointer", textAlign: "center",
         boxShadow: hover ? "var(--shadow)" : "none",
@@ -127,12 +128,12 @@ function StageTile({ stage, hf, status, onOpen }: { stage: typeof STAGES[number]
         transition: "border-color 160ms, box-shadow 160ms, transform 160ms",
       }}
     >
-      <FunnelStageIcon stage={stage.key} size={48} />
+      <FunnelStageIcon stage={stage.key} size={40} />
       {n !== null
-        ? <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1, color: "var(--ink)" }}>{n}</div>
+        ? <div className="mono" style={{ fontSize: 30, fontWeight: 700, lineHeight: 1, color: "var(--ink)" }}>{n}</div>
         : <Pill tone={status === "RUNNING" ? "good" : "rose"}>● LIVE</Pill>}
-      <div style={{ fontSize: 13.5, fontWeight: 700, letterSpacing: "0.06em", marginTop: 2 }}>{stage.label}</div>
-      <div style={{ fontSize: 11, color: "var(--ink-dim)", fontStyle: "italic" }}>{stage.tagline}</div>
+      <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", whiteSpace: "nowrap" }}>{stage.label}</div>
+      <div style={{ fontSize: 10.5, color: "var(--ink-dim)", fontStyle: "italic", whiteSpace: "nowrap" }}>{stage.tagline}</div>
     </button>
   );
 }
