@@ -171,22 +171,28 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
       await expect(page.locator("main button").filter({ hasText: label }).first()).toBeVisible();
     }
 
-    // RADAR opens with real per-family counts and a real file trace.
+    // RADAR opens with real per-family counts; a clickable family jumps to
+    // its real page, and the trace is a click away, not dumped by default.
     await page.locator("main button").filter({ hasText: "RADAR" }).first().click();
     await expect(page.getByText(/PRODUCTS/).first()).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/compute_homepage_funnel/)).toHaveCount(0);
+    await page.getByRole("button", { name: "▸ source" }).click();
     await expect(page.getByText(/compute_homepage_funnel/)).toBeVisible();
     await page.keyboard.press("Escape");
 
-    // PATHS is honest about what has no real source (never invented).
+    // PATHS is honest about what has no real source (never invented) -
+    // collapsed by default, revealed on click, never invented either way.
     await page.locator("main button").filter({ hasText: "PATHS" }).first().click();
-    await expect(page.getByText("NO VERIFIED NATURE ANALOGUE").first()).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText("NO VERIFIED DATA").first()).toBeVisible();
+    await expect(page.getByText("NO VERIFIED DATA")).toHaveCount(0);
+    await page.getByText(/ → /).first().click();
+    await expect(page.getByText("NO VERIFIED DATA").first()).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/NO VERIFIED NATURE/).first()).toBeVisible();
     await page.keyboard.press("Escape");
 
-    // FIELD is a 1:1 relabelling of the real live decision verdict.
+    // FIELD is a 1:1 relabelling of the real live decision verdict - short
+    // by default, full real text a click away.
     await page.locator("main button").filter({ hasText: "FIELD" }).first().click();
-    await expect(page.getByText("Now")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText("Wrong if")).toBeVisible();
+    await expect(page.getByText("Wrong if")).toBeVisible({ timeout: 5000 });
     await page.keyboard.press("Escape");
 
     // Logo returns home from a deep page.

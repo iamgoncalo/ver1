@@ -14,7 +14,7 @@ interface FieldData {
   now: string; moving: string; because: string; opens: string;
   blocked_by: { name: string; reason: string }[]; wrong_if: string;
 }
-interface MagicBoxData { count: number; pattern_type_counts: Record<string, number> }
+interface MagicBoxData { count: number; possibilities: { id: string; name: string; friction_theme: string }[]; pattern_type_counts: Record<string, number> }
 interface InnovationCandidate { id: string; name: string; friction_theme: string; typical_market_price_usd: number | null; critic_overall: string | null }
 interface InnovationsData { count: number; candidates: InnovationCandidate[] }
 interface NewProduct { id: string; name: string; friction_theme_name: string; operator: string; typical_market_price_usd: number | null; economic_value: number; feasibility: string }
@@ -33,12 +33,18 @@ interface FunnelDoc {
 
 const STAGES: { key: FunnelStageKey; label: string; tagline: string }[] = [
   { key: "radar", label: "RADAR", tagline: "See reality." },
-  { key: "paths", label: "PATHS", tagline: "See where reality is moving." },
-  { key: "field", label: "FIELD", tagline: "Understand the emerging world." },
-  { key: "magic_box", label: "MAGIC BOX", tagline: "Reveal what could exist." },
-  { key: "innovations", label: "INNOVATIONS", tagline: "Build and test possibilities." },
-  { key: "new_products", label: "NEW PRODUCTS", tagline: "Make possibility physical." },
+  { key: "paths", label: "PATHS", tagline: "Where it's moving." },
+  { key: "field", label: "FIELD", tagline: "The world now." },
+  { key: "magic_box", label: "MAGIC BOX", tagline: "What could exist." },
+  { key: "innovations", label: "INNOVATIONS", tagline: "Test possibilities." },
+  { key: "new_products", label: "NEW PRODUCTS", tagline: "Made physical." },
 ];
+
+// A world to jump to for each real RADAR family - not every family has one
+// (ECONOMICS/PATENTS/NATURE have no dedicated page yet).
+const FAMILY_WORLD: Record<string, number> = {
+  RESEARCH: 2, TRENDS: 2, CONSUMERS: 2, MARKET: 2, TECHNOLOGY_AI: 2, PRODUCTS: 1, RIVALS: 3,
+};
 
 function timeAgo(iso: string) {
   const ms = Date.now() - new Date(iso).getTime();
@@ -50,29 +56,70 @@ function timeAgo(iso: string) {
   return `${Math.floor(hr / 24)}d ago`;
 }
 
-function headline(hf: HomepageFunnel, key: FunnelStageKey): { big: string; unit: string } {
+// Cuts real text to a short preview at a sentence/clause boundary - never
+// paraphrased, the full untouched string is always one click away via
+// <Expand>. Truncation is display-only, same convention as titles clipped
+// elsewhere in this app (e.g. SignalCard).
+function preview(text: string, max = 90) {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const boundary = Math.max(cut.lastIndexOf(". "), cut.lastIndexOf(" - "), cut.lastIndexOf(", "));
+  return (boundary > 40 ? cut.slice(0, boundary) : cut) + "…";
+}
+
+function Expand({ label, text, tone = "dim" }: { label: string; text: string; tone?: "dim" | "rose" }) {
+  const [open, setOpen] = useState(false);
+  const short = preview(text);
+  const truncated = short.length < text.length;
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <SectionLabel>{label}</SectionLabel>
+      <button onClick={() => truncated && setOpen((v) => !v)}
+        style={{ background: "none", border: "none", padding: 0, textAlign: "left", cursor: truncated ? "pointer" : "default", width: "100%" }}>
+        <p style={{ fontSize: 12.5, color: tone === "rose" ? "var(--rose)" : "var(--ink-dim)", lineHeight: 1.5 }}>
+          {open ? text : short}{truncated && <span style={{ color: "var(--accent-blue-ink)", fontWeight: 600 }}> {open ? " show less" : " more"}</span>}
+        </p>
+      </button>
+    </div>
+  );
+}
+
+function Source({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ marginTop: 16, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
+      <button onClick={() => setOpen((v) => !v)}
+        style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.04em" }}>
+        {open ? "▾ source" : "▸ source"}
+      </button>
+      {open && <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 6 }}>{text}</p>}
+    </div>
+  );
+}
+
+function headline(hf: HomepageFunnel, key: FunnelStageKey): number | null {
   switch (key) {
-    case "radar": return { big: String(Object.values(hf.radar.families).reduce((a, b) => a + b, 0)), unit: "real evidence items" };
-    case "paths": return { big: String(hf.paths.length), unit: "real paths" };
-    case "field": return { big: "1", unit: "current bet, distilled" };
-    case "magic_box": return { big: String(hf.magic_box.count), unit: "real patterns" };
-    case "innovations": return { big: String(hf.innovations.count), unit: "real candidates" };
-    case "new_products": return { big: String(hf.new_products.count), unit: "real finalists" };
+    case "radar": return Object.values(hf.radar.families).reduce((a, b) => a + b, 0);
+    case "paths": return hf.paths.length;
+    case "field": return null;
+    case "magic_box": return hf.magic_box.count;
+    case "innovations": return hf.innovations.count;
+    case "new_products": return hf.new_products.count;
   }
 }
 
-function StageTile({ stage, hf, onOpen }: { stage: typeof STAGES[number]; hf: HomepageFunnel; onOpen: () => void }) {
+function StageTile({ stage, hf, status, onOpen }: { stage: typeof STAGES[number]; hf: HomepageFunnel; status: string; onOpen: () => void }) {
   const [hover, setHover] = useState(false);
-  const h = headline(hf, stage.key);
+  const n = headline(hf, stage.key);
   return (
     <button
       onClick={onOpen}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      title={`${stage.label} — click for inputs, outputs, and trace`}
+      title={`${stage.label} — click for detail and trace`}
       style={{
         flex: "1 1 0", minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center",
-        gap: 10, padding: "22px 12px", borderRadius: 20, border: "1px solid",
+        gap: 8, padding: "22px 12px", borderRadius: 20, border: "1px solid",
         borderColor: hover ? "var(--accent-teal)" : "var(--line)",
         background: "var(--surface)", cursor: "pointer", textAlign: "center",
         boxShadow: hover ? "var(--shadow)" : "none",
@@ -80,11 +127,12 @@ function StageTile({ stage, hf, onOpen }: { stage: typeof STAGES[number]; hf: Ho
         transition: "border-color 160ms, box-shadow 160ms, transform 160ms",
       }}
     >
-      <FunnelStageIcon stage={stage.key} size={52} />
-      <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1, color: "var(--ink)" }}>{h.big}</div>
-      <div style={{ fontSize: 9.5, color: "var(--ink-faint)", letterSpacing: "0.03em" }}>{h.unit}</div>
-      <div style={{ fontSize: 13.5, fontWeight: 700, letterSpacing: "0.06em", marginTop: 4 }}>{stage.label}</div>
-      <div style={{ fontSize: 11, color: "var(--ink-dim)", fontStyle: "italic", lineHeight: 1.3 }}>{stage.tagline}</div>
+      <FunnelStageIcon stage={stage.key} size={48} />
+      {n !== null
+        ? <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1, color: "var(--ink)" }}>{n}</div>
+        : <Pill tone={status === "RUNNING" ? "good" : "rose"}>● LIVE</Pill>}
+      <div style={{ fontSize: 13.5, fontWeight: 700, letterSpacing: "0.06em", marginTop: 2 }}>{stage.label}</div>
+      <div style={{ fontSize: 11, color: "var(--ink-dim)", fontStyle: "italic" }}>{stage.tagline}</div>
     </button>
   );
 }
@@ -104,6 +152,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
   useEffect(() => { api.funnel().then(setData).catch(() => setData(null)); }, []);
 
   const hf = data?.homepage_funnel;
+  const goTo = (n: number) => { setOpenStage(null); onGoToWorld(n); };
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "22px 32px", background: "var(--surface)" }}>
@@ -130,7 +179,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
           <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 4, minHeight: 0 }}>
             {STAGES.map((s, i) => (
               <div key={s.key} style={{ display: "flex", alignItems: "center", flex: "1 1 0", minWidth: 0 }}>
-                <StageTile stage={s} hf={hf} onOpen={() => setOpenStage(s.key)} />
+                <StageTile stage={s} hf={hf} status={data!.machine_state.status} onOpen={() => setOpenStage(s.key)} />
                 {i < STAGES.length - 1 && <FlowConnector />}
               </div>
             ))}
@@ -151,22 +200,17 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       <FocusPanel open={openStage === "radar"} onClose={() => setOpenStage(null)} eyebrow="RADAR — see reality" title="Evidence families">
         {hf && (
           <>
-            <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
-              Every real evidence family this pipeline has. Where none exists, it's a real zero with a note — never padded.
-            </p>
-            {Object.entries(hf.radar.families).map(([k, v]) => (
-              <div key={k} style={{ marginBottom: 10 }}>
-                <StatRow label={k.replace(/_/g, " ")} value={v} />
-                {hf.radar.notes[k] && <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginTop: 2 }}>{hf.radar.notes[k]}</p>}
-              </div>
-            ))}
-            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Trace</SectionLabel>
-              <p className="mono" style={{ fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.5 }}>
-                GET /api/funnel -&gt; homepage_funnel.radar, computed live by src/real/funnel_real.py::compute_homepage_funnel() from
-                signals_real.json, products_real.json, rivals_real.json, and economics_real.json. Outputs to PATHS, FIELD, MAGIC BOX.
-              </p>
-            </div>
+            {Object.entries(hf.radar.families).map(([k, v]) => {
+              const world = FAMILY_WORLD[k];
+              return (
+                <button key={k} onClick={() => world && goTo(world)}
+                  style={{ display: "block", width: "100%", background: "none", border: "none", padding: "8px 0", textAlign: "left", cursor: world ? "pointer" : "default" }}>
+                  <StatRow label={k.replace(/_/g, " ") + (world ? " →" : "")} value={v} />
+                  {hf.radar.notes[k] && <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginTop: 2 }}>{hf.radar.notes[k]}</p>}
+                </button>
+              );
+            })}
+            <Source text="GET /api/funnel -> homepage_funnel.radar — src/real/funnel_real.py::compute_homepage_funnel()." />
           </>
         )}
       </FocusPanel>
@@ -174,92 +218,64 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       {/* PATHS */}
       <FocusPanel open={openStage === "paths"} onClose={() => setOpenStage(null)} eyebrow="PATHS — see where reality is moving" title={`${hf?.paths.length ?? 0} real paths`}>
         {hf && (
-          <>
-            <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
-              Two real kinds, kept apart: a research TENSION ("X vs. Y", parsed from its own real name) and a category
-              ASSUMPTION (current state → its own real counterfactual). Driver, blocker, what-closes, distortion, and a
-              Nature analogue have no real source anywhere in this pipeline — reported honestly, not invented.
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {hf.paths.map((p) => (
-                <div key={p.id} style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: 12 }}>
-                  <Pill tone={p.kind === "TENSION" ? "rose" : "amber"}>{p.kind}</Pill>
-                  <div style={{ fontSize: 13.5, fontWeight: 600, marginTop: 8 }}>{p.from} → {p.to}</div>
-                  <p style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 4, lineHeight: 1.45 }}>{p.detail}</p>
-                  <div style={{ marginTop: 8, display: "flex", flexDirection: "column", gap: 2 }}>
-                    <StatRow label="What opens" value={p.what_opens} />
-                    <StatRow label="What closes" value={p.what_closes} />
-                    <StatRow label="Driver" value={p.driver} />
-                    <StatRow label="Blocker" value={p.blocker} />
-                    <StatRow label="Distortion" value={p.distortion} />
-                    <StatRow label="Nature analogue" value={p.nature_analogue} />
-                    <StatRow label="Evidence" value={p.evidence.join(", ") || "—"} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {hf.paths.map((p) => (
+              <PathRow key={p.id} p={p} />
+            ))}
+          </div>
         )}
       </FocusPanel>
 
       {/* FIELD */}
-      <FocusPanel open={openStage === "field"} onClose={() => setOpenStage(null)} eyebrow="FIELD — understand the emerging world" title="Distilled current state">
+      <FocusPanel open={openStage === "field"} onClose={() => setOpenStage(null)} eyebrow="FIELD — the emerging world, distilled" title={hf?.field.now ?? ""}>
         {hf && (
           <>
-            <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
-              A 1:1 relabelling of the real live decision engine's verdict — nothing synthesized here. See Innovations for the
-              interactive version (decision-priority toggle).
-            </p>
-            <SectionLabel>Now</SectionLabel>
-            <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 14 }}>{hf.field.now}</p>
-            <SectionLabel>Because</SectionLabel>
-            <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 14 }}>{hf.field.because}</p>
-            <SectionLabel>Moving — what would flip it</SectionLabel>
-            <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 14 }}>{hf.field.moving}</p>
-            <SectionLabel>Opens — next real experiment</SectionLabel>
-            <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 14 }}>{hf.field.opens}</p>
-            <SectionLabel>Wrong if</SectionLabel>
-            <p style={{ fontSize: 12, color: "var(--rose)", lineHeight: 1.5, marginBottom: 14 }}>{hf.field.wrong_if}</p>
+            <Expand label="Because" text={hf.field.because} />
+            <Expand label="Moving — what flips it" text={hf.field.moving} />
+            <Expand label="Opens" text={hf.field.opens} />
+            <Expand label="Wrong if" text={hf.field.wrong_if} tone="rose" />
             {hf.field.blocked_by.length > 0 && (
-              <>
-                <SectionLabel>Blocked by</SectionLabel>
-                {hf.field.blocked_by.map((k) => (
-                  <div key={k.name} style={{ marginBottom: 8 }}>
-                    <b style={{ fontSize: 12 }}>{k.name}</b>
-                    <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.45 }}>{k.reason}</p>
-                  </div>
-                ))}
-              </>
+              <div style={{ marginBottom: 10 }}>
+                <SectionLabel>Blocked</SectionLabel>
+                {hf.field.blocked_by.map((k) => <Expand key={k.name} label={k.name} text={k.reason} />)}
+              </div>
             )}
-            <button onClick={() => { setOpenStage(null); onGoToWorld(5); }}
+            <button onClick={() => goTo(5)}
               style={{ marginTop: 8, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Explore Innovations →
             </button>
+            <Source text="GET /api/funnel -> homepage_funnel.field, a 1:1 relabelling of decision_framework_real.json[&quot;verdict&quot;] — src/real/decision_framework_real.py." />
           </>
         )}
       </FocusPanel>
 
       {/* MAGIC BOX */}
-      <FocusPanel open={openStage === "magic_box"} onClose={() => setOpenStage(null)} eyebrow="MAGIC BOX — reveal what could exist" title={`${hf?.magic_box.count ?? 0} real patterns`}>
+      <FocusPanel open={openStage === "magic_box"} onClose={() => setOpenStage(null)} eyebrow="MAGIC BOX — reveal what could exist" title={`${hf?.magic_box.count ?? 0} possibilities generated`}>
         {hf && (
           <>
-            <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
-              9 pattern types, each a real reclassification of already-computed objects. A type with no real verified
-              instance is an honest zero.
-            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
+              {hf.magic_box.possibilities.map((p) => (
+                <div key={p.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, padding: "6px 0", borderBottom: "1px solid var(--line)" }}>
+                  <span>{p.name}</span>
+                  <span style={{ color: "var(--ink-faint)" }}>{p.friction_theme.replace(/_/g, " ")}</span>
+                </div>
+              ))}
+            </div>
+            <SectionLabel>Pattern types behind these</SectionLabel>
             {Object.entries(hf.magic_box.pattern_type_counts).map(([k, v]) => (
               <StatRow key={k} label={k.replace(/_/g, " ")} value={v} />
             ))}
-            <button onClick={() => { setOpenStage(null); onGoToWorld(4); }}
+            <button onClick={() => goTo(4)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Explore Criteria →
             </button>
+            <Source text="GET /api/funnel -> homepage_funnel.magic_box — src/real/magic_box_real.py, funnel stage 'generated'." />
           </>
         )}
       </FocusPanel>
 
       {/* INNOVATIONS */}
-      <FocusPanel open={openStage === "innovations"} onClose={() => setOpenStage(null)} eyebrow="INNOVATIONS — build and test possibilities" title={`${hf?.innovations.count ?? 0} real candidates`}>
+      <FocusPanel open={openStage === "innovations"} onClose={() => setOpenStage(null)} eyebrow="INNOVATIONS — non-dominated, still being tested" title={`${hf?.innovations.count ?? 0} real candidates`}>
         {hf && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -273,10 +289,11 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
                 </div>
               ))}
             </div>
-            <button onClick={() => { setOpenStage(null); onGoToWorld(5); }}
+            <button onClick={() => goTo(5)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Explore Innovations →
             </button>
+            <Source text="GET /api/funnel -> homepage_funnel.innovations — magic_box_real.json[&quot;non_dominated&quot;] (Pareto survivors of the 12 generated), each joined to its Critic verdict." />
           </>
         )}
       </FocusPanel>
@@ -285,37 +302,55 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       <FocusPanel open={openStage === "new_products"} onClose={() => setOpenStage(null)} eyebrow="NEW PRODUCTS — make possibility physical" title={`${hf?.new_products.count ?? 0} real finalists`}>
         {hf && (
           <>
-            <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
-              Only the real concepts that survived the full funnel — never a single hardcoded winner.
-            </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {hf.new_products.products.map((p) => (
                 <div key={p.id} style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: 12 }}>
                   <div style={{ fontSize: 14, fontWeight: 600 }}>{p.name}</div>
                   <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>{p.friction_theme_name} × {p.operator}</div>
                   <div style={{ marginTop: 6 }}>
-                    <StatRow label="Typical price" value={p.typical_market_price_usd != null ? `$${p.typical_market_price_usd.toFixed(2)}` : "NO VERIFIED PRICE"} />
-                    <StatRow label="Market exposure" value={`$${p.economic_value.toLocaleString()}`} />
+                    <StatRow label="Price" value={p.typical_market_price_usd != null ? `$${p.typical_market_price_usd.toFixed(2)}` : "NO VERIFIED PRICE"} />
+                    <StatRow label="Exposure" value={`$${p.economic_value.toLocaleString()}`} />
                     <StatRow label="Feasibility" value={p.feasibility} />
                   </div>
                 </div>
               ))}
             </div>
-            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Current Bet (separate decision pipeline)</SectionLabel>
+            <div style={{ marginTop: 16, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Current bet (separate pipeline)</SectionLabel>
               <p style={{ fontSize: 13, fontWeight: 600 }}>{hf.new_products.bet}</p>
-              <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 6, lineHeight: 1.4 }}>
-                Computed by a separate, related decision pipeline (OS-1/OS-2/OS-3) — not literally one of the finalists
-                above. Both are real; shown honestly rather than forced to match.
-              </p>
             </div>
-            <button onClick={() => { setOpenStage(null); onGoToWorld(5); }}
+            <button onClick={() => goTo(5)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Explore Innovations →
             </button>
+            <Source text="GET /api/funnel -> homepage_funnel.new_products — magic_box_real.json[&quot;finalists&quot;]; bet from decision_framework_real.json (separate pipeline, not forced to match)." />
           </>
         )}
       </FocusPanel>
+    </div>
+  );
+}
+
+function PathRow({ p }: { p: PathData }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ border: "1px solid var(--line)", borderRadius: 12, overflow: "hidden" }}>
+      <button onClick={() => setOpen((v) => !v)} style={{ display: "block", width: "100%", background: "none", border: "none", padding: "10px 14px", textAlign: "left", cursor: "pointer" }}>
+        <Pill tone={p.kind === "TENSION" ? "rose" : "amber"}>{p.kind}</Pill>
+        <div style={{ fontSize: 13, fontWeight: 600, marginTop: 6 }}>{p.from} → {p.to} {open ? "▾" : "▸"}</div>
+      </button>
+      {open && (
+        <div style={{ padding: "0 14px 14px" }}>
+          <p style={{ fontSize: 11.5, color: "var(--ink-dim)", marginBottom: 8, lineHeight: 1.45 }}>{preview(p.detail, 160)}</p>
+          <StatRow label="Opens" value={preview(p.what_opens, 60)} />
+          <StatRow label="Closes" value={p.what_closes} />
+          <StatRow label="Driver" value={p.driver} />
+          <StatRow label="Blocker" value={p.blocker} />
+          <StatRow label="Distortion" value={p.distortion} />
+          <StatRow label="Nature" value={p.nature_analogue.split(" - ")[0]} />
+          <StatRow label="Evidence" value={p.evidence.join(", ") || "—"} />
+        </div>
+      )}
     </div>
   );
 }

@@ -5,11 +5,11 @@
     "status": "RUNNING",
     "last_run_id": "run-2",
     "last_run_started_at": "2026-08-27T11:14:47.561106+00:00",
-    "last_run_finished_at": "2026-08-27T11:14:47.561106+00:00",
-    "last_checked_at": "2026-08-27T11:14:47.561106+00:00",
-    "check_count": 1,
+    "last_run_finished_at": "2026-08-27T11:37:43.668024+00:00",
+    "last_checked_at": "2026-08-27T11:37:43.668024+00:00",
+    "check_count": 58,
     "input_snapshot_hash": "f40831da82834061a010ed107ed49be75fc7287300ac610749c434cb063aac1e",
-    "changed_since_last_run": true,
+    "changed_since_last_run": false,
     "new_since_last_run": {},
     "total_runs_recorded": 2,
     "errors": []
@@ -547,7 +547,69 @@
       "wrong_if": "If the failure-mention cross-reference above shows reliability complaints concentrated in 2-3 specific older/discontinued products rather than spread across the category, treat this as a solved-or-solving problem rather than a live opportunity, and abandon."
     },
     "magic_box": {
-      "count": 24,
+      "count": 12,
+      "possibilities": [
+        {
+          "id": "reliability:PREDICT",
+          "name": "Predictive Failure Warning",
+          "friction_theme": "reliability"
+        },
+        {
+          "id": "reliability:MATERIALISE",
+          "name": "Physical Health Indicator",
+          "friction_theme": "reliability"
+        },
+        {
+          "id": "noise:AMBIENT",
+          "name": "Ambient Night Mode",
+          "friction_theme": "noise"
+        },
+        {
+          "id": "noise:TEMPORAL_SHIFT",
+          "name": "Pre-Sleep Purification Window",
+          "friction_theme": "noise"
+        },
+        {
+          "id": "value_effectiveness:CONCENTRATE",
+          "name": "Single-Metric Trust Score",
+          "friction_theme": "value_effectiveness"
+        },
+        {
+          "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "name": "Verified-Clean Certification",
+          "friction_theme": "value_effectiveness"
+        },
+        {
+          "id": "customer_service:INVERT",
+          "name": "Proactive Warranty Contact",
+          "friction_theme": "customer_service"
+        },
+        {
+          "id": "customer_service:REMOVE",
+          "name": "No-Ticket Replacement",
+          "friction_theme": "customer_service"
+        },
+        {
+          "id": "filter_cost:DISTRIBUTE",
+          "name": "Micro-Filter Subscription",
+          "friction_theme": "filter_cost"
+        },
+        {
+          "id": "filter_cost:MERGE",
+          "name": "Filter-Inclusive Pricing",
+          "friction_theme": "filter_cost"
+        },
+        {
+          "id": "ozone_odor_safety:MOVE",
+          "name": "Sensor-Led Placement Guidance",
+          "friction_theme": "ozone_odor_safety"
+        },
+        {
+          "id": "ozone_odor_safety:PERSONALISE",
+          "name": "Sensitivity-Aware Auto Mode",
+          "friction_theme": "ozone_odor_safety"
+        }
+      ],
       "pattern_type_counts": {
         "CONVERGENCE": 4,
         "TENSION": 6,
@@ -561,7 +623,7 @@
       }
     },
     "innovations": {
-      "count": 12,
+      "count": 6,
       "candidates": [
         {
           "id": "reliability:PREDICT",
@@ -603,48 +665,6 @@
           "name": "Verified-Clean Certification",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99,
-          "critic_overall": "CHALLENGE"
-        },
-        {
-          "id": "customer_service:INVERT",
-          "name": "Proactive Warranty Contact",
-          "friction_theme": "customer_service",
-          "typical_market_price_usd": 249.0,
-          "critic_overall": "REJECT"
-        },
-        {
-          "id": "customer_service:REMOVE",
-          "name": "No-Ticket Replacement",
-          "friction_theme": "customer_service",
-          "typical_market_price_usd": 249.0,
-          "critic_overall": "REJECT"
-        },
-        {
-          "id": "filter_cost:DISTRIBUTE",
-          "name": "Micro-Filter Subscription",
-          "friction_theme": "filter_cost",
-          "typical_market_price_usd": 249.5,
-          "critic_overall": "REJECT"
-        },
-        {
-          "id": "filter_cost:MERGE",
-          "name": "Filter-Inclusive Pricing",
-          "friction_theme": "filter_cost",
-          "typical_market_price_usd": 249.5,
-          "critic_overall": "REJECT"
-        },
-        {
-          "id": "ozone_odor_safety:MOVE",
-          "name": "Sensor-Led Placement Guidance",
-          "friction_theme": "ozone_odor_safety",
-          "typical_market_price_usd": 79.99,
-          "critic_overall": "CHALLENGE"
-        },
-        {
-          "id": "ozone_odor_safety:PERSONALISE",
-          "name": "Sensitivity-Aware Auto Mode",
-          "friction_theme": "ozone_odor_safety",
-          "typical_market_price_usd": 79.99,
           "critic_overall": "CHALLENGE"
         }
       ]

@@ -168,7 +168,7 @@ export function SignalsWorld() {
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
             Peer-reviewed literature, each paper verified live — every one below has a real DOI you can open.
           </p>
-          {mode === "raw" && research && (
+          {research && (
             <div style={{ marginBottom: 24 }}>
               <ScienceConstellation onPaperClick={(id) => {
                 const p = research.peer_reviewed_papers.find((x) => x.research_id === id);

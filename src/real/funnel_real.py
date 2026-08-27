@@ -394,22 +394,28 @@ def compute_homepage_funnel(patterns, signal_families):
         "wrong_if": v["abandon_signal"],
     }
 
-    # MAGIC BOX - unchanged real pattern totals.
+    # MAGIC BOX - headline is the real count of possibilities generated
+    # (magic_box_real.json["funnel"], stage "generated") - the number that
+    # actually narrows into INNOVATIONS below, not the 9-pattern-type total
+    # (a different, broader real count, kept as supporting detail).
+    generated_count = next((s["count"] for s in magic_box["funnel"] if s["stage"] == "generated"), len(magic_box["possibilities"]))
     magic_box_stage = {
-        "count": sum(len(v2) for v2 in patterns.values()),
+        "count": generated_count,
+        "possibilities": [{"id": p["id"], "name": p["name"], "friction_theme": p["friction_theme"]} for p in magic_box["possibilities"]],
         "pattern_type_counts": {k: len(v2) for k, v2 in patterns.items()},
     }
 
-    # INNOVATIONS - the real Magic Box possibilities, each annotated with
-    # its real Critic verdict where one exists.
+    # INNOVATIONS - the real non-dominated survivors (Pareto frontier) of
+    # the 12 generated above, each annotated with its real Critic verdict -
+    # a genuinely narrower, real subset, not the full 12 again.
     critic_by_id = {c["possibility_id"]: c["critic_overall"] for c in critic["concepts"]} if critic else {}
     innovations_stage = {
-        "count": len(magic_box["possibilities"]),
+        "count": len(magic_box["non_dominated"]),
         "candidates": [
             {"id": p["id"], "name": p["name"], "friction_theme": p["friction_theme"],
              "typical_market_price_usd": p["typical_market_price_usd"],
              "critic_overall": critic_by_id.get(p["id"])}
-            for p in magic_box["possibilities"]
+            for p in magic_box["non_dominated"]
         ],
     }
 
