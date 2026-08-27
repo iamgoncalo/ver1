@@ -14,16 +14,16 @@ export function ProcessRail({ active, onSelect, onGoHome }: { active: number; on
   return (
     <header
       style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "14px 22px", borderBottom: "1px solid var(--line)", background: "var(--surface)",
-        flexShrink: 0, gap: 24,
+        display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center",
+        padding: "12px 22px", borderBottom: "1px solid var(--line)", background: "var(--surface)",
+        flexShrink: 0, gap: 12,
       }}
     >
       <button onClick={onGoHome} title="Innovation Funnel — home" aria-current={active === 0 ? "step" : undefined}
-        style={{ border: "none", background: "none", cursor: "pointer", padding: 4, borderRadius: 8, opacity: active === 0 ? 1 : 0.85 }}>
+        style={{ border: "none", background: "none", cursor: "pointer", padding: 4, borderRadius: 8, opacity: active === 0 ? 1 : 0.85, justifySelf: "start" }}>
         <Logo />
       </button>
-      <nav aria-label="Five worlds" style={{ display: "flex", gap: 6 }}>
+      <nav aria-label="Five worlds" style={{ display: "flex", gap: 4, justifySelf: "center" }}>
         {STAGES.map((s) => {
           const isActive = s.n === active;
           return (
@@ -33,34 +33,22 @@ export function ProcessRail({ active, onSelect, onGoHome }: { active: number; on
               aria-current={isActive ? "step" : undefined}
               title={s.q}
               style={{
-                display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2,
-                padding: "6px 14px", borderRadius: 10, border: "1px solid",
+                padding: "6px 12px", borderRadius: 8, border: "1px solid",
                 borderColor: isActive ? "var(--accent-blue)" : "transparent",
                 background: isActive ? "var(--surface-2)" : "transparent",
-                cursor: "pointer", minWidth: 108, textAlign: "left",
+                cursor: "pointer", whiteSpace: "nowrap",
                 transition: "background 120ms, border-color 120ms",
               }}
             >
-              <span style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.06em" }}>
-                {s.n} · {s.process}
-              </span>
               <span style={{ fontSize: 13, fontWeight: 600, color: isActive ? "var(--accent-blue-ink)" : "var(--ink)" }}>
-                {s.world}
+                {s.n} · {s.world}
               </span>
             </button>
           );
         })}
       </nav>
-      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-        <HowWeGotHere />
+      <div style={{ justifySelf: "end" }}>
         <SourcesDock />
-        <a href="http://localhost:8501" target="_blank" rel="noopener noreferrer"
-          style={{ fontSize: 12, color: "var(--ink-dim)", textDecoration: "none", border: "1px solid var(--line)", padding: "6px 10px", borderRadius: 8 }}>
-          Analyst Mode →
-        </a>
-        <span style={{ fontSize: 10, color: "var(--ink-faint)", fontFamily: "var(--font-mono)" }}>
-          SPACE&nbsp;ask
-        </span>
       </div>
     </header>
   );

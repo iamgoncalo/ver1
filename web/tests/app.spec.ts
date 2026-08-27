@@ -78,6 +78,31 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await expect(page.getByText("OFFICIAL VERSUNI/PHILIPS")).toHaveCount(0);
   });
 
+  test("no text is clipped by an overflow:hidden ancestor at a narrower width", async ({ page }) => {
+    // A document-level no-scroll check (see noDocumentScroll) does not
+    // catch this class of bug: a flex child missing min-width:0 can force
+    // its own content wider than its container and get silently clipped
+    // by an ancestor's overflow-x:hidden (e.g. .scrollY), with no visible
+    // scrollbar and no document-level overflow to detect. Real bug found
+    // via live feedback at a real (narrower-than-1280) window width.
+    await page.setViewportSize({ width: 1024, height: 720 });
+    await page.goto("/");
+    await navButton(page, /PRODUCTS/).click();
+    await expect(page.getByText("OFFICIAL VERSUNI/PHILIPS")).toBeVisible({ timeout: 5000 });
+    const clipped = await page.evaluate(() => {
+      const offenders: string[] = [];
+      document.querySelectorAll("main *").forEach((el) => {
+        const cs = getComputedStyle(el);
+        if (cs.overflow === "hidden" || cs.overflowX === "hidden") return; // intentional clipping (line-clamps etc.)
+        if (el.children.length > 0) return; // only check leaf text nodes
+        if ((el.textContent ?? "").trim().length < 3) return;
+        if (el.scrollWidth > el.clientWidth + 2) offenders.push((el.textContent ?? "").slice(0, 60));
+      });
+      return offenders;
+    });
+    expect(clipped).toEqual([]);
+  });
+
   test("real official product images load with no broken images", async ({ page }) => {
     await page.goto("/");
     await navButton(page, /PRODUCTS/).click();

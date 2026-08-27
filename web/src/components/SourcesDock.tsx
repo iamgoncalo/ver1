@@ -25,9 +25,9 @@ export function SourcesDock() {
 
   return (
     <>
-      <button onClick={() => setOpen(true)}
-        style={{ fontSize: 11, color: "var(--ink-dim)", background: "none", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 10px", cursor: "pointer", fontFamily: "var(--font-mono)" }}>
-        SOURCES{counts ? ` · ${counts.live_verified_this_session} VERIFIED · ${counts.frozen} FROZEN · ${counts.manual_only} MANUAL · ${counts.not_implemented} N/A` : ""}
+      <button onClick={() => setOpen(true)} title="Click to see the real per-source verification status"
+        style={{ fontSize: 11, color: "var(--ink-dim)", background: "none", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 10px", cursor: "pointer", fontFamily: "var(--font-mono)", whiteSpace: "nowrap" }}>
+        SOURCES{counts ? ` · ${counts.live_verified_this_session + counts.frozen + counts.manual_only + counts.not_implemented}` : ""}
       </button>
       {open && (
         <>

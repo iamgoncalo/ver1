@@ -340,7 +340,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
                         background: present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
                         border: `1px solid ${present ? "var(--good)" : "var(--line)"}`,
                       }}>{letter}</span>
-                      <div style={{ fontSize: 12, lineHeight: 1.45 }}>
+                      <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 12, lineHeight: 1.45, overflowWrap: "break-word" }}>
                         <b style={{ color: "var(--ink)" }}>{DNA_LETTER_NAME[letter]}</b>
                         {" — "}
                         <span style={{ color: present ? "var(--ink-dim)" : "var(--ink-faint)" }}>
@@ -359,7 +359,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
                 {Object.entries(conceptFocus.critic_dimensions).map(([dim, d]) => (
                   <div key={dim} style={{ display: "flex", gap: 10, padding: "6px 0", borderBottom: "1px solid var(--line)" }}>
                     <div style={{ width: 90, flexShrink: 0 }}><Pill tone={VERDICT_TONE[d.verdict] ?? "neutral"}>{dim}</Pill></div>
-                    <div style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4 }}>
+                    <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4, overflowWrap: "break-word" }}>
                       <b style={{ color: "var(--ink)" }}>{d.verdict.replace(/_/g, " ")}</b> — {d.reasoning}
                     </div>
                   </div>
@@ -373,7 +373,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
                 {Object.entries(conceptFocus.criteria).map(([cid, r]) => (
                   <div key={cid} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
                     <div style={{ width: 110, flexShrink: 0 }}><Pill tone={STATUS_TONE[r.status]}>{cid} {r.status}</Pill></div>
-                    <div style={{ fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.4 }}>{r.note}</div>
+                    <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.4, overflowWrap: "break-word" }}>{r.note}</div>
                   </div>
                 ))}
               </div>

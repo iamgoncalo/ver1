@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ProcessRail } from "./components/ProcessRail";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { HowWeGotHere } from "./components/HowWeGotHere";
 import { AskShell } from "./components/AskShell";
 import { ProductsWorld } from "./worlds/ProductsWorld";
 import { SignalsWorld } from "./worlds/SignalsWorld";
@@ -81,9 +82,15 @@ export default function App() {
           <ErrorBoundary key={world}>{worldEl}</ErrorBoundary>
         </div>
       </main>
-      <footer style={{ flexShrink: 0, padding: "6px 22px", borderTop: "1px solid var(--line)", background: "var(--surface)", fontSize: 10.5, color: "var(--ink-faint)", display: "flex", justifyContent: "space-between" }}>
+      <footer style={{ flexShrink: 0, padding: "6px 22px", borderTop: "1px solid var(--line)", background: "var(--surface)", fontSize: 10.5, color: "var(--ink-faint)", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
         <span>Versuni — Disruptive Innovation Team, Amsterdam</span>
-        <span>← → worlds · 0 home · 1–5 jump · SPACE ask · ESC close</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <HowWeGotHere />
+          <a href="http://localhost:8501" target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink-faint)" }}>
+            Analyst Mode →
+          </a>
+          <span>← → worlds · 0 home · 1–5 jump · SPACE ask · ESC close</span>
+        </div>
       </footer>
       <AskShell open={askOpen} onClose={() => setAskOpen(false)} ctx={{ innovations, magicBox, rivals, whiteSpace }} />
     </div>

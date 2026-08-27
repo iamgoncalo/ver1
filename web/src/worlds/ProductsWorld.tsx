@@ -16,16 +16,10 @@ const TYPE_LABEL: Record<string, string> = {
 const INTEL_LABEL: Record<string, string> = {
   manual: "Manual", reactive: "Reactive (auto-sensor)", connected: "Connected (app/voice)", adaptive: "Adaptive (learns/predicts)",
 };
-// Raw pipeline status codes are internal jargon - always show the plain
-// meaning, never the bare code. Falls back to a humanized version of the
-// code itself for any status this map doesn't yet know, rather than
-// hiding it.
-const PRODUCT_STATUS_LABEL: Record<string, string> = {
-  EXACT_VERIFIED: "Verified — exact match to the official product page",
+// Raw pipeline status codes are internal jargon - never shown verbatim.
+const PRODUCT_STATUS_DETAIL: Record<string, string> = {
+  EXACT_VERIFIED: "Exact match to the official product page.",
 };
-function productStatusLabel(status: string) {
-  return PRODUCT_STATUS_LABEL[status] ?? status.replace(/_/g, " ").toLowerCase();
-}
 
 export function ProductsWorld() {
   const [data, setData] = useState<ProductsResponse | null>(null);
@@ -97,14 +91,14 @@ export function ProductsWorld() {
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
                 {officialProducts.map((p) => (
                   <Card key={p.product_id} onClick={() => setOfficialFocus(p)} focusable={false}
-                    style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", borderColor: "var(--accent-blue)", borderRadius: 16, maxWidth: 340 }}>
+                    style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", borderColor: "var(--accent-blue)", borderRadius: 16, flex: "1 1 280px", maxWidth: 340, boxSizing: "border-box" }}>
                     <img src={`/products/${p.local_asset.split("/").pop()}`} alt={p.official_name}
                       style={{ width: 70, height: 70, objectFit: "contain", flexShrink: 0 }} />
-                    <div>
-                      <Pill tone="good">{productStatusLabel(p.status)}</Pill>
-                      <div style={{ fontWeight: 600, fontSize: 13, marginTop: 6, lineHeight: 1.3 }}>{p.official_name}</div>
-                      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>
-                        {p.sku} · {p.specs.cadr_m3h} m³/h · {p.specs.room_coverage_m2} m²
+                    <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+                      <div className="mono" style={{ fontSize: 10.5, color: "var(--accent-blue-ink)", letterSpacing: "0.03em" }}>{p.sku}</div>
+                      <div style={{ fontWeight: 600, fontSize: 13, marginTop: 4, lineHeight: 1.3, overflowWrap: "break-word" }}>{p.official_name}</div>
+                      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2, overflowWrap: "break-word" }}>
+                        {p.specs.cadr_m3h} m³/h · {p.specs.room_coverage_m2} m²
                       </div>
                       <a href={p.official_url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ fontSize: 11 }}>official source →</a>
                     </div>
@@ -251,9 +245,9 @@ export function ProductsWorld() {
           <>
             <img src={`/products/${officialFocus.local_asset.split("/").pop()}`} alt={officialFocus.official_name}
               style={{ width: "100%", maxWidth: 220, objectFit: "contain", display: "block", margin: "0 auto 16px" }} />
-            <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
-              <Pill tone="good">{productStatusLabel(officialFocus.status)}</Pill>
-            </div>
+            {PRODUCT_STATUS_DETAIL[officialFocus.status] && (
+              <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 16 }}>{PRODUCT_STATUS_DETAIL[officialFocus.status]}</p>
+            )}
             <StatRow label="SKU" value={officialFocus.sku} />
             <StatRow label="Region verified" value={officialFocus.region} />
             <StatRow label="Publisher" value={officialFocus.publisher} />

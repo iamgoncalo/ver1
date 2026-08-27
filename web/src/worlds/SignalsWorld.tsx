@@ -91,9 +91,9 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
     return (
       <Card onClick={() => setFocus(s)}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8, gap: 8 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
             <FrictionIcon theme={s.id} size={22} />
-            <div style={{ fontWeight: 600, fontSize: 14.5, lineHeight: 1.3 }}>{s.name}</div>
+            <div style={{ fontWeight: 600, fontSize: 14.5, lineHeight: 1.3, overflowWrap: "break-word" }}>{s.name}</div>
           </div>
           <TruthBadge truthClass={s.truth_class} />
         </div>
@@ -142,7 +142,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
                 background: tab === t.key ? "var(--surface)" : "transparent", fontWeight: tab === t.key ? 600 : 400,
                 boxShadow: tab === t.key ? "var(--shadow)" : "none" }}>
-              <FamilyIcon family={t.label} size={16} />
+              <FamilyIcon family={t.label} size={20} />
               {t.label}
             </button>
           ))}
@@ -210,9 +210,9 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                 <div style={{ width: 36, height: 36, borderRadius: 10, background: "var(--surface-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <TerritoryIcon territory={p.territories[0]} size={24} />
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 13, fontWeight: 500 }}>{p.title}</div>
-                  <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 3 }}>{p.journal} · {p.year} · {p.study_design}</div>
+                <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 500, overflowWrap: "break-word" }}>{p.title}</div>
+                  <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 3, overflowWrap: "break-word" }}>{p.journal} · {p.year} · {p.study_design}</div>
                 </div>
                 <div style={{ display: "flex", gap: 4, alignItems: "flex-start", flexShrink: 0 }}>
                   {p.territories.map((t) => <Pill key={t}>{t}</Pill>)}

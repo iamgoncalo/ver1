@@ -4,7 +4,7 @@
 // EDITORIAL wherever it appears (see ImageProvenance below), never implied
 // to be a real product photo.
 
-const STROKE = { fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+const STROKE = { fill: "none", stroke: "currentColor", strokeWidth: 2.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 
 export type FrictionThemeId = "reliability" | "noise" | "value_effectiveness" | "customer_service" | "filter_cost" | "ozone_odor_safety";
 export type TerritoryId = "R1" | "R2" | "R3" | "R4" | "R5" | "R6";
@@ -140,10 +140,9 @@ const FAMILY_ICON: Record<FamilyId, React.ReactNode> = {
   ),
   TRENDS: (
     <IconFrame>
-      <path d="M11 6 H26 L31 11 V34 H11 Z" {...STROKE} />
-      <path d="M26 6 V11 H31" {...STROKE} />
-      <circle cx="20" cy="21.5" r="5" {...STROKE} />
-      <path d="M17.5 21.5 L19 23.2 L23 19" {...STROKE} />
+      <path d="M7 30 H33" {...STROKE} />
+      <path d="M7 24 L15 16 L21 21 L33 8" {...STROKE} />
+      <path d="M25 8 H33 V16" {...STROKE} />
     </IconFrame>
   ),
   MARKET: (

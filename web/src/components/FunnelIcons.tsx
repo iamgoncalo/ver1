@@ -3,7 +3,7 @@
 // AI-generated renders of any real product), sized up for "large imagery"
 // on the homepage tiles rather than the small per-item icons elsewhere.
 
-const STROKE = { fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+const STROKE = { fill: "none", stroke: "currentColor", strokeWidth: 2.4, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 
 export type FunnelStageKey = "radar" | "paths" | "field" | "magic_box" | "innovations" | "new_products";
 
