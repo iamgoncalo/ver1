@@ -89,7 +89,7 @@ export default function App() {
           <a href="http://localhost:8501" target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink-faint)" }}>
             Analyst Mode →
           </a>
-          <span>← → worlds · 0 home · 1–5 jump · SPACE ask · ESC close</span>
+          <span title="← → move between worlds · 0 home · 1–5 jump to a world · SPACE ask · ESC close" style={{ cursor: "default" }}>Shortcuts</span>
         </div>
       </footer>
       <AskShell open={askOpen} onClose={() => setAskOpen(false)} ctx={{ innovations, magicBox, rivals, whiteSpace }} />

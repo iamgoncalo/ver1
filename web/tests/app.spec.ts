@@ -174,7 +174,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
   test("Trace This Concept resolves signal/tension/assumption evidence, no fabricated links", async ({ page }) => {
     await page.goto("/");
     await navButton(page, /MAGIC BOX/).click();
-    await page.locator("text=real concepts the machine generated").waitFor({ timeout: 5000 });
+    await page.locator("text=finalists (blue border)").waitFor({ timeout: 5000 });
     await page.locator('[role="button"]').filter({ hasText: "$" }).first().click();
     await page.getByRole("button", { name: "TRACE THIS CONCEPT →" }).click();
     await expect(page.getByText("Trace this concept — signal, tension, and assumption down to their real papers")).toBeVisible({ timeout: 5000 });

@@ -188,55 +188,10 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
       {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real Magic Box state…</div>}
       {data && (
         <div className="scrollY" style={{ flex: 1 }}>
-          {/* Meta funnel */}
-          <div style={{ display: "flex", gap: 4, marginBottom: 14, flexWrap: "wrap" }}>
-            {FUNNEL_STAGES.map((s, i) => (
-              <div key={s.key} style={{ display: "flex", alignItems: "center" }}>
-                <button onClick={() => setStageFocus(s.key)}
-                  style={{ textAlign: "left", cursor: "pointer", border: "1px solid var(--line)", background: "var(--surface)", borderRadius: 10, padding: "8px 12px", minWidth: 84 }}>
-                  <div className="mono" style={{ fontSize: s.key === "__bet" ? 11 : 18, fontWeight: 700, maxWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {s.key === "__versuni_edge" ? "?" : s.key === "__bet" ? data.funnel.bet : data.funnel[s.key]}
-                  </div>
-                  <div style={{ fontSize: 9.5, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>{s.label}</div>
-                </button>
-                {i < FUNNEL_STAGES.length - 1 && <span style={{ color: "var(--ink-faint)", padding: "0 3px" }}>→</span>}
-              </div>
-            ))}
-          </div>
-
-          {mode === "distilled" && (
-            <div style={{ marginBottom: 14 }}>
-              <SectionLabel>Category assumption map — click to break one</SectionLabel>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                {data.assumptions.map((a) => (
-                  <button key={a.assumption_id} onClick={() => setAssumptionFocus(a)}
-                    style={{ fontSize: 11.5, padding: "6px 12px", borderRadius: 999, cursor: "pointer", border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink-dim)" }}>
-                    {a.text}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Magic Box sub-funnel */}
-          <div style={{ display: "flex", gap: 6, marginBottom: 14, flexShrink: 0 }}>
-            {data.magic_box_funnel.map((f, i) => (
-              <div key={f.stage} style={{ flex: 1, display: "flex", alignItems: "center" }}>
-                <div style={{ flex: 1, background: "var(--surface-2)", border: "1px solid var(--line)", borderRadius: 10, padding: "8px 12px" }}>
-                  <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{f.count}</div>
-                  <div style={{ fontSize: 10, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.04em" }}>{f.label}</div>
-                </div>
-                {i < data.magic_box_funnel.length - 1 && <div style={{ color: "var(--ink-faint)", padding: "0 4px", fontSize: 14 }}>→</div>}
-              </div>
-            ))}
-          </div>
-
-          {/* Concepts gallery */}
+          {/* Concepts gallery - the actual innovations, shown first */}
           {mode === "distilled" ? (
             <>
-              <SectionLabel>
-                {conceptsFiltered.length} real concepts the machine generated — {finalists.length} finalist{finalists.length === 1 ? "" : "s"} (blue border), each with a real price and a real market exposure, never invented
-              </SectionLabel>
+              <SectionLabel>{conceptsFiltered.length} concepts, {finalists.length} finalists (blue border)</SectionLabel>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12, alignContent: "start", marginBottom: 8 }}>
                 {conceptsFiltered.map((p) => <ConceptCard key={p.id} p={p} onClick={() => setConceptFocus(p)} maxEcon={maxEcon} />)}
               </div>
@@ -275,10 +230,53 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
           {/* Why did this win */}
           <button onClick={() => setWinFocus(true)}
             style={{ display: "block", width: "100%", textAlign: "left", cursor: "pointer", marginBottom: 18, padding: "14px 18px", background: "var(--surface)", border: "1px solid var(--accent-blue)", borderRadius: 12 }}>
-            <SectionLabel>Current Bet — why did this win?</SectionLabel>
+            <SectionLabel>Current bet — why did this win?</SectionLabel>
             <div style={{ fontSize: 15, fontWeight: 600, marginTop: 4 }}>{data.why_did_this_win.bet}</div>
-            <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 4 }}>Click for the full trace →</div>
           </button>
+
+          {mode === "distilled" && (
+            <div style={{ marginBottom: 14 }}>
+              <SectionLabel>Assumptions this challenges — click to break one</SectionLabel>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {data.assumptions.map((a) => (
+                  <button key={a.assumption_id} onClick={() => setAssumptionFocus(a)}
+                    style={{ fontSize: 11.5, padding: "6px 12px", borderRadius: 999, cursor: "pointer", border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink-dim)" }}>
+                    {a.text}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* How the machine got here - process detail, secondary to the concepts above */}
+          <details style={{ marginTop: 8 }}>
+            <summary style={{ cursor: "pointer", fontSize: 11.5, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>HOW THE MACHINE GOT HERE</summary>
+            <div style={{ display: "flex", gap: 6, marginTop: 10, marginBottom: 14, flexShrink: 0 }}>
+              {data.magic_box_funnel.map((f, i) => (
+                <div key={f.stage} style={{ flex: 1, display: "flex", alignItems: "center" }}>
+                  <div style={{ flex: 1, background: "var(--surface-2)", border: "1px solid var(--line)", borderRadius: 10, padding: "8px 12px" }}>
+                    <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{f.count}</div>
+                    <div style={{ fontSize: 10, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.04em" }}>{f.label}</div>
+                  </div>
+                  {i < data.magic_box_funnel.length - 1 && <div style={{ color: "var(--ink-faint)", padding: "0 4px", fontSize: 14 }}>→</div>}
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: 4, marginBottom: 14, flexWrap: "wrap" }}>
+              {FUNNEL_STAGES.map((s, i) => (
+                <div key={s.key} style={{ display: "flex", alignItems: "center" }}>
+                  <button onClick={() => setStageFocus(s.key)}
+                    style={{ textAlign: "left", cursor: "pointer", border: s.key === "__versuni_edge" ? "1px dashed var(--line)" : "1px solid var(--line)", background: "var(--surface)", borderRadius: 10, padding: "8px 12px", minWidth: 84 }}>
+                    <div className="mono" style={{ fontSize: s.key === "__bet" ? 11 : 18, fontWeight: 700, maxWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: s.key === "__versuni_edge" ? "var(--ink-faint)" : "var(--ink)" }}>
+                      {s.key === "__versuni_edge" ? "N/A" : s.key === "__bet" ? data.funnel.bet : data.funnel[s.key]}
+                    </div>
+                    <div style={{ fontSize: 9.5, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>{s.label}</div>
+                  </button>
+                  {i < FUNNEL_STAGES.length - 1 && <span style={{ color: "var(--ink-faint)", padding: "0 3px" }}>→</span>}
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
       )}
 
