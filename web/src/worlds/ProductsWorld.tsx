@@ -93,16 +93,16 @@ export function ProductsWorld() {
                 Versuni/Philips sells ~20 real air-purifier families. {officialProducts.length} have been checked this session
                 against their own official page — the other ~{20 - officialProducts.length} aren't shown or guessed at, genuinely unverified.
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 14 }}>
-                {officialProducts.slice(0, 6).map((p) => (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14 }}>
+                {officialProducts.slice(0, 4).map((p) => (
                   <OfficialProductCard key={p.product_id} p={p} onClick={() => setOfficialFocus(p)} />
                 ))}
-                {officialProducts.length > 6 && (
+                {officialProducts.length > 4 && (
                   <button onClick={() => setShowAllOfficial(true)}
                     style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 90, borderRadius: 16,
                       border: "1px dashed var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)",
                       cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
-                    +{officialProducts.length - 6} more →
+                    +{officialProducts.length - 4} more →
                   </button>
                 )}
               </div>

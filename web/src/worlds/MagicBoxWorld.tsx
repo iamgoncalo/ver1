@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
-import { Card, Pill, SectionLabel, StatRow, TruthBadge, DistilledRawToggle, CounterfactualPrompt, type ViewMode } from "../components/ui";
+import { Card, Pill, SectionLabel, StatRow, TruthBadge, DistilledRawToggle, CounterfactualPrompt, MiniBar, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { FrictionIcon, ImageProvenance } from "../components/ThemeIcon";
+import { OperatorIcon, OPERATOR_TAGLINE, type OperatorId } from "../components/OperatorIcon";
 import { traceConceptChain } from "../lib/trace";
 import { TraceTree, TraceLegend } from "../components/TraceTree";
 import { TraceText } from "../components/TraceText";
@@ -97,20 +98,27 @@ function DnaBadgeRow({ dna, compact }: { dna: DesignDna; compact?: boolean }) {
   );
 }
 
-function ConceptCard({ p, onClick }: { p: Concept; onClick: () => void }) {
+function ConceptCard({ p, onClick, maxEcon }: { p: Concept; onClick: () => void; maxEcon: number }) {
   return (
     <Card onClick={onClick} active={p.is_finalist}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 4 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, gap: 8 }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
           {p.evolution_stage && <Pill tone={STAGE_TONE[p.evolution_stage] ?? "neutral"}>{p.evolution_stage}</Pill>}
           {p.critic_overall && <Pill tone={VERDICT_TONE[p.critic_overall] ?? "neutral"}>CRITIC: {p.critic_overall.replace(/_/g, " ")}</Pill>}
           {p.is_white_space && <Pill tone="amber">competitors weak here</Pill>}
         </div>
-        <FrictionIcon theme={p.friction_theme} size={28} />
+        <FrictionIcon theme={p.friction_theme} size={22} />
       </div>
-      <div style={{ fontWeight: 600, fontSize: 14 }}>{p.name}</div>
-      <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 8px" }}>
-        {p.friction_theme_name.split(" / ")[0]} × {p.operator}
+      <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 10 }}>
+        <div style={{ width: 48, height: 48, borderRadius: 12, background: "var(--surface-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <OperatorIcon operator={p.operator} size={30} />
+        </div>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={p.name}>{p.name}</div>
+          <div style={{ fontSize: 10.5, color: "var(--accent-teal)", marginTop: 2 }}>
+            {OPERATOR_TAGLINE[p.operator as OperatorId] ?? p.operator}
+          </div>
+        </div>
       </div>
       {p.typical_market_price_usd != null && (
         <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginBottom: 8 }}>
@@ -118,7 +126,12 @@ function ConceptCard({ p, onClick }: { p: Concept; onClick: () => void }) {
           <span style={{ fontSize: 10, color: "var(--ink-faint)" }}>typical real price today</span>
         </div>
       )}
-      <StatRow label="Market exposure (price-weighted)" value={`$${p.economic_value.toLocaleString()}`} />
+      <div style={{ marginBottom: 8 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
+          <span>Why it matters — market exposure</span><span className="mono">${p.economic_value.toLocaleString()}</span>
+        </div>
+        <MiniBar value={p.economic_value} max={maxEcon} tone="teal" />
+      </div>
       <StatRow label="Feasibility" value={p.feasibility_2_5y.rating} />
       <div style={{ marginTop: 6 }}>
         <DnaBadgeRow dna={p.design_dna} compact />
@@ -152,6 +165,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
     return filtered.length ? filtered : all;
   }, [data, themeFilter]);
   const finalists = useMemo(() => (data?.concepts ?? []).filter((p) => p.is_finalist), [data]);
+  const maxEcon = useMemo(() => Math.max(...(data?.concepts ?? []).map((p) => p.economic_value ?? 0), 1), [data]);
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
@@ -224,7 +238,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
                 {conceptsFiltered.length} real concepts the machine generated — {finalists.length} finalist{finalists.length === 1 ? "" : "s"} (blue border), each with a real price and a real market exposure, never invented
               </SectionLabel>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12, alignContent: "start", marginBottom: 8 }}>
-                {conceptsFiltered.map((p) => <ConceptCard key={p.id} p={p} onClick={() => setConceptFocus(p)} />)}
+                {conceptsFiltered.map((p) => <ConceptCard key={p.id} p={p} onClick={() => setConceptFocus(p)} maxEcon={maxEcon} />)}
               </div>
               <CounterfactualPrompt>What if the winning idea isn't the most powerful one, but the one competitors are least able to copy?</CounterfactualPrompt>
             </>
@@ -239,7 +253,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
               </div>
               {!showRejected ? (
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 10, alignContent: "start", marginBottom: 20 }}>
-                  {conceptsFiltered.map((p) => <ConceptCard key={p.id} p={p} onClick={() => setConceptFocus(p)} />)}
+                  {conceptsFiltered.map((p) => <ConceptCard key={p.id} p={p} onClick={() => setConceptFocus(p)} maxEcon={maxEcon} />)}
                 </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
