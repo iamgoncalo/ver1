@@ -1,6 +1,6 @@
 {
-  "_provenance": "Official Versuni/Philips product images - each entry individually verified against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (7 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. See NEXT_ACTION.md for the remaining verification work.",
-  "generated_by": "manual verification session 2026-08-26 and 2026-08-27",
+  "_provenance": "Official Versuni/Philips product images - each entry individually verified against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (10 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. The 3 added this session (PureProtect Water 3400, 2000 Series 3-in-1, Air Performer 8000) were sourced via a separate, independently-run product-verification project (versuni-products) that had already done the page-verification work with the same EXACT_VERIFIED methodology - images and specs re-downloaded and re-hashed directly from the same official CDN/page URLs it found, not copied from that project's own (nonexistent) local binaries. See NEXT_ACTION.md for the remaining verification work.",
+  "generated_by": "manual verification session 2026-08-26 and 2026-08-27, extended 2026-08-27 from versuni-products cross-reference",
   "products": [
     {
       "product_id": "AC3220_10",
@@ -172,9 +172,85 @@
         "app": true,
         "confidence": "HIGH - read directly off the official product page this session"
       }
+    },
+    {
+      "product_id": "AC3420_10",
+      "family": "PureProtect Water 3400 Series",
+      "sku": "AC3420/10",
+      "region": "UK (home-appliances.philips/gb)",
+      "official_name": "PureProtect Water 3400 Series Smart 2-in-1 Air Purifier and Humidifier",
+      "official_url": "https://www.home-appliances.philips/gb/en/p/AC3420_10",
+      "image_url": "https://dam.versuni.com/transform/webp1024x1024/3a83f7c9-4507-48c6-b848-4886f2f2eedf/CC_2024_AC3420_10_F_02_1x1-tif.webp",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-27",
+      "local_asset": "web/public/products/AC3420_10.webp",
+      "sha256": "365a2e1a651d8be025fe9484ed76f961a883c87c8a3701b3602335cdb568f9a4",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 300,
+        "room_coverage_m2": 78,
+        "noise_min_dba": 16.5,
+        "noise_max_dba": 51,
+        "max_power_w": 43,
+        "filter_architecture": "NanoCloud humidification + HEPA filtration (2-in-1 purifier/humidifier)",
+        "connectivity": "Philips Air+ app, real-time PM2.5/temp/humidity monitoring",
+        "sensors": "PM2.5, temperature, humidity",
+        "app": true,
+        "confidence": "HIGH - read directly off the official product page",
+        "note": "2-in-1 humidifier: 650ml/h output, 3.2L tank."
+      }
+    },
+    {
+      "product_id": "AMF870_35",
+      "family": "Air Performer 8000 Series",
+      "sku": "AMF870/35",
+      "region": "UK (home-appliances.philips/gb)",
+      "official_name": "Air Performer 8000 series 3-in-1 Air Purifier, Fan and Heater",
+      "official_url": "https://www.home-appliances.philips/gb/en/p/AMF870_35",
+      "image_url": "https://dam.versuni.com/transform/webp1024x1024/2cbe3b2c-d80d-48c5-b37e-cd4d19818a7d/AMF870_15_RFT_Retail_RGB-jpg.webp",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-27",
+      "local_asset": "web/public/products/AMF870_35.webp",
+      "sha256": "b5a74f7f1fd791dd4bcaa71cdd6aeac50d68f5f447ee044bf022edf26fb1b522",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 270,
+        "room_coverage_m2": 70,
+        "noise_min_dba": null,
+        "max_power_w": 40,
+        "filter_architecture": "3-in-1 purifier/fan/heater; NanoProtect HEPA filtration",
+        "connectivity": "Philips Air+ app, AI self-adapting technology",
+        "app": true,
+        "confidence": "HIGH - read directly off the official product page",
+        "note": "Dual power rating: 40W in fan mode, 2200W in heat mode - max_power_w recorded is the fan-mode figure, matching this schema's other CADR-relevant power fields; heat mode is a distinct, much higher draw."
+      }
+    },
+    {
+      "product_id": "AMF220_15",
+      "family": "2000 Series 3-in-1",
+      "sku": "AMF220/15",
+      "region": "ZA (philips.co.za)",
+      "official_name": "2000 Series 3-in-1 Purifier, Fan and Heater",
+      "official_url": "https://www.philips.co.za/c-p/AMF220_15/2000-series-3-in-1-purifier-fan-and-heater",
+      "image_url": "https://images.philips.com/is/image/philipsconsumer/vrs_52432e6d_2442_49b7_83b031c4d3f23a47",
+      "publisher": "Philips (Versuni)",
+      "retrieved_at": "2026-08-27",
+      "local_asset": "web/public/products/AMF220_15.jpg",
+      "sha256": "ae3d3116948c63e9fa6d7ac377f42a384a2e8d29fef27fffd0ba13fd17204897",
+      "status": "EXACT_VERIFIED",
+      "specs": {
+        "cadr_m3h": 165,
+        "room_coverage_m2": 42,
+        "noise_min_dba": null,
+        "filter_architecture": "3-in-1 purifier/fan/heater",
+        "connectivity": null,
+        "app": false,
+        "confidence": "HIGH - read directly off the official product page",
+        "note": "Entry-level 3-in-1 model, no app connectivity confirmed on the official page (unlike the other verified products in this set)."
+      }
     }
   ],
   "candidates_not_yet_verified": [
-    "600/600i", "3000/3000i", "PureProtect Water 3400", "2000 Series 3-in-1", "Air Performer 8000"
+    "600/600i", "3000/3000i"
   ]
 }
