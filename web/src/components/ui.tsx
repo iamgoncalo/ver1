@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { FocusPanel } from "./FocusPanel";
 
 export type ViewMode = "distilled" | "raw";
 
@@ -27,6 +28,34 @@ export function HeroMetric({ label, value }: { label: string; value: ReactNode }
       <div className="mono" style={{ fontSize: 32, fontWeight: 600, color: "var(--ink)", lineHeight: 1 }}>{value}</div>
       <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6, textTransform: "uppercase", letterSpacing: "0.04em" }}>{label}</div>
     </div>
+  );
+}
+
+export interface MetricTrace { label: string; value: ReactNode; trace: string }
+
+// Every visible number should be traceable to its real source, not just
+// asserted - wrap any HeroMetric-style figure in this so a click reveals
+// exactly which file/computation it came from.
+export function TraceableMetric({ label, value, onClick }: { label: string; value: ReactNode; onClick: () => void }) {
+  return (
+    <button onClick={onClick} title="Click to see where this number comes from"
+      style={{ background: "none", border: "none", padding: 0, cursor: "pointer", textAlign: "left" }}>
+      <HeroMetric label={label} value={value} />
+    </button>
+  );
+}
+
+export function MetricFocusPanel({ metric, onClose }: { metric: MetricTrace | null; onClose: () => void }) {
+  return (
+    <FocusPanel open={!!metric} onClose={onClose} eyebrow="Metric" title={metric?.label ?? ""}>
+      {metric && (
+        <>
+          <div style={{ fontSize: 32, fontWeight: 700, marginBottom: 12 }}>{metric.value}</div>
+          <SectionLabel>Trace</SectionLabel>
+          <p className="mono" style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{metric.trace}</p>
+        </>
+      )}
+    </FocusPanel>
   );
 }
 

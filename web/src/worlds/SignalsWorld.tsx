@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import type { Signal, SignalsResponse } from "../lib/types";
-import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
+import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { ScienceConstellation } from "../components/ScienceConstellation";
 import { TerritoryIcon, ImageProvenance } from "../components/ThemeIcon";
@@ -51,6 +51,7 @@ export function SignalsWorld() {
   const [trends, setTrends] = useState<TrendCorpus | null>(null);
   const [trendFocus, setTrendFocus] = useState<TrendDoc | null>(null);
   const [market, setMarket] = useState<any>(null);
+  const [metricFocus, setMetricFocus] = useState<MetricTrace | null>(null);
 
   useEffect(() => { api.signals().then(setData).catch(() => setData(null)); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => setResearch(null)); }, []);
@@ -134,9 +135,15 @@ export function SignalsWorld() {
       {tab === "consumers" && (
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, auto)", gap: 40, marginBottom: 16 }}>
-            <HeroMetric label="Converging signals" value={counts.converging} />
-            <HeroMetric label="Single-source" value={counts.single} />
-            <HeroMetric label="Contested" value={counts.contested} />
+            <TraceableMetric label="Converging signals" value={counts.converging}
+              onClick={() => setMetricFocus({ label: "Converging signals", value: counts.converging,
+                trace: "GET /api/signals -> count of data/processed/signals_real.json[\"signals\"] where state === \"CONVERGING\": two or more independent real evidence families (consumer reviews, research, trends, market) agree on the same tension, computed by src/real/signals_from_research_real.py." })} />
+            <TraceableMetric label="Single-source" value={counts.single}
+              onClick={() => setMetricFocus({ label: "Single-source", value: counts.single,
+                trace: "GET /api/signals -> count of data/processed/signals_real.json[\"signals\"] where state === \"SINGLE_SOURCE_FAMILY\": real evidence exists but from only one evidence family so far, not yet independently corroborated." })} />
+            <TraceableMetric label="Contested" value={counts.contested}
+              onClick={() => setMetricFocus({ label: "Contested", value: counts.contested,
+                trace: "GET /api/signals -> count of data/processed/signals_real.json[\"signals\"] where state === \"CONTESTED\": real evidence from different families genuinely disagrees; the pipeline reports the conflict rather than resolving it either way." })} />
           </div>
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
             Source: real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real purifier products
@@ -154,8 +161,12 @@ export function SignalsWorld() {
       {tab === "research" && (
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, auto)", gap: 40, marginBottom: 12 }}>
-            <HeroMetric label="Peer-reviewed papers" value={research?.peer_reviewed_count ?? "…"} />
-            <HeroMetric label="Research-grounded signals" value={researchOnly.length} />
+            <TraceableMetric label="Peer-reviewed papers" value={research?.peer_reviewed_count ?? "…"}
+              onClick={() => setMetricFocus({ label: "Peer-reviewed papers", value: research?.peer_reviewed_count ?? "NO VERIFIED DATA",
+                trace: "GET /api/research -> data/processed/research_index.json[\"peer_reviewed_count\"] == len(peer_reviewed_papers): each paper individually verified live against the PubMed API (PMID/PMCID -> DOI) or by direct publisher/PMC fetch, built by src/real/research_corpus_real.py." })} />
+            <TraceableMetric label="Research-grounded signals" value={researchOnly.length}
+              onClick={() => setMetricFocus({ label: "Research-grounded signals", value: researchOnly.length,
+                trace: "count of data/processed/signals_real.json[\"signals\"] where prevalence_pct === null: real signals whose evidence comes only from peer-reviewed research, with no consumer-review analogue to compute a prevalence rate from." })} />
           </div>
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
             Source: independently-verified academic literature (10 verified live against the PubMed API by
@@ -203,8 +214,12 @@ export function SignalsWorld() {
       {tab === "trends" && (
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, auto)", gap: 40, marginBottom: 12 }}>
-            <HeroMetric label="Trend documents" value={trends?.article_count ?? "…"} />
-            <HeroMetric label="Google Trends (search interest)" value="NOT IMPLEMENTED" />
+            <TraceableMetric label="Trend documents" value={trends?.article_count ?? "…"}
+              onClick={() => setMetricFocus({ label: "Trend documents", value: trends?.article_count ?? "NO VERIFIED DATA",
+                trace: "GET /api/trends -> data/processed/trend_corpus.json[\"article_count\"] == len(articles): real regulatory, technical-standard, industry-association, manufacturer, and syndicated-research documents individually fetched and archived by src/real/research_discovery_real.py, each with a credibility tier." })} />
+            <TraceableMetric label="Google Trends (search interest)" value="NOT IMPLEMENTED"
+              onClick={() => setMetricFocus({ label: "Google Trends (search interest)", value: "NOT IMPLEMENTED",
+                trace: "GET /api/sources -> data/processed/sources_real.json: the google_trends source is honestly recorded with status \"NOT_IMPLEMENTED\" - no search-interest connector exists in this pipeline. Shown as a real absence rather than faked or omitted." })} />
           </div>
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 680, lineHeight: 1.5 }}>
             These are real regulatory, technical-standard, industry-association, manufacturer, and syndicated-research
@@ -380,6 +395,8 @@ export function SignalsWorld() {
           </>
         )}
       </FocusPanel>
+
+      <MetricFocusPanel metric={metricFocus} onClose={() => setMetricFocus(null)} />
     </div>
   );
 }

@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 import type { Rival, RivalsResponse, WhiteSpaceResponse } from "../lib/types";
-import { Card, Pill, StatRow, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
+import { Card, Pill, StatRow, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 
 export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: string) => void }) {
   const [data, setData] = useState<RivalsResponse | null>(null);
   const [whiteSpace, setWhiteSpace] = useState<WhiteSpaceResponse | null>(null);
   const [focus, setFocus] = useState<Rival | null>(null);
+  const [metricFocus, setMetricFocus] = useState<MetricTrace | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [showWhiteSpace, setShowWhiteSpace] = useState(true);
 
@@ -50,10 +51,18 @@ export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: st
       {mode === "distilled" && (
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 20 }}>
-            <HeroMetric label="Real competitors analysed" value={sorted.length || "…"} />
-            <HeroMetric label="Real white-space opportunities" value={spaces.length} />
-            <HeroMetric label="Category reviews" value={data?.n_category_reviews.toLocaleString() ?? "…"} />
-            <HeroMetric label="Min. reviews/brand floor" value={data?.min_reviews_floor ?? "…"} />
+            <TraceableMetric label="Real competitors analysed" value={sorted.length || "…"}
+              onClick={() => setMetricFocus({ label: "Real competitors analysed", value: sorted.length,
+                trace: "GET /api/rivals -> len(data/processed/rivals_real.json[\"rivals\"]), built by src/real/rivals_real.py: real Amazon-review competitor brands with >= min_reviews_floor real reviews in the same real category corpus." })} />
+            <TraceableMetric label="Real white-space opportunities" value={spaces.length}
+              onClick={() => setMetricFocus({ label: "Real white-space opportunities", value: spaces.length,
+                trace: "GET /api/white-space -> count of data/processed/white_space_real.json[\"spaces\"] where is_white_space === true, built by src/real/rivals_real.py. Requires all three, real: a Consumer Pain gate pass, >=2 real competitors measurably weaker on that theme, and real 2-5yr feasibility evidence - never inferred from an absence of online evidence." })} />
+            <TraceableMetric label="Category reviews" value={data?.n_category_reviews.toLocaleString() ?? "…"}
+              onClick={() => setMetricFocus({ label: "Category reviews", value: data?.n_category_reviews.toLocaleString() ?? "NO VERIFIED DATA",
+                trace: "GET /api/rivals -> data/processed/rivals_real.json[\"n_category_reviews\"]: real count of Amazon reviews in the full purifier category corpus, used as the denominator for every real per-brand theme rate." })} />
+            <TraceableMetric label="Min. reviews/brand floor" value={data?.min_reviews_floor ?? "…"}
+              onClick={() => setMetricFocus({ label: "Min. reviews/brand floor", value: data?.min_reviews_floor ?? "NO VERIFIED DATA",
+                trace: "GET /api/rivals -> data/processed/rivals_real.json[\"min_reviews_floor\"]: a fixed evidence-sufficiency floor declared in src/real/rivals_real.py - a brand with fewer real reviews than this is excluded from competitor analysis rather than analysed on thin evidence." })} />
           </div>
           {spaces.map((s) => (
             <div key={s.opportunity_id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 16, padding: 20, marginBottom: 12, maxWidth: 640 }}>
@@ -157,6 +166,8 @@ export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: st
           </>
         )}
       </FocusPanel>
+
+      <MetricFocusPanel metric={metricFocus} onClose={() => setMetricFocus(null)} />
     </div>
   );
 }

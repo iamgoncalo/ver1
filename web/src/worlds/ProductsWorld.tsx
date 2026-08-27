@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 import type { Product, ProductsResponse } from "../lib/types";
-import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
+import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 
 const LENS = {
@@ -22,6 +22,7 @@ export function ProductsWorld() {
   const [lensKey, setLensKey] = useState<keyof typeof LENS>("type");
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState<Product | null>(null);
+  const [metricFocus, setMetricFocus] = useState<MetricTrace | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [econ, setEcon] = useState<any>(null);
   const [officialProducts, setOfficialProducts] = useState<any[] | null>(null);
@@ -104,10 +105,18 @@ export function ProductsWorld() {
             </div>
           )}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 8 }}>
-            <HeroMetric label="Real products" value={products.length || "…"} />
-            <HeroMetric label="Connected / reactive share" value={`${connectedShare}%`} />
-            <HeroMetric label="Price range" value={priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "…"} />
-            <HeroMetric label="Real reviews behind this" value={products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString() || "…"} />
+            <TraceableMetric label="Real products" value={products.length || "…"}
+              onClick={() => setMetricFocus({ label: "Real products", value: products.length,
+                trace: "GET /api/products -> len(data/processed/products_real.json[\"products\"]), built by src/real/products_signals_real.py from the real, hand-validated 237-product Amazon purifier corpus (McAuley-Lab Amazon-Reviews-2023, filtered by src/real/filter_purifier_products.py)." })} />
+            <TraceableMetric label="Connected / reactive share" value={`${connectedShare}%`}
+              onClick={() => setMetricFocus({ label: "Connected / reactive share", value: `${connectedShare}%`,
+                trace: "Computed live in ProductsWorld.tsx from data/processed/products_real.json: count of products where cluster_intelligence !== \"manual\", divided by total real products. cluster_intelligence itself is assigned by src/real/products_signals_real.py from each real product's title/description keywords." })} />
+            <TraceableMetric label="Price range" value={priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "…"}
+              onClick={() => setMetricFocus({ label: "Price range", value: priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "NO VERIFIED DATA",
+                trace: "Computed live from data/processed/products_real.json: min/max of price_usd across all real products with a known observed price (75 of 237 have one - McAuley-Lab product metadata). Products with no listed price are excluded, not assumed." })} />
+            <TraceableMetric label="Real reviews behind this" value={products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString() || "…"}
+              onClick={() => setMetricFocus({ label: "Real reviews behind this", value: products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString(),
+                trace: "Computed live from data/processed/products_real.json: sum of n_real_reviews_in_corpus across all 237 real products - the real, hand-validated Amazon review count each product's evidence is drawn from (src/real/build_reviews_csv.py)." })} />
           </div>
           <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 28, fontFamily: "var(--font-display)" }}>
             The portfolio is moving from pure air-cleaning performance toward sensing and connectivity —
@@ -224,6 +233,8 @@ export function ProductsWorld() {
           </>
         )}
       </FocusPanel>
+
+      <MetricFocusPanel metric={metricFocus} onClose={() => setMetricFocus(null)} />
     </div>
   );
 }

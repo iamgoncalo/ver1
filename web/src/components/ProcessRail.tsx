@@ -7,7 +7,7 @@ const STAGES = [
   { n: 2, process: "WHAT CHANGES", world: "SIGNALS", q: "What is changing?" },
   { n: 3, process: "WHAT'S MISSING", world: "COMPETITORS", q: "Where is everyone else?" },
   { n: 4, process: "WHAT IF", world: "CRITERIA", q: "What becomes possible, and by what test?" },
-  { n: 5, process: "WHAT WINS", world: "INNOVATIONS", q: "What should Versuni build?" },
+  { n: 5, process: "WHAT'S NEXT", world: "INNOVATIONS", q: "What should Versuni build?" },
 ] as const;
 
 export function ProcessRail({ active, onSelect, onGoHome }: { active: number; onSelect: (n: number) => void; onGoHome: () => void }) {

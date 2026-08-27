@@ -121,10 +121,9 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            5 · WHAT WINS — WHAT SHOULD VERSUNI TEST?
+            5 · WHAT'S NEXT — WHAT SHOULD VERSUNI TEST?
           </div>
-          <h1 style={{ fontSize: 30 }}>What Wins?</h1>
-          <div style={{ fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", marginTop: -4, marginBottom: 8 }}>INNOVATIONS</div>
+          <h1 style={{ fontSize: 30 }}>Innovations</h1>
         </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
