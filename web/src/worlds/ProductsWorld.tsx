@@ -86,29 +86,6 @@ export function ProductsWorld() {
 
       {mode === "distilled" ? (
         <div className="scrollY" style={{ flex: 1 }}>
-          {officialProducts && officialProducts.length > 0 && (
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 4 }}>
-                <SectionLabel>Verified official portfolio — not the Amazon corpus below</SectionLabel>
-                {officialProducts.length > 4 && (
-                  <button onClick={() => setShowAllOfficial(true)}
-                    style={{ flexShrink: 0, fontSize: 12, fontWeight: 600, padding: "4px 10px", borderRadius: 999,
-                      border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer" }}>
-                    +{officialProducts.length - 4} more →
-                  </button>
-                )}
-              </div>
-              <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 640, lineHeight: 1.5, marginBottom: 12, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                Versuni/Philips sells ~20 real air-purifier families. {officialProducts.length} have been checked this session
-                against their own official page — the other ~{20 - officialProducts.length} aren't shown or guessed at, genuinely unverified.
-              </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14 }}>
-                {officialProducts.slice(0, 4).map((p) => (
-                  <OfficialProductCard key={p.product_id} p={p} onClick={() => setOfficialFocus(p)} />
-                ))}
-              </div>
-            </div>
-          )}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 8 }}>
             <TraceableMetric label="Real products" value={products.length || "…"}
               onClick={() => setMetricFocus({ label: "Real products", value: products.length,
@@ -123,10 +100,32 @@ export function ProductsWorld() {
               onClick={() => setMetricFocus({ label: "Real reviews behind this", value: products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString(),
                 trace: "Computed live from data/processed/products_real.json: sum of n_real_reviews_in_corpus across all 237 real products - the real, hand-validated Amazon review count each product's evidence is drawn from (src/real/build_reviews_csv.py)." })} />
           </div>
-          <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 28, fontFamily: "var(--font-display)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+          <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 16, marginBottom: 20, fontFamily: "var(--font-display)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
             The portfolio is moving from air-cleaning toward sensing and connectivity — but {100 - connectedShare}%
             of this real corpus is still fully manual.
           </p>
+          {officialProducts && officialProducts.length > 0 && (
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 4 }}>
+                <SectionLabel>Verified official portfolio — not the Amazon corpus below</SectionLabel>
+                {officialProducts.length > 4 && (
+                  <button onClick={() => setShowAllOfficial(true)}
+                    style={{ flexShrink: 0, fontSize: 12, fontWeight: 600, padding: "4px 10px", borderRadius: 999,
+                      border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer" }}>
+                    +{officialProducts.length - 4} more →
+                  </button>
+                )}
+              </div>
+              <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 640, lineHeight: 1.5, marginBottom: 12, display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                {officialProducts.length} of ~20 real air-purifier families checked against their official page — the rest genuinely unverified.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14 }}>
+                {officialProducts.slice(0, 4).map((p) => (
+                  <OfficialProductCard key={p.product_id} p={p} onClick={() => setOfficialFocus(p)} />
+                ))}
+              </div>
+            </div>
+          )}
           {econ && (
             <div style={{ marginTop: 20, padding: "16px 20px", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, maxWidth: 640 }}>
               <SectionLabel>Dutch household context (real, verified)</SectionLabel>

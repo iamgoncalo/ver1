@@ -90,7 +90,16 @@ def compute_price_exposure(rows, prices):
                 "It answers 'which friction touches more expensive products' not 'how much "
                 "money is at stake per year.'"),
             "median_real_price_usd": median_real_price_usd,
+            "min_real_price_usd": distinct_affected_prices[0] if distinct_affected_prices else None,
+            "max_real_price_usd": distinct_affected_prices[-1] if distinct_affected_prices else None,
             "n_distinct_priced_products_affected": len(distinct_affected_prices),
+            "price_band_caveat": (
+                "RANGE of real listed prices across the {} distinct real products affected "
+                "by this friction that have a known price - the actual spread of what "
+                "products in this segment cost today, not a proposed price for a new "
+                "concept, which this evidence cannot establish.".format(len(distinct_affected_prices))
+                if distinct_affected_prices else
+                "No real product in this friction's affected set has a known listed price."),
             "median_real_price_caveat": (
                 "MEDIAN real listed price across the {} distinct real products affected by "
                 "this friction that have a known price. This is what products in this "

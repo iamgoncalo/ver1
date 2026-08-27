@@ -82,6 +82,44 @@ POSSIBILITY_NAMES = {
     ("ozone_odor_safety", "CROSS_CATEGORY_TRANSFER"): "Wearable Odor/Ozone Safety Clip",
 }
 
+UNKNOWN = "UNKNOWN — no real data in this pipeline for this field."
+
+# Structural product-shape hints that follow DIRECTLY from an operator's own
+# fixed definition (see OPERATORS above) - e.g. MOVE is defined as "change
+# physical location," so a MOVE-derived concept is real-ly relocatable by
+# construction, not by invented spec. Fields with no such direct structural
+# basis are left out here and default to UNKNOWN below - never guessed.
+OPERATOR_PRODUCT_HINTS = {
+    "MOVE": {"mobility": "Relocatable — operator MOVE is defined as changing physical location."},
+    "DISTRIBUTE": {"mobility": "Multi-unit — operator DISTRIBUTE turns one system into several smaller ones."},
+    "CONCENTRATE": {"mobility": "Single-unit — operator CONCENTRATE turns several systems into one."},
+    "PERSONALISE": {"mobility": "Personal/portable — operator PERSONALISE moves scope from room to individual."},
+    "PREDICT": {"connected": "Likely — operator PREDICT (reactive → anticipatory) requires sensing/data."},
+    "AMBIENT": {"connected": "Likely — operator AMBIENT (invisible environmental behaviour) requires sensing."},
+    "MATERIALISE": {"connected": "Likely — operator MATERIALISE turns a digital signal into a physical action."},
+}
+
+
+def compute_product_conditions(theme_id, operator):
+    """Product-shape hints, honestly UNKNOWN unless the operator's own fixed
+    definition or the friction theme itself directly implies a field - never
+    a fabricated spec. See OPERATOR_PRODUCT_HINTS and OPERATORS above."""
+    hints = OPERATOR_PRODUCT_HINTS.get(operator, {})
+    conditions = {
+        "room_scale": UNKNOWN,
+        "mobility": hints.get("mobility", UNKNOWN),
+        "size_class": UNKNOWN,
+        "power_class": UNKNOWN,
+        "noise_ambition": UNKNOWN,
+        "maintenance_burden": UNKNOWN,
+        "filter_service_dependency": (
+            "High — this concept directly targets filter cost/frequency friction."
+            if theme_id == "filter_cost" else UNKNOWN
+        ),
+        "connected": hints.get("connected", UNKNOWN),
+    }
+    return conditions
+
 
 def _load_json_or_none(name):
     try:
