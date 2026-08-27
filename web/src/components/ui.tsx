@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { FocusPanel } from "./FocusPanel";
 
 export type ViewMode = "distilled" | "raw";
@@ -35,12 +35,27 @@ export interface MetricTrace { label: string; value: ReactNode; trace: string }
 
 // Every visible number should be traceable to its real source, not just
 // asserted - wrap any HeroMetric-style figure in this so a click reveals
-// exactly which file/computation it came from.
+// exactly which file/computation it came from. The affordance has to be
+// visible at rest, not just on hover - a bare number gives no clue it's a
+// button, so this always shows a small "source" cue, not just a cursor
+// change once you're already hovering.
 export function TraceableMetric({ label, value, onClick }: { label: string; value: ReactNode; onClick: () => void }) {
+  const [hover, setHover] = useState(false);
   return (
-    <button onClick={onClick} title="Click to see where this number comes from"
-      style={{ background: "none", border: "none", padding: 0, cursor: "pointer", textAlign: "left" }}>
+    <button onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      title="Click to see where this number comes from"
+      style={{
+        background: hover ? "var(--surface-2)" : "none", border: "none", borderRadius: 10,
+        padding: "6px 10px", margin: "-6px -10px", cursor: "pointer", textAlign: "left",
+        transition: "background 120ms",
+      }}>
       <HeroMetric label={label} value={value} />
+      <div style={{
+        fontSize: 9.5, fontFamily: "var(--font-mono)", letterSpacing: "0.03em", marginTop: 3,
+        color: hover ? "var(--accent-blue-ink)" : "var(--ink-faint)", opacity: hover ? 1 : 0.75,
+      }}>
+        source ↗
+      </div>
     </button>
   );
 }
@@ -129,20 +144,35 @@ export function SectionLabel({ children }: { children: ReactNode }) {
   );
 }
 
-export function Card({ children, onClick, active }: { children: ReactNode; onClick?: () => void; active?: boolean }) {
+// The one clickable-tile pattern used everywhere a real item (product,
+// signal, competitor, concept, paper...) needs its own detail view: a
+// teal border + shadow "lift" on hover, keyboard-operable, cursor pointer.
+// `style` lets a caller layer its own look (e.g. a distinct border color
+// for "official/verified" items) on top without forking the interaction
+// behavior - so every clickable box in the app behaves identically even
+// when it doesn't look identical.
+// `focusable` defaults to true; pass false when children already contain
+// their own real <button>/<a> - nesting two independently-focusable
+// interactive elements is invalid semantics and breaks focus/scroll
+// behavior (a browser tries to scroll-into-view both the outer div and the
+// inner control on click, landing clicks on the wrong element). In that
+// case the box stays mouse-clickable but keyboard users reach the action
+// via the nested control instead.
+export function Card({ children, onClick, active, style, focusable = true }: { children: ReactNode; onClick?: () => void; active?: boolean; style?: CSSProperties; focusable?: boolean }) {
   return (
     <div
       onClick={onClick}
-      role={onClick ? "button" : undefined}
-      tabIndex={onClick ? 0 : undefined}
-      onKeyDown={onClick ? (e) => { if (e.key === "Enter") onClick(); } : undefined}
+      role={onClick && focusable ? "button" : undefined}
+      tabIndex={onClick && focusable ? 0 : undefined}
+      onKeyDown={onClick && focusable ? (e) => { if (e.key === "Enter") onClick(); } : undefined}
       style={{
         background: "var(--surface)", border: "1px solid", borderColor: active ? "var(--accent-blue)" : "var(--line)",
         borderRadius: "var(--radius)", padding: 14, cursor: onClick ? "pointer" : "default",
-        transition: "border-color 120ms, transform 120ms", boxShadow: active ? "var(--shadow)" : "none",
+        transition: "border-color 120ms, transform 120ms, box-shadow 120ms", boxShadow: active ? "var(--shadow)" : "none",
+        ...style,
       }}
-      onMouseEnter={(e) => { if (onClick) e.currentTarget.style.borderColor = "var(--accent-teal)"; }}
-      onMouseLeave={(e) => { if (onClick) e.currentTarget.style.borderColor = active ? "var(--accent-blue)" : "var(--line)"; }}
+      onMouseEnter={(e) => { if (onClick) { e.currentTarget.style.borderColor = "var(--accent-teal)"; e.currentTarget.style.boxShadow = "var(--shadow)"; } }}
+      onMouseLeave={(e) => { if (onClick) { e.currentTarget.style.borderColor = active ? "var(--accent-blue)" : (style?.borderColor as string) ?? "var(--line)"; e.currentTarget.style.boxShadow = active ? "var(--shadow)" : "none"; } }}
     >
       {children}
     </div>

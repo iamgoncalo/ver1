@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
-import type { Rival, RivalsResponse, WhiteSpaceResponse } from "../lib/types";
+import type { Rival, RivalsResponse, WhiteSpace, WhiteSpaceResponse } from "../lib/types";
 import { Card, Pill, StatRow, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 
@@ -8,6 +8,7 @@ export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: st
   const [data, setData] = useState<RivalsResponse | null>(null);
   const [whiteSpace, setWhiteSpace] = useState<WhiteSpaceResponse | null>(null);
   const [focus, setFocus] = useState<Rival | null>(null);
+  const [spaceFocus, setSpaceFocus] = useState<WhiteSpace | null>(null);
   const [metricFocus, setMetricFocus] = useState<MetricTrace | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [showWhiteSpace, setShowWhiteSpace] = useState(true);
@@ -65,17 +66,17 @@ export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: st
                 trace: "GET /api/rivals -> data/processed/rivals_real.json[\"min_reviews_floor\"]: a fixed evidence-sufficiency floor declared in src/real/rivals_real.py - a brand with fewer real reviews than this is excluded from competitor analysis rather than analysed on thin evidence." })} />
           </div>
           {spaces.map((s) => (
-            <div key={s.opportunity_id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 16, padding: 20, marginBottom: 12, maxWidth: 640 }}>
+            <Card key={s.opportunity_id} onClick={() => setSpaceFocus(s)} focusable={false} style={{ marginBottom: 12, maxWidth: 640 }}>
               <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
               <h3 style={{ fontSize: 18, marginTop: 8 }}>{s.name}</h3>
               <div style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 6 }}>
                 {s.rivals_measurably_weak_here.length} real competitors measurably weaker here · feasibility {s.feasibility}
               </div>
-              <button onClick={() => onSendToCriteria(s.theme)}
+              <button onClick={(e) => { e.stopPropagation(); onSendToCriteria(s.theme); }}
                 style={{ marginTop: 10, padding: "8px 14px", borderRadius: 8, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
                 Send to Criteria →
               </button>
-            </div>
+            </Card>
           ))}
           <CounterfactualPrompt>What if the category's weakest capability is the one Versuni could own outright?</CounterfactualPrompt>
         </div>
@@ -117,14 +118,14 @@ export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: st
             real 2–5yr feasibility evidence.
           </div>
           {spaces.map((s) => (
-            <div key={s.opportunity_id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 16, padding: 20 }}>
+            <Card key={s.opportunity_id} onClick={() => setSpaceFocus(s)} focusable={false}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
                   <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
                   <h3 style={{ fontSize: 19, marginTop: 8 }}>{s.name}</h3>
                 </div>
                 <button
-                  onClick={() => onSendToCriteria(s.theme)}
+                  onClick={(e) => { e.stopPropagation(); onSendToCriteria(s.theme); }}
                   style={{ padding: "9px 16px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}
                 >
                   Send to Criteria →
@@ -140,7 +141,7 @@ export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: st
                   {s.rivals_measurably_weak_here.map((b) => <Pill key={b}>{b}</Pill>)}
                 </div>
               </div>
-            </div>
+            </Card>
           ))}
           {!whiteSpace && <div style={{ color: "var(--ink-faint)" }}>Loading white space evidence…</div>}
         </div>
@@ -162,6 +163,29 @@ export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: st
                   </span>
                 </div>
               ))}
+            </div>
+          </>
+        )}
+      </FocusPanel>
+
+      <FocusPanel open={!!spaceFocus} onClose={() => setSpaceFocus(null)} eyebrow={spaceFocus ? `White space · ${spaceFocus.opportunity_id}` : ""} title={spaceFocus?.name ?? ""}>
+        {spaceFocus && (
+          <>
+            <StatRow label="Consumer pain CSAT" value={spaceFocus.consumer_pain_csat} />
+            <StatRow label="Feasibility (2–5yr)" value={spaceFocus.feasibility} />
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Competitors measurably weak here ({spaceFocus.rivals_measurably_weak_here.length})</SectionLabel>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {spaceFocus.rivals_measurably_weak_here.map((b) => <Pill key={b}>{b}</Pill>)}
+              </div>
+            </div>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Trace</SectionLabel>
+              <p className="mono" style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>
+                GET /api/white-space -&gt; data/processed/white_space_real.json["spaces"], built by src/real/rivals_real.py.
+                Requires all three, real: a Consumer Pain gate pass, &gt;=2 real competitors measurably weaker on theme "{spaceFocus.theme}",
+                and real 2-5yr feasibility evidence - never inferred from an absence of online evidence.
+              </p>
             </div>
           </>
         )}

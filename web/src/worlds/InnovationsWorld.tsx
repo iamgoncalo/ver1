@@ -135,11 +135,16 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
           const s = data!.scores[id];
           const isWinner = id === winnerId;
           return (
-            <div key={id} style={{
-              background: "var(--surface)", borderRadius: 16, padding: 20,
-              border: "1px solid", borderColor: isWinner ? "var(--accent-blue)" : "var(--line)",
-              boxShadow: isWinner ? "var(--shadow)" : "none",
-            }}>
+            <div key={id} onClick={() => setTraceId(id)}
+              title="Click to trace this bet back to its real evidence"
+              style={{
+                background: "var(--surface)", borderRadius: 16, padding: 20, cursor: "pointer",
+                border: "1px solid", borderColor: isWinner ? "var(--accent-blue)" : "var(--line)",
+                boxShadow: isWinner ? "var(--shadow)" : "none", transition: "border-color 120ms, box-shadow 120ms",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--accent-teal)"; e.currentTarget.style.boxShadow = "var(--shadow)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = isWinner ? "var(--accent-blue)" : "var(--line)"; e.currentTarget.style.boxShadow = isWinner ? "var(--shadow)" : "none"; }}
+            >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   <Pill tone={isWinner ? "good" : s.consumer_pain.gate_passed ? "neutral" : "rose"}>
@@ -220,7 +225,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                     <SectionLabel>Evidence IDs</SectionLabel>
                     <div className="mono" style={{ fontSize: 11, color: "var(--ink-dim)" }}>{s.evidence_ids.join(", ")}</div>
                   </div>
-                  <button onClick={() => setTraceId(id)}
+                  <button onClick={(e) => { e.stopPropagation(); setTraceId(id); }}
                     style={{ marginTop: 12, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
                     TRACE THIS INNOVATION →
                   </button>

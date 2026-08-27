@@ -187,8 +187,8 @@ export function SignalsWorld() {
           <SectionLabel>All papers ({research?.peer_reviewed_papers.length ?? 0})</SectionLabel>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {(research?.peer_reviewed_papers ?? []).map((p) => (
-              <div key={p.research_id} onClick={() => setPaperFocus(p)} role="button" tabIndex={0}
-                style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: "space-between", padding: "12px 16px", border: "1px solid var(--line)", borderRadius: 10, background: "var(--surface)", cursor: "pointer" }}>
+              <Card key={p.research_id} onClick={() => setPaperFocus(p)}
+                style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: "space-between", padding: "12px 16px", borderRadius: 10 }}>
                 <div style={{ width: 36, height: 36, borderRadius: 10, background: "var(--surface-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <TerritoryIcon territory={p.territories[0]} size={24} />
                 </div>
@@ -199,7 +199,7 @@ export function SignalsWorld() {
                 <div style={{ display: "flex", gap: 4, alignItems: "flex-start", flexShrink: 0 }}>
                   {p.territories.map((t) => <Pill key={t}>{t}</Pill>)}
                 </div>
-              </div>
+              </Card>
             ))}
             {!research && <div style={{ color: "var(--ink-faint)" }}>Loading raw research corpus…</div>}
           </div>

@@ -22,6 +22,7 @@ export function ProductsWorld() {
   const [lensKey, setLensKey] = useState<keyof typeof LENS>("type");
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState<Product | null>(null);
+  const [officialFocus, setOfficialFocus] = useState<any | null>(null);
   const [metricFocus, setMetricFocus] = useState<MetricTrace | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [econ, setEcon] = useState<any>(null);
@@ -85,7 +86,8 @@ export function ProductsWorld() {
               <SectionLabel>Verified case portfolio — official Versuni/Philips products, not the Amazon corpus below</SectionLabel>
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
                 {officialProducts.map((p) => (
-                  <div key={p.product_id} style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", background: "var(--surface)", border: "1px solid var(--accent-blue)", borderRadius: 16, maxWidth: 340 }}>
+                  <Card key={p.product_id} onClick={() => setOfficialFocus(p)} focusable={false}
+                    style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", borderColor: "var(--accent-blue)", borderRadius: 16, maxWidth: 340 }}>
                     <img src={`/products/${p.local_asset.split("/").pop()}`} alt={p.official_name}
                       style={{ width: 70, height: 70, objectFit: "contain", flexShrink: 0 }} />
                     <div>
@@ -94,9 +96,9 @@ export function ProductsWorld() {
                       <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>
                         {p.sku} · {p.specs.cadr_m3h} m³/h · {p.specs.room_coverage_m2} m²
                       </div>
-                      <a href={p.official_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11 }}>official source →</a>
+                      <a href={p.official_url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ fontSize: 11 }}>official source →</a>
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
               <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 8 }}>
@@ -230,6 +232,39 @@ export function ProductsWorld() {
                 </div>
               );
             })()}
+          </>
+        )}
+      </FocusPanel>
+
+      <FocusPanel open={!!officialFocus} onClose={() => setOfficialFocus(null)} eyebrow={officialFocus ? `${officialFocus.family} — official Versuni/Philips` : ""} title={officialFocus?.official_name ?? ""}>
+        {officialFocus && (
+          <>
+            <img src={`/products/${officialFocus.local_asset.split("/").pop()}`} alt={officialFocus.official_name}
+              style={{ width: "100%", maxWidth: 220, objectFit: "contain", display: "block", margin: "0 auto 16px" }} />
+            <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
+              <Pill tone="good">{officialFocus.status}</Pill>
+            </div>
+            <StatRow label="SKU" value={officialFocus.sku} />
+            <StatRow label="Region verified" value={officialFocus.region} />
+            <StatRow label="Publisher" value={officialFocus.publisher} />
+            <StatRow label="Retrieved" value={officialFocus.retrieved_at} />
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Specs (official page)</SectionLabel>
+              <StatRow label="Clean-air delivery rate" value={`${officialFocus.specs.cadr_m3h} m³/h`} />
+              <StatRow label="Room coverage" value={`${officialFocus.specs.room_coverage_m2} m²`} />
+              <StatRow label="Min. noise" value={`${officialFocus.specs.noise_min_dba} dBA`} />
+              <StatRow label="Filter architecture" value={officialFocus.specs.filter_architecture} />
+              <StatRow label="Connectivity" value={officialFocus.specs.connectivity} />
+              <StatRow label="Sensors" value={officialFocus.specs.sensors} />
+              <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>{officialFocus.specs.confidence}</p>
+            </div>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Provenance</SectionLabel>
+              <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, wordBreak: "break-all" }}>
+                sha256: {officialFocus.sha256}
+              </p>
+              <a href={officialFocus.official_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12 }}>official source →</a>
+            </div>
           </>
         )}
       </FocusPanel>
