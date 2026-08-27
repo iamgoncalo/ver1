@@ -1,5 +1,5 @@
 {
-  "_provenance": "MODEL A only (canonical, analyst-defined research territories). MODEL B (emergent TF-IDF + cosine-similarity textual clustering) is NOT implemented in this pass - deferred, see NEXT_ACTION.md. Do not present Model A as if it were machine-derived.",
+  "_provenance": "MODEL A (canonical, analyst-defined research territories) and MODEL B (emergent TF-IDF + cosine-similarity + agglomerative clustering, see model_b_emergent_textual_similarity._provenance for method) are both present. Model A remains the citable territory assignment; Model B is a cross-check, not a replacement - do not present either as validating the other.",
   "generated_by": "src/real/research_corpus_real.py",
   "model_a_canonical_territories": [
     {

@@ -110,6 +110,20 @@ def main():
     with open(os.path.join(PROC, "research_clusters.json"), encoding="utf-8") as fh:
         existing = json.load(fh)
     existing["model_b_emergent_textual_similarity"] = doc
+    # The file's own top-level _provenance was written by
+    # research_corpus_real.py::build_clusters() BEFORE this script ever ran,
+    # honestly stating Model B was not yet implemented. Now that this script
+    # has actually run and merged real Model B output above, that top-level
+    # claim would be stale/false if left untouched - update it in place so
+    # the file never contradicts its own content.
+    existing["_provenance"] = (
+        "MODEL A (canonical, analyst-defined research territories) and MODEL B "
+        "(emergent TF-IDF + cosine-similarity + agglomerative clustering, see "
+        "model_b_emergent_textual_similarity._provenance for method) are both "
+        "present. Model A remains the citable territory assignment; Model B is "
+        "a cross-check, not a replacement - do not present either as validating "
+        "the other."
+    )
     with open(os.path.join(PROC, "research_clusters.json"), "w", encoding="utf-8") as fh:
         json.dump(existing, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
