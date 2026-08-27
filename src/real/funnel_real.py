@@ -90,24 +90,38 @@ def load_run_history():
         return json.load(fh)
 
 
-def record_run(input_hash, stage_counts):
+def record_run(input_hash, stage_counts, generated_objects, killed_objects, surviving_objects, errors):
     """Idempotent: only appends a new run record if the input snapshot hash
     genuinely changed since the last recorded run. Re-running on unchanged
-    inputs updates nothing but 'checked_at' on the existing last entry."""
+    inputs updates nothing but 'checked_at'/'finished_at' on the existing
+    last entry - it never duplicates a run record or silently overwrites
+    an earlier one (FUNNEL.md: 'Must be idempotent. Never silently
+    overwrite history.'). changed_objects is a real per-stage count delta
+    against the previous DIFFERENT run, not a guess."""
     history = load_run_history()
     now = datetime.now(timezone.utc).isoformat()
+    prior_counts = history[-1]["stage_counts"] if history else {}
+    changed_objects = {k: stage_counts[k] - prior_counts.get(k, 0) for k in stage_counts if stage_counts[k] != prior_counts.get(k, 0)}
+
     if history and history[-1]["input_snapshot_hash"] == input_hash:
         history[-1]["last_checked_at"] = now
+        history[-1]["finished_at"] = now
         history[-1]["check_count"] = history[-1].get("check_count", 1) + 1
         changed = False
     else:
         history.append({
             "run_id": "run-{}".format(len(history) + 1),
             "started_at": now,
+            "finished_at": now,
             "last_checked_at": now,
             "check_count": 1,
             "input_snapshot_hash": input_hash,
             "stage_counts": stage_counts,
+            "changed_objects": changed_objects,
+            "generated_objects": generated_objects,
+            "killed_objects": killed_objects,
+            "surviving_objects": surviving_objects,
+            "errors": errors,
         })
         changed = True
     with open(RUN_HISTORY_PATH, "w", encoding="utf-8") as fh:
@@ -259,11 +273,14 @@ def compute_stages(patterns, signal_families):
          "outputs_to": ["magic_box"],
          "trace": "GET /api/signals -> data/processed/signals_real.json[\"count\"], built by src/real/signals_from_research_real.py."},
         {"id": "competitors", "label": "COMPETITORS", "count": len(rivals["rivals"]),
+         "verified_strategic_rivals": len(rivals["rivals"]),
+         "parity_insight": "Every competitor here is a real brand with >= {} reviews in the same real corpus, weighted by which real friction theme it under-performs the category average on the most - never inferred from an absence of online evidence.".format(rivals["min_reviews_floor"]),
          "inputs": ["real Amazon review corpus, competitor brands"],
          "outputs_to": ["magic_box"],
          "trace": "GET /api/rivals -> len(data/processed/rivals_real.json[\"rivals\"]), built by src/real/rivals_real.py."},
         {"id": "magic_box", "label": "MAGIC BOX / PATTERN INTELLIGENCE", "count": pattern_total,
          "pattern_type_counts": {k: len(v) for k, v in patterns.items()},
+         "strongest_patterns": [{"type": k, "example": v[0]["name"]} for k, v in patterns.items() if v][:5],
          "inputs": ["products", "signals", "competitors"],
          "outputs_to": ["criteria"],
          "trace": "GET /api/funnel -> sum(len(v) for v in patterns.values()), computed live by src/real/funnel_real.py::compute_patterns() from signals_real.json + research_tensions.json + category_assumptions.json + magic_box_real.json + white_space_real.json + defect_detection_report_real.json."},
@@ -273,18 +290,23 @@ def compute_stages(patterns, signal_families):
          "outputs_to": ["innovations"],
          "trace": "GET /api/criteria -> len(data/processed/criteria_real.json[\"criteria_library\"]), built by src/real/criteria_real.py::CRITERIA_LIBRARY."},
         {"id": "innovations", "label": "INNOVATIONS", "count": len(magic_box["possibilities"]),
+         "candidates_preview": [{"id": p["id"], "name": p["name"], "friction_theme": p["friction_theme"],
+                                 "typical_market_price_usd": p["typical_market_price_usd"]}
+                                for p in magic_box["possibilities"]],
          "inputs": ["criteria-gated concepts"],
          "outputs_to": ["critic"],
          "trace": "GET /api/magic-box -> len(data/processed/magic_box_real.json[\"possibilities\"]), built by src/real/magic_box_real.py::generate_possibilities()."},
         {"id": "critic", "label": "CRITIC", "count": len(critic["concepts"]) if critic else 0,
          "verdict_counts": ({v: sum(1 for c in critic["concepts"] if c["critic_overall"] == v) for v in ("SURVIVE", "CHALLENGE", "NEEDS_EVIDENCE", "REJECT")}
                             if critic else {}),
+         "why_ideas_are_dying": [{"name": g["name"], "reason": g["kill_reason"]} for g in magic_box["graveyard"][:3]],
          "inputs": ["innovations"], "outputs_to": ["finalists"],
          "trace": "GET /api/critic -> len(data/processed/critic_real.json[\"concepts\"]), built by src/real/critic_real.py::build()."},
         {"id": "finalists", "label": "FINALISTS", "count": len(magic_box["finalists"]),
+         "finalist_names": [f["name"] for f in magic_box["finalists"]],
          "bet": decision["verdict"]["recommended_name"],
          "inputs": ["critic-surviving concepts"], "outputs_to": [],
-         "trace": "GET /api/innovations -> len(data/processed/magic_box_real.json[\"finalists\"]); bet from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"]."},
+         "trace": "GET /api/innovations -> data/processed/magic_box_real.json[\"finalists\"] (several, never one hardcoded winner); bet from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"]."},
     ]
 
 
@@ -294,8 +316,6 @@ def build():
     patterns = compute_patterns()
     stages = compute_stages(patterns, signal_families)
     stage_counts = {s["id"]: s["count"] for s in stages}
-    history, changed = record_run(input_hash, stage_counts)
-    last = history[-1]
 
     # Per DATA_FABRIC.md's "Funnel contract" - this endpoint consumes the
     # unified Intelligence Fabric so the frontend never has to independently
@@ -304,6 +324,20 @@ def build():
     criteria = _load_or_none("processed", "criteria_real.json")
     critic = _load_or_none("processed", "critic_real.json")
     candidates = _load_or_none("processed", "research_candidates.json")
+    magic_box = _load_or_none("processed", "magic_box_real.json")
+
+    run_errors = []
+    if magic_box is None:
+        run_errors.append("magic_box_real.json missing - Magic Box/pattern stages cannot be computed.")
+    if criteria is None:
+        run_errors.append("criteria_real.json missing - Criteria stage cannot be computed.")
+    generated_objects = stage_counts.get("magic_box", 0)
+    killed_objects = len(magic_box["graveyard"]) if magic_box else 0
+    surviving_objects = len(magic_box["non_dominated"]) if magic_box else 0
+
+    history, changed = record_run(input_hash, stage_counts, generated_objects, killed_objects, surviving_objects, run_errors)
+    last = history[-1]
+    status = "ERROR" if run_errors else "RUNNING"
 
     return {
         "_provenance": (
@@ -314,14 +348,17 @@ def build():
         ),
         "generated_by": "src/real/funnel_real.py",
         "machine_state": {
-            "status": "RUNNING",
+            "status": status,
             "last_run_id": last["run_id"],
             "last_run_started_at": last["started_at"],
+            "last_run_finished_at": last.get("finished_at", last["started_at"]),
             "last_checked_at": last["last_checked_at"],
             "check_count": last["check_count"],
             "input_snapshot_hash": input_hash,
             "changed_since_last_run": changed,
+            "new_since_last_run": last.get("changed_objects", {}),
             "total_runs_recorded": len(history),
+            "errors": run_errors,
         },
         "stages": stages,
         "signal_families": signal_families,

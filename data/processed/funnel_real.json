@@ -3,13 +3,25 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-2",
-    "last_run_started_at": "2026-08-27T09:26:48.947881+00:00",
-    "last_checked_at": "2026-08-27T09:26:48.947881+00:00",
-    "check_count": 1,
-    "input_snapshot_hash": "1cb7cb5ddc535f50b4d310e6813e5909329514aa929d4c4dd73d08d0aac9bcf9",
-    "changed_since_last_run": true,
-    "total_runs_recorded": 2
+    "last_run_id": "run-1",
+    "last_run_started_at": "2026-08-27T09:32:00.012820+00:00",
+    "last_run_finished_at": "2026-08-27T09:33:36.090755+00:00",
+    "last_checked_at": "2026-08-27T09:33:36.090755+00:00",
+    "check_count": 7,
+    "input_snapshot_hash": "ebbaaf728472c69bdefeb83a46d254ea1a44b018e0b1ee898cb75dfcd131e97d",
+    "changed_since_last_run": false,
+    "new_since_last_run": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 24,
+      "criteria": 52,
+      "innovations": 12,
+      "critic": 12,
+      "finalists": 3
+    },
+    "total_runs_recorded": 1,
+    "errors": []
   },
   "stages": [
     {
@@ -50,6 +62,8 @@
       "id": "competitors",
       "label": "COMPETITORS",
       "count": 34,
+      "verified_strategic_rivals": 34,
+      "parity_insight": "Every competitor here is a real brand with >= 40 reviews in the same real corpus, weighted by which real friction theme it under-performs the category average on the most - never inferred from an absence of online evidence.",
       "inputs": [
         "real Amazon review corpus, competitor brands"
       ],
@@ -73,6 +87,28 @@
         "TEMPORAL_SHIFT": 1,
         "CROSS_SCALE_LINK": 1
       },
+      "strongest_patterns": [
+        {
+          "type": "CONVERGENCE",
+          "example": "Noise / motor sound (weak real signal)"
+        },
+        {
+          "type": "TENSION",
+          "example": "Filtration vs. noise-driven adherence"
+        },
+        {
+          "type": "CONTRADICTION",
+          "example": "Filtration-to-health-benefit evidence is genuinely split"
+        },
+        {
+          "type": "ASSUMPTION",
+          "example": "Purification requires a dedicated, standalone box."
+        },
+        {
+          "type": "CAPABILITY_TRANSFER",
+          "example": "Verified-Clean Certification"
+        }
+      ],
       "inputs": [
         "products",
         "signals",
@@ -103,6 +139,80 @@
       "id": "innovations",
       "label": "INNOVATIONS",
       "count": 12,
+      "candidates_preview": [
+        {
+          "id": "reliability:PREDICT",
+          "name": "Predictive Failure Warning",
+          "friction_theme": "reliability",
+          "typical_market_price_usd": 199.99
+        },
+        {
+          "id": "reliability:MATERIALISE",
+          "name": "Physical Health Indicator",
+          "friction_theme": "reliability",
+          "typical_market_price_usd": 199.99
+        },
+        {
+          "id": "noise:AMBIENT",
+          "name": "Ambient Night Mode",
+          "friction_theme": "noise",
+          "typical_market_price_usd": 179.99
+        },
+        {
+          "id": "noise:TEMPORAL_SHIFT",
+          "name": "Pre-Sleep Purification Window",
+          "friction_theme": "noise",
+          "typical_market_price_usd": 179.99
+        },
+        {
+          "id": "value_effectiveness:CONCENTRATE",
+          "name": "Single-Metric Trust Score",
+          "friction_theme": "value_effectiveness",
+          "typical_market_price_usd": 199.99
+        },
+        {
+          "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "name": "Verified-Clean Certification",
+          "friction_theme": "value_effectiveness",
+          "typical_market_price_usd": 199.99
+        },
+        {
+          "id": "customer_service:INVERT",
+          "name": "Proactive Warranty Contact",
+          "friction_theme": "customer_service",
+          "typical_market_price_usd": 249.0
+        },
+        {
+          "id": "customer_service:REMOVE",
+          "name": "No-Ticket Replacement",
+          "friction_theme": "customer_service",
+          "typical_market_price_usd": 249.0
+        },
+        {
+          "id": "filter_cost:DISTRIBUTE",
+          "name": "Micro-Filter Subscription",
+          "friction_theme": "filter_cost",
+          "typical_market_price_usd": 249.5
+        },
+        {
+          "id": "filter_cost:MERGE",
+          "name": "Filter-Inclusive Pricing",
+          "friction_theme": "filter_cost",
+          "typical_market_price_usd": 249.5
+        },
+        {
+          "id": "ozone_odor_safety:MOVE",
+          "name": "Sensor-Led Placement Guidance",
+          "friction_theme": "ozone_odor_safety",
+          "typical_market_price_usd": 79.99
+        },
+        {
+          "id": "ozone_odor_safety:PERSONALISE",
+          "name": "Sensitivity-Aware Auto Mode",
+          "friction_theme": "ozone_odor_safety",
+          "typical_market_price_usd": 79.99
+        }
+      ],
       "inputs": [
         "criteria-gated concepts"
       ],
@@ -121,6 +231,20 @@
         "NEEDS_EVIDENCE": 2,
         "REJECT": 4
       },
+      "why_ideas_are_dying": [
+        {
+          "name": "Proactive Warranty Contact",
+          "reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+        },
+        {
+          "name": "No-Ticket Replacement",
+          "reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.34% below the 0.5% floor, or no real CSAT signal."
+        },
+        {
+          "name": "Micro-Filter Subscription",
+          "reason": "Consumer Pain evidence-sufficiency gate failed - prevalence 0.26% below the 0.5% floor, or no real CSAT signal."
+        }
+      ],
       "inputs": [
         "innovations"
       ],
@@ -133,12 +257,17 @@
       "id": "finalists",
       "label": "FINALISTS",
       "count": 3,
+      "finalist_names": [
+        "Single-Metric Trust Score",
+        "Verified-Clean Certification",
+        "Predictive Failure Warning"
+      ],
       "bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
       "inputs": [
         "critic-surviving concepts"
       ],
       "outputs_to": [],
-      "trace": "GET /api/innovations -> len(data/processed/magic_box_real.json[\"finalists\"]); bet from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"]."
+      "trace": "GET /api/innovations -> data/processed/magic_box_real.json[\"finalists\"] (several, never one hardcoded winner); bet from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"]."
     }
   ],
   "signal_families": {

@@ -8,13 +8,19 @@ interface Stage {
   inputs?: string[]; outputs_to?: string[]; trace?: string; bet?: string;
   families?: Record<string, number>; pattern_type_counts?: Record<string, number>;
   concepts_evaluated?: number; verdict_counts?: Record<string, number>;
+  verified_strategic_rivals?: number; parity_insight?: string;
+  strongest_patterns?: { type: string; example: string }[];
+  why_ideas_are_dying?: { name: string; reason: string }[];
+  finalist_names?: string[];
+  candidates_preview?: { id: string; name: string; friction_theme: string; typical_market_price_usd: number | null }[];
 }
 interface SignalFamily { count: number; ids: string[]; source: string; plus_research_grounded_signals?: string[] }
 interface PatternInstance { id: string; name: string; parent_ids: string[]; detail: string }
 interface FunnelDoc {
   machine_state: {
-    status: string; last_run_id: string; last_run_started_at: string; last_checked_at: string;
-    check_count: number; input_snapshot_hash: string; changed_since_last_run: boolean; total_runs_recorded: number;
+    status: string; last_run_id: string; last_run_started_at: string; last_run_finished_at?: string; last_checked_at: string;
+    check_count: number; input_snapshot_hash: string; changed_since_last_run: boolean;
+    new_since_last_run?: Record<string, number>; total_runs_recorded: number; errors?: string[];
   };
   stages: Stage[];
   signal_families: Record<string, SignalFamily>;
@@ -79,13 +85,18 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
         </div>
         {data && (
           <div style={{ textAlign: "right" }}>
-            <Pill tone="good">● {data.machine_state.status}</Pill>
+            <Pill tone={data.machine_state.status === "RUNNING" ? "good" : "rose"}>● {data.machine_state.status}</Pill>
             <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 6, fontFamily: "var(--font-mono)" }}>
               LAST RUN {timeAgo(data.machine_state.last_run_started_at)}
             </div>
             <div style={{ fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)" }}>
               SNAPSHOT {data.machine_state.input_snapshot_hash.slice(0, 10)} · {data.machine_state.changed_since_last_run ? "CHANGED" : "UNCHANGED"} SINCE LAST RUN
             </div>
+            {data.machine_state.new_since_last_run && Object.keys(data.machine_state.new_since_last_run).length > 0 && (
+              <div style={{ fontSize: 10.5, color: "var(--accent-teal)", fontFamily: "var(--font-mono)" }}>
+                NEW SINCE LAST RUN: {Object.entries(data.machine_state.new_since_last_run).map(([k, v]) => `${k} ${v > 0 ? "+" : ""}${v}`).join(", ")}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -213,6 +224,61 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
               <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
                 <SectionLabel>Critic verdicts</SectionLabel>
                 {Object.entries(stageFocus.verdict_counts).map(([k, v]) => <StatRow key={k} label={k} value={v} />)}
+              </div>
+            )}
+            {stageFocus.parity_insight && (
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                <SectionLabel>Verified strategic rivals — parity insight</SectionLabel>
+                <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>{stageFocus.parity_insight}</p>
+              </div>
+            )}
+            {stageFocus.strongest_patterns && stageFocus.strongest_patterns.length > 0 && (
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                <SectionLabel>Strongest current patterns</SectionLabel>
+                {stageFocus.strongest_patterns.map((p) => (
+                  <div key={p.type} style={{ fontSize: 12, color: "var(--ink-dim)", marginBottom: 4 }}>
+                    <b style={{ color: "var(--ink)" }}>{p.type.replace(/_/g, " ")}</b> — {p.example}
+                  </div>
+                ))}
+              </div>
+            )}
+            {stageFocus.why_ideas_are_dying && stageFocus.why_ideas_are_dying.length > 0 && (
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                <SectionLabel>Why ideas are dying</SectionLabel>
+                {stageFocus.why_ideas_are_dying.map((g) => (
+                  <div key={g.name} style={{ fontSize: 12, color: "var(--ink-dim)", marginBottom: 6, lineHeight: 1.4 }}>
+                    <b style={{ color: "var(--rose)" }}>{g.name}</b> — {g.reason}
+                  </div>
+                ))}
+              </div>
+            )}
+            {stageFocus.finalist_names && stageFocus.finalist_names.length > 0 && (
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                <SectionLabel>Several surviving Magic Box concepts — no hardcoded winner</SectionLabel>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  {stageFocus.finalist_names.map((n) => (
+                    <div key={n} style={{ fontSize: 12.5, color: "var(--ink-dim)" }}>· {n}</div>
+                  ))}
+                </div>
+                <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.4 }}>
+                  The Current Bet below is computed by a separate, related decision pipeline
+                  (OS-1/OS-2/OS-3 in decision_framework_real.py) - it is not literally one of these
+                  three Magic Box concept names. Both are real and non-hardcoded; they are not yet
+                  the same unified pipeline, shown honestly rather than forced to match.
+                </p>
+              </div>
+            )}
+            {stageFocus.candidates_preview && stageFocus.candidates_preview.length > 0 && (
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                <SectionLabel>Candidate objects</SectionLabel>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {stageFocus.candidates_preview.map((c) => (
+                    <div key={c.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--ink-dim)" }}>
+                      <span>{c.name}</span>
+                      <span className="mono">{c.typical_market_price_usd != null ? `$${c.typical_market_price_usd.toFixed(2)}` : "NO VERIFIED PRICE"}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </>
