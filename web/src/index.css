@@ -66,6 +66,8 @@ a { color: var(--accent-blue); }
 :focus-visible { outline: 2px solid var(--accent-teal); outline-offset: 2px; }
 @keyframes worldEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .world-enter { animation: worldEnter 180ms ease-out; }
+@keyframes flowPulse { 0% { left: -6%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 106%; opacity: 0; } }
+.flow-pulse { animation: flowPulse 2.6s linear infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

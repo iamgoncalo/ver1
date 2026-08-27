@@ -46,6 +46,7 @@ SNAPSHOT_INPUTS = [
     ("processed", "research_tensions.json"),
     ("processed", "category_assumptions.json"),
     ("processed", "defect_detection_report_real.json"),
+    ("processed", "economics_real.json"),
     ("raw", "trend_corpus.json"),
     ("raw", "market_metrics.json"),
 ]
@@ -310,11 +311,137 @@ def compute_stages(patterns, signal_families):
     ]
 
 
+NO_DATA = "NO VERIFIED DATA"
+NO_NATURE = "NO VERIFIED NATURE ANALOGUE - no biomimicry/nature-analogue dataset exists in this pipeline."
+
+
+def compute_homepage_funnel(patterns, signal_families):
+    """The homepage funnel: RADAR -> PATHS -> FIELD -> MAGIC BOX ->
+    INNOVATIONS -> NEW PRODUCTS (docs/FUNNEL.md). A pure regrouping of the
+    exact same real objects compute_stages()/compute_patterns() already
+    produce, relabelled into this narrower 6-stage vocabulary - no new
+    analysis, no new evidence. Every field with no real source in this
+    pipeline (Patents, Nature analogues, PATHS' driver/blocker/distortion)
+    is honestly NO_DATA/NO_NATURE, never inferred or invented."""
+    products = _load("processed", "products_real.json")
+    rivals = _load("processed", "rivals_real.json")
+    economics = _load_or_none("processed", "economics_real.json")
+    tensions = _load("processed", "research_tensions.json")["tensions"]
+    assumptions = _load("processed", "category_assumptions.json")["assumptions"]
+    decision = _load("processed", "decision_framework_real.json")
+    magic_box = _load("processed", "magic_box_real.json")
+    critic = _load_or_none("processed", "critic_real.json")
+
+    # RADAR - "see reality": every real evidence family this pipeline
+    # actually has, plus the two the brief asks for that this pipeline
+    # honestly does not (Patents, Nature) - reported as real zeros, not
+    # omitted and not padded.
+    radar_families = {
+        "RESEARCH": signal_families["RESEARCH"]["count"],
+        "TRENDS": signal_families["TRENDS"]["count"],
+        "CONSUMERS": signal_families["CONSUMERS"]["count"],
+        "MARKET": signal_families["MARKET"]["count"],
+        "TECHNOLOGY_AI": signal_families["TECHNOLOGY_AI"]["count"],
+        "PRODUCTS": len(products["products"]),
+        "RIVALS": len(rivals["rivals"]),
+        "ECONOMICS": len(economics["anchors"]) if economics else 0,
+        "PATENTS": 0,
+        "NATURE": 0,
+    }
+    radar_notes = {
+        "PATENTS": NO_DATA + " - no patent/IP register exists in this pipeline (see Criteria V6 'IP/know-how leverage', honestly NEEDS_EVIDENCE for every concept).",
+        "NATURE": NO_DATA + " - no biomimicry/nature-analogue dataset exists in this pipeline.",
+    }
+
+    # PATHS - "see where reality is moving". Two real, structurally
+    # distinct kinds of path (kept apart, never blended): a research
+    # TENSION (real "X vs. Y" trade-off, name parsed - not invented, the
+    # real corpus name literally is a from/to pair) and a category
+    # ASSUMPTION (real current state -> its own real counterfactual).
+    # driver/blocker/what_closes/distortion/nature_analogue have no real
+    # source anywhere in this pipeline and are reported as such.
+    paths = []
+    for t in tensions:
+        parts = t["name"].split(" vs. ", 1)
+        frm, to = (parts[0], parts[1]) if len(parts) == 2 else (t["name"], NO_DATA)
+        paths.append({
+            "id": "tension:" + t["tension_id"], "kind": "TENSION", "name": t["name"],
+            "from": frm, "to": to, "driver": NO_DATA, "blocker": NO_DATA,
+            "what_opens": t["design_consequence"], "what_closes": NO_DATA, "distortion": NO_DATA,
+            "evidence": t["evidence_ids"], "nature_analogue": NO_NATURE,
+            "detail": t["statement"],
+        })
+    for a in assumptions:
+        paths.append({
+            "id": "assumption:" + a["assumption_id"], "kind": "ASSUMPTION", "name": a["text"],
+            "from": a["text"], "to": a["counterfactual"], "driver": NO_DATA, "blocker": NO_DATA,
+            "what_opens": a["counterfactual"], "what_closes": NO_DATA, "distortion": NO_DATA,
+            "evidence": a["real_evidence_that_bears_on_it"], "nature_analogue": NO_NATURE,
+            "detail": a["evidence_note"],
+        })
+
+    # FIELD - "understand the emerging world": a 1:1 relabelling of the
+    # real decision_framework_real.json verdict fields - every one of
+    # these six sub-fields is a real field already computed there, none
+    # synthesized here.
+    v = decision["verdict"]
+    field = {
+        "now": v["recommended_name"],
+        "moving": v["sensitivity"],
+        "because": v["why"],
+        "opens": v["first_experiment"],
+        "blocked_by": [{"name": k["name"], "reason": k["reason"]} for k in v["killed"]],
+        "wrong_if": v["abandon_signal"],
+    }
+
+    # MAGIC BOX - unchanged real pattern totals.
+    magic_box_stage = {
+        "count": sum(len(v2) for v2 in patterns.values()),
+        "pattern_type_counts": {k: len(v2) for k, v2 in patterns.items()},
+    }
+
+    # INNOVATIONS - the real Magic Box possibilities, each annotated with
+    # its real Critic verdict where one exists.
+    critic_by_id = {c["possibility_id"]: c["critic_overall"] for c in critic["concepts"]} if critic else {}
+    innovations_stage = {
+        "count": len(magic_box["possibilities"]),
+        "candidates": [
+            {"id": p["id"], "name": p["name"], "friction_theme": p["friction_theme"],
+             "typical_market_price_usd": p["typical_market_price_usd"],
+             "critic_overall": critic_by_id.get(p["id"])}
+            for p in magic_box["possibilities"]
+        ],
+    }
+
+    # NEW PRODUCTS - "make possibility physical": only the real finalists
+    # that survived the full funnel, never a hardcoded winner.
+    new_products_stage = {
+        "count": len(magic_box["finalists"]),
+        "products": [
+            {"id": f["id"], "name": f["name"], "friction_theme_name": f["friction_theme_name"],
+             "operator": f["operator"], "typical_market_price_usd": f["typical_market_price_usd"],
+             "economic_value": f["economic_value"], "feasibility": f["feasibility_2_5y"]["rating"]}
+            for f in magic_box["finalists"]
+        ],
+        "bet": v["recommended_name"],
+    }
+
+    return {
+        "radar": {"families": radar_families, "notes": radar_notes},
+        "paths": paths,
+        "field": field,
+        "magic_box": magic_box_stage,
+        "innovations": innovations_stage,
+        "new_products": new_products_stage,
+    }
+
+
 def build():
     input_hash = compute_input_snapshot_hash()
     signal_families = compute_signal_families()
     patterns = compute_patterns()
     stages = compute_stages(patterns, signal_families)
+    homepage_funnel = compute_homepage_funnel(patterns, signal_families)
     stage_counts = {s["id"]: s["count"] for s in stages}
 
     # Per DATA_FABRIC.md's "Funnel contract" - this endpoint consumes the
@@ -361,6 +488,7 @@ def build():
             "errors": run_errors,
         },
         "stages": stages,
+        "homepage_funnel": homepage_funnel,
         "signal_families": signal_families,
         "patterns": patterns,
         "clusters": fabric["clusters"] if fabric else None,

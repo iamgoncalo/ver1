@@ -159,24 +159,34 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("Innovation Funnel homepage: machine state, stages, and patterns are real and traced", async ({ page }) => {
+  test("Innovation Machine homepage: RADAR through NEW PRODUCTS are real, clickable, and traced", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
-    await expect(page.getByText("Innovation Funnel")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Innovation Machine")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("● RUNNING")).toBeVisible();
     await expect(page.getByText(/SNAPSHOT [0-9a-f]{10}/)).toBeVisible();
 
-    // A stage box shows a real count and, on click, a real file trace.
-    const productsBox = page.locator("main button").filter({ hasText: "PRODUCTS" }).first();
-    await expect(productsBox).toBeVisible();
-    await productsBox.click();
-    await expect(page.getByText(/products_real\.json/)).toBeVisible({ timeout: 5000 });
+    // All six real funnel stages are present as clickable tiles.
+    for (const label of ["RADAR", "PATHS", "FIELD", "MAGIC BOX", "INNOVATIONS", "NEW PRODUCTS"]) {
+      await expect(page.locator("main button").filter({ hasText: label }).first()).toBeVisible();
+    }
+
+    // RADAR opens with real per-family counts and a real file trace.
+    await page.locator("main button").filter({ hasText: "RADAR" }).first().click();
+    await expect(page.getByText(/PRODUCTS/).first()).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/compute_homepage_funnel/)).toBeVisible();
     await page.keyboard.press("Escape");
 
-    // A pattern type (e.g. ANOMALY, currently real-but-empty) is honest, not padded.
-    const anomalyBox = page.locator('button[title="one product/behaviour is surprisingly different"]');
-    await anomalyBox.click();
-    await expect(page.getByText(/defect_detection_report_real\.json/)).toBeVisible({ timeout: 5000 });
+    // PATHS is honest about what has no real source (never invented).
+    await page.locator("main button").filter({ hasText: "PATHS" }).first().click();
+    await expect(page.getByText("NO VERIFIED NATURE ANALOGUE").first()).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("NO VERIFIED DATA").first()).toBeVisible();
+    await page.keyboard.press("Escape");
+
+    // FIELD is a 1:1 relabelling of the real live decision verdict.
+    await page.locator("main button").filter({ hasText: "FIELD" }).first().click();
+    await expect(page.getByText("Now")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Wrong if")).toBeVisible();
     await page.keyboard.press("Escape");
 
     // Logo returns home from a deep page.
