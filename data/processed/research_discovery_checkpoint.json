@@ -1,0 +1,1217 @@
+{
+  "run_id": "discovery-1787822557",
+  "started_at": "2026-08-27T09:22:15.475156+00:00",
+  "finished_at": "2026-08-27T09:22:37.478591+00:00",
+  "connectors": [
+    "pubmed",
+    "crossref",
+    "semantic_scholar"
+  ],
+  "query_ids": [
+    "pm-portable-cleaner",
+    "pm-iaq",
+    "pm-pm-exposure",
+    "pm-health-outcomes",
+    "pm-noise-adherence",
+    "pm-sensor-trust",
+    "pm-automation",
+    "pm-spatial",
+    "pm-energy-standards",
+    "pm-ai-adaptive",
+    "cr-ai-adaptive",
+    "cr-energy-standards",
+    "cr-sensor-trust"
+  ],
+  "queries": [
+    {
+      "query_id": "pm-portable-cleaner",
+      "connector": "pubmed",
+      "topic": "portable air cleaners",
+      "term": "\"portable air cleaner\"[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 8,
+      "items": [
+        {
+          "pmid": "42614430",
+          "doi": "10.3389/fped.2026.1875263",
+          "title": "Effectiveness of enhanced filtration interventions for improving indoor air quality in child-serving facilities",
+          "journal": "Frontiers in pediatrics",
+          "pubdate": "2026",
+          "authors": [
+            "Xia T",
+            "Raneses J",
+            "Locke M",
+            "Garcia R",
+            "Walding A"
+          ]
+        },
+        {
+          "pmid": "42600906",
+          "doi": "10.1016/j.ahj.2026.107573",
+          "title": "Cleaner Air for Lower Cardiometabolic Risk: protocol for a double-blind, randomized, sham-controlled trial of HEPA filtration in adults with prediabetes",
+          "journal": "American heart journal",
+          "pubdate": "2026 Aug 14",
+          "authors": [
+            "Wittkopp S",
+            "Asachi P",
+            "Kazatsker F",
+            "Barua S",
+            "Alemán JO"
+          ]
+        },
+        {
+          "pmid": "42412627",
+          "doi": "10.1080/10962247.2026.2692674",
+          "title": "Wildfire smoke indoors: A review of infiltration risk factors and exposure mitigation strategies",
+          "journal": "Journal of the Air & Waste Management Association (1995)",
+          "pubdate": "2026 Jul 7",
+          "authors": [
+            "Bolden N",
+            "Kilkenny K",
+            "MacCarty N"
+          ]
+        },
+        {
+          "pmid": "41987910",
+          "doi": "10.1021/acsestair.5c00488",
+          "title": "Field Evaluation of Do-It-Yourself Air Filtration Solutions for Evaporative Coolers to Reduce Ambient Particle Infiltration in Homes in Wildfire-Affected Communities",
+          "journal": "ACS ES&T air",
+          "pubdate": "2026 Apr 10",
+          "authors": [
+            "Wang M",
+            "Singh A",
+            "Chang D",
+            "Kaser I",
+            "Wagner J"
+          ]
+        },
+        {
+          "pmid": "41310837",
+          "doi": "10.1186/s13063-025-09286-8",
+          "title": "The Airport Air Quality and Asthma (AAA) indoor air intervention trial for children with asthma: Protocol for a community-based study in South King County, Washington State",
+          "journal": "Trials",
+          "pubdate": "2025 Nov 27",
+          "authors": [
+            "Loftus CT",
+            "Lim P",
+            "Capps J",
+            "Shirai JH",
+            "Tchong-French M"
+          ]
+        },
+        {
+          "pmid": "41041530",
+          "doi": "10.21203/rs.3.rs-7181465/v1",
+          "title": "The Airport, Air Quality and Asthma (AAA) Indoor Air Intervention Trial for Children with Asthma: Protocol for a Community Based Study in South King County, Washington State",
+          "journal": "Research square",
+          "pubdate": "2025 Sep 22",
+          "authors": [
+            "Loftus C",
+            "Lim P",
+            "Capps J",
+            "Shirai J",
+            "Tchong-French M"
+          ]
+        },
+        {
+          "pmid": "40979864",
+          "doi": "10.3205/dgkh000573",
+          "title": "Evaluation of the decontamination efficacy of a portable air cleaner using 275-nm UVC-LED radiation against airborne Coronavirus and Influenza virus",
+          "journal": "GMS hygiene and infection control",
+          "pubdate": "2025",
+          "authors": [
+            "Reissner J",
+            "Reichelt B",
+            "Siller P",
+            "Brockmann G",
+            "Kriegel M"
+          ]
+        },
+        {
+          "pmid": "39183232",
+          "doi": "10.1007/s10900-024-01390-1",
+          "title": "Behavioral Responses to Wildfire Smoke: A Case Study in Western Montana",
+          "journal": "Journal of community health",
+          "pubdate": "2025 Feb",
+          "authors": [
+            "Stewart T",
+            "Monroe A",
+            "Mullan K",
+            "Jones D",
+            "McIver A"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-iaq",
+      "connector": "pubmed",
+      "topic": "indoor air quality",
+      "term": "\"indoor air quality\"[Title/Abstract] AND (purifier OR cleaner)[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 57,
+      "items": [
+        {
+          "pmid": "42643982",
+          "doi": "10.1021/envhealth.5c00836",
+          "title": "Health Benefits of Air Purification: A Systematic Review",
+          "journal": "Environment & health (Washington, D.C.)",
+          "pubdate": "2026 Aug 21",
+          "authors": [
+            "Xue X",
+            "Jiang Y",
+            "Qian W",
+            "Chen R",
+            "Kan H"
+          ]
+        },
+        {
+          "pmid": "42614430",
+          "doi": "10.3389/fped.2026.1875263",
+          "title": "Effectiveness of enhanced filtration interventions for improving indoor air quality in child-serving facilities",
+          "journal": "Frontiers in pediatrics",
+          "pubdate": "2026",
+          "authors": [
+            "Xia T",
+            "Raneses J",
+            "Locke M",
+            "Garcia R",
+            "Walding A"
+          ]
+        },
+        {
+          "pmid": "42465630",
+          "doi": "10.3389/fpubh.2026.1838168",
+          "title": "Environmental, biological and cognitive monitoring of children in European primary schools: LEARN crossover study protocol",
+          "journal": "Frontiers in public health",
+          "pubdate": "2026",
+          "authors": [
+            "Berden DP",
+            "Chu WK",
+            "Alfaro-Moreno E",
+            "Gutzke VH",
+            "Karakosta C"
+          ]
+        },
+        {
+          "pmid": "42454268",
+          "doi": "10.1021/acsestair.5c00481",
+          "title": "Controls on Indoor Ammonia in New Canadian Homes during the First Year of Occupancy with Reduced Nitrogen Case Studies",
+          "journal": "ACS ES&T air",
+          "pubdate": "2026 Jul 10",
+          "authors": [
+            "Salehpoor L",
+            "You H",
+            "MacNeill M",
+            "Van Ryswyk K",
+            "Machesky J"
+          ]
+        },
+        {
+          "pmid": "42428207",
+          "doi": "10.7759/cureus.110509",
+          "title": "The Association Between High-Efficiency Particulate Air (HEPA) Filter Usage and Asthma Outcomes in a High Atmospheric Dust Environment: A Cross-Sectional Analysis",
+          "journal": "Cureus",
+          "pubdate": "2026 Jun",
+          "authors": [
+            "Husain SA",
+            "Bhattiprolu S",
+            "D Cruz LG",
+            "Boniface MA",
+            "Naeem N"
+          ]
+        },
+        {
+          "pmid": "42146735",
+          "doi": "10.1088/2515-7620/ae69a6",
+          "title": "A two-year indoor-outdoor monitoring study of household clean air interventions during ambient and wildfire smoke periods in King County, Washington",
+          "journal": "Environmental research communications",
+          "pubdate": "2026 May 1",
+          "authors": [
+            "Teigen KA",
+            "Cortes Espinosa M",
+            "McKinley H",
+            "Reed A",
+            "Berrang E"
+          ]
+        },
+        {
+          "pmid": "42081848",
+          "doi": "10.1016/j.socscimed.2026.119185",
+          "title": "Assessing multilevel association of genderism on cognitive health of older adults across mesosystems and microsystems using the longitudinal aging study in India: An adaptation of the ecological systems theory and cumulative disadvantage/advantage framework",
+          "journal": "Social science & medicine (1982)",
+          "pubdate": "2026 Jul",
+          "authors": [
+            "Perianayagam A",
+            "Dandona R",
+            "Selvamani Y",
+            "Salvi SK",
+            "Surpum S"
+          ]
+        },
+        {
+          "pmid": "42054299",
+          "doi": "10.1021/acs.est.6c00173",
+          "title": "Indoor HEPA Filtration Mitigates Adverse Cardiorespiratory Effects of Ozone Reaction Products",
+          "journal": "Environmental science & technology",
+          "pubdate": "2026 May 26",
+          "authors": [
+            "He L",
+            "Weschler CJ",
+            "Morrison G",
+            "Zhang Y",
+            "Zhang JJ"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-pm-exposure",
+      "connector": "pubmed",
+      "topic": "PM exposure",
+      "term": "\"PM2.5 exposure\"[Title/Abstract] AND indoor[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 14,
+      "items": [
+        {
+          "pmid": "42530832",
+          "doi": "10.1007/s11356-026-38029-8",
+          "title": "Fungal biotechnology for air-pollution mitigation: Mechanistic pathways, engineered systems and exposure-centered applications",
+          "journal": "Environmental science and pollution research international",
+          "pubdate": "2026 Jul",
+          "authors": [
+            "Makkar S",
+            "Annepu SK",
+            "Singh A"
+          ]
+        },
+        {
+          "pmid": "42351049",
+          "doi": "10.1186/s12889-026-28279-z",
+          "title": "The association between living environmental factors and hearing loss in Chinese middle-aged and older adults: Results from a cross-sectional and longitudinal study hearing loss and living environment",
+          "journal": "BMC public health",
+          "pubdate": "2026 Jun 25",
+          "authors": [
+            "Huang W",
+            "Wang S",
+            "Liu Y",
+            "Wang Y",
+            "Zheng L"
+          ]
+        },
+        {
+          "pmid": "42349091",
+          "doi": "10.1016/j.jnha.2026.100911",
+          "title": "Impact of living environmental quality on sarcopenia in middle-aged and older adults: evidence from cross-sectional and cohort analyses",
+          "journal": "The journal of nutrition, health & aging",
+          "pubdate": "2026 Aug",
+          "authors": [
+            "Huang L",
+            "Huang Y",
+            "Chen Y",
+            "Huang Y",
+            "Sun Y"
+          ]
+        },
+        {
+          "pmid": "42179135",
+          "doi": "10.1097/EDE.0000000000002011",
+          "title": "Maternal Exposure to Air Pollution and Fetal Growth: Comparison of Three Exposure Modelling Approaches",
+          "journal": "Epidemiology (Cambridge, Mass.)",
+          "pubdate": "2026 May 25",
+          "authors": [
+            "Luo Y",
+            "Rivas I",
+            "Foraster M",
+            "Galmes T",
+            "Arevalo G"
+          ]
+        },
+        {
+          "pmid": "42098669",
+          "doi": "10.1186/s12889-026-27635-3",
+          "title": "Personal fine particulate matter (PM(2.5)) exposure level and associated factors among pregnant women in rural Butajira, Ethiopia: a longitudinal study",
+          "journal": "BMC public health",
+          "pubdate": "2026 May 7",
+          "authors": [
+            "Shine S",
+            "Kumie A",
+            "M R",
+            "Berhane K",
+            "Jack DW"
+          ]
+        },
+        {
+          "pmid": "41993105",
+          "doi": "10.1016/j.indenv.2026.100157",
+          "title": "In-unit particulate matter (PM2.5) in a public housing complex and the importance of tobacco and cannabis as indoor pollutants",
+          "journal": "Indoor environments",
+          "pubdate": "2026 Mar",
+          "authors": [
+            "Wallace M",
+            "Prasanth S",
+            "Egar A",
+            "Satcher LA",
+            "Teixeira S"
+          ]
+        },
+        {
+          "pmid": "41962820",
+          "doi": "10.1016/j.envpol.2026.128094",
+          "title": "Gender-specific association between household cooking oil fumes exposure and small airway dysfunction in China: a national cross-sectional study",
+          "journal": "Environmental pollution (Barking, Essex : 1987)",
+          "pubdate": "2026 Jun 1",
+          "authors": [
+            "Wang W",
+            "Cong S",
+            "Qi S",
+            "Fan J",
+            "Song X"
+          ]
+        },
+        {
+          "pmid": "41840578",
+          "doi": "10.1186/s12889-026-27012-0",
+          "title": "The association of depressive symptoms in children with indoor and outdoor short-term exposure to particulate matter",
+          "journal": "BMC public health",
+          "pubdate": "2026 Mar 16",
+          "authors": [
+            "Lee S",
+            "Kim SR",
+            "Kwon HJ",
+            "Bae S"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-health-outcomes",
+      "connector": "pubmed",
+      "topic": "health outcomes / limits",
+      "term": "\"air purifier\"[Title/Abstract] AND (asthma OR \"health outcome\")[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 6,
+      "items": [
+        {
+          "pmid": "41705315",
+          "doi": "10.1002/ppul.71509",
+          "title": "Installing Air Purifiers in the Homes of Children With Severe Asthma: Outcomes and Family Perspectives From a Feasibility Study",
+          "journal": "Pediatric pulmonology",
+          "pubdate": "2026 Feb",
+          "authors": [
+            "Holden KA",
+            "Hawcutt DB",
+            "Sinha IP"
+          ]
+        },
+        {
+          "pmid": "41407565",
+          "doi": "10.1016/j.alit.2025.11.008",
+          "title": "Association between yellow dust, PM2.5, and hay fever: A large-scale crowdsourced observational study using the AllerSearch smartphone application",
+          "journal": "Allergology international : official journal of the Japanese Society of Allergology",
+          "pubdate": "2026 Apr",
+          "authors": [
+            "Nagino K",
+            "Inomata T",
+            "Ebihara N",
+            "Midorikawa-Inomata A",
+            "Fujio K"
+          ]
+        },
+        {
+          "pmid": "41071551",
+          "doi": "10.1001/jamanetworkopen.2025.36951",
+          "title": "Air Purifier Intervention for Respiratory Viral Exposure in Elementary Schools: A Secondary Analysis of a Randomized Clinical Trial",
+          "journal": "JAMA network open",
+          "pubdate": "2025 Oct 1",
+          "authors": [
+            "Sun Y",
+            "Haghnazari D",
+            "Huang CY",
+            "Baig A",
+            "Kim M"
+          ]
+        },
+        {
+          "pmid": "40902284",
+          "doi": "10.1016/j.resinv.2025.08.008",
+          "title": "Effects of Daikin air purifiers on asthma control and pulmonary function: A multicenter, single-arm, observational pilot study",
+          "journal": "Respiratory investigation",
+          "pubdate": "2025 Nov",
+          "authors": [
+            "Hamada S",
+            "Sato S",
+            "Hori S",
+            "Yu S",
+            "Sunadome H"
+          ]
+        },
+        {
+          "pmid": "40667431",
+          "doi": "10.1016/j.indenv.2025.100090",
+          "title": "School-informed risk calculator tool for reducing the spread of respiratory viral infection among school-aged children",
+          "journal": "Indoor environments",
+          "pubdate": "2025 Jun",
+          "authors": [
+            "Wilson AM",
+            "Lowe AA",
+            "Amoh-Asante NAA",
+            "Zhan Y",
+            "Ashraf A"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-noise-adherence",
+      "connector": "pubmed",
+      "topic": "noise / adherence",
+      "term": "\"air cleaner\"[Title/Abstract] AND (noise OR adherence)[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 2,
+      "items": [
+        {
+          "pmid": "40299178",
+          "doi": "10.1007/s11356-025-36441-0",
+          "title": "Needle point bipolar ionization: environmental safety and inactivation of airborne bacteria and corona virus",
+          "journal": "Environmental science and pollution research international",
+          "pubdate": "2025 Apr",
+          "authors": [
+            "Aytekin DA",
+            "Tetik N",
+            "Şahin ÜA",
+            "Ayvaz C",
+            "Nurtop E"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-sensor-trust",
+      "connector": "pubmed",
+      "topic": "sensor accuracy / trust",
+      "term": "\"air quality sensor\"[Title/Abstract] AND (accuracy OR validation)[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 5,
+      "items": [
+        {
+          "pmid": "42486882",
+          "doi": "10.1038/s41370-026-00953-9",
+          "title": "Development of a high-resolution PM(2.5) model in Taiwan using integrated low-cost air quality sensors and satellite observations",
+          "journal": "Journal of exposure science & environmental epidemiology",
+          "pubdate": "2026 Jul 22",
+          "authors": [
+            "Jung CR",
+            "Chuang WH",
+            "Chen WT",
+            "Lin WH",
+            "Lee RY"
+          ]
+        },
+        {
+          "pmid": "42076507",
+          "doi": "10.3390/s26082398",
+          "title": "AQ-MultiCal: An Interactive No-Code Machine Learning Platform for Low-Cost Air Quality Sensor Calibration and Comparative Model Analysis",
+          "journal": "Sensors (Basel, Switzerland)",
+          "pubdate": "2026 Apr 14",
+          "authors": [
+            "Taştan M",
+            "Karsu Asal EC",
+            "Gökozan H"
+          ]
+        },
+        {
+          "pmid": "41494680",
+          "doi": "10.2196/82034",
+          "title": "Assessing Associations Between Environmental, Sleep, and Physical Activity Factors and Metabolic Syndrome Risk: Protocol for the FEASible Study",
+          "journal": "JMIR research protocols",
+          "pubdate": "2026 Jan 6",
+          "authors": [
+            "Ramos-Santiago T",
+            "Huglo E",
+            "Li Y",
+            "Corral C",
+            "Wu C"
+          ]
+        },
+        {
+          "pmid": "41389557",
+          "doi": "10.1016/j.envint.2025.109981",
+          "title": "An integrated low-cost air quality sensor and a multi-task calibration framework for particulate matter",
+          "journal": "Environment international",
+          "pubdate": "2026 Jan",
+          "authors": [
+            "Nan F",
+            "Shen H",
+            "Zeng C"
+          ]
+        },
+        {
+          "pmid": "40717480",
+          "doi": "10.1177/13872877251362667",
+          "title": "Person-specific digital measurements of air pollutant exposure and biomarkers of Alzheimer's disease: Findings from a pilot study",
+          "journal": "Journal of Alzheimer's disease : JAD",
+          "pubdate": "2025 Sep",
+          "authors": [
+            "Xiong C",
+            "Lu R",
+            "Bui Q",
+            "Popp B",
+            "Schindler SE"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-automation",
+      "connector": "pubmed",
+      "topic": "automation",
+      "term": "\"indoor air quality\"[Title/Abstract] AND (automation OR \"automatic control\")[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 13,
+      "items": [
+        {
+          "pmid": "42625277",
+          "doi": "10.1002/jeq2.70245",
+          "title": "Concentration of volatile organic compounds within indoor dairy facilities",
+          "journal": "Journal of environmental quality",
+          "pubdate": "2026 Jul-Aug",
+          "authors": [
+            "Jannat A",
+            "Campion R",
+            "Phillips A",
+            "Goncalves da Costa B",
+            "Manriquez D"
+          ]
+        },
+        {
+          "pmid": "42456623",
+          "doi": "10.1016/j.scitotenv.2026.182020",
+          "title": "Water vapour as a carrier of mould metabolites in indoor air: an explanation for the sick building syndrome and severe morbidity",
+          "journal": "The Science of the total environment",
+          "pubdate": "2026 Jul 15",
+          "authors": [
+            "Vaali K",
+            "Sulyok M",
+            "Louhelainen J",
+            "Mannerström M",
+            "Heinonen T"
+          ]
+        },
+        {
+          "pmid": "42394035",
+          "doi": "10.3233/SHTI260873",
+          "title": "Development of a Hospital Air Quality Monitoring Application Utilizing IoT Technology and Google Workspace: A Case Study of a Hospital in Mahasarakham, Thailand",
+          "journal": "Studies in health technology and informatics",
+          "pubdate": "2026 Jun 29",
+          "authors": [
+            "Sribudda S",
+            "Harnpicharnchai K",
+            "Nankongnab N",
+            "Thongkum W"
+          ]
+        },
+        {
+          "pmid": "42122630",
+          "doi": "10.3390/s26092909",
+          "title": "Machine Learning Applications with Sensors for Indoor Air Quality Research",
+          "journal": "Sensors (Basel, Switzerland)",
+          "pubdate": "2026 May 6",
+          "authors": [
+            "Rosca CM",
+            "Stancu A"
+          ]
+        },
+        {
+          "pmid": "41904148",
+          "doi": "10.1038/s41598-025-29728-2",
+          "title": "Evaluating the semi-chronic effects of household air pollution exposure on cardiopulmonary health under two different ventilation conditions",
+          "journal": "Scientific reports",
+          "pubdate": "2026 Mar 28",
+          "authors": [
+            "Aristizabal S",
+            "Snyder EM",
+            "Pope ZC",
+            "Senerat AM",
+            "Byun K"
+          ]
+        },
+        {
+          "pmid": "41713259",
+          "doi": "10.1016/j.jhazmat.2026.141423",
+          "title": "Real-world deployment of deep reinforcement learning-based control for cost-efficient PM(2.5) mitigation in a naturally ventilated multi-room residence",
+          "journal": "Journal of hazardous materials",
+          "pubdate": "2026 Mar 1",
+          "authors": [
+            "Chen C",
+            "Wang W",
+            "Zhong X",
+            "Deng C",
+            "Lu Y"
+          ]
+        },
+        {
+          "pmid": "41157429",
+          "doi": "10.3390/s25206375",
+          "title": "Contributions to the Development of Fire Detection and Intervention Capabilities Using an Indoor Air Quality IoT Monitoring System",
+          "journal": "Sensors (Basel, Switzerland)",
+          "pubdate": "2025 Oct 15",
+          "authors": [
+            "Pietraru RN",
+            "Olteanu A",
+            "Nicolae M",
+            "Crăciun RA"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-spatial",
+      "connector": "pubmed",
+      "topic": "spatial particle dynamics",
+      "term": "\"particulate matter\"[Title/Abstract] AND (resuspension OR spatial)[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 538,
+      "items": [
+        {
+          "pmid": "42647010",
+          "doi": "10.3390/toxics14080728",
+          "title": "Long-Term Ambient PM(2.5) Exposure and Premature Mortality Across of Türkiye",
+          "journal": "Toxics",
+          "pubdate": "2026 Aug 17",
+          "authors": [
+            "Özmen N",
+            "Duran V",
+            "Şencan F",
+            "Paşa Y",
+            "Çelik MA"
+          ]
+        },
+        {
+          "pmid": "42638566",
+          "doi": "10.1111/gcb.71050",
+          "title": "Smoke-Affected Rain Fertilizes Terrestrial and Aquatic Ecosystems",
+          "journal": "Global change biology",
+          "pubdate": "2026 Aug",
+          "authors": [
+            "Ponette-González AG",
+            "Brahney J",
+            "Holmes HA",
+            "Spielvogel B",
+            "Weathers KC"
+          ]
+        },
+        {
+          "pmid": "42637123",
+          "doi": "10.1016/j.envpol.2026.129020",
+          "title": "Bioaerosols in the atmospheric environment of oil exploitation sites: spatial and temporal distribution, sources, influencing factors, health risks, and reduction efficiency of masks",
+          "journal": "Environmental pollution (Barking, Essex : 1987)",
+          "pubdate": "2026 Aug 24",
+          "authors": [
+            "Yang H",
+            "He S",
+            "Yao Z",
+            "Li H",
+            "Feng Q"
+          ]
+        },
+        {
+          "pmid": "42621504",
+          "doi": "10.1021/acsestair.6c00140",
+          "title": "Spatial and Temporal Trends of Ambient PM(2.5) and Source-Apportioned Black Carbon in Addis Ababa, Ethiopia",
+          "journal": "ACS ES&T air",
+          "pubdate": "2026 Aug 14",
+          "authors": [
+            "Shlipak KK",
+            "Mamo T",
+            "Hill LD",
+            "Abera A",
+            "Blair J"
+          ]
+        },
+        {
+          "pmid": "42612597",
+          "doi": "10.1016/j.marenvres.2026.108353",
+          "title": "Particle-associated distribution, sedimentary accumulation, and SSD-based ecological risk assessment of organochlorine pesticides in the East China Sea",
+          "journal": "Marine environmental research",
+          "pubdate": "2026 Aug 12",
+          "authors": [
+            "Fu J",
+            "Sun L",
+            "Zhang Y",
+            "Wang W",
+            "Cui Z"
+          ]
+        },
+        {
+          "pmid": "42612421",
+          "doi": "10.1016/j.canep.2026.103199",
+          "title": "Wildfire smoke PM(2.5) and cancer history prevalence in the contiguous United States",
+          "journal": "Cancer epidemiology",
+          "pubdate": "2026 Aug 18",
+          "authors": [
+            "Zewdie HY",
+            "Karasaki S",
+            "Cortez M",
+            "Lin J",
+            "Nondin C"
+          ]
+        },
+        {
+          "pmid": "42611210",
+          "doi": "10.1007/s00128-026-04318-8",
+          "title": "Micro-scale Spatial Patterns of PM(2.5) in an Arid City: Evidence from Mobile Monitoring Across Urban Green and Non-green Areas",
+          "journal": "Bulletin of environmental contamination and toxicology",
+          "pubdate": "2026 Aug 18",
+          "authors": [
+            "Dias R",
+            "Wurstten A",
+            "Luna L",
+            "Andino N"
+          ]
+        },
+        {
+          "pmid": "42608205",
+          "doi": "10.1002/jat.70398",
+          "title": "Characteristics, Sources, and Health Risks of PM2.5-Bound Heavy Metals in School Environments: A Comparative Study of Two Cities in South China",
+          "journal": "Journal of applied toxicology : JAT",
+          "pubdate": "2026 Aug 17",
+          "authors": [
+            "Moryani HT",
+            "Wang F",
+            "Zhou Y",
+            "Lin LZ",
+            "Bao WW"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-energy-standards",
+      "connector": "pubmed",
+      "topic": "energy / standards",
+      "term": "\"air cleaner\"[Title/Abstract] AND (energy OR standard OR CADR)[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 5,
+      "items": [
+        {
+          "pmid": "42614430",
+          "doi": "10.3389/fped.2026.1875263",
+          "title": "Effectiveness of enhanced filtration interventions for improving indoor air quality in child-serving facilities",
+          "journal": "Frontiers in pediatrics",
+          "pubdate": "2026",
+          "authors": [
+            "Xia T",
+            "Raneses J",
+            "Locke M",
+            "Garcia R",
+            "Walding A"
+          ]
+        },
+        {
+          "pmid": "40322736",
+          "doi": "10.2147/JAA.S498269",
+          "title": "Association Between Hemoglobin A1c and Pediatric Asthma Control",
+          "journal": "Journal of asthma and allergy",
+          "pubdate": "2025",
+          "authors": [
+            "Pham H",
+            "Koehl R",
+            "Woo H",
+            "Wu TD",
+            "Qiu AY"
+          ]
+        },
+        {
+          "pmid": "39961154",
+          "doi": "10.1016/j.scitotenv.2025.178771",
+          "title": "Characteristics and exposure determinants of PM(2.5), formaldehyde, and total volatile organic compounds in residential indoor air in Korea",
+          "journal": "The Science of the total environment",
+          "pubdate": "2025 Mar 1",
+          "authors": [
+            "Park JY",
+            "Jeong Y",
+            "Lee DH",
+            "Lee K"
+          ]
+        },
+        {
+          "pmid": "39783836",
+          "doi": "10.1039/d4em00648h",
+          "title": "Accounting for in situ air cleaner utilization and performance to improve interpretation of patient outcomes in real-world indoor air cleaner intervention trials",
+          "journal": "Environmental science. Processes & impacts",
+          "pubdate": "2025 Jun 18",
+          "authors": [
+            "Farhoodi S",
+            "Kang I",
+            "Zeng Y",
+            "Jagota K",
+            "Karpen N"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "pm-ai-adaptive",
+      "connector": "pubmed",
+      "topic": "AI / adaptive environmental control",
+      "term": "\"indoor air quality\"[Title/Abstract] AND (\"machine learning\" OR \"artificial intelligence\" OR adaptive)[Title/Abstract] AND 2025:2026[dp]",
+      "n_results": 48,
+      "items": [
+        {
+          "pmid": "42451237",
+          "doi": "10.3390/s26133992",
+          "title": "Spike-Driven Neuromorphic Sensing for Energy-Proportional Indoor Air Quality Monitoring in Multi-Zone IoT-Enabled Smart Building Environments",
+          "journal": "Sensors (Basel, Switzerland)",
+          "pubdate": "2026 Jun 24",
+          "authors": [
+            "De Jesus LCM",
+            "Africa ADM",
+            "Illahi AAC",
+            "Gustilo RC",
+            "Brucal SGE"
+          ]
+        },
+        {
+          "pmid": "42451234",
+          "doi": "10.3390/s26133989",
+          "title": "An IoT-Edge Enabled Deep-Fuzzy Hybrid Model for Real-Time Indoor Air Quality Optimization",
+          "journal": "Sensors (Basel, Switzerland)",
+          "pubdate": "2026 Jun 23",
+          "authors": [
+            "Chelloug SA",
+            "Muthanna M",
+            "Alshahrani A",
+            "Al-Onaizan MHA",
+            "Muthanna A"
+          ]
+        },
+        {
+          "pmid": "42438712",
+          "doi": "10.7717/peerj.20964",
+          "title": "Application of machine learning algorithms in building health diagnostics: predictive analytics evaluating indoor air quality and sick building syndrome in educational settings",
+          "journal": "PeerJ",
+          "pubdate": "2026",
+          "authors": [
+            "Ismail SA",
+            "Kamar HM",
+            "Kamsah N",
+            "Lim KH",
+            "Kamaruzaman NA"
+          ]
+        },
+        {
+          "pmid": "42436246",
+          "doi": "10.1038/s41598-026-60852-9",
+          "title": "AI-driven optimization: revolutionizing energy efficiency in modern buildings",
+          "journal": "Scientific reports",
+          "pubdate": "2026 Jul 11",
+          "authors": [
+            "Alshammari HH"
+          ]
+        },
+        {
+          "pmid": "42435960",
+          "doi": "10.1016/j.envpol.2026.128747",
+          "title": "Indoors is not a refuge: iron-ore port emitted PM(2).(5) accumulates inside a naturally ventilated tropical home",
+          "journal": "Environmental pollution (Barking, Essex : 1987)",
+          "pubdate": "2026 Jul 11",
+          "authors": [
+            "Lana JM",
+            "Silva IO",
+            "Yamamoto CI",
+            "Santos-Silva JCS",
+            "Rover LR"
+          ]
+        },
+        {
+          "pmid": "42356850",
+          "doi": "10.3390/s26123877",
+          "title": "Linking Tea Aroma Chemistry to Quality Grades via a Single MOS Gas Sensor: Classical Machine Learning vs. Deep Learning",
+          "journal": "Sensors (Basel, Switzerland)",
+          "pubdate": "2026 Jun 18",
+          "authors": [
+            "Tasdemir AT",
+            "Ozkat EC",
+            "Ozkat GY",
+            "Gul F"
+          ]
+        },
+        {
+          "pmid": "42356675",
+          "doi": "10.3390/s26123702",
+          "title": "An Integrated IoT-Based Multi-Sensor Framework for Real-Time Indoor Environment and Safety Monitoring",
+          "journal": "Sensors (Basel, Switzerland)",
+          "pubdate": "2026 Jun 10",
+          "authors": [
+            "Naing AM",
+            "Al-Hamid DZ",
+            "Singh A"
+          ]
+        },
+        {
+          "pmid": "42211251",
+          "doi": "10.1088/2752-5309/ae5fc3",
+          "title": "Lessons from the first U.S. school districts with real-time indoor environmental quality (IEQ) sensors in classrooms: benefits, barriers and opportunities",
+          "journal": "Environmental research, health : ERH",
+          "pubdate": "2026 Jun 1",
+          "authors": [
+            "Botana Martinez MP",
+            "Fabian MP",
+            "Gunn K",
+            "Walsh KH",
+            "Scammell MK"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "cr-ai-adaptive",
+      "connector": "crossref",
+      "topic": "AI / adaptive environmental control",
+      "term": "adaptive indoor air quality machine learning control",
+      "n_results": 852034,
+      "items": [
+        {
+          "doi": "10.1155/ina/9959278",
+          "pmid": null,
+          "title": "Deep Reinforcement Learning–Based Multiobjective Control of Hybrid Building Envelopes: Integrating Adaptive Façades, Passive Radiative Cooling, and Indoor Air Quality Management Across Iranian Climates",
+          "journal": "Indoor Air",
+          "pubdate": "2026-1",
+          "authors": [
+            "Maroofiazar",
+            "Reveshti"
+          ]
+        },
+        {
+          "doi": "10.3390/s26092909",
+          "pmid": null,
+          "title": "Machine Learning Applications with Sensors for Indoor Air Quality Research",
+          "journal": "Sensors",
+          "pubdate": "2026-5-6",
+          "authors": [
+            "Rosca",
+            "Stancu"
+          ]
+        },
+        {
+          "doi": "10.1155/ina/3385686",
+          "pmid": null,
+          "title": "Benchmarking Classical Machine Learning and Hybrid Quantum Approaches for Indoor Thermal Sensation Prediction",
+          "journal": "Indoor Air",
+          "pubdate": "2026-1",
+          "authors": [
+            "Avci"
+          ]
+        },
+        {
+          "doi": "10.1155/ina/2150075",
+          "pmid": null,
+          "title": "Quantifying Indoor Air Quality Determinants in Green‐Certified Buildings Using a Hybrid Machine Learning Method: A Case Study in Florida",
+          "journal": "Indoor Air",
+          "pubdate": "2025-1",
+          "authors": [
+            "Zhang",
+            "Srinivasan",
+            "Yang",
+            "Ganesan",
+            "Zhang"
+          ]
+        },
+        {
+          "doi": "10.1155/ina/5659116",
+          "pmid": null,
+          "title": "Adaptive Indoor Environment Regulation: A Reinforcement Learning Approach",
+          "journal": "Indoor Air",
+          "pubdate": "2026-1",
+          "authors": [
+            "Karatzas",
+            "Protopsaltis",
+            "Mountzouris",
+            "Gialelis",
+            "Parlikad"
+          ]
+        },
+        {
+          "doi": "10.56726/irjmets82588",
+          "pmid": null,
+          "title": "Adaptive Machine Learning Approaches for Air Quality Index Prediction in Emerging Urban Centers of India",
+          "journal": "International Research Journal of Modernization in Engineering Technology &amp; Science",
+          "pubdate": "2025-9-6",
+          "authors": []
+        }
+      ]
+    },
+    {
+      "query_id": "cr-energy-standards",
+      "connector": "crossref",
+      "topic": "energy / standards",
+      "term": "portable air cleaner energy standard CADR",
+      "n_results": 372088,
+      "items": [
+        {
+          "doi": "10.1016/j.indenv.2026.100165",
+          "pmid": null,
+          "title": "Optimizing portable air cleaner performance testing protocols: A study on test room size, data interval, and practical CADR",
+          "journal": "Indoor Environments",
+          "pubdate": "2026-6",
+          "authors": [
+            "Xia",
+            "Loomans",
+            "Hooff"
+          ]
+        },
+        {
+          "doi": "10.1155/ina/8933801",
+          "pmid": null,
+          "title": "Assessment of Nanoparticle Clean Air Delivery Rate (CADR) for Portable Air Purifiers: A Comparative Study With the Existing Standard",
+          "journal": "Indoor Air",
+          "pubdate": "2025-1",
+          "authors": [
+            "Yoon",
+            "Yang",
+            "Yun"
+          ]
+        },
+        {
+          "doi": "10.1007/s00181-026-02946-x",
+          "pmid": null,
+          "title": "Cleaner gas, cleaner air: impacts of China’s gasoline standard tightening",
+          "journal": "Empirical Economics",
+          "pubdate": "2026-8",
+          "authors": [
+            "Yang",
+            "Cao",
+            "Jiang",
+            "Liu"
+          ]
+        },
+        {
+          "doi": "10.1007/s44408-025-00043-9",
+          "pmid": null,
+          "title": "Influence of Building Airtightness on the Placement of a Portable Air Cleaner in an Elementary School Classroom",
+          "journal": "Aerosol and Air Quality Research",
+          "pubdate": "2025-6-24",
+          "authors": [
+            "Eom",
+            "Kang"
+          ]
+        },
+        {
+          "doi": "10.1016/j.cles.2026.100274",
+          "pmid": null,
+          "title": "Techno-economic performance of air source heat pump and thermal energy storage considering peak-valley time-of-use electricity prices",
+          "journal": "Cleaner Energy Systems",
+          "pubdate": "2026-8",
+          "authors": [
+            "Li",
+            "Li",
+            "Liang",
+            "Wang"
+          ]
+        },
+        {
+          "doi": "10.1016/j.cles.2026.100246",
+          "pmid": null,
+          "title": "Hybrid micro-compressed air energy storage with photovoltaic and diesel generation for off-grid applications: A parametric life cycle and techno-economic study",
+          "journal": "Cleaner Energy Systems",
+          "pubdate": "2026-6",
+          "authors": [
+            "Tumminello",
+            "Zuffi",
+            "Bacci",
+            "Facchini"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "cr-sensor-trust",
+      "connector": "crossref",
+      "topic": "sensor accuracy / trust",
+      "term": "low-cost air quality sensor accuracy validation trust",
+      "n_results": 533130,
+      "items": [
+        {
+          "doi": "10.37547/ajast/volume06issue05-25",
+          "pmid": null,
+          "title": "Effect Of Temperature And Humidity On Low-Cost Air Quality Sensor Readings",
+          "journal": "American Journal of Applied Science and Technology",
+          "pubdate": "2026-5-16",
+          "authors": [
+            "Oybek",
+            "Akbar"
+          ]
+        },
+        {
+          "doi": "10.1016/j.buildenv.2025.113856",
+          "pmid": null,
+          "title": "A calibration chamber framework for low-cost indoor air quality sensor validation",
+          "journal": "Building and Environment",
+          "pubdate": "2026-1",
+          "authors": [
+            "Othman",
+            "Sieves",
+            "Guimarães",
+            "Azari"
+          ]
+        },
+        {
+          "doi": "10.1108/sr-10-2025-0761",
+          "pmid": null,
+          "title": "A review of machine learning approaches for improving calibration and performance of low-cost air quality sensor networks",
+          "journal": "Sensor Review",
+          "pubdate": "2026-2-5",
+          "authors": [
+            "Yan"
+          ]
+        },
+        {
+          "doi": "10.1007/s44408-026-00150-1",
+          "pmid": null,
+          "title": "Mid-term Performance and Calibration of Multi-sensor Low-Cost Systems for Air Quality Monitoring in Urban Environments",
+          "journal": "Aerosol and Air Quality Research",
+          "pubdate": "2026-7-3",
+          "authors": [
+            "Fellini",
+            "Gallione",
+            "Vaccaro",
+            "Mastromatteo",
+            "Fattoruso"
+          ]
+        },
+        {
+          "doi": "10.1016/j.uclim.2025.102289",
+          "pmid": null,
+          "title": "In-situ validation of embedded physics-based calibration in low-cost particulate matter sensor for urban air quality monitoring",
+          "journal": "Urban Climate",
+          "pubdate": "2025-2",
+          "authors": [
+            "Feng",
+            "Zheng",
+            "Ren"
+          ]
+        },
+        {
+          "doi": "10.1007/s44408-025-00009-x",
+          "pmid": null,
+          "title": "Optimizing Air Quality Monitoring: Comparative Analysis of Linear Regression and Machine Learning in Low-Cost Sensor Calibration",
+          "journal": "Aerosol and Air Quality Research",
+          "pubdate": "2025-4",
+          "authors": [
+            "Fang",
+            "Collingwood",
+            "Zhang",
+            "Stanford",
+            "Porucznik"
+          ]
+        }
+      ]
+    }
+  ],
+  "new_items": 0,
+  "updated_items": 0,
+  "duplicates": 80,
+  "rejected_items": 0,
+  "accepted_candidates": 0,
+  "semantic_scholar_raw_hits": 0,
+  "errors": [
+    {
+      "connector": "semantic_scholar",
+      "query_id": "s2-sensor-trust",
+      "error": "HTTP Error 429: "
+    }
+  ],
+  "last_success_checkpoint": "2026-08-27T09:22:37.477152+00:00"
+}

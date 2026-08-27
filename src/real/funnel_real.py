@@ -297,6 +297,14 @@ def build():
     history, changed = record_run(input_hash, stage_counts)
     last = history[-1]
 
+    # Per DATA_FABRIC.md's "Funnel contract" - this endpoint consumes the
+    # unified Intelligence Fabric so the frontend never has to independently
+    # join several JSON/API sources to reconstruct the funnel itself.
+    fabric = _load_or_none("processed", "intelligence_fabric.json")
+    criteria = _load_or_none("processed", "criteria_real.json")
+    critic = _load_or_none("processed", "critic_real.json")
+    candidates = _load_or_none("processed", "research_candidates.json")
+
     return {
         "_provenance": (
             "Pure aggregation over already-real processed files - no product, signal, paper, "
@@ -318,6 +326,15 @@ def build():
         "stages": stages,
         "signal_families": signal_families,
         "patterns": patterns,
+        "clusters": fabric["clusters"] if fabric else None,
+        "criteria_summary": ({"library_size": len(criteria["criteria_library"]), "concepts_evaluated": len(criteria["concepts"])}
+                             if criteria else None),
+        "innovation_candidates": ({"count": len(candidates["candidates"]),
+                                   "by_status": {"CANDIDATE": sum(1 for c in candidates["candidates"] if c["status"] == "CANDIDATE")}}
+                                  if candidates else {"count": 0, "by_status": {}}),
+        "critic_summary": (next((s["verdict_counts"] for s in stages if s["id"] == "critic"), {}) if critic else None),
+        "snapshot": fabric["snapshot_id"] if fabric else None,
+        "last_refresh": fabric["last_research_discovery_run"] if fabric else None,
     }
 
 

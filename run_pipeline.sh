@@ -68,15 +68,19 @@ python3 src/real/taxonomy_real.py
 python3 src/real/wtp_real.py
 python3 src/real/decision_framework_real.py
 
-echo "== stage 8b/9: V1 view-models (real) - products/signals, rivals/white-space, magic box =="
+echo "== stage 8b/9: V1 view-models (real) - products/signals, rivals/white-space =="
 python3 src/real/products_signals_real.py
 python3 src/real/rivals_real.py
-python3 src/real/magic_box_real.py
 
 echo "== stage 8c/9: verified research corpus + research-grounded signal rebuild (real) =="
 python3 src/real/research_corpus_real.py
 python3 src/real/emergent_clustering_real.py
 python3 src/real/signals_from_research_real.py
+
+echo "== stage 8c2/9: Magic Box - MUST run after the stage 8c signal rebuild above; =="
+echo "   compute_design_dna() reads each signal's real 'meaning'/research_support =="
+echo "   fields, which only exist once signals_from_research_real.py has run. =="
+python3 src/real/magic_box_real.py
 
 echo "== stage 8d/9: Dutch economics truth (real, verified anchors) =="
 python3 src/real/economics_real.py
@@ -93,7 +97,12 @@ python3 src/real/critic_real.py
 echo "== stage 8h/9: HOW INTELLIGENCE DECIDES - criteria library + per-concept gates (real) =="
 python3 src/real/criteria_real.py
 
-echo "== stage 8i/9: INNOVATION FUNNEL MACHINE - canonical funnel state + patterns (real) =="
+echo "== stage 8i/9: INTELLIGENCE FABRIC - canonical normalized model, offline (real) =="
+echo "   (live research discovery is network-enabled and NOT part of this offline path -"
+echo "    run 'make refresh-intelligence' separately to discover new CANDIDATE papers)"
+python3 src/real/intelligence_fabric.py
+
+echo "== stage 8j/9: INNOVATION FUNNEL MACHINE - canonical funnel state + patterns (real) =="
 python3 src/real/funnel_real.py
 
 echo "== stage 9/9: evidence table + tests =="

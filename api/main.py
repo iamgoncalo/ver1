@@ -78,6 +78,24 @@ def criteria():
     return read_json("criteria_real.json")
 
 
+@app.get("/api/intelligence-fabric")
+def intelligence_fabric():
+    """The canonical normalized model (DATA_FABRIC.md) - sources,
+    documents, evidence_objects, clusters, labels, lineage_edges. Read by
+    /api/funnel; exposed directly here for inspection. Not yet wired into
+    any world's UI - out of scope for this task (STOP after the fabric
+    works; UI integration beyond the funnel is a subsequent task)."""
+    return read_json("intelligence_fabric.json")
+
+
+@app.get("/api/research/candidates")
+def research_candidates():
+    """Live-discovered research documents with status=CANDIDATE - never
+    silently promoted into the accepted, reproducible corpus
+    (research_index.json). See src/real/research_discovery_real.py."""
+    return read_json("research_candidates.json")
+
+
 @app.get("/api/funnel")
 def funnel():
     """The canonical Innovation Funnel Machine state - PRODUCTS + SIGNALS +
