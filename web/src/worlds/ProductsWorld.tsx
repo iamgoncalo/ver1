@@ -87,11 +87,17 @@ export function ProductsWorld() {
         <div className="scrollY" style={{ flex: 1 }}>
           {officialProducts && officialProducts.length > 0 && (
             <div style={{ marginBottom: 20 }}>
-              <SectionLabel>Verified case portfolio — official Versuni/Philips products, not the Amazon corpus below</SectionLabel>
-              <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+              <SectionLabel>Verified official portfolio — not the Amazon corpus below</SectionLabel>
+              <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 640, lineHeight: 1.5, marginBottom: 12 }}>
+                Versuni/Philips sells roughly 20 real air-purifier product families. {officialProducts.length} of them have
+                been individually checked this session against their own official product page — each one below,
+                real spec by real spec. The other ~{20 - officialProducts.length} are not shown here, not guessed at:
+                genuinely unverified is a real state, not a gap to paper over.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 14 }}>
                 {officialProducts.map((p) => (
                   <Card key={p.product_id} onClick={() => setOfficialFocus(p)} focusable={false}
-                    style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", borderColor: "var(--accent-blue)", borderRadius: 16, flex: "1 1 280px", maxWidth: 340, boxSizing: "border-box" }}>
+                    style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", borderColor: "var(--accent-blue)", borderRadius: 16, boxSizing: "border-box" }}>
                     <img src={`/products/${p.local_asset.split("/").pop()}`} alt={p.official_name}
                       style={{ width: 70, height: 70, objectFit: "contain", flexShrink: 0 }} />
                     <div style={{ flex: "1 1 auto", minWidth: 0 }}>
@@ -105,12 +111,9 @@ export function ProductsWorld() {
                   </Card>
                 ))}
               </div>
-              <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 8 }}>
-                {officialProducts.length} of ~20 candidate families verified this session — the rest are honestly UNVERIFIED, not inferred. See Sources.
-              </div>
             </div>
           )}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 8 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 8 }}>
             <TraceableMetric label="Real products" value={products.length || "…"}
               onClick={() => setMetricFocus({ label: "Real products", value: products.length,
                 trace: "GET /api/products -> len(data/processed/products_real.json[\"products\"]), built by src/real/products_signals_real.py from the real, hand-validated 237-product Amazon purifier corpus (McAuley-Lab Amazon-Reviews-2023, filtered by src/real/filter_purifier_products.py)." })} />

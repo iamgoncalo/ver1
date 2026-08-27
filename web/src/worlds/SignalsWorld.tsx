@@ -135,8 +135,9 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
         <h1 style={{ fontSize: 30 }}>Signals</h1>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexShrink: 0, gap: 12 }}>
-        <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", marginBottom: 14, flexShrink: 0, gap: 12 }}>
+        <div />
+        <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3, justifySelf: "center" }}>
           {TABS.map((t) => (
             <button key={t.key} onClick={() => setTab(t.key)} title={t.hint}
               style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
@@ -147,11 +148,13 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
             </button>
           ))}
         </div>
-        <DistilledRawToggle mode={mode} onChange={setMode} />
+        <div style={{ justifySelf: "end" }}>
+          <DistilledRawToggle mode={mode} onChange={setMode} />
+        </div>
       </div>
       {tab === "consumers" && (
         <div className="scrollY" style={{ flex: 1 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, auto)", gap: 40, marginBottom: 16 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 16 }}>
             <TraceableMetric label="Converging signals" value={counts.converging}
               onClick={() => setMetricFocus({ label: "Converging signals", value: counts.converging,
                 trace: "GET /api/signals -> count of data/processed/signals_real.json[\"signals\"] where state === \"CONVERGING\": two or more independent real evidence families (consumer reviews, research, trends, market) agree on the same tension, computed by src/real/signals_from_research_real.py." })} />
@@ -175,7 +178,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
 
       {tab === "research" && (
         <div className="scrollY" style={{ flex: 1 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, auto)", gap: 40, marginBottom: 12 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 12 }}>
             <TraceableMetric label="Peer-reviewed papers" value={research?.peer_reviewed_count ?? "…"}
               onClick={() => setMetricFocus({ label: "Peer-reviewed papers", value: research?.peer_reviewed_count ?? "NO VERIFIED DATA",
                 trace: "GET /api/research -> data/processed/research_index.json[\"peer_reviewed_count\"] == len(peer_reviewed_papers): each paper individually verified live against the PubMed API (PMID/PMCID -> DOI) or by direct publisher/PMC fetch, built by src/real/research_corpus_real.py." })} />
@@ -295,7 +298,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
 
       {tab === "competitors" && (
         <div className="scrollY" style={{ flex: 1 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 16 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 16 }}>
             <TraceableMetric label="Real competitors analysed" value={sortedRivals.length || "…"}
               onClick={() => setMetricFocus({ label: "Real competitors analysed", value: sortedRivals.length,
                 trace: "GET /api/rivals -> len(data/processed/rivals_real.json[\"rivals\"]), built by src/real/rivals_real.py: real Amazon-review competitor brands with >= min_reviews_floor real reviews in the same real category corpus." })} />

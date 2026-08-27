@@ -72,10 +72,10 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
   test("DISTILLED/RAW toggle changes content on Products", async ({ page }) => {
     await page.goto("/");
     await navButton(page, /PRODUCTS/).click();
-    await expect(page.getByText("OFFICIAL VERSUNI/PHILIPS")).toBeVisible();
+    await expect(page.getByText("Verified official portfolio")).toBeVisible();
     await page.getByRole("button", { name: "raw" }).click();
     await expect(page.getByText("CONSUMER REVIEW CORPUS")).toBeVisible();
-    await expect(page.getByText("OFFICIAL VERSUNI/PHILIPS")).toHaveCount(0);
+    await expect(page.getByText("Verified official portfolio")).toHaveCount(0);
   });
 
   test("no text is clipped by an overflow:hidden ancestor at a narrower width", async ({ page }) => {
@@ -88,7 +88,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await page.setViewportSize({ width: 1024, height: 720 });
     await page.goto("/");
     await navButton(page, /PRODUCTS/).click();
-    await expect(page.getByText("OFFICIAL VERSUNI/PHILIPS")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Verified official portfolio")).toBeVisible({ timeout: 5000 });
     const clipped = await page.evaluate(() => {
       const offenders: string[] = [];
       document.querySelectorAll("main *").forEach((el) => {
