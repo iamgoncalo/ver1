@@ -1,148 +1,95 @@
 # PROJECT 1 — STATUS
 
-Last verified: 2026-08-26T21:35:00Z
+Last verified: 2026-08-27 (live session, in-browser + automated tests)
 
-Git:
+## Git
+
 - branch: `design/innovation-explorer`
-- HEAD at last verification: `a57ee77` (chore: establish permanent project governance)
-- working tree: DIRTY — this session's V1 frontend build is about to be
-  committed (see NEXT_ACTION.md for the exact commit this produces).
-- remote visibility: PUBLIC (`github.com/iamgoncalo/ver1`)
-- pushed/unpushed: `origin/main` is still at `b6e96f8` — the OLD, fully
-  synthetic pre-repair commit. Nothing from this repair, the control room,
-  the Q6 rework, governance, or V1 has been pushed. NOT pushed this session
-  either, per standing instruction.
+- HEAD: `53139e4`
+- working tree: clean (every change below is committed)
+- remote visibility: PUBLIC (`github.com/iamgoncalo/ver1`) — unchanged this session
+- pushed/unpushed: nothing from this session pushed. `origin/main` untouched.
+
+## This session's repair pass (live user feedback + OVERNIGHT_SPEC / HIGH-QUALITY REPAIR PASS)
+
+Committed, tested (38/38 Python unit tests, 30/30 Playwright across
+1440x900/1366x768/1280x720), browser-verified (DOM + screenshot):
+
+1. **Critic + Concept Evolution** (`src/real/critic_real.py`, `/api/critic`) —
+   SURVIVE/CHALLENGE/NEEDS_EVIDENCE/REJECT verdicts and SEED→CHALLENGED→
+   SURVIVOR→FINALIST→REJECTED stages, derived only from already-computed
+   real signals. 5/8 requested Critic dimensions honestly NEEDS_EVIDENCE
+   (no real HUMAN/PHYSICAL/VERSUNI_FIT/TIMING/ROBUSTNESS data exists).
+2. **Real per-concept pricing** — every innovation/possibility now shows a
+   real median observed price ("$199.99, typical real price today, median
+   of 27 real products") alongside the existing aggregate price-weighted
+   exposure metric. Computed in `wtp_real.py`, threaded through
+   `magic_box_real.py` and `decision_framework_real.py`.
+3. **Renamed "Bets" → "Innovations"** everywhere (nav, eyebrow labels,
+   trace button) per live feedback that "Bets" read as gambling jargon.
+4. **Consumer Pain methodology surfaced inline** — every Consumer Pain
+   figure now shows WHO (real Amazon customers, % verified purchase), HOW
+   MANY (n reviews, n products), WHEN (real review date range), WHAT
+   STUDIES (explicitly "none" — deterministic keyword classification, not
+   survey/panel data).
+5. **What Wins explicit LOADING/SUCCESS/EMPTY/ERROR/TIMEOUT states** —
+   previously only an implicit opacity dim; now a real state machine with
+   a 15s timeout and retry affordance on error/timeout.
+6. **Products relabelled** "Verified case portfolio" (was "Official
+   Versuni/Philips products").
+7. **Signals rebuilt into 4 explicit tabs** — CONSUMERS / RESEARCH /
+   TRENDS / MARKET (previously one undifferentiated DISTILLED/RAW view
+   mixing review text, papers, and industry docs together). New
+   `/api/market` and `/api/trends` endpoints. TRENDS tab states outright
+   that Google Trends is NOT_IMPLEMENTED (matches the honest Sources dock
+   status — never faked).
+8. **Fixed a real data-integrity bug**: `research_index.json` claimed 12
+   peer-reviewed papers but only 10 were ever rendered as full cards — 2
+   real, verified papers (now RP-11, RP-12) were sitting inside
+   `trend_corpus.json`, double-countable but never shown. Promoted both to
+   full FOUND/ESTABLISHES/DOES_NOT_ESTABLISH/LIMITATIONS distillation.
+   RP-11 verified live via PubMed (PMID 38617028); RP-12 is an economics
+   journal paper outside PubMed's scope, verified via its existing
+   fetch/archive. `peer_reviewed_count` now equals `len(peer_reviewed_papers)`: 12 == 12.
+   5 of the 12 papers are 2025+ (RP-06, RP-07, RP-08, RP-09, RP-10).
+9. **Design DNA (F/S/T/R/C/A/E/O)** added to every one of the 12
+   Counterfactual possibilities — every parent is a genuine join against
+   already-computed real files (signals/research_tensions/
+   category_assumptions), never invented. `C` (Versuni capability) is
+   honestly MISSING_UNVERIFIED for all 12 — no such dataset exists
+   anywhere in this pipeline.
+10. **Editorial icon/image system** (`web/src/components/ThemeIcon.tsx`) —
+    hand-authored SVG icons per friction theme (6) and research territory
+    (6), each carrying an explicit "EDITORIAL" provenance badge. No
+    image-generation tool is available in this environment. Wired into
+    Counterfactuals, Innovations, and Signals/Research cards + FocusPanels.
 
 ## STAGE
 
-ANALYTICS: **PASS** — re-run live this session: `make test` 22/22, `make
-verify` 229/229, `make live-check` 11/11. `data/processed/decision_framework_real.json`
-regenerated to the default `decision_priority=pain_feasibility_majority`
-state (winner OS-1) after earlier ad-hoc testing had left it on the
-`economic_value_override` state — restored intentionally, not a defect.
+ANALYTICS: PASS — `python3 -m unittest discover -s tests` 38/38 this session.
+HUMAN VALIDATION: 0/50 — still blocked on Gonçalo, untouched this session.
+V1 VISUAL EXPERIENCE: substantially reworked this session (see above).
 
-HUMAN VALIDATION: **0/50** — BLOCKED, confirmed genuinely blank again this
-session (`data/hand_label_sample_BLANK.csv` unlabelled, `data/manual/hand_labels.csv`
-does not exist). The Streamlit labelling UI (blinded by construction) is
-running and reachable at `http://localhost:8501` — ready for Gonçalo to use
-tonight. Not touched or tested end-to-end again this session beyond
-confirming the process is alive.
+## NOT YET DONE (from the live "HIGH-QUALITY REPAIR PASS" request)
 
-V1 VISUAL EXPERIENCE: **IMPLEMENTED, BROWSER VERIFIED** (not yet
-independently reviewed — see below). Built this session:
-- `web/src/` — full five-world React/TypeScript/Vite app: `App.tsx`,
-  `ProcessRail`, `FocusPanel`, `AskShell`, `ErrorBoundary`, a shared UI kit
-  (`components/ui.tsx`), and all five worlds (`ProductsWorld`, `SignalsWorld`,
-  `RivalsWorld`, `MagicBoxWorld`, `InnovationsWorld`), consuming the
-  already-existing `api/main.py` real-data endpoints.
-- Design: warm-neutral palette, Fraunces (display) + IBM Plex Sans/Mono
-  (body/data), CSS custom-property tokens with light/dark support, no
-  framer-motion (removed — see defects below).
-- `make app` now builds the frontend and serves it + the API on ONE port:
-  `python3 -m uvicorn api.main:app --port 8000` → `http://localhost:8000`.
-  `make analyst` runs the existing Streamlit control room separately.
-- Keyboard model implemented: 1–5 jump, ←/→ move, SPACE opens the
-  deterministic "Ask" shell, ESC closes panels/shell.
-- No-scroll constraint BROWSER-VERIFIED at 1440×900, 1366×768, and 1280×720
-  on the densest worlds (Products/Rivals) — `document.documentElement`
-  scrollHeight/scrollWidth exactly match the viewport at all three; internal
-  content areas use their own `.scrollY` panel instead.
-- Real defects found live in-browser and fixed this session (see
-  CASE_REQUIREMENTS.yaml v1_innovation_explorer for detail): (1) a
-  Framer-Motion `AnimatePresence`-based world-switch transition that
-  permanently desynced the rendered world from nav state after the first
-  click; (2) a null-`economic_value`/`severity_csat` crash for the
-  gate-failed OS-3 card that unmounted the entire React tree with no error
-  boundary; (3) the same Framer-Motion stuck-animation class of bug in
-  `FocusPanel`/`AskShell` (opacity/transform frozen at their `initial`
-  state). Fix for all three: removed framer-motion from interactive
-  overlays and world transitions, replaced with plain CSS transitions/
-  keyframes, and added an `ErrorBoundary` around each world so a future
-  edge case degrades to a visible message instead of a blank page.
-- Product portfolio: uses the existing 237-product real Amazon-review-corpus
-  dataset (two verified cluster lenses: TYPE, INTELLIGENCE). The user's
-  candidate Versuni/Philips official SKU list (AC0651/10 etc.) was
-  explicitly NOT verified against official sources this session — deferred,
-  not silently dropped (see CURRENT BLOCKERS).
-- NOT done this session: the independent visual-critic pass was started
-  (one hostile-executive-persona agent, via the Browser tool against the
-  live app) but the session hit its usage limit before it returned a
-  verdict — see BLOCKERS. Playwright automated tests were not authored;
-  verification this session was real, manual, browser-tool-driven
-  (screenshots + DOM/console ground-truth checks), not Playwright.
-
-V2 AGENTIC INTELLIGENCE: NOT_STARTED (intentionally deferred this session —
-see CASE_REQUIREMENTS.yaml)
-
-V3 HOSTILE RELEASE: NOT_STARTED
-
-## CORE HEALTH
-
-make all: not re-run this session (no analytical inputs changed); last
-known PASS
-make test: PASS — 22/22 (re-run live this session)
-make verify: PASS — 229/229 (re-run live this session)
-make live-check: PASS — 11/11 (re-run live this session)
-frontend build: PASS — `cd web && npm run build` clean, 0 TypeScript errors
-localhost: FastAPI + built React SPA confirmed serving real data on :8000
-this session — all five worlds browser-verified with live data
-(`/api/products` → 237, `/api/signals` → 6, `/api/rivals` → 34 brands,
-`/api/white-space` → 2 white-space opportunities, `/api/magic-box` →
-12→8→8→6→3 funnel, `/api/innovations/scenario` → OS-1 default / OS-2 under
-`economic_value_override`, live and matching the CLI).
-synthetic final evidence: 0
-dynamic winner: PASS — verified live IN THE BROWSER UI this session (not
-just the API): toggling the decision-priority control flips OS-1 → OS-2
-with a visible "WINNER CHANGED" banner.
-
-## CURRENT RECOMMENDATION
-
-winner: OS-1 — Reliability-Verified Air Purifiers (extended-life guarantee
-+ real-time self-diagnostic)
-decision type: NON_DOMINATED_PLUS_JUDGMENT
-key trade-off: Consumer Pain + Feasibility (OS-1) vs. Economic Value (OS-2,
-Whisper-Quiet Night Mode) — no candidate dominates on all three real dimensions
-flip assumption: `decision_priority` — `pain_feasibility_majority` (default)
-vs. `economic_value_override`
-
-## CURRENT BLOCKERS
-
-1. 50 real hand labels — requires Gonçalo personally; nothing else can
-   complete Q3 validation until this happens. Streamlit labelling UI is up
-   at `http://localhost:8501` and ready.
-2. Repo visibility / push decision — public GitHub remote showing outdated
-   synthetic-data work; nothing from this repair or V1 pushed. Needs
-   Gonçalo's explicit go-ahead.
-3. Independent visual-critic review of V1 did not complete — the review
-   agent was cut off by a session usage limit before returning CRITICAL/HIGH
-   findings. Re-run before treating V1 as fully reviewed.
-4. Official Versuni/Philips SKU list (AC0651/10 etc.) not yet verified
-   against official sources — Products world currently ships on the
-   already-real, already-verified 237-product Amazon corpus only.
-5. `data/manifest.json` / `market_metrics.json` / `trend_corpus.json` still
-   carry a volatile `built_at`/`compiled_at` timestamp that changes on every
-   pipeline re-run — cosmetic build metadata, not a content-integrity issue
-   (confirmed via diff this session), but the CONTENT-vs-BUILD-METADATA
-   separation requested earlier has not been implemented.
-
-## RESEARCH CORPUS (new this session)
-
-RESEARCH TRUTH CHECKPOINT READY — 22 verified documents: 12 peer-reviewed
-(10 verified live against the PubMed API this session, by PMID/PMCID →
-DOI conversion + metadata read-back, not accepted from any prompt claim),
-7 technical/regulatory, 0 quarantined, 6 research territories. Signals
-REBUILT (not preserved): 10 signals, 2 upgraded to CONVERGING on genuine
-new research backing, 4 new pure-research signals, 1 correctly flagged
-CONTESTED (health_outcome_uncertainty — real evidence genuinely disagrees).
-14 new integration tests pass. Full detail: `research.md`,
-`research-clusters.md`, `research-quality.md`,
-`CASE_REQUIREMENTS.yaml::research_corpus`.
-
-NOT done: the 9 signature research illustrations, TF-IDF emergent
-clustering (Model B), Dutch economics/Wallet rebuild, Products cluster
-overhaul with official imagery, Counterfactual Engine UI. All explicitly
-deferred — see NEXT_ACTION.md.
+- Counterfactual object fields beyond Design DNA: explicit ONE-LINE WHAT IF
+  / WHY IT EXISTS / WHAT CONCEPT(S) IT GENERATED as first-class fields
+  (partially covered today via `why_it_existed`/`what_killed_it` on
+  rejected concepts only).
+- Innovations/What-Wins object fields: WHY VERSUNI, HOW IT WORKS AT A HIGH
+  LEVEL, COMPETITOR OVERLAP not yet explicit fields (Critic result is wired
+  into Counterfactuals but not yet into the Innovations/What-Wins cards).
+- Full TRACE THIS BET chain (BET→CONCEPT→COUNTERFACTUAL→ASSUMPTION→
+  SIGNAL→EVIDENCE) — currently traces EVIDENCE→SIGNAL/TREND/PAPER only;
+  Bets (OS-1/OS-2) and Magic Box possibilities are still separate,
+  unlinked pipelines.
+- Image system coverage for Products (already has real official images —
+  unchanged this session) and Consumers/Market tabs (no icons yet).
+- Extended 21-step Playwright golden path (current suite: 10 tests/
+  viewport, all passing, but not the full spec'd walk).
+- Independent 5-angle hostile review.
+- Final `OVERNIGHT_FINAL_REPORT.md` / structured "QUALITY REPAIR REPORT".
 
 ## NEXT ACTION
 
-See NEXT_ACTION.md for the exact resume point.
+See `NEXT_ACTION.md`.

@@ -23,6 +23,7 @@ export const api = {
   sources: () => j<any>("/api/sources"),
   howWeGotHere: () => j<any>("/api/how-we-got-here"),
   critic: () => j<any>("/api/critic"),
+  criteria: () => j<any>("/api/criteria"),
   productImages: () => j<any>("/api/product-images"),
   researchTensions: () => j<any>("/api/research/tensions"),
   innovationsFrozen: () => j<InnovationsResponse>("/api/innovations"),

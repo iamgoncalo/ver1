@@ -121,4 +121,20 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await page.getByRole("button", { name: /CADR/ }).click();
     await expect(page.getByText("WHAT REAL EVIDENCE BEARS ON IT")).toBeVisible({ timeout: 5000 });
   });
+
+  test("Criteria page: funnel, Versuni Edge, and a criterion are real and clickable", async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await page.goto("/criteria");
+    await expect(page).toHaveURL(/\/criteria$/);
+    await expect(page.getByText("How Intelligence Decides")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("CRITERIA ARE NOT SCORES. THEY ARE TESTS.")).toBeVisible();
+    await expect(page.getByText("VERSUNI EDGE — DIAGNOSTIC, NOT A FOURTH SCORE")).toBeVisible();
+    await page.getByRole("button", { name: "V1 · Portfolio leverage" }).click();
+    await expect(page.getByText("NEEDS_EVIDENCE: 12")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("No real Versuni internal-capability dataset").first()).toBeVisible();
+    await page.keyboard.press("Escape");
+    await page.getByRole("button", { name: /PRODUCTS/ }).click();
+    await expect(page).toHaveURL(/\/$/);
+    expect(errors).toEqual([]);
+  });
 });

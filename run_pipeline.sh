@@ -90,6 +90,9 @@ python3 src/real/sources_real.py
 echo "== stage 8g/9: Critic verdicts + concept evolution (real, derived from computed signals) =="
 python3 src/real/critic_real.py
 
+echo "== stage 8h/9: HOW INTELLIGENCE DECIDES - criteria library + per-concept gates (real) =="
+python3 src/real/criteria_real.py
+
 echo "== stage 9/9: evidence table + tests =="
 python3 src/real/build_evidence_table_real.py
 python3 -m unittest tests.test_real_pipeline -v

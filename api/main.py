@@ -73,6 +73,11 @@ def critic():
     return read_json("critic_real.json")
 
 
+@app.get("/api/criteria")
+def criteria():
+    return read_json("criteria_real.json")
+
+
 @app.get("/api/sources")
 def sources():
     return read_json("sources_real.json")
