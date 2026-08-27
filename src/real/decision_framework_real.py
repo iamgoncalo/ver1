@@ -200,6 +200,16 @@ def dominates(a, b):
     return ge_all and gt_any
 
 
+# Human-readable labels for the internal rule-name strings break_tie() returns -
+# used anywhere a decision rule is explained in the UI, never the raw key.
+RULE_LABEL = {
+    "pain_feasibility_majority": "the Pain + Feasibility majority rule",
+    "pain_feasibility_majority_tiebreak_pain": "the Pain + Feasibility majority rule (tied, broken by Consumer Pain)",
+    "economic_value_override": "the Economic Value override rule",
+    "economic_value_override_tiebreak_pain": "the Economic Value override rule (tied, broken by Consumer Pain)",
+}
+
+
 def break_tie(id_a, profile_a, id_b, profile_b, decision_priority):
     """The ONE tie-break judgment rule, executed as code, not asserted in
     prose. Two named, real rules are implemented - which one runs is a
@@ -312,12 +322,13 @@ def evaluate(profiles, decision_priority="pain_feasibility_majority"):
                                          other, survivors[other], decision_priority)
     for pid in non_dominated:
         status[pid] = "NON_DOMINATED"
-    reasons[winner_id] = "Non-dominated vs. {} - picked by the '{}' decision rule.".format(
-        [p for p in non_dominated if p != winner_id], rule_used)
+    others_str = ", ".join(p for p in non_dominated if p != winner_id)
+    reasons[winner_id] = "Non-dominated vs. {} - picked by {}.".format(
+        others_str, RULE_LABEL.get(rule_used, rule_used))
     for pid in non_dominated:
         if pid != winner_id:
-            reasons[pid] = "Non-dominated vs. {}, but the '{}' decision rule favours " \
-                           "{}.".format(winner_id, rule_used, winner_id)
+            reasons[pid] = "Non-dominated vs. {}, but {} favours " \
+                           "{}.".format(winner_id, RULE_LABEL.get(rule_used, rule_used), winner_id)
     return winner_id, status, reasons
 
 
@@ -465,35 +476,24 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
         "recommended": winner_id, "recommended_name": winner["name"],
         "decision_type": decision_type,
         "decision_priority_used": decision_priority,
-        "why": (
-            "DATA: {ru_name} ({ru_id}) — Consumer Pain {ruc} stars, prevalence {runp}%, "
-            "Economic Value ${rue:,.0f}, Feasibility {ruf}. "
-            "DATA: {win_name} ({win_id}) — Consumer Pain {winc} stars, prevalence {winp}%, "
-            "Economic Value ${wne:,.0f}, Feasibility {winf}. "
-            "{dt} "
-            "JUDGMENT: decision_priority='{dp}' was applied ({rule}). "
-            "See 'most sensitive assumption' for the exact flip."
-        ).format(ru_name=runner_up["name"].split(" (")[0], ru_id=runner_up_id,
-                 ruc=runner_up["consumer_pain"]["severity_csat"],
-                 runp=runner_up["consumer_pain"]["prevalence_pct"],
-                 rue=runner_up["economic_value"] or 0, ruf=runner_up["feasibility_2_5y"]["rating"],
-                 win_name=winner["name"].split(" (")[0], win_id=winner_id,
-                 winc=winner["consumer_pain"]["severity_csat"],
-                 winp=winner["consumer_pain"]["prevalence_pct"],
-                 wne=winner["economic_value"] or 0, winf=winner["feasibility_2_5y"]["rating"],
-                 dt="No candidate strictly dominates the other on all three real "
-                    "dimensions - this is a genuine Pareto trade-off." if decision_type == "NON_DOMINATED_PLUS_JUDGMENT"
-                    else "{} strictly dominates on all three real dimensions.".format(winner["name"].split(" (")[0]),
-                 dp=decision_priority, rule=winner["decision_reason"]),
+        "why": "{win_name} dominates every real dimension.".format(win_name=winner["name"].split(" (")[0])
+        if decision_type == "DOMINANT" else (
+            "Neither wins outright — {rule_short} picked {win_name}."
+        ).format(win_name=winner["name"].split(" (")[0],
+                 rule_short=RULE_LABEL.get(decision_priority, decision_priority).replace("the ", "", 1)),
         "killed": [
             {"id": runner_up_id, "name": runner_up["name"],
-             "killing_metric": "decision_priority='{}' favours {} ({})".format(
-                 decision_priority, winner["name"].split(" (")[0], winner["decision_reason"]),
+             "killing_metric": "{} favours {}".format(
+                 RULE_LABEL.get(decision_priority, decision_priority), winner["name"].split(" (")[0]),
              "reason": runner_up["decision_reason"] or "Lower priority under the active decision rule."},
         ] + [
             {"id": pid, "name": profiles[pid]["name"],
-             "killing_metric": "{} ({}% prevalence, {} of {} reviews)".format(
-                 profiles[pid]["dominance_status"], profiles[pid]["consumer_pain"]["prevalence_pct"],
+             "killing_metric": "Failed the Consumer Pain evidence gate ({}% prevalence, {} of {} reviews)".format(
+                 profiles[pid]["consumer_pain"]["prevalence_pct"],
+                 profiles[pid]["n_reviews_supporting"], len(rows))
+                 if profiles[pid]["dominance_status"] == "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE" else
+                 "{} ({}% prevalence, {} of {} reviews)".format(
+                 profiles[pid]["dominance_status"].replace("_", " ").title(), profiles[pid]["consumer_pain"]["prevalence_pct"],
                  profiles[pid]["n_reviews_supporting"], len(rows)),
              "reason": ("Unlike the earlier synthetic-fixture version of this exercise, "
                        "connectivity mentions are not literally zero in real data (~1%) - "
@@ -503,17 +503,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
                        "evidence to build against.") if pid == "OS-3" else profiles[pid]["decision_reason"]}
             for pid in others if pid != runner_up_id
         ],
-        "sensitivity": (
-            "FLIP ASSUMPTION: decision_priority. Currently '{dp}' ({rule_desc}). Running "
-            "with decision_priority='economic_value_override' (Economic Value decides "
-            "outright) flips the recommendation to whichever candidate has the higher "
-            "Price-Weighted Exposure - {alt}. This is a genuine, reversible, NAMED "
-            "judgment call - run "
-            "`python3 src/real/decision_framework_real.py --decision-priority="
-            "economic_value_override` to see it happen live, not asserted in prose."
-        ).format(dp=decision_priority,
-                 rule_desc="severity+feasibility majority decides" if decision_priority == "pain_feasibility_majority"
-                 else "Economic Value decides outright",
+        "sensitivity": "Switch to Economic Value override → picks {alt} instead.".format(
                  alt=(runner_up["name"].split(" (")[0] if (runner_up["economic_value"] or 0) > (winner["economic_value"] or 0)
                       else winner["name"].split(" (")[0])),
         "first_experiment": FIRST_EXPERIMENT.get(winner_id, FIRST_EXPERIMENT["OS-1"]),

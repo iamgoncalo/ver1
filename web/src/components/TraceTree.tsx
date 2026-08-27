@@ -42,10 +42,10 @@ export function TraceTree({ nodes, depth = 0 }: { nodes: TraceNode[]; depth?: nu
             <Pill tone={KIND_TONE[n.kind] ?? "neutral"}>{KIND_ICON[n.kind]} {KIND_LABEL[n.kind] ?? n.kind}</Pill>
             <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>{n.id}</span>
           </div>
-          <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4 }}>
+          <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={n.label}>
             {n.url ? <a href={n.url} target="_blank" rel="noopener noreferrer">{n.label}</a> : n.label}
           </div>
-          <div style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 2 }}>{n.detail}</div>
+          <div style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 2, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={n.detail}>{n.detail}</div>
           {n.children.length > 0 && <TraceTree nodes={n.children} depth={depth + 1} />}
         </div>
       ))}

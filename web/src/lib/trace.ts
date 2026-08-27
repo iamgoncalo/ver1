@@ -141,8 +141,8 @@ export function traceBetChain(betId: string, betScore: any, theme: string | null
   if (matchingConcepts.length > 0) {
     children.push({
       id: `theme:${theme}`, kind: "info",
-      label: `Criteria concepts sharing this real friction theme (${theme})`,
-      detail: `${matchingConcepts.length} concept(s) in the Magic Box funnel are built on the same real friction theme this bet argues from - joined by theme_id, never by name.`,
+      label: `Shared friction theme (${theme})`,
+      detail: `${matchingConcepts.length} concept(s) share this real theme.`,
       children: matchingConcepts.map((c: any) => traceConceptChain(c, ctx)),
     });
   }

@@ -317,15 +317,11 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
                 </div>
               ))}
             </div>
-            <div style={{ marginTop: 16, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Current bet (separate pipeline)</SectionLabel>
-              <p style={{ fontSize: 13, fontWeight: 600 }}>{hf.new_products.bet}</p>
-            </div>
             <button onClick={() => goTo(5)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Explore Innovations →
             </button>
-            <Source text="GET /api/funnel -> homepage_funnel.new_products — magic_box_real.json[&quot;finalists&quot;]; bet from decision_framework_real.json (separate pipeline, not forced to match)." />
+            <Source text="GET /api/funnel -> homepage_funnel.new_products — magic_box_real.json[&quot;finalists&quot;]." />
           </>
         )}
       </FocusPanel>

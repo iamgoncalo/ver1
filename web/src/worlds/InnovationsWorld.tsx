@@ -17,6 +17,10 @@ const PRIORITIES = [
   { key: DEFAULT_PRIORITY, label: "Pain + Feasibility majority (default)" },
   { key: "economic_value_override", label: "Economic Value override" },
 ];
+const DECISION_TYPE_LABEL: Record<string, string> = {
+  DOMINANT: "Clear winner",
+  NON_DOMINATED_PLUS_JUDGMENT: "Judgment call",
+};
 
 type FetchStatus = "loading" | "success" | "empty" | "error" | "timeout";
 const TIMEOUT_MS = 15000;
@@ -24,7 +28,6 @@ const TIMEOUT_MS = 15000;
 export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) => void }) {
   const [data, setData] = useState<InnovationsResponse | null>(null);
   const [priority, setPriority] = useState(DEFAULT_PRIORITY);
-  const [baseline, setBaseline] = useState<string | null>(null);
   const [status, setStatus] = useState<FetchStatus>("loading");
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [signals, setSignals] = useState<any[]>([]);
@@ -37,15 +40,6 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
   useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
   useEffect(() => { api.researchTensions().then((r) => setTensions(r.tensions ?? [])).catch(() => {}); }, []);
   useEffect(() => { api.criteria().then(setCriteria).catch(() => {}); }, []);
-
-  // Baseline is fetched ONCE, independently of whatever priority the user is
-  // currently toggling to - if it were set from "whichever priority request
-  // resolves first", a fast toggle before the default request lands would
-  // set baseline from the OVERRIDE result instead, making baseline===winnerId
-  // and permanently hiding the WINNER CHANGED banner.
-  useEffect(() => {
-    api.innovationsScenario("mordor", DEFAULT_PRIORITY).then((d) => setBaseline(d.verdict.recommended)).catch(() => {});
-  }, []);
 
   useEffect(() => {
     let stale = false;
@@ -71,7 +65,6 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
   const maxEcon = data ? Math.max(...ids.map((id) => data.scores[id].economic_value ?? 0), 1) : 1;
   const maxPain = data ? Math.max(...ids.map((id) => Math.abs(data.scores[id].consumer_pain.severity_csat ?? 0)), 1) : 1;
   const winnerId = data?.verdict.recommended;
-  const changed = baseline !== null && winnerId !== null && baseline !== winnerId;
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
@@ -96,12 +89,6 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
           <DistilledRawToggle mode={mode} onChange={setMode} />
         </div>
       </div>
-
-      {changed && (
-        <div style={{ marginBottom: 10, fontSize: 12.5, color: "var(--amber)", background: "rgba(185,112,42,0.1)", border: "1px solid rgba(185,112,42,0.3)", borderRadius: 10, padding: "8px 14px" }}>
-          WINNER CHANGED — baseline {baseline} → now {winnerId}. This decision priority genuinely flips the recommendation.
-        </div>
-      )}
 
       {status === "loading" && (
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-faint)", fontSize: 13 }}>
@@ -237,8 +224,8 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
 
       {data && (
         <div style={{ flexShrink: 0, marginTop: 12, padding: "12px 16px", background: "var(--surface-2)", borderRadius: 12, fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>
-          <b style={{ color: "var(--ink)" }}>Decision type: {data.verdict.decision_type}.</b> No overall innovation score — no candidate dominates on all
-          three real dimensions. {data.verdict.why}
+          <b style={{ color: "var(--ink)" }}>{DECISION_TYPE_LABEL[data.verdict.decision_type] ?? data.verdict.decision_type}.</b>{" "}
+          {data.verdict.why}
           {mode === "raw" && (
             <>
               <div style={{ marginTop: 10 }}><b style={{ color: "var(--ink)" }}>Sensitivity: </b>{data.verdict.sensitivity}</div>
@@ -246,7 +233,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
               <div style={{ marginTop: 6 }}><b style={{ color: "var(--ink)" }}>Abandon signal: </b>{data.verdict.abandon_signal}</div>
               {data.verdict.killed.map((k) => (
                 <div key={k.id} style={{ marginTop: 10 }}>
-                  <b style={{ color: "var(--rose)" }}>Killed — {k.id}: </b>{k.reason}
+                  <b style={{ color: "var(--rose)" }}>Killed — {k.name}: </b>{k.reason}
                 </div>
               ))}
             </>
@@ -258,9 +245,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
         {traceId && data && (
           <>
             <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
-              Every edge below is a genuine cross-reference already present in the real data — signal → paper,
-              tension → paper, assumption → paper, and every Magic Box concept that argues from this bet's same
-              real friction theme (joined by theme_id, never by name). Where no link exists, it says so.
+              Every edge below is real evidence, genuinely linked.
             </p>
             <TraceLegend />
             <TraceTree nodes={[traceBetChain(

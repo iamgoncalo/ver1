@@ -56,7 +56,7 @@
       "csat_impact": -2.223,
       "price_weighted_exposure_usd": 26357.86,
       "dominance_status": "NON_DOMINATED",
-      "decision_reason": "Non-dominated vs. ['OS-2'] - picked by the 'pain_feasibility_majority' decision rule."
+      "decision_reason": "Non-dominated vs. OS-2 - picked by the Pain + Feasibility majority rule."
     },
     "OS-2": {
       "name": "Whisper-Quiet Night Mode",
@@ -107,7 +107,7 @@
       "csat_impact": -0.571,
       "price_weighted_exposure_usd": 84015.62,
       "dominance_status": "NON_DOMINATED",
-      "decision_reason": "Non-dominated vs. OS-1, but the 'pain_feasibility_majority' decision rule favours OS-1."
+      "decision_reason": "Non-dominated vs. OS-1, but the Pain + Feasibility majority rule favours OS-1."
     },
     "OS-3": {
       "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
@@ -155,22 +155,22 @@
     "recommended_name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
     "decision_type": "NON_DOMINATED_PLUS_JUDGMENT",
     "decision_priority_used": "pain_feasibility_majority",
-    "why": "DATA: Whisper-Quiet Night Mode (OS-2) — Consumer Pain -0.571 stars, prevalence 3.5%, Economic Value $84,016, Feasibility medium. DATA: Reliability-Verified Air Purifiers (OS-1) — Consumer Pain -2.223 stars, prevalence 1.58%, Economic Value $26,358, Feasibility high. No candidate strictly dominates the other on all three real dimensions - this is a genuine Pareto trade-off. JUDGMENT: decision_priority='pain_feasibility_majority' was applied (Non-dominated vs. ['OS-2'] - picked by the 'pain_feasibility_majority' decision rule.). See 'most sensitive assumption' for the exact flip.",
+    "why": "Neither wins outright — Pain + Feasibility majority rule picked Reliability-Verified Air Purifiers.",
     "killed": [
       {
         "id": "OS-2",
         "name": "Whisper-Quiet Night Mode",
-        "killing_metric": "decision_priority='pain_feasibility_majority' favours Reliability-Verified Air Purifiers (Non-dominated vs. ['OS-2'] - picked by the 'pain_feasibility_majority' decision rule.)",
-        "reason": "Non-dominated vs. OS-1, but the 'pain_feasibility_majority' decision rule favours OS-1."
+        "killing_metric": "the Pain + Feasibility majority rule favours Reliability-Verified Air Purifiers",
+        "reason": "Non-dominated vs. OS-1, but the Pain + Feasibility majority rule favours OS-1."
       },
       {
         "id": "OS-3",
         "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
-        "killing_metric": "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE (1.016% prevalence, 107 of 10529 reviews)",
+        "killing_metric": "Failed the Consumer Pain evidence gate (1.016% prevalence, 107 of 10529 reviews)",
         "reason": "Unlike the earlier synthetic-fixture version of this exercise, connectivity mentions are not literally zero in real data (~1%) - but they fail the Consumer Pain evidence-sufficiency gate (no real CSAT signal) and skew positive when they do appear. High technical Feasibility does not rescue a candidate with no real friction evidence to build against."
       }
     ],
-    "sensitivity": "FLIP ASSUMPTION: decision_priority. Currently 'pain_feasibility_majority' (severity+feasibility majority decides). Running with decision_priority='economic_value_override' (Economic Value decides outright) flips the recommendation to whichever candidate has the higher Price-Weighted Exposure - Whisper-Quiet Night Mode. This is a genuine, reversible, NAMED judgment call - run `python3 src/real/decision_framework_real.py --decision-priority=economic_value_override` to see it happen live, not asserted in prose.",
+    "sensitivity": "Switch to Economic Value override → picks Whisper-Quiet Night Mode instead.",
     "first_experiment": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",
     "abandon_signal": "If the failure-mention cross-reference above shows reliability complaints concentrated in 2-3 specific older/discontinued products rather than spread across the category, treat this as a solved-or-solving problem rather than a live opportunity, and abandon.",
     "first_experiment_os1": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",

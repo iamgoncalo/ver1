@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-3",
-    "last_run_started_at": "2026-08-27T14:50:39.856692+00:00",
-    "last_run_finished_at": "2026-08-27T14:50:39.856692+00:00",
-    "last_checked_at": "2026-08-27T14:50:39.856692+00:00",
+    "last_run_id": "run-7",
+    "last_run_started_at": "2026-08-27T15:29:46.547561+00:00",
+    "last_run_finished_at": "2026-08-27T15:29:46.547561+00:00",
+    "last_checked_at": "2026-08-27T15:29:46.547561+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "5f2fe14b6f16d7e839b0d65c014ad71d1b671bb40c00c08f42953103f82ecfb5",
+    "input_snapshot_hash": "f6b2cf8f03b32a50a822158bffafa76687d0d4ba973ea445531c143b4843ff15",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 3,
+    "total_runs_recorded": 7,
     "errors": []
   },
   "stages": [
@@ -531,13 +531,13 @@
     ],
     "field": {
       "now": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
-      "moving": "FLIP ASSUMPTION: decision_priority. Currently 'pain_feasibility_majority' (severity+feasibility majority decides). Running with decision_priority='economic_value_override' (Economic Value decides outright) flips the recommendation to whichever candidate has the higher Price-Weighted Exposure - Whisper-Quiet Night Mode. This is a genuine, reversible, NAMED judgment call - run `python3 src/real/decision_framework_real.py --decision-priority=economic_value_override` to see it happen live, not asserted in prose.",
-      "because": "DATA: Whisper-Quiet Night Mode (OS-2) — Consumer Pain -0.571 stars, prevalence 3.5%, Economic Value $84,016, Feasibility medium. DATA: Reliability-Verified Air Purifiers (OS-1) — Consumer Pain -2.223 stars, prevalence 1.58%, Economic Value $26,358, Feasibility high. No candidate strictly dominates the other on all three real dimensions - this is a genuine Pareto trade-off. JUDGMENT: decision_priority='pain_feasibility_majority' was applied (Non-dominated vs. ['OS-2'] - picked by the 'pain_feasibility_majority' decision rule.). See 'most sensitive assumption' for the exact flip.",
+      "moving": "Switch to Economic Value override → picks Whisper-Quiet Night Mode instead.",
+      "because": "Neither wins outright — Pain + Feasibility majority rule picked Reliability-Verified Air Purifiers.",
       "opens": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",
       "blocked_by": [
         {
           "name": "Whisper-Quiet Night Mode",
-          "reason": "Non-dominated vs. OS-1, but the 'pain_feasibility_majority' decision rule favours OS-1."
+          "reason": "Non-dominated vs. OS-1, but the Pain + Feasibility majority rule favours OS-1."
         },
         {
           "name": "Smart/Connected Feature Expansion (app control, voice assistant)",

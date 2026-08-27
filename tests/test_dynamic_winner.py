@@ -60,8 +60,8 @@ class TestC_FlipAssumptionFlipsWinner(unittest.TestCase):
 
     def test_sensitivity_text_names_the_actual_flip_that_just_happened(self):
         out = compute("mordor")
-        self.assertIn("decision_priority", out["verdict"]["sensitivity"])
-        self.assertIn("economic_value_override", out["verdict"]["sensitivity"])
+        self.assertIn("Economic Value override", out["verdict"]["sensitivity"])
+        self.assertIn("Whisper-Quiet Night Mode", out["verdict"]["sensitivity"])
 
 
 class TestD_OrderIndependence(unittest.TestCase):
