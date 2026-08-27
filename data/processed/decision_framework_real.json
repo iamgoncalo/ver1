@@ -87,7 +87,7 @@
         "evidence_ids": [
           "TC-R11"
         ],
-        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than OS-1."
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
       },
       "n_reviews_supporting": 369,
       "evidence_ids": [

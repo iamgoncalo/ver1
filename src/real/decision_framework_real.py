@@ -30,8 +30,17 @@ CLEAN = os.path.join(ROOT, "data", "processed", "reviews_clean_real.csv")
 MATERIALITY_FLOOR_PCT = 0.5  # Consumer Pain evidence-sufficiency gate
 FEASIBILITY_RANK = {"high": 3, "medium": 2, "low": 1}
 
-FEASIBILITY = {
-    "OS-1": {
+# Real, evidence-cited feasibility per REAL FRICTION THEME (not just the 2
+# formal Bet candidates) - every one of magic_box_real.py's 12 possibilities
+# reads its rating/evidence_ids/rationale from here. Previously the 8
+# possibilities outside reliability/noise silently fell back to a bare
+# hardcoded "medium" string with no evidence_ids and no rationale - that
+# was a real gap, not a judgment call, and is fixed here: every theme gets
+# a real citation to an existing trend_corpus document where one applies,
+# or an explicit honest note when the real corpus has nothing technical to
+# cite (a business-process change, not a technology gap).
+THEME_FEASIBILITY = {
+    "reliability": {
         "rating": "high",
         "evidence_ids": ["TC-R02", "TC-R08"],
         "rationale": ("Two real, already-standardized frameworks exist to build on "
@@ -42,15 +51,65 @@ FEASIBILITY = {
                       "connectivity layer that could carry a self-diagnostic/runtime "
                       "health signal without inventing a new protocol)."),
     },
-    "OS-2": {
+    "noise": {
         "rating": "medium",
         "evidence_ids": ["TC-R11"],
         "rationale": ("No real trend document in this 12-document corpus directly "
                       "addresses acoustic/noise engineering - TC-R11 (Dyson's sensor "
                       "press release) is only tangential. Achievable, but without an "
                       "external standard or precedent to build on, this requires "
-                      "proprietary acoustic R&D from a colder start than OS-1."),
+                      "proprietary acoustic R&D from a colder start than the "
+                      "reliability theme."),
     },
+    "value_effectiveness": {
+        "rating": "high",
+        "evidence_ids": ["TC-R03", "TC-R02"],
+        "rationale": ("A real third-party verification infrastructure already exists "
+                      "to plug into rather than invent: TC-R03 (AHAM's real Verifide "
+                      "directory already independently certifies CADR/performance "
+                      "claims for named real products) and TC-R02 (ENERGY STAR's real "
+                      "measured-performance criteria). A single-metric trust score or "
+                      "cross-category certification claim has a real existing "
+                      "certification body to anchor to, not a from-scratch standard."),
+    },
+    "customer_service": {
+        "rating": "medium",
+        "evidence_ids": [],
+        "rationale": ("No real technical or regulatory document in this 12-document "
+                      "corpus addresses warranty/service-contact process design - this "
+                      "is a real gap, not an oversight: proactive-contact and "
+                      "no-ticket-replacement are organizational/process changes, not "
+                      "technology builds, and this pipeline has no real Versuni "
+                      "service-organization capability data to assess execution "
+                      "feasibility. Rating reflects LOW technical complexity only; "
+                      "organizational feasibility is genuinely unassessed here."),
+    },
+    "filter_cost": {
+        "rating": "medium",
+        "evidence_ids": [],
+        "rationale": ("No real technical or regulatory document in this corpus "
+                      "addresses subscription logistics or bundled-pricing design - "
+                      "like customer_service, this is a real business-model change, "
+                      "not a technology gap, and this pipeline has no real Versuni "
+                      "pricing/operations capability data to assess it. Rating "
+                      "reflects LOW technical complexity only; commercial feasibility "
+                      "is genuinely unassessed here."),
+    },
+    "ozone_odor_safety": {
+        "rating": "high",
+        "evidence_ids": ["TC-R04", "TC-R08"],
+        "rationale": ("Real, directly-relevant regulatory and technical precedent "
+                      "exists: TC-R04 (CARB's real certified-device list is the "
+                      "existing regulatory bar for ozone-safety compliance sensor-led "
+                      "guidance would need to respect) and TC-R08 (Matter's real "
+                      "already-standardized Air Quality Sensor cluster could carry a "
+                      "placement/sensitivity signal without a new protocol)."),
+    },
+}
+
+FEASIBILITY = {
+    "OS-1": THEME_FEASIBILITY["reliability"],
+    "OS-2": THEME_FEASIBILITY["noise"],
     "OS-3": {
         "rating": "high",
         "evidence_ids": ["TC-R07", "TC-R08"],

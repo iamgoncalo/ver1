@@ -5,8 +5,8 @@ import { HowWeGotHere } from "./HowWeGotHere";
 const STAGES = [
   { n: 1, process: "WHAT IS", world: "PRODUCTS", q: "What exists?" },
   { n: 2, process: "WHAT CHANGES", world: "SIGNALS", q: "What is changing?" },
-  { n: 3, process: "WHAT'S MISSING", world: "RIVALS", q: "Where is everyone else?" },
-  { n: 4, process: "WHAT IF", world: "COUNTERFACTUALS", q: "What becomes possible?" },
+  { n: 3, process: "WHAT'S MISSING", world: "COMPETITORS", q: "Where is everyone else?" },
+  { n: 4, process: "WHAT IF", world: "CRITERIA", q: "What becomes possible, and by what test?" },
   { n: 5, process: "WHAT WINS", world: "INNOVATIONS", q: "What should Versuni build?" },
 ] as const;
 
@@ -47,27 +47,6 @@ export function ProcessRail({ active, onSelect }: { active: number; onSelect: (n
             </button>
           );
         })}
-        <div style={{ width: 1, alignSelf: "stretch", background: "var(--line)", margin: "2px 4px" }} />
-        <button
-          onClick={() => onSelect(6)}
-          aria-current={active === 6 ? "step" : undefined}
-          title="Criteria are not scores — they are tests."
-          style={{
-            display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2,
-            padding: "6px 14px", borderRadius: 10, border: "1px solid",
-            borderColor: active === 6 ? "var(--accent-blue)" : "transparent",
-            background: active === 6 ? "var(--surface-2)" : "transparent",
-            cursor: "pointer", minWidth: 88, textAlign: "left",
-            transition: "background 120ms, border-color 120ms",
-          }}
-        >
-          <span style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.06em" }}>
-            /criteria
-          </span>
-          <span style={{ fontSize: 13, fontWeight: 600, color: active === 6 ? "var(--accent-blue-ink)" : "var(--ink)" }}>
-            CRITERIA
-          </span>
-        </button>
       </nav>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
         <HowWeGotHere />

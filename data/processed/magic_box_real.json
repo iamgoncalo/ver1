@@ -55,7 +55,12 @@
       "typical_market_price_n_products": 27,
       "feasibility_2_5y": {
         "rating": "high",
-        "rank": 3
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -106,7 +111,7 @@
             "MOONQUAKE",
             "ZOCALOK"
           ],
-          "detail": "7 named real rivals measurably weaker on this theme."
+          "detail": "7 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -151,7 +156,12 @@
       "typical_market_price_n_products": 27,
       "feasibility_2_5y": {
         "rating": "high",
-        "rank": 3
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -202,7 +212,7 @@
             "MOONQUAKE",
             "ZOCALOK"
           ],
-          "detail": "7 named real rivals measurably weaker on this theme."
+          "detail": "7 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -247,7 +257,11 @@
       "typical_market_price_n_products": 32,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -312,7 +326,7 @@
             "Egofine",
             "Elechomes"
           ],
-          "detail": "11 named real rivals measurably weaker on this theme."
+          "detail": "11 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -361,7 +375,11 @@
       "typical_market_price_n_products": 32,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -426,7 +444,7 @@
             "Egofine",
             "Elechomes"
           ],
-          "detail": "11 named real rivals measurably weaker on this theme."
+          "detail": "11 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -474,8 +492,13 @@
       "typical_market_price_usd": 199.99,
       "typical_market_price_n_products": 19,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -514,7 +537,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -563,8 +586,13 @@
       "typical_market_price_usd": 199.99,
       "typical_market_price_n_products": 19,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -603,7 +631,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -653,7 +681,9 @@
       "typical_market_price_n_products": 11,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -687,7 +717,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -732,7 +762,9 @@
       "typical_market_price_n_products": 11,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -766,7 +798,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -811,7 +843,9 @@
       "typical_market_price_n_products": 10,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -845,7 +879,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -890,7 +924,9 @@
       "typical_market_price_n_products": 10,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -924,7 +960,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -968,8 +1004,13 @@
       "typical_market_price_usd": 79.99,
       "typical_market_price_n_products": 15,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -1003,7 +1044,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1047,8 +1088,13 @@
       "typical_market_price_usd": 79.99,
       "typical_market_price_n_products": 15,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -1082,7 +1128,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1128,8 +1174,13 @@
       "typical_market_price_usd": 199.99,
       "typical_market_price_n_products": 19,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -1168,7 +1219,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1217,8 +1268,13 @@
       "typical_market_price_usd": 199.99,
       "typical_market_price_n_products": 19,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -1257,7 +1313,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1307,7 +1363,12 @@
       "typical_market_price_n_products": 27,
       "feasibility_2_5y": {
         "rating": "high",
-        "rank": 3
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -1358,7 +1419,7 @@
             "MOONQUAKE",
             "ZOCALOK"
           ],
-          "detail": "7 named real rivals measurably weaker on this theme."
+          "detail": "7 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1405,7 +1466,12 @@
       "typical_market_price_n_products": 27,
       "feasibility_2_5y": {
         "rating": "high",
-        "rank": 3
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -1456,7 +1522,7 @@
             "MOONQUAKE",
             "ZOCALOK"
           ],
-          "detail": "7 named real rivals measurably weaker on this theme."
+          "detail": "7 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1501,7 +1567,12 @@
       "typical_market_price_n_products": 27,
       "feasibility_2_5y": {
         "rating": "high",
-        "rank": 3
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -1552,7 +1623,7 @@
             "MOONQUAKE",
             "ZOCALOK"
           ],
-          "detail": "7 named real rivals measurably weaker on this theme."
+          "detail": "7 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1597,7 +1668,11 @@
       "typical_market_price_n_products": 32,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -1662,7 +1737,7 @@
             "Egofine",
             "Elechomes"
           ],
-          "detail": "11 named real rivals measurably weaker on this theme."
+          "detail": "11 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1711,7 +1786,11 @@
       "typical_market_price_n_products": 32,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -1776,7 +1855,7 @@
             "Egofine",
             "Elechomes"
           ],
-          "detail": "11 named real rivals measurably weaker on this theme."
+          "detail": "11 named real competitors measurably weaker on this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1824,8 +1903,13 @@
       "typical_market_price_usd": 199.99,
       "typical_market_price_n_products": 19,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -1864,7 +1948,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -1913,8 +1997,13 @@
       "typical_market_price_usd": 199.99,
       "typical_market_price_n_products": 19,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -1953,7 +2042,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -2005,7 +2094,9 @@
       "typical_market_price_n_products": 11,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -2039,7 +2130,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -2086,7 +2177,9 @@
       "typical_market_price_n_products": 11,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -2120,7 +2213,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -2167,7 +2260,9 @@
       "typical_market_price_n_products": 10,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -2201,7 +2296,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -2248,7 +2343,9 @@
       "typical_market_price_n_products": 10,
       "feasibility_2_5y": {
         "rating": "medium",
-        "rank": 2
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -2282,7 +2379,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -2328,8 +2425,13 @@
       "typical_market_price_usd": 79.99,
       "typical_market_price_n_products": 15,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -2363,7 +2465,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",
@@ -2409,8 +2511,13 @@
       "typical_market_price_usd": 79.99,
       "typical_market_price_n_products": 15,
       "feasibility_2_5y": {
-        "rating": "medium",
-        "rank": 2
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -2444,7 +2551,7 @@
         "R": {
           "status": "MISSING_UNVERIFIED",
           "kind": "rival_gap",
-          "detail": "No real rival-weakness data clears the white-space threshold for this theme."
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
         },
         "C": {
           "status": "MISSING_UNVERIFIED",

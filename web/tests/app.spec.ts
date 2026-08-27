@@ -37,8 +37,8 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     const expectations = [
       { nav: "PRODUCTS", heading: "WHAT EXISTS?" },
       { nav: "SIGNALS", heading: "WHAT IS CHANGING?" },
-      { nav: "RIVALS", heading: "WHERE IS EVERYONE ELSE?" },
-      { nav: "COUNTERFACTUALS", heading: "WHAT BECOMES POSSIBLE?" },
+      { nav: "COMPETITORS", heading: "WHERE IS EVERYONE ELSE?" },
+      { nav: "CRITERIA", heading: "HOW INTELLIGENCE DECIDES" },
       { nav: "INNOVATIONS", heading: "WHAT SHOULD VERSUNI TEST?" },
     ];
     for (const { nav, heading } of expectations) {
@@ -54,7 +54,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await page.keyboard.press("3");
     await expect(page.getByText("WHERE IS EVERYONE ELSE?")).toBeVisible();
     await page.keyboard.press("ArrowRight");
-    await expect(page.getByText("WHAT BECOMES POSSIBLE?")).toBeVisible();
+    await expect(page.getByText("HOW INTELLIGENCE DECIDES")).toBeVisible();
     await page.keyboard.press("ArrowLeft");
     await expect(page.getByText("WHERE IS EVERYONE ELSE?")).toBeVisible();
     await page.keyboard.press("1");
@@ -117,7 +117,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("Category Assumption Map is evidence-linked and clickable", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /COUNTERFACTUALS/ }).click();
+    await page.getByRole("button", { name: /CRITERIA/ }).click();
     await page.getByRole("button", { name: /CADR/ }).click();
     await expect(page.getByText("WHAT REAL EVIDENCE BEARS ON IT")).toBeVisible({ timeout: 5000 });
   });

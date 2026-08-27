@@ -5,10 +5,41 @@ Last verified: 2026-08-27 (live session, in-browser + automated tests)
 ## Git
 
 - branch: `design/innovation-explorer`
-- HEAD: `53139e4`
-- working tree: clean (every change below is committed)
+- HEAD: `8a7321b` + uncommitted nav-merge/hardcoding-fix batch below
+- working tree: dirty (about to be committed)
 - remote visibility: PUBLIC (`github.com/iamgoncalo/ver1`) — unchanged this session
 - pushed/unpushed: nothing from this session pushed. `origin/main` untouched.
+
+## Latest batch (nav restructure + real feasibility fix)
+
+Live user feedback: Counterfactuals should live inside Criteria (Criteria
+becomes nav position 4, not a bolted-on 6th item); never call them
+"rivals" (renamed to "Competitors" throughout); and a real hardcoding bug
+was flagged in the Counterfactuals feasibility ratings.
+
+- Fixed a genuine hardcoding bug: 8 of 12 Magic Box possibilities (every
+  theme except reliability/noise) silently defaulted `feasibility_2_5y` to
+  a bare "medium" with no evidence_ids and no rationale.
+  `THEME_FEASIBILITY` in `decision_framework_real.py` now gives every one
+  of the 6 real friction themes a cited rating (real trend_corpus
+  documents where they exist - TC-R03/TC-R02 for value_effectiveness,
+  TC-R04/TC-R08 for ozone_odor_safety; honest "no real technical precedent,
+  this is a business-process question" for customer_service/filter_cost).
+- Merged MagicBoxWorld (Counterfactuals) into CriteriaWorld: Category
+  Assumption Map, the 12→8→8→6→3 funnel, and the full concept
+  gallery/FocusPanel (Derivation + Design DNA + Critic + all 52 criteria
+  results) now live on one page, driven by one enriched `/api/criteria`
+  response - no more stitching 3 separate endpoints client-side.
+  `MagicBoxWorld.tsx` deleted.
+- Nav restructured to 5 stages: PRODUCTS / SIGNALS / COMPETITORS / CRITERIA
+  / INNOVATIONS. `/criteria` now IS world 4 (was a bolted-on world 6).
+- Renamed "Rivals" → "Competitors" in every user-facing string (nav,
+  headings, FocusPanel eyebrows, Design DNA "R" label, criteria library
+  prose) across both frontend and backend rationale text.
+
+Verified: 38/38 Python tests, 33/33 Playwright across 3 viewports, live
+browser check (DOM-level) confirms the merged page, the "Send to
+Criteria →" handoff from Competitors, and zero console errors.
 
 ## This session's repair pass (live user feedback + OVERNIGHT_SPEC / HIGH-QUALITY REPAIR PASS)
 

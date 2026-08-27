@@ -186,10 +186,10 @@ CRITERIA_LIBRARY = [
     {"id": "C1", "category": "COMPETITION", "name": "Parity test",
      "question": "Is this already common in the real competitive set?",
      "why_it_matters": "A concept already offered broadly is not a differentiator.",
-     "how_tested": "is_white_space / competitor_gap_brands from real rivals_real.json review-corpus analysis.",
-     "pass_condition": "is_white_space = true with 2+ named real rivals measurably weaker on this theme.",
-     "challenge_condition": "Some rivals weak here but below the white-space threshold.",
-     "kill_condition": "Not white space - the friction is not clearly worse for named rivals than for the category average."},
+     "how_tested": "is_white_space / competitor_gap_brands from real competitor (rivals_real.json) review-corpus analysis.",
+     "pass_condition": "is_white_space = true with 2+ named real competitors measurably weaker on this theme.",
+     "challenge_condition": "Some competitors weak here but below the white-space threshold.",
+     "kill_condition": "Not white space - the friction is not clearly worse for named competitors than for the category average."},
     {"id": "C2", "category": "COMPETITION", "name": "Dyson test",
      "question": "Would Dyson's premium proprietary engineering/testing/sensing alone win this?",
      "why_it_matters": "Stops concepts that are really just 'be as good as Dyson', which Versuni is not positioned to win on engineering alone.",
@@ -429,11 +429,11 @@ def evaluate_concept(possibility, critic_entry, signals_by_id):
                      if possibility["operator"] in ("DISTRIBUTE", "PERSONALISE", "AMBIENT") else
                      {"status": "N/A", "note": "Operator {} is neutral on this test.".format(possibility["operator"])})
 
-    results["C1"] = ({"status": "PASS", "note": "White space: {} real rivals measurably weaker here.".format(len(possibility["competitor_gap_brands"]))}
+    results["C1"] = ({"status": "PASS", "note": "White space: {} real competitors measurably weaker here.".format(len(possibility["competitor_gap_brands"]))}
                      if possibility["is_white_space"] else
                      {"status": "CHALLENGE" if possibility["competitor_gap_brands"] else "KILL",
                       "note": "Not white space." if not possibility["competitor_gap_brands"]
-                              else "{} rival(s) weak but below threshold.".format(len(possibility["competitor_gap_brands"]))})
+                              else "{} competitor(s) weak but below threshold.".format(len(possibility["competitor_gap_brands"]))})
     for cid in ("C2", "C3", "C4", "C5"):
         results[cid] = {"status": "NEEDS_EVIDENCE", "note": NO_COMPETITOR_CAPABILITY_NOTE}
     results["C6"] = {"status": "CHALLENGE" if dna["A"]["status"] == "PRESENT" and "box" in dna["A"]["detail"].lower()
@@ -485,11 +485,28 @@ def build():
     decision = _load("decision_framework_real.json")
     signals_by_id = {s["id"]: s for s in _load("signals_real.json")["signals"]}
 
+    finalist_ids = {f["id"] for f in magic_box["finalists"]}
+    non_dominated_ids = {p["id"] for p in magic_box["non_dominated"]}
+
     concepts = []
     for p in magic_box["possibilities"]:
+        c = critic.get(p["id"])
         concepts.append({
             "id": p["id"], "name": p["name"],
-            "criteria": evaluate_concept(p, critic.get(p["id"]), signals_by_id),
+            "friction_theme": p["friction_theme"], "friction_theme_name": p["friction_theme_name"],
+            "operator": p["operator"], "operator_definition": p["operator_definition"],
+            "consumer_pain_csat": p["consumer_pain_csat"], "consumer_pain_prevalence_pct": p["consumer_pain_prevalence_pct"],
+            "consumer_pain_methodology": p["consumer_pain_methodology"], "gate_passed": p["gate_passed"],
+            "economic_value": p["economic_value"], "typical_market_price_usd": p["typical_market_price_usd"],
+            "typical_market_price_n_products": p["typical_market_price_n_products"],
+            "feasibility_2_5y": p["feasibility_2_5y"], "is_white_space": p["is_white_space"],
+            "competitor_gap_brands": p["competitor_gap_brands"], "evidence_ids": p["evidence_ids"],
+            "truth_class": p["truth_class"], "design_dna": p["design_dna"],
+            "is_finalist": p["id"] in finalist_ids, "is_non_dominated": p["id"] in non_dominated_ids,
+            "evolution_stage": c["evolution_stage"] if c else None,
+            "critic_overall": c["critic_overall"] if c else None,
+            "critic_dimensions": c["critic_dimensions"] if c else None,
+            "criteria": evaluate_concept(p, c, signals_by_id),
         })
 
     graveyard = [{
@@ -497,6 +514,9 @@ def build():
         "kill_reason_class": KILL_REASON_MAP.get(g["killed_by"], g["killed_by"]),
         "why_did_this_die": g["kill_reason"],
     } for g in magic_box["graveyard"]]
+
+    assumptions = _load("category_assumptions.json")["assumptions"]
+    magic_box_funnel = magic_box["funnel"]
 
     verdict = decision["verdict"]
     why_did_this_win = {
@@ -527,6 +547,8 @@ def build():
         "generated_by": "src/real/criteria_real.py",
         "criteria_library": CRITERIA_LIBRARY,
         "funnel": funnel,
+        "magic_box_funnel": magic_box_funnel,
+        "assumptions": assumptions,
         "concepts": concepts,
         "graveyard": graveyard,
         "why_did_this_win": why_did_this_win,

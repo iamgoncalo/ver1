@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from taxonomy_real import THEMES  # noqa: E402
 from decision_framework_real import (compute as compute_decision, dominates,  # noqa: E402
-                                      pain_score, MATERIALITY_FLOOR_PCT, FEASIBILITY,
+                                      pain_score, MATERIALITY_FLOOR_PCT, THEME_FEASIBILITY,
                                       FEASIBILITY_RANK)
 from wtp_real import load_prices, compute_price_exposure  # noqa: E402
 from taxonomy_real import load_clean, compute_theme_stats  # noqa: E402
@@ -118,9 +118,9 @@ def compute_design_dna(theme_id, evidence_ids, is_white_space, competitor_gap_br
                     detail="No real research tension shares a paper with this theme's signal evidence."))
 
     dna["R"] = ({"status": "PRESENT", "kind": "rival_gap", "brands": competitor_gap_brands,
-                "detail": "{} named real rivals measurably weaker on this theme.".format(len(competitor_gap_brands))}
+                "detail": "{} named real competitors measurably weaker on this theme.".format(len(competitor_gap_brands))}
                 if is_white_space and competitor_gap_brands else
-                dict(MISSING_UNVERIFIED, kind="rival_gap", detail="No real rival-weakness data clears the white-space threshold for this theme."))
+                dict(MISSING_UNVERIFIED, kind="rival_gap", detail="No real competitor-weakness data clears the white-space threshold for this theme."))
 
     dna["C"] = dict(MISSING_UNVERIFIED, kind="versuni_capability",
                     detail="No real Versuni internal capability/org-readiness dataset exists in this pipeline.")
@@ -189,12 +189,12 @@ def generate_possibilities():
                 "economic_value": price_exposure[theme_id]["price_weighted_exposure_usd"],
                 "typical_market_price_usd": price_exposure[theme_id]["median_real_price_usd"],
                 "typical_market_price_n_products": price_exposure[theme_id]["n_distinct_priced_products_affected"],
-                "feasibility_2_5y": {"rating": FEASIBILITY.get(
-                    {"reliability": "OS-1", "noise": "OS-2"}.get(theme_id, ""), {}).get(
-                        "rating", "medium"),
-                    "rank": FEASIBILITY_RANK.get(FEASIBILITY.get(
-                        {"reliability": "OS-1", "noise": "OS-2"}.get(theme_id, ""), {}).get(
-                            "rating", "medium"), 2)},
+                "feasibility_2_5y": {
+                    "rating": THEME_FEASIBILITY[theme_id]["rating"],
+                    "rank": FEASIBILITY_RANK[THEME_FEASIBILITY[theme_id]["rating"]],
+                    "evidence_ids": THEME_FEASIBILITY[theme_id]["evidence_ids"],
+                    "rationale": THEME_FEASIBILITY[theme_id]["rationale"],
+                },
                 "is_white_space": bool(ws and ws.get("is_white_space")),
                 "competitor_gap_brands": ws["rivals_measurably_weak_here"] if ws else [],
                 "evidence_ids": ["taxonomy:{}".format(theme_id)],

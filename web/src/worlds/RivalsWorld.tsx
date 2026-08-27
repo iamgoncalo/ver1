@@ -4,7 +4,7 @@ import type { Rival, RivalsResponse, WhiteSpaceResponse } from "../lib/types";
 import { Card, Pill, StatRow, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 
-export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: string) => void }) {
+export function RivalsWorld({ onSendToCriteria }: { onSendToCriteria: (theme: string) => void }) {
   const [data, setData] = useState<RivalsResponse | null>(null);
   const [whiteSpace, setWhiteSpace] = useState<WhiteSpaceResponse | null>(null);
   const [focus, setFocus] = useState<Rival | null>(null);
@@ -31,7 +31,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
             3 · WHAT'S MISSING — WHERE IS EVERYONE ELSE?
           </div>
-          <h1 style={{ fontSize: 30 }}>Rivals</h1>
+          <h1 style={{ fontSize: 30 }}>Competitors</h1>
         </div>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
           {mode === "raw" && (
@@ -50,7 +50,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
       {mode === "distilled" && (
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 40, marginBottom: 20 }}>
-            <HeroMetric label="Real brands analysed" value={sorted.length || "…"} />
+            <HeroMetric label="Real competitors analysed" value={sorted.length || "…"} />
             <HeroMetric label="Real white-space opportunities" value={spaces.length} />
             <HeroMetric label="Category reviews" value={data?.n_category_reviews.toLocaleString() ?? "…"} />
             <HeroMetric label="Min. reviews/brand floor" value={data?.min_reviews_floor ?? "…"} />
@@ -60,11 +60,11 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
               <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
               <h3 style={{ fontSize: 18, marginTop: 8 }}>{s.name}</h3>
               <div style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 6 }}>
-                {s.rivals_measurably_weak_here.length} real rivals measurably weaker here · feasibility {s.feasibility}
+                {s.rivals_measurably_weak_here.length} real competitors measurably weaker here · feasibility {s.feasibility}
               </div>
-              <button onClick={() => onSendToMagicBox(s.theme)}
+              <button onClick={() => onSendToCriteria(s.theme)}
                 style={{ marginTop: 10, padding: "8px 14px", borderRadius: 8, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
-                Send to Counterfactual Engine →
+                Send to Criteria →
               </button>
             </div>
           ))}
@@ -75,7 +75,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
       {mode === "raw" && (showBrandGrid ? (
         <>
           <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 12, flexShrink: 0 }}>
-            {sorted.length} real brands, ≥{data?.min_reviews_floor ?? 40} reviews each, from {data?.n_category_reviews.toLocaleString()} category reviews.
+            {sorted.length} real competitors, ≥{data?.min_reviews_floor ?? 40} reviews each, from {data?.n_category_reviews.toLocaleString()} category reviews.
             Weakness = the theme each brand under-performs the category average on the most.
           </div>
           <div className="scrollY" style={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10, alignContent: "start" }}>
@@ -104,7 +104,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
       ) : (
         <div className="scrollY" style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14, alignContent: "start" }}>
           <div style={{ fontSize: 12, color: "var(--ink-dim)" }}>
-            White space requires all three, real: a Consumer Pain gate pass, ≥2 real rivals measurably weaker on that theme, and
+            White space requires all three, real: a Consumer Pain gate pass, ≥2 real competitors measurably weaker on that theme, and
             real 2–5yr feasibility evidence.
           </div>
           {spaces.map((s) => (
@@ -115,10 +115,10 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
                   <h3 style={{ fontSize: 19, marginTop: 8 }}>{s.name}</h3>
                 </div>
                 <button
-                  onClick={() => onSendToMagicBox(s.theme)}
+                  onClick={() => onSendToCriteria(s.theme)}
                   style={{ padding: "9px 16px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}
                 >
-                  Send to Counterfactual Engine →
+                  Send to Criteria →
                 </button>
               </div>
               <div style={{ display: "flex", gap: 24, marginTop: 14 }}>
@@ -126,7 +126,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
                 <StatRow label="Feasibility (2–5yr)" value={s.feasibility} />
               </div>
               <div style={{ marginTop: 8 }}>
-                <SectionLabel>Rivals measurably weak here ({s.rivals_measurably_weak_here.length})</SectionLabel>
+                <SectionLabel>Competitors measurably weak here ({s.rivals_measurably_weak_here.length})</SectionLabel>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {s.rivals_measurably_weak_here.map((b) => <Pill key={b}>{b}</Pill>)}
                 </div>
@@ -137,7 +137,7 @@ export function RivalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: st
         </div>
       ))}
 
-      <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow="Rival brand" title={focus?.brand ?? ""}>
+      <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow="Competitor brand" title={focus?.brand ?? ""}>
         {focus && (
           <>
             <StatRow label="Real reviews" value={focus.n_reviews.toLocaleString()} />
