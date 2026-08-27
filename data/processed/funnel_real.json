@@ -3,15 +3,18 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-7",
-    "last_run_started_at": "2026-08-27T15:29:46.547561+00:00",
-    "last_run_finished_at": "2026-08-27T15:29:46.547561+00:00",
-    "last_checked_at": "2026-08-27T15:29:46.547561+00:00",
+    "last_run_id": "run-9",
+    "last_run_started_at": "2026-08-27T16:32:39.755754+00:00",
+    "last_run_finished_at": "2026-08-27T16:32:39.755754+00:00",
+    "last_checked_at": "2026-08-27T16:32:39.755754+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "f6b2cf8f03b32a50a822158bffafa76687d0d4ba973ea445531c143b4843ff15",
+    "input_snapshot_hash": "188a9775d9568167b2514ff07909874f0827101ef3d1877307812121279b68a7",
     "changed_since_last_run": true,
-    "new_since_last_run": {},
-    "total_runs_recorded": 7,
+    "new_since_last_run": {
+      "magic_box": 3,
+      "innovations": 4
+    },
+    "total_runs_recorded": 9,
     "errors": []
   },
   "stages": [
@@ -66,13 +69,13 @@
     {
       "id": "magic_box",
       "label": "MAGIC BOX / PATTERN INTELLIGENCE",
-      "count": 24,
+      "count": 27,
       "pattern_type_counts": {
         "CONVERGENCE": 4,
         "TENSION": 6,
         "CONTRADICTION": 1,
         "ASSUMPTION": 8,
-        "CAPABILITY_TRANSFER": 1,
+        "CAPABILITY_TRANSFER": 4,
         "WHITE_SPACE": 2,
         "ANOMALY": 0,
         "TEMPORAL_SHIFT": 1,
@@ -97,7 +100,7 @@
         },
         {
           "type": "CAPABILITY_TRANSFER",
-          "example": "Verified-Clean Certification"
+          "example": "Self-Testing Status Light"
         }
       ],
       "inputs": [
@@ -114,7 +117,7 @@
       "id": "criteria",
       "label": "CRITERIA",
       "count": 52,
-      "concepts_evaluated": 12,
+      "concepts_evaluated": 16,
       "inputs": [
         "magic_box possibilities",
         "critic verdicts",
@@ -129,7 +132,7 @@
     {
       "id": "innovations",
       "label": "INNOVATIONS",
-      "count": 12,
+      "count": 16,
       "candidates_preview": [
         {
           "id": "reliability:PREDICT",
@@ -140,6 +143,12 @@
         {
           "id": "reliability:MATERIALISE",
           "name": "Physical Health Indicator",
+          "friction_theme": "reliability",
+          "typical_market_price_usd": 199.99
+        },
+        {
+          "id": "reliability:CROSS_CATEGORY_TRANSFER",
+          "name": "Self-Testing Status Light",
           "friction_theme": "reliability",
           "typical_market_price_usd": 199.99
         },
@@ -156,6 +165,12 @@
           "typical_market_price_usd": 179.99
         },
         {
+          "id": "noise:CROSS_CATEGORY_TRANSFER",
+          "name": "Active Noise-Cancelling Fan Mode",
+          "friction_theme": "noise",
+          "typical_market_price_usd": 179.99
+        },
+        {
           "id": "value_effectiveness:CONCENTRATE",
           "name": "Single-Metric Trust Score",
           "friction_theme": "value_effectiveness",
@@ -164,6 +179,12 @@
         {
           "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
           "name": "Verified-Clean Certification",
+          "friction_theme": "value_effectiveness",
+          "typical_market_price_usd": 199.99
+        },
+        {
+          "id": "value_effectiveness:PERSONALISE",
+          "name": "Personal Clean-Air Zone",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99
         },
@@ -200,6 +221,12 @@
         {
           "id": "ozone_odor_safety:PERSONALISE",
           "name": "Sensitivity-Aware Auto Mode",
+          "friction_theme": "ozone_odor_safety",
+          "typical_market_price_usd": 79.99
+        },
+        {
+          "id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+          "name": "Wearable Odor/Ozone Safety Clip",
           "friction_theme": "ozone_odor_safety",
           "typical_market_price_usd": 79.99
         }
@@ -251,7 +278,7 @@
       "finalist_names": [
         "Single-Metric Trust Score",
         "Verified-Clean Certification",
-        "Predictive Failure Warning"
+        "Personal Clean-Air Zone"
       ],
       "bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
       "inputs": [
@@ -547,7 +574,7 @@
       "wrong_if": "If the failure-mention cross-reference above shows reliability complaints concentrated in 2-3 specific older/discontinued products rather than spread across the category, treat this as a solved-or-solving problem rather than a live opportunity, and abandon."
     },
     "magic_box": {
-      "count": 12,
+      "count": 16,
       "possibilities": [
         {
           "id": "reliability:PREDICT",
@@ -557,6 +584,11 @@
         {
           "id": "reliability:MATERIALISE",
           "name": "Physical Health Indicator",
+          "friction_theme": "reliability"
+        },
+        {
+          "id": "reliability:CROSS_CATEGORY_TRANSFER",
+          "name": "Self-Testing Status Light",
           "friction_theme": "reliability"
         },
         {
@@ -570,6 +602,11 @@
           "friction_theme": "noise"
         },
         {
+          "id": "noise:CROSS_CATEGORY_TRANSFER",
+          "name": "Active Noise-Cancelling Fan Mode",
+          "friction_theme": "noise"
+        },
+        {
           "id": "value_effectiveness:CONCENTRATE",
           "name": "Single-Metric Trust Score",
           "friction_theme": "value_effectiveness"
@@ -577,6 +614,11 @@
         {
           "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
           "name": "Verified-Clean Certification",
+          "friction_theme": "value_effectiveness"
+        },
+        {
+          "id": "value_effectiveness:PERSONALISE",
+          "name": "Personal Clean-Air Zone",
           "friction_theme": "value_effectiveness"
         },
         {
@@ -608,6 +650,11 @@
           "id": "ozone_odor_safety:PERSONALISE",
           "name": "Sensitivity-Aware Auto Mode",
           "friction_theme": "ozone_odor_safety"
+        },
+        {
+          "id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+          "name": "Wearable Odor/Ozone Safety Clip",
+          "friction_theme": "ozone_odor_safety"
         }
       ],
       "pattern_type_counts": {
@@ -615,7 +662,7 @@
         "TENSION": 6,
         "CONTRADICTION": 1,
         "ASSUMPTION": 8,
-        "CAPABILITY_TRANSFER": 1,
+        "CAPABILITY_TRANSFER": 4,
         "WHITE_SPACE": 2,
         "ANOMALY": 0,
         "TEMPORAL_SHIFT": 1,
@@ -623,7 +670,7 @@
       }
     },
     "innovations": {
-      "count": 6,
+      "count": 9,
       "candidates": [
         {
           "id": "reliability:PREDICT",
@@ -640,6 +687,13 @@
           "critic_overall": "CHALLENGE"
         },
         {
+          "id": "reliability:CROSS_CATEGORY_TRANSFER",
+          "name": "Self-Testing Status Light",
+          "friction_theme": "reliability",
+          "typical_market_price_usd": 199.99,
+          "critic_overall": null
+        },
+        {
           "id": "noise:AMBIENT",
           "name": "Ambient Night Mode",
           "friction_theme": "noise",
@@ -654,6 +708,13 @@
           "critic_overall": "NEEDS_EVIDENCE"
         },
         {
+          "id": "noise:CROSS_CATEGORY_TRANSFER",
+          "name": "Active Noise-Cancelling Fan Mode",
+          "friction_theme": "noise",
+          "typical_market_price_usd": 179.99,
+          "critic_overall": null
+        },
+        {
           "id": "value_effectiveness:CONCENTRATE",
           "name": "Single-Metric Trust Score",
           "friction_theme": "value_effectiveness",
@@ -666,6 +727,13 @@
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99,
           "critic_overall": "CHALLENGE"
+        },
+        {
+          "id": "value_effectiveness:PERSONALISE",
+          "name": "Personal Clean-Air Zone",
+          "friction_theme": "value_effectiveness",
+          "typical_market_price_usd": 199.99,
+          "critic_overall": null
         }
       ]
     },
@@ -691,12 +759,12 @@
           "feasibility": "high"
         },
         {
-          "id": "reliability:PREDICT",
-          "name": "Predictive Failure Warning",
-          "friction_theme_name": "Reliability / stopped working",
-          "operator": "PREDICT",
+          "id": "value_effectiveness:PERSONALISE",
+          "name": "Personal Clean-Air Zone",
+          "friction_theme_name": "Perceived value / does it actually clean the air",
+          "operator": "PERSONALISE",
           "typical_market_price_usd": 199.99,
-          "economic_value": 26357.86,
+          "economic_value": 10648.05,
           "feasibility": "high"
         }
       ],
@@ -970,11 +1038,41 @@
     ],
     "CAPABILITY_TRANSFER": [
       {
+        "id": "capability_transfer:reliability:CROSS_CATEGORY_TRANSFER",
+        "name": "Self-Testing Status Light",
+        "parent_ids": [
+          "reliability:CROSS_CATEGORY_TRANSFER",
+          "reliability",
+          "CROSS_CATEGORY_TRANSFER"
+        ],
+        "detail": "CROSS_CATEGORY_TRANSFER - Transfer a verified capability from another product/category."
+      },
+      {
+        "id": "capability_transfer:noise:CROSS_CATEGORY_TRANSFER",
+        "name": "Active Noise-Cancelling Fan Mode",
+        "parent_ids": [
+          "noise:CROSS_CATEGORY_TRANSFER",
+          "noise",
+          "CROSS_CATEGORY_TRANSFER"
+        ],
+        "detail": "CROSS_CATEGORY_TRANSFER - Transfer a verified capability from another product/category."
+      },
+      {
         "id": "capability_transfer:value_effectiveness:CROSS_CATEGORY_TRANSFER",
         "name": "Verified-Clean Certification",
         "parent_ids": [
           "value_effectiveness:CROSS_CATEGORY_TRANSFER",
           "value_effectiveness",
+          "CROSS_CATEGORY_TRANSFER"
+        ],
+        "detail": "CROSS_CATEGORY_TRANSFER - Transfer a verified capability from another product/category."
+      },
+      {
+        "id": "capability_transfer:ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+        "name": "Wearable Odor/Ozone Safety Clip",
+        "parent_ids": [
+          "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+          "ozone_odor_safety",
           "CROSS_CATEGORY_TRANSFER"
         ],
         "detail": "CROSS_CATEGORY_TRANSFER - Transfer a verified capability from another product/category."
@@ -1085,7 +1183,7 @@
   },
   "criteria_summary": {
     "library_size": 52,
-    "concepts_evaluated": 12
+    "concepts_evaluated": 16
   },
   "innovation_candidates": {
     "count": 76,

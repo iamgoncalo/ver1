@@ -190,7 +190,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await expect(page.getByText("CRITERIA ARE NOT SCORES. THEY ARE TESTS.")).toBeVisible();
     await expect(page.getByText("VERSUNI EDGE — DIAGNOSTIC, NOT A FOURTH SCORE")).toBeVisible();
     await page.getByRole("button", { name: "V1 · Portfolio leverage" }).click();
-    await expect(page.getByText("NEEDS_EVIDENCE: 12")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("NEEDS_EVIDENCE: 16")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("No real Versuni internal-capability dataset").first()).toBeVisible();
     await page.keyboard.press("Escape");
     await navButton(page, /PRODUCTS/).click();

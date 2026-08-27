@@ -55,27 +55,31 @@ OPERATORS = {
 # real friction theme. This table itself is the "design judgment" layer -
 # declared once, applied deterministically, never per-run randomness.
 THEME_OPERATORS = {
-    "reliability": ["PREDICT", "MATERIALISE"],
-    "noise": ["AMBIENT", "TEMPORAL_SHIFT"],
-    "value_effectiveness": ["CONCENTRATE", "CROSS_CATEGORY_TRANSFER"],
+    "reliability": ["PREDICT", "MATERIALISE", "CROSS_CATEGORY_TRANSFER"],
+    "noise": ["AMBIENT", "TEMPORAL_SHIFT", "CROSS_CATEGORY_TRANSFER"],
+    "value_effectiveness": ["CONCENTRATE", "CROSS_CATEGORY_TRANSFER", "PERSONALISE"],
     "customer_service": ["INVERT", "REMOVE"],
     "filter_cost": ["DISTRIBUTE", "MERGE"],
-    "ozone_odor_safety": ["MOVE", "PERSONALISE"],
+    "ozone_odor_safety": ["MOVE", "PERSONALISE", "CROSS_CATEGORY_TRANSFER"],
 }
 
 POSSIBILITY_NAMES = {
     ("reliability", "PREDICT"): "Predictive Failure Warning",
     ("reliability", "MATERIALISE"): "Physical Health Indicator",
+    ("reliability", "CROSS_CATEGORY_TRANSFER"): "Self-Testing Status Light",
     ("noise", "AMBIENT"): "Ambient Night Mode",
     ("noise", "TEMPORAL_SHIFT"): "Pre-Sleep Purification Window",
+    ("noise", "CROSS_CATEGORY_TRANSFER"): "Active Noise-Cancelling Fan Mode",
     ("value_effectiveness", "CONCENTRATE"): "Single-Metric Trust Score",
     ("value_effectiveness", "CROSS_CATEGORY_TRANSFER"): "Verified-Clean Certification",
+    ("value_effectiveness", "PERSONALISE"): "Personal Clean-Air Zone",
     ("customer_service", "INVERT"): "Proactive Warranty Contact",
     ("customer_service", "REMOVE"): "No-Ticket Replacement",
     ("filter_cost", "DISTRIBUTE"): "Micro-Filter Subscription",
     ("filter_cost", "MERGE"): "Filter-Inclusive Pricing",
     ("ozone_odor_safety", "MOVE"): "Sensor-Led Placement Guidance",
     ("ozone_odor_safety", "PERSONALISE"): "Sensitivity-Aware Auto Mode",
+    ("ozone_odor_safety", "CROSS_CATEGORY_TRANSFER"): "Wearable Odor/Ozone Safety Clip",
 }
 
 
