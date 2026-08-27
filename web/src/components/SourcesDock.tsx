@@ -27,7 +27,7 @@ export function SourcesDock() {
     <>
       <button onClick={() => setOpen(true)}
         style={{ fontSize: 11, color: "var(--ink-dim)", background: "none", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 10px", cursor: "pointer", fontFamily: "var(--font-mono)" }}>
-        SOURCES{counts ? ` · ${counts.live_verified_this_session} VERIFIED · ${counts.frozen} FROZEN · ${counts.not_implemented} N/A` : ""}
+        SOURCES{counts ? ` · ${counts.live_verified_this_session} VERIFIED · ${counts.frozen} FROZEN · ${counts.manual_only} MANUAL · ${counts.not_implemented} N/A` : ""}
       </button>
       {open && (
         <>

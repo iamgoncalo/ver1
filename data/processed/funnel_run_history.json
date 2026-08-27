@@ -1,0 +1,19 @@
+[
+  {
+    "run_id": "run-1",
+    "started_at": "2026-08-27T08:56:01.151217+00:00",
+    "last_checked_at": "2026-08-27T09:13:07.530100+00:00",
+    "check_count": 159,
+    "input_snapshot_hash": "2a13822f3bf2e67237bc5fbd78ff08597544bfdeacf6fcc24e8c10a9f2057f5d",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 24,
+      "criteria": 52,
+      "innovations": 12,
+      "critic": 12,
+      "finalists": 3
+    }
+  }
+]

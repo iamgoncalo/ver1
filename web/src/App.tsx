@@ -7,11 +7,12 @@ import { SignalsWorld } from "./worlds/SignalsWorld";
 import { RivalsWorld } from "./worlds/RivalsWorld";
 import { InnovationsWorld } from "./worlds/InnovationsWorld";
 import { CriteriaWorld } from "./worlds/CriteriaWorld";
+import { FunnelWorld } from "./worlds/FunnelWorld";
 import { api } from "./lib/api";
 import type { InnovationsResponse, MagicBoxResponse, RivalsResponse, WhiteSpaceResponse } from "./lib/types";
 
 export default function App() {
-  const [world, setWorld] = useState(() => (window.location.pathname === "/criteria" ? 4 : 1));
+  const [world, setWorld] = useState(() => (window.location.pathname === "/criteria" ? 4 : 0));
   const [askOpen, setAskOpen] = useState(false);
   const [themeFilter, setThemeFilter] = useState<string | null>(null);
 
@@ -32,7 +33,7 @@ export default function App() {
   }, [world]);
 
   useEffect(() => {
-    function onPop() { setWorld(window.location.pathname === "/criteria" ? 4 : 1); }
+    function onPop() { setWorld(window.location.pathname === "/criteria" ? 4 : 0); }
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
@@ -49,6 +50,7 @@ export default function App() {
     }
     function onKey(e: KeyboardEvent) {
       if (isTypingTarget(e.target)) return;
+      if (e.key === "0") { setWorld(0); return; }
       if (e.key >= "1" && e.key <= "5") { setWorld(Number(e.key)); return; }
       if (e.key === "ArrowRight") { setWorld((w) => Math.min(5, w + 1)); return; }
       if (e.key === "ArrowLeft") { setWorld((w) => Math.max(1, w - 1)); return; }
@@ -61,6 +63,7 @@ export default function App() {
 
   const worldEl = useMemo(() => {
     switch (world) {
+      case 0: return <FunnelWorld key="funnel" onGoToWorld={setWorld} />;
       case 1: return <ProductsWorld key="products" />;
       case 2: return <SignalsWorld key="signals" />;
       case 3: return <RivalsWorld key="rivals" onSendToCriteria={goSendToCriteria} />;
@@ -72,7 +75,7 @@ export default function App() {
 
   return (
     <div style={{ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <ProcessRail active={world} onSelect={setWorld} />
+      <ProcessRail active={world} onSelect={setWorld} onGoHome={() => setWorld(0)} />
       <main style={{ flex: 1, position: "relative", overflow: "hidden" }}>
         <div key={world} className="world-enter" style={{ position: "absolute", inset: 0 }}>
           <ErrorBoundary key={world}>{worldEl}</ErrorBoundary>
@@ -80,7 +83,7 @@ export default function App() {
       </main>
       <footer style={{ flexShrink: 0, padding: "6px 22px", borderTop: "1px solid var(--line)", background: "var(--surface)", fontSize: 10.5, color: "var(--ink-faint)", display: "flex", justifyContent: "space-between" }}>
         <span>Versuni — Disruptive Innovation Team, Amsterdam</span>
-        <span>← → worlds · 1–5 jump · SPACE ask · ESC close</span>
+        <span>← → worlds · 0 home · 1–5 jump · SPACE ask · ESC close</span>
       </footer>
       <AskShell open={askOpen} onClose={() => setAskOpen(false)} ctx={{ innovations, magicBox, rivals, whiteSpace }} />
     </div>

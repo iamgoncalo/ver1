@@ -24,6 +24,7 @@ export const api = {
   howWeGotHere: () => j<any>("/api/how-we-got-here"),
   critic: () => j<any>("/api/critic"),
   criteria: () => j<any>("/api/criteria"),
+  funnel: () => j<any>("/api/funnel"),
   productImages: () => j<any>("/api/product-images"),
   researchTensions: () => j<any>("/api/research/tensions"),
   innovationsFrozen: () => j<InnovationsResponse>("/api/innovations"),

@@ -78,6 +78,17 @@ def criteria():
     return read_json("criteria_real.json")
 
 
+@app.get("/api/funnel")
+def funnel():
+    """The canonical Innovation Funnel Machine state - PRODUCTS + SIGNALS +
+    COMPETITORS -> MAGIC BOX / PATTERN INTELLIGENCE -> CRITERIA ->
+    INNOVATIONS -> CRITIC -> FINALISTS. Recomputed live on every request
+    from already-real files (src/real/funnel_real.py) - never cached
+    stale, never hardcoded."""
+    import funnel_real
+    return funnel_real.build()
+
+
 @app.get("/api/sources")
 def sources():
     return read_json("sources_real.json")

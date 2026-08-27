@@ -1,0 +1,484 @@
+{
+  "_provenance": "Pure aggregation over already-real processed files - no product, signal, paper, competitor, pattern, criterion result, concept, or finalist is computed or invented here. Every count is len() of a real list read from data/processed/*.json or data/raw/*.json at request time.",
+  "generated_by": "src/real/funnel_real.py",
+  "machine_state": {
+    "status": "RUNNING",
+    "last_run_id": "run-1",
+    "last_run_started_at": "2026-08-27T08:56:01.151217+00:00",
+    "last_checked_at": "2026-08-27T09:05:54.121576+00:00",
+    "check_count": 15,
+    "input_snapshot_hash": "2a13822f3bf2e67237bc5fbd78ff08597544bfdeacf6fcc24e8c10a9f2057f5d",
+    "changed_since_last_run": false,
+    "total_runs_recorded": 1
+  },
+  "stages": [
+    {
+      "id": "products",
+      "label": "PRODUCTS",
+      "count": 237,
+      "inputs": [
+        "McAuley-Lab Amazon-Reviews-2023 (real product metadata)"
+      ],
+      "outputs_to": [
+        "magic_box"
+      ],
+      "trace": "GET /api/products -> len(data/processed/products_real.json[\"products\"]), built by src/real/products_signals_real.py."
+    },
+    {
+      "id": "signals",
+      "label": "SIGNALS",
+      "count": 10,
+      "families": {
+        "RESEARCH": 12,
+        "TRENDS": 7,
+        "CONSUMERS": 6,
+        "MARKET": 2,
+        "TECHNOLOGY_AI": 3
+      },
+      "inputs": [
+        "real review-text taxonomy",
+        "verified research corpus",
+        "trend corpus",
+        "market sizing"
+      ],
+      "outputs_to": [
+        "magic_box"
+      ],
+      "trace": "GET /api/signals -> data/processed/signals_real.json[\"count\"], built by src/real/signals_from_research_real.py."
+    },
+    {
+      "id": "competitors",
+      "label": "COMPETITORS",
+      "count": 34,
+      "inputs": [
+        "real Amazon review corpus, competitor brands"
+      ],
+      "outputs_to": [
+        "magic_box"
+      ],
+      "trace": "GET /api/rivals -> len(data/processed/rivals_real.json[\"rivals\"]), built by src/real/rivals_real.py."
+    },
+    {
+      "id": "magic_box",
+      "label": "MAGIC BOX / PATTERN INTELLIGENCE",
+      "count": 24,
+      "pattern_type_counts": {
+        "CONVERGENCE": 4,
+        "TENSION": 6,
+        "CONTRADICTION": 1,
+        "ASSUMPTION": 8,
+        "CAPABILITY_TRANSFER": 1,
+        "WHITE_SPACE": 2,
+        "ANOMALY": 0,
+        "TEMPORAL_SHIFT": 1,
+        "CROSS_SCALE_LINK": 1
+      },
+      "inputs": [
+        "products",
+        "signals",
+        "competitors"
+      ],
+      "outputs_to": [
+        "criteria"
+      ],
+      "trace": "GET /api/funnel -> sum(len(v) for v in patterns.values()), computed live by src/real/funnel_real.py::compute_patterns() from signals_real.json + research_tensions.json + category_assumptions.json + magic_box_real.json + white_space_real.json + defect_detection_report_real.json."
+    },
+    {
+      "id": "criteria",
+      "label": "CRITERIA",
+      "count": 52,
+      "concepts_evaluated": 12,
+      "inputs": [
+        "magic_box possibilities",
+        "critic verdicts",
+        "assumptions",
+        "tensions"
+      ],
+      "outputs_to": [
+        "innovations"
+      ],
+      "trace": "GET /api/criteria -> len(data/processed/criteria_real.json[\"criteria_library\"]), built by src/real/criteria_real.py::CRITERIA_LIBRARY."
+    },
+    {
+      "id": "innovations",
+      "label": "INNOVATIONS",
+      "count": 12,
+      "inputs": [
+        "criteria-gated concepts"
+      ],
+      "outputs_to": [
+        "critic"
+      ],
+      "trace": "GET /api/magic-box -> len(data/processed/magic_box_real.json[\"possibilities\"]), built by src/real/magic_box_real.py::generate_possibilities()."
+    },
+    {
+      "id": "critic",
+      "label": "CRITIC",
+      "count": 12,
+      "verdict_counts": {
+        "SURVIVE": 0,
+        "CHALLENGE": 6,
+        "NEEDS_EVIDENCE": 2,
+        "REJECT": 4
+      },
+      "inputs": [
+        "innovations"
+      ],
+      "outputs_to": [
+        "finalists"
+      ],
+      "trace": "GET /api/critic -> len(data/processed/critic_real.json[\"concepts\"]), built by src/real/critic_real.py::build()."
+    },
+    {
+      "id": "finalists",
+      "label": "FINALISTS",
+      "count": 3,
+      "bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
+      "inputs": [
+        "critic-surviving concepts"
+      ],
+      "outputs_to": [],
+      "trace": "GET /api/innovations -> len(data/processed/magic_box_real.json[\"finalists\"]); bet from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"]."
+    }
+  ],
+  "signal_families": {
+    "RESEARCH": {
+      "count": 12,
+      "ids": [
+        "RP-01",
+        "RP-02",
+        "RP-03",
+        "RP-04",
+        "RP-05",
+        "RP-06",
+        "RP-07",
+        "RP-08",
+        "RP-09",
+        "RP-10",
+        "RP-11",
+        "RP-12"
+      ],
+      "plus_research_grounded_signals": [
+        "health_outcome_uncertainty",
+        "sensor_trust",
+        "operating_mode_tradeoff",
+        "spatial_resuspension"
+      ],
+      "source": "research_index.json - PubMed/PMC-verified papers"
+    },
+    "TRENDS": {
+      "count": 7,
+      "ids": [
+        "TC-R01",
+        "TC-R02",
+        "TC-R03",
+        "TC-R04",
+        "TC-R05",
+        "TC-R09",
+        "TC-R12"
+      ],
+      "source": "data/raw/trend_corpus.json - regulatory/standard/manufacturer/industry documents"
+    },
+    "CONSUMERS": {
+      "count": 6,
+      "ids": [
+        "noise",
+        "ozone_odor_safety",
+        "value_effectiveness",
+        "reliability",
+        "customer_service",
+        "filter_cost"
+      ],
+      "source": "signals_real.json - real Amazon review-text taxonomy"
+    },
+    "MARKET": {
+      "count": 2,
+      "ids": [
+        "mordor_2026_europe_air_purifier",
+        "imarc_2026_europe_air_purifier"
+      ],
+      "source": "data/raw/market_metrics.json - Mordor/IMARC syndicated market sizing"
+    },
+    "TECHNOLOGY_AI": {
+      "count": 3,
+      "ids": [
+        "TC-R07",
+        "TC-R08",
+        "TC-R11"
+      ],
+      "source": "data/raw/trend_corpus.json, filtered by real theme tags: ['ai_sensing', 'interoperability', 'matter', 'sensor_accuracy', 'smart_home_platform']"
+    }
+  },
+  "patterns": {
+    "CONVERGENCE": [
+      {
+        "id": "convergence:noise",
+        "name": "Noise / motor sound (weak real signal)",
+        "parent_ids": [
+          "noise",
+          "RP-05",
+          "RP-07"
+        ],
+        "detail": "Independent evidence families agree: Motor/fan noise is a recurring real complaint theme, now also supported by peer-reviewed evidence that noise drives real users to under-run their air cleaner."
+      },
+      {
+        "id": "convergence:ozone_odor_safety",
+        "name": "Ozone / smell / irritation (weak real signal)",
+        "parent_ids": [
+          "ozone_odor_safety"
+        ],
+        "detail": "Independent evidence families agree: Ozone/smell/irritation complaints, converging with real regulatory and standards-body guidance on ozone safety limits."
+      },
+      {
+        "id": "convergence:value_effectiveness",
+        "name": "Perceived value / does it actually clean the air",
+        "parent_ids": [
+          "value_effectiveness",
+          "RP-01",
+          "RP-02",
+          "RP-06",
+          "RP-07"
+        ],
+        "detail": "Independent evidence families agree: Whether the product 'actually cleans the air' is a real complaint theme, now directly supported by four peer-reviewed real-world effectiveness trials."
+      },
+      {
+        "id": "convergence:sensor_trust",
+        "name": "Sensor precision != sensor accuracy",
+        "parent_ids": [
+          "sensor_trust",
+          "RP-09",
+          "RP-10"
+        ],
+        "detail": "Independent evidence families agree: Consumer-grade IAQ sensors can track relative change well while reporting materially wrong absolute numbers - a 'smart' claim needs a trust qualifier, not just a reading."
+      }
+    ],
+    "TENSION": [
+      {
+        "id": "tension:T1",
+        "name": "Filtration vs. noise-driven adherence",
+        "parent_ids": [
+          "T1",
+          "RP-05",
+          "RP-01",
+          "RP-02"
+        ],
+        "detail": "Higher measured filtration performance generally requires longer runtime, but RP-05 found noise was a named reason real users under-ran DIY cleaners - a device that filters best in the lab may filter worst in practice if nobody keeps it on."
+      },
+      {
+        "id": "tension:T2",
+        "name": "Constant vs. automatic operation",
+        "parent_ids": [
+          "T2",
+          "RP-07"
+        ],
+        "detail": "RP-07's own three-arm trial shows constant operation removes more PM2.5 (66%) than auto mode (40%), but auto mode sharply cuts runtime/noise/energy - there is no operating mode that wins on both axes at once."
+      },
+      {
+        "id": "tension:T3",
+        "name": "CADR theory vs. real-home performance",
+        "parent_ids": [
+          "T3",
+          "RP-07",
+          "RP-01",
+          "RP-06"
+        ],
+        "detail": "RP-07 explicitly reports a discrepancy between theoretical CADR-based sizing and measured performance; RP-01 shows lab-style single-room performance doesn't fully carry to a second room; RP-06 shows raw real-home averages can even look wrong unless corrected for source strength."
+      },
+      {
+        "id": "tension:T4",
+        "name": "More sensing vs. sensor trust",
+        "parent_ids": [
+          "T4",
+          "RP-09",
+          "RP-10"
+        ],
+        "detail": "RP-09's systematic review and RP-10's co-location study both find that consumer-grade sensors can be precise (track relative change well) while still being inaccurate (wrong absolute value) - especially as humidity, temperature and pollutant source vary."
+      },
+      {
+        "id": "tension:T5",
+        "name": "Room-level cleaning vs. spatial/floor sources",
+        "parent_ids": [
+          "T5",
+          "RP-04"
+        ],
+        "detail": "RP-04 shows ordinary walking measurably resuspends floor-deposited particles back into room air - a real spatial source the standard stationary-room-purifier model does not directly address. NOT ESTABLISHED: that a floor-level or mobile purifier would outperform a conventional purifier - RP-04 tested no purifier placement at all."
+      },
+      {
+        "id": "tension:T6",
+        "name": "Pollutant reduction vs. clinical outcome certainty",
+        "parent_ids": [
+          "T6",
+          "RP-08",
+          "RP-03",
+          "RP-05"
+        ],
+        "detail": "RP-08 found a measurable asthma-control benefit (ACT score, symptom-free days) from real HEPA filtration in one RCT; RP-03 (ammonia) and RP-05 (self-reported symptoms) found PM/exposure changes did NOT correspond to the specific outcomes they measured. The real literature is not unanimous that pollutant reduction equals a felt health benefit."
+      }
+    ],
+    "CONTRADICTION": [
+      {
+        "id": "contradiction:health_outcome_uncertainty",
+        "name": "Filtration-to-health-benefit evidence is genuinely split",
+        "parent_ids": [
+          "health_outcome_uncertainty",
+          "RP-08",
+          "RP-03",
+          "RP-05"
+        ],
+        "detail": "Real evidence genuinely disagrees: One real RCT (RP-08) found a significant asthma-control benefit from HEPA filtration; two other real studies (RP-03, RP-05) measuring related pollutants/symptoms found no such association."
+      }
+    ],
+    "ASSUMPTION": [
+      {
+        "id": "assumption:A1",
+        "name": "Purification requires a dedicated, standalone box.",
+        "parent_ids": [
+          "A1",
+          "RP-04"
+        ],
+        "detail": "170 of 237 real corpus products (72%) are classified standard_purifier - a single dedicated appliance is still the dominant real architecture."
+      },
+      {
+        "id": "assumption:A2",
+        "name": "The device sits in one fixed location, chosen once.",
+        "parent_ids": [
+          "A2",
+          "RP-04",
+          "RP-01"
+        ],
+        "detail": "No real product in this corpus is marketed as mobile or multi-room by design."
+      },
+      {
+        "id": "assumption:A3",
+        "name": "The consumer reacts after pollution is measured, not before.",
+        "parent_ids": [
+          "A3",
+          "RP-09",
+          "RP-10"
+        ],
+        "detail": "162 of 237 products (68%) are cluster_intelligence=manual; only 8 are adaptive."
+      },
+      {
+        "id": "assumption:A4",
+        "name": "Filters are replaced manually by the consumer.",
+        "parent_ids": [
+          "A4"
+        ],
+        "detail": "\"filter_cost\" is a real, distinct consumer-complaint theme in the taxonomy (0.26% prevalence, real evidence) - replacement friction is a lived reality."
+      },
+      {
+        "id": "assumption:A5",
+        "name": "Clean-air delivery rate (CADR) is the primary performance basis.",
+        "parent_ids": [
+          "A5",
+          "RP-07",
+          "RP-06",
+          "RP-01"
+        ],
+        "detail": "ENERGY STAR and AHAM certification (TC-R02, TC-R03) both center CADR as the official performance metric."
+      },
+      {
+        "id": "assumption:A6",
+        "name": "Continuous, constant operation is the default expectation.",
+        "parent_ids": [
+          "A6",
+          "RP-07",
+          "RP-05"
+        ],
+        "detail": "Standard purifier control panels default to a fixed or continuous mode; only 15 of 237 products are classified connected, and 8 adaptive."
+      },
+      {
+        "id": "assumption:A7",
+        "name": "The consumer owns the hardware outright after a single upfront purchase.",
+        "parent_ids": [
+          "A7"
+        ],
+        "detail": "All 237 real corpus products are sold as one-time purchases on Amazon - no subscription/service model observed in this corpus."
+      },
+      {
+        "id": "assumption:A8",
+        "name": "A visible interface or app is required to trust the product is working.",
+        "parent_ids": [
+          "A8",
+          "RP-09",
+          "RP-10"
+        ],
+        "detail": "15 of 237 products explicitly market app/voice connectivity as a selling point."
+      }
+    ],
+    "CAPABILITY_TRANSFER": [
+      {
+        "id": "capability_transfer:value_effectiveness:CROSS_CATEGORY_TRANSFER",
+        "name": "Verified-Clean Certification",
+        "parent_ids": [
+          "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness",
+          "CROSS_CATEGORY_TRANSFER"
+        ],
+        "detail": "CROSS_CATEGORY_TRANSFER - Transfer a verified capability from another product/category."
+      }
+    ],
+    "WHITE_SPACE": [
+      {
+        "id": "white_space:OS-1",
+        "name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
+        "parent_ids": [
+          "OS-1",
+          "reliability",
+          "Envion",
+          "EdenPURE",
+          "Himalayan",
+          "Egofine",
+          "Belita Amy",
+          "MOONQUAKE",
+          "ZOCALOK"
+        ],
+        "detail": "7 real competitors measurably weaker here, feasibility high"
+      },
+      {
+        "id": "white_space:OS-2",
+        "name": "Whisper-Quiet Night Mode",
+        "parent_ids": [
+          "OS-2",
+          "noise",
+          "Dyson",
+          "Plixio",
+          "Oreck",
+          "Envion",
+          "Wynd",
+          "Molekule",
+          "AMEIFU",
+          "AZEUS",
+          "AIRTHEREAL",
+          "Egofine",
+          "Elechomes"
+        ],
+        "detail": "11 real competitors measurably weaker here, feasibility medium"
+      }
+    ],
+    "ANOMALY": [],
+    "TEMPORAL_SHIFT": [
+      {
+        "id": "temporal_shift:noise:TEMPORAL_SHIFT",
+        "name": "Pre-Sleep Purification Window",
+        "parent_ids": [
+          "noise:TEMPORAL_SHIFT",
+          "noise",
+          "TEMPORAL_SHIFT"
+        ],
+        "detail": "TEMPORAL_SHIFT - Move the job earlier/later."
+      }
+    ],
+    "CROSS_SCALE_LINK": [
+      {
+        "id": "cross_scale_link:spatial_resuspension",
+        "name": "The floor is a source, not just a sink",
+        "parent_ids": [
+          "spatial_resuspension",
+          "RP-04"
+        ],
+        "detail": "Ordinary walking measurably resuspends floor-deposited particles back into room air - a real spatial dynamic the standard stationary-room-purifier model does not directly address."
+      }
+    ]
+  }
+}

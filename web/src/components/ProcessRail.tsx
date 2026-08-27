@@ -10,7 +10,7 @@ const STAGES = [
   { n: 5, process: "WHAT WINS", world: "INNOVATIONS", q: "What should Versuni build?" },
 ] as const;
 
-export function ProcessRail({ active, onSelect }: { active: number; onSelect: (n: number) => void }) {
+export function ProcessRail({ active, onSelect, onGoHome }: { active: number; onSelect: (n: number) => void; onGoHome: () => void }) {
   return (
     <header
       style={{
@@ -19,7 +19,10 @@ export function ProcessRail({ active, onSelect }: { active: number; onSelect: (n
         flexShrink: 0, gap: 24,
       }}
     >
-      <Logo />
+      <button onClick={onGoHome} title="Innovation Funnel — home" aria-current={active === 0 ? "step" : undefined}
+        style={{ border: "none", background: "none", cursor: "pointer", padding: 4, borderRadius: 8, opacity: active === 0 ? 1 : 0.85 }}>
+        <Logo />
+      </button>
       <nav aria-label="Five worlds" style={{ display: "flex", gap: 6 }}>
         {STAGES.map((s) => {
           const isActive = s.n === active;

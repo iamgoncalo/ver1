@@ -546,7 +546,7 @@ export function CriteriaWorld({ themeFilter }: { themeFilter?: string | null }) 
               {stageFocus === "__versuni_edge" ? "N/A" : stageFocus === "__bet" ? "" : data.funnel[stageFocus]}
             </div>
             <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>
-              {stageFocus === "sources_admitted" && "Real sources currently tracked in the Sources dock (research, consumer, trend, market, economics families)."}
+              {stageFocus === "sources_admitted" && "Every real connector this case tracks — verified-live, frozen archive, manual-only-by-design, and honestly not-implemented (e.g. Google Trends)."}
               {stageFocus === "signals_total" && `Real signals derived from the taxonomy + research corpus (${data.funnel.signals_converging} converging, ${data.funnel.signals_contested} contested).`}
               {stageFocus === "tensions" && "Real research tensions — genuine trade-offs found across two or more peer-reviewed papers."}
               {stageFocus === "assumptions" && "Real category assumptions mapped, each with real evidence for/against its prevalence."}
@@ -555,6 +555,20 @@ export function CriteriaWorld({ themeFilter }: { themeFilter?: string | null }) 
               {stageFocus === "critic_evaluated" && "Every concept the Critic has run SURVIVE/CHALLENGE/NEEDS_EVIDENCE/REJECT verdicts against — currently all of them."}
               {stageFocus === "finalists" && "Concepts that survived gate → evidence → Pareto dominance, ranked by Consumer Pain."}
               {stageFocus === "__bet" && "The current recommended concept from the live decision engine — never hardcoded."}
+            </p>
+            <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 10, padding: "8px 10px", background: "var(--surface-2)", borderRadius: 8 }}>
+              TRACE — {{
+                sources_admitted: "len(data/processed/sources_real.json → \"sources\"), read live by src/real/criteria_real.py::compute_funnel_counts() on every GET /api/criteria.",
+                signals_total: "data/processed/signals_real.json → \"count\" field, computed by src/real/signals_from_research_real.py.",
+                tensions: "len(data/processed/research_tensions.json → \"tensions\"), computed by src/real/research_corpus_real.py.",
+                assumptions: "len(data/processed/category_assumptions.json → \"assumptions\"), computed by src/real/assumptions_real.py.",
+                counterfactuals_generated: "data/processed/magic_box_real.json → funnel[0].count, computed by src/real/magic_box_real.py::run_funnel().",
+                concept_seeds: "data/processed/magic_box_real.json → funnel[0].count, computed by src/real/magic_box_real.py::run_funnel().",
+                __versuni_edge: "No count field — this stage has no real Versuni-capability data to aggregate (see NO_VERSUNI_CAPABILITY_NOTE in src/real/criteria_real.py).",
+                critic_evaluated: "len(data/processed/critic_real.json → \"concepts\"), computed by src/real/critic_real.py::build().",
+                finalists: "len(data/processed/magic_box_real.json → \"finalists\"), computed by src/real/magic_box_real.py::run_funnel().",
+                __bet: "data/processed/decision_framework_real.json → verdict.recommended_name, computed live by src/real/decision_framework_real.py::compute().",
+              }[stageFocus]}
             </p>
           </>
         )}

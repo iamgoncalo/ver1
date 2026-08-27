@@ -9,6 +9,14 @@ function trackConsoleErrors(page: Page) {
   return errors;
 }
 
+function navButton(page: Page, name: string | RegExp) {
+  // Scoped to the world nav specifically - the homepage funnel also
+  // renders buttons/links labelled PRODUCTS/SIGNALS/etc. for its own
+  // stage boxes and "Explore X ->" shortcuts, which would otherwise
+  // collide with a page-wide getByRole("button", { name }) lookup.
+  return page.getByRole("navigation", { name: "Five worlds" }).getByRole("button", { name });
+}
+
 async function noDocumentScroll(page: Page) {
   const overflow = await page.evaluate(() => ({
     scrollHeight: document.documentElement.scrollHeight,
@@ -42,7 +50,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
       { nav: "INNOVATIONS", heading: "WHAT SHOULD VERSUNI TEST?" },
     ];
     for (const { nav, heading } of expectations) {
-      await page.getByRole("button", { name: new RegExp(nav) }).click();
+      await navButton(page, new RegExp(nav)).click();
       await expect(page.getByText(heading)).toBeVisible({ timeout: 5000 });
       await noDocumentScroll(page);
     }
@@ -63,6 +71,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("DISTILLED/RAW toggle changes content on Products", async ({ page }) => {
     await page.goto("/");
+    await navButton(page, /PRODUCTS/).click();
     await expect(page.getByText("OFFICIAL VERSUNI/PHILIPS")).toBeVisible();
     await page.getByRole("button", { name: "raw" }).click();
     await expect(page.getByText("CONSUMER REVIEW CORPUS")).toBeVisible();
@@ -71,6 +80,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("real official product images load with no broken images", async ({ page }) => {
     await page.goto("/");
+    await navButton(page, /PRODUCTS/).click();
     const images = page.locator('main img[src^="/products/"]');
     await expect(images.first()).toBeVisible({ timeout: 5000 });
     const count = await images.count();
@@ -84,7 +94,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("Bets world: decision priority toggle genuinely flips the winner", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /INNOVATIONS/ }).click();
+    await navButton(page, /INNOVATIONS/).click();
     await expect(page.getByText("CURRENT WINNER")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("WINNER CHANGED")).toHaveCount(0);
     await page.getByRole("button", { name: "Economic Value override" }).click();
@@ -93,7 +103,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("Trace This Bet resolves real evidence, no fabricated links", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /INNOVATIONS/ }).click();
+    await navButton(page, /INNOVATIONS/).click();
     await page.getByRole("button", { name: "raw" }).click();
     await page.getByRole("button", { name: "TRACE THIS INNOVATION →" }).first().click();
     await expect(page.getByText("Trace this innovation — reverse to raw evidence")).toBeVisible({ timeout: 5000 });
@@ -117,7 +127,7 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
 
   test("Category Assumption Map is evidence-linked and clickable", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /CRITERIA/ }).click();
+    await navButton(page, /CRITERIA/).click();
     await page.getByRole("button", { name: /CADR/ }).click();
     await expect(page.getByText("WHAT REAL EVIDENCE BEARS ON IT")).toBeVisible({ timeout: 5000 });
   });
@@ -133,8 +143,37 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await expect(page.getByText("NEEDS_EVIDENCE: 12")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("No real Versuni internal-capability dataset").first()).toBeVisible();
     await page.keyboard.press("Escape");
-    await page.getByRole("button", { name: /PRODUCTS/ }).click();
+    await navButton(page, /PRODUCTS/).click();
     await expect(page).toHaveURL(/\/$/);
+    expect(errors).toEqual([]);
+  });
+
+  test("Innovation Funnel homepage: machine state, stages, and patterns are real and traced", async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await page.goto("/");
+    await expect(page.getByText("Innovation Funnel")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("● RUNNING")).toBeVisible();
+    await expect(page.getByText(/SNAPSHOT [0-9a-f]{10}/)).toBeVisible();
+
+    // A stage box shows a real count and, on click, a real file trace.
+    const productsBox = page.locator("main button").filter({ hasText: "PRODUCTS" }).first();
+    await expect(productsBox).toBeVisible();
+    await productsBox.click();
+    await expect(page.getByText(/products_real\.json/)).toBeVisible({ timeout: 5000 });
+    await page.keyboard.press("Escape");
+
+    // A pattern type (e.g. ANOMALY, currently real-but-empty) is honest, not padded.
+    const anomalyBox = page.locator('button[title="one product/behaviour is surprisingly different"]');
+    await anomalyBox.click();
+    await expect(page.getByText(/defect_detection_report_real\.json/)).toBeVisible({ timeout: 5000 });
+    await page.keyboard.press("Escape");
+
+    // Logo returns home from a deep page.
+    await navButton(page, /CRITERIA/).click();
+    await expect(page.getByText("How Intelligence Decides")).toBeVisible({ timeout: 5000 });
+    await page.getByTitle("Innovation Funnel — home").click();
+    await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible({ timeout: 5000 });
+
     expect(errors).toEqual([]);
   });
 });

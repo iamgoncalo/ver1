@@ -93,6 +93,9 @@ python3 src/real/critic_real.py
 echo "== stage 8h/9: HOW INTELLIGENCE DECIDES - criteria library + per-concept gates (real) =="
 python3 src/real/criteria_real.py
 
+echo "== stage 8i/9: INNOVATION FUNNEL MACHINE - canonical funnel state + patterns (real) =="
+python3 src/real/funnel_real.py
+
 echo "== stage 9/9: evidence table + tests =="
 python3 src/real/build_evidence_table_real.py
 python3 -m unittest tests.test_real_pipeline -v
