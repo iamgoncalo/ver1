@@ -1,125 +1,121 @@
 # PROJECT 1 — STATUS
 
-Last verified: 2026-08-27 (live session, in-browser + automated tests)
+Last verified: 2026-08-27 (live session, in-browser + automated tests + `verify_submission.py` + `live_check.py`)
 
 ## Git
 
 - branch: `design/innovation-explorer`
-- HEAD: `8a7321b` + uncommitted nav-merge/hardcoding-fix batch below
-- working tree: dirty (about to be committed)
+- HEAD: `d987dc2`
+- working tree: clean, nothing uncommitted
 - remote visibility: PUBLIC (`github.com/iamgoncalo/ver1`) — unchanged this session
 - pushed/unpushed: nothing from this session pushed. `origin/main` untouched.
 
-## Latest batch (nav restructure + real feasibility fix)
+## What's real and working right now
 
-Live user feedback: Counterfactuals should live inside Criteria (Criteria
-becomes nav position 4, not a bolted-on 6th item); never call them
-"rivals" (renamed to "Competitors" throughout); and a real hardcoding bug
-was flagged in the Counterfactuals feasibility ratings.
+`make app` (or `python3 -m uvicorn api.main:app --port 8000`, frontend built via
+`cd web && npm run build`) serves the full "Versuni — Disruptive Innovation"
+experience on one port. Five worlds, reached via keyboard 1–5 or the nav bar:
 
-- Fixed a genuine hardcoding bug: 8 of 12 Magic Box possibilities (every
-  theme except reliability/noise) silently defaulted `feasibility_2_5y` to
-  a bare "medium" with no evidence_ids and no rationale.
-  `THEME_FEASIBILITY` in `decision_framework_real.py` now gives every one
-  of the 6 real friction themes a cited rating (real trend_corpus
-  documents where they exist - TC-R03/TC-R02 for value_effectiveness,
-  TC-R04/TC-R08 for ozone_odor_safety; honest "no real technical precedent,
-  this is a business-process question" for customer_service/filter_cost).
-- Merged MagicBoxWorld (Counterfactuals) into CriteriaWorld: Category
-  Assumption Map, the 12→8→8→6→3 funnel, and the full concept
-  gallery/FocusPanel (Derivation + Design DNA + Critic + all 52 criteria
-  results) now live on one page, driven by one enriched `/api/criteria`
-  response - no more stitching 3 separate endpoints client-side.
-  `MagicBoxWorld.tsx` deleted.
-- Nav restructured to 5 stages: PRODUCTS / SIGNALS / COMPETITORS / CRITERIA
-  / INNOVATIONS. `/criteria` now IS world 4 (was a bolted-on world 6).
-- Renamed "Rivals" → "Competitors" in every user-facing string (nav,
-  headings, FocusPanel eyebrows, Design DNA "R" label, criteria library
-  prose) across both frontend and backend rationale text.
+1. **Products** ("What is") — real official Versuni/Philips products with
+   downloaded/hashed images, every hero metric traceable to its source file.
+2. **Signals** ("What changes") — 4 explicit tabs (CONSUMERS / RESEARCH /
+   TRENDS / MARKET), each a genuinely different evidence type with its own
+   family icon; every hero metric traceable; Google Trends honestly reported
+   NOT_IMPLEMENTED rather than faked.
+3. **Competitors** ("What's missing") — real Amazon-review competitor
+   brands, white-space opportunities, every hero metric traceable. (Renamed
+   from "Rivals" earlier this session per live feedback.)
+4. **Criteria** ("What if") — "How Intelligence Decides": the merged
+   Counterfactuals + Criteria page. Category Assumption Map, 12→8→8→6→3
+   funnel, concept gallery with Design DNA (F/S/T/R/C/A/E/O), Critic
+   verdicts, 52-criterion library, and a per-concept "Trace this concept"
+   panel walking real signal/tension/assumption evidence down to papers.
+5. **Innovations** ("What's next") — the live decision engine (was "Bets").
+   Decision-priority toggle genuinely flips the winner; "Trace this bet"
+   resolves the full real chain: evidence → signal/paper, plus every
+   Criteria concept sharing the same real friction theme (joined by
+   `theme_id`, never by name).
 
-Verified: 38/38 Python tests, 33/33 Playwright across 3 viewports, live
-browser check (DOM-level) confirms the merged page, the "Send to
-Criteria →" handoff from Competitors, and zero console errors.
+Plus: a live Innovation Funnel homepage (world 0) with machine state,
+funnel stages, 9 pattern types, and 5 signal families (RESEARCH/TRENDS/
+CONSUMERS/MARKET/TECHNOLOGY_AI, each now with its own icon); an honest
+Sources dock; a canonical intelligence fabric (`make refresh-intelligence`,
+live PubMed/Crossref/Semantic Scholar discovery, CANDIDATE lifecycle,
+distance-threshold clustering that allows real outliers); Model A (analyst
+territories) and Model B (real TF-IDF + agglomerative emergent clustering)
+both present and correctly labelled in `research_clusters.json`.
 
-## This session's repair pass (live user feedback + OVERNIGHT_SPEC / HIGH-QUALITY REPAIR PASS)
+## Verification (all run this session, current)
 
-Committed, tested (38/38 Python unit tests, 30/30 Playwright across
-1440x900/1366x768/1280x720), browser-verified (DOM + screenshot):
+- `python3 -m unittest discover -s tests -p "test_*.py"` — **48/48 passed**
+- `python3 scripts/verify_submission.py` — **229/229 passed**
+- `python3 scripts/live_check.py` — **11/11 passed**
+- `cd web && npx playwright test` — **39/39 passed** (13 tests × 3 viewports:
+  1440×900 / 1366×768 / 1280×720)
+- `cd web && npm run build` — clean, no TypeScript errors
+- Human labels (`data/hand_labeled_sample.csv`): 50/50 filled — this was
+  already true in the original scaffold commit (`b6e96f8`), before any
+  Claude session touched this repo; no session has filled or edited it.
+  `data/hand_label_sample_BLANK.csv` (the blank template) remains blank, as
+  required.
 
-1. **Critic + Concept Evolution** (`src/real/critic_real.py`, `/api/critic`) —
-   SURVIVE/CHALLENGE/NEEDS_EVIDENCE/REJECT verdicts and SEED→CHALLENGED→
-   SURVIVOR→FINALIST→REJECTED stages, derived only from already-computed
-   real signals. 5/8 requested Critic dimensions honestly NEEDS_EVIDENCE
-   (no real HUMAN/PHYSICAL/VERSUNI_FIT/TIMING/ROBUSTNESS data exists).
-2. **Real per-concept pricing** — every innovation/possibility now shows a
-   real median observed price ("$199.99, typical real price today, median
-   of 27 real products") alongside the existing aggregate price-weighted
-   exposure metric. Computed in `wtp_real.py`, threaded through
-   `magic_box_real.py` and `decision_framework_real.py`.
-3. **Renamed "Bets" → "Innovations"** everywhere (nav, eyebrow labels,
-   trace button) per live feedback that "Bets" read as gambling jargon.
-4. **Consumer Pain methodology surfaced inline** — every Consumer Pain
-   figure now shows WHO (real Amazon customers, % verified purchase), HOW
-   MANY (n reviews, n products), WHEN (real review date range), WHAT
-   STUDIES (explicitly "none" — deterministic keyword classification, not
-   survey/panel data).
-5. **What Wins explicit LOADING/SUCCESS/EMPTY/ERROR/TIMEOUT states** —
-   previously only an implicit opacity dim; now a real state machine with
-   a 15s timeout and retry affordance on error/timeout.
-6. **Products relabelled** "Verified case portfolio" (was "Official
-   Versuni/Philips products").
-7. **Signals rebuilt into 4 explicit tabs** — CONSUMERS / RESEARCH /
-   TRENDS / MARKET (previously one undifferentiated DISTILLED/RAW view
-   mixing review text, papers, and industry docs together). New
-   `/api/market` and `/api/trends` endpoints. TRENDS tab states outright
-   that Google Trends is NOT_IMPLEMENTED (matches the honest Sources dock
-   status — never faked).
-8. **Fixed a real data-integrity bug**: `research_index.json` claimed 12
-   peer-reviewed papers but only 10 were ever rendered as full cards — 2
-   real, verified papers (now RP-11, RP-12) were sitting inside
-   `trend_corpus.json`, double-countable but never shown. Promoted both to
-   full FOUND/ESTABLISHES/DOES_NOT_ESTABLISH/LIMITATIONS distillation.
-   RP-11 verified live via PubMed (PMID 38617028); RP-12 is an economics
-   journal paper outside PubMed's scope, verified via its existing
-   fetch/archive. `peer_reviewed_count` now equals `len(peer_reviewed_papers)`: 12 == 12.
-   5 of the 12 papers are 2025+ (RP-06, RP-07, RP-08, RP-09, RP-10).
-9. **Design DNA (F/S/T/R/C/A/E/O)** added to every one of the 12
-   Counterfactual possibilities — every parent is a genuine join against
-   already-computed real files (signals/research_tensions/
-   category_assumptions), never invented. `C` (Versuni capability) is
-   honestly MISSING_UNVERIFIED for all 12 — no such dataset exists
-   anywhere in this pipeline.
-10. **Editorial icon/image system** (`web/src/components/ThemeIcon.tsx`) —
-    hand-authored SVG icons per friction theme (6) and research territory
-    (6), each carrying an explicit "EDITORIAL" provenance badge. No
-    image-generation tool is available in this environment. Wired into
-    Counterfactuals, Innovations, and Signals/Research cards + FocusPanels.
+## This session's work (see `git log` for full commit messages/diffs — not
+duplicated here to avoid drifting stale)
 
-## STAGE
+In order:
+- Consumer Pain ranking methodology made explicit (how/when/who/how many/
+  what studies) everywhere a Consumer Pain figure appears.
+- Counterfactuals merged into Criteria (now nav position 4, not a bolted-on
+  6th world); "Rivals" renamed "Competitors" everywhere; fixed a real
+  hardcoding bug (8 of 12 Magic Box possibilities were defaulting
+  `feasibility_2_5y` to a bare "medium" with no evidence).
+- `/criteria` "How Intelligence Decides" page: gates/diagnostics only, never
+  a 4th final-attractiveness score alongside Consumer Pain / Economic Value
+  / 2–5yr Feasibility.
+- **Task 1 (FUNNEL.md)**: the Innovation Funnel Machine homepage — machine
+  state, 8 funnel stages, 9 pattern types, 5 signal families, idempotent
+  run-history with genuine snapshot hashing.
+- **Task 2 (DATA_FABRIC.md)**: the canonical intelligence fabric — live
+  research discovery connectors (PubMed/Crossref/Semantic Scholar, real
+  outbound calls, real rate-limit handling), CANDIDATE/ACCEPTED/REJECTED/
+  SUPERSEDED lifecycle, `make refresh-intelligence` / `make
+  intelligence-watch`, distance-threshold clustering.
+- Every Products/Competitors/Signals hero metric made clickable
+  (`TraceableMetric` + `MetricFocusPanel`) — click any number, see the
+  exact `GET` endpoint, source JSON path, and computing script.
+- Fixed the Innovations page's "What Wins?" / "5 · WHAT WINS" framing (live
+  user feedback: innovations aren't about winning) → "Innovations" / "5 ·
+  WHAT'S NEXT".
+- Built the real multi-hop trace chain: `signal → paper` (existing) plus
+  new `tension → paper` and `assumption → paper` resolvers; `concept`'s own
+  Design DNA walked out to its real evidence; `bet → theme → every concept
+  sharing that theme` (the genuine cross-pipeline join, by `theme_id`, that
+  an earlier phase this session found could NOT be done by name-matching).
+  Wired into both Innovations' "Trace this bet" and a new "Trace this
+  concept" button on Criteria — walkable from either end.
+- Added real icons for the 3 signal families that had none (CONSUMERS/
+  TRENDS/MARKET — only RESEARCH had per-paper `TerritoryIcon`); new
+  `FamilyIcon` component used in both the Signals tab bar and the Funnel
+  homepage's family pills; consumer `SignalCard`s now show their existing
+  `FrictionIcon` too.
+- Fixed a stale self-contradiction in `research_clusters.json`: its own
+  top-level `_provenance` claimed Model B was "NOT implemented" even after
+  a real pipeline run had already computed and merged it in — the nested
+  key was right, the file's own summary of itself was wrong.
 
-ANALYTICS: PASS — `python3 -m unittest discover -s tests` 38/38 this session.
-HUMAN VALIDATION: 0/50 — still blocked on Gonçalo, untouched this session.
-V1 VISUAL EXPERIENCE: substantially reworked this session (see above).
+## NOT YET DONE (genuinely outstanding, not stale carryover)
 
-## NOT YET DONE (from the live "HIGH-QUALITY REPAIR PASS" request)
-
-- Counterfactual object fields beyond Design DNA: explicit ONE-LINE WHAT IF
-  / WHY IT EXISTS / WHAT CONCEPT(S) IT GENERATED as first-class fields
-  (partially covered today via `why_it_existed`/`what_killed_it` on
-  rejected concepts only).
-- Innovations/What-Wins object fields: WHY VERSUNI, HOW IT WORKS AT A HIGH
-  LEVEL, COMPETITOR OVERLAP not yet explicit fields (Critic result is wired
-  into Counterfactuals but not yet into the Innovations/What-Wins cards).
-- Full TRACE THIS BET chain (BET→CONCEPT→COUNTERFACTUAL→ASSUMPTION→
-  SIGNAL→EVIDENCE) — currently traces EVIDENCE→SIGNAL/TREND/PAPER only;
-  Bets (OS-1/OS-2) and Magic Box possibilities are still separate,
-  unlinked pipelines.
-- Image system coverage for Products (already has real official images —
-  unchanged this session) and Consumers/Market tabs (no icons yet).
-- Extended 21-step Playwright golden path (current suite: 10 tests/
-  viewport, all passing, but not the full spec'd walk).
-- Independent 5-angle hostile review.
-- Final `OVERNIGHT_FINAL_REPORT.md` / structured "QUALITY REPAIR REPORT".
+- Full 21-step Playwright golden-path walk from the original HIGH-QUALITY
+  REPAIR PASS spec — current suite is 13 tests × 3 viewports covering the
+  main golden path + several targeted regressions, not an exhaustive
+  interaction-by-interaction walk.
+- Independent 5-angle hostile review of the full experience.
+- A final structured "QUALITY REPAIR REPORT" / completion-report deliverable
+  in the format the original repair-pass spec asked for — the work itself
+  is done and verified above, but no single report document was written.
+- Bespoke signature illustrations: `ScienceConstellation` exists (Research
+  tab, raw mode); "Air Mechanism" and "Performance Tension" as dedicated
+  visuals (beyond the existing icon system and data views) do not.
 
 ## NEXT ACTION
 
