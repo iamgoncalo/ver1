@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import { Pill, SectionLabel, StatRow } from "../components/ui";
+import { TraceText } from "../components/TraceText";
 import { FocusPanel } from "../components/FocusPanel";
 import { FunnelStageIcon, type FunnelStageKey } from "../components/FunnelIcons";
 
@@ -92,7 +93,7 @@ function Source({ text }: { text: string }) {
         style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.04em" }}>
         {open ? "▾ source" : "▸ source"}
       </button>
-      {open && <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 6 }}>{text}</p>}
+      {open && <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 6 }}><TraceText text={text} /></p>}
     </div>
   );
 }

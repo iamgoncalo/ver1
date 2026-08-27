@@ -16,6 +16,16 @@ const TYPE_LABEL: Record<string, string> = {
 const INTEL_LABEL: Record<string, string> = {
   manual: "Manual", reactive: "Reactive (auto-sensor)", connected: "Connected (app/voice)", adaptive: "Adaptive (learns/predicts)",
 };
+// Raw pipeline status codes are internal jargon - always show the plain
+// meaning, never the bare code. Falls back to a humanized version of the
+// code itself for any status this map doesn't yet know, rather than
+// hiding it.
+const PRODUCT_STATUS_LABEL: Record<string, string> = {
+  EXACT_VERIFIED: "Verified — exact match to the official product page",
+};
+function productStatusLabel(status: string) {
+  return PRODUCT_STATUS_LABEL[status] ?? status.replace(/_/g, " ").toLowerCase();
+}
 
 export function ProductsWorld() {
   const [data, setData] = useState<ProductsResponse | null>(null);
@@ -91,7 +101,7 @@ export function ProductsWorld() {
                     <img src={`/products/${p.local_asset.split("/").pop()}`} alt={p.official_name}
                       style={{ width: 70, height: 70, objectFit: "contain", flexShrink: 0 }} />
                     <div>
-                      <Pill tone="good">{p.status}</Pill>
+                      <Pill tone="good">{productStatusLabel(p.status)}</Pill>
                       <div style={{ fontWeight: 600, fontSize: 13, marginTop: 6, lineHeight: 1.3 }}>{p.official_name}</div>
                       <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>
                         {p.sku} · {p.specs.cadr_m3h} m³/h · {p.specs.room_coverage_m2} m²
@@ -242,7 +252,7 @@ export function ProductsWorld() {
             <img src={`/products/${officialFocus.local_asset.split("/").pop()}`} alt={officialFocus.official_name}
               style={{ width: "100%", maxWidth: 220, objectFit: "contain", display: "block", margin: "0 auto 16px" }} />
             <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
-              <Pill tone="good">{officialFocus.status}</Pill>
+              <Pill tone="good">{productStatusLabel(officialFocus.status)}</Pill>
             </div>
             <StatRow label="SKU" value={officialFocus.sku} />
             <StatRow label="Region verified" value={officialFocus.region} />

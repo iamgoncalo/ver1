@@ -5,6 +5,7 @@ import { FocusPanel } from "../components/FocusPanel";
 import { FrictionIcon, ImageProvenance } from "../components/ThemeIcon";
 import { traceConceptChain } from "../lib/trace";
 import { TraceTree, TraceLegend } from "../components/TraceTree";
+import { TraceText } from "../components/TraceText";
 import type { DesignDna } from "../lib/types";
 
 interface Criterion {
@@ -483,7 +484,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
               {stageFocus === "__bet" && "The current recommended concept from the live decision engine — never hardcoded."}
             </p>
             <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 10, padding: "8px 10px", background: "var(--surface-2)", borderRadius: 8 }}>
-              TRACE — {{
+              TRACE — <TraceText text={{
                 sources_admitted: "len(data/processed/sources_real.json → \"sources\"), read live by src/real/criteria_real.py::compute_funnel_counts() on every GET /api/criteria.",
                 signals_total: "data/processed/signals_real.json → \"count\" field, computed by src/real/signals_from_research_real.py.",
                 tensions: "len(data/processed/research_tensions.json → \"tensions\"), computed by src/real/research_corpus_real.py.",
@@ -494,7 +495,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
                 critic_evaluated: "len(data/processed/critic_real.json → \"concepts\"), computed by src/real/critic_real.py::build().",
                 finalists: "len(data/processed/magic_box_real.json → \"finalists\"), computed by src/real/magic_box_real.py::run_funnel().",
                 __bet: "data/processed/decision_framework_real.json → verdict.recommended_name, computed live by src/real/decision_framework_real.py::compute().",
-              }[stageFocus]}
+              }[stageFocus] ?? ""} />
             </p>
           </>
         )}

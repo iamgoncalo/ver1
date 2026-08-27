@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type ReactNode } from "react";
 import { FocusPanel } from "./FocusPanel";
+import { TraceText } from "./TraceText";
 
 export type ViewMode = "distilled" | "raw";
 
@@ -67,7 +68,7 @@ export function MetricFocusPanel({ metric, onClose }: { metric: MetricTrace | nu
         <>
           <div style={{ fontSize: 32, fontWeight: 700, marginBottom: 12 }}>{metric.value}</div>
           <SectionLabel>Trace</SectionLabel>
-          <p className="mono" style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{metric.trace}</p>
+          <p className="mono" style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}><TraceText text={metric.trace} /></p>
         </>
       )}
     </FocusPanel>
