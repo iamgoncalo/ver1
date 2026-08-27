@@ -4,6 +4,12 @@ import type { InnovationsResponse } from "../lib/types";
 import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { traceEvidenceIds, type TraceNode } from "../lib/trace";
+import { FrictionIcon } from "../components/ThemeIcon";
+
+function themeFromEvidenceIds(evidenceIds: string[]): string | null {
+  const tax = evidenceIds.find((id) => id.startsWith("taxonomy:"));
+  return tax ? tax.split(":")[1] : null;
+}
 
 const DEFAULT_PRIORITY = "pain_feasibility_majority";
 const PRIORITIES = [
@@ -178,11 +184,14 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
               border: "1px solid", borderColor: isWinner ? "var(--accent-blue)" : "var(--line)",
               boxShadow: isWinner ? "var(--shadow)" : "none",
             }}>
-              <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
-                <Pill tone={isWinner ? "good" : s.consumer_pain.gate_passed ? "neutral" : "rose"}>
-                  {isWinner ? "CURRENT WINNER" : s.consumer_pain.gate_passed ? "ALTERNATIVE" : "GATE FAILED"}
-                </Pill>
-                {mode === "raw" && <Pill>{id}</Pill>}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  <Pill tone={isWinner ? "good" : s.consumer_pain.gate_passed ? "neutral" : "rose"}>
+                    {isWinner ? "CURRENT WINNER" : s.consumer_pain.gate_passed ? "ALTERNATIVE" : "GATE FAILED"}
+                  </Pill>
+                  {mode === "raw" && <Pill>{id}</Pill>}
+                </div>
+                {themeFromEvidenceIds(s.evidence_ids) && <FrictionIcon theme={themeFromEvidenceIds(s.evidence_ids)!} size={32} />}
               </div>
               <h3 style={{ fontSize: 18, marginBottom: 6, lineHeight: 1.3 }}>{s.name}</h3>
 

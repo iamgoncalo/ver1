@@ -4,6 +4,7 @@ import type { MagicBoxResponse, Possibility } from "../lib/types";
 import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import type { DesignDna } from "../lib/types";
+import { FrictionIcon, ImageProvenance } from "../components/ThemeIcon";
 
 interface CategoryAssumption {
   assumption_id: string; text: string; status: string; evidence_for_prevalence: string;
@@ -135,9 +136,12 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
               const c = criticOf(p.id);
               return (
                 <Card key={p.id} onClick={() => setFocus(p)} active>
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <Pill tone="good">FINALIST</Pill>
-                    {c && <Pill tone={VERDICT_TONE[c.critic_overall] ?? "neutral"}>CRITIC: {c.critic_overall.replace(/_/g, " ")}</Pill>}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      <Pill tone="good">FINALIST</Pill>
+                      {c && <Pill tone={VERDICT_TONE[c.critic_overall] ?? "neutral"}>CRITIC: {c.critic_overall.replace(/_/g, " ")}</Pill>}
+                    </div>
+                    <FrictionIcon theme={p.friction_theme} size={32} />
                   </div>
                   <div style={{ fontWeight: 600, fontSize: 15, marginTop: 8 }}>{p.name}</div>
                   <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 8px" }}>
@@ -180,9 +184,12 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
               const c = criticOf(p.id);
               return (
               <Card key={p.id} onClick={() => setFocus(p)} active={finalistIds.has(p.id)}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, flexWrap: "wrap", gap: 4 }}>
-                  {c && <Pill tone={STAGE_TONE[c.evolution_stage] ?? "neutral"}>{c.evolution_stage}</Pill>}
-                  {p.is_white_space && <Pill tone="amber">rivals weak here</Pill>}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 4 }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                    {c && <Pill tone={STAGE_TONE[c.evolution_stage] ?? "neutral"}>{c.evolution_stage}</Pill>}
+                    {p.is_white_space && <Pill tone="amber">rivals weak here</Pill>}
+                  </div>
+                  <FrictionIcon theme={p.friction_theme} size={28} />
                 </div>
                 <div style={{ fontWeight: 600, fontSize: 14 }}>{p.name}</div>
                 <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 8px" }}>
@@ -229,6 +236,12 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter: string | null }) {
           const c = criticOf(focus.id);
           return (
           <>
+            <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 16 }}>
+              <div style={{ width: 56, height: 56, borderRadius: 14, background: "var(--surface-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <FrictionIcon theme={focus.friction_theme} size={36} />
+              </div>
+              <ImageProvenance state="EDITORIAL" />
+            </div>
             <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
               <TruthBadge truthClass={focus.truth_class} />
               {c && <Pill tone={STAGE_TONE[c.evolution_stage] ?? "neutral"}>{c.evolution_stage}</Pill>}

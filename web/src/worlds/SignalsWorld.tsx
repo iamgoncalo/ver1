@@ -4,6 +4,7 @@ import type { Signal, SignalsResponse } from "../lib/types";
 import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, HeroMetric, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { ScienceConstellation } from "../components/ScienceConstellation";
+import { TerritoryIcon, ImageProvenance } from "../components/ThemeIcon";
 
 interface ResearchPaper {
   research_id: string; title: string; journal: string; year: number; doi: string; pmid: string | null;
@@ -181,7 +182,10 @@ export function SignalsWorld() {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {(research?.peer_reviewed_papers ?? []).map((p) => (
               <div key={p.research_id} onClick={() => setPaperFocus(p)} role="button" tabIndex={0}
-                style={{ display: "flex", justifyContent: "space-between", gap: 16, padding: "12px 16px", border: "1px solid var(--line)", borderRadius: 10, background: "var(--surface)", cursor: "pointer" }}>
+                style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: "space-between", padding: "12px 16px", border: "1px solid var(--line)", borderRadius: 10, background: "var(--surface)", cursor: "pointer" }}>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: "var(--surface-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <TerritoryIcon territory={p.territories[0]} size={24} />
+                </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 13, fontWeight: 500 }}>{p.title}</div>
                   <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 3 }}>{p.journal} · {p.year} · {p.study_design}</div>
@@ -322,6 +326,12 @@ export function SignalsWorld() {
       <FocusPanel open={!!paperFocus} onClose={() => setPaperFocus(null)} eyebrow={paperFocus ? `${paperFocus.journal} · ${paperFocus.year}` : ""} title={paperFocus?.title ?? ""}>
         {paperFocus && (
           <>
+            <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 16 }}>
+              <div style={{ width: 56, height: 56, borderRadius: 14, background: "var(--surface-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <TerritoryIcon territory={paperFocus.territories[0]} size={36} />
+              </div>
+              <ImageProvenance state="EDITORIAL" />
+            </div>
             <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
               {paperFocus.territories.map((t) => <Pill key={t} tone="blue">{t}</Pill>)}
             </div>
