@@ -1,0 +1,3379 @@
+{
+  "_provenance": "Every count is len() of a real filtered Python list. Dominance reuses src/real/decision_framework_real.py::dominates() exactly, generalized to N candidates.",
+  "generated_by": "src/real/magic_box_real.py",
+  "funnel": [
+    {
+      "stage": "generated",
+      "label": "Possibilities generated",
+      "count": 16
+    },
+    {
+      "stage": "gate",
+      "label": "Pass Consumer Pain evidence gate",
+      "count": 12
+    },
+    {
+      "stage": "evidence",
+      "label": "Have real Economic Value coverage",
+      "count": 12
+    },
+    {
+      "stage": "dominance",
+      "label": "Non-dominated (Pareto frontier)",
+      "count": 9
+    },
+    {
+      "stage": "finalists",
+      "label": "Finalists (top 3 by Consumer Pain)",
+      "count": 3
+    }
+  ],
+  "possibilities": [
+    {
+      "id": "reliability:PREDICT",
+      "name": "Predictive-Maintenance Air Purifier",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "PREDICT",
+      "operator_definition": "Reactive -> anticipatory.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 166,
+        "n_distinct_products": 60,
+        "review_date_range": [
+          "2006-04-20",
+          "2023-08-27"
+        ],
+        "pct_verified_purchase": 85.5,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 27,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
+    },
+    {
+      "id": "reliability:MATERIALISE",
+      "name": "Health-Indicator Air Purifier",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "MATERIALISE",
+      "operator_definition": "Turn digital perception/information into physical intervention.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 166,
+        "n_distinct_products": 60,
+        "review_date_range": [
+          "2006-04-20",
+          "2023-08-27"
+        ],
+        "pct_verified_purchase": 85.5,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 27,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
+    },
+    {
+      "id": "reliability:CROSS_CATEGORY_TRANSFER",
+      "name": "Self-Testing Air Purifier",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 166,
+        "n_distinct_products": 60,
+        "review_date_range": [
+          "2006-04-20",
+          "2023-08-27"
+        ],
+        "pct_verified_purchase": 85.5,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 27,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
+    },
+    {
+      "id": "noise:AMBIENT",
+      "name": "Ambient-Sensing Night Purifier",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "AMBIENT",
+      "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 369,
+        "n_distinct_products": 77,
+        "review_date_range": [
+          "2004-10-14",
+          "2023-08-08"
+        ],
+        "pct_verified_purchase": 69.6,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "typical_market_price_usd": 179.99,
+      "typical_market_price_n_products": 32,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
+    },
+    {
+      "id": "noise:TEMPORAL_SHIFT",
+      "name": "Pre-Sleep Air Purifier",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "TEMPORAL_SHIFT",
+      "operator_definition": "Move the job earlier/later.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 369,
+        "n_distinct_products": 77,
+        "review_date_range": [
+          "2004-10-14",
+          "2023-08-08"
+        ],
+        "pct_verified_purchase": 69.6,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "typical_market_price_usd": 179.99,
+      "typical_market_price_n_products": 32,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
+    },
+    {
+      "id": "noise:CROSS_CATEGORY_TRANSFER",
+      "name": "Noise-Cancelling Air Purifier",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 369,
+        "n_distinct_products": 77,
+        "review_date_range": [
+          "2004-10-14",
+          "2023-08-08"
+        ],
+        "pct_verified_purchase": 69.6,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "typical_market_price_usd": 179.99,
+      "typical_market_price_n_products": 32,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
+    },
+    {
+      "id": "value_effectiveness:CONCENTRATE",
+      "name": "Verified-Performance Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CONCENTRATE",
+      "operator_definition": "Multiple systems -> one system.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    },
+    {
+      "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "name": "Certified-Clean Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    },
+    {
+      "id": "value_effectiveness:PERSONALISE",
+      "name": "Personal Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    },
+    {
+      "id": "customer_service:INVERT",
+      "name": "Self-Reporting Air Purifier",
+      "friction_theme": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "operator": "INVERT",
+      "operator_definition": "Act before instead of after.",
+      "consumer_pain_csat": -2.429,
+      "consumer_pain_prevalence_pct": 0.34,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 36,
+        "n_distinct_products": 19,
+        "review_date_range": [
+          "2007-11-01",
+          "2023-07-17"
+        ],
+        "pct_verified_purchase": 69.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": false,
+      "economic_value": 8124.56,
+      "typical_market_price_usd": 249.0,
+      "typical_market_price_n_products": 11,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:customer_service",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "customer_service",
+          "detail": "Customer service and warranty handling — a real, operational issue, not a research question."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
+        }
+      }
+    },
+    {
+      "id": "customer_service:REMOVE",
+      "name": "Swap-Ready Air Purifier",
+      "friction_theme": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "operator": "REMOVE",
+      "operator_definition": "Eliminate an interaction/component.",
+      "consumer_pain_csat": -2.429,
+      "consumer_pain_prevalence_pct": 0.34,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 36,
+        "n_distinct_products": 19,
+        "review_date_range": [
+          "2007-11-01",
+          "2023-07-17"
+        ],
+        "pct_verified_purchase": 69.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": false,
+      "economic_value": 8124.56,
+      "typical_market_price_usd": 249.0,
+      "typical_market_price_n_products": 11,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:customer_service",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "customer_service",
+          "detail": "Customer service and warranty handling — a real, operational issue, not a research question."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
+        }
+      }
+    },
+    {
+      "id": "filter_cost:DISTRIBUTE",
+      "name": "Micro-Filter Air Purifier",
+      "friction_theme": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "operator": "DISTRIBUTE",
+      "operator_definition": "One large system -> several smaller systems.",
+      "consumer_pain_csat": -1.252,
+      "consumer_pain_prevalence_pct": 0.26,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 27,
+        "n_distinct_products": 15,
+        "review_date_range": [
+          "2012-04-24",
+          "2023-07-21"
+        ],
+        "pct_verified_purchase": 70.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": false,
+      "economic_value": 7390.66,
+      "typical_market_price_usd": 249.5,
+      "typical_market_price_n_products": 10,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:filter_cost",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "filter_cost",
+          "detail": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
+        }
+      }
+    },
+    {
+      "id": "filter_cost:MERGE",
+      "name": "All-Inclusive Air Purifier",
+      "friction_theme": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "operator": "MERGE",
+      "operator_definition": "Combine functions / objects / jobs.",
+      "consumer_pain_csat": -1.252,
+      "consumer_pain_prevalence_pct": 0.26,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 27,
+        "n_distinct_products": 15,
+        "review_date_range": [
+          "2012-04-24",
+          "2023-07-21"
+        ],
+        "pct_verified_purchase": 70.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": false,
+      "economic_value": 7390.66,
+      "typical_market_price_usd": 249.5,
+      "typical_market_price_n_products": 10,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:filter_cost",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "filter_cost",
+          "detail": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
+        }
+      }
+    },
+    {
+      "id": "ozone_odor_safety:MOVE",
+      "name": "Placement-Sensing Air Purifier",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "MOVE",
+      "operator_definition": "Change physical location.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 85,
+        "n_distinct_products": 29,
+        "review_date_range": [
+          "2011-05-18",
+          "2023-04-13"
+        ],
+        "pct_verified_purchase": 82.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "typical_market_price_usd": 79.99,
+      "typical_market_price_n_products": 15,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      }
+    },
+    {
+      "id": "ozone_odor_safety:PERSONALISE",
+      "name": "Sensitivity-Aware Air Purifier",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 85,
+        "n_distinct_products": 29,
+        "review_date_range": [
+          "2011-05-18",
+          "2023-04-13"
+        ],
+        "pct_verified_purchase": 82.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "typical_market_price_usd": 79.99,
+      "typical_market_price_n_products": 15,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      }
+    },
+    {
+      "id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+      "name": "Wearable Odor/Ozone Safety Clip",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 85,
+        "n_distinct_products": 29,
+        "review_date_range": [
+          "2011-05-18",
+          "2023-04-13"
+        ],
+        "pct_verified_purchase": 82.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "typical_market_price_usd": 79.99,
+      "typical_market_price_n_products": 15,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      }
+    }
+  ],
+  "finalists": [
+    {
+      "id": "value_effectiveness:CONCENTRATE",
+      "name": "Verified-Performance Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CONCENTRATE",
+      "operator_definition": "Multiple systems -> one system.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    },
+    {
+      "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "name": "Certified-Clean Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    },
+    {
+      "id": "value_effectiveness:PERSONALISE",
+      "name": "Personal Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    }
+  ],
+  "non_dominated": [
+    {
+      "id": "reliability:PREDICT",
+      "name": "Predictive-Maintenance Air Purifier",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "PREDICT",
+      "operator_definition": "Reactive -> anticipatory.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 166,
+        "n_distinct_products": 60,
+        "review_date_range": [
+          "2006-04-20",
+          "2023-08-27"
+        ],
+        "pct_verified_purchase": 85.5,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 27,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
+    },
+    {
+      "id": "reliability:MATERIALISE",
+      "name": "Health-Indicator Air Purifier",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "MATERIALISE",
+      "operator_definition": "Turn digital perception/information into physical intervention.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 166,
+        "n_distinct_products": 60,
+        "review_date_range": [
+          "2006-04-20",
+          "2023-08-27"
+        ],
+        "pct_verified_purchase": 85.5,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 27,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
+    },
+    {
+      "id": "reliability:CROSS_CATEGORY_TRANSFER",
+      "name": "Self-Testing Air Purifier",
+      "friction_theme": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -2.223,
+      "consumer_pain_prevalence_pct": 1.58,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 166,
+        "n_distinct_products": 60,
+        "review_date_range": [
+          "2006-04-20",
+          "2023-08-27"
+        ],
+        "pct_verified_purchase": 85.5,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 26357.86,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 27,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Envion",
+        "EdenPURE",
+        "Himalayan",
+        "Egofine",
+        "Belita Amy",
+        "MOONQUAKE",
+        "ZOCALOK"
+      ],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:reliability",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "reliability",
+          "detail": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Envion",
+            "EdenPURE",
+            "Himalayan",
+            "Egofine",
+            "Belita Amy",
+            "MOONQUAKE",
+            "ZOCALOK"
+          ],
+          "detail": "7 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
+        }
+      }
+    },
+    {
+      "id": "noise:AMBIENT",
+      "name": "Ambient-Sensing Night Purifier",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "AMBIENT",
+      "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 369,
+        "n_distinct_products": 77,
+        "review_date_range": [
+          "2004-10-14",
+          "2023-08-08"
+        ],
+        "pct_verified_purchase": 69.6,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "typical_market_price_usd": 179.99,
+      "typical_market_price_n_products": 32,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
+    },
+    {
+      "id": "noise:TEMPORAL_SHIFT",
+      "name": "Pre-Sleep Air Purifier",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "TEMPORAL_SHIFT",
+      "operator_definition": "Move the job earlier/later.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 369,
+        "n_distinct_products": 77,
+        "review_date_range": [
+          "2004-10-14",
+          "2023-08-08"
+        ],
+        "pct_verified_purchase": 69.6,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "typical_market_price_usd": 179.99,
+      "typical_market_price_n_products": 32,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
+    },
+    {
+      "id": "noise:CROSS_CATEGORY_TRANSFER",
+      "name": "Noise-Cancelling Air Purifier",
+      "friction_theme": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -0.571,
+      "consumer_pain_prevalence_pct": 3.5,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 369,
+        "n_distinct_products": 77,
+        "review_date_range": [
+          "2004-10-14",
+          "2023-08-08"
+        ],
+        "pct_verified_purchase": 69.6,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 84015.62,
+      "typical_market_price_usd": 179.99,
+      "typical_market_price_n_products": 32,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+      },
+      "is_white_space": true,
+      "competitor_gap_brands": [
+        "Dyson",
+        "Plixio",
+        "Oreck",
+        "Envion",
+        "Wynd",
+        "Molekule",
+        "AMEIFU",
+        "AZEUS",
+        "AIRTHEREAL",
+        "Egofine",
+        "Elechomes"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:noise",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "noise",
+          "detail": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3",
+            "T6"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance; Pollutant reduction vs. clinical outcome certainty"
+        },
+        "R": {
+          "status": "PRESENT",
+          "kind": "rival_gap",
+          "brands": [
+            "Dyson",
+            "Plixio",
+            "Oreck",
+            "Envion",
+            "Wynd",
+            "Molekule",
+            "AMEIFU",
+            "AZEUS",
+            "AIRTHEREAL",
+            "Egofine",
+            "Elechomes"
+          ],
+          "detail": "11 named real competitors measurably weaker on this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A5",
+            "A6"
+          ],
+          "detail": "Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
+        }
+      }
+    },
+    {
+      "id": "value_effectiveness:CONCENTRATE",
+      "name": "Verified-Performance Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CONCENTRATE",
+      "operator_definition": "Multiple systems -> one system.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    },
+    {
+      "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "name": "Certified-Clean Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    },
+    {
+      "id": "value_effectiveness:PERSONALISE",
+      "name": "Personal Air Purifier",
+      "friction_theme": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "consumer_pain_csat": -2.724,
+      "consumer_pain_prevalence_pct": 0.77,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 81,
+        "n_distinct_products": 36,
+        "review_date_range": [
+          "2010-06-21",
+          "2023-04-24"
+        ],
+        "pct_verified_purchase": 90.1,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 10648.05,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 19,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R03",
+          "TC-R02"
+        ],
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:value_effectiveness",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "value_effectiveness",
+          "detail": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials."
+        },
+        "T": {
+          "status": "PRESENT",
+          "kind": "scientific_tension",
+          "ids": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "detail": "Filtration vs. noise-driven adherence; Constant vs. automatic operation; CADR theory vs. real-home performance"
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "PRESENT",
+          "kind": "category_assumption",
+          "ids": [
+            "A2",
+            "A5",
+            "A6"
+          ],
+          "detail": "The device sits in one fixed location, chosen once.; Clean-air delivery rate (CADR) is the primary performance basis.; Continuous, constant operation is the default expectation."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
+        }
+      }
+    }
+  ],
+  "graveyard": [
+    {
+      "id": "customer_service:INVERT",
+      "name": "Self-Reporting Air Purifier",
+      "friction_theme": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "operator": "INVERT",
+      "operator_definition": "Act before instead of after.",
+      "consumer_pain_csat": -2.429,
+      "consumer_pain_prevalence_pct": 0.34,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 36,
+        "n_distinct_products": 19,
+        "review_date_range": [
+          "2007-11-01",
+          "2023-07-17"
+        ],
+        "pct_verified_purchase": 69.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": false,
+      "economic_value": 8124.56,
+      "typical_market_price_usd": 249.0,
+      "typical_market_price_n_products": 11,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:customer_service",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "customer_service",
+          "detail": "Customer service and warranty handling — a real, operational issue, not a research question."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
+        }
+      },
+      "killed_by": "NO_OBSERVED_PAIN",
+      "kill_reason": "Not enough real complaint evidence — 0.34% is below the 0.5% floor."
+    },
+    {
+      "id": "customer_service:REMOVE",
+      "name": "Swap-Ready Air Purifier",
+      "friction_theme": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "operator": "REMOVE",
+      "operator_definition": "Eliminate an interaction/component.",
+      "consumer_pain_csat": -2.429,
+      "consumer_pain_prevalence_pct": 0.34,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 36,
+        "n_distinct_products": 19,
+        "review_date_range": [
+          "2007-11-01",
+          "2023-07-17"
+        ],
+        "pct_verified_purchase": 69.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": false,
+      "economic_value": 8124.56,
+      "typical_market_price_usd": 249.0,
+      "typical_market_price_n_products": 11,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:customer_service",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "customer_service",
+          "detail": "Customer service and warranty handling — a real, operational issue, not a research question."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
+        }
+      },
+      "killed_by": "NO_OBSERVED_PAIN",
+      "kill_reason": "Not enough real complaint evidence — 0.34% is below the 0.5% floor."
+    },
+    {
+      "id": "filter_cost:DISTRIBUTE",
+      "name": "Micro-Filter Air Purifier",
+      "friction_theme": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "operator": "DISTRIBUTE",
+      "operator_definition": "One large system -> several smaller systems.",
+      "consumer_pain_csat": -1.252,
+      "consumer_pain_prevalence_pct": 0.26,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 27,
+        "n_distinct_products": 15,
+        "review_date_range": [
+          "2012-04-24",
+          "2023-07-21"
+        ],
+        "pct_verified_purchase": 70.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": false,
+      "economic_value": 7390.66,
+      "typical_market_price_usd": 249.5,
+      "typical_market_price_n_products": 10,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:filter_cost",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "filter_cost",
+          "detail": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
+        }
+      },
+      "killed_by": "NO_OBSERVED_PAIN",
+      "kill_reason": "Not enough real complaint evidence — 0.26% is below the 0.5% floor."
+    },
+    {
+      "id": "filter_cost:MERGE",
+      "name": "All-Inclusive Air Purifier",
+      "friction_theme": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "operator": "MERGE",
+      "operator_definition": "Combine functions / objects / jobs.",
+      "consumer_pain_csat": -1.252,
+      "consumer_pain_prevalence_pct": 0.26,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 27,
+        "n_distinct_products": 15,
+        "review_date_range": [
+          "2012-04-24",
+          "2023-07-21"
+        ],
+        "pct_verified_purchase": 70.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": false,
+      "economic_value": 7390.66,
+      "typical_market_price_usd": 249.5,
+      "typical_market_price_n_products": 10,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [],
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:filter_cost",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "filter_cost",
+          "detail": "Filter cost/frequency is a real complaint with no matching peer-reviewed literature."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
+        }
+      },
+      "killed_by": "NO_OBSERVED_PAIN",
+      "kill_reason": "Not enough real complaint evidence — 0.26% is below the 0.5% floor."
+    },
+    {
+      "id": "ozone_odor_safety:MOVE",
+      "name": "Placement-Sensing Air Purifier",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "MOVE",
+      "operator_definition": "Change physical location.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 85,
+        "n_distinct_products": 29,
+        "review_date_range": [
+          "2011-05-18",
+          "2023-04-13"
+        ],
+        "pct_verified_purchase": 82.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "typical_market_price_usd": 79.99,
+      "typical_market_price_n_products": 15,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      },
+      "killed_by": "DOMINATED",
+      "kill_reason": "Another concept beats it on pain, value, and feasibility."
+    },
+    {
+      "id": "ozone_odor_safety:PERSONALISE",
+      "name": "Sensitivity-Aware Air Purifier",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 85,
+        "n_distinct_products": 29,
+        "review_date_range": [
+          "2011-05-18",
+          "2023-04-13"
+        ],
+        "pct_verified_purchase": 82.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "typical_market_price_usd": 79.99,
+      "typical_market_price_n_products": 15,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      },
+      "killed_by": "DOMINATED",
+      "kill_reason": "Another concept beats it on pain, value, and feasibility."
+    },
+    {
+      "id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+      "name": "Wearable Odor/Ozone Safety Clip",
+      "friction_theme": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "consumer_pain_csat": -1.102,
+      "consumer_pain_prevalence_pct": 0.81,
+      "consumer_pain_methodology": {
+        "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+        "n_reviews": 85,
+        "n_distinct_products": 29,
+        "review_date_range": [
+          "2011-05-18",
+          "2023-04-13"
+        ],
+        "pct_verified_purchase": 82.4,
+        "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+      },
+      "gate_passed": true,
+      "economic_value": 16112.87,
+      "typical_market_price_usd": 79.99,
+      "typical_market_price_n_products": 15,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R04",
+          "TC-R08"
+        ],
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+      },
+      "is_white_space": false,
+      "competitor_gap_brands": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "truth_class": "DESIGN_POSSIBILITY",
+      "design_dna": {
+        "F": {
+          "status": "PRESENT",
+          "kind": "consumer_friction",
+          "id": "taxonomy:ozone_odor_safety",
+          "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
+        },
+        "O": {
+          "status": "PRESENT",
+          "kind": "design_operator",
+          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+        },
+        "S": {
+          "status": "PRESENT",
+          "kind": "signal",
+          "id": "ozone_odor_safety",
+          "detail": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits."
+        },
+        "T": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "scientific_tension",
+          "detail": "No real research tension shares a paper with this theme's signal evidence."
+        },
+        "R": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "rival_gap",
+          "detail": "No real competitor-weakness data clears the white-space threshold for this theme."
+        },
+        "C": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "versuni_capability",
+          "detail": "No real Versuni internal capability/org-readiness dataset exists in this pipeline."
+        },
+        "A": {
+          "status": "MISSING_UNVERIFIED",
+          "kind": "category_assumption",
+          "detail": "No category assumption shares a paper with this theme's signal evidence."
+        },
+        "E": {
+          "status": "PRESENT",
+          "kind": "economic_condition",
+          "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
+        }
+      },
+      "killed_by": "DOMINATED",
+      "kill_reason": "Another concept beats it on pain, value, and feasibility."
+    }
+  ],
+  "operators": {
+    "MOVE": "Change physical location.",
+    "MERGE": "Combine functions / objects / jobs.",
+    "REMOVE": "Eliminate an interaction/component.",
+    "INVERT": "Act before instead of after.",
+    "DISTRIBUTE": "One large system -> several smaller systems.",
+    "CONCENTRATE": "Multiple systems -> one system.",
+    "PREDICT": "Reactive -> anticipatory.",
+    "PERSONALISE": "Room/system -> individual/context.",
+    "AMBIENT": "Explicit interaction -> invisible environmental behaviour.",
+    "TEMPORAL_SHIFT": "Move the job earlier/later.",
+    "CROSS_CATEGORY_TRANSFER": "Transfer a verified capability from another product/category.",
+    "MATERIALISE": "Turn digital perception/information into physical intervention."
+  }
+}

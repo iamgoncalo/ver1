@@ -1,0 +1,184 @@
+{
+  "_provenance": "Recomputed from REAL Q2/Q3/Q4 outputs during this repair - not carried over from the synthetic-fixture phase. Winner is computed via gate -> Pareto dominance -> named judgment rule (src/real/decision_framework_real.py::evaluate), never a fixed literal - see CASE_REQUIREMENTS.yaml for the history of why that distinction is written down explicitly.",
+  "generated_by": "src/real/decision_framework_real.py",
+  "market_scenario_used": "imarc",
+  "scenario_cagr_pct": 6.54,
+  "decision_priority_used": "pain_feasibility_majority",
+  "scores": {
+    "OS-1": {
+      "name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
+      "usage_context": "Any household buying a purifier as a health/allergy necessity, not a discretionary gadget",
+      "friction": "Unit silently 'stops working' or 'dies' well before its expected life, with no warning and often outside a short return window - a complaint pattern visible across brands and across the full 2004-2023 span of this real corpus, meaning it has never been solved industry-wide",
+      "consumer_pain": {
+        "severity_csat": -2.223,
+        "prevalence_pct": 1.58,
+        "gate_passed": true,
+        "methodology": {
+          "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+          "n_reviews": 166,
+          "n_distinct_products": 60,
+          "review_date_range": [
+            "2006-04-20",
+            "2023-08-27"
+          ],
+          "pct_verified_purchase": 85.5,
+          "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+        }
+      },
+      "economic_value": 26357.86,
+      "typical_market_price_usd": 199.99,
+      "typical_market_price_n_products": 27,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R02",
+          "TC-R08"
+        ],
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+      },
+      "n_reviews_supporting": 166,
+      "evidence_ids": [
+        "taxonomy:reliability",
+        "TC-R02",
+        "TC-R08"
+      ],
+      "assumptions": [
+        "Reliability complaints in review text reflect genuine hardware/QA failures, not disproportionately impatient reviewers.",
+        "A self-diagnostic signal can be delivered over the existing Matter connectivity layer without a new certification cycle."
+      ],
+      "uncertainty": [
+        "Price-weighted exposure covers only 75/237 real products with a known observed price - a real coverage gap, not the full category.",
+        "No direct WTP measurement exists for this or any theme (Q4)."
+      ],
+      "evidence": "src/real/taxonomy_real.py theme 'reliability', polarity-gated real-text classification, n=166 reviews",
+      "friction_prevalence_pct": 1.58,
+      "csat_impact": -2.223,
+      "price_weighted_exposure_usd": 26357.86,
+      "dominance_status": "NON_DOMINATED",
+      "decision_reason": "Non-dominated vs. OS-2 - picked by the Pain + Feasibility majority rule."
+    },
+    "OS-2": {
+      "name": "Whisper-Quiet Night Mode",
+      "usage_context": "Bedroom, overnight use",
+      "friction": "Motor/fan noise at higher speeds",
+      "consumer_pain": {
+        "severity_csat": -0.571,
+        "prevalence_pct": 3.5,
+        "gate_passed": true,
+        "methodology": {
+          "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+          "n_reviews": 369,
+          "n_distinct_products": 77,
+          "review_date_range": [
+            "2004-10-14",
+            "2023-08-08"
+          ],
+          "pct_verified_purchase": 69.6,
+          "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)"
+        }
+      },
+      "economic_value": 84015.62,
+      "typical_market_price_usd": 179.99,
+      "typical_market_price_n_products": 32,
+      "feasibility_2_5y": {
+        "rating": "medium",
+        "rank": 2,
+        "evidence_ids": [
+          "TC-R11"
+        ],
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+      },
+      "n_reviews_supporting": 369,
+      "evidence_ids": [
+        "taxonomy:noise",
+        "TC-R11"
+      ],
+      "assumptions": [
+        "Acoustic engineering can meaningfully reduce PERCEIVED loudness without breaking the cost or power-draw envelope.",
+        "Reviewers who mention noise would actually change their rating if it were fixed, rather than noise being one complaint among several."
+      ],
+      "uncertainty": [
+        "Same price-coverage gap as OS-1.",
+        "No direct WTP measurement exists for this or any theme (Q4)."
+      ],
+      "evidence": "src/real/taxonomy_real.py theme 'noise', n=369 reviews",
+      "friction_prevalence_pct": 3.5,
+      "csat_impact": -0.571,
+      "price_weighted_exposure_usd": 84015.62,
+      "dominance_status": "NON_DOMINATED",
+      "decision_reason": "Non-dominated vs. OS-1, but the Pain + Feasibility majority rule favours OS-1."
+    },
+    "OS-3": {
+      "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
+      "usage_context": "Smart-speaker / connected-home households",
+      "friction": "Presumed friction with manual app/physical control",
+      "consumer_pain": {
+        "severity_csat": null,
+        "prevalence_pct": 1.016,
+        "gate_passed": false
+      },
+      "economic_value": null,
+      "typical_market_price_usd": null,
+      "typical_market_price_n_products": 0,
+      "feasibility_2_5y": {
+        "rating": "high",
+        "rank": 3,
+        "evidence_ids": [
+          "TC-R07",
+          "TC-R08"
+        ],
+        "rationale": "Technically the easiest of the three: TC-R07 shows Versuni already ships Wi-Fi/app connectivity today, and TC-R08 is an already-standardized protocol layer. High feasibility does NOT rescue this opportunity - it fails the upstream Consumer Pain evidence gate below. Ease of build is not evidence of demand."
+      },
+      "n_reviews_supporting": 107,
+      "evidence_ids": [
+        "keyword_search:connectivity",
+        "TC-R07",
+        "TC-R08"
+      ],
+      "assumptions": [
+        "A friction not visible in review text could still exist but be unarticulated - review text structurally cannot surface demand for a feature nobody has been offered yet."
+      ],
+      "uncertainty": [
+        "Keyword-search prevalence has no polarity gate, so this number is a topic-mention count, not a friction measure - a materially weaker evidence class than OS-1/OS-2's polarity-gated taxonomy themes."
+      ],
+      "evidence": "keyword search across all 10529 real reviews: 107 matches (1.016%); reviews that DO mention connectivity skew POSITIVE (feature praise, not complaint) on manual inspection",
+      "friction_prevalence_pct": 1.016,
+      "csat_impact": null,
+      "price_weighted_exposure_usd": null,
+      "dominance_status": "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE",
+      "decision_reason": "Consumer Pain evidence-sufficiency gate failed: prevalence 1.016% is below the 0.5% materiality floor, or no real CSAT signal exists for this theme at all - there is nothing to be severe OR broad about, regardless of Economic Value or Feasibility."
+    }
+  },
+  "verdict": {
+    "recommended": "OS-1",
+    "recommended_name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
+    "decision_type": "NON_DOMINATED_PLUS_JUDGMENT",
+    "decision_priority_used": "pain_feasibility_majority",
+    "why": "Neither wins outright — Pain + Feasibility majority rule picked Reliability-Verified Air Purifiers.",
+    "killed": [
+      {
+        "id": "OS-2",
+        "name": "Whisper-Quiet Night Mode",
+        "killing_metric": "the Pain + Feasibility majority rule favours Reliability-Verified Air Purifiers",
+        "reason": "Non-dominated vs. OS-1, but the Pain + Feasibility majority rule favours OS-1."
+      },
+      {
+        "id": "OS-3",
+        "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
+        "killing_metric": "Failed the Consumer Pain evidence gate (1.016% prevalence, 107 of 10529 reviews)",
+        "reason": "Unlike the earlier synthetic-fixture version of this exercise, connectivity mentions are not literally zero in real data (~1%) - but they fail the Consumer Pain evidence-sufficiency gate (no real CSAT signal) and skew positive when they do appear. High technical Feasibility does not rescue a candidate with no real friction evidence to build against."
+      }
+    ],
+    "sensitivity": "Switch to Economic Value override → picks Whisper-Quiet Night Mode instead.",
+    "first_experiment": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",
+    "abandon_signal": "If the failure-mention cross-reference above shows reliability complaints concentrated in 2-3 specific older/discontinued products rather than spread across the category, treat this as a solved-or-solving problem rather than a live opportunity, and abandon.",
+    "first_experiment_os1": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",
+    "abandon_signal_os1": "If the failure-mention cross-reference above shows reliability complaints concentrated in 2-3 specific older/discontinued products rather than spread across the category, treat this as a solved-or-solving problem rather than a live opportunity, and abandon.",
+    "market_scenario": {
+      "used": "IMARC Group (Q5 alternative)",
+      "cagr_pct": 6.54,
+      "note": "The Q6 scores above do not depend on category CAGR at all - they are built entirely from review-level Consumer Pain/Economic Value/Feasibility, so this scenario flag changes the category-sizing narrative in Q5/insight_pack but changes NOTHING in this file's scores or verdict. Run with --market-scenario=imarc to see this confirmed live."
+    }
+  }
+}

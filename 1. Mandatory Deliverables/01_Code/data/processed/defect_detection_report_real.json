@@ -1,0 +1,118 @@
+{
+  "_provenance": "Defects found in REAL data, not planted - detection ran first, then results were inspected.",
+  "generated_by": "src/real/detect_defects_real.py",
+  "input_rows": 10547,
+  "output_rows": 10529,
+  "defects_found": {
+    "duplicate_review_text": {
+      "count": 0,
+      "remedy": "flagged (is_duplicate_text column), not removed - see technical_note.md for why",
+      "evidence": {
+        "rule": "exact review_text repeated >= 3 times on the same product_sku, text length >= 15 chars",
+        "distinct_duplicate_texts": 0,
+        "examples": []
+      }
+    },
+    "product_daily_volume_anomalies": {
+      "count": 0,
+      "remedy": "flagged for review, not auto-removed - a real volume spike may be a genuine launch/promo/wildfire-demand event (see TC-R10), not fraud, and requires the specific-row judgment call the brief's own Q2 language describes",
+      "evidence": []
+    },
+    "sentiment_rating_conflict": {
+      "count": 239,
+      "remedy": "quarantined (rating_trusted=false)",
+      "evidence": {
+        "rule": "rating==5 & sentiment<=-0.5, or rating==1 & sentiment>=+0.5",
+        "total": 239,
+        "examples": [
+          {
+            "review_id": "CR-000003",
+            "rating": 1,
+            "sentiment": 1.0,
+            "type": "low_rating_positive_text",
+            "text_excerpt": "I'm a clean freak. The thought of having a product clean and freshen the air really appealed to me so I bought 4 Ionic B"
+          },
+          {
+            "review_id": "CR-000027",
+            "rating": 1,
+            "sentiment": 1.0,
+            "type": "low_rating_positive_text",
+            "text_excerpt": "I had a problem with this machine, and Allego Medical resolved the issue in a matter of days. They are great to do busin"
+          },
+          {
+            "review_id": "CR-000039",
+            "rating": 1,
+            "sentiment": 0.667,
+            "type": "low_rating_positive_text",
+            "text_excerpt": "[[ASIN:B000KTKSSA Sharp FPP60CX HEPA-Filter Air Purifier with Plasmacluster Technology]]<br /><br />I have the Honeywell"
+          },
+          {
+            "review_id": "CR-000040",
+            "rating": 1,
+            "sentiment": 1.0,
+            "type": "low_rating_positive_text",
+            "text_excerpt": "The only thing that Dave Oreck has succeeded in with these filters is a marketing gimmick.  There is so much blow by in "
+          },
+          {
+            "review_id": "CR-000052",
+            "rating": 1,
+            "sentiment": 1.0,
+            "type": "low_rating_positive_text",
+            "text_excerpt": "We have had similar experiences to those noted here.  When we checked Brookstone's Web site to see about getting our uni"
+          },
+          {
+            "review_id": "CR-000116",
+            "rating": 1,
+            "sentiment": 1.0,
+            "type": "low_rating_positive_text",
+            "text_excerpt": "It's sleek, it's attractive, it's quiet, and...it doesn't do anything.<br /><br />I live in an apartment where the landl"
+          },
+          {
+            "review_id": "CR-000130",
+            "rating": 1,
+            "sentiment": 1.0,
+            "type": "low_rating_positive_text",
+            "text_excerpt": "I got this item 'free' when I bought two of the Ionic Breeze GP a long time ago.<br /><br />Sounds perfect for the bathr"
+          },
+          {
+            "review_id": "CR-000223",
+            "rating": 5,
+            "sentiment": -1.0,
+            "type": "high_rating_negative_text",
+            "text_excerpt": "The Oreck XL is just awesome... I have, and still do own 3 of them. They run 24/7. Now, another person said they get lou"
+          }
+        ]
+      }
+    },
+    "empty_or_trivial_text": {
+      "count": 18,
+      "remedy": "removed",
+      "evidence": {
+        "rule": "review_text shorter than 3 characters after strip"
+      }
+    },
+    "malformed_date": {
+      "count": 0,
+      "remedy": "excluded from time series",
+      "evidence": {
+        "rule": "strict %Y-%m-%d parse of the derived review_date; review_date is derived here from the source epoch-ms timestamp, so a failure here would mean the timestamp itself was null/invalid in the source export"
+      }
+    }
+  },
+  "headline_metrics": {
+    "before": {
+      "label": "BEFORE cleaning (real export as downloaded)",
+      "n_reviews": 10547,
+      "mean_rating_overall": 4.149,
+      "pct_5_star": 66.58,
+      "n_rows_usable_in_timeseries": 10547
+    },
+    "after": {
+      "label": "AFTER cleaning (empty text removed)",
+      "n_reviews": 10529,
+      "mean_rating_overall": 4.148,
+      "pct_5_star": 66.57,
+      "n_rows_usable_in_timeseries": 10529
+    }
+  }
+}

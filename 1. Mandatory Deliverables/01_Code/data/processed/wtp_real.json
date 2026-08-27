@@ -1,0 +1,111 @@
+{
+  "_provenance": "REAL observed prices (McAuley-Lab Amazon-Reviews-2023 product metadata) and REAL review text. No fabricated behavioural WTP proxy.",
+  "generated_by": "src/real/wtp_real.py",
+  "direct_wtp_available": false,
+  "direct_wtp_statement": "The assembled evidence does not directly measure willingness to pay. No conjoint, Gabor-Granger, or stated-preference instrument was collected, and no real consumable-switching/attach-rate behavioural data is obtainable from a public product review export.",
+  "what_would_replace_the_proxy": [
+    "A Gabor-Granger or conjoint study asking real owners to trade dollars against each of the six real friction themes directly.",
+    "OEM/retailer consumable sell-through data (not obtainable from a public review dataset) to measure real filter-repurchase and third-party-attach behaviour.",
+    "A/B priced pilot on a reliability-extended-warranty offer, observing real take-up rates."
+  ],
+  "real_price_coverage": {
+    "n_products_with_real_observed_price": 75,
+    "n_products_total": 237,
+    "min_usd": 3.81,
+    "median_usd": 79.99,
+    "max_usd": 1100.0
+  },
+  "n_reviews_with_known_real_price": 7440,
+  "per_theme": {
+    "reliability": {
+      "theme_name": "Reliability / stopped working",
+      "n_reviews_affected": 166,
+      "n_affected_with_known_real_price": 104,
+      "price_weighted_exposure_usd": 26357.86,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "median_real_price_usd": 199.99,
+      "min_real_price_usd": 16.99,
+      "max_real_price_usd": 855.0,
+      "n_distinct_priced_products_affected": 27,
+      "price_band_caveat": "RANGE of real listed prices across the 27 distinct real products affected by this friction that have a known price - the actual spread of what products in this segment cost today, not a proposed price for a new concept, which this evidence cannot establish.",
+      "median_real_price_caveat": "MEDIAN real listed price across the 27 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "value_language_prevalence_pct": 19.3,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "value_effectiveness": {
+      "theme_name": "Perceived value / does it actually clean the air",
+      "n_reviews_affected": 81,
+      "n_affected_with_known_real_price": 49,
+      "price_weighted_exposure_usd": 10648.05,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "median_real_price_usd": 199.99,
+      "min_real_price_usd": 15.95,
+      "max_real_price_usd": 618.0,
+      "n_distinct_priced_products_affected": 19,
+      "price_band_caveat": "RANGE of real listed prices across the 19 distinct real products affected by this friction that have a known price - the actual spread of what products in this segment cost today, not a proposed price for a new concept, which this evidence cannot establish.",
+      "median_real_price_caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "value_language_prevalence_pct": 72.8,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "customer_service": {
+      "theme_name": "Customer service / returns / warranty",
+      "n_reviews_affected": 36,
+      "n_affected_with_known_real_price": 27,
+      "price_weighted_exposure_usd": 8124.56,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "median_real_price_usd": 249.0,
+      "min_real_price_usd": 29.95,
+      "max_real_price_usd": 599.95,
+      "n_distinct_priced_products_affected": 11,
+      "price_band_caveat": "RANGE of real listed prices across the 11 distinct real products affected by this friction that have a known price - the actual spread of what products in this segment cost today, not a proposed price for a new concept, which this evidence cannot establish.",
+      "median_real_price_caveat": "MEDIAN real listed price across the 11 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "value_language_prevalence_pct": 41.7,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "filter_cost": {
+      "theme_name": "Filter cost / replacement (weak real signal)",
+      "n_reviews_affected": 27,
+      "n_affected_with_known_real_price": 20,
+      "price_weighted_exposure_usd": 7390.66,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "median_real_price_usd": 249.5,
+      "min_real_price_usd": 43.99,
+      "max_real_price_usd": 618.0,
+      "n_distinct_priced_products_affected": 10,
+      "price_band_caveat": "RANGE of real listed prices across the 10 distinct real products affected by this friction that have a known price - the actual spread of what products in this segment cost today, not a proposed price for a new concept, which this evidence cannot establish.",
+      "median_real_price_caveat": "MEDIAN real listed price across the 10 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "value_language_prevalence_pct": 81.5,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "noise": {
+      "theme_name": "Noise / motor sound (weak real signal)",
+      "n_reviews_affected": 369,
+      "n_affected_with_known_real_price": 264,
+      "price_weighted_exposure_usd": 84015.62,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "median_real_price_usd": 179.99,
+      "min_real_price_usd": 28.98,
+      "max_real_price_usd": 995.0,
+      "n_distinct_priced_products_affected": 32,
+      "price_band_caveat": "RANGE of real listed prices across the 32 distinct real products affected by this friction that have a known price - the actual spread of what products in this segment cost today, not a proposed price for a new concept, which this evidence cannot establish.",
+      "median_real_price_caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "value_language_prevalence_pct": 32.8,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    },
+    "ozone_odor_safety": {
+      "theme_name": "Ozone / smell / irritation (weak real signal)",
+      "n_reviews_affected": 85,
+      "n_affected_with_known_real_price": 63,
+      "price_weighted_exposure_usd": 16112.87,
+      "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "median_real_price_usd": 79.99,
+      "min_real_price_usd": 12.99,
+      "max_real_price_usd": 789.99,
+      "n_distinct_priced_products_affected": 15,
+      "price_band_caveat": "RANGE of real listed prices across the 15 distinct real products affected by this friction that have a known price - the actual spread of what products in this segment cost today, not a proposed price for a new concept, which this evidence cannot establish.",
+      "median_real_price_caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "value_language_prevalence_pct": 30.6,
+      "value_language_note": "REVIEW_LANGUAGE_PROXY - share of affected reviews that also use price/value/refund language. This is a proxy for whether the friction is ALSO experienced as a value-for-money complaint, not a WTP measurement."
+    }
+  }
+}

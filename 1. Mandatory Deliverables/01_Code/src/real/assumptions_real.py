@@ -1,0 +1,133 @@
+"""Category Assumption Map - the hidden assumptions embedded in "air
+purifier" as a product category (see products-clusters.md Section 9).
+
+These are explicitly INFERRED, not product facts - an analyst reading of
+what the category currently takes for granted. Each assumption is linked
+to real evidence (research tensions, rivals white space, or the real
+product corpus) where that evidence actually bears on it - no assumption
+is asserted to be challenged by evidence that doesn't actually address it.
+"""
+import json
+import os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROC = os.path.join(ROOT, "data", "processed")
+
+ASSUMPTIONS = [
+    {
+        "assumption_id": "A1",
+        "text": "Purification requires a dedicated, standalone box.",
+        "status": "INFERRED",
+        "evidence_for_prevalence": "170 of 237 real corpus products (72%) are classified standard_purifier - "
+                                    "a single dedicated appliance is still the dominant real architecture.",
+        "real_evidence_that_bears_on_it": ["RP-04"],
+        "evidence_note": "RP-04 shows floor-level resuspension is a real, distinct spatial dynamic a stationary "
+                         "box doesn't directly address - opens the question without proving an alternative wins.",
+        "counterfactual": "What if purification were distributed across several small nodes instead of one box?",
+    },
+    {
+        "assumption_id": "A2",
+        "text": "The device sits in one fixed location, chosen once.",
+        "status": "INFERRED",
+        "evidence_for_prevalence": "No real product in this corpus is marketed as mobile or multi-room by design.",
+        "real_evidence_that_bears_on_it": ["RP-04", "RP-01"],
+        "evidence_note": "RP-01 shows a purifier's benefit already leaks unevenly beyond its own room; RP-04 shows "
+                         "a real spatial source (walking) the fixed box doesn't chase.",
+        "counterfactual": "What if the device (or its effect) followed the person, not the room?",
+    },
+    {
+        "assumption_id": "A3",
+        "text": "The consumer reacts after pollution is measured, not before.",
+        "status": "INFERRED",
+        "evidence_for_prevalence": "162 of 237 products (68%) are cluster_intelligence=manual; only 8 are adaptive.",
+        "real_evidence_that_bears_on_it": ["RP-09", "RP-10"],
+        "evidence_note": "RP-09/RP-10 show current sensors are precise-but-not-always-accurate - a real constraint "
+                         "on how confidently any product could act predictively today.",
+        "counterfactual": "What if the product acted on a forecast, not a measurement?",
+    },
+    {
+        "assumption_id": "A4",
+        "text": "Filters are replaced manually by the consumer.",
+        "status": "INFERRED",
+        "evidence_for_prevalence": "\"filter_cost\" is a real, distinct consumer-complaint theme in the taxonomy "
+                                    "(0.26% prevalence, real evidence) - replacement friction is a lived reality.",
+        "real_evidence_that_bears_on_it": [],
+        "evidence_note": "No paper in this session's research corpus addresses filter-subscription or auto-"
+                         "replacement models - this counterfactual has no direct research backing, only the real "
+                         "consumer-complaint signal.",
+        "counterfactual": "What if the consumer never has to remember, buy, or touch a filter?",
+    },
+    {
+        "assumption_id": "A5",
+        "text": "Clean-air delivery rate (CADR) is the primary performance basis.",
+        "status": "INFERRED",
+        "evidence_for_prevalence": "ENERGY STAR and AHAM certification (TC-R02, TC-R03) both center CADR as the "
+                                    "official performance metric.",
+        "real_evidence_that_bears_on_it": ["RP-07", "RP-06", "RP-01"],
+        "evidence_note": "RP-07 explicitly reports a discrepancy between theoretical CADR-based sizing and "
+                         "measured performance; RP-06 shows raw real-world averages can mislead entirely; RP-01 "
+                         "shows single-room CADR doesn't capture whole-home effect. Real evidence directly "
+                         "challenges CADR as sufficient, not just as a label.",
+        "counterfactual": "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+    },
+    {
+        "assumption_id": "A6",
+        "text": "Continuous, constant operation is the default expectation.",
+        "status": "INFERRED",
+        "evidence_for_prevalence": "Standard purifier control panels default to a fixed or continuous mode; only "
+                                    "15 of 237 products are classified connected, and 8 adaptive.",
+        "real_evidence_that_bears_on_it": ["RP-07", "RP-05"],
+        "evidence_note": "RP-07's own trial shows constant mode filters 66% vs. auto's 40% - constant is not "
+                         "neutral, it's a real trade-off against noise/runtime; RP-05 shows noise measurably "
+                         "suppresses real usage.",
+        "counterfactual": "What if the operating mode were chosen per household noise tolerance, not shipped as one default?",
+    },
+    {
+        "assumption_id": "A7",
+        "text": "The consumer owns the hardware outright after a single upfront purchase.",
+        "status": "INFERRED",
+        "evidence_for_prevalence": "All 237 real corpus products are sold as one-time purchases on Amazon - no "
+                                    "subscription/service model observed in this corpus.",
+        "real_evidence_that_bears_on_it": [],
+        "evidence_note": "No paper in this session's research corpus addresses ownership models - this is a pure "
+                         "category-structure observation, not backed by the peer-reviewed corpus.",
+        "counterfactual": "What if clean air were sold as a guaranteed outcome/subscription rather than a device?",
+    },
+    {
+        "assumption_id": "A8",
+        "text": "A visible interface or app is required to trust the product is working.",
+        "status": "INFERRED",
+        "evidence_for_prevalence": "15 of 237 products explicitly market app/voice connectivity as a selling point.",
+        "real_evidence_that_bears_on_it": ["RP-09", "RP-10"],
+        "evidence_note": "If the underlying sensor reading itself carries real, documented uncertainty (RP-09, "
+                         "RP-10), a more prominent display doesn't fix the trust problem - it may just surface an "
+                         "unreliable number more confidently.",
+        "counterfactual": "What if the most trustworthy product had no visible number at all, only a confidence-qualified state?",
+    },
+]
+
+
+def build():
+    return {
+        "_provenance": "Category assumptions are analyst-INFERRED (see products-clusters.md Section 9), not "
+                       "product facts. Each is linked only to real evidence (research corpus, real product "
+                       "distribution stats) that genuinely bears on it - evidence lists are empty where no real "
+                       "source in this session's corpus addresses that specific assumption.",
+        "generated_by": "src/real/assumptions_real.py",
+        "assumptions": ASSUMPTIONS,
+    }
+
+
+def main():
+    doc = build()
+    os.makedirs(PROC, exist_ok=True)
+    with open(os.path.join(PROC, "category_assumptions.json"), "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    print("wrote category_assumptions.json ({} assumptions, {} with real evidence links)".format(
+        len(ASSUMPTIONS), sum(1 for a in ASSUMPTIONS if a["real_evidence_that_bears_on_it"])))
+    return doc
+
+
+if __name__ == "__main__":
+    main()

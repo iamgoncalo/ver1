@@ -1,0 +1,80 @@
+[
+  {
+    "run_id": "run-1",
+    "started_at": "2026-08-27T20:36:58.692315+00:00",
+    "finished_at": "2026-08-27T20:36:58.692315+00:00",
+    "last_checked_at": "2026-08-27T20:36:58.692315+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "5b104a54ad1c0ccf645025e73bc10afc5464949e59a2492bf06fb3f152de921b",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
+  },
+  {
+    "run_id": "run-2",
+    "started_at": "2026-08-27T20:37:42.684878+00:00",
+    "finished_at": "2026-08-27T20:38:10.049457+00:00",
+    "last_checked_at": "2026-08-27T20:38:10.049457+00:00",
+    "check_count": 6,
+    "input_snapshot_hash": "aefd380894e7430b6b7172f0dad97c0edacfbaf9539777523a03839227ba5116",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
+  },
+  {
+    "run_id": "run-3",
+    "started_at": "2026-08-27T20:48:48.182722+00:00",
+    "finished_at": "2026-08-27T20:48:48.182722+00:00",
+    "last_checked_at": "2026-08-27T20:48:48.182722+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "3432941832c574e4c79a3e29f4fad593af9726477cac9a4710920bba19303759",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
+  }
+]
