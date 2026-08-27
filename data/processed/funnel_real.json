@@ -4,13 +4,15 @@
   "machine_state": {
     "status": "RUNNING",
     "last_run_id": "run-10",
-    "last_run_started_at": "2026-08-27T18:48:52.514562+00:00",
-    "last_run_finished_at": "2026-08-27T18:48:52.514562+00:00",
-    "last_checked_at": "2026-08-27T18:48:52.514562+00:00",
+    "last_run_started_at": "2026-08-27T20:18:41.220685+00:00",
+    "last_run_finished_at": "2026-08-27T20:18:41.220685+00:00",
+    "last_checked_at": "2026-08-27T20:18:41.220685+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "bf15be70651a87e3330a97c9b0341a1761ad74ad66517841dd1229f163e2bb9e",
+    "input_snapshot_hash": "98ae781c0ef855dd51f27ec87623a9e565a2d05b42a7b631c66604664ea8a07f",
     "changed_since_last_run": true,
-    "new_since_last_run": {},
+    "new_since_last_run": {
+      "critic": 4
+    },
     "total_runs_recorded": 10,
     "errors": []
   },
@@ -239,11 +241,11 @@
     {
       "id": "critic",
       "label": "CRITIC",
-      "count": 12,
+      "count": 16,
       "verdict_counts": {
         "SURVIVE": 0,
-        "CHALLENGE": 6,
-        "NEEDS_EVIDENCE": 2,
+        "CHALLENGE": 9,
+        "NEEDS_EVIDENCE": 3,
         "REJECT": 4
       },
       "why_ideas_are_dying": [
@@ -688,7 +690,7 @@
           "name": "Self-Testing Air Purifier",
           "friction_theme": "reliability",
           "typical_market_price_usd": 199.99,
-          "critic_overall": null
+          "critic_overall": "CHALLENGE"
         },
         {
           "id": "noise:AMBIENT",
@@ -709,7 +711,7 @@
           "name": "Noise-Cancelling Air Purifier",
           "friction_theme": "noise",
           "typical_market_price_usd": 179.99,
-          "critic_overall": null
+          "critic_overall": "NEEDS_EVIDENCE"
         },
         {
           "id": "value_effectiveness:CONCENTRATE",
@@ -730,7 +732,7 @@
           "name": "Personal Air Purifier",
           "friction_theme": "value_effectiveness",
           "typical_market_price_usd": 199.99,
-          "critic_overall": null
+          "critic_overall": "CHALLENGE"
         }
       ]
     },
@@ -1190,8 +1192,8 @@
   },
   "critic_summary": {
     "SURVIVE": 0,
-    "CHALLENGE": 6,
-    "NEEDS_EVIDENCE": 2,
+    "CHALLENGE": 9,
+    "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
   "snapshot": "aa7e3328b4628f17",
