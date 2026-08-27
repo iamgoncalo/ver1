@@ -4,7 +4,7 @@ import type { Signal, SignalsResponse } from "../lib/types";
 import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { ScienceConstellation } from "../components/ScienceConstellation";
-import { TerritoryIcon, ImageProvenance } from "../components/ThemeIcon";
+import { TerritoryIcon, FrictionIcon, FamilyIcon, ImageProvenance } from "../components/ThemeIcon";
 
 interface ResearchPaper {
   research_id: string; title: string; journal: string; year: number; doi: string; pmid: string | null;
@@ -78,7 +78,10 @@ export function SignalsWorld() {
     return (
       <Card onClick={() => setFocus(s)}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8, gap: 8 }}>
-          <div style={{ fontWeight: 600, fontSize: 14.5, lineHeight: 1.3 }}>{s.name}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <FrictionIcon theme={s.id} size={22} />
+            <div style={{ fontWeight: 600, fontSize: 14.5, lineHeight: 1.3 }}>{s.name}</div>
+          </div>
           <TruthBadge truthClass={s.truth_class} />
         </div>
         <Pill tone={STATE_TONE[s.state] ?? "neutral"}>{s.state.replace(/_/g, " ")}</Pill>
@@ -118,9 +121,10 @@ export function SignalsWorld() {
         <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
           {TABS.map((t) => (
             <button key={t.key} onClick={() => setTab(t.key)} title={t.hint}
-              style={{ padding: "7px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
+              style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
                 background: tab === t.key ? "var(--surface)" : "transparent", fontWeight: tab === t.key ? 600 : 400,
                 boxShadow: tab === t.key ? "var(--shadow)" : "none" }}>
+              <FamilyIcon family={t.label} size={16} />
               {t.label}
             </button>
           ))}

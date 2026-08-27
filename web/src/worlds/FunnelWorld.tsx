@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import { Pill, SectionLabel, StatRow } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+import { FamilyIcon } from "../components/ThemeIcon";
 
 interface Stage {
   id: string; label: string; count: number;
@@ -171,7 +172,8 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
               if (!f) return null;
               return (
                 <button key={k} onClick={() => setFamilyFocus({ key: k, f })}
-                  style={{ fontSize: 12, padding: "8px 14px", borderRadius: 10, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer" }}>
+                  style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, padding: "8px 14px", borderRadius: 10, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer" }}>
+                  <FamilyIcon family={k} size={16} />
                   <b>{f.count}</b> {k.replace(/_/g, " ")}
                 </button>
               );

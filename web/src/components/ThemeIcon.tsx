@@ -122,6 +122,52 @@ export function TerritoryIcon({ territory, size = 40 }: { territory: TerritoryId
   return <span style={{ display: "inline-flex", width: size, height: size, color: "var(--accent-teal)" }}>{node}</span>;
 }
 
+export type FamilyId = "CONSUMERS" | "RESEARCH" | "TRENDS" | "MARKET" | "TECHNOLOGY_AI";
+
+const FAMILY_ICON: Record<FamilyId, React.ReactNode> = {
+  CONSUMERS: (
+    <IconFrame>
+      <path d="M8 10 H32 A2 2 0 0 1 34 12 V24 A2 2 0 0 1 32 26 H18 L12 32 V26 H8 A2 2 0 0 1 6 24 V12 A2 2 0 0 1 8 10 Z" {...STROKE} />
+      <path d="M13 16 H27" {...STROKE} />
+      <path d="M13 20 H22" {...STROKE} />
+    </IconFrame>
+  ),
+  RESEARCH: (
+    <IconFrame>
+      <path d="M20 12 C17 9.5 12 9 7 10 V29 C12 28 17 28.5 20 31 C23 28.5 28 28 33 29 V10 C28 9 23 9.5 20 12 Z" {...STROKE} />
+      <path d="M20 12 V31" {...STROKE} />
+    </IconFrame>
+  ),
+  TRENDS: (
+    <IconFrame>
+      <path d="M11 6 H26 L31 11 V34 H11 Z" {...STROKE} />
+      <path d="M26 6 V11 H31" {...STROKE} />
+      <circle cx="20" cy="21.5" r="5" {...STROKE} />
+      <path d="M17.5 21.5 L19 23.2 L23 19" {...STROKE} />
+    </IconFrame>
+  ),
+  MARKET: (
+    <IconFrame>
+      <path d="M7 33 H33" {...STROKE} />
+      <rect x="9" y="23" width="6" height="10" {...STROKE} />
+      <rect x="17" y="17" width="6" height="16" {...STROKE} />
+      <rect x="25" y="11" width="6" height="22" {...STROKE} />
+    </IconFrame>
+  ),
+  TECHNOLOGY_AI: (
+    <IconFrame>
+      <rect x="13" y="13" width="14" height="14" rx="2" {...STROKE} />
+      <path d="M20 6 V13 M20 27 V34 M6 20 H13 M27 20 H34" {...STROKE} />
+    </IconFrame>
+  ),
+};
+
+export function FamilyIcon({ family, size = 40 }: { family: FamilyId | string; size?: number }) {
+  const node = FAMILY_ICON[family as FamilyId];
+  if (!node) return null;
+  return <span style={{ display: "inline-flex", width: size, height: size, color: "var(--accent-blue-ink)" }}>{node}</span>;
+}
+
 export function ImageProvenance({ state }: { state: "OFFICIAL" | "EDITORIAL" | "CONCEPT" | "GENERATED" | "FAMILY" | "UNVERIFIED" }) {
   const COLOR: Record<string, string> = {
     OFFICIAL: "var(--good)", EDITORIAL: "var(--accent-teal)", CONCEPT: "var(--accent-blue-ink)",
