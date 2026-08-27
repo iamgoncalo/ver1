@@ -4,12 +4,12 @@ __pycache__/
 
 # Scenario Lab scratch output - regenerated per session, not submission
 # evidence. data/manual/hand_labels.csv is NOT ignored - that one is real.
-data/runtime/*.json
+2. Extra Project/data/runtime/*.json
 
 # Frontend build artifacts - reproducible via `cd web && npm install && npm run build`
-web/node_modules/
-web/dist/
+2. Extra Project/web/node_modules/
+2. Extra Project/web/dist/
 
 # Playwright test artifacts
-web/test-results/
-web/playwright-report/
+2. Extra Project/web/test-results/
+2. Extra Project/web/playwright-report/

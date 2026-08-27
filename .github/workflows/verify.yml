@@ -11,6 +11,9 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "2. Extra Project"
     steps:
       - uses: actions/checkout@v4
 

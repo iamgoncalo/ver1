@@ -586,7 +586,7 @@
     "concept_seeds": 16,
     "concepts_killed": 7,
     "survivors": 9,
-    "critic_evaluated": 12,
+    "critic_evaluated": 16,
     "finalists": 3,
     "bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)"
   },
@@ -812,7 +812,7 @@
       },
       "is_finalist": false,
       "is_non_dominated": true,
-      "evolution_stage": "FINALIST",
+      "evolution_stage": "SURVIVOR",
       "critic_overall": "CHALLENGE",
       "critic_dimensions": {
         "EVIDENCE": {
@@ -821,7 +821,7 @@
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",
-          "reasoning": "Real price-weighted exposure ($26,358) is at or above the corpus median ($13,380)."
+          "reasoning": "Real price-weighted exposure ($26,358) is at or above the corpus median ($16,113)."
         },
         "COMPETITIVE": {
           "verdict": "SURVIVE",
@@ -1170,7 +1170,7 @@
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",
-          "reasoning": "Real price-weighted exposure ($26,358) is at or above the corpus median ($13,380)."
+          "reasoning": "Real price-weighted exposure ($26,358) is at or above the corpus median ($16,113)."
         },
         "COMPETITIVE": {
           "verdict": "SURVIVE",
@@ -1510,9 +1510,42 @@
       },
       "is_finalist": false,
       "is_non_dominated": true,
-      "evolution_stage": null,
-      "critic_overall": null,
-      "critic_dimensions": null,
+      "evolution_stage": "SURVIVOR",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (1.58%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($26,358) is at or above the corpus median ($16,113)."
+        },
+        "COMPETITIVE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real white space: 7 named real rivals are measurably weaker on this theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
       "criteria": {
         "E1": {
           "status": "PASS",
@@ -1852,7 +1885,7 @@
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",
-          "reasoning": "Real price-weighted exposure ($84,016) is at or above the corpus median ($13,380)."
+          "reasoning": "Real price-weighted exposure ($84,016) is at or above the corpus median ($16,113)."
         },
         "COMPETITIVE": {
           "verdict": "SURVIVE",
@@ -2218,7 +2251,7 @@
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",
-          "reasoning": "Real price-weighted exposure ($84,016) is at or above the corpus median ($13,380)."
+          "reasoning": "Real price-weighted exposure ($84,016) is at or above the corpus median ($16,113)."
         },
         "COMPETITIVE": {
           "verdict": "SURVIVE",
@@ -2575,9 +2608,42 @@
       },
       "is_finalist": false,
       "is_non_dominated": true,
-      "evolution_stage": null,
-      "critic_overall": null,
-      "critic_dimensions": null,
+      "evolution_stage": "SURVIVOR",
+      "critic_overall": "NEEDS_EVIDENCE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, CSAT -0.571 - materially above the gate floor."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($84,016) is at or above the corpus median ($16,113)."
+        },
+        "COMPETITIVE": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real white space: 11 named real rivals are measurably weaker on this theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
       "criteria": {
         "E1": {
           "status": "PASS",
@@ -2893,7 +2959,7 @@
         },
         "ECONOMIC": {
           "verdict": "CHALLENGE",
-          "reasoning": "Real price-weighted exposure ($10,648) is below the corpus median ($13,380) - a real but comparatively modest signal."
+          "reasoning": "Real price-weighted exposure ($10,648) is below the corpus median ($16,113) - a real but comparatively modest signal."
         },
         "COMPETITIVE": {
           "verdict": "NEEDS_EVIDENCE",
@@ -3235,7 +3301,7 @@
         },
         "ECONOMIC": {
           "verdict": "CHALLENGE",
-          "reasoning": "Real price-weighted exposure ($10,648) is below the corpus median ($13,380) - a real but comparatively modest signal."
+          "reasoning": "Real price-weighted exposure ($10,648) is below the corpus median ($16,113) - a real but comparatively modest signal."
         },
         "COMPETITIVE": {
           "verdict": "NEEDS_EVIDENCE",
@@ -3568,9 +3634,42 @@
       },
       "is_finalist": true,
       "is_non_dominated": true,
-      "evolution_stage": null,
-      "critic_overall": null,
-      "critic_dimensions": null,
+      "evolution_stage": "FINALIST",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (0.77%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Real price-weighted exposure ($10,648) is below the corpus median ($16,113) - a real but comparatively modest signal."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
       "criteria": {
         "E1": {
           "status": "PASS",
@@ -3873,7 +3972,7 @@
         },
         "ECONOMIC": {
           "verdict": "CHALLENGE",
-          "reasoning": "Real price-weighted exposure ($8,125) is below the corpus median ($13,380) - a real but comparatively modest signal."
+          "reasoning": "Real price-weighted exposure ($8,125) is below the corpus median ($16,113) - a real but comparatively modest signal."
         },
         "COMPETITIVE": {
           "verdict": "NEEDS_EVIDENCE",
@@ -4202,7 +4301,7 @@
         },
         "ECONOMIC": {
           "verdict": "CHALLENGE",
-          "reasoning": "Real price-weighted exposure ($8,125) is below the corpus median ($13,380) - a real but comparatively modest signal."
+          "reasoning": "Real price-weighted exposure ($8,125) is below the corpus median ($16,113) - a real but comparatively modest signal."
         },
         "COMPETITIVE": {
           "verdict": "NEEDS_EVIDENCE",
@@ -4531,7 +4630,7 @@
         },
         "ECONOMIC": {
           "verdict": "CHALLENGE",
-          "reasoning": "Real price-weighted exposure ($7,391) is below the corpus median ($13,380) - a real but comparatively modest signal."
+          "reasoning": "Real price-weighted exposure ($7,391) is below the corpus median ($16,113) - a real but comparatively modest signal."
         },
         "COMPETITIVE": {
           "verdict": "NEEDS_EVIDENCE",
@@ -4860,7 +4959,7 @@
         },
         "ECONOMIC": {
           "verdict": "CHALLENGE",
-          "reasoning": "Real price-weighted exposure ($7,391) is below the corpus median ($13,380) - a real but comparatively modest signal."
+          "reasoning": "Real price-weighted exposure ($7,391) is below the corpus median ($16,113) - a real but comparatively modest signal."
         },
         "COMPETITIVE": {
           "verdict": "NEEDS_EVIDENCE",
@@ -5192,7 +5291,7 @@
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",
-          "reasoning": "Real price-weighted exposure ($16,113) is at or above the corpus median ($13,380)."
+          "reasoning": "Real price-weighted exposure ($16,113) is at or above the corpus median ($16,113)."
         },
         "COMPETITIVE": {
           "verdict": "NEEDS_EVIDENCE",
@@ -5524,7 +5623,7 @@
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",
-          "reasoning": "Real price-weighted exposure ($16,113) is at or above the corpus median ($13,380)."
+          "reasoning": "Real price-weighted exposure ($16,113) is at or above the corpus median ($16,113)."
         },
         "COMPETITIVE": {
           "verdict": "NEEDS_EVIDENCE",
@@ -5847,9 +5946,42 @@
       },
       "is_finalist": false,
       "is_non_dominated": false,
-      "evolution_stage": null,
-      "critic_overall": null,
-      "critic_dimensions": null,
+      "evolution_stage": "REJECTED",
+      "critic_overall": "CHALLENGE",
+      "critic_dimensions": {
+        "EVIDENCE": {
+          "verdict": "CHALLENGE",
+          "reasoning": "Gate passed but prevalence (0.81%) is only marginally above the materiality floor - thin evidence base."
+        },
+        "ECONOMIC": {
+          "verdict": "SURVIVE",
+          "reasoning": "Real price-weighted exposure ($16,113) is at or above the corpus median ($16,113)."
+        },
+        "COMPETITIVE": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real rival-weakness data recorded for this friction theme."
+        },
+        "HUMAN": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real usability/human-factors evidence exists in this pipeline for this concept."
+        },
+        "PHYSICAL": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real lab/engineering feasibility data exists in this pipeline for this concept."
+        },
+        "VERSUNI_FIT": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real organizational-capability assessment exists in this pipeline for this concept."
+        },
+        "TIMING": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real market-timing/window evidence exists in this pipeline for this concept."
+        },
+        "ROBUSTNESS": {
+          "verdict": "NEEDS_EVIDENCE",
+          "reasoning": "No real sensitivity/robustness study exists in this pipeline for this concept."
+        }
+      },
       "criteria": {
         "E1": {
           "status": "PASS",
