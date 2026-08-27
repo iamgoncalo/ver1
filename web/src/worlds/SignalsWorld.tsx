@@ -131,11 +131,6 @@ export function SignalsWorld() {
         </div>
         <DistilledRawToggle mode={mode} onChange={setMode} />
       </div>
-      <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, flexShrink: 0 }}>
-        {TABS.find((t) => t.key === tab)?.hint} — each of these four is a genuinely different evidence type,
-        computed a different way. They are kept apart deliberately, never blended into one number.
-      </p>
-
       {tab === "consumers" && (
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, auto)", gap: 40, marginBottom: 16 }}>
@@ -150,9 +145,7 @@ export function SignalsWorld() {
                 trace: "GET /api/signals -> count of data/processed/signals_real.json[\"signals\"] where state === \"CONTESTED\": real evidence from different families genuinely disagrees; the pipeline reports the conflict rather than resolving it either way." })} />
           </div>
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
-            Source: real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real purifier products
-            only), classified by a deterministic keyword method — see each card for n reviews. This is NOT a survey,
-            panel, or study; it is what real customers wrote, machine-classified.
+            Real Amazon.com review text, keyword-classified — not a survey or panel.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start" }}>
             {withPrevalence.map((s) => <SignalCard key={s.id} s={s} />)}
@@ -173,9 +166,7 @@ export function SignalsWorld() {
                 trace: "count of data/processed/signals_real.json[\"signals\"] where prevalence_pct === null: real signals whose evidence comes only from peer-reviewed research, with no consumer-review analogue to compute a prevalence rate from." })} />
           </div>
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
-            Source: independently-verified academic literature (10 verified live against the PubMed API by
-            PMID/PMCID → DOI conversion; 2 verified by direct publisher/PMC fetch where the paper sits outside
-            PubMed's scope). Every paper below has a real DOI you can open.
+            Peer-reviewed literature, each paper verified live — every one below has a real DOI you can open.
           </p>
           {mode === "raw" && research && (
             <div style={{ marginBottom: 24 }}>
@@ -217,19 +208,18 @@ export function SignalsWorld() {
 
       {tab === "trends" && (
         <div className="scrollY" style={{ flex: 1 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, auto)", gap: 40, marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12, flexWrap: "wrap" }}>
             <TraceableMetric label="Trend documents" value={trends?.article_count ?? "…"}
               onClick={() => setMetricFocus({ label: "Trend documents", value: trends?.article_count ?? "NO VERIFIED DATA",
                 trace: "GET /api/trends -> data/processed/trend_corpus.json[\"article_count\"] == len(articles): real regulatory, technical-standard, industry-association, manufacturer, and syndicated-research documents individually fetched and archived by src/real/research_discovery_real.py, each with a credibility tier." })} />
-            <TraceableMetric label="Google Trends (search interest)" value="NOT IMPLEMENTED"
-              onClick={() => setMetricFocus({ label: "Google Trends (search interest)", value: "NOT IMPLEMENTED",
-                trace: "GET /api/sources -> data/processed/sources_real.json: the google_trends source is honestly recorded with status \"NOT_IMPLEMENTED\" - no search-interest connector exists in this pipeline. Shown as a real absence rather than faked or omitted." })} />
+            <button onClick={() => setMetricFocus({ label: "Google Trends (search interest)", value: "NOT IMPLEMENTED",
+                trace: "GET /api/sources -> data/processed/sources_real.json: the google_trends source is honestly recorded with status \"NOT_IMPLEMENTED\" - no search-interest connector exists in this pipeline. Shown as a real absence rather than faked or omitted." })}
+              title="Click for why" style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
+              <Pill tone="neutral">Google Trends: not connected</Pill>
+            </button>
           </div>
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 680, lineHeight: 1.5 }}>
-            These are real regulatory, technical-standard, industry-association, manufacturer, and syndicated-research
-            documents — individually fetched and archived, each with a credibility tier. This is deliberately NOT
-            "what people are searching the internet for": no Google Trends or other search-interest connector is
-            implemented in this pipeline (see Sources — status is honestly reported as NOT_IMPLEMENTED, not faked).
+            Regulatory, standards, industry, and syndicated-research documents — not search-interest data.
           </p>
           {Object.entries(trendGroups).map(([docType, docs]) => (
             <div key={docType} style={{ marginBottom: 18 }}>
@@ -257,8 +247,7 @@ export function SignalsWorld() {
           {market ? (
             <>
               <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 680, lineHeight: 1.5 }}>
-                Two syndicated market-research vendors, both real, both covering "Europe Air Purifier Market" —
-                shown side by side rather than averaged, because they disagree and averaging would hide why.
+                Two real syndicated vendors, shown side by side rather than averaged — they disagree.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14, marginBottom: 20 }}>
                 {market.sources.map((s: any) => (
