@@ -106,9 +106,9 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await navButton(page, /INNOVATIONS/).click();
     await page.getByRole("button", { name: "raw" }).click();
     await page.getByRole("button", { name: "TRACE THIS INNOVATION →" }).first().click();
-    await expect(page.getByText("Trace this innovation — reverse to raw evidence")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Trace this bet — evidence, theme, and every concept built on it")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("NO VERIFIED LINK")).toHaveCount(0);
-    await expect(page.getByText("◆ SIGNAL")).toBeVisible();
+    await expect(page.getByText("◆ SIGNAL").first()).toBeVisible();
   });
 
   test("Sources dock reports honest, non-fabricated statuses", async ({ page }) => {
@@ -130,6 +130,17 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await navButton(page, /CRITERIA/).click();
     await page.getByRole("button", { name: /CADR/ }).click();
     await expect(page.getByText("WHAT REAL EVIDENCE BEARS ON IT")).toBeVisible({ timeout: 5000 });
+  });
+
+  test("Trace This Concept resolves signal/tension/assumption evidence, no fabricated links", async ({ page }) => {
+    await page.goto("/");
+    await navButton(page, /CRITERIA/).click();
+    await page.locator("text=Finalists —").waitFor({ timeout: 5000 });
+    await page.locator('[role="button"]').filter({ hasText: "$" }).first().click();
+    await page.getByRole("button", { name: "TRACE THIS CONCEPT →" }).click();
+    await expect(page.getByText("Trace this concept — signal, tension, and assumption down to their real papers")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("NO VERIFIED LINK")).toHaveCount(0);
+    await expect(page.getByText("◆ SIGNAL").first()).toBeVisible();
   });
 
   test("Criteria page: funnel, Versuni Edge, and a criterion are real and clickable", async ({ page }) => {

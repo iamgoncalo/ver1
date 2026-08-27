@@ -3,6 +3,8 @@ import { api } from "../lib/api";
 import { Card, Pill, SectionLabel, StatRow, TruthBadge, DistilledRawToggle, CounterfactualPrompt, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { FrictionIcon, ImageProvenance } from "../components/ThemeIcon";
+import { traceConceptChain } from "../lib/trace";
+import { TraceTree, TraceLegend } from "../components/TraceTree";
 import type { DesignDna } from "../lib/types";
 
 interface Criterion {
@@ -135,8 +137,15 @@ export function CriteriaWorld({ themeFilter }: { themeFilter?: string | null }) 
   const [winFocus, setWinFocus] = useState(false);
   const [stageFocus, setStageFocus] = useState<string | null>(null);
   const [showRejected, setShowRejected] = useState(false);
+  const [conceptTraceFocus, setConceptTraceFocus] = useState<Concept | null>(null);
+  const [signals, setSignals] = useState<any[]>([]);
+  const [research, setResearch] = useState<any>(null);
+  const [tensions, setTensions] = useState<any[]>([]);
 
   useEffect(() => { api.criteria().then(setData).catch(() => setData(null)); }, []);
+  useEffect(() => { api.signals().then((r) => setSignals(r.signals)).catch(() => {}); }, []);
+  useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
+  useEffect(() => { api.researchTensions().then((r) => setTensions(r.tensions ?? [])).catch(() => {}); }, []);
 
   const conceptsFiltered = useMemo(() => {
     const all = data?.concepts ?? [];
@@ -441,6 +450,26 @@ export function CriteriaWorld({ themeFilter }: { themeFilter?: string | null }) 
               <SectionLabel>Evidence IDs</SectionLabel>
               <div className="mono" style={{ fontSize: 12, color: "var(--ink-dim)" }}>{conceptFocus.evidence_ids.join(", ")}</div>
             </div>
+
+            <button onClick={() => setConceptTraceFocus(conceptFocus)}
+              style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
+              TRACE THIS CONCEPT →
+            </button>
+          </>
+        )}
+      </FocusPanel>
+
+      <FocusPanel open={!!conceptTraceFocus} onClose={() => setConceptTraceFocus(null)} eyebrow="Trace this concept — signal, tension, and assumption down to their real papers" title={conceptTraceFocus?.name ?? ""}>
+        {conceptTraceFocus && (
+          <>
+            <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
+              Every edge below is a genuine cross-reference already present in the real data — nothing invented to
+              make this look connected. Where the design DNA slot is real but not itself a citable document
+              (economics, Versuni capability, competitor gap, operator), it is shown as such rather than forced
+              into a fake link.
+            </p>
+            <TraceLegend />
+            <TraceTree nodes={[traceConceptChain(conceptTraceFocus, { signals, research, tensions, assumptions: data?.assumptions ?? [] })]} />
           </>
         )}
       </FocusPanel>

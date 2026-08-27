@@ -3,7 +3,8 @@ import { api } from "../lib/api";
 import type { InnovationsResponse } from "../lib/types";
 import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
-import { traceEvidenceIds, type TraceNode } from "../lib/trace";
+import { traceBetChain } from "../lib/trace";
+import { TraceTree, TraceLegend } from "../components/TraceTree";
 import { FrictionIcon } from "../components/ThemeIcon";
 
 function themeFromEvidenceIds(evidenceIds: string[]): string | null {
@@ -17,54 +18,6 @@ const PRIORITIES = [
   { key: "economic_value_override", label: "Economic Value override" },
 ];
 
-const KIND_LABEL: Record<string, string> = {
-  signal: "SIGNAL", trend_doc: "TREND DOC", paper: "PEER-REVIEWED PAPER",
-  keyword_search: "KEYWORD SEARCH", unresolved: "UNRESOLVED",
-};
-const KIND_ICON: Record<string, string> = {
-  signal: "◆", trend_doc: "▲", paper: "●", keyword_search: "○", unresolved: "✕",
-};
-const KIND_TONE: Record<string, "neutral" | "blue" | "teal" | "amber" | "rose" | "good"> = {
-  signal: "blue", trend_doc: "amber", paper: "good", keyword_search: "neutral", unresolved: "rose",
-};
-const KIND_COLOR_VAR: Record<string, string> = {
-  blue: "var(--accent-blue)", teal: "var(--accent-teal)", amber: "var(--amber)",
-  rose: "var(--rose)", good: "var(--good)", neutral: "var(--ink-dim)",
-};
-
-function TraceLegend() {
-  return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 14, padding: "8px 12px", background: "var(--surface-2)", borderRadius: 10 }}>
-      {Object.entries(KIND_LABEL).map(([kind, label]) => (
-        <div key={kind} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 10.5, color: "var(--ink-dim)" }}>
-          <span style={{ color: KIND_COLOR_VAR[KIND_TONE[kind]] }}>{KIND_ICON[kind]}</span>
-          {label}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function TraceTree({ nodes, depth = 0 }: { nodes: TraceNode[]; depth?: number }) {
-  return (
-    <div style={{ marginLeft: depth * 18 }}>
-      {nodes.map((n) => (
-        <div key={n.id} style={{ marginBottom: 10, paddingLeft: depth > 0 ? 12 : 0, borderLeft: depth > 0 ? "2px solid var(--line)" : "none" }}>
-          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-            <Pill tone={KIND_TONE[n.kind] ?? "neutral"}>{KIND_ICON[n.kind]} {KIND_LABEL[n.kind]}</Pill>
-            <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>{n.id}</span>
-          </div>
-          <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4 }}>
-            {n.url ? <a href={n.url} target="_blank" rel="noopener noreferrer">{n.label}</a> : n.label}
-          </div>
-          <div style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 2 }}>{n.detail}</div>
-          {n.children.length > 0 && <TraceTree nodes={n.children} depth={depth + 1} />}
-        </div>
-      ))}
-    </div>
-  );
-}
-
 type FetchStatus = "loading" | "success" | "empty" | "error" | "timeout";
 const TIMEOUT_MS = 15000;
 
@@ -76,10 +29,14 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [signals, setSignals] = useState<any[]>([]);
   const [research, setResearch] = useState<any>(null);
+  const [tensions, setTensions] = useState<any[]>([]);
+  const [criteria, setCriteria] = useState<any>(null);
   const [traceId, setTraceId] = useState<string | null>(null);
 
   useEffect(() => { api.signals().then((r) => setSignals(r.signals)).catch(() => {}); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
+  useEffect(() => { api.researchTensions().then((r) => setTensions(r.tensions ?? [])).catch(() => {}); }, []);
+  useEffect(() => { api.criteria().then(setCriteria).catch(() => {}); }, []);
 
   // Baseline is fetched ONCE, independently of whatever priority the user is
   // currently toggling to - if it were set from "whichever priority request
@@ -294,15 +251,19 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
         </div>
       )}
 
-      <FocusPanel open={!!traceId} onClose={() => setTraceId(null)} eyebrow="Trace this innovation — reverse to raw evidence" title={traceId ? data?.scores[traceId]?.name ?? traceId : ""}>
+      <FocusPanel open={!!traceId} onClose={() => setTraceId(null)} eyebrow="Trace this bet — evidence, theme, and every concept built on it" title={traceId ? data?.scores[traceId]?.name ?? traceId : ""}>
         {traceId && data && (
           <>
             <p style={{ fontSize: 12, color: "var(--ink-faint)", marginBottom: 16, lineHeight: 1.5 }}>
-              Every edge below is a genuine cross-reference already present in the real data — nothing invented to
-              make this look connected. Where no link exists, it says so.
+              Every edge below is a genuine cross-reference already present in the real data — signal → paper,
+              tension → paper, assumption → paper, and every Magic Box concept that argues from this bet's same
+              real friction theme (joined by theme_id, never by name). Where no link exists, it says so.
             </p>
             <TraceLegend />
-            <TraceTree nodes={traceEvidenceIds(data.scores[traceId].evidence_ids, { signals, research })} />
+            <TraceTree nodes={[traceBetChain(
+              traceId, data.scores[traceId], themeFromEvidenceIds(data.scores[traceId].evidence_ids),
+              { signals, research, tensions, assumptions: criteria?.assumptions ?? [], concepts: criteria?.concepts ?? [] }
+            )]} />
           </>
         )}
       </FocusPanel>
