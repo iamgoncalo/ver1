@@ -1,7 +1,6 @@
 """Build data/manifest.json for the REAL raw data layer. Every entry here
 points to material that was actually fetched from a live, named, dated
-source during this repair - see AUDIT_CURRENT_PROJECT.md for the audit that
-required this rebuild.
+source, replacing an earlier fully synthetic manifest.
 
 Run:  python3 src/real/build_manifest_real.py   (run AFTER the real build_* scripts)
 """
@@ -65,8 +64,7 @@ def main():
 
     manifest = {
         "_provenance": "REAL raw data layer - every file below traces to a live, named, "
-                       "dated source fetched during this repair. Supersedes an earlier "
-                       "fully synthetic manifest; see AUDIT_CURRENT_PROJECT.md.",
+                       "dated source fetched, replacing an earlier fully synthetic manifest.",
         "_synthetic": False,
         "schema_version": "2.0.0-real",
         "manifest_of": "data/raw",

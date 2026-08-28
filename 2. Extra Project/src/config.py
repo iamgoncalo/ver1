@@ -1,4 +1,4 @@
-"""Shared constants for the Connected Air Treatment data-generation layer.
+"""Shared constants for the Air Purification data-generation layer.
 
 All raw datasets in this repository are SYNTHETIC fixtures generated from a
 fixed seed. They exist to exercise the ingestion / cleaning / reconciliation
@@ -8,7 +8,7 @@ vendor data and none of it may be quoted externally.
 
 SEED = 42            # fixture generation
 RANDOM_STATE = 42    # every analysis-stage sample / shuffle
-CATEGORY = "Connected Air Treatment"
+CATEGORY = "Air Purification"
 BUSINESS_UNIT = "Versuni - Home Air"
 
 # Corpus reference date: the day the synthetic "retrieval" is stamped as of.

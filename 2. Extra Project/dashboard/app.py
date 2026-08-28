@@ -126,7 +126,7 @@ def md(text):
 
 # ----------------------------------------------------------------- header
 st.title("VERSUNI AIR CASE")
-st.caption("CONTROL ROOM — Connected Air Treatment / Air Purifier, real evidence only")
+st.caption("CONTROL ROOM — Air Purification / Air Purifier, real evidence only")
 
 topcols = st.columns(5)
 topcols[0].metric("Git commit", git_commit())
@@ -174,12 +174,12 @@ with tabs[0]:
             st.markdown("**{}**  \n{}".format(name, definition))
         if not hasattr(C, "DECISION_METRICS"):
             st.markdown("- **Friction Prevalence %**\n- **CSAT Impact**\n"
-                       "- **Financial Value Proxy** (real price-weighted exposure)")
+                       "- **Price-Weighted Exposure** (real, a labelled diagnostic - not WTP)")
 
         st.subheader("Status")
         req = None
-        req_path = os.path.join(ROOT, "CASE_REQUIREMENTS.yaml")
-        st.markdown("Requirements ledger: `CASE_REQUIREMENTS.yaml`")
+        req_path = os.path.join(ROOT, "CASE_COMPLIANCE.yaml")
+        st.markdown("Requirements ledger: `CASE_COMPLIANCE.yaml`")
         st.markdown("- Q1–Q6: see OPPORTUNITIES / DATA QUALITY / MARKET tabs")
         st.markdown("- Human validation: **{}/50** real labels".format(n_labelled))
         st.markdown("- Synthetic final evidence: **{}**".format(synthetic_evidence_count()))
@@ -361,7 +361,7 @@ with tabs[5]:
     st.caption("Exactly three fixed dimensions per space - Consumer Pain, Economic "
               "Value, 2-5 Year Feasibility. No weighted overall score. Winner is "
               "computed live (gate -> Pareto dominance -> named judgment rule), "
-              "never a fixed literal - see EVIDENCE tab / CASE_REQUIREMENTS.yaml.")
+              "never a fixed literal - see EVIDENCE tab / CASE_COMPLIANCE.yaml.")
     dec = load_json("data/processed/decision_framework_real.json")
     verdict = dec["verdict"]
     winner_id = verdict["recommended"]
@@ -526,7 +526,7 @@ with tabs[7]:
         r = subprocess.run(["make", "verify"], cwd=ROOT, capture_output=True, text=True)
         st.code((r.stdout + r.stderr)[-1500:])
     if mc3.button("make live-check"):
-        st.caption("Runs the real CLI/pipeline commands from LIVE_REHEARSAL.md - this "
+        st.caption("Runs the real CLI/pipeline commands from the live-session runbook - this "
                   "intentionally exercises (and may rewrite) data/processed/*.json, the "
                   "same way running them by hand during the live session would. This is "
                   "not the Scenario Lab, which never touches data/processed.")

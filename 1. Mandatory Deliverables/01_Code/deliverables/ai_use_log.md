@@ -1,31 +1,46 @@
 # AI-Use Log
-Tools used: Claude (Anthropic), throughout, for code, real-data acquisition
-scripts, analysis, and this document's own prose, in an agentic session
-with direct network/tool access. Every number traces to
-`data/processed/*.json` — see `deliverables/evidence_table.csv`. Checking:
-every AI-proposed number or claim was re-derived from the real data and
-re-run, not accepted on assertion.
 
-## Rejected suggestion 1 — wrong Amazon category
-First attempt streamed Amazon's "Appliances" category, reasoning "air
-purifiers are appliances." Returned only 32 candidates, dominated by
-replacement-filter accessories. **Rejected** — real purifiers are
-merchandised under "Home_and_Kitchen". Switching categories produced 237
-real validated products and 10,547 real reviews.
+**Tools and roles.** *Claude Code (Anthropic):* repository work — data
+acquisition scripts, pipeline code, tests, verification tooling,
+AI-assisted review of outputs, and this document's prose. *ChatGPT
+(OpenAI):* used by the case owner to draft brief interpretation and the
+structured repair/review instructions given to Claude Code. *Human (case
+owner):* accountable for the case, final interpretation and acceptance of
+every recommendation, and the (still pending) hand labels.
 
-## Rejected suggestion 2 — treating a first-pass classifier as final
-The first title+description keyword classifier was accepted as "done" at
-106 candidates. Manual inspection found real false positives — vacuum
-cleaners, wearable necklace ionizers — matched because their *description*
-mentioned "air purifier" in cross-sell copy. **Rejected**: description-text
-matching conflates "cross-sold near a purifier" with "is a purifier."
-Fixed with title-only matching plus exclusion regexes, raising the count
-to 237.
+**Authority boundaries.** AI proposed code, queries, taxonomy logic and
+opportunity structures. AI could not and did not: create consumer
+evidence, invent source facts, fill human labels, convert missing evidence
+into numbers, or grant final acceptance.
 
-## One check that failed
-Q3's automated theme classifier first ran without a polarity gate — a
-keyword counted regardless of sentence polarity. On real text this scored
-"Ozone / smell / irritation" at 22% prevalence with a **positive** CSAT
-impact — incoherent for a friction, since "great at eliminating odors" was
-counted as a complaint. Fixed by only counting a keyword inside a
-negative-polarity sentence.
+**Rejected AI suggestion 1 — wrong Amazon category.** First attempt
+streamed the "Appliances" category ("purifiers are appliances"). Returned
+32 candidates, dominated by replacement-filter accessories. Rejected after
+inspection of the actual rows; "Home_and_Kitchen" yielded the real 237
+products / 10,547 reviews.
+
+**Rejected AI suggestion 2 — first-pass classifier accepted as final.**
+The title+description keyword classifier was proposed as done. Inspection
+of actual matches found vacuum cleaners and wearable ionizers matched via
+cross-sell copy in *descriptions*. Rejected; title-only matching plus
+exclusion regexes produced the frozen 237.
+
+**Failed AI check.** Q3's classifier first ran without a polarity gate:
+"Ozone / smell" scored 22% prevalence with a *positive* CSAT impact —
+"great at eliminating odors" counted as a complaint. Programmatic re-check
+against raw text exposed it; keywords now only count inside
+negative-polarity sentences, and the rerun produced the published figures.
+
+**Integrity incident (disclosed).** An earlier file presented as a
+hand-labelled sample failed provenance validation — its review texts did
+not match the real corpus for their review IDs (traced to a synthetic
+fixture's template pool). It was deleted; regression tests now verify
+every sample row against the real corpus by id, product and exact text,
+and Q3 validation remains **blocked pending genuine human labels** — no
+label was ever substituted.
+
+**Verification.** AI-derived work was checked by: programmatic checks
+(59-row evidence table, 301-check verifier, 49-test discovery suite,
+negative tests that corrupt a trace and expect failure), deterministic
+re-runs of the offline pipeline, source retrieval against archived pages,
+and a genuine fresh-clone reproduction (`FRESH_CLONE_REPORT.md`).

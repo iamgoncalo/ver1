@@ -37,7 +37,7 @@ already-bundled real raw data in `01_Code/data/real_raw/` and
 test suite via `python3 -m unittest discover -s tests -p "test_*.py"` (the
 same canonical command below — the pipeline's own reported test count is
 never a hand-typed number, it's whatever that discovery run finds). At last
-verification: **42/42 tests pass**, **229/229 submission-integrity checks
+verification: **49/49 tests pass**, **301/301 submission-integrity checks
 pass** (`python3 scripts/verify_submission.py`). No network access, no API
 keys, no manual steps.
 
@@ -45,7 +45,7 @@ Two further, optional pieces:
 
 ```
 python3 -m unittest discover -s tests -p "test_*.py"   # full test suite standalone
-python3 scripts/verify_submission.py                    # 229-check integrity verification
+python3 scripts/verify_submission.py                    # 301-check integrity verification
 python3 scripts/trace_claim.py <claim_id>                # trace one evidence_table.csv row to its source
 ```
 

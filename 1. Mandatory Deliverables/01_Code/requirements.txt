@@ -10,3 +10,9 @@ scikit-learn==1.5.0
 # scikit-learn's own hard dependency (not imported directly by anything
 # under src/) - pinned explicitly for reproducible installs.
 numpy==1.26.4
+
+# The PDF release step (scripts/md_to_pdf.py, called by
+# scripts/reproduce_submission.sh) genuinely imports reportlab - discovered
+# missing here by an actual fresh-clone reproduction failing at that step.
+reportlab==4.2.2
+

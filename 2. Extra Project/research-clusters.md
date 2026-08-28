@@ -78,7 +78,7 @@ TF-IDF + cosine-similarity + fixed-parameter agglomerative clustering over
 verified titles/abstracts, with no external embedding API or LLM. That
 requires a scikit-learn (or equivalent pure-Python) implementation and a
 documented similarity threshold, which was not built this session — see
-`NEXT_ACTION.md` for the exact next step. `data/processed/research_clusters.json::model_b_emergent_textual_similarity`
+`data/processed/research_clusters.json::model_b_emergent_textual_similarity`
 records this status machine-readably rather than faking a result.
 
 ## COUNTERFACTUAL CHAINS (5 real examples)

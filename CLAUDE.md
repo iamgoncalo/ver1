@@ -1,79 +1,48 @@
-# Versuni Air Treatment Case — Project Memory
-
-## PROJECT 1 ONLY
-
-This repository is the Versuni Innovation AI Expert case study for
-**Connected Air Treatment / Air Purifier**. It is a standalone deliverable,
-not a component of any larger platform.
+# Versuni Air Purification Case — Project Memory
 
 ## Mission
-Finish the Versuni Air Treatment / Air Purifier case to submission and
-live-interview quality, on real evidence only.
+This repository is the Versuni Innovation AI Expert case study for
+**Air Purification** (residential air purifiers), plus a supplementary
+exploration built on the same real evidence. Two projects:
 
-## Do NOT
-- Build the separate "Freedom Intelligence Machine" project (different repo,
-  different scope) in this repository.
-- Broaden the category beyond Connected Air Treatment / Air Purifier.
-- Reintroduce synthetic data as final evidence. Synthetic fixtures may exist
-  only inside `tests/synthetic_fixtures/`, clearly labelled, excluded from
-  `data/raw/` and every deliverable.
-- Fabricate human labels. `data/hand_label_sample_BLANK.csv` /
-  `data/manual/hand_labels.csv` are filled by a human only — never by Claude,
-  never by copying an automated prediction into the human column.
-- Fabricate AI-use-log events. Log only what genuinely happened this session.
-- Invent a willingness-to-pay figure. If direct WTP evidence doesn't exist,
-  say so — see `deliverables/data_quality_report.md` §Q4.
-- Force the current recommendation to remain the winner. Recompute Q6 from
-  whatever the real evidence actually supports; if it changes, let it change.
-- Create unnecessary production infrastructure (no cloud deployment, no
-  auth layer, no vector DB, no autonomous agents, no LLM-API dependency in
-  the final case pipeline). The dashboard is a local inspection tool only.
+1. **`1. Mandatory Deliverables/`** — the official case submission.
+   Canonical for everything the brief requires. Must stand alone.
+2. **`2. Extra Project/`** — the wider "Versuni Intelligence Machine"
+   (decision-engine API + React web app). Supplementary; never a source
+   of truth for the formal case.
 
-## Required
-- Real evidence for all three families (consumer, trend, market/price).
-- Q1–Q6 answered, each traceable to real data.
-- Exactly three fixed decision measures (see `src/config.py::DECISION_METRICS`).
-- Insight pack ≤5 slides; technical note ≤2 pages.
-- The three appendices (evidence table, data-quality report, AI-use log).
-- Complete claim traceability — every number in the pack/note has an
-  `evidence_table.csv` row, verified end to end.
-- Frozen offline reproduction — `make all` must never touch the network.
-- Live-interview robustness — see `LIVE_REHEARSAL.md`.
-- A localhost control room (`dashboard/app.py`, `make app`) that reads
-  frozen local outputs only and calls production analysis functions — it is
-  a viewer, never a second source of calculation.
+## Authority order
+1. The actual case brief. 2. Genuine raw/source evidence. 3. Executable
+current code and tests. 4. Current Git state. 5. Generated outputs.
+Historical planning/status documents are untrusted; Git history is the
+archive.
 
-## Branding (applies to every visual deliverable — deck, dashboard, exports)
-Always include the official Versuni logo (see `web/public/brand/SOURCE.md`
-for provenance — never redrawn/approximated), and always credit
-**Disruptive Innovation Team, Amsterdam**. In extreme high quality — this is
-a standing requirement, not a one-off. The visual-design stage (V1, the
-five-world Innovation Explorer) is now authorized and underway.
+## Immutable rules
+- Zero fabricated or synthetic final evidence. The only synthetic artifact
+  is the contamination sentinel under
+  `1. Mandatory Deliverables/01_Code/tests/synthetic_fixtures/` (TEST ONLY).
+- Never fill `hand_label` columns — human labels are human-only. Q3 stays
+  BLOCKED until the case owner labels
+  `01_Code/data/hand_label_sample_BLANK.csv` (protocol:
+  `01_Code/HUMAN_LABELING_INSTRUCTIONS.md`).
+- Never hardcode a recommendation; Q6 recomputes from current evidence and
+  may return INSUFFICIENT_EVIDENCE_FOR_RECOMMENDATION.
+- Missing evidence stays missing/UNKNOWN — never silently 0, "medium", or
+  estimated. Proxies are named as proxies (Price-Weighted Exposure is not
+  WTP, revenue, or market size).
+- Frozen raw evidence (`data/real_raw/`, `data/raw/`) is never edited as a
+  scenario technique — scenarios run in memory (see
+  `01_Code/LIVE_SESSION_RUNBOOK.md`).
 
-## Permanent process gate
-BEFORE every major task: read `STATUS.md` and `CHECKLIST.md`.
-AFTER every major task: execute the relevant `CHECKLIST.md` gates, update
-`STATUS.md`, and STOP for review.
+## Canonical commands (run from `1. Mandatory Deliverables/01_Code/`)
+- Full offline reproduction + PDFs + verifier + hashes:
+  `bash scripts/reproduce_submission.sh`
+- Analysis only: `bash run_pipeline.sh --analysis-only`
+- Full test discovery (the only valid test count):
+  `python3 -m unittest discover -s tests -p "test_*.py"`
+- Integrity verifier: `python3 scripts/verify_submission.py`
+- Claim trace: `python3 scripts/trace_claim.py <claim_id> | --random 5`
 
-Never advance V1 → V2 → V3 automatically. A green implementation is not
-approval to begin the next stage — that approval comes from the user.
-A "major task" = any analytical change, data/source change, UI/world
-change, Magic Box change, agent change, LLM change, decision change, or
-release change. Trivial typo-only edits don't need the full checklist.
-
-## Where things live
-- Real pipeline: `src/real/`
-- Real raw data: `data/raw/`, archived source material: `data/real_raw/`
-- Real processed outputs: `data/processed/*_real.json`
-- Synthetic engineering demo (isolated, not evidence): `tests/synthetic_fixtures/`
-- Audit trail: `AUDIT_CURRENT_PROJECT.md`, `FINISH_PLAN.md`
-- Requirements ledger: `CASE_REQUIREMENTS.yaml`
-- Current state at a glance: `STATUS.md`
-- Command surface: `Makefile` (`refresh`, `all`, `test`, `verify`, `app`, `live-check`)
-- Verification engine: `scripts/verify_submission.py`
-- Shared claim-trace logic (CLI + dashboard both call this): `scripts/trace_claim.py`
-
-## Read before changing anything
-`STATUS.md` for current state, `CHECKLIST.md` for the permanent quality
-gate, `CASE_REQUIREMENTS.yaml` for what's still open, `AUDIT_CURRENT_PROJECT.md`
-for why this repair exists at all.
+## Extra Project commands (run from `2. Extra Project/`)
+- `make all` (offline build), `make test`, `make verify`
+- Web app: FastAPI serves `web/dist` — see its README.

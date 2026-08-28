@@ -90,7 +90,7 @@ def build_products():
             })
     products.sort(key=lambda p: -p["n_real_reviews_in_corpus"])
     return {
-        "_provenance": "Real, hand-validated purifier products (see FINISH_PLAN.md F1). "
+        "_provenance": "Real, hand-validated purifier products. "
                        "cluster_type/cluster_intelligence assigned by an explicit, "
                        "documented keyword rule against the real product title - see "
                        "TYPE_RULES/INTELLIGENCE_RULES in this file.",

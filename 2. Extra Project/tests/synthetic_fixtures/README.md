@@ -14,7 +14,7 @@ detector logic in isolation from real-data noise.
 **It must never be read as, or presented as, the Versuni case-study
 submission.** No number in `deliverables/` is sourced from anything in this
 directory. `data/raw/` contains only real, individually-verified evidence —
-see `AUDIT_CURRENT_PROJECT.md` and `FINISH_PLAN.md` for the full audit trail
+see `02_Data/data_manifest.csv` in the formal case for raw-data provenance
 of why this separation exists.
 
 To run the synthetic demo in isolation (for engineering-test purposes only):

@@ -38,5 +38,23 @@ ozone_odor_safety_prevalence_pct_full,0.81%,data/processed/taxonomy_themes_real.
 ozone_odor_safety_csat_full,-1.102,data/processed/taxonomy_themes_real.json,themes.ozone_odor_safety.csat_impact,"mean(rating|theme, rating_trusted) - corpus mean",src/real/taxonomy_real.py:main
 real_price_min,$3.81,data/processed/wtp_real.json,real_price_coverage.min_usd,min(real observed price) across 75 priced real products,src/real/wtp_real.py:main
 real_price_median,$79.99,data/processed/wtp_real.json,real_price_coverage.median_usd,median(real observed price) across 75 priced real products,src/real/wtp_real.py:main
+real_price_max,"$1,100.00",data/processed/wtp_real.json,real_price_coverage.max_usd,max(real observed price) across 75 priced real products,src/real/wtp_real.py:main
+q2_quantified_consequence,corpus mean 4.1478 -> 4.1723 stars (+0.0245 / +0.591%) after quarantining sentiment conflicts,data/processed/defect_detection_report_real.json,quantified_consequence,"mean(rating) over all rows vs. rating_trusted rows only, same corpus",src/real/detect_defects_real.py:main
 sentiment_conflict_pct_rounded,2.3%,data/processed/defect_detection_report_real.json,defects_found.sentiment_rating_conflict.count / input_rows,"round(239/10547*100, 1)",src/real/detect_defects_real.py:main
 os3_smart_prevalence_rounded,1.02%,data/processed/decision_framework_real.json,scores.OS-3.friction_prevalence_pct,"round(1.016, 2)",src/real/decision_framework_real.py:keyword_prevalence
+reliability_n_reviews,166,data/processed/taxonomy_themes_real.json,themes.reliability.n_reviews,"count(real reviews carrying theme, polarity-gated)",src/real/taxonomy_real.py:main
+value_effectiveness_n_reviews,81,data/processed/taxonomy_themes_real.json,themes.value_effectiveness.n_reviews,"count(real reviews carrying theme, polarity-gated)",src/real/taxonomy_real.py:main
+customer_service_n_reviews,36,data/processed/taxonomy_themes_real.json,themes.customer_service.n_reviews,"count(real reviews carrying theme, polarity-gated)",src/real/taxonomy_real.py:main
+filter_cost_n_reviews,27,data/processed/taxonomy_themes_real.json,themes.filter_cost.n_reviews,"count(real reviews carrying theme, polarity-gated)",src/real/taxonomy_real.py:main
+noise_n_reviews,369,data/processed/taxonomy_themes_real.json,themes.noise.n_reviews,"count(real reviews carrying theme, polarity-gated)",src/real/taxonomy_real.py:main
+ozone_odor_safety_n_reviews,85,data/processed/taxonomy_themes_real.json,themes.ozone_odor_safety.n_reviews,"count(real reviews carrying theme, polarity-gated)",src/real/taxonomy_real.py:main
+trend_corpus_size,12,data/raw/trend_corpus.json,articles (length),count of real archived trend documents,src/real/build_trend_corpus.py:main
+appliances_candidates,32,data/real_raw/purifier_products.jsonl,line count,wc -l (Appliances-category candidates),src/real/filter_purifier_products.py
+merged_candidates,309,data/real_raw/purifier_products_final.jsonl,line count,wc -l (merged reclassified candidate file),src/real/reclassify_purifiers.py
+frozen_products,237,data/real_raw/purifier_products_frozen.jsonl,line count,wc -l (final frozen product allowlist),run_pipeline.sh (freeze step)
+os3_smart_mention_count,107,data/processed/decision_framework_real.json,scores.OS-3.n_reviews_supporting,count(reviews matching connectivity keyword class),src/real/decision_framework_real.py:keyword_prevalence
+mordor_market_size,$4.86B (2025) -> $6.32B (2030),data/raw/market_metrics.json,sources[0].metric (base/forecast values),"none - real vendor figures, page-verified",data/real_raw/market_sources/mordor_europe_air_purifier_market.html (archived)
+imarc_market_size,$4.8B (2025) -> $8.7B (2034),data/raw/market_metrics.json,sources[1].metric (base/forecast values),"none - real vendor figures, page-verified",data/real_raw/market_sources/imarc_europe_air_purifier_market.html (archived)
+lift_stopped_working,4.80 (n=44),data/processed/reviews_clean_real.csv,term-lift ranking over 1-2 star real reviews,"P(term|negative review) / P(term|all reviews), min_count=8",src/real/taxonomy_real.py:induce (--induce mode)
+lift_never_worked,5.98 (n=11),data/processed/reviews_clean_real.csv,term-lift ranking over 1-2 star real reviews,"P(term|negative review) / P(term|all reviews), min_count=8",src/real/taxonomy_real.py:induce (--induce mode)
+lift_waste_money,5.49 (n=50),data/processed/reviews_clean_real.csv,term-lift ranking over 1-2 star real reviews,"P(term|negative review) / P(term|all reviews), min_count=8",src/real/taxonomy_real.py:induce (--induce mode)

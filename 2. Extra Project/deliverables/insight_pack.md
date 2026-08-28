@@ -1,4 +1,4 @@
-# Connected Air Treatment — Innovation Recommendation
+# Air Purification — Innovation Recommendation
 **Versuni Disruptive Innovation | Innovation AI Expert case study | 5 slides**
 **All evidence is real: 10,547 real Amazon reviews (237 real, hand-validated
 purifier products), 2 real market-research sources, 12 real trend documents.**
@@ -16,13 +16,13 @@ Mode** and **Smart/Connected Feature Expansion**. Both are killed on the same
 three measures — see Slide 4.
 
 Held constant throughout: **Friction Prevalence %**, **CSAT Impact**,
-**Financial Value Proxy** (defined Slide 2).
+**Price-Weighted Exposure** (defined Slide 2).
 
 ---
 
 ## Slide 2 — Framing (Q1)
 
-- **Category:** Connected Air Treatment (Smart Home) — chosen for its clean,
+- **Category:** Air Purification (Smart Home) — chosen for its clean,
   real review signal on hardware/software frictions.
 - **Consumer group:** Real owners of residential air purifiers who left a
   review on Amazon.com, 2004–2023.
@@ -32,9 +32,10 @@ Held constant throughout: **Friction Prevalence %**, **CSAT Impact**,
 - **Three measures, fixed and unchanged from here on:**
   1. **Friction Prevalence %** — share of real reviews carrying the friction.
   2. **CSAT Impact** — mean star rating of affected reviews minus corpus mean.
-  3. **Financial Value Proxy** — here, a *price-weighted exposure* figure
-     (sum of real observed prices across affected reviews) — explicitly
-     **not** a revenue or market-size estimate; see Slide 3.
+  3. **Price-Weighted Exposure** — sum of real observed prices across
+     affected reviews (a calculated diagnostic, not a survey) — explicitly
+     **not** a revenue, market-size, or willingness-to-pay estimate; see
+     Slide 3.
 
 ---
 
@@ -94,9 +95,10 @@ plainly rather than manufactured into a formula. Noise reaches more reviews
 and touches higher-price products, but is the *shallowest* satisfaction hit
 of any real theme. Reliability reaches fewer reviews but the hit is severe —
 close to the worst in the whole taxonomy — and a "stopped working" failure
-typically ends the customer relationship outright (no repeat purchase, no
-filter revenue at all afterward), unlike noise, which annoys a buyer who
-usually keeps the unit.
+plausibly ends the customer relationship outright (an inference from the
+review text, which frequently pairs failure with return/refund language —
+not a measured churn or repurchase figure, which this evidence cannot
+provide), unlike noise, which annoys a buyer who usually keeps the unit.
 
 **Killed — Whisper-Quiet Night Mode:** CSAT Impact of −0.571★ is the
 *shallowest* satisfaction hit of any real theme, despite the highest
@@ -114,8 +116,9 @@ it"). No real friction signal to build a roadmap bet on.
 
 - **Directional signal:** reliability failures ("stopped working," "never
   worked," "died") appear across brands and across the full 2004–2023 span
-  of this real corpus — a complaint pattern the industry has never solved,
-  not a one-brand defect.
+  of this real corpus — a complaint pattern that persists across brands and
+  years *within this review sample*, not a one-brand defect. (This corpus
+  cannot establish what the industry has or hasn't solved outside it.)
 - **Most sensitive assumption, stated plainly:** this recommendation rests
   on a judgment call — that a *severe-but-narrower* friction (reliability)
   is worth prioritizing over a *shallow-but-broader* one (noise). The
@@ -134,6 +137,6 @@ it"). No real friction signal to build a roadmap bet on.
 - **Q5 sensitivity, actually re-run, not asserted:** re-running
   `src/real/decision_framework_real.py --market-scenario=imarc` (6.54% CAGR
   vs. Mordor Intelligence's 5.37%) produces an **identical verdict** — the
-  Financial Value Proxy here is built from review-level price exposure, not
-  category CAGR, so the Q5 disagreement changes the category-sizing
+  Price-Weighted Exposure here is built from review-level price exposure,
+  not category CAGR, so the Q5 disagreement changes the category-sizing
   narrative but not which opportunity wins.

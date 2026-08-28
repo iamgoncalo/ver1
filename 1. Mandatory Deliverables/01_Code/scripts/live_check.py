@@ -1,4 +1,4 @@
-"""Smoke-tests every command LIVE_REHEARSAL.md promises works, so `make
+"""Smoke-tests every command LIVE_SESSION_RUNBOOK.md relies on, so `make
 live-check` catches drift before the actual Versuni session does.
 """
 import json

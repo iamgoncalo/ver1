@@ -357,7 +357,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R02",
@@ -383,7 +383,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R03",
@@ -409,7 +409,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R04",
@@ -435,7 +435,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R05",
@@ -461,7 +461,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R08",
@@ -488,7 +488,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R09",
@@ -514,7 +514,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     }
   ],
   "existing_manufacturer_and_industry": [
@@ -543,7 +543,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R11",
@@ -569,7 +569,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R12",
@@ -596,7 +596,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     }
   ]
 }

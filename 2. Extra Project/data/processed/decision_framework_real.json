@@ -1,5 +1,5 @@
 {
-  "_provenance": "Recomputed from REAL Q2/Q3/Q4 outputs during this repair - not carried over from the synthetic-fixture phase. Winner is computed via gate -> Pareto dominance -> named judgment rule (src/real/decision_framework_real.py::evaluate), never a fixed literal - see CASE_REQUIREMENTS.yaml for the history of why that distinction is written down explicitly.",
+  "_provenance": "Recomputed from REAL Q2/Q3/Q4 outputs during this repair - not carried over from the synthetic-fixture phase. Winner is computed via gate -> Pareto dominance -> named judgment rule (src/real/decision_framework_real.py::evaluate), never a fixed literal - a hardcoded winner is an integrity failure, which is why that distinction is written down explicitly.",
   "generated_by": "src/real/decision_framework_real.py",
   "market_scenario_used": "imarc",
   "scenario_cagr_pct": 6.54,

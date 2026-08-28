@@ -221,6 +221,7 @@ def main():
     baddates, date_ev = detect_malformed_dates(rows)
 
     before = headline_metrics(rows, "BEFORE cleaning (real export as downloaded)")
+    base_fields = list(rows[0].keys())  # captured before the mutation loop below
 
     drop = set(empties)  # empty text carries no analyzable signal
     quarantine = set(conflicts)
@@ -256,11 +257,24 @@ def main():
                                "evidence": date_ev},
         },
         "headline_metrics": {"before": before, "after": after},
+        "quantified_consequence": (lambda tr, al: {
+            "metric": "corpus mean star rating (the baseline every Q3 CSAT Impact is measured against)",
+            "without_remedy_all_rows": round(sum(al) / len(al), 4),
+            "with_remedy_trusted_only": round(sum(tr) / len(tr), 4),
+            "absolute_difference_stars": round(sum(tr) / len(tr) - sum(al) / len(al), 4),
+            "relative_difference_pct": round(100.0 * (sum(tr) / len(tr) - sum(al) / len(al)) / (sum(al) / len(al)), 3),
+            "rows_driving_it": "the {} quarantined sentiment-conflict rows (their mean rating is {})".format(
+                len(al) - len(tr), round((sum(al) - sum(tr)) / (len(al) - len(tr)), 4)),
+            "note": "A real, same-corpus before/after - deliberately small, reported at its true size "
+                    "rather than manufactured into drama. Every per-theme CSAT Impact figure shifts "
+                    "with this baseline.",
+        })([float(r["rating"]) for r in clean if r["rating_trusted"] == "true"],
+           [float(r["rating"]) for r in clean]),
     }
 
     os.makedirs(PROC, exist_ok=True)
     out_csv = os.path.join(PROC, "reviews_clean_real.csv")
-    fields = list(rows[0].keys()) + ["rating_trusted", "date_parseable", "is_duplicate_text"]
+    fields = base_fields + ["rating_trusted", "date_parseable", "is_duplicate_text"]
     with open(out_csv, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
         w.writeheader()

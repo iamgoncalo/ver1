@@ -1,7 +1,7 @@
 """Build data/raw/trend_corpus.json from REAL, individually fetched and
 archived documents (data/real_raw/trend_sources/*). Every URL below was
 opened and its cited facts verified against the live page or PDF during this
-repair - see AUDIT_CURRENT_PROJECT.md / FINISH_PLAN.md item F1.
+repair.
 
 This replaces the fully synthetic src/generate_trend_corpus.py output.
 Twelve documents, not the earlier fabricated fifteen - fewer than the
@@ -252,7 +252,7 @@ def build():
                        "15-document placeholder corpus this file replaced.",
         "_synthetic": False,
         "schema_version": "2.0.0-real",
-        "corpus_name": "Connected Air Treatment - trend corpus (real)",
+        "corpus_name": "Air Purification - trend corpus (real)",
         "category": C.CATEGORY,
         "business_unit": C.BUSINESS_UNIT,
         "compiled_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),

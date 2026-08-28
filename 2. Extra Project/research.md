@@ -1,9 +1,9 @@
-# research.md — Connected Air Treatment research truth layer
+# research.md — Air Purification research truth layer
 
 ## PURPOSE
 
 This file is the canonical account of the real research evidence behind
-the Versuni Connected Air Treatment case. It exists because an earlier
+the Versuni Air Purification case. It exists because an earlier
 pass left research under-visible, under-verified, and disconnected from
 the design process. This pass corrects that: every peer-reviewed claim
 below was verified against the PubMed API in-session (not accepted from
@@ -119,7 +119,7 @@ Five real research → counterfactual chains are documented in
 `research-clusters.md` §Counterfactual chains, following the required
 OBSERVED → DERIVED → ASSUMPTION → COUNTERFACTUAL → CONCEPT → HYPOTHESIS →
 REQUIRED TEST structure. The UI-level Counterfactual Engine that consumes
-these chains was **not built this session** — see `NEXT_ACTION.md`.
+these chains was **not built this session** — a known, open gap.
 
 ## QUERY LOG (reproducibility)
 

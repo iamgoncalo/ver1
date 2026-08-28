@@ -1,5 +1,5 @@
 {
-  "_provenance": "Official Versuni/Philips product images - each entry individually verified against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (7 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. See NEXT_ACTION.md for the remaining verification work.",
+  "_provenance": "Official Versuni/Philips product images - each entry individually verified against an official philips.<region> product page, downloaded, and hashed. This is a BOUNDED, honest subset (7 of ~20 candidate families from products.md) - the rest remain UNVERIFIED by design rather than inferred from family similarity. The remaining families stay unverified until individually checked.",
   "generated_by": "manual verification session 2026-08-26 and 2026-08-27",
   "products": [
     {

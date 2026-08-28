@@ -283,5 +283,51 @@
     "killed_objects": 7,
     "surviving_objects": 9,
     "errors": []
+  },
+  {
+    "run_id": "run-13",
+    "started_at": "2026-08-28T17:02:05.134830+00:00",
+    "finished_at": "2026-08-28T17:02:05.134830+00:00",
+    "last_checked_at": "2026-08-28T17:02:05.134830+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "7710bc6a50f4140c1120408f94dd4b41ee719cd882b6fa1313a95a22d9053335",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
+  },
+  {
+    "run_id": "run-14",
+    "started_at": "2026-08-28T17:03:47.737455+00:00",
+    "finished_at": "2026-08-28T17:03:47.737455+00:00",
+    "last_checked_at": "2026-08-28T17:03:47.737455+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "0441348eb7d80beaeb321ec03a9ec2193d80eb31481f2f8c19d4ecc8bfee74c9",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
   }
 ]

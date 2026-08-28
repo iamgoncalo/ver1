@@ -114,5 +114,14 @@
       "pct_5_star": 66.57,
       "n_rows_usable_in_timeseries": 10529
     }
+  },
+  "quantified_consequence": {
+    "metric": "corpus mean star rating (the baseline every Q3 CSAT Impact is measured against)",
+    "without_remedy_all_rows": 4.1478,
+    "with_remedy_trusted_only": 4.1723,
+    "absolute_difference_stars": 0.0245,
+    "relative_difference_pct": 0.591,
+    "rows_driving_it": "the 239 quarantined sentiment-conflict rows (their mean rating is 3.0921)",
+    "note": "A real, same-corpus before/after - deliberately small, reported at its true size rather than manufactured into drama. Every per-theme CSAT Impact figure shifts with this baseline."
   }
 }

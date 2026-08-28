@@ -1,15 +1,42 @@
 name: Verify submission
 
-# Runs the exact offline reproduction path against the frozen real evidence
-# already committed to the repo - no network access, no API keys. This must
-# stay true: `make all` reads data/real_raw/ only.
+# Two jobs. "mandatory" is the official case: offline reproduction from the
+# frozen real evidence already committed - no network access during
+# analysis, no API keys. "extra" is the supplementary Intelligence Machine.
 on:
   push:
-    branches: [main, repair/real-evidence]
+    branches: [main, final-submission]
   pull_request:
+    branches: [main, final-submission]
 
 jobs:
-  verify:
+  mandatory:
+    name: Official case (1. Mandatory Deliverables)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "1. Mandatory Deliverables/01_Code"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install declared dependencies
+        run: pip install -r requirements.txt
+
+      - name: Full offline reproduction (pipeline + PDFs + full test discovery + verifier + hashes)
+        run: bash scripts/reproduce_submission.sh
+
+      - name: Frozen source-hash integrity (manifest checksums re-checked standalone)
+        run: python3 -m unittest tests.test_real_pipeline.TestRealRawLayer -v
+
+      - name: Recommendation consistency across final surfaces
+        run: python3 -m unittest tests.test_real_pipeline.TestRecommendationConsistency tests.test_real_pipeline.TestClaimTraceability tests.test_real_pipeline.TestEvidenceTraceability -v
+
+  extra:
+    name: Extra Project (Intelligence Machine)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,14 +48,17 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Regenerate every deliverable from frozen real evidence (offline)
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Offline machine data build
         run: make all
 
-      - name: Run test suite
+      - name: Backend tests
         run: make test
 
-      - name: Run submission integrity verification
+      - name: Submission integrity verification
         run: make verify
 
-      - name: Run live-session command smoke test
+      - name: Live-session command smoke test
         run: make live-check

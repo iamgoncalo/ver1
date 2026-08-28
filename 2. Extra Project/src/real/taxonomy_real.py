@@ -165,6 +165,47 @@ def classify(text):
     return min(hits.items(), key=lambda kv: (kv[1][1], -kv[1][0], kv[0]))[0]
 
 
+def compute_validation_metrics(gold, auto):
+    """gold/auto: parallel lists of theme ids (human hand_label vs. the
+    classifier's own assignment for the same review_id, in the same order).
+    Returns raw agreement, a per-theme precision/recall table (human label
+    treated as ground truth) and the full confusion matrix - not just a
+    single overall number, so a reviewer can see exactly which themes the
+    classifier over- or under-calls, not just how often it agrees overall."""
+    labels = sorted(set(gold) | set(auto))
+    confusion = {g: {a: 0 for a in labels} for g in labels}
+    for g, a in zip(gold, auto):
+        confusion[g][a] += 1
+
+    per_theme = {}
+    for label in labels:
+        tp = confusion[label][label]
+        fn = sum(confusion[label][a] for a in labels) - tp          # gold=label, auto!=label
+        fp = sum(confusion[g][label] for g in labels) - tp          # auto=label, gold!=label
+        n_gold = sum(confusion[label].values())
+        n_auto = sum(confusion[g][label] for g in labels)
+        per_theme[label] = {
+            "n_hand_labelled": n_gold,
+            "n_auto_assigned": n_auto,
+            "precision": round(tp / n_auto, 3) if n_auto else None,
+            "recall": round(tp / n_gold, 3) if n_gold else None,
+        }
+
+    n = len(gold)
+    agree = sum(1 for g, a in zip(gold, auto) if g == a) / float(n) if n else None
+    none_disagreement = {
+        "human_none_auto_not": sum(1 for g, a in zip(gold, auto) if g == "none" and a != "none"),
+        "auto_none_human_not": sum(1 for g, a in zip(gold, auto) if a == "none" and g != "none"),
+    }
+    return {
+        "n_labelled": n,
+        "raw_agreement_pct": round(100.0 * agree, 2) if agree is not None else None,
+        "per_theme": per_theme,
+        "confusion_matrix": confusion,
+        "none_disagreement": none_disagreement,
+    }
+
+
 def emit_blank_sample(rows, n=50, seed=None):
     """Stratified by star rating, deterministic given a seed - but the seed
     used here is NOT the fixture RANDOM_STATE reused for anything else, so
@@ -270,13 +311,11 @@ def main():
             gold = [h["hand_label"].strip() for h in hand]
             auto = [by_id[h["review_id"]]["theme"] if h["review_id"] in by_id else "MISSING"
                    for h in hand]
-            agree = sum(1 for g, a in zip(gold, auto) if g == a) / float(len(gold))
-            validation = {
-                "n_labelled": len(hand),
-                "raw_agreement_pct": round(100.0 * agree, 2),
-                "note": "Computed against a human-labelled file - see the file's own "
-                       "provenance for who labelled it and when.",
-            }
+            validation = compute_validation_metrics(gold, auto)
+            validation["note"] = ("Computed against a human-labelled file, blind to the "
+                                  "automated assignment at label time - see "
+                                  "HUMAN_LABELING_INSTRUCTIONS.md for the labeling protocol "
+                                  "and codebook.")
 
     out = {
         "_provenance": "Themes induced from REAL review text; treated as hypotheses, "

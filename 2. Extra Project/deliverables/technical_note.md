@@ -1,6 +1,14 @@
-# Technical Note — Connected Air Treatment (Real Data)
+# Technical Note — Air Purification (Real Data)
 Method, assumptions, limitations, what was cut. Max 2 pages. Companion to
 [insight_pack.md](insight_pack.md).
+
+**Recommendation: Reliability-Verified Air Purifiers** (extended-life
+guarantee + real-time self-diagnostic), computed live by
+`decision_framework_real.py` and unchanged under both real market
+scenarios (Q5, below). Two serious alternatives — Whisper-Quiet Night Mode
+and Smart/Connected Feature Expansion — were evaluated and rejected on the
+same three measures; see Insight Pack Slide 4 for the full comparison and
+kill reasons.
 
 ## Data and pipeline
 Three real sources in `data/raw/`: **10,547 real Amazon reviews** for 237
@@ -26,9 +34,13 @@ not real purifier units. The real category is "Home_and_Kitchen"
 positives on manual inspection — vacuum cleaners, wearable necklace
 ionizers, home-decor items whose *description* mentioned "air purifier" in
 cross-sell copy. A second pass switched to title-only matching with
-regex-based accessory/vacuum/wearable exclusions, raising the candidate
-count from 106 to 227, then a final threshold (min. 5 real ratings) plus a
-targeted smoke-device exclusion froze the list at **237 real products**.
+regex-based accessory/vacuum/wearable exclusions, broadening the merged
+candidate file to 309 products, then a final threshold (min. 5 real
+ratings) plus a targeted smoke-device exclusion froze the list at **237
+real products** — each step preserved as a committed intermediate
+(`purifier_products.jsonl` → `purifier_products_final.jsonl` →
+`purifier_products_frozen.jsonl`), so every count here is a line count of
+a real committed file, not a remembered number.
 This iterative process is exactly what §3.2 asks for ("manually inspect a
 sample to measure product-classification quality") and is preserved in full
 in `src/real/filter_purifier_products.py` and `reclassify_purifiers.py`.
@@ -79,20 +91,23 @@ Two real sources for "Europe Air Purifier Market" — Mordor Intelligence
 (5.37% CAGR, 2025–2030, $4.86B→$6.32B) and IMARC Group (6.54% CAGR,
 2026–2034, $4.8B→$8.7B) — nominally cover *identical* scope (same region,
 product types, end-user segments, revenue basis) yet still disagree by
-1.17pp, primarily attributable to different forecast windows and
-undisclosed proprietary methodology, not a scope mismatch. This is a more
-realistic finding than a dramatic scope-driven spread: two firms measuring
+1.17pp. The forecast windows measurably differ (5 vs. 9 years); beyond
+that, both methodologies are proprietary and undisclosed, so the residual
+cause is genuinely unknown — this is stated as unknown, not attributed.
+This is a more realistic finding than a dramatic scope-driven spread: two firms measuring
 the *same thing* can still land materially apart. `decision_framework_real.py
 --market-scenario=imarc` re-runs the Q6 verdict under the alternative figure
-live; the verdict is unchanged (Q6's Financial Value Proxy is built from
-review-level price exposure, not category CAGR).
+live; the verdict is unchanged (Q6's Price-Weighted Exposure is built
+from review-level price exposure, not category CAGR).
 
 ## What was deliberately not built
 - **No stated-preference WTP instrument** — the largest evidence gap,
   named as one rather than proxied around.
-- **No cross-category comparison** — scope held to Connected Air Treatment.
+- **No cross-category comparison** — scope held to Air Purification.
 - **Ozone-generator products excluded by category** (different mechanism,
   regulator-contested — CARB, `data/raw/trend_corpus.json` TC-R04) rather
   than folded into the purifier corpus.
-- **No paid tooling or specialised hardware** — Python 3.9 stdlib plus
-  `curl` for real data acquisition; runs on an ordinary laptop.
+- **No paid tooling or specialised hardware** — Python 3.9+ with two
+  declared open-source libraries (scikit-learn for research clustering,
+  reportlab for PDF rendering; see `requirements.txt`) plus `curl` for
+  real data acquisition; runs on an ordinary laptop.

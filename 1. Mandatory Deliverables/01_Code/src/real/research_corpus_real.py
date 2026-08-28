@@ -527,7 +527,7 @@ def build_clusters():
     return {
         "_provenance": "MODEL A only (canonical, analyst-defined research territories). "
                         "MODEL B (emergent TF-IDF + cosine-similarity textual clustering) "
-                        "is NOT implemented in this pass - deferred, see NEXT_ACTION.md. "
+                        "is NOT implemented in this pass - deferred. "
                         "Do not present Model A as if it were machine-derived.",
         "generated_by": "src/real/research_corpus_real.py",
         "model_a_canonical_territories": [
@@ -539,7 +539,7 @@ def build_clusters():
             "status": "NOT_IMPLEMENTED",
             "reason": "Deferred this pass - requires a documented TF-IDF + cosine-similarity "
                       "+ deterministic agglomerative-clustering implementation over verified "
-                      "titles/abstracts. Tracked in NEXT_ACTION.md.",
+                      "titles/abstracts. A known, open limitation.",
         },
     }
 

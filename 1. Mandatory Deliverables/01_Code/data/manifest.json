@@ -6,7 +6,7 @@
   "category": "Air Purification",
   "business_unit": "Versuni - Home Air",
   "repository": "versuni-connected-air-treatment",
-  "built_at": "2026-08-28T16:39:18+00:00",
+  "built_at": "2026-08-28T17:03:31+00:00",
   "built_by": "src/real/build_manifest_real.py",
   "reproducible": true,
   "reproduce_with": [
@@ -20,7 +20,7 @@
   ],
   "reproducibility_caveat": "The two upstream McAuley-Lab source files (Appliances.jsonl, Home_and_Kitchen.jsonl) are hosted on HuggingFace and are NOT bundled with this repository - they are streamed and filtered live, per §3.5 of the brief ('where a source cannot be redistributed, ship the fetching script and the manifest entry instead'). The FILTERED, purifier-only output (data/real_raw/reviews_appliances.jsonl, reviews_hk.jsonl - a few thousand rows, not the full multi-GB source) IS bundled and is what data/raw/consumer_reviews.csv is actually built from, so re-running build_reviews_csv.py alone reproduces it without any network access. Re-running the two filter_*.py steps requires network access to huggingface.co and will take significant time (~886MB + ~31GB streamed).",
   "file_count": 3,
-  "total_bytes": 6637267,
+  "total_bytes": 6637280,
   "files": [
     {
       "filename": "consumer_reviews.csv",
@@ -28,7 +28,7 @@
       "bytes": 6610287,
       "sha256": "89296d913d84036a66bf9a91b3ff9eae8a1c503db79e0bd1a1f301663ecd7395",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T16:39:18+00:00",
+      "generated_at": "2026-08-28T17:03:31+00:00",
       "immutable": true,
       "format": "csv",
       "origin": {
@@ -66,10 +66,10 @@
     {
       "filename": "market_metrics.json",
       "relative_path": "data/raw/market_metrics.json",
-      "bytes": 8106,
-      "sha256": "254d2c24ad02b590ea2122c2b7de029559071d5b6c036209d19a7145b9cdb2f0",
+      "bytes": 8119,
+      "sha256": "e68abeb4384f35e6c2932ce62bb80ba288b50003cd658cf3bf4c5156aaad8f0f",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T16:39:18+00:00",
+      "generated_at": "2026-08-28T17:03:31+00:00",
       "immutable": true,
       "format": "json",
       "origin": {
@@ -88,9 +88,9 @@
       "filename": "trend_corpus.json",
       "relative_path": "data/raw/trend_corpus.json",
       "bytes": 18874,
-      "sha256": "8af899ebd1528de60b4a26d1536e41e61683ce5b2e9a20e990d7ce88c46ff327",
+      "sha256": "8c44369451731aca14ff1accde1fb145be2c4fee9a700d278f57ecf71167e2d2",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T16:39:18+00:00",
+      "generated_at": "2026-08-28T17:03:31+00:00",
       "immutable": true,
       "format": "json",
       "origin": {

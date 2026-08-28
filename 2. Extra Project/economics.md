@@ -90,7 +90,7 @@ See `products-clusters.md` §11 for the six economic counterfactuals
 (price compression, filter-cost removal, energy shock, subscription,
 category-budget competition, time-price). Each is executable only where
 current product/price data permits — none of the six were built into an
-interactive UI this session (see NEXT_ACTION.md).
+interactive UI this session.
 
 ## WHAT THIS FILE DOES NOT DO
 

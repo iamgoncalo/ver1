@@ -166,8 +166,9 @@ DOC = {
                       "up by roughly (6.54-5.37)/5.37 = 21.8% relative, compounded over the "
                       "longer window, but does NOT change which opportunity space wins in "
                       "Q6 (see src/real/decision_framework_real.py --market-scenario), "
-                      "because the Q6 Price-Weighted Exposure is anchored on installed-base "
-                      "and friction-prevalence figures that do not depend on category CAGR."),
+                      "because the Q6 Price-Weighted Exposure is anchored on review-level "
+                      "price-exposure and friction-prevalence figures that do not depend "
+                      "on category CAGR."),
         },
         "analyst_actions": [
             "Do not average the two CAGRs - averaging two different-methodology, "

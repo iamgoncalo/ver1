@@ -28,6 +28,7 @@ def main():
     wtp = j("wtp_real.json")
     dec = j("decision_framework_real.json")
     mkt = json.load(open(os.path.join(ROOT, "data", "raw", "market_metrics.json"), encoding="utf-8"))
+    trend = json.load(open(os.path.join(ROOT, "data", "raw", "trend_corpus.json"), encoding="utf-8"))
     manifest = json.load(open(os.path.join(ROOT, "data", "manifest.json"), encoding="utf-8"))
 
     before = det["headline_metrics"]["before"]
@@ -152,6 +153,17 @@ def main():
     rows.append(("real_price_median", "${:.2f}".format(wtp["real_price_coverage"]["median_usd"]),
                  "data/processed/wtp_real.json", "real_price_coverage.median_usd",
                  "median(real observed price) across 75 priced real products", "src/real/wtp_real.py:main"))
+    rows.append(("real_price_max", "${:,.2f}".format(wtp["real_price_coverage"]["max_usd"]),
+                 "data/processed/wtp_real.json", "real_price_coverage.max_usd",
+                 "max(real observed price) across 75 priced real products", "src/real/wtp_real.py:main"))
+    qc = det["quantified_consequence"]
+    rows.append(("q2_quantified_consequence",
+                 "corpus mean {} -> {} stars ({:+} / {:+}%) after quarantining sentiment conflicts".format(
+                     qc["without_remedy_all_rows"], qc["with_remedy_trusted_only"],
+                     qc["absolute_difference_stars"], qc["relative_difference_pct"]),
+                 "data/processed/defect_detection_report_real.json", "quantified_consequence",
+                 "mean(rating) over all rows vs. rating_trusted rows only, same corpus",
+                 "src/real/detect_defects_real.py:main"))
     rows.append(("sentiment_conflict_pct_rounded", "2.3%",
                  "data/processed/defect_detection_report_real.json",
                  "defects_found.sentiment_rating_conflict.count / input_rows",
@@ -159,6 +171,59 @@ def main():
     rows.append(("os3_smart_prevalence_rounded", "1.02%",
                  "data/processed/decision_framework_real.json", "scores.OS-3.friction_prevalence_pct",
                  "round(1.016, 2)", "src/real/decision_framework_real.py:keyword_prevalence"))
+
+    # Per-theme affected-review counts (the n behind each prevalence row) -
+    # the Insight Pack's Slide 3 table cites these integers directly.
+    for tid, st in tax["themes"].items():
+        rows.append(("{}_n_reviews".format(tid), str(st["n_reviews"]),
+                     "data/processed/taxonomy_themes_real.json",
+                     "themes.{}.n_reviews".format(tid),
+                     "count(real reviews carrying theme, polarity-gated)",
+                     "src/real/taxonomy_real.py:main"))
+
+    # Corpus/candidate counts cited as integers in the deliverables - each is
+    # a line count of a committed real file, recomputed here at build time.
+    def line_count(rel):
+        with open(os.path.join(ROOT, rel), encoding="utf-8") as fh:
+            return sum(1 for _ in fh)
+    rows.append(("trend_corpus_size", str(len(trend["articles"])),
+                 "data/raw/trend_corpus.json", "articles (length)",
+                 "count of real archived trend documents", "src/real/build_trend_corpus.py:main"))
+    rows.append(("appliances_candidates", str(line_count("data/real_raw/purifier_products.jsonl")),
+                 "data/real_raw/purifier_products.jsonl", "line count",
+                 "wc -l (Appliances-category candidates)", "src/real/filter_purifier_products.py"))
+    rows.append(("merged_candidates", str(line_count("data/real_raw/purifier_products_final.jsonl")),
+                 "data/real_raw/purifier_products_final.jsonl", "line count",
+                 "wc -l (merged reclassified candidate file)", "src/real/reclassify_purifiers.py"))
+    rows.append(("frozen_products", str(line_count("data/real_raw/purifier_products_frozen.jsonl")),
+                 "data/real_raw/purifier_products_frozen.jsonl", "line count",
+                 "wc -l (final frozen product allowlist)", "run_pipeline.sh (freeze step)"))
+    rows.append(("os3_smart_mention_count", str(dec["scores"]["OS-3"]["n_reviews_supporting"]),
+                 "data/processed/decision_framework_real.json", "scores.OS-3.n_reviews_supporting",
+                 "count(reviews matching connectivity keyword class)",
+                 "src/real/decision_framework_real.py:keyword_prevalence"))
+
+    # Q5 market sizes as cited in the Technical Note - vendor figures,
+    # page-verified against the archived sources.
+    rows.append(("mordor_market_size", "$4.86B (2025) -> $6.32B (2030)",
+                 "data/raw/market_metrics.json", "sources[0].metric (base/forecast values)",
+                 "none - real vendor figures, page-verified",
+                 "data/real_raw/market_sources/mordor_europe_air_purifier_market.html (archived)"))
+    rows.append(("imarc_market_size", "$4.8B (2025) -> $8.7B (2034)",
+                 "data/raw/market_metrics.json", "sources[1].metric (base/forecast values)",
+                 "none - real vendor figures, page-verified",
+                 "data/real_raw/market_sources/imarc_europe_air_purifier_market.html (archived)"))
+
+    # Q3 term-lift figures quoted in the Technical Note - recomputable from
+    # the committed clean corpus via `taxonomy_real.py --induce`.
+    for cid, val in (("lift_stopped_working", "4.80 (n=44)"),
+                     ("lift_never_worked", "5.98 (n=11)"),
+                     ("lift_waste_money", "5.49 (n=50)")):
+        rows.append((cid, val,
+                     "data/processed/reviews_clean_real.csv",
+                     "term-lift ranking over 1-2 star real reviews",
+                     "P(term|negative review) / P(term|all reviews), min_count=8",
+                     "src/real/taxonomy_real.py:induce (--induce mode)"))
 
     os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, "evidence_table.csv"), "w", newline="", encoding="utf-8") as fh:

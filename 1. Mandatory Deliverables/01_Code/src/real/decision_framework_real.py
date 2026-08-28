@@ -239,13 +239,24 @@ def pain_score(profile):
     return None if csat is None else -csat
 
 
+def econ_rank(profile):
+    """METHOD_CHOICE, made explicit rather than hidden in an `or 0`:
+    a candidate with NO observed price exposure (economic_value is None -
+    no priced real review carries its theme) ranks below any candidate with
+    observed exposure when candidates are COMPARED. Missing evidence earns
+    no credit in the ordering - and it is never converted to a number in
+    any output: the profile's own economic_value stays None end-to-end,
+    reported as unknown, not zero."""
+    return profile["economic_value"] if profile["economic_value"] is not None else 0
+
+
 def dominates(a, b):
     """True if profile a is at least as good as b on all three real
     dimensions and strictly better on at least one - textbook Pareto
     dominance, not a weighted score. Both must have passed the Consumer
     Pain evidence gate (checked by the caller) before this is meaningful."""
     pa, pb = pain_score(a), pain_score(b)
-    ea, eb = a["economic_value"] or 0, b["economic_value"] or 0
+    ea, eb = econ_rank(a), econ_rank(b)
     fa, fb = a["feasibility_2_5y"]["rank"], b["feasibility_2_5y"]["rank"]
     ge_all = pa >= pb and ea >= eb and fa >= fb
     gt_any = pa > pb or ea > eb or fa > fb
@@ -284,7 +295,7 @@ def break_tie(id_a, profile_a, id_b, profile_b, decision_priority):
                          "path is required not to have.".format(decision_priority, valid))
 
     pa, pb = pain_score(profile_a), pain_score(profile_b)
-    ea, eb = profile_a["economic_value"] or 0, profile_b["economic_value"] or 0
+    ea, eb = econ_rank(profile_a), econ_rank(profile_b)
     fa, fb = profile_a["feasibility_2_5y"]["rank"], profile_b["feasibility_2_5y"]["rank"]
 
     if decision_priority == "economic_value_override":
@@ -413,9 +424,12 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
         rows, r"wifi|wi-fi|bluetooth|smart\s?home|smartphone app|mobile app|alexa|"
              r"google assistant|voice control")
 
-    scenario_cagr = {"mordor": 5.37, "imarc": 6.54}.get(scenario, 5.37)
-    scenario_source = {"mordor": "Mordor Intelligence (primary planning basis)",
-                       "imarc": "IMARC Group (Q5 alternative)"}.get(scenario)
+    SCENARIOS = {"mordor": (5.37, "Mordor Intelligence (primary planning basis)"),
+                 "imarc": (6.54, "IMARC Group (Q5 alternative)")}
+    if scenario not in SCENARIOS:
+        raise ValueError("unknown market scenario {!r} - valid: {}".format(
+            scenario, sorted(SCENARIOS)))
+    scenario_cagr, scenario_source = SCENARIOS[scenario]
 
     def gate(csat, prevalence_pct):
         return csat is not None and (prevalence_pct or 0) >= MATERIALITY_FLOOR_PCT
@@ -601,7 +615,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
                        "carried over from the synthetic-fixture phase. Winner is computed "
                        "via gate -> Pareto dominance -> named judgment rule "
                        "(src/real/decision_framework_real.py::evaluate), never a fixed "
-                       "literal - see CASE_REQUIREMENTS.yaml for the history of why that "
+                       "literal - a hardcoded winner is an integrity failure, which is why that "
                        "distinction is written down explicitly.",
         "generated_by": "src/real/decision_framework_real.py",
         "market_scenario_used": scenario,

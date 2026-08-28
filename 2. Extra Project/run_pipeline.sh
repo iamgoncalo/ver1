@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# End-to-end reproduction of the REAL Connected Air Treatment case study:
+# End-to-end reproduction of the REAL Air Purification case study:
 # real raw data -> real defect detection -> real taxonomy -> real WTP ->
 # real decision framework -> deliverables, from a clean checkout, in one
 # command.

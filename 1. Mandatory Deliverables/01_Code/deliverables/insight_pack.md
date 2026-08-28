@@ -95,9 +95,10 @@ plainly rather than manufactured into a formula. Noise reaches more reviews
 and touches higher-price products, but is the *shallowest* satisfaction hit
 of any real theme. Reliability reaches fewer reviews but the hit is severe —
 close to the worst in the whole taxonomy — and a "stopped working" failure
-typically ends the customer relationship outright (no repeat purchase, no
-filter revenue at all afterward), unlike noise, which annoys a buyer who
-usually keeps the unit.
+plausibly ends the customer relationship outright (an inference from the
+review text, which frequently pairs failure with return/refund language —
+not a measured churn or repurchase figure, which this evidence cannot
+provide), unlike noise, which annoys a buyer who usually keeps the unit.
 
 **Killed — Whisper-Quiet Night Mode:** CSAT Impact of −0.571★ is the
 *shallowest* satisfaction hit of any real theme, despite the highest
@@ -115,8 +116,9 @@ it"). No real friction signal to build a roadmap bet on.
 
 - **Directional signal:** reliability failures ("stopped working," "never
   worked," "died") appear across brands and across the full 2004–2023 span
-  of this real corpus — a complaint pattern the industry has never solved,
-  not a one-brand defect.
+  of this real corpus — a complaint pattern that persists across brands and
+  years *within this review sample*, not a one-brand defect. (This corpus
+  cannot establish what the industry has or hasn't solved outside it.)
 - **Most sensitive assumption, stated plainly:** this recommendation rests
   on a judgment call — that a *severe-but-narrower* friction (reliability)
   is worth prioritizing over a *shallow-but-broader* one (noise). The

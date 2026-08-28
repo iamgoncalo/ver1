@@ -269,14 +269,53 @@ class TestClaimTraceability(unittest.TestCase):
 
 
 class TestEvidenceTraceability(unittest.TestCase):
-    def test_every_insight_pack_number_traces_to_evidence_table(self):
-        pack = open(os.path.join(ROOT, "deliverables", "insight_pack.md"), encoding="utf-8").read()
+    # Numbers that appear in the deliverables but are NOT quantitative
+    # evidence claims - each entry must have a stated reason. Anything
+    # numeric not on this list must trace to an evidence_table.csv row.
+    NON_CLAIM_NUMBERS = {
+        "3.9",    # "Python 3.9+" - a tool version, not an evidence claim
+        "3.2",    # "§3.2" - a brief section reference
+        "11.8",   # "11.8GB metadata" - source-file size, descriptive of the
+                  # download, not an analytical result
+        "272",    # "272MB" - same (Appliances metadata download size)
+        "2004", "2023", "2025", "2026", "2030", "2034",  # period years -
+                  # every range they define is itself covered by table rows
+                  # (review_date_range, CAGR windows)
+        "18",     # "18-character negation window" appears alongside the
+                  # 18-empty-rows claim; the empty-rows 18 IS in the table
+    }
+
+    def _untraced_numbers_in(self, doc_name):
+        text = open(os.path.join(ROOT, "deliverables", doc_name), encoding="utf-8").read()
         with open(os.path.join(ROOT, "deliverables", "evidence_table.csv"), encoding="utf-8") as fh:
             table_values = {row["value_as_cited"] for row in csv.DictReader(fh)}
-        candidates = set(re.findall(r"-?\d+\.\d+%?|\$?\d[\d,]*\.\d+%?", pack))
-        untraced = [c for c in candidates
-                   if not any(c.strip("$€%,").replace(",", "") in v.replace(",", "") for v in table_values)]
-        self.assertEqual(untraced, [], "untraced numbers: {}".format(untraced))
+        flat = " ".join(table_values).replace(",", "")
+        decimals = set(re.findall(r"-?\d+\.\d+%?|\$?\d[\d,]*\.\d+%?", text))
+        integers = set(re.findall(r"(?<![\d.\w])\d{2,}(?![\d.\w%])", text))
+        candidates = decimals | integers
+        return sorted(c for c in candidates
+                      if c.strip("$€%,") not in self.NON_CLAIM_NUMBERS
+                      and c.strip("$€%,").replace(",", "") not in flat)
+
+    def test_every_insight_pack_number_traces_to_evidence_table(self):
+        untraced = self._untraced_numbers_in("insight_pack.md")
+        self.assertEqual(untraced, [], "untraced insight-pack numbers: {}".format(untraced))
+
+    def test_every_technical_note_number_traces_to_evidence_table(self):
+        untraced = self._untraced_numbers_in("technical_note.md")
+        self.assertEqual(untraced, [], "untraced technical-note numbers: {}".format(untraced))
+
+    def test_removing_an_evidence_row_is_detected(self):
+        """Negative test: coverage checking must actually depend on the
+        table - drop the reliability-count row in memory and prove the
+        extractor now reports its number as untraced."""
+        text = open(os.path.join(ROOT, "deliverables", "insight_pack.md"), encoding="utf-8").read()
+        with open(os.path.join(ROOT, "deliverables", "evidence_table.csv"), encoding="utf-8") as fh:
+            rows = [r for r in csv.DictReader(fh) if r["claim_id"] != "reliability_n_reviews"]
+        flat = " ".join(r["value_as_cited"] for r in rows).replace(",", "")
+        self.assertNotIn(" 166 ", " " + flat + " ")
+        integers = set(re.findall(r"(?<![\d.\w])\d{2,}(?![\d.\w%])", text))
+        self.assertIn("166", integers, "sanity: the pack cites the reliability count")
 
     def test_evidence_table_source_files_exist(self):
         with open(os.path.join(ROOT, "deliverables", "evidence_table.csv"), encoding="utf-8") as fh:
