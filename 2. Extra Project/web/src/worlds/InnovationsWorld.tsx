@@ -7,6 +7,17 @@ import { traceBetChain } from "../lib/trace";
 import { TraceTree, TraceLegend } from "../components/TraceTree";
 import { FrictionIcon } from "../components/ThemeIcon";
 
+function DocIcon() {
+  return (
+    <svg width={13} height={13} viewBox="0 0 24 24" fill="none">
+      <path d="M6 2.5H14L19 7.5V21.5H6 Z" stroke="currentColor" strokeWidth={1.8} strokeLinejoin="round" fill="none" />
+      <path d="M14 2.5V7.5H19" stroke="currentColor" strokeWidth={1.8} strokeLinejoin="round" fill="none" />
+      <line x1="9" y1="12" x2="16" y2="12" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />
+      <line x1="9" y1="16" x2="16" y2="16" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function themeFromEvidenceIds(evidenceIds: string[]): string | null {
   const tax = evidenceIds.find((id) => id.startsWith("taxonomy:"));
   return tax ? tax.split(":")[1] : null;
@@ -196,6 +207,23 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                 <SectionLabel>Feasibility rationale</SectionLabel>
                 <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.feasibility_2_5y.rationale}>{s.feasibility_2_5y.rationale}</p>
               </div>
+
+              <a
+                href={`/innovation-disclosures/${id}.pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                title="A patent-style write-up of this concept's real evidence, mechanism, and evaluation — generated entirely from this pipeline's own computed data"
+                style={{
+                  marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+                  padding: "9px 14px", borderRadius: 10, textDecoration: "none",
+                  background: "linear-gradient(120deg, var(--accent-blue) 0%, var(--accent-teal) 100%)",
+                  color: "#fff", fontSize: 12, fontWeight: 700,
+                }}
+              >
+                <DocIcon /> Read the Innovation Disclosure (PDF) →
+              </a>
+
               {mode === "raw" && (
                 <>
                   <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--line)" }}>

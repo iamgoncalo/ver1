@@ -161,7 +161,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.1em" }}>VERSUNI</div>
-          <h1 style={{ fontSize: 32, marginTop: 2 }}>Innovation Machine</h1>
+          <h1 style={{ fontSize: 32, marginTop: 2 }}>Intelligence Machine</h1>
           <div style={{ fontSize: 12.5, color: "var(--ink-dim)", marginTop: 4, fontStyle: "italic" }}>Evidence in. Better bets out.</div>
         </div>
         {data && (

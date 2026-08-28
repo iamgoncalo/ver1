@@ -1,5 +1,5 @@
 import { Logo } from "./Logo";
-import { SourcesDock } from "./SourcesDock";
+import { VersuniProductsLink } from "./VersuniProductsLink";
 import { HowWeGotHere } from "./HowWeGotHere";
 
 const STAGES = [
@@ -14,16 +14,16 @@ export function ProcessRail({ active, onSelect, onGoHome }: { active: number; on
   return (
     <header
       style={{
-        display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center",
+        display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, auto) minmax(0, 1fr)", alignItems: "center",
         padding: "12px 22px", borderBottom: "1px solid var(--line)", background: "var(--surface)",
-        flexShrink: 0, gap: 12,
+        flexShrink: 0, gap: 12, maxWidth: "100vw",
       }}
     >
       <button onClick={onGoHome} title="Innovation Funnel — home" aria-current={active === 0 ? "step" : undefined}
         style={{ border: "none", background: "none", cursor: "pointer", padding: 4, borderRadius: 8, opacity: active === 0 ? 1 : 0.85, justifySelf: "start" }}>
         <Logo />
       </button>
-      <nav aria-label="Five worlds" style={{ display: "flex", gap: 4, justifySelf: "center" }}>
+      <nav aria-label="Five worlds" style={{ display: "flex", gap: 4, justifySelf: "center", overflowX: "auto", maxWidth: "100%" }}>
         {STAGES.map((s) => {
           const isActive = s.n === active;
           return (
@@ -48,7 +48,7 @@ export function ProcessRail({ active, onSelect, onGoHome }: { active: number; on
         })}
       </nav>
       <div style={{ justifySelf: "end" }}>
-        <SourcesDock />
+        <VersuniProductsLink />
       </div>
     </header>
   );

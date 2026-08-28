@@ -32,8 +32,8 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 @app.on_event("startup")
 def warm_innovations_cache():
     # The default (unfiltered) real scenario computation reclassifies all
-    # real reviews (~2s) - compute()'s own in-process cache means this only
-    # ever runs once per server lifetime, so pay that cost here at boot
+    # 10,529 real reviews (~2s) - compute()'s own in-process cache means this
+    # only ever runs once per server lifetime, so pay that cost here at boot
     # rather than on a real visitor's first page load.
     try:
         from decision_framework_real import compute
@@ -318,10 +318,37 @@ if os.path.isdir(WEB_DIST):
     app.mount("/brand", StaticFiles(directory=os.path.join(WEB_DIST, "brand")), name="brand")
     app.mount("/products", StaticFiles(directory=os.path.join(WEB_DIST, "products")), name="products")
 
+    # A plain StaticFiles mount would leave the browser/OS default to decide
+    # download vs. inline view - some browsers are configured to always
+    # download PDFs. Explicit inline Content-Disposition means clicking a
+    # disclosure link opens it to read first; the reader can still save it
+    # from their PDF viewer if they want a copy.
+    INNOVATION_DISCLOSURES_DIR = os.path.join(WEB_DIST, "innovation-disclosures")
+
+    @app.get("/innovation-disclosures/{filename}")
+    def innovation_disclosure(filename: str):
+        if not filename.endswith(".pdf") or "/" in filename or ".." in filename:
+            raise HTTPException(status_code=404, detail="not found")
+        path = os.path.join(INNOVATION_DISCLOSURES_DIR, filename)
+        if not os.path.isfile(path):
+            raise HTTPException(status_code=404, detail="not found")
+        return FileResponse(path, media_type="application/pdf", headers={"Content-Disposition": f'inline; filename="{filename}"'})
+
+    # The Versuni Products catalog (a separate, independently-built Vite app,
+    # committed as a built artifact under web/public/verinfo) is served from
+    # this same origin/port too, so "VERSUNI PRODUCTS" in the header is a
+    # same-tab, same-origin link with no external dependency at runtime.
+    verinfo_dir = os.path.join(WEB_DIST, "verinfo")
+    if os.path.isdir(verinfo_dir):
+        app.mount("/verinfo", StaticFiles(directory=verinfo_dir, html=True), name="verinfo")
+
     @app.get("/{full_path:path}")
     def spa(full_path: str):
         index = os.path.join(WEB_DIST, "index.html")
-        return FileResponse(index)
+        # index.html has no content hash in its filename (unlike /assets/*),
+        # so a browser cache would otherwise keep serving a stale shell -
+        # with a stale <script src> - after every rebuild. Always revalidate.
+        return FileResponse(index, headers={"Cache-Control": "no-cache"})
 else:
     @app.get("/")
     def not_built():

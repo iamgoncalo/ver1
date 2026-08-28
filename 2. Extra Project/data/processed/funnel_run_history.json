@@ -426,5 +426,74 @@
     "killed_objects": 7,
     "surviving_objects": 9,
     "errors": []
+  },
+  {
+    "run_id": "run-19",
+    "started_at": "2026-08-28T17:13:25.678370+00:00",
+    "finished_at": "2026-08-28T17:13:25.678370+00:00",
+    "last_checked_at": "2026-08-28T17:13:25.678370+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "196d4d9dceb5762806f63b64b4aca0ad97fb3233f0ff902251a2e724510dcc7d",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
+  },
+  {
+    "run_id": "run-20",
+    "started_at": "2026-08-28T17:13:46.523372+00:00",
+    "finished_at": "2026-08-28T17:13:46.523372+00:00",
+    "last_checked_at": "2026-08-28T17:13:46.523372+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "96368cf6f980e47448e9d9008016a5fec73c3766a119f4b4d6c8d387e842a6df",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
+  },
+  {
+    "run_id": "run-21",
+    "started_at": "2026-08-28T17:14:02.511449+00:00",
+    "finished_at": "2026-08-28T17:14:02.566897+00:00",
+    "last_checked_at": "2026-08-28T17:14:02.566897+00:00",
+    "check_count": 4,
+    "input_snapshot_hash": "d5f8735b45156f973845efaa8f0ee15ca6ac279b38f7d6809b6ce3c29603d961",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
   }
 ]
