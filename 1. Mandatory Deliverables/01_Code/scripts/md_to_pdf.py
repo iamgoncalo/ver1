@@ -19,6 +19,13 @@ from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, ListFlowab
 from reportlab.lib import colors
 
 
+def _starts_new_block(line):
+    s = line.strip()
+    return (s == "---" or line.startswith("# ") or line.startswith("## ") or line.startswith("### ")
+            or line.startswith("- ") or line.startswith("* ") or line.startswith("|")
+            or re.match(r"^\d+\.\s", line))
+
+
 def inline_md(text):
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
@@ -70,10 +77,16 @@ def convert(md_path, pdf_path, landscape_mode=False):
         elif line.startswith("### "):
             flush_list()
             story.append(Paragraph(inline_md(line[4:]), h3))
-        elif line.startswith("- ") or line.startswith("* "):
-            list_buf.append(line[2:])
-        elif re.match(r"^\d+\.\s", line):
-            list_buf.append(re.sub(r"^\d+\.\s", "", line))
+        elif line.startswith("- ") or line.startswith("* ") or re.match(r"^\d+\.\s", line):
+            item_text = line[2:] if line.startswith(("- ", "* ")) else re.sub(r"^\d+\.\s", "", line)
+            # A bullet's own text can soft-wrap across source lines too - a
+            # continuation line (non-blank, not itself a new bullet/heading/
+            # rule/table row) belongs to THIS item, not a new plain paragraph
+            # dropped outside the list.
+            while i + 1 < len(lines) and lines[i + 1].strip() and not _starts_new_block(lines[i + 1]):
+                i += 1
+                item_text += " " + lines[i].strip()
+            list_buf.append(item_text)
         elif line.startswith("|"):
             flush_list()
             table_rows = []
@@ -99,7 +112,16 @@ def convert(md_path, pdf_path, landscape_mode=False):
                 story.append(Spacer(1, 4))
         else:
             flush_list()
-            story.append(Paragraph(inline_md(line), body))
+            # A markdown paragraph is a run of consecutive non-blank plain
+            # lines (soft-wrapped source text), not one line each - joining
+            # them before inline_md() is what lets **bold**/*italic* spans
+            # that cross a source line break render correctly instead of
+            # leaking literal ** markers into the PDF.
+            para_lines = [line]
+            while i + 1 < len(lines) and lines[i + 1].strip() and not _starts_new_block(lines[i + 1]):
+                i += 1
+                para_lines.append(lines[i].rstrip())
+            story.append(Paragraph(inline_md(" ".join(para_lines)), body))
         i += 1
     flush_list()
 

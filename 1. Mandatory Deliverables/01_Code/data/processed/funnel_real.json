@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-3",
-    "last_run_started_at": "2026-08-27T20:48:48.182722+00:00",
-    "last_run_finished_at": "2026-08-27T20:48:48.182722+00:00",
-    "last_checked_at": "2026-08-27T20:48:48.182722+00:00",
+    "last_run_id": "run-4",
+    "last_run_started_at": "2026-08-28T12:15:48.238715+00:00",
+    "last_run_finished_at": "2026-08-28T12:15:48.238715+00:00",
+    "last_checked_at": "2026-08-28T12:15:48.238715+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "3432941832c574e4c79a3e29f4fad593af9726477cac9a4710920bba19303759",
+    "input_snapshot_hash": "83c9f91ee2849cb46ce047dbb4aeb67d074c5b0b0ccfb16930a956ec166efcf4",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 3,
+    "total_runs_recorded": 4,
     "errors": []
   },
   "stages": [
@@ -1192,6 +1192,6 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "15ae493c9de460d5",
+  "snapshot": "e267e0f832e417fb",
   "last_refresh": null
 }
