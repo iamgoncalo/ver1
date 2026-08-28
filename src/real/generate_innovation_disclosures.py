@@ -42,7 +42,7 @@ from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, KeepTogether,
 )
-from reportlab.graphics.shapes import Drawing, Rect, String, Line, Circle, Wedge
+from reportlab.graphics.shapes import Drawing, Rect, String, Line, Circle, Wedge, Polygon, Group
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DECISION_PATH = os.path.join(ROOT, "data", "processed", "decision_framework_real.json")
@@ -139,6 +139,97 @@ def pick_status(cid, cand, verdict):
 
 
 # ------------------------------------------------------------- figures
+
+def _chevron(cx, cy, w, h, color, up=True):
+    sign = 1 if up else -1
+    return Polygon(
+        points=[cx - w / 2, cy - sign * h / 2, cx, cy + sign * h / 2, cx + w / 2, cy - sign * h / 2],
+        strokeColor=color, strokeWidth=1.6, fillColor=None,
+    )
+
+
+def product_illustration(cand, theme, directions, accent):
+    """Fig. 1 - the hero figure: a patent-style line illustration of the
+    connected appliance this disclosure describes, with numbered leader
+    lines to callouts. This is an editorial concept drawing - the kind a
+    real patent application includes as "FIG. 1" - not a photograph of a
+    manufactured product, and it is captioned as such. The silhouette
+    (housing/vents/status light/base) is a generic connected-appliance
+    outline; every callout LABEL is real text pulled from this candidate's
+    own evaluated fields, never invented per candidate."""
+    w, h = 460, 300
+    d = Drawing(w, h)
+    d.add(Rect(0, 0, w, h, fillColor=colors.white, strokeColor=LINE, strokeWidth=1))
+
+    cx = 150
+    body_x0, body_x1 = cx - 55, cx + 55
+    body_y0, body_y1 = 55, 235
+
+    # base plinth
+    d.add(Rect(body_x0 - 12, body_y0 - 14, (body_x1 - body_x0) + 24, 16, fillColor=PANEL2, strokeColor=INK, strokeWidth=1.3, rx=5, ry=5))
+    # main housing
+    d.add(Rect(body_x0, body_y0, body_x1 - body_x0, body_y1 - body_y0, fillColor=colors.white, strokeColor=INK, strokeWidth=1.6, rx=18, ry=18))
+    # top cap / control ring
+    d.add(Rect(body_x0 + 6, body_y1 - 6, (body_x1 - body_x0) - 12, 26, fillColor=PANEL2, strokeColor=INK, strokeWidth=1.2, rx=10, ry=10))
+    # vent slats
+    for i in range(4):
+        yy = body_y1 - 46 - i * 12
+        d.add(Line(body_x0 + 16, yy, body_x1 - 16, yy, strokeColor=INK, strokeWidth=1))
+    # status/diagnostic indicator - lit only if this theme has a real
+    # catalogued mechanism to point to; shown hollow/uncolored otherwise
+    status_lit = bool(directions)
+    d.add(Circle(cx, body_y1 + 7, 5, fillColor=accent if status_lit else colors.white,
+                 strokeColor=accent if status_lit else FAINT, strokeWidth=1.4))
+    # airflow chevrons at the base (intake) and top (exhaust)
+    for dx in (-22, 0, 22):
+        d.add(_chevron(cx + dx, body_y0 - 26, 12, 8, FAINT, up=True))
+    for dx in (-18, 18):
+        d.add(_chevron(cx + dx, body_y1 + 24, 10, 7, FAINT, up=True))
+
+    mech_label = (f'the real "{humanize(directions[0]["operator"])}" transform this pipeline catalogued for this theme'
+                  if directions else "no real mechanism catalogued yet for this theme")
+    callouts = [
+        (cx, body_y1 + 7, "status / connectivity indicator", mech_label),
+        (cx, body_y1 - 20, "vent / sensing surface", _truncate(cand.get("friction"), 80)),
+        (cx - 40, (body_y0 + body_y1) / 2, "housing", cand.get("usage_context") or "real usage context not recorded"),
+        (cx, body_y0 - 26, "intake / base", f'evidence: {", ".join(cand.get("evidence_ids", [])[:2]) or "not recorded"}'),
+    ]
+    label_x = 330
+    label_ys = [258, 190, 122, 54]
+    for i, ((px, py), (lx, ly)) in enumerate(zip([(c[0], c[1]) for c in callouts], [(label_x, y) for y in label_ys])):
+        num = i + 1
+        d.add(Line(px, py, lx - 14, ly, strokeColor=MUTED, strokeWidth=0.8))
+        d.add(Circle(px, py, 7, fillColor=colors.white, strokeColor=INK, strokeWidth=1.2))
+        d.add(String(px, py - 3, str(num), fontName="Helvetica-Bold", fontSize=7, fillColor=INK, textAnchor="middle"))
+        d.add(Circle(lx - 8, ly, 7, fillColor=INK, strokeColor=None))
+        d.add(String(lx - 8, ly - 3, str(num), fontName="Helvetica-Bold", fontSize=7, fillColor=colors.white, textAnchor="middle"))
+        title = callouts[i][2]
+        detail = callouts[i][3]
+        d.add(String(lx, ly + 3, title, fontName="Helvetica-Bold", fontSize=7.6, fillColor=INK))
+        for li, line in enumerate(_wrap(detail, 34)):
+            d.add(String(lx, ly - 7 - li * 9, line, fontName="Helvetica", fontSize=6.8, fillColor=MUTED))
+    return d
+
+
+def _truncate(text, limit):
+    text = text or ""
+    return text if len(text) <= limit else text[:limit].rsplit(" ", 1)[0] + "…"
+
+
+def _wrap(text, width):
+    words = (text or "").split()
+    lines, cur = [], ""
+    for word in words:
+        trial = (cur + " " + word).strip()
+        if len(trial) > width and cur:
+            lines.append(cur)
+            cur = word
+        else:
+            cur = trial
+    if cur:
+        lines.append(cur)
+    return lines[:3]
+
 
 def funnel_position_diagram(theme, cid, status_label, accent):
     """Fig. 1 - where this disclosure sits in the app's own real 5-stage
@@ -406,7 +497,7 @@ def gap_and_criteria_section(story, section_no, theme, directions, criteria):
     story.append(Spacer(1, 6))
     story.append(KeepTogether([
         criteria_donut(status_counts, total),
-        Paragraph(f'Fig. — Full real criteria-library result for "{representative["name"]}" (representative direction for this theme; '
+        Paragraph(f'Fig. 4 — Full real criteria-library result for "{representative["name"]}" (representative direction for this theme; '
                   "the same automated critic pass CriteriaWorld runs against every Magic Box concept, not a self-assessment by this disclosure).", S_CAPTION),
     ]))
     story.append(Spacer(1, 6))
@@ -460,19 +551,35 @@ def build_disclosure(cid, cand, verdict, all_scores, crit_concepts):
 
     cover(story, cid, status_label, status_color, cand)
 
-    story.append(Paragraph("1. Field of the Invention", S_H1))
+    story.append(Paragraph("1. The Product", S_H1))
+    pitch_mech = f'a real, catalogued design direction ("{directions[0]["name"]}")' if directions else "a concept still awaiting a matched design direction"
+    friction_text = cand["friction"].rstrip()
+    if not friction_text.endswith((".", "!", "?")):
+        friction_text += "."
+    story.append(Paragraph(
+        f"{cand['name']} is a connected household appliance concept built to answer one real, evidence-derived "
+        f"friction: {friction_text} The illustration below applies {pitch_mech} from this pipeline's own "
+        "possibility-generation module to that friction.", S_BODY))
+    story.append(KeepTogether([
+        product_illustration(cand, theme, directions, status_color),
+        Paragraph("Fig. 1 — Conceptual product illustration (editorial line drawing, not a photograph of a "
+                  "manufactured product). Callouts are real fields from this candidate's own evaluated record, "
+                  "not invented per candidate.", S_CAPTION),
+    ]))
+
+    story.append(Paragraph("2. Field of the Invention", S_H1))
     story.append(Paragraph(
         f"This disclosure concerns connected household appliances, and specifically a concept addressing the "
         f"following real, evidence-derived friction: {cand['friction']}", S_BODY))
 
     story.append(KeepTogether([
         funnel_position_diagram(theme, cid, status_label, status_color),
-        Paragraph("Fig. 1 — This disclosure's real position in the app's own 5-stage funnel.", S_CAPTION),
+        Paragraph("Fig. 2 — This disclosure's real position in the app's own 5-stage funnel.", S_CAPTION),
     ]))
 
-    evidence_and_mechanism_section(story, 2, cand, theme, directions)
+    evidence_and_mechanism_section(story, 3, cand, theme, directions)
 
-    story.append(Paragraph("3. Market &amp; Economic Rationale — Fully Substantiated", S_H1))
+    story.append(Paragraph("4. Market &amp; Economic Rationale — Fully Substantiated", S_H1))
     story.append(price_substantiation(cand))
     story.append(Spacer(1, 8))
     cp = cand["consumer_pain"]
@@ -482,10 +589,10 @@ def build_disclosure(cid, cand, verdict, all_scores, crit_concepts):
             (pct(cp.get("prevalence_pct")), "Prevalence\n(of classified reviews)"),
             (f'{cand.get("n_reviews_supporting", 0)}', "Reviews\nsupporting"),
         ], status_color),
-        Paragraph("Fig. 2 — Real evidence figures computed by this pipeline for this friction theme.", S_CAPTION),
+        Paragraph("Fig. 3 — Real evidence figures computed by this pipeline for this friction theme.", S_CAPTION),
     ]))
 
-    story.append(Paragraph("4. Feasibility &amp; Technical Risk", S_H1))
+    story.append(Paragraph("5. Feasibility &amp; Technical Risk", S_H1))
     story.append(kv_table([
         ("2–5yr feasibility rating", f"{cand['feasibility_2_5y']['rating']} (rank {cand['feasibility_2_5y']['rank']} of {len(all_scores)} real candidates evaluated)"),
         ("Feasibility rationale", cand["feasibility_2_5y"]["rationale"]),
@@ -493,9 +600,9 @@ def build_disclosure(cid, cand, verdict, all_scores, crit_concepts):
         ("Known uncertainty", bulleted(cand.get("uncertainty"))),
     ]))
 
-    gap_and_criteria_section(story, 5, theme, directions, crit_concepts)
+    gap_and_criteria_section(story, 6, theme, directions, crit_concepts)
 
-    story.append(Paragraph("6. Why This Real Outcome", S_H1))
+    story.append(Paragraph("7. Why This Real Outcome", S_H1))
     if cid == verdict.get("recommended"):
         story.append(Paragraph(verdict["why"], S_BODY))
         for k in verdict.get("killed", []):
@@ -516,17 +623,17 @@ def build_disclosure(cid, cand, verdict, all_scores, crit_concepts):
             f'{killed_entry["reason"] if killed_entry else cand.get("decision_reason", "")}', S_BODY))
         story.append(Paragraph(
             "Notably, technical feasibility alone does not rescue this candidate — high feasibility does not "
-            "compensate for a failed Consumer Pain evidence gate (see Section 4 above for the real rationale).",
+            "compensate for a failed Consumer Pain evidence gate (see Section 5 above for the real rationale).",
             S_BODY))
 
-    not_yet_specified(story, 7)
-    claims_section(story, 8, cand, theme, directions)
+    not_yet_specified(story, 8)
+    claims_section(story, 9, cand, theme, directions)
 
-    story.append(Paragraph("9. Comparative Context", S_H1))
+    story.append(Paragraph("10. Comparative Context", S_H1))
     story.append(Paragraph("Real evidence values computed by this pipeline for every candidate evaluated in this funnel stage, for reference:", S_BODY))
     story.append(comparative_table(all_scores))
 
-    story.append(Paragraph("10. Evidence Appendix", S_H1))
+    story.append(Paragraph("11. Evidence Appendix", S_H1))
     story.append(Paragraph("Real evidence identifiers referenced in this disclosure: " + ", ".join(cand.get("evidence_ids", [])) + ".", S_BODY))
     story.append(Paragraph(f"Underlying computation: {cand.get('evidence', 'not recorded')}.", S_BODY))
     ms = verdict.get("market_scenario")
