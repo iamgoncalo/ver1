@@ -276,9 +276,12 @@ def evaluate(profiles, decision_priority="pain_feasibility_majority"):
                          "future caller gets a clear error instead of a raw IndexError.")
 
     if not survivors:
-        # Degenerate case: nothing clears the gate. Fall back to comparing
-        # everyone rather than crashing - still order-independent.
-        survivors = dict(profiles)
+        # Degenerate case: nothing clears the Consumer Pain evidence gate.
+        # This used to silently fall back to comparing every candidate
+        # anyway - manufacturing a "winner" with zero real pain evidence
+        # behind it. Not reachable by today's real data (OS-1/OS-2 both
+        # pass), but a real latent bug: report the honest outcome instead.
+        return None, status, reasons
 
     if len(survivors) == 1:
         only_id = next(iter(survivors))
@@ -332,6 +335,9 @@ def evaluate(profiles, decision_priority="pain_feasibility_majority"):
     return winner_id, status, reasons
 
 
+_default_compute_cache = {}  # populated on first fully-default call, reused for the process lifetime
+
+
 def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority="pain_feasibility_majority"):
     """Pure computation, no file writes - the ONE scoring implementation
     shared by the CLI (main, below) and dashboard/app.py's Scenario Lab.
@@ -340,23 +346,46 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
     (e.g. the dashboard's "exclude one product" scenario) rather than the
     frozen data/processed/*.json snapshot. decision_priority= selects which
     named tie-break rule runs when no candidate dominates - see break_tie().
+
+    The fully-default call (rows=tax=wtp=None - what the live /api/innovations/
+    scenario endpoint always makes) reclassifies all real reviews from scratch
+    every time without this cache (~2s/request, same real result every time
+    within a process's lifetime since the underlying CSV/JSONL only change
+    when the offline pipeline re-runs). Never used for the dashboard's
+    custom-rows scenarios, which must stay live.
     """
-    rows = rows if rows is not None else load_clean()
-    if tax is None or rows is not None:
-        theme_stats, _corpus_mean, _theme_of = compute_theme_stats(rows)
+    use_cache = rows is None and tax is None and wtp is None
+    if use_cache and "rows" in _default_compute_cache:
+        rows = _default_compute_cache["rows"]
+        theme_stats = _default_compute_cache["theme_stats"]
+        price_exposure = _default_compute_cache["price_exposure"]
     else:
-        theme_stats = tax["themes"]
-    if wtp is None or rows is not None:
-        prices = load_prices()
-        price_exposure = compute_price_exposure(rows, prices)
-    else:
-        price_exposure = wtp["per_theme"]
+        rows = rows if rows is not None else load_clean()
+        if tax is None or rows is not None:
+            theme_stats, _corpus_mean, _theme_of = compute_theme_stats(rows)
+        else:
+            theme_stats = tax["themes"]
+        if wtp is None or rows is not None:
+            prices = load_prices()
+            price_exposure = compute_price_exposure(rows, prices)
+        else:
+            price_exposure = wtp["per_theme"]
+        if use_cache:
+            _default_compute_cache["rows"] = rows
+            _default_compute_cache["theme_stats"] = theme_stats
+            _default_compute_cache["price_exposure"] = price_exposure
+            _default_compute_cache["smart_prevalence"] = keyword_prevalence(
+                rows, r"wifi|wi-fi|bluetooth|smart\s?home|smartphone app|mobile app|alexa|"
+                     r"google assistant|voice control")
 
     reliability = theme_stats["reliability"]
     noise = theme_stats["noise"]
-    smart_n, smart_pct = keyword_prevalence(
-        rows, r"wifi|wi-fi|bluetooth|smart\s?home|smartphone app|mobile app|alexa|"
-             r"google assistant|voice control")
+    if use_cache:
+        smart_n, smart_pct = _default_compute_cache["smart_prevalence"]
+    else:
+        smart_n, smart_pct = keyword_prevalence(
+            rows, r"wifi|wi-fi|bluetooth|smart\s?home|smartphone app|mobile app|alexa|"
+                 r"google assistant|voice control")
 
     scenario_cagr = {"mordor": 5.37, "imarc": 6.54}.get(scenario, 5.37)
     scenario_source = {"mordor": "Mordor Intelligence (primary planning basis)",
@@ -461,6 +490,27 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
     for pid, p in profiles.items():
         p["dominance_status"] = dominance_status.get(pid, "UNKNOWN")
         p["decision_reason"] = decision_reasons.get(pid, "")
+
+    if winner_id is None:
+        # Every real candidate failed the Consumer Pain evidence gate - an
+        # honest research-completion blocker, not a reason to manufacture a
+        # winner. Returns early: none of the winner-shaped verdict fields
+        # below apply when there is no real winner to describe.
+        return {
+            "scores": profiles,
+            "verdict": {
+                "recommended": None,
+                "recommended_name": None,
+                "decision_type": "INSUFFICIENT_EVIDENCE_FOR_RECOMMENDATION",
+                "decision_priority_used": decision_priority,
+                "why": "No real candidate cleared the Consumer Pain evidence-sufficiency gate "
+                      "(prevalence >= {}% with a real CSAT signal) - there is no candidate with "
+                      "sufficient real evidence to recommend.".format(MATERIALITY_FLOOR_PCT),
+                "killed": [{"id": pid, "name": p["name"], "reason": p["decision_reason"]}
+                          for pid, p in profiles.items()],
+                "market_scenario": {"used": scenario_source, "cagr_pct": scenario_cagr},
+            },
+        }
 
     scores = profiles  # legacy alias - old code/tests read out.scores
     winner = profiles[winner_id]

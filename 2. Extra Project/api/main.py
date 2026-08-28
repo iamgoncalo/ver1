@@ -29,6 +29,19 @@ app = FastAPI(title="Versuni Innovation Explorer API")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
+@app.on_event("startup")
+def warm_innovations_cache():
+    # The default (unfiltered) real scenario computation reclassifies all
+    # real reviews (~2s) - compute()'s own in-process cache means this only
+    # ever runs once per server lifetime, so pay that cost here at boot
+    # rather than on a real visitor's first page load.
+    try:
+        from decision_framework_real import compute
+        compute()
+    except Exception:
+        pass  # best-effort warmup only - real failures still surface per-request
+
+
 def read_json(name):
     path = os.path.join(PROC, name)
     if not os.path.exists(path):
