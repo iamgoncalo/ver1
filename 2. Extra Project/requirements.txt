@@ -1,16 +1,23 @@
-# src/ uses ONLY the Python 3.9+ standard library for the analysis pipeline
-# (csv, json, re, random, hashlib, datetime) - none of pandas/numpy/
-# scikit-learn below are imported by anything under src/. `make all` does
-# not depend on any of them.
-#
-# streamlit IS a real dependency: dashboard/app.py (`make app`), the local
-# control room. Pinned to the version this repo was built and tested
-# against.
-streamlit==1.38.0
+# Real, verified runtime dependencies of this project - every entry below
+# is genuinely imported by code that runs (import-audited; nothing is kept
+# "just in case").
 
-# Pinned per an earlier explicit instruction in this session, kept in case
-# a future step needs them; harmless if unused - `make all`/`make refresh`
-# do not fail if these can't install (no network required for `make all`).
-pandas==2.2.2
-numpy==1.26.4
+# Web application: api/main.py (FastAPI app) served by uvicorn (make app /
+# the production container).
+fastapi==0.115.0
+uvicorn==0.30.6
+
+# Research/consumer clustering: emergent_clustering_real.py and
+# intelligence_fabric.py import TfidfVectorizer / AgglomerativeClustering /
+# cosine_similarity - run by `make all` (stages 8c/8i).
 scikit-learn==1.5.0
+# scikit-learn's own hard dependency, pinned for reproducible installs.
+numpy==1.26.4
+
+# Innovation Disclosure PDFs: generate_innovation_disclosures.py
+# (run_pipeline.sh stage 8k).
+reportlab==4.2.2
+
+# Local analyst control room only: dashboard/app.py (`make analyst`).
+# Not needed by the production website container.
+streamlit==1.38.0

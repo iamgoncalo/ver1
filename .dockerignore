@@ -1,0 +1,14 @@
+.git
+.github
+.claude
+.DS_Store
+**/.DS_Store
+**/__pycache__
+**/*.pyc
+**/node_modules
+2. Extra Project/web/dist
+2. Extra Project/web/test-results
+2. Extra Project/web/playwright-report
+2. Extra Project/data/runtime
+1. Mandatory Deliverables
+CLAUDE.md

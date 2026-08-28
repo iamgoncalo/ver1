@@ -1,10 +1,11 @@
 import type { CSSProperties, ReactNode } from "react";
-import { githubFileUrl } from "../lib/github";
 
 // Trace strings throughout this app cite real source files by path
 // (e.g. "src/real/funnel_real.py") as plain prose. This finds every such
-// path in a string and turns it into a real, live link to that exact file
-// on GitHub - the same file path already named, not a guess or a rebuild.
+// path and renders it distinctly as code, so a reader can locate the exact
+// file in the repository. (These used to be GitHub deep links; the
+// repository is private per the case brief, so a public deployment must
+// not ship links that 404 for every visitor.)
 const FILE_PATTERN = /\b((?:src\/real|src\/[\w./-]+|scripts|api|web\/src\/[\w./-]+|data\/(?:processed|raw))\/[\w./-]+\.(?:py|json|tsx?|csv))\b/g;
 
 export function TraceText({ text, className, style }: { text: string; className?: string; style?: CSSProperties }) {
@@ -16,7 +17,7 @@ export function TraceText({ text, className, style }: { text: string; className?
     if (m.index > last) parts.push(text.slice(last, m.index));
     const path = m[1];
     parts.push(
-      <a key={m.index} href={githubFileUrl(path)} target="_blank" rel="noopener noreferrer">{path}</a>
+      <code key={m.index} className="mono" style={{ fontSize: "0.92em", color: "var(--accent-blue)" }}>{path}</code>
     );
     last = m.index + m[0].length;
   }

@@ -52,13 +52,31 @@ def read_json(name):
 
 @app.get("/api/health")
 def health():
-    import subprocess
-    try:
-        commit = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"],
-                                         cwd=ROOT, text=True).strip()
-    except Exception:
-        commit = "unknown"
-    return {"status": "ok", "commit": commit}
+    # Release identity: in production the container has no .git, so prefer
+    # the deploy platform's commit env var (Railway sets
+    # RAILWAY_GIT_COMMIT_SHA) or an explicit RELEASE_SHA; fall back to git
+    # only for local dev checkouts.
+    commit = (os.environ.get("RAILWAY_GIT_COMMIT_SHA")
+              or os.environ.get("RELEASE_SHA"))
+    if not commit:
+        import subprocess
+        try:
+            commit = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"],
+                                             cwd=ROOT, text=True).strip()
+        except Exception:
+            commit = "unknown"
+    # Real readiness, not a reflexive "ok": the app is only healthy if its
+    # required frozen state and the built frontend actually exist.
+    required = ["products_real.json", "signals_real.json",
+                "decision_framework_real.json", "magic_box_real.json"]
+    missing = [n for n in required if not os.path.exists(os.path.join(PROC, n))]
+    web_ok = os.path.exists(os.path.join(WEB_DIST, "index.html"))
+    ready = not missing and web_ok
+    return {"status": "ok" if ready else "degraded",
+            "commit": commit[:12],
+            "data_ready": not missing,
+            "missing_data": missing,
+            "frontend_built": web_ok}
 
 
 @app.get("/api/products")
