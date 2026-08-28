@@ -120,14 +120,15 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
   test("Bets world: decision priority toggle genuinely flips the winner", async ({ page }) => {
     await page.goto("/");
     await navButton(page, /INNOVATIONS/).click();
-    await expect(page.getByText("CURRENT WINNER")).toBeVisible({ timeout: 5000 });
+    const firstWinnerCard = page.getByTitle("Click to trace this bet back to its real evidence").filter({ hasText: "Reliability-Verified Air Purifiers" });
+    await expect(firstWinnerCard.getByText("CURRENT WINNER", { exact: true })).toBeVisible({ timeout: 5000 });
     await expect(page.getByRole("heading", { name: /Reliability-Verified Air Purifiers/ })).toBeVisible();
     await page.getByRole("button", { name: "Economic Value override" }).click();
     // Economic Value override picks whichever candidate has the higher price-weighted
     // exposure - a real, different card - not asserted via a banner string.
     await expect(page.getByRole("heading", { name: /Whisper-Quiet Night Mode/ })).toBeVisible({ timeout: 10000 });
     const newWinnerCard = page.getByTitle("Click to trace this bet back to its real evidence").filter({ hasText: "Whisper-Quiet Night Mode" });
-    await expect(newWinnerCard.getByText("CURRENT WINNER")).toBeVisible();
+    await expect(newWinnerCard.getByText("CURRENT WINNER", { exact: true })).toBeVisible();
   });
 
   test("Trace This Bet resolves real evidence, no fabricated links", async ({ page }) => {

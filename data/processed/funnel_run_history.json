@@ -221,9 +221,9 @@
   {
     "run_id": "run-10",
     "started_at": "2026-08-27T22:19:21.228049+00:00",
-    "finished_at": "2026-08-28T12:03:58.169515+00:00",
-    "last_checked_at": "2026-08-28T12:03:58.169515+00:00",
-    "check_count": 880,
+    "finished_at": "2026-08-28T12:49:48.021993+00:00",
+    "last_checked_at": "2026-08-28T12:49:48.021993+00:00",
+    "check_count": 1056,
     "input_snapshot_hash": "98ae781c0ef855dd51f27ec87623a9e565a2d05b42a7b631c66604664ea8a07f",
     "stage_counts": {
       "products": 237,

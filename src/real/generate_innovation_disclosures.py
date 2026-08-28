@@ -31,6 +31,7 @@ Output: web/public/innovation-disclosures/<candidate-id>.pdf (one per real candi
 """
 import json
 import os
+import re
 from collections import Counter
 
 from reportlab.lib.pagesizes import LETTER
@@ -75,11 +76,32 @@ S_TABLE_HEAD = ParagraphStyle("tablehead", fontName="Helvetica-Bold", fontSize=8
 
 
 def money(v):
-    return f"${v:,.2f}" if isinstance(v, (int, float)) else "NOT AVAILABLE"
+    return f"${v:,.2f}" if isinstance(v, (int, float)) else "no real figure for this"
 
 
 def pct(v):
-    return f"{v:g}%" if isinstance(v, (int, float)) else "NOT AVAILABLE"
+    return f"{v:g}%" if isinstance(v, (int, float)) else "no real figure for this"
+
+
+def humanize(s):
+    """This pipeline's own status codes (PASS, NEEDS_EVIDENCE, CHALLENGE,
+    SURVIVOR...) are real data, just written in shouting-case for a machine
+    to key off. Never alters the real value, only how it reads on the page."""
+    return s.replace("_", " ").lower() if isinstance(s, str) else s
+
+
+STATUS_TOKENS_IN_PROSE = re.compile(
+    r"\b(PASS|CHALLENGE|NEEDS_EVIDENCE|KILL|N/A|SURVIVOR|FINALIST|REJECTED)\b"
+)
+
+
+def humanize_note(text):
+    """A note string can be a real quotation from this pipeline's own JSON
+    that embeds one of its status constants mid-sentence (e.g. "reported
+    NEEDS_EVIDENCE, never assumed"). Only those known, finite status tokens
+    are lowercased - real acronyms in the same text (IP, QA, WTP, CSAT...)
+    are left alone rather than guessed at with a blanket capital-letter rule."""
+    return STATUS_TOKENS_IN_PROSE.sub(lambda m: humanize(m.group(0)), text) if isinstance(text, str) else text
 
 
 def bulleted(items):
@@ -110,10 +132,10 @@ def real_directions_for_theme(theme, crit_concepts):
 
 def pick_status(cid, cand, verdict):
     if cid == verdict.get("recommended"):
-        return "RECOMMENDED — CURRENT WINNER", ACCENT
+        return "Recommended — the current pick", ACCENT
     if not cand["consumer_pain"].get("gate_passed"):
-        return "EVIDENCE-GATE FAILED — NOT PURSUED", ROSE
-    return "ALTERNATIVE — EVIDENCE-PASSED, NOT SELECTED", TEAL
+        return "Not pursued — the evidence wasn't there", ROSE
+    return "A real alternative, not selected", TEAL
 
 
 # ------------------------------------------------------------- figures
@@ -204,7 +226,7 @@ def criteria_donut(status_counts, total):
             continue
         yy = ly - i * 16
         d.add(Rect(lx, yy - 2, 9, 9, fillColor=STATUS_COLOR.get(status, FAINT), strokeColor=None))
-        d.add(String(lx + 14, yy - 1, f"{status.replace('_', ' ').title()} — {n} of {total}", fontName="Helvetica", fontSize=8, fillColor=MUTED))
+        d.add(String(lx + 14, yy - 1, f"{humanize(status)} — {n} of {total}", fontName="Helvetica", fontSize=8, fillColor=MUTED))
     return d
 
 
@@ -226,7 +248,7 @@ def directions_table(directions):
     header = [Paragraph("Design direction (real)", S_TABLE_HEAD), Paragraph("Operator", S_TABLE_HEAD), Paragraph("Real transform applied", S_TABLE_HEAD)]
     rows = [header]
     for c in directions:
-        rows.append([Paragraph(c["name"], S_BODY), Paragraph(f'<font face="Courier">{c["operator"]}</font>', S_META), Paragraph(c["operator_definition"], S_BODY)])
+        rows.append([Paragraph(c["name"], S_BODY), Paragraph(f'<font face="Courier">{humanize(c["operator"])}</font>', S_META), Paragraph(c["operator_definition"], S_BODY)])
     t = Table(rows, colWidths=[145, 90, 225])
     t.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), INK),
@@ -245,7 +267,7 @@ def criteria_table(criteria_dict, ids):
         entry = criteria_dict.get(cid)
         if not entry:
             continue
-        rows.append([Paragraph(f"<b>{cid}</b>", S_META), Paragraph(entry["status"], S_META), Paragraph(entry["note"], S_BODY)])
+        rows.append([Paragraph(f"<b>{cid}</b>", S_META), Paragraph(humanize(entry["status"]), S_META), Paragraph(humanize_note(entry["note"]), S_BODY)])
     t = Table(rows, colWidths=[42, 85, 333])
     t.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), INK),
@@ -266,7 +288,7 @@ def comparative_table(all_scores):
             pct(cp.get("prevalence_pct")),
             f'{cp["severity_csat"]:.3f}' if cp.get("severity_csat") is not None else "no signal",
             money(c.get("typical_market_price_usd")),
-            c["dominance_status"],
+            humanize(c["dominance_status"]),
         ))
     t = Table(rows, colWidths=[168, 68, 72, 78, 108])
     t.setStyle(TableStyle([
@@ -287,7 +309,7 @@ def comparative_table(all_scores):
 # ------------------------------------------------------------- sections
 
 def cover(story, cid, status_label, status_color, cand):
-    story.append(Paragraph("INTERNAL INNOVATION DISCLOSURE — NOT A FILED PATENT APPLICATION", S_DOCTYPE))
+    story.append(Paragraph("Internal innovation disclosure — not a filed patent application", S_DOCTYPE))
     story.append(Paragraph(
         "Generated entirely from real, already-computed pipeline outputs (src/real/decision_framework_real.py, "
         "regenerated automatically whenever that pipeline re-runs). No claim below reflects legal patent counsel review.",
@@ -313,20 +335,20 @@ def price_substantiation(cand):
     n_typical = cand.get("typical_market_price_n_products")
     if cand.get("typical_market_price_usd") is not None:
         typical_note = (
-            f"{money(cand['typical_market_price_usd'])} — the real MEDIAN of {n_typical} distinct real products' own "
+            f"{money(cand['typical_market_price_usd'])} — the median of {n_typical} distinct real products' own "
             "real listed prices, restricted to real products classified under this friction theme that have a known "
             "price. Not a proposed price for this concept — the real going rate for this segment today.")
     else:
-        typical_note = "NOT AVAILABLE — no real product classified under this friction theme has a known listed price."
+        typical_note = "No real product classified under this friction theme has a known listed price yet."
     if cand.get("economic_value") is not None:
         exposure_note = (
-            f"{money(cand['economic_value'])} — the real SUM of real listed prices across every real review classified "
+            f"{money(cand['economic_value'])} — the sum of real listed prices across every real review classified "
             "under this friction theme with a known product price (a review counts its product's price once per review, "
             "so a popular product's price is summed multiple times — a different, larger population than the distinct-"
             "product median above). A relative indicator of which friction touches more expensive products, not a "
             "revenue or market-size estimate: no units-sold or conversion-rate basis exists in this real evidence.")
     else:
-        exposure_note = "NOT AVAILABLE — no priced real review is classified under this friction theme."
+        exposure_note = "No priced real review is classified under this friction theme yet."
     return kv_table([
         ("Typical real market price", typical_note),
         ("Price-weighted exposure", exposure_note),
@@ -373,10 +395,10 @@ def gap_and_criteria_section(story, section_no, theme, directions, criteria):
     for c in directions:
         gap_brands = c.get("competitor_gap_brands") or []
         story.append(Paragraph(
-            f'<b>{c["name"]}</b> ({c["operator"]}) — real white-space check: '
+            f'<b>{c["name"]}</b> ({humanize(c["operator"])}) — real white-space check: '
             f"{'no real competitor product addresses this theme with this direction' if c.get('is_white_space') else 'at least one real competitor already addresses this theme'}. "
             f"Real competitor brands checked with no matching product: {', '.join(gap_brands) if gap_brands else 'none recorded'}. "
-            f'Independent critic verdict (real, rule-based): <b>{c.get("critic_overall", "NOT AVAILABLE")}</b>.',
+            f'Independent critic verdict (real, rule-based): <b>{humanize(c.get("critic_overall")) or "not available"}</b>.',
             S_BODY))
     representative = directions[0]
     status_counts = Counter(v["status"] for v in representative["criteria"].values())
@@ -404,7 +426,7 @@ def claims_section(story, section_no, cand, theme, directions):
         f"The appliance of claim 1, intended for the real usage context: {cand.get('usage_context', 'not recorded')}.",
     ]
     if directions:
-        op_list = "; ".join(f'{d["operator"]} ({d["operator_definition"]})' for d in directions)
+        op_list = "; ".join(f'{humanize(d["operator"])} ({d["operator_definition"]})' for d in directions)
         claims.append(
             "The appliance of claim 1, applying a design transform selected from the real catalogued directions "
             f"for this friction theme: {op_list}."
@@ -419,14 +441,14 @@ def claims_section(story, section_no, cand, theme, directions):
 
 
 def not_yet_specified(story, section_no):
-    story.append(Paragraph(f"{section_no}. What Is Not Yet Specified", S_HONESTY_HEAD))
+    story.append(Paragraph(f"{section_no}. What this doesn't cover yet", S_HONESTY_HEAD))
     story.append(Paragraph(
         "This pipeline's real evidence base has no physical-prototype, industrial-design, or manufacturing data of "
         "any kind — for this concept or for any real product in the underlying dataset (weight and dimension fields "
-        "do not exist anywhere in the corpus, verified directly). The following are therefore explicitly "
-        "<b>NOT SPECIFIED</b>, rather than estimated: physical weight and dimensions, bill of materials, housing "
-        "material, fabrication/manufacturing process, exact sensor part numbers, and firmware architecture. "
-        "Specifying any of these without a real industrial-design phase would be invention, not evidence.", S_BODY))
+        "do not exist anywhere in the corpus, verified directly). So this disclosure leaves them open rather than "
+        "guessing: physical weight and dimensions, bill of materials, housing material, the fabrication or "
+        "manufacturing process, exact sensor part numbers, and firmware architecture. Filling any of these in "
+        "without a real industrial-design phase would be invention, not evidence.", S_BODY))
 
 
 def build_disclosure(cid, cand, verdict, all_scores, crit_concepts):
@@ -465,7 +487,7 @@ def build_disclosure(cid, cand, verdict, all_scores, crit_concepts):
 
     story.append(Paragraph("4. Feasibility &amp; Technical Risk", S_H1))
     story.append(kv_table([
-        ("2–5yr feasibility rating", f"{cand['feasibility_2_5y']['rating'].upper()} (rank {cand['feasibility_2_5y']['rank']} of {len(all_scores)} real candidates evaluated)"),
+        ("2–5yr feasibility rating", f"{cand['feasibility_2_5y']['rating']} (rank {cand['feasibility_2_5y']['rank']} of {len(all_scores)} real candidates evaluated)"),
         ("Feasibility rationale", cand["feasibility_2_5y"]["rationale"]),
         ("Assumptions", bulleted(cand.get("assumptions"))),
         ("Known uncertainty", bulleted(cand.get("uncertainty"))),
