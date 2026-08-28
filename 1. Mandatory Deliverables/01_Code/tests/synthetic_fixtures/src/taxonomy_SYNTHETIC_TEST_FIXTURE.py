@@ -20,7 +20,7 @@ import sys
 from collections import Counter, defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import config as C
+import config_SYNTHETIC_TEST_FIXTURE as C
 from lexicon import THEMES, NEG_TERMS, POS_TERMS
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

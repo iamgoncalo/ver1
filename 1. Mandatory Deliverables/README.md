@@ -2,7 +2,7 @@
 
 ## Category
 
-**Connected Air Treatment** (Smart Home) — residential air purifiers.
+**Air Purification** (Smart Home) — residential air purifiers.
 Chosen for a clean, substantial real-review signal on hardware/software
 friction (McAuley-Lab Amazon-Reviews-2023, filtered to 237 real,
 hand-validated purifier products).
@@ -47,7 +47,8 @@ python3 scripts/trace_claim.py <claim_id>                # trace one evidence_ta
 
 The two upstream McAuley-Lab source files are hosted on HuggingFace and
 are **not** re-fetched by `--analysis-only` (already-filtered real output
-is bundled — see `02_Data/data_manifest.csv`). Re-fetching from scratch is
+is bundled in `01_Code/data/real_raw/` — see `02_Data/data_manifest.csv`
+for full provenance of every raw input). Re-fetching from scratch is
 `bash run_pipeline.sh` (no flag), which needs network access and
 ~15–20 minutes.
 
@@ -60,7 +61,7 @@ is bundled — see `02_Data/data_manifest.csv`). Re-fetching from scratch is
 | Evidence Table | [`05_Mandatory_Appendices/evidence_table.csv`](05_Mandatory_Appendices/evidence_table.csv) |
 | Data Quality Report (1 page) | [`05_Mandatory_Appendices/data_quality_report.pdf`](05_Mandatory_Appendices/data_quality_report.pdf) |
 | AI Use Log | [`05_Mandatory_Appendices/ai_use_log.pdf`](05_Mandatory_Appendices/ai_use_log.pdf) |
-| Raw data + manifest | [`02_Data/`](02_Data/) |
+| Raw data manifest + provenance | [`02_Data/data_manifest.csv`](02_Data/data_manifest.csv) (the raw files themselves live at [`01_Code/data/raw/`](01_Code/data/raw/) + [`01_Code/data/real_raw/`](01_Code/data/real_raw/) — the single canonical copy the pipeline reads) |
 | Analysis code + tests | [`01_Code/`](01_Code/) |
 
 Each PDF is a rendered copy of its markdown source in

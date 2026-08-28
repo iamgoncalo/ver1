@@ -2,10 +2,10 @@
   "_provenance": "REAL sources - each URL individually fetched and verified during this repair (2026-08-26). Archived copies in data/real_raw/trend_sources/. Superseded the fully synthetic 15-document placeholder corpus this file replaced.",
   "_synthetic": false,
   "schema_version": "2.0.0-real",
-  "corpus_name": "Connected Air Treatment - trend corpus (real)",
-  "category": "Connected Air Treatment",
+  "corpus_name": "Air Purification - trend corpus (real)",
+  "category": "Air Purification",
   "business_unit": "Versuni - Home Air",
-  "compiled_at": "2026-08-28T13:11:50+00:00",
+  "compiled_at": "2026-08-28T16:05:16+00:00",
   "article_count": 12,
   "copyright_note": "Metadata + archived HTML/PDF copies where the source's terms permit low-volume automated retrieval (all sources here are public regulatory, standards-body, or newsroom pages; no login or paywall was circumvented). One source (TC-R10) is a peer-reviewed journal article behind a publisher paywall - only its public abstract page was archived, consistent with 'do not circumvent paywalls.'",
   "coverage": {
@@ -85,7 +85,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R02",
@@ -111,7 +111,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R03",
@@ -137,7 +137,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R04",
@@ -163,7 +163,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R05",
@@ -189,7 +189,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R06",
@@ -215,7 +215,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R07",
@@ -242,7 +242,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R08",
@@ -269,7 +269,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R09",
@@ -295,7 +295,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R10",
@@ -321,7 +321,7 @@
       "paywalled": true,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R11",
@@ -347,7 +347,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     },
     {
       "article_id": "TC-R12",
@@ -374,7 +374,7 @@
       "paywalled": false,
       "full_text_stored": true,
       "language": "en",
-      "category_relevance": "Connected Air Treatment"
+      "category_relevance": "Air Purification"
     }
   ],
   "what_this_corpus_cannot_establish": "Twelve documents cannot establish that connectivity, AI-sensing, or any other trend is 'real' or 'growing' in a statistical sense - per the brief's own instruction. It establishes: (a) what regulators and standards bodies currently require or measure, (b) what two named manufacturers claim about their own products, (c) two peer-reviewed findings on PM2.5 exposure and wildfire-driven retail demand, and (d) one general (non-purifier-specific) home-connectivity reliability survey. Category-specific market growth is addressed separately and more rigorously in data/raw/market_metrics.json (Q5)."

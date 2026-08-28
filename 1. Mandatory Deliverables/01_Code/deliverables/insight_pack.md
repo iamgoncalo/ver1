@@ -1,4 +1,4 @@
-# Connected Air Treatment — Innovation Recommendation
+# Air Purification — Innovation Recommendation
 **Versuni Disruptive Innovation | Innovation AI Expert case study | 5 slides**
 **All evidence is real: 10,547 real Amazon reviews (237 real, hand-validated
 purifier products), 2 real market-research sources, 12 real trend documents.**
@@ -22,7 +22,7 @@ Held constant throughout: **Friction Prevalence %**, **CSAT Impact**,
 
 ## Slide 2 — Framing (Q1)
 
-- **Category:** Connected Air Treatment (Smart Home) — chosen for its clean,
+- **Category:** Air Purification (Smart Home) — chosen for its clean,
   real review signal on hardware/software frictions.
 - **Consumer group:** Real owners of residential air purifiers who left a
   review on Amazon.com, 2004–2023.

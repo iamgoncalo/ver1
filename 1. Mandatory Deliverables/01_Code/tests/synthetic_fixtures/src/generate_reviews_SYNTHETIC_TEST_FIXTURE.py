@@ -16,7 +16,7 @@ import sys
 from datetime import datetime, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import config as C
+import config_SYNTHETIC_TEST_FIXTURE as C
 
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                    "data", "raw", "consumer_reviews.csv")

@@ -21,7 +21,7 @@ from collections import Counter, defaultdict
 from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import config as C
+import config_SYNTHETIC_TEST_FIXTURE as C
 from lexicon import NEG_TERMS, POS_TERMS, BOT_MARKERS
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

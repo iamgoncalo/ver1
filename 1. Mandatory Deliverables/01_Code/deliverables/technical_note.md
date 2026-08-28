@@ -1,4 +1,4 @@
-# Technical Note — Connected Air Treatment (Real Data)
+# Technical Note — Air Purification (Real Data)
 Method, assumptions, limitations, what was cut. Max 2 pages. Companion to
 [insight_pack.md](insight_pack.md).
 
@@ -90,7 +90,7 @@ review-level price exposure, not category CAGR).
 ## What was deliberately not built
 - **No stated-preference WTP instrument** — the largest evidence gap,
   named as one rather than proxied around.
-- **No cross-category comparison** — scope held to Connected Air Treatment.
+- **No cross-category comparison** — scope held to Air Purification.
 - **Ozone-generator products excluded by category** (different mechanism,
   regulator-contested — CARB, `data/raw/trend_corpus.json` TC-R04) rather
   than folded into the purifier corpus.

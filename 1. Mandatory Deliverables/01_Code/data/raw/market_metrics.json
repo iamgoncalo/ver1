@@ -2,10 +2,10 @@
   "_provenance": "REAL sources - both fetched live and archived during this repair (2026-08-26); figures grep-verified present in the archived HTML. Supersedes a fully fabricated Euromonitor/Statista placeholder.",
   "_synthetic": false,
   "schema_version": "2.0.0-real",
-  "category": "Connected Air Treatment",
+  "category": "Air Purification",
   "business_unit": "Versuni - Home Air",
   "compiled_by": "Innovation Data Science - Versuni (repair pass)",
-  "compiled_at": "2026-08-28T13:11:50+00:00",
+  "compiled_at": "2026-08-28T16:05:16+00:00",
   "currency_note": "Both sources report in USD; no EUR conversion applied here.",
   "conflict_summary": {
     "status": "RESOLVED_BY_ANALYST_JUDGMENT",

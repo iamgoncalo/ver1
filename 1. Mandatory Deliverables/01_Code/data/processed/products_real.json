@@ -1,5 +1,5 @@
 {
-  "_provenance": "Real, hand-validated purifier products (see FINISH_PLAN.md F1). cluster_type/cluster_intelligence assigned by an explicit, documented keyword rule against the real product title - see TYPE_RULES/INTELLIGENCE_RULES in this file.",
+  "_provenance": "Real, hand-validated purifier products (see 02_Data/data_manifest.csv). cluster_type/cluster_intelligence assigned by an explicit, documented keyword rule against the real product title - see TYPE_RULES/INTELLIGENCE_RULES in this file.",
   "generated_by": "src/real/products_signals_real.py",
   "products": [
     {
