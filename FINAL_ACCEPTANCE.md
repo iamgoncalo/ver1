@@ -1,14 +1,12 @@
-# Final acceptance — generated 2026-08-28T19:42:47.656182+00:00 @ 9147b00
+# Final acceptance — generated 2026-08-28T19:48:22.130007+00:00 @ b234094
 
 **PASS 27 · FAIL 0 · MANUAL 2**
 
 
 ## repository
 - [x] **PASS** correct repo + main canonical — https://github.com/iamgoncalo/ver1.git
-- [x] **PASS** clean working tree — M "2. Extra Project/data/processed/funnel_run_history.json"
- M FINAL_ACCEPTANCE.json
- M FINAL_ACCEPT
-- [x] **PASS** local main == origin/main — local 9147b0052 vs origin 9147b0052
+- [x] **PASS** clean working tree — clean
+- [x] **PASS** local main == origin/main — local b23409491 vs origin b23409491
 - [x] **PASS** no absolute personal paths in tracked files — none
 - [x] **PASS** no obvious secrets — signature scan clean
 - [x] **PASS** public repository — GitHub API visibility
@@ -40,7 +38,7 @@
 - [~] **MANUAL** playwright suite — run `cd web && npx playwright test` (104 scenarios; last run green)
 
 ## production
-- [x] **PASS** live health + release identity — deployed 9147b00 vs main 9147b00
+- [x] **PASS** live health + release identity — deployed b234094 vs main b234094
 - [x] **PASS** route / — 200
 - [x] **PASS** route /products — 200
 - [x] **PASS** route /radar — 200
