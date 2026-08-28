@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-29",
-    "last_run_started_at": "2026-08-28T18:51:41.816939+00:00",
-    "last_run_finished_at": "2026-08-28T18:51:41.816939+00:00",
-    "last_checked_at": "2026-08-28T18:51:41.816939+00:00",
+    "last_run_id": "run-31",
+    "last_run_started_at": "2026-08-28T19:02:24.477512+00:00",
+    "last_run_finished_at": "2026-08-28T19:02:24.477512+00:00",
+    "last_checked_at": "2026-08-28T19:02:24.477512+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "ca7659c629cf39713ea52ce91112afea6bc373882c9db724028785dbccba79f0",
+    "input_snapshot_hash": "737ea413d1dd3b702932ddea93d414b434196d530c21a353763f2ba3360e6422",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 29,
+    "total_runs_recorded": 31,
     "errors": []
   },
   "stages": [
@@ -1183,9 +1183,9 @@
     "concepts_evaluated": 16
   },
   "innovation_candidates": {
-    "count": 76,
+    "count": 81,
     "by_status": {
-      "CANDIDATE": 76
+      "CANDIDATE": 81
     }
   },
   "critic_summary": {
@@ -1194,11 +1194,11 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "4eb19e07d0f12e35",
+  "snapshot": "ae6ad7b804c26887",
   "last_refresh": {
-    "run_id": "discovery-1787822557",
-    "started_at": "2026-08-27T09:22:15.475156+00:00",
-    "finished_at": "2026-08-27T09:22:37.478591+00:00",
+    "run_id": "discovery-1787943742",
+    "started_at": "2026-08-28T19:02:02.017700+00:00",
+    "finished_at": "2026-08-28T19:02:22.937506+00:00",
     "connectors": [
       "pubmed",
       "crossref",
@@ -1344,8 +1344,22 @@
         "connector": "pubmed",
         "topic": "indoor air quality",
         "term": "\"indoor air quality\"[Title/Abstract] AND (purifier OR cleaner)[Title/Abstract] AND 2025:2026[dp]",
-        "n_results": 57,
+        "n_results": 58,
         "items": [
+          {
+            "pmid": "42652296",
+            "doi": "10.3390/ijerph23080980",
+            "title": "Gender Differences in Household Indoor Air Pollution Practices and Health Communication Preferences in Dubai",
+            "journal": "International journal of environmental research and public health",
+            "pubdate": "2026 Jul 28",
+            "authors": [
+              "Takshe AA",
+              "Abboud A",
+              "Youssef HM",
+              "Dit Amr MAZ",
+              "Al Hosni M"
+            ]
+          },
           {
             "pmid": "42643982",
             "doi": "10.1021/envhealth.5c00836",
@@ -1442,20 +1456,6 @@
               "Selvamani Y",
               "Salvi SK",
               "Surpum S"
-            ]
-          },
-          {
-            "pmid": "42054299",
-            "doi": "10.1021/acs.est.6c00173",
-            "title": "Indoor HEPA Filtration Mitigates Adverse Cardiorespiratory Effects of Ozone Reaction Products",
-            "journal": "Environmental science & technology",
-            "pubdate": "2026 May 26",
-            "authors": [
-              "He L",
-              "Weschler CJ",
-              "Morrison G",
-              "Zhang Y",
-              "Zhang JJ"
             ]
           }
         ]
@@ -1758,8 +1758,22 @@
         "connector": "pubmed",
         "topic": "automation",
         "term": "\"indoor air quality\"[Title/Abstract] AND (automation OR \"automatic control\")[Title/Abstract] AND 2025:2026[dp]",
-        "n_results": 13,
+        "n_results": 14,
         "items": [
+          {
+            "pmid": "42652930",
+            "doi": "10.3390/life16081242",
+            "title": "Impact of Indoor Air Pollution on Occupational Exposure: Rethinking the Major Health Threat for Airport Workers",
+            "journal": "Life (Basel, Switzerland)",
+            "pubdate": "2026 Jul 27",
+            "authors": [
+              "Perna A",
+              "Paolucci A",
+              "Esposito T",
+              "Spernanzoni G",
+              "Bruno A"
+            ]
+          },
           {
             "pmid": "42625277",
             "doi": "10.1002/jeq2.70245",
@@ -1839,19 +1853,6 @@
               "Deng C",
               "Lu Y"
             ]
-          },
-          {
-            "pmid": "41157429",
-            "doi": "10.3390/s25206375",
-            "title": "Contributions to the Development of Fire Detection and Intervention Capabilities Using an Indoor Air Quality IoT Monitoring System",
-            "journal": "Sensors (Basel, Switzerland)",
-            "pubdate": "2025 Oct 15",
-            "authors": [
-              "Pietraru RN",
-              "Olteanu A",
-              "Nicolae M",
-              "Crăciun RA"
-            ]
           }
         ]
       },
@@ -1860,8 +1861,36 @@
         "connector": "pubmed",
         "topic": "spatial particle dynamics",
         "term": "\"particulate matter\"[Title/Abstract] AND (resuspension OR spatial)[Title/Abstract] AND 2025:2026[dp]",
-        "n_results": 538,
+        "n_results": 540,
         "items": [
+          {
+            "pmid": "42658034",
+            "doi": "10.1080/08037051.2026.2724736",
+            "title": "Endothelial function in relation to low-level chronic residential air pollution in a general population: a cohort study",
+            "journal": "Blood pressure",
+            "pubdate": "2026 Aug 27",
+            "authors": [
+              "Yang ZK",
+              "Martens DS",
+              "An DW",
+              "Shi HZ",
+              "Wang YC"
+            ]
+          },
+          {
+            "pmid": "42654912",
+            "doi": "10.3390/plants15162510",
+            "title": "Early Warning of Cucumber Angular Leaf Spot by Estimating Airborne Pathogen Aerosols with Particulate Matter Sensors",
+            "journal": "Plants (Basel, Switzerland)",
+            "pubdate": "2026 Aug 20",
+            "authors": [
+              "Li X",
+              "Han L",
+              "Xing Y",
+              "Shi Y",
+              "Xie X"
+            ]
+          },
           {
             "pmid": "42647010",
             "doi": "10.3390/toxics14080728",
@@ -1945,33 +1974,6 @@
               "Lin J",
               "Nondin C"
             ]
-          },
-          {
-            "pmid": "42611210",
-            "doi": "10.1007/s00128-026-04318-8",
-            "title": "Micro-scale Spatial Patterns of PM(2.5) in an Arid City: Evidence from Mobile Monitoring Across Urban Green and Non-green Areas",
-            "journal": "Bulletin of environmental contamination and toxicology",
-            "pubdate": "2026 Aug 18",
-            "authors": [
-              "Dias R",
-              "Wurstten A",
-              "Luna L",
-              "Andino N"
-            ]
-          },
-          {
-            "pmid": "42608205",
-            "doi": "10.1002/jat.70398",
-            "title": "Characteristics, Sources, and Health Risks of PM2.5-Bound Heavy Metals in School Environments: A Comparative Study of Two Cities in South China",
-            "journal": "Journal of applied toxicology : JAT",
-            "pubdate": "2026 Aug 17",
-            "authors": [
-              "Moryani HT",
-              "Wang F",
-              "Zhou Y",
-              "Lin LZ",
-              "Bao WW"
-            ]
           }
         ]
       },
@@ -2044,8 +2046,19 @@
         "connector": "pubmed",
         "topic": "AI / adaptive environmental control",
         "term": "\"indoor air quality\"[Title/Abstract] AND (\"machine learning\" OR \"artificial intelligence\" OR adaptive)[Title/Abstract] AND 2025:2026[dp]",
-        "n_results": 48,
+        "n_results": 49,
         "items": [
+          {
+            "pmid": "42654885",
+            "doi": "10.3390/plants15162484",
+            "title": "Removal of Ethanol from Indoor Air by Ficus elastica Roxb.: Process Optimisation and Post-Removal Desorption Dynamics",
+            "journal": "Plants (Basel, Switzerland)",
+            "pubdate": "2026 Aug 16",
+            "authors": [
+              "Buran A",
+              "Topdemir A"
+            ]
+          },
           {
             "pmid": "42451237",
             "doi": "10.3390/s26133992",
@@ -2136,20 +2149,6 @@
               "Al-Hamid DZ",
               "Singh A"
             ]
-          },
-          {
-            "pmid": "42211251",
-            "doi": "10.1088/2752-5309/ae5fc3",
-            "title": "Lessons from the first U.S. school districts with real-time indoor environmental quality (IEQ) sensors in classrooms: benefits, barriers and opportunities",
-            "journal": "Environmental research, health : ERH",
-            "pubdate": "2026 Jun 1",
-            "authors": [
-              "Botana Martinez MP",
-              "Fabian MP",
-              "Gunn K",
-              "Walsh KH",
-              "Scammell MK"
-            ]
           }
         ]
       },
@@ -2158,7 +2157,7 @@
         "connector": "crossref",
         "topic": "AI / adaptive environmental control",
         "term": "adaptive indoor air quality machine learning control",
-        "n_results": 852034,
+        "n_results": 854612,
         "items": [
           {
             "doi": "10.1155/ina/9959278",
@@ -2235,7 +2234,7 @@
         "connector": "crossref",
         "topic": "energy / standards",
         "term": "portable air cleaner energy standard CADR",
-        "n_results": 372088,
+        "n_results": 373075,
         "items": [
           {
             "doi": "10.1016/j.indenv.2026.100165",
@@ -2290,7 +2289,7 @@
             "pmid": null,
             "title": "Techno-economic performance of air source heat pump and thermal energy storage considering peak-valley time-of-use electricity prices",
             "journal": "Cleaner Energy Systems",
-            "pubdate": "2026-8",
+            "pubdate": "2026-9",
             "authors": [
               "Li",
               "Li",
@@ -2318,7 +2317,7 @@
         "connector": "crossref",
         "topic": "sensor accuracy / trust",
         "term": "low-cost air quality sensor accuracy validation trust",
-        "n_results": 533130,
+        "n_results": 534746,
         "items": [
           {
             "doi": "10.37547/ajast/volume06issue05-25",
@@ -2397,9 +2396,9 @@
         ]
       }
     ],
-    "new_items": 0,
+    "new_items": 5,
     "updated_items": 0,
-    "duplicates": 80,
+    "duplicates": 75,
     "rejected_items": 0,
     "accepted_candidates": 0,
     "semantic_scholar_raw_hits": 0,
@@ -2410,6 +2409,6 @@
         "error": "HTTP Error 429: "
       }
     ],
-    "last_success_checkpoint": "2026-08-27T09:22:37.477152+00:00"
+    "last_success_checkpoint": "2026-08-28T19:02:22.935700+00:00"
   }
 }

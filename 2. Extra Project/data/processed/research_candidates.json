@@ -1311,6 +1311,93 @@
       "status": "CANDIDATE",
       "discovered_at": "2026-08-27T09:16:30.523087+00:00",
       "source_family": "RESEARCH"
+    },
+    {
+      "pmid": "42652296",
+      "doi": "10.3390/ijerph23080980",
+      "title": "Gender Differences in Household Indoor Air Pollution Practices and Health Communication Preferences in Dubai",
+      "journal": "International journal of environmental research and public health",
+      "pubdate": "2026 Jul 28",
+      "authors": [
+        "Takshe AA",
+        "Abboud A",
+        "Youssef HM",
+        "Dit Amr MAZ",
+        "Al Hosni M"
+      ],
+      "candidate_id": "CAND-45752",
+      "status": "CANDIDATE",
+      "discovered_at": "2026-08-28T19:02:22.935700+00:00",
+      "source_family": "RESEARCH"
+    },
+    {
+      "pmid": "42652930",
+      "doi": "10.3390/life16081242",
+      "title": "Impact of Indoor Air Pollution on Occupational Exposure: Rethinking the Major Health Threat for Airport Workers",
+      "journal": "Life (Basel, Switzerland)",
+      "pubdate": "2026 Jul 27",
+      "authors": [
+        "Perna A",
+        "Paolucci A",
+        "Esposito T",
+        "Spernanzoni G",
+        "Bruno A"
+      ],
+      "candidate_id": "CAND-71910",
+      "status": "CANDIDATE",
+      "discovered_at": "2026-08-28T19:02:22.935700+00:00",
+      "source_family": "RESEARCH"
+    },
+    {
+      "pmid": "42658034",
+      "doi": "10.1080/08037051.2026.2724736",
+      "title": "Endothelial function in relation to low-level chronic residential air pollution in a general population: a cohort study",
+      "journal": "Blood pressure",
+      "pubdate": "2026 Aug 27",
+      "authors": [
+        "Yang ZK",
+        "Martens DS",
+        "An DW",
+        "Shi HZ",
+        "Wang YC"
+      ],
+      "candidate_id": "CAND-94112",
+      "status": "CANDIDATE",
+      "discovered_at": "2026-08-28T19:02:22.935700+00:00",
+      "source_family": "RESEARCH"
+    },
+    {
+      "pmid": "42654912",
+      "doi": "10.3390/plants15162510",
+      "title": "Early Warning of Cucumber Angular Leaf Spot by Estimating Airborne Pathogen Aerosols with Particulate Matter Sensors",
+      "journal": "Plants (Basel, Switzerland)",
+      "pubdate": "2026 Aug 20",
+      "authors": [
+        "Li X",
+        "Han L",
+        "Xing Y",
+        "Shi Y",
+        "Xie X"
+      ],
+      "candidate_id": "CAND-34273",
+      "status": "CANDIDATE",
+      "discovered_at": "2026-08-28T19:02:22.935700+00:00",
+      "source_family": "RESEARCH"
+    },
+    {
+      "pmid": "42654885",
+      "doi": "10.3390/plants15162484",
+      "title": "Removal of Ethanol from Indoor Air by Ficus elastica Roxb.: Process Optimisation and Post-Removal Desorption Dynamics",
+      "journal": "Plants (Basel, Switzerland)",
+      "pubdate": "2026 Aug 16",
+      "authors": [
+        "Buran A",
+        "Topdemir A"
+      ],
+      "candidate_id": "CAND-40173",
+      "status": "CANDIDATE",
+      "discovered_at": "2026-08-28T19:02:22.935700+00:00",
+      "source_family": "RESEARCH"
     }
   ]
 }

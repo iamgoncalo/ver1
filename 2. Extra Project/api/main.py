@@ -72,11 +72,28 @@ def health():
     missing = [n for n in required if not os.path.exists(os.path.join(PROC, n))]
     web_ok = os.path.exists(os.path.join(WEB_DIST, "index.html"))
     ready = not missing and web_ok
+    snapshot = last_run = None
+    try:
+        with open(os.path.join(PROC, "funnel_real.json"), encoding="utf-8") as fh:
+            ms = json.load(fh).get("machine_state", {})
+        snapshot = (ms.get("input_snapshot_hash") or "")[:12] or None
+        last_run = ms.get("last_run_started_at")
+    except Exception:
+        pass
+    source_summary = None
+    try:
+        with open(os.path.join(PROC, "sources_real.json"), encoding="utf-8") as fh:
+            source_summary = json.load(fh).get("counts")
+    except Exception:
+        pass
     return {"status": "ok" if ready else "degraded",
             "commit": commit[:12],
+            "snapshot": snapshot,
+            "last_run": last_run,
             "data_ready": not missing,
             "missing_data": missing,
-            "frontend_built": web_ok}
+            "frontend_built": web_ok,
+            "sources": source_summary}
 
 
 @app.get("/api/products")

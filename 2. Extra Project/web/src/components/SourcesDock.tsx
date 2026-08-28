@@ -7,10 +7,10 @@ interface Source {
 }
 
 const STATUS_TONE: Record<string, "good" | "amber" | "neutral" | "teal"> = {
-  SNAPSHOT_VERIFIED_LIVE: "good", FROZEN: "teal", MANUAL_IMPORT: "amber", NOT_IMPLEMENTED: "neutral",
+  SNAPSHOT_VERIFIED_LIVE: "good", CONNECTED_DISCOVERY_ONLY: "good", RATE_LIMITED: "amber", FROZEN: "teal", MANUAL_IMPORT: "amber", NOT_IMPLEMENTED: "neutral",
 };
 const STATUS_LABEL: Record<string, string> = {
-  SNAPSHOT_VERIFIED_LIVE: "snapshot — verified live at retrieval", FROZEN: "frozen archive",
+  SNAPSHOT_VERIFIED_LIVE: "snapshot — verified live at retrieval", CONNECTED_DISCOVERY_ONLY: "connected (discovery only)", RATE_LIMITED: "rate limited", FROZEN: "frozen archive",
   MANUAL_IMPORT: "manual import (by design)", NOT_IMPLEMENTED: "not implemented",
 };
 
@@ -27,7 +27,7 @@ export function SourcesDock() {
     <>
       <button onClick={() => setOpen(true)} title="Click to see the real per-source verification status"
         style={{ fontSize: 11, color: "var(--ink-dim)", background: "none", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 10px", cursor: "pointer", fontFamily: "var(--font-mono)", whiteSpace: "nowrap" }}>
-        Sources{counts ? ` · ${(counts.snapshot_verified_live ?? 0) + (counts.frozen ?? 0) + (counts.manual_import ?? 0) + (counts.not_implemented ?? 0)}` : ""}
+        Sources{counts ? ` · ${Object.values(counts as Record<string, number>).reduce((a, b) => a + b, 0)}` : ""}
       </button>
       {open && (
         <>

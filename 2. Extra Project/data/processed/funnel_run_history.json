@@ -689,10 +689,33 @@
   {
     "run_id": "run-30",
     "started_at": "2026-08-28T18:51:50.075306+00:00",
-    "finished_at": "2026-08-28T18:58:49.807713+00:00",
-    "last_checked_at": "2026-08-28T18:58:49.807713+00:00",
-    "check_count": 218,
+    "finished_at": "2026-08-28T19:01:32.676288+00:00",
+    "last_checked_at": "2026-08-28T19:01:32.676288+00:00",
+    "check_count": 226,
     "input_snapshot_hash": "b6965034afe8e2210ceb4c2b62c6a113181384372b875b4d9199644783d9fbc4",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
+  },
+  {
+    "run_id": "run-31",
+    "started_at": "2026-08-28T19:02:24.477512+00:00",
+    "finished_at": "2026-08-28T19:05:47.320424+00:00",
+    "last_checked_at": "2026-08-28T19:05:47.320424+00:00",
+    "check_count": 109,
+    "input_snapshot_hash": "737ea413d1dd3b702932ddea93d414b434196d530c21a353763f2ba3360e6422",
     "stage_counts": {
       "products": 237,
       "signals": 10,

@@ -317,8 +317,8 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               <div key={s.id} style={{ border: "1px solid var(--line)", borderRadius: 12, padding: "12px 14px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
                   <span style={{ fontSize: 13, fontWeight: 600 }}>{s.name}</span>
-                  <Pill tone={s.status === "SNAPSHOT_VERIFIED_LIVE" ? "good" : s.status === "FROZEN" ? "teal" : s.status === "MANUAL_IMPORT" ? "amber" : "neutral"}>
-                    {s.status === "SNAPSHOT_VERIFIED_LIVE" ? "snapshot (verified at retrieval)" : s.status.toLowerCase().replace(/_/g, " ")}
+                  <Pill tone={["SNAPSHOT_VERIFIED_LIVE", "CONNECTED_DISCOVERY_ONLY"].includes(s.status) ? "good" : s.status === "FROZEN" ? "teal" : ["MANUAL_IMPORT", "RATE_LIMITED"].includes(s.status) ? "amber" : "neutral"}>
+                    {s.status === "SNAPSHOT_VERIFIED_LIVE" ? "snapshot (verified at retrieval)" : s.status === "CONNECTED_DISCOVERY_ONLY" ? "connected (discovery only)" : s.status.toLowerCase().replace(/_/g, " ")}
                   </Pill>
                 </div>
                 <p style={{ fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.45, marginTop: 6 }}>{s.contributes}</p>

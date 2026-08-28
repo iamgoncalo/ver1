@@ -17,22 +17,27 @@ PROC = os.path.join(ROOT, "data", "processed")
 SOURCES = [
     {
         "id": "pubmed", "name": "PubMed / PMC", "category": "research",
-        "status": "SNAPSHOT_VERIFIED_LIVE",
+        "status": "CONNECTED_DISCOVERY_ONLY",
         "contributes": "12 peer-reviewed papers - PMID/PMCID/DOI/title/authors/journal/year read back from the live NCBI-backed API this session.",
         "method": "mcp__plugin_bio-research_pubmed (convert_article_ids + get_article_metadata)",
         "last_verified": "2026-08-26",
     },
     {
         "id": "crossref", "name": "Crossref", "category": "research",
-        "status": "NOT_IMPLEMENTED",
-        "contributes": "Would provide DOI resolution / metadata cross-check.",
-        "method": None, "last_verified": None,
+        "status": "CONNECTED_DISCOVERY_ONLY",
+        "contributes": "Live DOI/metadata discovery in `make refresh-intelligence` "
+                       "(research_discovery_real.py) - discovered records stay CANDIDATE, "
+                       "never auto-promoted into the accepted corpus.",
+        "method": "public REST API, polite pool, no key", "last_verified": "2026-08-28",
     },
     {
         "id": "semantic_scholar", "name": "Semantic Scholar", "category": "research",
-        "status": "NOT_IMPLEMENTED",
-        "contributes": "Would provide citation graph / related-work discovery.",
-        "method": None, "last_verified": None,
+        "status": "RATE_LIMITED",
+        "contributes": "Queried live by `make refresh-intelligence` for related-work "
+                       "discovery; last attempt returned a genuine HTTP 429 (public "
+                       "no-key rate limit) - recorded as rate-limited, not faked as "
+                       "connected.",
+        "method": "public REST API, no key", "last_verified": "2026-08-28 (429)",
     },
     {
         "id": "google_scholar", "name": "Google Scholar", "category": "research",
@@ -97,6 +102,8 @@ def main():
         "sources": SOURCES,
         "counts": {
             "snapshot_verified_live": sum(1 for s in SOURCES if s["status"] == "SNAPSHOT_VERIFIED_LIVE"),
+            "connected_discovery_only": sum(1 for s in SOURCES if s["status"] == "CONNECTED_DISCOVERY_ONLY"),
+            "rate_limited": sum(1 for s in SOURCES if s["status"] == "RATE_LIMITED"),
             "frozen": sum(1 for s in SOURCES if s["status"] == "FROZEN"),
             "manual_import": sum(1 for s in SOURCES if s["status"] == "MANUAL_IMPORT"),
             "not_implemented": sum(1 for s in SOURCES if s["status"] == "NOT_IMPLEMENTED"),

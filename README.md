@@ -22,6 +22,26 @@ Evidence Table, Data Quality Report, AI Use Log). Start here — see
 [`1. Mandatory Deliverables/README.md`](<1. Mandatory Deliverables/README.md>)
 for the one-command reproduction and a map of every deliverable.
 
+## How it works
+
+```
+reality (reviews · papers · trends · market · products)
+      │ fetch + freeze + hash          (raw artifacts, provenance)
+      ▼
+Radar ──► Paths ──► Field ──► Magic box ──► Innovations ──► New products
+(observe)  (direction) (ground)  (expand)     (challenge)     (test-ready)
+      ▲                                                            │
+      └───────────────── learning returns to Radar ◄───────────────┘
+```
+
+One command reproduces the analytical state offline from frozen, checksummed
+evidence: `cd "2. Extra Project" && make all` (tests: `make test`, website:
+`make app`). Evidence philosophy: every number traces to a raw source or is
+absent; missing evidence stays missing (never becomes zero or "medium");
+judgments are labelled judgments; connectors report honest states
+(connected / snapshot / rate-limited / manual / not implemented) — a fake
+connection is worse than a missing one.
+
 ## 2. Extra Project/
 
 A wider, self-directed exploration built on the same real evidence base —
