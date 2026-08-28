@@ -75,8 +75,9 @@ export function CriteriaWorld() {
               ))}
             </div>
             <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>
-              Every finalist's Versuni Edge classification is honestly NEEDS_EVIDENCE — no real Versuni
-              internal-capability dataset exists in this pipeline. See any criterion above for the specific gap.
+              Versuni Edge classifications are computed per criterion from the real evidence available — and
+              because no real Versuni internal-capability dataset exists in this pipeline, gaps show
+              honestly as NEEDS_EVIDENCE rather than being scored. See any criterion above for its specific gap.
             </p>
           </div>
 

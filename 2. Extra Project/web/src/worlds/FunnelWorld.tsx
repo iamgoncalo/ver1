@@ -295,7 +295,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Explore Innovations →
             </button>
-            <Source text="GET /api/funnel -> homepage_funnel.innovations — magic_box_real.json[&quot;non_dominated&quot;] (Pareto survivors of the 12 generated), each joined to its Critic verdict." />
+            <Source text="GET /api/funnel -> homepage_funnel.innovations — magic_box_real.json[&quot;non_dominated&quot;] (Pareto survivors of the generated set - counts shown are live), each joined to its Critic verdict." />
           </>
         )}
       </FocusPanel>

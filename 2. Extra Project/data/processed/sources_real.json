@@ -6,7 +6,7 @@
       "id": "pubmed",
       "name": "PubMed / PMC",
       "category": "research",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "contributes": "12 peer-reviewed papers - PMID/PMCID/DOI/title/authors/journal/year read back from the live NCBI-backed API this session.",
       "method": "mcp__plugin_bio-research_pubmed (convert_article_ids + get_article_metadata)",
       "last_verified": "2026-08-26"
@@ -33,7 +33,7 @@
       "id": "google_scholar",
       "name": "Google Scholar",
       "category": "research",
-      "status": "MANUAL_ONLY_BY_DESIGN",
+      "status": "MANUAL_IMPORT",
       "contributes": "No official bulk API exists - used only as a manual cross-check link, never scraped.",
       "method": "manual",
       "last_verified": null
@@ -51,7 +51,7 @@
       "id": "cbs",
       "name": "CBS (Statistics Netherlands)",
       "category": "economics",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "contributes": "Mean disposable household income, mean equivalised income, private household count, energy bill anchor.",
       "method": "web search + direct page fetch (not the CBS OData API)",
       "last_verified": "2026-08-26"
@@ -60,7 +60,7 @@
       "id": "eurostat",
       "name": "Eurostat",
       "category": "economics",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "contributes": "Dutch household electricity price (2,500-5,000 kWh band), via a Statista-hosted Eurostat figure.",
       "method": "web search",
       "last_verified": "2026-08-26"
@@ -69,7 +69,7 @@
       "id": "applia",
       "name": "APPLiA Nederland",
       "category": "economics",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "contributes": "Dutch appliance-market turnover and unit-volume figures for 2024/2025, SDA premiumisation.",
       "method": "web search + direct page fetch",
       "last_verified": "2026-08-26"
@@ -78,7 +78,7 @@
       "id": "versuni_philips",
       "name": "Versuni / Philips official",
       "category": "products",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "contributes": "7 of ~20 candidate SKUs verified with real spec + real downloaded/hashed official image (PureProtect 3200 AC3220/10, PureProtect Mini 900 AC0950/10, PureProtect Pro 4200 AC4220/12, 800i AC0850/41, 1000i AC1715/10, PureProtect Quiet 2200 AC2220/10, Air Performer 7000 AMF765/70). The rest of the candidate SKU list is NOT yet verified - shown as UNKNOWN, not inferred.",
       "method": "web search + direct page fetch",
       "last_verified": "2026-08-26"
@@ -103,9 +103,9 @@
     }
   ],
   "counts": {
-    "live_verified_this_session": 5,
+    "snapshot_verified_live": 5,
     "frozen": 2,
-    "manual_only": 1,
+    "manual_import": 1,
     "not_implemented": 3
   }
 }

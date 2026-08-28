@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-22",
-    "last_run_started_at": "2026-08-28T17:54:49.776459+00:00",
-    "last_run_finished_at": "2026-08-28T17:54:49.776459+00:00",
-    "last_checked_at": "2026-08-28T17:54:49.776459+00:00",
+    "last_run_id": "run-25",
+    "last_run_started_at": "2026-08-28T18:03:48.833468+00:00",
+    "last_run_finished_at": "2026-08-28T18:03:48.833468+00:00",
+    "last_checked_at": "2026-08-28T18:03:48.833468+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "a1a123d63999bb17c66c4c6f980ca43ae211ded5080075608ddbe60534655d55",
+    "input_snapshot_hash": "cd274d313c5b18f6bcb1530fbee77d42cdc50d42dbccf28b24f1fffbac9f1173",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 22,
+    "total_runs_recorded": 25,
     "errors": []
   },
   "stages": [
@@ -1194,7 +1194,7 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "c9f6e1ab472d5e51",
+  "snapshot": "1f5558db67dee5b2",
   "last_refresh": {
     "run_id": "discovery-1787822557",
     "started_at": "2026-08-27T09:22:15.475156+00:00",

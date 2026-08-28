@@ -3,9 +3,9 @@ app right now, and how. NOT a live connector registry (no OAuth, no
 scheduled refresh, no health polling) - a truthful snapshot of what was
 verified and how, so the UI never implies a capability that doesn't exist.
 
-States: LIVE_VERIFIED_THIS_SESSION (web search/fetch or API call actually
+States: SNAPSHOT_VERIFIED_LIVE (web search/fetch or API call actually
 made this session), FROZEN (archived real data, not re-fetched this
-session), MANUAL_ONLY_BY_DESIGN (deliberately never automated), NOT_
+session), MANUAL_IMPORT (deliberately never automated), NOT_
 IMPLEMENTED (no connector exists - honestly absent, not faked).
 """
 import json
@@ -17,7 +17,7 @@ PROC = os.path.join(ROOT, "data", "processed")
 SOURCES = [
     {
         "id": "pubmed", "name": "PubMed / PMC", "category": "research",
-        "status": "LIVE_VERIFIED_THIS_SESSION",
+        "status": "SNAPSHOT_VERIFIED_LIVE",
         "contributes": "12 peer-reviewed papers - PMID/PMCID/DOI/title/authors/journal/year read back from the live NCBI-backed API this session.",
         "method": "mcp__plugin_bio-research_pubmed (convert_article_ids + get_article_metadata)",
         "last_verified": "2026-08-26",
@@ -36,7 +36,7 @@ SOURCES = [
     },
     {
         "id": "google_scholar", "name": "Google Scholar", "category": "research",
-        "status": "MANUAL_ONLY_BY_DESIGN",
+        "status": "MANUAL_IMPORT",
         "contributes": "No official bulk API exists - used only as a manual cross-check link, never scraped.",
         "method": "manual", "last_verified": None,
     },
@@ -48,26 +48,26 @@ SOURCES = [
     },
     {
         "id": "cbs", "name": "CBS (Statistics Netherlands)", "category": "economics",
-        "status": "LIVE_VERIFIED_THIS_SESSION",
+        "status": "SNAPSHOT_VERIFIED_LIVE",
         "contributes": "Mean disposable household income, mean equivalised income, private household count, energy bill anchor.",
         "method": "web search + direct page fetch (not the CBS OData API)",
         "last_verified": "2026-08-26",
     },
     {
         "id": "eurostat", "name": "Eurostat", "category": "economics",
-        "status": "LIVE_VERIFIED_THIS_SESSION",
+        "status": "SNAPSHOT_VERIFIED_LIVE",
         "contributes": "Dutch household electricity price (2,500-5,000 kWh band), via a Statista-hosted Eurostat figure.",
         "method": "web search", "last_verified": "2026-08-26",
     },
     {
         "id": "applia", "name": "APPLiA Nederland", "category": "economics",
-        "status": "LIVE_VERIFIED_THIS_SESSION",
+        "status": "SNAPSHOT_VERIFIED_LIVE",
         "contributes": "Dutch appliance-market turnover and unit-volume figures for 2024/2025, SDA premiumisation.",
         "method": "web search + direct page fetch", "last_verified": "2026-08-26",
     },
     {
         "id": "versuni_philips", "name": "Versuni / Philips official", "category": "products",
-        "status": "LIVE_VERIFIED_THIS_SESSION",
+        "status": "SNAPSHOT_VERIFIED_LIVE",
         "contributes": "7 of ~20 candidate SKUs verified with real spec + real downloaded/hashed official image "
                        "(PureProtect 3200 AC3220/10, PureProtect Mini 900 AC0950/10, PureProtect Pro 4200 AC4220/12, "
                        "800i AC0850/41, 1000i AC1715/10, PureProtect Quiet 2200 AC2220/10, Air Performer 7000 AMF765/70). "
@@ -96,9 +96,9 @@ def main():
         "generated_by": "src/real/sources_real.py",
         "sources": SOURCES,
         "counts": {
-            "live_verified_this_session": sum(1 for s in SOURCES if s["status"] == "LIVE_VERIFIED_THIS_SESSION"),
+            "snapshot_verified_live": sum(1 for s in SOURCES if s["status"] == "SNAPSHOT_VERIFIED_LIVE"),
             "frozen": sum(1 for s in SOURCES if s["status"] == "FROZEN"),
-            "manual_only": sum(1 for s in SOURCES if s["status"] == "MANUAL_ONLY_BY_DESIGN"),
+            "manual_import": sum(1 for s in SOURCES if s["status"] == "MANUAL_IMPORT"),
             "not_implemented": sum(1 for s in SOURCES if s["status"] == "NOT_IMPLEMENTED"),
         },
     }

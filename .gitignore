@@ -13,3 +13,9 @@ __pycache__/
 # Playwright test artifacts
 2. Extra Project/web/test-results/
 2. Extra Project/web/playwright-report/
+
+# Never commit local environments or secrets
+.env
+.env.*
+venv/
+.venv/

@@ -378,7 +378,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               ) : (
                 <>
                   <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 12 }}>
-                    {sortedRivals.length} real competitors, ≥{rivals?.min_reviews_floor ?? 40} reviews each, from {rivals?.n_category_reviews.toLocaleString()} category reviews.
+                    {sortedRivals.length} real competitors, ≥{rivals?.min_reviews_floor ?? "…"} reviews each, from {rivals?.n_category_reviews.toLocaleString()} category reviews.
                     Weakness = the theme each brand under-performs the category average on the most.
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10, alignContent: "start" }}>

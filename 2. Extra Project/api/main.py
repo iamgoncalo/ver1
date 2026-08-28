@@ -32,7 +32,7 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 @app.on_event("startup")
 def warm_innovations_cache():
     # The default (unfiltered) real scenario computation reclassifies all
-    # 10,529 real reviews (~2s) - compute()'s own in-process cache means this
+    # all real reviews (~2s) - compute()'s own in-process cache means this
     # only ever runs once per server lifetime, so pay that cost here at boot
     # rather than on a real visitor's first page load.
     try:
@@ -242,8 +242,8 @@ def trend_corpus():
     path = os.path.join(ROOT, "data", "raw", "trend_corpus.json")
     with open(path, encoding="utf-8") as fh:
         doc = json.load(fh)
-    promoted = {"TC-R06", "TC-R10"}
-    doc["articles"] = [a for a in doc["articles"] if a["article_id"] not in promoted]
+    from research_corpus_real import PROMOTED_TREND_IDS
+    doc["articles"] = [a for a in doc["articles"] if a["article_id"] not in PROMOTED_TREND_IDS]
     doc["article_count"] = len(doc["articles"])
     return doc
 

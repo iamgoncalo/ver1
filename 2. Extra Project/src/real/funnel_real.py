@@ -44,6 +44,8 @@ SNAPSHOT_INPUTS = [
     ("processed", "critic_real.json"),
     ("processed", "decision_framework_real.json"),
     ("processed", "research_tensions.json"),
+    ("processed", "research_index.json"),
+    ("processed", "intelligence_fabric.json"),
     ("processed", "category_assumptions.json"),
     ("processed", "defect_detection_report_real.json"),
     ("processed", "economics_real.json"),
@@ -52,7 +54,7 @@ SNAPSHOT_INPUTS = [
 ]
 
 TECHNOLOGY_AI_THEMES = {"ai_sensing", "matter", "smart_home_platform", "sensor_accuracy", "interoperability"}
-PROMOTED_TREND_IDS = {"TC-R06", "TC-R10"}  # already promoted to peer-reviewed papers - see research_corpus_real.py
+from research_corpus_real import PROMOTED_TREND_IDS  # ONE canonical promotion set - never re-declared
 
 
 def _load(kind, name):

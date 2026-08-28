@@ -498,8 +498,8 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
               {stageFocus === "tensions" && "Real research tensions — genuine trade-offs found across two or more peer-reviewed papers."}
               {stageFocus === "assumptions" && "Real category assumptions mapped, each with real evidence for/against its prevalence."}
               {(stageFocus === "counterfactuals_generated" || stageFocus === "concept_seeds") && "Every (friction theme × design operator) combination the fixed Magic Box rule table generates — before any gate is applied."}
-              {stageFocus === "__versuni_edge" && "Not a count — see the Versuni Edge section on Criteria. Every finalist's classification is honestly NEEDS_EVIDENCE."}
-              {stageFocus === "critic_evaluated" && "Every concept the Critic has run SURVIVE/CHALLENGE/NEEDS_EVIDENCE/REJECT verdicts against — currently all of them."}
+              {stageFocus === "__versuni_edge" && "Not a count — see the Versuni Edge section on Criteria, where each finalist's classification is computed from the evidence actually available (missing Versuni-internal evidence shows as NEEDS_EVIDENCE, never scored)."}
+              {stageFocus === "critic_evaluated" && "Every concept the Critic has run SURVIVE/CHALLENGE/NEEDS_EVIDENCE/REJECT verdicts against — the count shown is the live coverage."}
               {stageFocus === "finalists" && "Concepts that survived gate → evidence → Pareto dominance, ranked by Consumer Pain."}
               {stageFocus === "__bet" && "The current recommended concept from the live decision engine — never hardcoded."}
             </p>

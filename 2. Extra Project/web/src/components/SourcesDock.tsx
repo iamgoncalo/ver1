@@ -7,11 +7,11 @@ interface Source {
 }
 
 const STATUS_TONE: Record<string, "good" | "amber" | "neutral" | "teal"> = {
-  LIVE_VERIFIED_THIS_SESSION: "good", FROZEN: "teal", MANUAL_ONLY_BY_DESIGN: "amber", NOT_IMPLEMENTED: "neutral",
+  SNAPSHOT_VERIFIED_LIVE: "good", FROZEN: "teal", MANUAL_IMPORT: "amber", NOT_IMPLEMENTED: "neutral",
 };
 const STATUS_LABEL: Record<string, string> = {
-  LIVE_VERIFIED_THIS_SESSION: "verified live this session", FROZEN: "frozen archive",
-  MANUAL_ONLY_BY_DESIGN: "manual only (by design)", NOT_IMPLEMENTED: "not implemented",
+  SNAPSHOT_VERIFIED_LIVE: "snapshot — verified live at retrieval", FROZEN: "frozen archive",
+  MANUAL_IMPORT: "manual import (by design)", NOT_IMPLEMENTED: "not implemented",
 };
 
 export function SourcesDock() {

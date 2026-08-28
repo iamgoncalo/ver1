@@ -1,8 +1,8 @@
 {
   "_provenance": "Canonical normalized model over already-real Project 1 sources - no product, paper, signal, competitor, cluster, pattern, or relationship is invented here. All 7 evidence families (PRODUCTS/RESEARCH/CONSUMERS/TRENDS/MARKET/RIVALS/TECHNOLOGY_AI) stay explicitly separate. HDBSCAN/BERTopic-style clustering is deliberately NOT used anywhere - every current family is small (<100 real items), and DATA_FABRIC.md's own acceptance criteria require small-corpus clustering not be forced into a large-corpus method.",
   "generated_by": "src/real/intelligence_fabric.py",
-  "snapshot_id": "c9f6e1ab472d5e51",
-  "generated_at": "2026-08-28T17:54:49.607692+00:00",
+  "snapshot_id": "1f5558db67dee5b2",
+  "generated_at": "2026-08-28T18:03:48.693171+00:00",
   "sources": [
     {
       "id": "pubmed",
@@ -11,7 +11,7 @@
       "title": "PubMed / PMC",
       "publisher": "PubMed / PMC",
       "url_or_identifier": "pubmed",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "method": "mcp__plugin_bio-research_pubmed (convert_article_ids + get_article_metadata)",
       "retrieved_at": "2026-08-26",
       "provenance": "12 peer-reviewed papers - PMID/PMCID/DOI/title/authors/journal/year read back from the live NCBI-backed API this session."
@@ -47,7 +47,7 @@
       "title": "Google Scholar",
       "publisher": "Google Scholar",
       "url_or_identifier": "google_scholar",
-      "status": "MANUAL_ONLY_BY_DESIGN",
+      "status": "MANUAL_IMPORT",
       "method": "manual",
       "retrieved_at": null,
       "provenance": "No official bulk API exists - used only as a manual cross-check link, never scraped."
@@ -71,7 +71,7 @@
       "title": "CBS (Statistics Netherlands)",
       "publisher": "CBS (Statistics Netherlands)",
       "url_or_identifier": "cbs",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "method": "web search + direct page fetch (not the CBS OData API)",
       "retrieved_at": "2026-08-26",
       "provenance": "Mean disposable household income, mean equivalised income, private household count, energy bill anchor."
@@ -83,7 +83,7 @@
       "title": "Eurostat",
       "publisher": "Eurostat",
       "url_or_identifier": "eurostat",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "method": "web search",
       "retrieved_at": "2026-08-26",
       "provenance": "Dutch household electricity price (2,500-5,000 kWh band), via a Statista-hosted Eurostat figure."
@@ -95,7 +95,7 @@
       "title": "APPLiA Nederland",
       "publisher": "APPLiA Nederland",
       "url_or_identifier": "applia",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "method": "web search + direct page fetch",
       "retrieved_at": "2026-08-26",
       "provenance": "Dutch appliance-market turnover and unit-volume figures for 2024/2025, SDA premiumisation."
@@ -107,7 +107,7 @@
       "title": "Versuni / Philips official",
       "publisher": "Versuni / Philips official",
       "url_or_identifier": "versuni_philips",
-      "status": "LIVE_VERIFIED_THIS_SESSION",
+      "status": "SNAPSHOT_VERIFIED_LIVE",
       "method": "web search + direct page fetch",
       "retrieved_at": "2026-08-26",
       "provenance": "7 of ~20 candidate SKUs verified with real spec + real downloaded/hashed official image (PureProtect 3200 AC3220/10, PureProtect Mini 900 AC0950/10, PureProtect Pro 4200 AC4220/12, 800i AC0850/41, 1000i AC1715/10, PureProtect Quiet 2200 AC2220/10, Air Performer 7000 AMF765/70). The rest of the candidate SKU list is NOT yet verified - shown as UNKNOWN, not inferred."
