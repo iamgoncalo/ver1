@@ -1,16 +1,12 @@
-# src/ uses ONLY the Python 3.9+ standard library for the analysis pipeline
-# (csv, json, re, random, hashlib, datetime) - none of pandas/numpy/
-# scikit-learn below are imported by anything under src/. `make all` does
-# not depend on any of them.
-#
-# streamlit IS a real dependency: dashboard/app.py (`make app`), the local
-# control room. Pinned to the version this repo was built and tested
-# against.
-streamlit==1.38.0
-
-# Pinned per an earlier explicit instruction in this session, kept in case
-# a future step needs them; harmless if unused - `make all`/`make refresh`
-# do not fail if these can't install (no network required for `make all`).
-pandas==2.2.2
-numpy==1.26.4
+# src/real/ uses the Python 3.9+ standard library (csv, json, re, random,
+# hashlib, datetime) for everything except one step: the research-paper
+# and consumer-friction clustering in emergent_clustering_real.py and
+# intelligence_fabric.py, which genuinely imports scikit-learn
+# (TfidfVectorizer, AgglomerativeClustering, cosine_similarity). Both are
+# run by `bash run_pipeline.sh` (stages 8c/8i) - scikit-learn is a real,
+# required runtime dependency, not an optional or unused one.
 scikit-learn==1.5.0
+
+# scikit-learn's own hard dependency (not imported directly by anything
+# under src/) - pinned explicitly for reproducible installs.
+numpy==1.26.4

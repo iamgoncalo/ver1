@@ -1,7 +1,7 @@
-"""Single shared claim-trace function. Used by BOTH the CLI below and
-dashboard/app.py's EVIDENCE tab - there is exactly one lineage
-implementation, imported in both places, so the dashboard can never drift
-from what the CLI (and a live interviewer) sees.
+"""Single shared claim-trace function, used by the CLI below and by
+tests/test_real_pipeline.py's traceability tests - one lineage
+implementation, so a test can never drift from what a live interviewer
+would see running the CLI directly.
 
 CLI usage:
   python3 scripts/trace_claim.py <claim_id>

@@ -101,6 +101,10 @@ class TestQ3Real(unittest.TestCase):
         with open(os.path.join(ROOT, "data", "processed", "reviews_clean_real.csv"), newline="", encoding="utf-8") as fh:
             for row in csv.DictReader(fh):
                 real[row["review_id"]] = row["review_text"]
+        real_sku = {}
+        with open(os.path.join(ROOT, "data", "processed", "reviews_clean_real.csv"), newline="", encoding="utf-8") as fh:
+            for row in csv.DictReader(fh):
+                real_sku[row["review_id"]] = row["product_sku"]
         with open(path, newline="", encoding="utf-8") as fh:
             rows = list(csv.DictReader(fh))
         self.assertEqual(len(rows), 50)
@@ -109,6 +113,29 @@ class TestQ3Real(unittest.TestCase):
             self.assertIn(rid, real, f"{rid} is not a real review_id in reviews_clean_real.csv")
             self.assertEqual(r["review_text"], real[rid],
                              f"{rid}'s review_text does not match the real corpus - possible fabricated substitution")
+            self.assertEqual(r["product_sku"], real_sku[rid],
+                             f"{rid}'s product_sku does not match the real corpus")
+
+    def test_validation_metrics_computed_from_hand_labels_when_present(self):
+        """compute_validation_metrics() is pure logic (per-theme precision/recall,
+        confusion matrix, none-disagreement) - proven here against a small,
+        hand-constructed example independent of whether a real human has
+        labelled data/hand_label_sample.csv yet."""
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, "src"))
+        sys.path.insert(0, os.path.join(ROOT, "src", "real"))
+        from taxonomy_real import compute_validation_metrics
+        gold = ["reliability", "reliability", "noise", "none", "none"]
+        auto = ["reliability", "noise",       "noise", "none", "reliability"]
+        m = compute_validation_metrics(gold, auto)
+        self.assertEqual(m["n_labelled"], 5)
+        self.assertAlmostEqual(m["raw_agreement_pct"], 60.0)
+        self.assertEqual(m["per_theme"]["reliability"]["n_hand_labelled"], 2)
+        self.assertEqual(m["per_theme"]["reliability"]["precision"], 0.5)   # auto said reliability twice, right once
+        self.assertEqual(m["per_theme"]["reliability"]["recall"], 0.5)      # gold said reliability twice, caught once
+        self.assertEqual(m["confusion_matrix"]["reliability"]["noise"], 1)
+        self.assertEqual(m["none_disagreement"]["auto_none_human_not"], 0)
+        self.assertEqual(m["none_disagreement"]["human_none_auto_not"], 1)  # gold=none, auto=reliability
 
     def test_no_production_data_file_contains_synthetic_fixture_text(self):
         """A real review sentence appearing verbatim inside the synthetic
@@ -160,6 +187,85 @@ class TestQ6Real(unittest.TestCase):
         rec1 = re.search(r"RECOMMEND: (\S+)", r1.stdout).group(1)
         rec2 = re.search(r"RECOMMEND: (\S+)", r2.stdout).group(1)
         self.assertEqual(rec1, rec2)
+
+    def test_every_feasibility_rating_is_labelled_analyst_judgment(self):
+        """A standard existing in the trend corpus does not by itself prove
+        Versuni can build/commercialize/scale a concept - every feasibility
+        rating must carry epistemic_type so a reviewer can tell at a glance
+        it's a labelled judgment, not a measured fact."""
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, "src"))
+        sys.path.insert(0, os.path.join(ROOT, "src", "real"))
+        import decision_framework_real as dfr
+        for theme_id, block in dfr.THEME_FEASIBILITY.items():
+            self.assertEqual(block["epistemic_type"], "ANALYST_JUDGMENT", theme_id)
+            self.assertIn("missing_internal_evidence", block, theme_id)
+            self.assertIn("what_would_change_rating", block, theme_id)
+
+
+class TestRecommendationConsistency(unittest.TestCase):
+    """Q6's recommendation and its two rejected alternatives must read
+    identically wherever the submission states them - a hostile reviewer
+    should never find README, the Insight Pack and the computed verdict
+    disagreeing about what was actually recommended."""
+
+    def test_recommendation_name_matches_across_every_final_surface(self):
+        d = j("decision_framework_real.json")
+        recommended_name = d["verdict"]["recommended_name"]
+        killed_names = {k["name"] for k in d["verdict"]["killed"]}
+
+        readme = open(os.path.join(ROOT, "..", "README.md"), encoding="utf-8").read()
+        pack = open(os.path.join(ROOT, "deliverables", "insight_pack.md"), encoding="utf-8").read()
+        note = open(os.path.join(ROOT, "deliverables", "technical_note.md"), encoding="utf-8").read()
+        with open(os.path.join(ROOT, "deliverables", "evidence_table.csv"), encoding="utf-8") as fh:
+            table_row = next(r for r in csv.DictReader(fh) if r["claim_id"] == "q6_recommendation")
+
+        self.assertIn(recommended_name, table_row["value_as_cited"])
+        # README/deliverables use the short consumer-facing name
+        # ("Reliability-Verified Air Purifiers") without the parenthetical -
+        # require that short form to appear in every final surface.
+        short_name = recommended_name.split(" (")[0]
+        for label, text in (("README.md", readme), ("insight_pack.md", pack), ("technical_note.md", note)):
+            self.assertIn(short_name, text, f"{label} does not state the current recommendation")
+
+        for killed in killed_names:
+            short_killed = killed.split(" (")[0]
+            self.assertIn(short_killed, pack, f"insight_pack.md is missing rejected alternative: {short_killed}")
+
+        # The forced-gate-failure -> NO_RECOMMENDATION case (Phase 7's
+        # required negative test) is already covered by
+        # tests/test_dynamic_winner.py::TestB2_ZeroSurvivorsIsHonestNotManufactured
+        # - not duplicated here.
+
+
+class TestClaimTraceability(unittest.TestCase):
+    def test_five_random_claims_trace_to_real_source(self):
+        import sys, random
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import trace_claim as tc
+        rows = tc.load_evidence_table()
+        sample = random.Random(0).sample(rows, min(5, len(rows)))
+        for row in sample:
+            t = tc.trace(row["claim_id"])
+            self.assertTrue(t["raw_file_exists"], f"{row['claim_id']}: raw file missing")
+            self.assertTrue(t["PASS"], f"{row['claim_id']}: trace did not resolve to real source")
+
+    def test_corrupted_trace_path_fails_the_verifier(self):
+        """Negative test: a claim_id pointed at a metric path that does not
+        exist in its own JSON source must fail PASS, proving trace() can
+        actually detect a broken lineage rather than always passing."""
+        import sys
+        from unittest import mock
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import trace_claim as tc
+        real_rows = tc.load_evidence_table()
+        target = next(r for r in real_rows if r["source_file"].endswith(".json"))
+        corrupted = dict(target)
+        corrupted["source_location"] = "this.path.does.not.exist.anywhere"
+        with mock.patch.object(tc, "load_evidence_table", return_value=[corrupted]):
+            t = tc.trace(corrupted["claim_id"])
+        self.assertFalse(t["path_resolved"])
+        self.assertFalse(t["PASS"])
 
 
 class TestEvidenceTraceability(unittest.TestCase):

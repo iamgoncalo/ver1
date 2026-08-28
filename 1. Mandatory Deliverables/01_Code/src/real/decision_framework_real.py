@@ -42,6 +42,7 @@ FEASIBILITY_RANK = {"high": 3, "medium": 2, "low": 1}
 THEME_FEASIBILITY = {
     "reliability": {
         "rating": "high",
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": ["TC-R02", "TC-R08"],
         "rationale": ("Two real, already-standardized frameworks exist to build on "
                       "directly: TC-R02 (ENERGY STAR already requires measured, "
@@ -50,9 +51,16 @@ THEME_FEASIBILITY = {
                       "(Matter's Air Quality Sensor cluster is an already-standardized "
                       "connectivity layer that could carry a self-diagnostic/runtime "
                       "health signal without inventing a new protocol)."),
+        "missing_internal_evidence": ("No real Versuni R&D-capacity or hardware-warranty-"
+                      "claims data - the rating reflects external precedent, not an "
+                      "internal build-cost estimate."),
+        "what_would_change_rating": ("A real internal engineering estimate showing the "
+                      "self-diagnostic sensor suite costs materially more than a typical "
+                      "product refresh would lower this rating."),
     },
     "noise": {
         "rating": "medium",
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": ["TC-R11"],
         "rationale": ("No real trend document in this 12-document corpus directly "
                       "addresses acoustic/noise engineering - TC-R11 (Dyson's sensor "
@@ -60,9 +68,17 @@ THEME_FEASIBILITY = {
                       "external standard or precedent to build on, this requires "
                       "proprietary acoustic R&D from a colder start than the "
                       "reliability theme."),
+        "missing_internal_evidence": ("No real acoustic-engineering trend document exists "
+                      "in this corpus at all - the medium rating is a judgment call made "
+                      "in the absence of any external precedent, not a citation."),
+        "what_would_change_rating": ("A real acoustic-engineering standard or published "
+                      "low-RPM motor precedent, if found, would raise this to high; a "
+                      "real internal R&D estimate showing it requires novel hardware "
+                      "would lower it to low."),
     },
     "value_effectiveness": {
         "rating": "high",
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": ["TC-R03", "TC-R02"],
         "rationale": ("A real third-party verification infrastructure already exists "
                       "to plug into rather than invent: TC-R03 (AHAM's real Verifide "
@@ -71,9 +87,17 @@ THEME_FEASIBILITY = {
                       "measured-performance criteria). A single-metric trust score or "
                       "cross-category certification claim has a real existing "
                       "certification body to anchor to, not a from-scratch standard."),
+        "missing_internal_evidence": ("No real Versuni data on how a certification-based "
+                      "trust score would perform against the real complaint text driving "
+                      "this theme's prevalence - the rating is about integration effort, "
+                      "not measured consumer response to the claim."),
+        "what_would_change_rating": ("Evidence that AHAM/ENERGY STAR certification "
+                      "specifically addresses this theme's real complaint pattern (not "
+                      "just CADR broadly) would strengthen this rating further."),
     },
     "customer_service": {
         "rating": "medium",
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [],
         "rationale": ("No real technical or regulatory document in this 12-document "
                       "corpus addresses warranty/service-contact process design - this "
@@ -83,9 +107,17 @@ THEME_FEASIBILITY = {
                       "service-organization capability data to assess execution "
                       "feasibility. Rating reflects LOW technical complexity only; "
                       "organizational feasibility is genuinely unassessed here."),
+        "missing_internal_evidence": ("No real Versuni service-organization capability "
+                      "data (support headcount, current SLA, return-logistics cost) - "
+                      "organizational feasibility is genuinely unassessed, not just "
+                      "unfavourably assessed."),
+        "what_would_change_rating": ("Real internal service-capacity data would let this "
+                      "split into a proper technical-feasibility rating plus a separate, "
+                      "currently-missing organizational-feasibility rating."),
     },
     "filter_cost": {
         "rating": "medium",
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [],
         "rationale": ("No real technical or regulatory document in this corpus "
                       "addresses subscription logistics or bundled-pricing design - "
@@ -94,9 +126,17 @@ THEME_FEASIBILITY = {
                       "pricing/operations capability data to assess it. Rating "
                       "reflects LOW technical complexity only; commercial feasibility "
                       "is genuinely unassessed here."),
+        "missing_internal_evidence": ("No real Versuni pricing, margin, or subscription-"
+                      "operations data - commercial feasibility is genuinely unassessed, "
+                      "not just unfavourably assessed."),
+        "what_would_change_rating": ("Real internal margin/logistics data for a filter-"
+                      "subscription model would let this split into a proper technical-"
+                      "feasibility rating plus a separate, currently-missing commercial-"
+                      "feasibility rating."),
     },
     "ozone_odor_safety": {
         "rating": "high",
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": ["TC-R04", "TC-R08"],
         "rationale": ("Real, directly-relevant regulatory and technical precedent "
                       "exists: TC-R04 (CARB's real certified-device list is the "
@@ -104,6 +144,11 @@ THEME_FEASIBILITY = {
                       "guidance would need to respect) and TC-R08 (Matter's real "
                       "already-standardized Air Quality Sensor cluster could carry a "
                       "placement/sensitivity signal without a new protocol)."),
+        "missing_internal_evidence": ("No real Versuni data on current CARB-certification "
+                      "status of the specific product lines this would ship on."),
+        "what_would_change_rating": ("Confirmation that the relevant Versuni product "
+                      "lines are already CARB-certified would further strengthen this; "
+                      "the reverse would lower it."),
     },
 }
 
@@ -112,12 +157,19 @@ FEASIBILITY = {
     "OS-2": THEME_FEASIBILITY["noise"],
     "OS-3": {
         "rating": "high",
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": ["TC-R07", "TC-R08"],
         "rationale": ("Technically the easiest of the three: TC-R07 shows Versuni "
                       "already ships Wi-Fi/app connectivity today, and TC-R08 is an "
                       "already-standardized protocol layer. High feasibility does NOT "
                       "rescue this opportunity - it fails the upstream Consumer Pain "
                       "evidence gate below. Ease of build is not evidence of demand."),
+        "missing_internal_evidence": ("None needed for this rating - TC-R07 already "
+                      "shows current Versuni connectivity shipping, which is why this "
+                      "is high without a caveat, unlike the other two themes."),
+        "what_would_change_rating": ("Irrelevant to the Q6 outcome: this theme is "
+                      "eliminated by insufficient Consumer Pain evidence upstream of "
+                      "feasibility, so no feasibility evidence changes the verdict."),
     },
 }
 

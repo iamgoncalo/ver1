@@ -16,7 +16,7 @@ Mode** and **Smart/Connected Feature Expansion**. Both are killed on the same
 three measures — see Slide 4.
 
 Held constant throughout: **Friction Prevalence %**, **CSAT Impact**,
-**Financial Value Proxy** (defined Slide 2).
+**Price-Weighted Exposure** (defined Slide 2).
 
 ---
 
@@ -32,9 +32,10 @@ Held constant throughout: **Friction Prevalence %**, **CSAT Impact**,
 - **Three measures, fixed and unchanged from here on:**
   1. **Friction Prevalence %** — share of real reviews carrying the friction.
   2. **CSAT Impact** — mean star rating of affected reviews minus corpus mean.
-  3. **Financial Value Proxy** — here, a *price-weighted exposure* figure
-     (sum of real observed prices across affected reviews) — explicitly
-     **not** a revenue or market-size estimate; see Slide 3.
+  3. **Price-Weighted Exposure** — sum of real observed prices across
+     affected reviews (a calculated diagnostic, not a survey) — explicitly
+     **not** a revenue, market-size, or willingness-to-pay estimate; see
+     Slide 3.
 
 ---
 
@@ -134,6 +135,6 @@ it"). No real friction signal to build a roadmap bet on.
 - **Q5 sensitivity, actually re-run, not asserted:** re-running
   `src/real/decision_framework_real.py --market-scenario=imarc` (6.54% CAGR
   vs. Mordor Intelligence's 5.37%) produces an **identical verdict** — the
-  Financial Value Proxy here is built from review-level price exposure, not
-  category CAGR, so the Q5 disagreement changes the category-sizing
+  Price-Weighted Exposure here is built from review-level price exposure,
+  not category CAGR, so the Q5 disagreement changes the category-sizing
   narrative but not which opportunity wins.

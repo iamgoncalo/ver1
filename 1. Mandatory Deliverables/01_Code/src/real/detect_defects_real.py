@@ -221,6 +221,7 @@ def main():
     baddates, date_ev = detect_malformed_dates(rows)
 
     before = headline_metrics(rows, "BEFORE cleaning (real export as downloaded)")
+    base_fields = list(rows[0].keys())  # captured before the mutation loop below
 
     drop = set(empties)  # empty text carries no analyzable signal
     quarantine = set(conflicts)
@@ -260,7 +261,7 @@ def main():
 
     os.makedirs(PROC, exist_ok=True)
     out_csv = os.path.join(PROC, "reviews_clean_real.csv")
-    fields = list(rows[0].keys()) + ["rating_trusted", "date_parseable", "is_duplicate_text"]
+    fields = base_fields + ["rating_trusted", "date_parseable", "is_duplicate_text"]
     with open(out_csv, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
         w.writeheader()

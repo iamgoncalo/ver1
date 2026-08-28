@@ -5,7 +5,7 @@
   "category": "Air Purification",
   "business_unit": "Versuni - Home Air",
   "compiled_by": "Innovation Data Science - Versuni (repair pass)",
-  "compiled_at": "2026-08-28T16:05:16+00:00",
+  "compiled_at": "2026-08-28T16:39:18+00:00",
   "currency_note": "Both sources report in USD; no EUR conversion applied here.",
   "conflict_summary": {
     "status": "RESOLVED_BY_ANALYST_JUDGMENT",
@@ -141,7 +141,7 @@
       "scope": "Europe Air Purifier Market, all connectivity/technology types, residential+commercial+industrial, revenue basis",
       "derivation": "Chose Mordor Intelligence's 5.37% (2025-2030) over IMARC's 6.54% (2026-2034) because its forecast window (5 years) is closer to Q6's own 2-5 year opportunity-evaluation horizon, and its more conservative figure is the safer planning assumption for an internal investment case.",
       "confidence": "medium",
-      "caveat": "Both figures are proprietary vendor estimates without full published methodology - neither is independently audited. Using IMARC's 6.54% instead would scale any category-wide prize estimate up by roughly (6.54-5.37)/5.37 = 21.8% relative, compounded over the longer window, but does NOT change which opportunity space wins in Q6 (see src/real/decision_framework_real.py --market-scenario), because the Q6 Financial Value Proxy is anchored on installed-base and friction-prevalence figures that do not depend on category CAGR."
+      "caveat": "Both figures are proprietary vendor estimates without full published methodology - neither is independently audited. Using IMARC's 6.54% instead would scale any category-wide prize estimate up by roughly (6.54-5.37)/5.37 = 21.8% relative, compounded over the longer window, but does NOT change which opportunity space wins in Q6 (see src/real/decision_framework_real.py --market-scenario), because the Q6 Price-Weighted Exposure is anchored on installed-base and friction-prevalence figures that do not depend on category CAGR."
     },
     "analyst_actions": [
       "Do not average the two CAGRs - averaging two different-methodology, different-window estimates manufactures false precision.",

@@ -2,6 +2,14 @@
 Method, assumptions, limitations, what was cut. Max 2 pages. Companion to
 [insight_pack.md](insight_pack.md).
 
+**Recommendation: Reliability-Verified Air Purifiers** (extended-life
+guarantee + real-time self-diagnostic), computed live by
+`decision_framework_real.py` and unchanged under both real market
+scenarios (Q5, below). Two serious alternatives — Whisper-Quiet Night Mode
+and Smart/Connected Feature Expansion — were evaluated and rejected on the
+same three measures; see Insight Pack Slide 4 for the full comparison and
+kill reasons.
+
 ## Data and pipeline
 Three real sources in `data/raw/`: **10,547 real Amazon reviews** for 237
 real, hand-validated air purifier products (`consumer_reviews.csv`, from the
@@ -84,8 +92,8 @@ undisclosed proprietary methodology, not a scope mismatch. This is a more
 realistic finding than a dramatic scope-driven spread: two firms measuring
 the *same thing* can still land materially apart. `decision_framework_real.py
 --market-scenario=imarc` re-runs the Q6 verdict under the alternative figure
-live; the verdict is unchanged (Q6's Financial Value Proxy is built from
-review-level price exposure, not category CAGR).
+live; the verdict is unchanged (Q6's Price-Weighted Exposure is built
+from review-level price exposure, not category CAGR).
 
 ## What was deliberately not built
 - **No stated-preference WTP instrument** — the largest evidence gap,

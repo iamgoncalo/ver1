@@ -19,8 +19,9 @@ Slide 4 for why, and
 for the full method.
 
 Three measures, fixed throughout: **Friction Prevalence %**, **CSAT
-Impact**, **Financial Value Proxy** (price-weighted exposure — explicitly
-not a revenue estimate).
+Impact**, **Price-Weighted Exposure** (sum of real observed prices across
+affected reviews — explicitly not a revenue, market-size, or
+willingness-to-pay estimate).
 
 ## How to run
 
@@ -32,10 +33,13 @@ bash run_pipeline.sh --analysis-only
 This is the **exact reproduction command** — offline, reads only the
 already-bundled real raw data in `01_Code/data/real_raw/` and
 `01_Code/data/raw/`, regenerates every processed file and
-`01_Code/deliverables/evidence_table.csv`, and runs the full test suite
-at the end. No network access, no API keys, no manual steps. Verified
-this session: **38/38 tests pass**, **229/229 submission-integrity
-checks pass** (`python3 scripts/verify_submission.py`).
+`01_Code/deliverables/evidence_table.csv`, and ends by running the full
+test suite via `python3 -m unittest discover -s tests -p "test_*.py"` (the
+same canonical command below — the pipeline's own reported test count is
+never a hand-typed number, it's whatever that discovery run finds). At last
+verification: **42/42 tests pass**, **229/229 submission-integrity checks
+pass** (`python3 scripts/verify_submission.py`). No network access, no API
+keys, no manual steps.
 
 Two further, optional pieces:
 

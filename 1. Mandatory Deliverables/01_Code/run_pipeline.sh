@@ -107,7 +107,7 @@ python3 src/real/funnel_real.py
 
 echo "== stage 9/9: evidence table + tests =="
 python3 src/real/build_evidence_table_real.py
-python3 -m unittest tests.test_real_pipeline -v
+python3 -m unittest discover -s tests -p "test_*.py" -v
 
 echo
 echo "Done. See deliverables/insight_pack.md, technical_note.md,"
