@@ -39,6 +39,13 @@ every sample row against the real corpus by id, product and exact text,
 and Q3 validation remains **blocked pending genuine human labels** — no
 label was ever substituted.
 
+**AI-provisional Q3 labels (disclosed).** At the case owner's explicit
+instruction, Claude Fable blind-labelled the 50-review validation sample
+(`ai_label_sample_CLAUDE_FABLE.csv`, attribution in-file) as a stand-in
+until the AI Expert human position labels it. Reported everywhere as
+AI-provisional, never as human validation; the human `hand_label` file
+remains blank and the Q3 human blocker remains open.
+
 **Verification.** AI-derived work was checked by: programmatic checks
 (59-row evidence table, 301-check verifier, 49-test discovery suite,
 negative tests that corrupt a trace and expect failure), deterministic

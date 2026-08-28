@@ -116,6 +116,42 @@ class TestQ3Real(unittest.TestCase):
             self.assertEqual(r["product_sku"], real_sku[rid],
                              f"{rid}'s product_sku does not match the real corpus")
 
+    def test_ai_provisional_labels_are_genuine_rows_and_honestly_marked(self):
+        """The AI-provisional label file (Claude Fable, at the case owner's
+        explicit request) must reference only genuine sampled reviews, use
+        only codebook themes, and the resulting validation block must stay
+        honestly marked as NOT human validation while no human file exists."""
+        ai_path = os.path.join(ROOT, "data", "ai_label_sample_CLAUDE_FABLE.csv")
+        blank = {r["review_id"]: r for r in csv.DictReader(
+            open(os.path.join(ROOT, "data", "hand_label_sample_BLANK.csv"), encoding="utf-8"))}
+        valid_themes = {"reliability", "value_effectiveness", "customer_service",
+                        "filter_cost", "noise", "ozone_odor_safety", "none"}
+        rows = list(csv.DictReader(open(ai_path, encoding="utf-8")))
+        self.assertEqual(len(rows), 50)
+        for r in rows:
+            self.assertIn(r["review_id"], blank)
+            self.assertEqual(r["product_sku"], blank[r["review_id"]]["product_sku"])
+            self.assertIn(r["ai_label"], valid_themes)
+            self.assertIn("Claude Fable", r["ai_labeller"])
+        if not os.path.exists(os.path.join(ROOT, "data", "hand_label_sample.csv")):
+            v = j("taxonomy_themes_real.json")["validation"]
+            self.assertEqual(v.get("epistemic_type"), "AI_PROVISIONAL_NOT_HUMAN")
+            self.assertIn("HUMAN_ACTION_REQUIRED", v["status"])
+            self.assertIn("NOT human validation", v["status"])
+
+    def test_sample_provenance_file_covers_every_sampled_review(self):
+        prov = {r["review_id"]: r for r in csv.DictReader(
+            open(os.path.join(ROOT, "data", "hand_label_sample_PROVENANCE.csv"), encoding="utf-8"))}
+        blank = list(csv.DictReader(
+            open(os.path.join(ROOT, "data", "hand_label_sample_BLANK.csv"), encoding="utf-8")))
+        self.assertEqual(len(prov), 50)
+        for r in blank:
+            p = prov[r["review_id"]]
+            self.assertEqual(p["parent_asin"], r["product_sku"])
+            self.assertTrue(p["amazon_product_url"].startswith("https://www.amazon.com/dp/"))
+            self.assertTrue(p["committed_raw_file"].startswith("data/real_raw/"),
+                            f"{r['review_id']} not traced to a committed raw file")
+
     def test_validation_metrics_computed_from_hand_labels_when_present(self):
         """compute_validation_metrics() is pure logic (per-theme precision/recall,
         confusion matrix, none-disagreement) - proven here against a small,

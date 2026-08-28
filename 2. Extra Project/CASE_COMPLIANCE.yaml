@@ -24,7 +24,8 @@ q3_consumer_frictions:
   requirement: Taxonomy from raw review text, prevalence, satisfaction link, genuine human-labelled sample, agreement
   status: BLOCKED
   blocker: data/hand_label_sample_BLANK.csv requires a human to fill hand_label - AI must not.
-  machine_side: PASS (sample verified genuine row-by-row; agreement/precision/recall/confusion computed automatically once labels exist)
+  ai_provisional: Claude Fable blind-labelled the 50 rows at the case owner's request (ai_label_sample_CLAUDE_FABLE.csv, 34% raw agreement, marked AI_PROVISIONAL_NOT_HUMAN everywhere) - a stand-in, not human validation.
+  machine_side: PASS (sample verified genuine row-by-row with per-review provenance links; human agreement/precision/recall/confusion computed automatically once labels exist)
 
 q4_wtp:
   requirement: Answer WTP only as far as evidence allows; label proxies

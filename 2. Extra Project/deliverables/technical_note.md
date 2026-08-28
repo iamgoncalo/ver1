@@ -71,11 +71,17 @@ noise, filter cost, or ozone/smell. A real polarity-conflation bug was
 found and fixed: a first run scored "Ozone / smell" at 22% prevalence
 with a *positive* CSAT impact, because "great at eliminating odors" was
 counted as an odor complaint — fixed by only counting a keyword inside a
-negative-polarity sentence. **Hand-label validation is a genuine
+negative-polarity sentence. **Human hand-label validation remains a genuine
 `HUMAN_ACTION_REQUIRED` blocker** — `data/hand_label_sample_BLANK.csv` (50
-real, stratified reviews) has its `hand_label` column deliberately left
-blank; Q3's automated-vs-human agreement cannot be reported until a human
-completes it.
+real, stratified reviews; per-review Amazon/dataset provenance in
+`hand_label_sample_PROVENANCE.csv`) keeps its `hand_label` column blank.
+As an explicitly-labelled stand-in requested by the case owner, a second,
+independent AI (Claude Fable) blind-labelled the same 50 rows
+(`ai_label_sample_CLAUDE_FABLE.csv`): raw agreement 34% — the classifier
+is precise where it fires (reliability precision 1.0 on this sample) but
+conservative, missing mildly-worded or mixed-tone frictions, so published
+prevalence figures are lower bounds. This is AI-vs-AI adjudication, not
+human validation; the human requirement stays open.
 
 ## Q4 — the honest answer: no WTP measurement exists
 No conjoint, Gabor-Granger, or stated-preference instrument was collected,

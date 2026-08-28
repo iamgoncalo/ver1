@@ -84,13 +84,17 @@ question, each explicitly labelled:
 - **Q2** (data quality) — Insight Pack Slide 3, full write-up in the
   Data Quality Report, detection code in `01_Code/src/real/detect_defects_real.py`.
 - **Q3** (consumer taxonomy) — Insight Pack Slide 3, Technical Note
-  "Q3." Human-label validation: `01_Code/data/hand_label_sample_BLANK.csv`
-  is a genuine `HUMAN_ACTION_REQUIRED` blocker, still open — no AI-generated
-  or synthetic label has been substituted, and no completed sample exists
-  yet in this repository. Every row in the blank sample is verified to
-  match a real review in `data/processed/reviews_clean_real.csv` by id and
-  text (see `tests/test_real_pipeline.py`); agreement metrics will only be
-  computed once a human fills in its `hand_label` column.
+  "Q3." Human-label validation is still a genuine `HUMAN_ACTION_REQUIRED`
+  blocker: `01_Code/data/hand_label_sample_BLANK.csv` keeps its
+  `hand_label` column blank, and every row is verified to match a real
+  review by id, product and text (per-review Amazon/dataset links in
+  `hand_label_sample_PROVENANCE.csv`). At the case owner's explicit
+  request, an AI-provisional stand-in exists —
+  `ai_label_sample_CLAUDE_FABLE.csv`, 50 rows blind-labelled by Claude
+  Fable and reported as `AI_PROVISIONAL_NOT_HUMAN` (34% raw agreement;
+  the classifier is precise where it fires but conservative). It is
+  never presented as human validation; human agreement metrics replace
+  it automatically once a human completes `hand_label_sample.csv`.
 - **Q4** (willingness to pay) — Insight Pack Slide 3, Technical Note
   "Q4": no direct or proxy WTP measurement exists in the real evidence;
   stated honestly rather than invented.

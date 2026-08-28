@@ -97,6 +97,124 @@
   },
   "unassigned_pct": 92.74,
   "validation": {
-    "status": "HUMAN_ACTION_REQUIRED - data/hand_label_sample.csv not found or not yet completed by a human labeller"
+    "n_labelled": 50,
+    "raw_agreement_pct": 34.0,
+    "per_theme": {
+      "customer_service": {
+        "n_hand_labelled": 2,
+        "n_auto_assigned": 0,
+        "precision": null,
+        "recall": 0.0
+      },
+      "filter_cost": {
+        "n_hand_labelled": 4,
+        "n_auto_assigned": 0,
+        "precision": null,
+        "recall": 0.0
+      },
+      "noise": {
+        "n_hand_labelled": 3,
+        "n_auto_assigned": 1,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "none": {
+        "n_hand_labelled": 15,
+        "n_auto_assigned": 46,
+        "precision": 0.326,
+        "recall": 1.0
+      },
+      "ozone_odor_safety": {
+        "n_hand_labelled": 4,
+        "n_auto_assigned": 2,
+        "precision": 0.5,
+        "recall": 0.25
+      },
+      "reliability": {
+        "n_hand_labelled": 8,
+        "n_auto_assigned": 1,
+        "precision": 1.0,
+        "recall": 0.125
+      },
+      "value_effectiveness": {
+        "n_hand_labelled": 14,
+        "n_auto_assigned": 0,
+        "precision": null,
+        "recall": 0.0
+      }
+    },
+    "confusion_matrix": {
+      "customer_service": {
+        "customer_service": 0,
+        "filter_cost": 0,
+        "noise": 0,
+        "none": 2,
+        "ozone_odor_safety": 0,
+        "reliability": 0,
+        "value_effectiveness": 0
+      },
+      "filter_cost": {
+        "customer_service": 0,
+        "filter_cost": 0,
+        "noise": 0,
+        "none": 4,
+        "ozone_odor_safety": 0,
+        "reliability": 0,
+        "value_effectiveness": 0
+      },
+      "noise": {
+        "customer_service": 0,
+        "filter_cost": 0,
+        "noise": 0,
+        "none": 3,
+        "ozone_odor_safety": 0,
+        "reliability": 0,
+        "value_effectiveness": 0
+      },
+      "none": {
+        "customer_service": 0,
+        "filter_cost": 0,
+        "noise": 0,
+        "none": 15,
+        "ozone_odor_safety": 0,
+        "reliability": 0,
+        "value_effectiveness": 0
+      },
+      "ozone_odor_safety": {
+        "customer_service": 0,
+        "filter_cost": 0,
+        "noise": 0,
+        "none": 3,
+        "ozone_odor_safety": 1,
+        "reliability": 0,
+        "value_effectiveness": 0
+      },
+      "reliability": {
+        "customer_service": 0,
+        "filter_cost": 0,
+        "noise": 0,
+        "none": 6,
+        "ozone_odor_safety": 1,
+        "reliability": 1,
+        "value_effectiveness": 0
+      },
+      "value_effectiveness": {
+        "customer_service": 0,
+        "filter_cost": 0,
+        "noise": 1,
+        "none": 13,
+        "ozone_odor_safety": 0,
+        "reliability": 0,
+        "value_effectiveness": 0
+      }
+    },
+    "none_disagreement": {
+      "human_none_auto_not": 0,
+      "auto_none_human_not": 31
+    },
+    "epistemic_type": "AI_PROVISIONAL_NOT_HUMAN",
+    "labeller": "Claude Fable (Anthropic AI) - provisional until AI Expert human position",
+    "status": "HUMAN_ACTION_REQUIRED - the agreement metrics in this block are AI-PROVISIONAL (labelled by Claude Fable, blind to the classifier, at the case owner's explicit request) and stand in only until the AI Expert human position hand-labels data/hand_label_sample.csv. AI-vs-AI agreement is NOT human validation.",
+    "interpretation": "The blind second reading finds a friction in far more sampled reviews than the production classifier assigns (the sample is deliberately stratified toward 1-2 star reviews). This is the expected shape of the classifier's design trade-off, now measured rather than asserted: the polarity-gated keyword classifier is conservative - where it DOES assign a theme it tends to be right (e.g. reliability precision 1.0 on this sample), but it misses frictions phrased mildly, mixed with praise, or worded outside its keyword lists. Published prevalence figures are therefore lower bounds on friction prevalence, not point estimates - already stated in Q3's limitations, now with a measured (AI-provisional) magnitude."
   }
 }

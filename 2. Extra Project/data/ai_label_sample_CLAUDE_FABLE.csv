@@ -1,0 +1,51 @@
+review_id,product_sku,ai_label,ai_labeller,labeller_note
+CR-000121,B07R81N4X9,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"multiple frictions (noise, filter cost); core complaint is auto/sleep mode failing its purpose near smokers"
+CR-007930,B0776XKZ1Y,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,
+CR-001880,B0BBV2Z7VG,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,not-true-HEPA / overpriced / sensor useless
+CR-010318,B08FD4MR1Z,filter_cost,Claude Fable (Anthropic AI) - provisional until AI Expert human position,replacement filters discontinued -> unit useless
+CR-006882,B07C1HTHY6,ozone_odor_safety,Claude Fable (Anthropic AI) - provisional until AI Expert human position,suspected ozone production
+CR-009907,B07VXKR2L4,customer_service,Claude Fable (Anthropic AI) - provisional until AI Expert human position,warranty call failure
+CR-000302,B000I0WQWC,filter_cost,Claude Fable (Anthropic AI) - provisional until AI Expert human position,replacement filter mislisted / does not fit
+CR-002471,B01MF8W1D1,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"fails to remove cat-litter odor (effectiveness, not emitted smell)"
+CR-002621,B0BBV2Z7VG,customer_service,Claude Fable (Anthropic AI) - provisional until AI Expert human position,
+CR-005480,B082Y2PK2G,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,no noticeable difference
+CR-007924,B07KXBX32V,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,product does not do what the name claims; returned
+CR-008116,B082Y2PK2G,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,
+CR-006238,B09F3Z9BH6,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-008599,B0915LHCS2,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,underperformed stated goals
+CR-006294,B0C2JF5179,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,
+CR-000628,B07R81N4X9,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-009841,B09K7CD8XS,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-007280,B09F3Z9BH6,ozone_odor_safety,Claude Fable (Anthropic AI) - provisional until AI Expert human position,black soot at plug = burning/safety concern; also odor-removal doubt
+CR-003272,B07R81N4X9,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-001320,B00L5KSV8M,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-008793,B07KXBX32V,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-002032,B07R81N4X9,filter_cost,Claude Fable (Anthropic AI) - provisional until AI Expert human position,reviewer names replacement-filter quality/frequency as THE problem
+CR-004316,B07R81N4X9,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-005199,B0C2JF5179,noise,Claude Fable (Anthropic AI) - provisional until AI Expert human position,vibration + loose rattling part
+CR-006068,B09F3Z9BH6,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,real friction (bright light) but no matching theme in codebook
+CR-000435,B009CAUR6G,noise,Claude Fable (Anthropic AI) - provisional until AI Expert human position,airplane-propeller fan noise; returned
+CR-003243,B0BZPPXM8D,reliability,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"arrived damaged/possibly used - wires exposed, scraped"
+CR-001949,B017199I1Y,reliability,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"overheating safety worry - ambiguous, no perfect theme"
+CR-007517,B0C2JF5179,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,doubts sensor/features are genuine
+CR-001726,B00X67EJI8,reliability,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"died at 15 months; no parts, no contact info"
+CR-001394,B00L5KSV8M,ozone_odor_safety,Claude Fable (Anthropic AI) - provisional until AI Expert human position,emits metallic smell
+CR-002155,B007Y9RBX4,reliability,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"fan control broke at 3 weeks, ion output died"
+CR-004161,B0C2JF5179,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-007188,B071HMNTPM,noise,Claude Fable (Anthropic AI) - provisional until AI Expert human position,mild - 'a little noisy' inside an otherwise positive review
+CR-010407,B0C2JF5179,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-002302,B01GXFY0KQ,reliability,Claude Fable (Anthropic AI) - provisional until AI Expert human position,lost efficiency (primary); also noise + no manufacturer response
+CR-005957,B089T5PXFN,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"unclassifiable - 'Bad Product', no specific friction stated"
+CR-005050,B071HMNTPM,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,not worth the money
+CR-000390,B007Y9RBX4,reliability,Claude Fable (Anthropic AI) - provisional until AI Expert human position,three units failed within ~90 days
+CR-003332,B07B8LYNCX,filter_cost,Claude Fable (Anthropic AI) - provisional until AI Expert human position,title names expensive filters; otherwise positive
+CR-008505,B07ZPLXB54,reliability,Claude Fable (Anthropic AI) - provisional until AI Expert human position,defective out of box - lights/level 1 dead; returned
+CR-001235,B0BBV2Z7VG,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"positive; weekly filter cleaning stated as fact, not complaint"
+CR-007015,B0C2JF5179,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"sizing guidance in positive review, not a friction complaint"
+CR-000327,B07R81N4X9,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,fails to remove cigar odor; service explicitly praised
+CR-002177,B00Y2MLY34,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,"ozone safety question, positive tone - a question, not a complaint"
+CR-003165,B0C2JF5179,ozone_odor_safety,Claude Fable (Anthropic AI) - provisional until AI Expert human position,machine spreads/emits smoke odor from its own filters; also filter cost
+CR-006697,B09F3Z9BH6,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,no noticeable difference
+CR-009686,B09K7CD8XS,reliability,Claude Fable (Anthropic AI) - provisional until AI Expert human position,app connectivity dead for a year (feature stopped working); support unresponsive
+CR-004936,B07R81N4X9,none,Claude Fable (Anthropic AI) - provisional until AI Expert human position,positive
+CR-004560,B07KXBX32V,value_effectiveness,Claude Fable (Anthropic AI) - provisional until AI Expert human position,heater weaker than the spec claims

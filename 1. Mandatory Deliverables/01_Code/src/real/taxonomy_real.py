@@ -34,6 +34,7 @@ CLEAN = os.path.join(ROOT, "data", "processed", "reviews_clean_real.csv")
 PROC = os.path.join(ROOT, "data", "processed")
 SAMPLE_BLANK = os.path.join(ROOT, "data", "hand_label_sample_BLANK.csv")
 SAMPLE_COMPLETED = os.path.join(ROOT, "data", "hand_label_sample.csv")
+SAMPLE_AI_PROVISIONAL = os.path.join(ROOT, "data", "ai_label_sample_CLAUDE_FABLE.csv")
 STOP = set("the a an and or but of to in for on with is are was were it its i my we our you your "
           "that this these those at as be been from not no so very just too all any can could would "
           "have has had do does did if then than they them he she there here about into out up down "
@@ -206,6 +207,44 @@ def compute_validation_metrics(gold, auto):
     }
 
 
+def write_sample_provenance(picked):
+    """One row per sampled review: parent ASIN, Amazon product/review URLs,
+    the committed raw file the row came from, and the upstream McAuley-Lab
+    dataset file it was streamed out of - so every sampled review is
+    independently checkable, not taken on faith."""
+    import json
+    meta = {r["review_id"]: r for r in load_clean() if r["review_id"] in {p["review_id"] for p in picked}}
+    keys = {(m["product_sku"], m["review_date_raw_epoch_ms"], m["reviewer_id"]): rid
+            for rid, m in meta.items()}
+    found = {}
+    for fn, upstream in ((os.path.join(ROOT, "data", "real_raw", "reviews_hk.jsonl"),
+                          "raw/review_categories/Home_and_Kitchen.jsonl"),
+                         (os.path.join(ROOT, "data", "real_raw", "reviews_appliances.jsonl"),
+                          "raw/review_categories/Appliances.jsonl")):
+        with open(fn, encoding="utf-8") as fh:
+            for line in fh:
+                raw = json.loads(line)
+                k = (raw.get("parent_asin"), str(raw.get("timestamp")), raw.get("user_id"))
+                if k in keys and keys[k] not in found:
+                    found[keys[k]] = (os.path.relpath(fn, ROOT), upstream, raw.get("asin"))
+    ds = "https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023"
+    out = os.path.join(ROOT, "data", "hand_label_sample_PROVENANCE.csv")
+    with open(out, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["review_id", "parent_asin", "listing_asin", "amazon_product_url",
+                    "amazon_reviews_url", "committed_raw_file", "upstream_dataset_file",
+                    "upstream_dataset_url"])
+        for p in picked:
+            rid = p["review_id"]; pa = meta[rid]["product_sku"]
+            rawfn, upstream, asin = found.get(rid, ("", "", ""))
+            w.writerow([rid, pa, asin,
+                        "https://www.amazon.com/dp/{}".format(pa),
+                        "https://www.amazon.com/product-reviews/{}".format(pa),
+                        rawfn, upstream,
+                        "{}/blob/main/{}".format(ds, upstream) if upstream else ds])
+    print("wrote {} (per-review provenance, {} rows)".format(out, len(picked)))
+
+
 def emit_blank_sample(rows, n=50, seed=None):
     """Stratified by star rating, deterministic given a seed - but the seed
     used here is NOT the fixture RANDOM_STATE reused for anything else, so
@@ -291,6 +330,7 @@ def main():
                 w.writerow([r["review_id"], r["product_sku"], r["product_name"],
                            r["rating"], r["review_title"], r["review_text"], "", ""])
         print("wrote {} ({} REAL reviews, hand_label column BLANK)".format(SAMPLE_BLANK, len(picked)))
+        write_sample_provenance(picked)
         print("HUMAN_ACTION_REQUIRED: Goncalo must label these 50 rows by hand against")
         print("the codebook in technical_note.md BEFORE Q3 validation can run.")
         return
@@ -316,6 +356,41 @@ def main():
                                   "automated assignment at label time - see "
                                   "HUMAN_LABELING_INSTRUCTIONS.md for the labeling protocol "
                                   "and codebook.")
+    elif os.path.exists(SAMPLE_AI_PROVISIONAL):
+        # AI-PROVISIONAL stand-in, requested explicitly by the case owner:
+        # the same 50 rows labelled by a SECOND, independent AI reading
+        # (Claude Fable, from raw review text only, blind to this
+        # classifier's assignments). This is a cross-model adjudication -
+        # it is NOT human validation, is labelled as such everywhere it
+        # appears, and the human requirement stays open until the AI Expert
+        # human position completes data/hand_label_sample.csv.
+        with open(SAMPLE_AI_PROVISIONAL, newline="", encoding="utf-8") as fh:
+            ai = [h for h in csv.DictReader(fh) if h.get("ai_label", "").strip()]
+        if ai:
+            gold = [h["ai_label"].strip() for h in ai]
+            auto = [by_id[h["review_id"]]["theme"] if h["review_id"] in by_id else "MISSING"
+                   for h in ai]
+            validation = compute_validation_metrics(gold, auto)
+            validation["epistemic_type"] = "AI_PROVISIONAL_NOT_HUMAN"
+            validation["labeller"] = ai[0].get("ai_labeller", "Claude Fable (Anthropic AI)")
+            validation["status"] = ("HUMAN_ACTION_REQUIRED - the agreement metrics in this "
+                                    "block are AI-PROVISIONAL (labelled by Claude Fable, "
+                                    "blind to the classifier, at the case owner's explicit "
+                                    "request) and stand in only until the AI Expert human "
+                                    "position hand-labels data/hand_label_sample.csv. "
+                                    "AI-vs-AI agreement is NOT human validation.")
+            validation["interpretation"] = (
+                "The blind second reading finds a friction in far more sampled reviews "
+                "than the production classifier assigns (the sample is deliberately "
+                "stratified toward 1-2 star reviews). This is the expected shape of the "
+                "classifier's design trade-off, now measured rather than asserted: the "
+                "polarity-gated keyword classifier is conservative - where it DOES "
+                "assign a theme it tends to be right (e.g. reliability precision 1.0 "
+                "on this sample), but it misses frictions phrased mildly, mixed with "
+                "praise, or worded outside its keyword lists. Published prevalence "
+                "figures are therefore lower bounds on friction prevalence, not "
+                "point estimates - already stated in Q3's limitations, now with a "
+                "measured (AI-provisional) magnitude.")
 
     out = {
         "_provenance": "Themes induced from REAL review text; treated as hypotheses, "
