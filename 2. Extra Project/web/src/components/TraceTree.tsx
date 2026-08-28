@@ -2,9 +2,9 @@ import { Pill } from "./ui";
 import type { TraceNode } from "../lib/trace";
 
 const KIND_LABEL: Record<string, string> = {
-  signal: "SIGNAL", trend_doc: "TREND DOC", paper: "PEER-REVIEWED PAPER",
-  keyword_search: "KEYWORD SEARCH", tension: "RESEARCH TENSION", assumption: "CATEGORY ASSUMPTION",
-  concept: "CONCEPT", bet: "BET", info: "REAL, NOT A DOCUMENT", unresolved: "UNRESOLVED",
+  signal: "Signal", trend_doc: "Trend doc", paper: "Peer-reviewed paper",
+  keyword_search: "Keyword search", tension: "RESEARCH TENSION", assumption: "Category assumption",
+  concept: "Concept", bet: "Bet", info: "Real, not a document", unresolved: "Unresolved",
 };
 const KIND_ICON: Record<string, string> = {
   signal: "◆", trend_doc: "▲", paper: "●", keyword_search: "○", tension: "⇌",

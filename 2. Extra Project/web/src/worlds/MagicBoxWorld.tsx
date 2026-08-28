@@ -59,15 +59,15 @@ const DNA_LETTER_NAME: Record<string, string> = {
 const DNA_ORDER = ["F", "S", "T", "R", "C", "A", "E", "O"] as const;
 
 const FUNNEL_STAGES: { key: string; label: string }[] = [
-  { key: "sources_admitted", label: "SOURCE" },
-  { key: "signals_total", label: "SIGNAL" },
+  { key: "sources_admitted", label: "Sources" },
+  { key: "signals_total", label: "Signals" },
   { key: "tensions", label: "TENSION" },
   { key: "assumptions", label: "ASSUMPTION" },
-  { key: "counterfactuals_generated", label: "COUNTERFACTUAL" },
-  { key: "concept_seeds", label: "CONCEPT" },
-  { key: "__versuni_edge", label: "VERSUNI EDGE" },
-  { key: "critic_evaluated", label: "CRITIC" },
-  { key: "finalists", label: "FINALISTS" },
+  { key: "counterfactuals_generated", label: "Counterfactuals" },
+  { key: "concept_seeds", label: "Concepts" },
+  { key: "__versuni_edge", label: "Versuni edge" },
+  { key: "critic_evaluated", label: "Critic" },
+  { key: "finalists", label: "Priority to test" },
   { key: "__bet", label: "BET" },
 ];
 
@@ -164,9 +164,9 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            3 · WHAT COULD EXIST — PATTERN INTELLIGENCE
+            4 · Magic box — what could exist now?
           </div>
-          <h1 style={{ fontSize: 30 }}>Magic Box</h1>
+          <h1 style={{ fontSize: 24 }}>Magic box</h1>
           <div style={{ fontSize: 13, color: "var(--ink-dim)", marginTop: 2 }}>Evidence in. Real concepts out.</div>
           {themeFilter && (
             <div style={{ fontSize: 11.5, color: "var(--accent-teal)", marginTop: 6 }}>
@@ -183,7 +183,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
           {/* Concepts gallery - the actual innovations, shown first */}
           {mode === "distilled" ? (
             <>
-              <SectionLabel>{conceptsFiltered.length} concepts, {finalists.length} finalists (blue border)</SectionLabel>
+              <SectionLabel>{conceptsFiltered.length} concepts — {finalists.length} currently priority to test (blue border) · chips: F friction · S signal · T tension · R rival gap · C capability · A assumption · E economics · O operator</SectionLabel>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12, alignContent: "start", marginBottom: 8 }}>
                 {conceptsFiltered.map((p) => <ConceptCard key={p.id} p={p} onClick={() => setConceptFocus(p)} maxEcon={maxEcon} />)}
               </div>
@@ -242,7 +242,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
 
           {/* How the machine got here - process detail, secondary to the concepts above */}
           <details style={{ marginTop: 8 }}>
-            <summary style={{ cursor: "pointer", fontSize: 11.5, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>HOW THE MACHINE GOT HERE</summary>
+            <summary style={{ cursor: "pointer", fontSize: 11.5, color: "var(--ink-faint)", letterSpacing: "0.02em" }}>How the machine got here</summary>
             <div style={{ display: "flex", gap: 6, marginTop: 10, marginBottom: 14, flexShrink: 0 }}>
               {data.magic_box_funnel.map((f, i) => (
                 <div key={f.stage} style={{ flex: 1, display: "flex", alignItems: "center" }}>
@@ -355,7 +355,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
 
             <details style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
               <summary style={{ cursor: "pointer", fontSize: 11.5, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>
-                FULL EVIDENCE TRAIL — {Object.keys(conceptFocus.criteria).length} criteria, 8 design-DNA parents
+                Full evidence trail — {Object.keys(conceptFocus.criteria).length} criteria, 8 design-DNA parents
               </summary>
 
               <div style={{ marginTop: 14 }}>
@@ -377,7 +377,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
                           <b style={{ color: "var(--ink)" }}>{DNA_LETTER_NAME[letter]}</b>
                           {" — "}
                           <span style={{ color: present ? "var(--ink-dim)" : "var(--ink-faint)" }}>
-                            {present ? p.detail : "MISSING / UNVERIFIED — " + p.detail}
+                            {present ? p.detail : "Missing / unverified — " + p.detail}
                           </span>
                         </div>
                       </div>
@@ -406,7 +406,7 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
 
             <button onClick={() => setConceptTraceFocus(conceptFocus)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              TRACE THIS CONCEPT →
+              Trace this concept →
             </button>
           </>
         )}

@@ -568,7 +568,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
         "decision_priority_used": decision_priority,
         "why": "{win_name} dominates every real dimension.".format(win_name=winner["name"].split(" (")[0])
         if decision_type == "DOMINANT" else (
-            "Neither wins outright — {rule_short} picked {win_name}."
+            "Neither dominates outright — {rule_short} selected {win_name}."
         ).format(win_name=winner["name"].split(" (")[0],
                  rule_short=RULE_LABEL.get(decision_priority, decision_priority).replace("the ", "", 1)),
         "killed": [

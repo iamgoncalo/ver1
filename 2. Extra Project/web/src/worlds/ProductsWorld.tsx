@@ -6,7 +6,7 @@ import { FocusPanel } from "../components/FocusPanel";
 
 const LENS = {
   type: { key: "cluster_type" as const, label: "ARCHITECTURE (type)" },
-  intelligence: { key: "cluster_intelligence" as const, label: "INTELLIGENCE" },
+  intelligence: { key: "cluster_intelligence" as const, label: "Intelligence" },
 };
 
 const TYPE_LABEL: Record<string, string> = {
@@ -77,9 +77,9 @@ export function ProductsWorld() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            1 · WHAT IS — WHAT EXISTS?
+            Product universe — what exists today
           </div>
-          <h1 style={{ fontSize: 30 }}>Products</h1>
+          <h1 style={{ fontSize: 24 }}>Product universe</h1>
         </div>
         <DistilledRawToggle mode={mode} onChange={setMode} />
       </div>
@@ -94,7 +94,7 @@ export function ProductsWorld() {
               onClick={() => setMetricFocus({ label: "Connected / reactive share", value: `${connectedShare}%`,
                 trace: "Computed live in ProductsWorld.tsx from data/processed/products_real.json: count of products where cluster_intelligence !== \"manual\", divided by total real products. cluster_intelligence itself is assigned by src/real/products_signals_real.py from each real product's title/description keywords." })} />
             <TraceableMetric label="Price range" value={priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "…"}
-              onClick={() => setMetricFocus({ label: "Price range", value: priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "NO VERIFIED DATA",
+              onClick={() => setMetricFocus({ label: "Price range", value: priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "no verified data",
                 trace: `Computed live from data/processed/products_real.json: min/max of price_usd across all real products with a known observed price (${products.filter(p => p.price_usd != null).length} of ${products.length} have one - McAuley-Lab product metadata). Products with no listed price are excluded, not assumed.` })} />
             <TraceableMetric label="Real reviews behind this" value={products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString() || "…"}
               onClick={() => setMetricFocus({ label: "Real reviews behind this", value: products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString(),
@@ -141,7 +141,7 @@ export function ProductsWorld() {
       ) : (
       <>
       <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--rose)", letterSpacing: "0.04em", marginBottom: 10, flexShrink: 0 }}>
-        CONSUMER REVIEW CORPUS — real competitor brands from Amazon reviews. This is evidence, not Versuni's official portfolio (see the verified official product above in Distilled).
+        Consumer review corpus — real competitor brands from Amazon reviews. This is evidence, not Versuni's official portfolio (see the verified official product above in Distilled).
       </div>
       <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 12, flexShrink: 0 }}>
           <input
@@ -207,9 +207,9 @@ export function ProductsWorld() {
               <Pill>{TYPE_LABEL[focus.cluster_type] ?? focus.cluster_type}</Pill>
               <Pill tone="teal">{INTEL_LABEL[focus.cluster_intelligence] ?? focus.cluster_intelligence}</Pill>
             </div>
-            <StatRow label="Price (observed)" value={focus.price_usd ? `$${focus.price_usd}` : "UNKNOWN"} />
-            <StatRow label="Average rating (lifetime)" value={focus.average_rating ?? "UNKNOWN"} />
-            <StatRow label="Ratings (lifetime, all Amazon)" value={focus.rating_number_lifetime?.toLocaleString() ?? "UNKNOWN"} />
+            <StatRow label="Price (observed)" value={focus.price_usd ? `$${focus.price_usd}` : "unknown"} />
+            <StatRow label="Average rating (lifetime)" value={focus.average_rating ?? "unknown"} />
+            <StatRow label="Ratings (lifetime, all Amazon)" value={focus.rating_number_lifetime?.toLocaleString() ?? "unknown"} />
             <StatRow label="Reviews in this corpus" value={focus.n_real_reviews_in_corpus} />
             <StatRow label="Mean rating in this corpus" value={focus.mean_rating_in_corpus} />
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>

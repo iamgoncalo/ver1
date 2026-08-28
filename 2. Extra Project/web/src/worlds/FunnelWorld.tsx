@@ -33,18 +33,18 @@ interface FunnelDoc {
 }
 
 const STAGES: { key: FunnelStageKey; label: string; tagline: string }[] = [
-  { key: "radar", label: "RADAR", tagline: "See reality" },
-  { key: "paths", label: "PATHS", tagline: "It's moving" },
-  { key: "field", label: "FIELD", tagline: "World now" },
-  { key: "magic_box", label: "MAGIC BOX", tagline: "Could exist" },
-  { key: "innovations", label: "INNOVATIONS", tagline: "Being tested" },
-  { key: "new_products", label: "NEW PRODUCTS", tagline: "Made real" },
+  { key: "radar", label: "Radar", tagline: "Receives wide reality" },
+  { key: "paths", label: "Paths", tagline: "Compresses it into direction" },
+  { key: "field", label: "Field", tagline: "Grounds those paths" },
+  { key: "magic_box", label: "Magic box", tagline: "Expands into possibility" },
+  { key: "innovations", label: "Innovations", tagline: "Challenges and evolves" },
+  { key: "new_products", label: "New products", tagline: "Concrete enough to test" },
 ];
 
 // A world to jump to for each real RADAR family - not every family has one
 // (ECONOMICS/PATENTS/NATURE have no dedicated page yet).
 const FAMILY_WORLD: Record<string, number> = {
-  RESEARCH: 2, TRENDS: 2, CONSUMERS: 2, MARKET: 2, TECHNOLOGY_AI: 2, PRODUCTS: 1, RIVALS: 2,
+  RESEARCH: 1, TRENDS: 1, CONSUMERS: 1, MARKET: 1, TECHNOLOGY_AI: 1, PRODUCTS: 7, RIVALS: 1,
 };
 
 function timeAgo(iso: string) {
@@ -132,8 +132,8 @@ function StageTile({ stage, hf, status, onOpen }: { stage: typeof STAGES[number]
       <FunnelStageIcon stage={stage.key} size={40} />
       {n !== null
         ? <div className="mono" style={{ fontSize: 30, fontWeight: 700, lineHeight: 1, color: "var(--ink)" }}>{n}</div>
-        : <Pill tone={status === "RUNNING" ? "good" : "rose"}>● LIVE</Pill>}
-      <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", whiteSpace: "nowrap" }}>{stage.label}</div>
+        : <Pill tone={status === "RUNNING" ? "good" : "rose"}>● live</Pill>}
+      <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.01em", whiteSpace: "nowrap" }}>{stage.label}</div>
       <div style={{ fontSize: 10.5, color: "var(--ink-dim)", fontStyle: "italic", whiteSpace: "nowrap" }}>{stage.tagline}</div>
     </button>
   );
@@ -160,15 +160,15 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "22px 32px", background: "var(--surface)" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, flexShrink: 0 }}>
         <div>
-          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.1em" }}>VERSUNI</div>
-          <h1 style={{ fontSize: 32, marginTop: 2 }}>Intelligence Machine</h1>
+          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.06em" }}>Versuni</div>
+          <h1 style={{ fontSize: 27, marginTop: 2 }}>Intelligence Machine</h1>
           <div style={{ fontSize: 12.5, color: "var(--ink-dim)", marginTop: 4, fontStyle: "italic" }}>Evidence in. Better bets out.</div>
         </div>
         {data && (
           <div style={{ textAlign: "right" }}>
-            <Pill tone={data.machine_state.status === "RUNNING" ? "good" : "rose"}>● {data.machine_state.status}</Pill>
+            <Pill tone={data.machine_state.status === "RUNNING" ? "good" : "rose"}>● {data.machine_state.status.toLowerCase()}</Pill>
             <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 6, fontFamily: "var(--font-mono)" }}>
-              LAST RUN {timeAgo(data.machine_state.last_run_started_at)} · SNAPSHOT {data.machine_state.input_snapshot_hash.slice(0, 10)}
+              last run {timeAgo(data.machine_state.last_run_started_at)} · snapshot {data.machine_state.input_snapshot_hash.slice(0, 10)}
             </div>
           </div>
         )}
@@ -188,7 +188,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
           </div>
 
           <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 18, flexShrink: 0 }}>
-            {[["Products", 1], ["Signals", 2], ["Magic Box", 3], ["Criteria", 4], ["Innovations", 5]].map(([label, n]) => (
+            {[["Radar", 1], ["Paths", 2], ["Field", 3], ["Magic box", 4], ["Innovations", 5], ["New products", 6], ["Product universe", 7]].map(([label, n]) => (
               <button key={label as string} onClick={() => onGoToWorld(n as number)}
                 style={{ fontSize: 11.5, padding: "6px 12px", borderRadius: 8, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer" }}>
                 {label} →
@@ -199,7 +199,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       )}
 
       {/* RADAR */}
-      <FocusPanel open={openStage === "radar"} onClose={() => setOpenStage(null)} eyebrow="RADAR — see reality" title="Evidence families">
+      <FocusPanel open={openStage === "radar"} onClose={() => setOpenStage(null)} eyebrow="Radar — what the machine observes" title="Evidence families">
         {hf && (
           <>
             {Object.entries(hf.radar.families).map(([k, v]) => {
@@ -218,18 +218,22 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       </FocusPanel>
 
       {/* PATHS */}
-      <FocusPanel open={openStage === "paths"} onClose={() => setOpenStage(null)} eyebrow="PATHS — see where reality is moving" title={`${hf?.paths.length ?? 0} real paths`}>
+      <FocusPanel open={openStage === "paths"} onClose={() => setOpenStage(null)} eyebrow="Paths — where reality is moving" title={`${hf?.paths.length ?? 0} real paths`}>
         {hf && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {hf.paths.map((p) => (
               <PathRow key={p.id} p={p} />
             ))}
+            <button onClick={() => goTo(2)}
+              style={{ marginTop: 6, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
+              Open the Paths world →
+            </button>
           </div>
         )}
       </FocusPanel>
 
       {/* FIELD */}
-      <FocusPanel open={openStage === "field"} onClose={() => setOpenStage(null)} eyebrow="FIELD — the emerging world, distilled" title={hf?.field.now ?? ""}>
+      <FocusPanel open={openStage === "field"} onClose={() => setOpenStage(null)} eyebrow="Field — the emerging world, distilled" title={hf?.field.now ?? ""}>
         {hf && (
           <>
             <Expand label="Because" text={hf.field.because} />
@@ -242,9 +246,9 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
                 {hf.field.blocked_by.map((k) => <Expand key={k.name} label={k.name} text={k.reason} />)}
               </div>
             )}
-            <button onClick={() => goTo(5)}
+            <button onClick={() => goTo(3)}
               style={{ marginTop: 8, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              Explore Innovations →
+              Open the Field world →
             </button>
             <Source text="GET /api/funnel -> homepage_funnel.field, a 1:1 relabelling of decision_framework_real.json[&quot;verdict&quot;] — src/real/decision_framework_real.py." />
           </>
@@ -252,7 +256,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       </FocusPanel>
 
       {/* MAGIC BOX */}
-      <FocusPanel open={openStage === "magic_box"} onClose={() => setOpenStage(null)} eyebrow="MAGIC BOX — reveal what could exist" title={`${hf?.magic_box.count ?? 0} possibilities generated`}>
+      <FocusPanel open={openStage === "magic_box"} onClose={() => setOpenStage(null)} eyebrow="Magic box — reveal what could exist" title={`${hf?.magic_box.count ?? 0} possibilities generated`}>
         {hf && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
@@ -267,9 +271,9 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
             {Object.entries(hf.magic_box.pattern_type_counts).map(([k, v]) => (
               <StatRow key={k} label={k.replace(/_/g, " ")} value={v} />
             ))}
-            <button onClick={() => goTo(3)}
+            <button onClick={() => goTo(4)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              Explore Magic Box →
+              Open the Magic box →
             </button>
             <Source text="GET /api/funnel -> homepage_funnel.magic_box — src/real/magic_box_real.py, funnel stage 'generated'." />
           </>
@@ -277,7 +281,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       </FocusPanel>
 
       {/* INNOVATIONS */}
-      <FocusPanel open={openStage === "innovations"} onClose={() => setOpenStage(null)} eyebrow="INNOVATIONS — non-dominated, still being tested" title={`${hf?.innovations.count ?? 0} real candidates`}>
+      <FocusPanel open={openStage === "innovations"} onClose={() => setOpenStage(null)} eyebrow="Innovations — being challenged and evolved" title={`${hf?.innovations.count ?? 0} real candidates`}>
         {hf && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -301,7 +305,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       </FocusPanel>
 
       {/* NEW PRODUCTS */}
-      <FocusPanel open={openStage === "new_products"} onClose={() => setOpenStage(null)} eyebrow="NEW PRODUCTS — make possibility physical" title={`${hf?.new_products.count ?? 0} real finalists`}>
+      <FocusPanel open={openStage === "new_products"} onClose={() => setOpenStage(null)} eyebrow="New products — concrete enough to test" title={`${hf?.new_products.count ?? 0} product hypotheses`}>
         {hf && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -310,16 +314,16 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
                   <div style={{ fontSize: 14, fontWeight: 600 }}>{p.name}</div>
                   <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>{p.friction_theme_name} × {p.operator}</div>
                   <div style={{ marginTop: 6 }}>
-                    <StatRow label="Price" value={p.typical_market_price_usd != null ? `$${p.typical_market_price_usd.toFixed(2)}` : "NO VERIFIED PRICE"} />
+                    <StatRow label="Price" value={p.typical_market_price_usd != null ? `$${p.typical_market_price_usd.toFixed(2)}` : "no verified price"} />
                     <StatRow label="Exposure" value={`$${p.economic_value.toLocaleString()}`} />
                     <StatRow label="Feasibility" value={p.feasibility} />
                   </div>
                 </div>
               ))}
             </div>
-            <button onClick={() => goTo(5)}
+            <button onClick={() => goTo(6)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              Explore Innovations →
+              Open New products →
             </button>
             <Source text="GET /api/funnel -> homepage_funnel.new_products — magic_box_real.json[&quot;finalists&quot;]." />
           </>
@@ -327,6 +331,10 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       </FocusPanel>
     </div>
   );
+}
+
+function gapText(v: string) {
+  return /^NO VERIFIED/i.test(v) ? "not established — no verified evidence" : v;
 }
 
 function PathRow({ p }: { p: PathData }) {
@@ -341,11 +349,11 @@ function PathRow({ p }: { p: PathData }) {
         <div style={{ padding: "0 14px 14px" }}>
           <p style={{ fontSize: 11.5, color: "var(--ink-dim)", marginBottom: 8, lineHeight: 1.45 }}>{preview(p.detail, 160)}</p>
           <StatRow label="Opens" value={preview(p.what_opens, 60)} />
-          <StatRow label="Closes" value={p.what_closes} />
-          <StatRow label="Driver" value={p.driver} />
-          <StatRow label="Blocker" value={p.blocker} />
-          <StatRow label="Distortion" value={p.distortion} />
-          <StatRow label="Nature" value={p.nature_analogue.split(" - ")[0]} />
+          <StatRow label="Closes" value={gapText(p.what_closes)} />
+          <StatRow label="Driver" value={gapText(p.driver)} />
+          <StatRow label="Blocker" value={gapText(p.blocker)} />
+          <StatRow label="Distortion" value={gapText(p.distortion)} />
+          <StatRow label="Nature" value={gapText(p.nature_analogue.split(" - ")[0])} />
           <StatRow label="Evidence" value={p.evidence.join(", ") || "—"} />
         </div>
       )}

@@ -200,6 +200,30 @@ def how_we_got_here():
     }
 
 
+@app.get("/api/consumer-corpus")
+def consumer_corpus():
+    """Exact provenance of the consumer evidence - assembled from the
+    already-generated manifest + Q2 defect report, never recomputed here."""
+    with open(os.path.join(ROOT, "data", "manifest.json"), encoding="utf-8") as fh:
+        manifest = json.load(fh)
+    with open(os.path.join(PROC, "defect_detection_report_real.json"), encoding="utf-8") as fh:
+        dq = json.load(fh)
+    f = next(x for x in manifest["files"] if x["filename"] == "consumer_reviews.csv")
+    return {
+        "source": f["origin"].get("described_as"),
+        "source_url": f["origin"].get("url") or f["origin"].get("source_url"),
+        "retrieved_at": f["retrieved_at"],
+        "market": "Amazon.com (US marketplace)",
+        "records_normalized": f["record_count"],
+        "records_after_dq": dq["output_rows"],
+        "quarantined_rating_conflicts": dq["defects_found"]["sentiment_rating_conflict"]["count"],
+        "removed_empty_text": dq["defects_found"]["empty_or_trivial_text"]["count"],
+        "distinct_products": f["origin"].get("distinct_real_products") or f.get("distinct_real_products"),
+        "who_is_missing": f.get("who_is_missing"),
+        "sha256": f["sha256"],
+    }
+
+
 @app.get("/api/product-images")
 def product_images():
     path = os.path.join(ROOT, "data", "visual", "product_images.json")

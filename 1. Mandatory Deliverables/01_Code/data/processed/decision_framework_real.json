@@ -155,7 +155,7 @@
     "recommended_name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
     "decision_type": "NON_DOMINATED_PLUS_JUDGMENT",
     "decision_priority_used": "pain_feasibility_majority",
-    "why": "Neither wins outright — Pain + Feasibility majority rule picked Reliability-Verified Air Purifiers.",
+    "why": "Neither dominates outright — Pain + Feasibility majority rule selected Reliability-Verified Air Purifiers.",
     "killed": [
       {
         "id": "OS-2",

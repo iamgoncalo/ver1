@@ -33,13 +33,14 @@ const DOC_TYPE_LABEL: Record<string, string> = {
 const TIER_TONE: Record<string, "good" | "amber" | "neutral"> = {
   tier_1_authoritative: "good", tier_2_trade_technical: "amber", tier_3_vendor_primary: "neutral",
 };
-type Tab = "consumers" | "research" | "trends" | "market" | "competitors";
-const TABS: { key: Tab; label: string; hint: string }[] = [
-  { key: "consumers", label: "CONSUMERS", hint: "real Amazon review text" },
-  { key: "research", label: "RESEARCH", hint: "peer-reviewed papers" },
-  { key: "trends", label: "TRENDS", hint: "regulatory / standards / industry" },
-  { key: "market", label: "MARKET", hint: "syndicated market sizing" },
-  { key: "competitors", label: "COMPETITORS", hint: "real Amazon competitor brands" },
+type Tab = "consumers" | "research" | "trends" | "market" | "competitors" | "sources";
+const TABS: { key: Tab; label: string; fam: string; hint: string }[] = [
+  { key: "consumers", label: "Consumer", fam: "CONSUMERS", hint: "real Amazon review text" },
+  { key: "research", label: "Research", fam: "RESEARCH", hint: "peer-reviewed papers" },
+  { key: "trends", label: "Trends", fam: "TRENDS", hint: "regulatory / standards / industry" },
+  { key: "market", label: "Market", fam: "MARKET", hint: "syndicated market sizing" },
+  { key: "competitors", label: "Competitors", fam: "COMPETITORS", hint: "real Amazon competitor brands" },
+  { key: "sources", label: "Coverage", fam: "TECHNOLOGY_AI", hint: "what the machine captures - and what it does not" },
 ];
 
 export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: string) => void }) {
@@ -58,6 +59,8 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
   const [rivalFocus, setRivalFocus] = useState<Rival | null>(null);
   const [spaceFocus, setSpaceFocus] = useState<WhiteSpace | null>(null);
   const [showWhiteSpace, setShowWhiteSpace] = useState(true);
+  const [sourceReg, setSourceReg] = useState<any>(null);
+  const [corpus, setCorpus] = useState<any>(null);
 
   useEffect(() => { api.signals().then(setData).catch(() => setData(null)); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => setResearch(null)); }, []);
@@ -65,6 +68,8 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
   useEffect(() => { api.market().then(setMarket).catch(() => setMarket(null)); }, []);
   useEffect(() => { api.rivals().then(setRivals).catch(() => setRivals(null)); }, []);
   useEffect(() => { api.whiteSpace().then(setWhiteSpace).catch(() => setWhiteSpace(null)); }, []);
+  useEffect(() => { api.sources().then(setSourceReg).catch(() => setSourceReg(null)); }, []);
+  useEffect(() => { fetch("/api/consumer-corpus").then((r) => r.json()).then(setCorpus).catch(() => setCorpus(null)); }, []);
 
   const signals = data?.signals ?? [];
   const withPrevalence = signals.filter((s) => s.prevalence_pct !== null);
@@ -97,7 +102,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
           </div>
           <TruthBadge truthClass={s.truth_class} />
         </div>
-        <Pill tone={STATE_TONE[s.state] ?? "neutral"}>{s.state.replace(/_/g, " ")}</Pill>
+        <Pill tone={STATE_TONE[s.state] ?? "neutral"}>{s.state.replace(/_/g, " ").toLowerCase()}</Pill>
         <p style={{ fontSize: 11.5, color: "var(--ink-dim)", margin: "10px 0 0", lineHeight: 1.45, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.meaning}>
           {s.meaning}
         </p>
@@ -130,9 +135,9 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
       <div style={{ marginBottom: 10, flexShrink: 0 }}>
         <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-          2 · WHAT CHANGES — WHAT IS CHANGING?
+          1 · Radar — what are we observing?
         </div>
-        <h1 style={{ fontSize: 30 }}>Signals</h1>
+        <h1 style={{ fontSize: 24 }}>Radar</h1>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", marginBottom: 14, flexShrink: 0, gap: 12 }}>
@@ -143,7 +148,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
                 background: tab === t.key ? "var(--surface)" : "transparent", fontWeight: tab === t.key ? 600 : 400,
                 boxShadow: tab === t.key ? "var(--shadow)" : "none" }}>
-              <FamilyIcon family={t.label} size={20} />
+              <FamilyIcon family={t.fam} size={20} />
               {t.label}
             </button>
           ))}
@@ -165,9 +170,14 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               onClick={() => setMetricFocus({ label: "Contested", value: counts.contested,
                 trace: "GET /api/signals -> count of data/processed/signals_real.json[\"signals\"] where state === \"CONTESTED\": real evidence from different families genuinely disagrees; the pipeline reports the conflict rather than resolving it either way." })} />
           </div>
-          <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
-            Real Amazon.com review text, keyword-classified — not a survey or panel.
-          </p>
+          {corpus && (
+            <div style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 760, lineHeight: 1.6, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px" }}>
+              <b style={{ color: "var(--ink-dim)" }}>Corpus provenance:</b> {corpus.source} · retrieved {corpus.retrieved_at} · {corpus.market} ·{" "}
+              {Number(corpus.records_normalized).toLocaleString()} reviews normalized → {Number(corpus.records_after_dq).toLocaleString()} retained
+              ({corpus.removed_empty_text} empty removed, {corpus.quarantined_rating_conflicts} rating-conflicts quarantined) · {corpus.distinct_products} products.
+              <span style={{ display: "block", marginTop: 4 }}><b style={{ color: "var(--ink-dim)" }}>Who is missing:</b> {corpus.who_is_missing}</span>
+            </div>
+          )}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, alignContent: "start" }}>
             {withPrevalence.map((s) => <SignalCard key={s.id} s={s} />)}
           </div>
@@ -180,7 +190,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 12 }}>
             <TraceableMetric label="Peer-reviewed papers" value={research?.peer_reviewed_count ?? "…"}
-              onClick={() => setMetricFocus({ label: "Peer-reviewed papers", value: research?.peer_reviewed_count ?? "NO VERIFIED DATA",
+              onClick={() => setMetricFocus({ label: "Peer-reviewed papers", value: research?.peer_reviewed_count ?? "no verified data",
                 trace: "GET /api/research -> data/processed/research_index.json[\"peer_reviewed_count\"] == len(peer_reviewed_papers): each paper individually verified live against the PubMed API (PMID/PMCID -> DOI) or by direct publisher/PMC fetch, built by src/real/research_corpus_real.py." })} />
             <TraceableMetric label="Research-grounded signals" value={researchOnly.length}
               onClick={() => setMetricFocus({ label: "Research-grounded signals", value: researchOnly.length,
@@ -231,7 +241,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12, flexWrap: "wrap" }}>
             <TraceableMetric label="Trend documents" value={trends?.article_count ?? "…"}
-              onClick={() => setMetricFocus({ label: "Trend documents", value: trends?.article_count ?? "NO VERIFIED DATA",
+              onClick={() => setMetricFocus({ label: "Trend documents", value: trends?.article_count ?? "no verified data",
                 trace: "GET /api/trends -> data/processed/trend_corpus.json[\"article_count\"] == len(articles): real regulatory, technical-standard, industry-association, manufacturer, and syndicated-research documents individually fetched and archived by src/real/research_discovery_real.py, each with a credibility tier." })} />
             <button onClick={() => setMetricFocus({ label: "Google Trends (search interest)", value: "NOT IMPLEMENTED",
                 trace: "GET /api/sources -> data/processed/sources_real.json: the google_trends source is honestly recorded with status \"NOT_IMPLEMENTED\" - no search-interest connector exists in this pipeline. Shown as a real absence rather than faked or omitted." })}
@@ -296,6 +306,29 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
         </div>
       )}
 
+      {tab === "sources" && (
+        <div className="scrollY" style={{ flex: 1 }}>
+          <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 680, lineHeight: 1.55, marginBottom: 14 }}>
+            Everything the machine currently captures, by source family — and, just as deliberately, what it does not
+            capture. A snapshot is labelled a snapshot; a connector that does not exist says so.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 10, alignContent: "start" }}>
+            {(sourceReg?.sources ?? []).map((s: any) => (
+              <div key={s.id} style={{ border: "1px solid var(--line)", borderRadius: 12, padding: "12px 14px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600 }}>{s.name}</span>
+                  <Pill tone={s.status === "SNAPSHOT_VERIFIED_LIVE" ? "good" : s.status === "FROZEN" ? "teal" : s.status === "MANUAL_IMPORT" ? "amber" : "neutral"}>
+                    {s.status === "SNAPSHOT_VERIFIED_LIVE" ? "snapshot (verified at retrieval)" : s.status.toLowerCase().replace(/_/g, " ")}
+                  </Pill>
+                </div>
+                <p style={{ fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.45, marginTop: 6 }}>{s.contributes}</p>
+                {s.honest_note && <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginTop: 4 }}>{s.honest_note}</p>}
+              </div>
+            ))}
+          </div>
+          {!sourceReg && <p style={{ fontSize: 12, color: "var(--ink-faint)" }}>Loading the source registry…</p>}
+        </div>
+      )}
       {tab === "competitors" && (
         <div className="scrollY" style={{ flex: 1 }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 16 }}>
@@ -306,10 +339,10 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               onClick={() => setMetricFocus({ label: "Real white-space opportunities", value: spaces.length,
                 trace: "GET /api/white-space -> count of data/processed/white_space_real.json[\"spaces\"] where is_white_space === true, built by src/real/rivals_real.py. Requires all three, real: a Consumer Pain gate pass, >=2 real competitors measurably weaker on that theme, and real 2-5yr feasibility evidence - never inferred from an absence of online evidence." })} />
             <TraceableMetric label="Category reviews" value={rivals?.n_category_reviews.toLocaleString() ?? "…"}
-              onClick={() => setMetricFocus({ label: "Category reviews", value: rivals?.n_category_reviews.toLocaleString() ?? "NO VERIFIED DATA",
+              onClick={() => setMetricFocus({ label: "Category reviews", value: rivals?.n_category_reviews.toLocaleString() ?? "no verified data",
                 trace: "GET /api/rivals -> data/processed/rivals_real.json[\"n_category_reviews\"]: real count of Amazon reviews in the full purifier category corpus, used as the denominator for every real per-brand theme rate." })} />
             <TraceableMetric label="Min. reviews/brand floor" value={rivals?.min_reviews_floor ?? "…"}
-              onClick={() => setMetricFocus({ label: "Min. reviews/brand floor", value: rivals?.min_reviews_floor ?? "NO VERIFIED DATA",
+              onClick={() => setMetricFocus({ label: "Min. reviews/brand floor", value: rivals?.min_reviews_floor ?? "no verified data",
                 trace: "GET /api/rivals -> data/processed/rivals_real.json[\"min_reviews_floor\"]: a fixed evidence-sufficiency floor declared in src/real/rivals_real.py - a brand with fewer real reviews than this is excluded from competitor analysis rather than analysed on thin evidence." })} />
           </div>
 

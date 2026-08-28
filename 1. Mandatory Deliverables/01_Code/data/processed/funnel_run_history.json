@@ -352,5 +352,28 @@
     "killed_objects": 7,
     "surviving_objects": 9,
     "errors": []
+  },
+  {
+    "run_id": "run-16",
+    "started_at": "2026-08-28T18:50:57.091448+00:00",
+    "finished_at": "2026-08-28T18:50:57.091448+00:00",
+    "last_checked_at": "2026-08-28T18:50:57.091448+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "7b5dc27fe40ae6346578c818c92b8bbd1d7610f53fcc4ad37a3a6d86cf16f09f",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
   }
 ]

@@ -3,18 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-28",
-    "last_run_started_at": "2026-08-28T18:08:29.622898+00:00",
-    "last_run_finished_at": "2026-08-28T18:08:29.622898+00:00",
-    "last_checked_at": "2026-08-28T18:08:29.622898+00:00",
+    "last_run_id": "run-29",
+    "last_run_started_at": "2026-08-28T18:51:41.816939+00:00",
+    "last_run_finished_at": "2026-08-28T18:51:41.816939+00:00",
+    "last_checked_at": "2026-08-28T18:51:41.816939+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "a66d1eaf14fea01c1d32a78e7f056478c4c7f22ee095423c6663dc28b6594be8",
+    "input_snapshot_hash": "ca7659c629cf39713ea52ce91112afea6bc373882c9db724028785dbccba79f0",
     "changed_since_last_run": true,
-    "new_since_last_run": {
-      "signals": 1,
-      "magic_box": 1
-    },
-    "total_runs_recorded": 28,
+    "new_since_last_run": {},
+    "total_runs_recorded": 29,
     "errors": []
   },
   "stages": [
@@ -559,7 +556,7 @@
     "field": {
       "now": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
       "moving": "Switch to Economic Value override → picks Whisper-Quiet Night Mode instead.",
-      "because": "Neither wins outright — Pain + Feasibility majority rule picked Reliability-Verified Air Purifiers.",
+      "because": "Neither dominates outright — Pain + Feasibility majority rule selected Reliability-Verified Air Purifiers.",
       "opens": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",
       "blocked_by": [
         {
@@ -1197,7 +1194,7 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "1f5558db67dee5b2",
+  "snapshot": "4eb19e07d0f12e35",
   "last_refresh": {
     "run_id": "discovery-1787822557",
     "started_at": "2026-08-27T09:22:15.475156+00:00",

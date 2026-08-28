@@ -29,14 +29,14 @@ const PRIORITIES = [
   { key: "economic_value_override", label: "Economic Value override" },
 ];
 const DECISION_TYPE_LABEL: Record<string, string> = {
-  DOMINANT: "Clear winner",
+  DOMINANT: "Dominates on all three measures",
   NON_DOMINATED_PLUS_JUDGMENT: "Judgment call",
 };
 
 type FetchStatus = "loading" | "success" | "empty" | "error" | "timeout";
 const TIMEOUT_MS = 15000;
 
-export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) => void }) {
+export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: InnovationsResponse) => void; onGoToWorld?: (n: number) => void }) {
   const [data, setData] = useState<InnovationsResponse | null>(null);
   const [priority, setPriority] = useState(DEFAULT_PRIORITY);
   const [status, setStatus] = useState<FetchStatus>("loading");
@@ -82,11 +82,17 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            5 · WHAT'S NEXT — WHAT SHOULD VERSUNI TEST?
+            5 · Innovations — which possibilities are becoming serious?
           </div>
-          <h1 style={{ fontSize: 30 }}>Innovations</h1>
+          <h1 style={{ fontSize: 24 }}>Innovations</h1>
         </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+          {onGoToWorld && (
+            <button onClick={() => onGoToWorld(8)} title="The criteria library every concept is evaluated against"
+              style={{ fontSize: 11.5, padding: "7px 12px", borderRadius: 8, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", whiteSpace: "nowrap" }}>
+              How the machine decides →
+            </button>
+          )}
           <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
             {PRIORITIES.map((p) => (
               <button key={p.key} onClick={() => setPriority(p.key)}
@@ -146,7 +152,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   <Pill tone={isWinner ? "good" : s.consumer_pain.gate_passed ? "neutral" : "rose"}>
-                    {isWinner ? "CURRENT WINNER" : s.consumer_pain.gate_passed ? "ALTERNATIVE" : "GATE FAILED"}
+                    {isWinner ? "Current recommendation" : s.consumer_pain.gate_passed ? "Supported alternative" : "Evidence gap — gate not met"}
                   </Pill>
                   {mode === "raw" && <Pill>{id}</Pill>}
                 </div>
@@ -200,7 +206,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                   </div>
                 </div>
               )}
-              <StatRow label="Feasibility (2–5yr)" value={`${s.feasibility_2_5y.rating} (rank ${s.feasibility_2_5y.rank})`} />
+              <StatRow label="Feasibility (2–5yr)" value={`${s.feasibility_2_5y.rating} · ${s.feasibility_2_5y.rank}/3 (3 = easiest to build)`} />
               <StatRow label="Reviews supporting" value={s.n_reviews_supporting} />
 
               <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
@@ -240,7 +246,7 @@ export function InnovationsWorld({ onData }: { onData: (d: InnovationsResponse) 
                   </div>
                   <button onClick={(e) => { e.stopPropagation(); setTraceId(id); }}
                     style={{ marginTop: 12, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-                    TRACE THIS INNOVATION →
+                    Trace this innovation →
                   </button>
                 </>
               )}

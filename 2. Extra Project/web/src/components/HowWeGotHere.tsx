@@ -17,7 +17,7 @@ export function HowWeGotHere() {
     <>
       <button onClick={() => setOpen(true)}
         style={{ fontSize: 11, color: "var(--ink-dim)", background: "none", border: "1px solid var(--line)", borderRadius: 8, padding: "6px 10px", cursor: "pointer", fontFamily: "var(--font-mono)" }}>
-        HOW WE GOT HERE
+        How we got here
       </button>
       {open && (
         <>

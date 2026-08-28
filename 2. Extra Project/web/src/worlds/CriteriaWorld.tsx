@@ -49,12 +49,12 @@ export function CriteriaWorld() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            4 · WHAT IF — HOW INTELLIGENCE DECIDES
+            Criteria — how the machine decides
           </div>
-          <h1 style={{ fontSize: 30 }}>Criteria</h1>
+          <h1 style={{ fontSize: 24 }}>Criteria</h1>
           <div style={{ fontSize: 13, color: "var(--ink-dim)", marginTop: 2 }}>Gates and diagnostics — never a fourth score.</div>
           <div style={{ fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", marginTop: 6, letterSpacing: "0.04em" }}>
-            CRITERIA ARE NOT SCORES. THEY ARE TESTS.
+            Criteria are not scores. They are tests.
           </div>
         </div>
         <DistilledRawToggle mode={mode} onChange={setMode} />

@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-15",
-    "last_run_started_at": "2026-08-28T17:54:04.797315+00:00",
-    "last_run_finished_at": "2026-08-28T17:54:04.797315+00:00",
-    "last_checked_at": "2026-08-28T17:54:04.797315+00:00",
+    "last_run_id": "run-16",
+    "last_run_started_at": "2026-08-28T18:50:57.091448+00:00",
+    "last_run_finished_at": "2026-08-28T18:50:57.091448+00:00",
+    "last_checked_at": "2026-08-28T18:50:57.091448+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "6663ea007813f41886439ffe69c30bc953ff6ed7e9ef8488e910b28833598858",
+    "input_snapshot_hash": "7b5dc27fe40ae6346578c818c92b8bbd1d7610f53fcc4ad37a3a6d86cf16f09f",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 15,
+    "total_runs_recorded": 16,
     "errors": []
   },
   "stages": [
@@ -556,7 +556,7 @@
     "field": {
       "now": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
       "moving": "Switch to Economic Value override → picks Whisper-Quiet Night Mode instead.",
-      "because": "Neither wins outright — Pain + Feasibility majority rule picked Reliability-Verified Air Purifiers.",
+      "because": "Neither dominates outright — Pain + Feasibility majority rule selected Reliability-Verified Air Purifiers.",
       "opens": "Cross-reference the real review corpus's product-level failure mentions ('stopped working', 'died', 'never worked') against each real product's rating_number (a rough popularity proxy) to identify whether failure reports cluster in specific brands/price tiers or are evenly distributed - if evenly distributed, this is a category-wide manufacturing/QA opportunity; if clustered, it may instead argue for a narrower positioning bet against the worst-performing competitors specifically.",
       "blocked_by": [
         {
@@ -1192,6 +1192,6 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "7f3d8880a8be94aa",
+  "snapshot": "8981ab8bb82de35b",
   "last_refresh": null
 }

@@ -6248,7 +6248,7 @@
   "why_did_this_win": {
     "bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
     "decision_type": "NON_DOMINATED_PLUS_JUDGMENT",
-    "why": "Neither wins outright — Pain + Feasibility majority rule picked Reliability-Verified Air Purifiers.",
+    "why": "Neither dominates outright — Pain + Feasibility majority rule selected Reliability-Verified Air Purifiers.",
     "final_three_dimensions": [
       "Consumer Pain",
       "Economic Value",

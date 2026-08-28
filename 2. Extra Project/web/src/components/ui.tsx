@@ -11,7 +11,7 @@ export function DistilledRawToggle({ mode, onChange }: { mode: ViewMode; onChang
         <button key={m} onClick={() => onChange(m)}
           style={{
             padding: "7px 16px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
-            fontFamily: "var(--font-mono)", letterSpacing: "0.04em", textTransform: "uppercase",
+            fontFamily: "var(--font-mono)", letterSpacing: "0.04em", textTransform: "capitalize",
             background: mode === m ? "var(--surface)" : "transparent", fontWeight: mode === m ? 700 : 500,
             color: mode === m ? "var(--ink)" : "var(--ink-faint)",
             boxShadow: mode === m ? "var(--shadow)" : "none",
@@ -27,7 +27,7 @@ export function HeroMetric({ label, value }: { label: string; value: ReactNode }
   return (
     <div>
       <div className="mono" style={{ fontSize: 32, fontWeight: 600, color: "var(--ink)", lineHeight: 1 }}>{value}</div>
-      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6, textTransform: "uppercase", letterSpacing: "0.04em" }}>{label}</div>
+      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6, letterSpacing: "0.02em" }}>{label}</div>
     </div>
   );
 }
@@ -83,7 +83,7 @@ export function CounterfactualPrompt({ children }: { children: ReactNode }) {
       border: "1px solid var(--line)", maxWidth: 640,
     }}>
       <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 6 }}>
-        WHAT IF?
+        What if?
       </div>
       <div style={{ fontSize: 16, fontFamily: "var(--font-display)", fontStyle: "italic", color: "var(--ink)", lineHeight: 1.4 }}>
         {children}
@@ -115,7 +115,7 @@ const TRUTH_TONE: Record<string, "blue" | "teal" | "amber" | "neutral"> = {
   OBSERVED: "blue", DERIVED: "teal", DESIGN_POSSIBILITY: "amber", HYPOTHESIS: "amber",
 };
 export function TruthBadge({ truthClass }: { truthClass: string }) {
-  return <Pill tone={TRUTH_TONE[truthClass] ?? "neutral"}>{truthClass.replace(/_/g, " ")}</Pill>;
+  return <Pill tone={TRUTH_TONE[truthClass] ?? "neutral"}>{truthClass.replace(/_/g, " ").toLowerCase()}</Pill>;
 }
 
 export function MiniBar({ value, max, tone = "blue" }: { value: number; max: number; tone?: "blue" | "teal" | "amber" | "rose" }) {
@@ -139,7 +139,7 @@ export function StatRow({ label, value }: { label: string; value: ReactNode }) {
 
 export function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <div style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", color: "var(--ink-faint)", marginBottom: 6, textTransform: "uppercase" }}>
+    <div style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: "0.05em", color: "var(--ink-faint)", marginBottom: 6 }}>
       {children}
     </div>
   );

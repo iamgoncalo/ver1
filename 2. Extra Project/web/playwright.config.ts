@@ -14,6 +14,7 @@ export default defineConfig({
     { name: "1440x900", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
     { name: "1366x768", use: { ...devices["Desktop Chrome"], viewport: { width: 1366, height: 768 } } },
     { name: "1280x720", use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 720 } } },
+    { name: "1024x700", use: { ...devices["Desktop Chrome"], viewport: { width: 1024, height: 700 } } },
   ],
   // Assumes `python3 -m uvicorn api.main:app --port 8000` is already running
   // (make app) - not started by this config, since it depends on the real
