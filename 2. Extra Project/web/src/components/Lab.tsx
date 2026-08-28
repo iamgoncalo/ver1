@@ -107,7 +107,7 @@ export function Lab({ osId, score, verdict, onClose }: LabProps) {
           {lens === "overview" && (
             <div style={{ maxWidth: 720 }}>
               <StatRow label="Current state" value={state} />
-              <StatRow label="Consumer pain" value={`${score?.friction_prevalence_pct ?? "—"}% prevalence · ${score?.csat_impact ?? "—"}★ impact`} />
+              <StatRow label="Consumer pain" value={`${score?.friction_prevalence_pct ?? "—"}% of real reviews · ${score?.csat_impact ?? "—"}★ vs corpus mean`} />
               <StatRow label="Price-weighted exposure" value={score?.economic_value != null ? `$${Number(score.economic_value).toLocaleString()}` : "unknown — no priced reviews carry this theme"} />
               <StatRow label="Feasibility" value={`${score?.feasibility_2_5y?.rating} · ${score?.feasibility_2_5y?.rank}/3 (3 = easiest)`} />
               <div style={{ marginTop: 12 }}>
@@ -126,7 +126,7 @@ export function Lab({ osId, score, verdict, onClose }: LabProps) {
                 <div style={{ marginTop: 8 }}>
                   <SectionLabel>Latest machine run</SectionLabel>
                   <p className="mono" style={{ fontSize: 11, color: "var(--ink-dim)" }}>
-                    {latestRun.run_id} · snapshot {String(latestRun.input_snapshot_hash).slice(0, 12)} · started {latestRun.started_at}
+                    {latestRun.run_id} · snapshot {String(latestRun.input_snapshot_hash).slice(0, 12)} · started {String(latestRun.started_at).slice(0, 16).replace("T", " ")}
                   </p>
                 </div>
               )}
@@ -221,6 +221,7 @@ export function Lab({ osId, score, verdict, onClose }: LabProps) {
                   <option value="NONE">No recommendation (insufficient evidence)</option>
                 </select>
               </label>
+              {!prediction && <p style={{ fontSize: 11, color: "var(--amber)", marginTop: 8 }}>Select your expected direction above to enable the run — predictions come before results here.</p>}
               <button onClick={runScenario} disabled={!prediction || scenarioRunning}
                 style={{ marginTop: 12, padding: "9px 16px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: prediction ? "var(--accent-blue)" : "var(--surface-2)", color: prediction ? "white" : "var(--ink-faint)", cursor: prediction ? "pointer" : "not-allowed", fontSize: 12.5, fontWeight: 600 }}>
                 {scenarioRunning ? "Recomputing live…" : "Run scenario"}

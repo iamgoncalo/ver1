@@ -98,7 +98,10 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8, gap: 8 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
             <FrictionIcon theme={s.id} size={22} />
-            <div style={{ fontWeight: 600, fontSize: 14.5, lineHeight: 1.3, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.name}>{s.name}</div>
+            <div style={{ fontWeight: 600, fontSize: 14.5, lineHeight: 1.3, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.name}>
+              {s.name.replace(/\s*\(weak real signal\)/i, "")}
+              {/\(weak real signal\)/i.test(s.name) && <span style={{ marginLeft: 6 }}><Pill tone="amber">weak signal</Pill></span>}
+            </div>
           </div>
           <TruthBadge truthClass={s.truth_class} />
         </div>

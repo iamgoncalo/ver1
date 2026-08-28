@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-08-28T19:38:28.621530+00:00",
- "main_sha": "ba7c9a4",
+ "generated_at": "2026-08-28T19:42:47.656182+00:00",
+ "main_sha": "9147b00",
  "results": [
   {
    "section": "repository",
@@ -11,14 +11,14 @@
   {
    "section": "repository",
    "name": "clean working tree",
-   "status": "FAIL",
-   "detail": "M \"2. Extra Project/data/processed/funnel_run_history.json\"\n M \"2. Extra Project/scripts/final_check"
+   "status": "PASS",
+   "detail": "M \"2. Extra Project/data/processed/funnel_run_history.json\"\n M FINAL_ACCEPTANCE.json\n M FINAL_ACCEPT"
   },
   {
    "section": "repository",
    "name": "local main == origin/main",
    "status": "PASS",
-   "detail": "local ba7c9a444 vs origin ba7c9a444"
+   "detail": "local 9147b0052 vs origin 9147b0052"
   },
   {
    "section": "repository",
@@ -136,14 +136,50 @@
   },
   {
    "section": "production",
-   "name": "live checks",
-   "status": "MANUAL",
-   "detail": "set RAILWAY_URL=https://... to run live checks"
+   "name": "live health + release identity",
+   "status": "PASS",
+   "detail": "deployed 9147b00 vs main 9147b00"
+  },
+  {
+   "section": "production",
+   "name": "route /",
+   "status": "PASS",
+   "detail": "200"
+  },
+  {
+   "section": "production",
+   "name": "route /products",
+   "status": "PASS",
+   "detail": "200"
+  },
+  {
+   "section": "production",
+   "name": "route /radar",
+   "status": "PASS",
+   "detail": "200"
+  },
+  {
+   "section": "production",
+   "name": "route /paths",
+   "status": "PASS",
+   "detail": "200"
+  },
+  {
+   "section": "production",
+   "name": "route /magic-box",
+   "status": "PASS",
+   "detail": "200"
+  },
+  {
+   "section": "production",
+   "name": "route /innovations",
+   "status": "PASS",
+   "detail": "200"
   }
  ],
  "totals": {
-  "PASS": 19,
-  "FAIL": 1,
-  "MANUAL": 3
+  "PASS": 27,
+  "FAIL": 0,
+  "MANUAL": 2
  }
 }

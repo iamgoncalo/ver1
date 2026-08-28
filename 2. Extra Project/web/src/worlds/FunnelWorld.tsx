@@ -32,13 +32,13 @@ interface FunnelDoc {
   homepage_funnel: HomepageFunnel;
 }
 
-type StageDef = { key: string; icon: FunnelStageKey; label: string; tagline: string; world: number };
+type StageDef = { key: string; icon: FunnelStageKey; label: string; tagline: string; world: number; unit: string };
 const STAGES: StageDef[] = [
-  { key: "product_universe", icon: "new_products", label: "Product universe", tagline: "What Versuni already has", world: 1 },
-  { key: "radar", icon: "radar", label: "Radar", tagline: "What we actually see", world: 2 },
-  { key: "paths", icon: "paths", label: "Paths", tagline: "Where reality moves — grounded", world: 3 },
-  { key: "magic_box", icon: "magic_box", label: "Magic box", tagline: "What could exist now", world: 4 },
-  { key: "innovations", icon: "innovations", label: "Innovations", tagline: "Worth developing next", world: 5 },
+  { key: "product_universe", icon: "field", label: "Product universe", tagline: "What Versuni already has", world: 1, unit: "verified products" },
+  { key: "radar", icon: "radar", label: "Radar", tagline: "What we actually see", world: 2, unit: "observation records" },
+  { key: "paths", icon: "paths", label: "Paths", tagline: "Where reality moves — grounded", world: 3, unit: "real paths" },
+  { key: "magic_box", icon: "magic_box", label: "Magic box", tagline: "What could exist now", world: 4, unit: "possibilities" },
+  { key: "innovations", icon: "innovations", label: "Innovations", tagline: "Worth developing next", world: 5, unit: "non-dominated candidates" },
 ];
 
 // A world to jump to for each real RADAR family - not every family has one
@@ -131,7 +131,10 @@ function StageTile({ stage, hf, status, onOpen }: { stage: StageDef; hf: Homepag
     >
       <FunnelStageIcon stage={stage.icon} size={40} />
       {n !== null
-        ? <div className="mono" style={{ fontSize: 30, fontWeight: 700, lineHeight: 1, color: "var(--ink)" }}>{n}</div>
+        ? <div>
+            <div className="mono" style={{ fontSize: 30, fontWeight: 700, lineHeight: 1, color: "var(--ink)" }}>{n}</div>
+            <div style={{ fontSize: 9.5, color: "var(--ink-faint)", marginTop: 2 }}>{stage.unit}</div>
+          </div>
         : <Pill tone={status === "RUNNING" ? "good" : "rose"}>● live</Pill>}
       <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.01em", whiteSpace: "nowrap" }}>{stage.label}</div>
       <div style={{ fontSize: 10.5, color: "var(--ink-dim)", fontStyle: "italic", whiteSpace: "nowrap" }}>{stage.tagline}</div>

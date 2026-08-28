@@ -87,6 +87,10 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
             5 · Innovations — which possibilities are becoming serious?
           </div>
           <h1 style={{ fontSize: 24 }}>Innovations</h1>
+          <p style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 2 }}>
+            The machine tracks its non-dominated possibilities in the Magic box; the three formal
+            opportunity spaces below are the case's evaluated bets — each opens a full Lab.
+          </p>
         </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           {onGoToWorld && (

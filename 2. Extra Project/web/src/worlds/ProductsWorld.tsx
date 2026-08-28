@@ -251,9 +251,9 @@ export function ProductsWorld() {
             <StatRow label="Retrieved" value={officialFocus.retrieved_at} />
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
               <SectionLabel>Specs (official page)</SectionLabel>
-              <StatRow label="Clean-air delivery rate" value={`${officialFocus.specs.cadr_m3h} m³/h`} />
-              <StatRow label="Room coverage" value={`${officialFocus.specs.room_coverage_m2} m²`} />
-              <StatRow label="Min. noise" value={`${officialFocus.specs.noise_min_dba} dBA`} />
+              <StatRow label="Clean-air delivery rate" value={officialFocus.specs.cadr_m3h ? `${officialFocus.specs.cadr_m3h} m³/h` : "not published"} />
+              <StatRow label="Room coverage" value={officialFocus.specs.room_coverage_m2 ? `${officialFocus.specs.room_coverage_m2} m²` : "not published"} />
+              <StatRow label="Min. noise" value={officialFocus.specs.noise_min_dba ? `${officialFocus.specs.noise_min_dba} dBA` : "not published"} />
               <StatRow label="Filter architecture" value={officialFocus.specs.filter_architecture} />
               <StatRow label="Connectivity" value={officialFocus.specs.connectivity} />
               <StatRow label="Sensors" value={officialFocus.specs.sensors} />
@@ -311,7 +311,7 @@ function OfficialProductCard({ p, onClick }: { p: any; onClick: () => void }) {
         <div className="mono" style={{ fontSize: 10.5, color: "var(--accent-blue-ink)", letterSpacing: "0.03em" }}>{p.sku}</div>
         <div style={{ fontWeight: 600, fontSize: 13, marginTop: 4, lineHeight: 1.3, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={p.official_name}>{p.official_name}</div>
         <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2, overflowWrap: "break-word" }}>
-          {p.specs.cadr_m3h} m³/h · {p.specs.room_coverage_m2} m²
+          {p.specs.cadr_m3h ? `${p.specs.cadr_m3h} m³/h · ${p.specs.room_coverage_m2} m²` : "specs not published on the verified page"}
         </div>
         <a href={p.official_url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ fontSize: 11 }}>official source →</a>
       </div>
