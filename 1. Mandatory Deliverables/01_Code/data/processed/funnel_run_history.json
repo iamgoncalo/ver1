@@ -99,5 +99,28 @@
     "killed_objects": 7,
     "surviving_objects": 9,
     "errors": []
+  },
+  {
+    "run_id": "run-5",
+    "started_at": "2026-08-28T13:12:08.269256+00:00",
+    "finished_at": "2026-08-28T13:12:08.269256+00:00",
+    "last_checked_at": "2026-08-28T13:12:08.269256+00:00",
+    "check_count": 1,
+    "input_snapshot_hash": "603296f2a36cae560ebd91cdaa8f1462296229442d01fbcf8ad65a91664488b3",
+    "stage_counts": {
+      "products": 237,
+      "signals": 10,
+      "competitors": 34,
+      "magic_box": 27,
+      "criteria": 52,
+      "innovations": 16,
+      "critic": 16,
+      "finalists": 3
+    },
+    "changed_objects": {},
+    "generated_objects": 27,
+    "killed_objects": 7,
+    "surviving_objects": 9,
+    "errors": []
   }
 ]

@@ -50,6 +50,43 @@ class TestB_ClearDominanceFlipsWinner(unittest.TestCase):
         self.assertFalse(dominates(profiles["OS-1"], profiles["OS-2"]))
 
 
+class TestB2_ZeroSurvivorsIsHonestNotManufactured(unittest.TestCase):
+    def test_evaluate_returns_no_winner_when_every_candidate_fails_the_gate(self):
+        """Fabricated profiles (test fixture only) where every candidate
+        fails the Consumer Pain gate. evaluate() must report no real
+        winner rather than silently falling back to comparing everyone -
+        a real bug found and fixed: it used to manufacture a recommendation
+        with zero real pain evidence behind it."""
+        profiles = {
+            "OS-1": {"consumer_pain": {"severity_csat": None, "prevalence_pct": 0.1, "gate_passed": False},
+                     "economic_value": None, "feasibility_2_5y": {"rank": 2, "rating": "medium"}},
+            "OS-2": {"consumer_pain": {"severity_csat": None, "prevalence_pct": 0.2, "gate_passed": False},
+                     "economic_value": None, "feasibility_2_5y": {"rank": 1, "rating": "low"}},
+        }
+        winner_id, status, reasons = evaluate(profiles)
+        self.assertIsNone(winner_id)
+        self.assertEqual(status["OS-1"], "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE")
+        self.assertEqual(status["OS-2"], "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE")
+
+    def test_compute_reports_insufficient_evidence_not_a_fake_winner(self):
+        """Same scenario through compute()'s full real code path (not just
+        evaluate() in isolation), using the real theme stats/price exposure
+        but with every candidate's gate forced closed via an impossible
+        materiality floor - proves the whole pipeline, not just one
+        function, reports the honest outcome."""
+        import decision_framework_real as dfr
+        original_floor = dfr.MATERIALITY_FLOOR_PCT
+        dfr.MATERIALITY_FLOOR_PCT = 101.0  # no real prevalence can ever clear this
+        try:
+            out = compute("mordor")
+        finally:
+            dfr.MATERIALITY_FLOOR_PCT = original_floor
+        self.assertIsNone(out["verdict"]["recommended"])
+        self.assertEqual(out["verdict"]["decision_type"], "INSUFFICIENT_EVIDENCE_FOR_RECOMMENDATION")
+        for pid, p in out["scores"].items():
+            self.assertEqual(p["dominance_status"], "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE", pid)
+
+
 class TestC_FlipAssumptionFlipsWinner(unittest.TestCase):
     def test_opposite_decision_priority_flips_the_real_recommendation(self):
         baseline = compute("mordor", decision_priority="pain_feasibility_majority")

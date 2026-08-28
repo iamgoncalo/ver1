@@ -89,6 +89,54 @@ class TestQ3Real(unittest.TestCase):
         if not os.path.exists(completed):
             self.assertIn("HUMAN_ACTION_REQUIRED", t["validation"].get("status", ""))
 
+    def test_hand_label_sample_rows_are_genuine_reviews_not_synthetic(self):
+        """Regression test for a real incident: an earlier `hand_labeled_sample.csv`
+        paired genuine review_ids with review_text lifted from
+        tests/synthetic_fixtures/src/generate_reviews_SYNTHETIC_TEST_FIXTURE.py's
+        template pool instead of this id's real text - a real review_id made a
+        fabricated review look genuine. That file has been removed; this proves
+        the file the pipeline actually uses is clean, and stays clean."""
+        path = os.path.join(ROOT, "data", "hand_label_sample_BLANK.csv")
+        real = {}
+        with open(os.path.join(ROOT, "data", "processed", "reviews_clean_real.csv"), newline="", encoding="utf-8") as fh:
+            for row in csv.DictReader(fh):
+                real[row["review_id"]] = row["review_text"]
+        with open(path, newline="", encoding="utf-8") as fh:
+            rows = list(csv.DictReader(fh))
+        self.assertEqual(len(rows), 50)
+        for r in rows:
+            rid = r["review_id"]
+            self.assertIn(rid, real, f"{rid} is not a real review_id in reviews_clean_real.csv")
+            self.assertEqual(r["review_text"], real[rid],
+                             f"{rid}'s review_text does not match the real corpus - possible fabricated substitution")
+
+    def test_no_production_data_file_contains_synthetic_fixture_text(self):
+        """A real review sentence appearing verbatim inside the synthetic
+        generator's template pool is expected (it was seeded from real
+        examples for realism); the dangerous direction is the reverse - real
+        production data/ files must never contain text lifted FROM the
+        synthetic pool. Checks every distinct quoted string >= 8 words long
+        in the synthetic generator against every .csv/.json file actually
+        used by the real pipeline (data/hand_label_sample_BLANK.csv and
+        data/processed/*, data/raw/*)."""
+        synth_path = os.path.join(os.path.dirname(__file__), "synthetic_fixtures", "src", "generate_reviews_SYNTHETIC_TEST_FIXTURE.py")
+        synth_text = open(synth_path, encoding="utf-8").read()
+        quoted = re.findall(r'"([^"]{30,})"', synth_text)
+        synthetic_sentences = {q for q in quoted if len(q.split()) >= 8}
+        self.assertTrue(synthetic_sentences, "sanity check: expected to find long quoted sentences in the fixture")
+
+        checked = 0
+        for dirpath, _dirs, files in os.walk(os.path.join(ROOT, "data")):
+            for fname in files:
+                if not fname.endswith((".csv", ".json")):
+                    continue
+                text = open(os.path.join(dirpath, fname), encoding="utf-8", errors="ignore").read()
+                checked += 1
+                for sentence in synthetic_sentences:
+                    self.assertNotIn(sentence, text,
+                                     f"{fname} contains synthetic fixture text verbatim: {sentence[:60]!r}")
+        self.assertGreater(checked, 0)
+
 
 class TestQ4Real(unittest.TestCase):
     def test_direct_wtp_honestly_marked_unavailable(self):

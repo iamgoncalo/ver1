@@ -276,9 +276,12 @@ def evaluate(profiles, decision_priority="pain_feasibility_majority"):
                          "future caller gets a clear error instead of a raw IndexError.")
 
     if not survivors:
-        # Degenerate case: nothing clears the gate. Fall back to comparing
-        # everyone rather than crashing - still order-independent.
-        survivors = dict(profiles)
+        # Degenerate case: nothing clears the Consumer Pain evidence gate.
+        # This used to silently fall back to comparing every candidate
+        # anyway - manufacturing a "winner" with zero real pain evidence
+        # behind it. Not reachable by today's real data (OS-1/OS-2 both
+        # pass), but a real latent bug: report the honest outcome instead.
+        return None, status, reasons
 
     if len(survivors) == 1:
         only_id = next(iter(survivors))
@@ -461,6 +464,27 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
     for pid, p in profiles.items():
         p["dominance_status"] = dominance_status.get(pid, "UNKNOWN")
         p["decision_reason"] = decision_reasons.get(pid, "")
+
+    if winner_id is None:
+        # Every real candidate failed the Consumer Pain evidence gate - an
+        # honest research-completion blocker, not a reason to manufacture a
+        # winner. Returns early: none of the winner-shaped verdict fields
+        # below apply when there is no real winner to describe.
+        return {
+            "scores": profiles,
+            "verdict": {
+                "recommended": None,
+                "recommended_name": None,
+                "decision_type": "INSUFFICIENT_EVIDENCE_FOR_RECOMMENDATION",
+                "decision_priority_used": decision_priority,
+                "why": "No real candidate cleared the Consumer Pain evidence-sufficiency gate "
+                      "(prevalence >= {}% with a real CSAT signal) - there is no candidate with "
+                      "sufficient real evidence to recommend.".format(MATERIALITY_FLOOR_PCT),
+                "killed": [{"id": pid, "name": p["name"], "reason": p["decision_reason"]}
+                          for pid, p in profiles.items()],
+                "market_scenario": {"used": scenario_source, "cagr_pct": scenario_cagr},
+            },
+        }
 
     scores = profiles  # legacy alias - old code/tests read out.scores
     winner = profiles[winner_id]

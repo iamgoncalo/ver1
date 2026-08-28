@@ -6,7 +6,7 @@
   "category": "Connected Air Treatment",
   "business_unit": "Versuni - Home Air",
   "repository": "versuni-connected-air-treatment",
-  "built_at": "2026-08-28T12:15:31+00:00",
+  "built_at": "2026-08-28T13:11:50+00:00",
   "built_by": "src/real/build_manifest_real.py",
   "reproducible": true,
   "reproduce_with": [
@@ -28,7 +28,7 @@
       "bytes": 6610287,
       "sha256": "89296d913d84036a66bf9a91b3ff9eae8a1c503db79e0bd1a1f301663ecd7395",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T12:15:31+00:00",
+      "generated_at": "2026-08-28T13:11:50+00:00",
       "immutable": true,
       "format": "csv",
       "origin": {
@@ -67,9 +67,9 @@
       "filename": "market_metrics.json",
       "relative_path": "data/raw/market_metrics.json",
       "bytes": 8111,
-      "sha256": "b696d13bbbfee7d5fc66643b02a86270873fdf58701c015e8e7e5d28f65c7e5b",
+      "sha256": "7bb8edc9e8393afda5a093391ce8a6f0a65c61251f389e6105b6605ba789cee2",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T12:15:31+00:00",
+      "generated_at": "2026-08-28T13:11:50+00:00",
       "immutable": true,
       "format": "json",
       "origin": {
@@ -88,9 +88,9 @@
       "filename": "trend_corpus.json",
       "relative_path": "data/raw/trend_corpus.json",
       "bytes": 18972,
-      "sha256": "4ab95234168f036713350ef40bc5c0f434ed84fd48fb20a37a1802eabaf5124f",
+      "sha256": "5a3766c1725929c877598c9908e3611ec1180d6ffaa6e1a08bf2de99f0a2c14b",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T12:15:31+00:00",
+      "generated_at": "2026-08-28T13:11:50+00:00",
       "immutable": true,
       "format": "json",
       "origin": {

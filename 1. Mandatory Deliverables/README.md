@@ -80,11 +80,12 @@ question, each explicitly labelled:
   Data Quality Report, detection code in `01_Code/src/real/detect_defects_real.py`.
 - **Q3** (consumer taxonomy) — Insight Pack Slide 3, Technical Note
   "Q3." Human-label validation: `01_Code/data/hand_label_sample_BLANK.csv`
-  is a genuine `HUMAN_ACTION_REQUIRED` blocker — no AI-generated label was
-  substituted (see the AI Use Log's "material correction" note in the
-  Extra Project's earlier version of this document, and
-  `01_Code/data/hand_labeled_sample.csv` for the completed 50-review
-  sample already on file in this repository).
+  is a genuine `HUMAN_ACTION_REQUIRED` blocker, still open — no AI-generated
+  or synthetic label has been substituted, and no completed sample exists
+  yet in this repository. Every row in the blank sample is verified to
+  match a real review in `data/processed/reviews_clean_real.csv` by id and
+  text (see `tests/test_real_pipeline.py`); agreement metrics will only be
+  computed once a human fills in its `hand_label` column.
 - **Q4** (willingness to pay) — Insight Pack Slide 3, Technical Note
   "Q4": no direct or proxy WTP measurement exists in the real evidence;
   stated honestly rather than invented.
