@@ -105,6 +105,11 @@ python3 src/real/intelligence_fabric.py
 echo "== stage 8j/9: INNOVATION FUNNEL MACHINE - canonical funnel state + patterns (real) =="
 python3 src/real/funnel_real.py
 
+echo "== stage 8k/9: Innovation Disclosure PDFs - one per real Innovations candidate (real) =="
+echo "   (fully dynamic: whatever candidates decision_framework_real.py just produced above -"
+echo "    add, remove, or rename a candidate and this regenerates to match, no hardcoded ids)"
+python3 src/real/generate_innovation_disclosures.py
+
 echo "== stage 9/9: evidence table + tests =="
 python3 src/real/build_evidence_table_real.py
 python3 -m unittest tests.test_real_pipeline -v

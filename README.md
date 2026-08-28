@@ -1,4 +1,4 @@
-# Connected Air Treatment — Versuni Disruptive Innovation Case Study
+# Versuni Intelligence Machine — Case Study
 
 Innovation AI Expert (Data Science & Consumer Insights) exercise. Category:
 **Connected Air Treatment (Smart Home)**. All evidence is **real**: 10,547

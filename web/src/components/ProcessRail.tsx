@@ -1,5 +1,5 @@
 import { Logo } from "./Logo";
-import { SourcesDock } from "./SourcesDock";
+import { VersuniProductsLink } from "./VersuniProductsLink";
 import { HowWeGotHere } from "./HowWeGotHere";
 
 const STAGES = [
@@ -48,7 +48,7 @@ export function ProcessRail({ active, onSelect, onGoHome }: { active: number; on
         })}
       </nav>
       <div style={{ justifySelf: "end" }}>
-        <SourcesDock />
+        <VersuniProductsLink />
       </div>
     </header>
   );

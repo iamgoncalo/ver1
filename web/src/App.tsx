@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ProcessRail } from "./components/ProcessRail";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { HowWeGotHere } from "./components/HowWeGotHere";
+import { SourcesDock } from "./components/SourcesDock";
+import { WorldPad } from "./components/WorldPad";
 import { AskShell } from "./components/AskShell";
 import { ProductsWorld } from "./worlds/ProductsWorld";
 import { SignalsWorld } from "./worlds/SignalsWorld";
@@ -82,10 +84,12 @@ export default function App() {
           <ErrorBoundary key={world}>{worldEl}</ErrorBoundary>
         </div>
       </main>
-      <footer style={{ flexShrink: 0, padding: "6px 22px", borderTop: "1px solid var(--line)", background: "var(--surface)", fontSize: 10.5, color: "var(--ink-faint)", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-        <span>Versuni — Disruptive Innovation Team, Amsterdam</span>
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+      <footer style={{ flexShrink: 0, padding: "6px 22px", borderTop: "1px solid var(--line)", background: "var(--surface)", fontSize: 10.5, color: "var(--ink-faint)", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 12 }}>
+        <span>Versuni Intelligence Machine — Amsterdam</span>
+        <WorldPad world={world} onSelect={setWorld} onGoHome={() => setWorld(0)} />
+        <div style={{ display: "flex", alignItems: "center", gap: 14, justifySelf: "end" }}>
           <HowWeGotHere />
+          <SourcesDock />
         </div>
       </footer>
       <AskShell open={askOpen} onClose={() => setAskOpen(false)} ctx={{ innovations, magicBox, rivals, whiteSpace }} />

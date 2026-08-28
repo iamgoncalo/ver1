@@ -304,11 +304,37 @@ if os.path.isdir(WEB_DIST):
     app.mount("/assets", StaticFiles(directory=os.path.join(WEB_DIST, "assets")), name="assets")
     app.mount("/brand", StaticFiles(directory=os.path.join(WEB_DIST, "brand")), name="brand")
     app.mount("/products", StaticFiles(directory=os.path.join(WEB_DIST, "products")), name="products")
+    # A plain StaticFiles mount would leave the browser/OS default to decide
+    # download vs. inline view - some browsers are configured to always
+    # download PDFs. Explicit inline Content-Disposition means clicking a
+    # disclosure link opens it to read first; the reader can still save it
+    # from their PDF viewer if they want a copy.
+    INNOVATION_DISCLOSURES_DIR = os.path.join(WEB_DIST, "innovation-disclosures")
+
+    @app.get("/innovation-disclosures/{filename}")
+    def innovation_disclosure(filename: str):
+        if not filename.endswith(".pdf") or "/" in filename or ".." in filename:
+            raise HTTPException(status_code=404, detail="not found")
+        path = os.path.join(INNOVATION_DISCLOSURES_DIR, filename)
+        if not os.path.isfile(path):
+            raise HTTPException(status_code=404, detail="not found")
+        return FileResponse(path, media_type="application/pdf", headers={"Content-Disposition": f'inline; filename="{filename}"'})
+
+    # The Versuni Products catalog (a separate, independently-built Vite app -
+    # see VERSUNI-PHOTOS/versuni-products/webapp) is served from this same
+    # origin/port too, so "VERSUNI PRODUCTS" in the header is a same-tab,
+    # same-localhost link with no external dependency at runtime.
+    verinfo_dir = os.path.join(WEB_DIST, "verinfo")
+    if os.path.isdir(verinfo_dir):
+        app.mount("/verinfo", StaticFiles(directory=verinfo_dir, html=True), name="verinfo")
 
     @app.get("/{full_path:path}")
     def spa(full_path: str):
+        # index.html has no content hash in its filename (unlike /assets/*),
+        # so a browser cache would otherwise keep serving a stale shell -
+        # with a stale <script src> - after every rebuild. Always revalidate.
         index = os.path.join(WEB_DIST, "index.html")
-        return FileResponse(index)
+        return FileResponse(index, headers={"Cache-Control": "no-cache"})
 else:
     @app.get("/")
     def not_built():

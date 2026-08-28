@@ -28,12 +28,12 @@ async function noDocumentScroll(page: Page) {
   expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
 }
 
-test.describe("Versuni Disruptive Innovation - core golden path", () => {
+test.describe("Versuni Intelligence Machine - core golden path", () => {
   test("loads with correct title, brand, no console errors, no scroll", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
     await expect(page).toHaveTitle(/Versuni/);
-    await expect(page.getByText("DISRUPTIVE INNOVATION", { exact: true })).toBeVisible();
+    await expect(page.getByText("INTELLIGENCE MACHINE", { exact: true })).toBeVisible();
     await expect(page.getByText("FROM WHAT IS TO WHAT COULD REPLACE IT")).toHaveCount(0);
     await noDocumentScroll(page);
     expect(errors).toEqual([]);
@@ -157,6 +157,43 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     await expect(page.getByText("not implemented").first()).toBeVisible();
   });
 
+  test("Versuni Products header link goes to the catalog served locally on this same origin, same tab", async ({ page }) => {
+    await page.goto("/");
+    const link = page.getByRole("link", { name: "VERSUNI PRODUCTS" });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute("href", "/verinfo/");
+    await expect(link).not.toHaveAttribute("target", "_blank");
+
+    await link.click();
+    await expect(page).toHaveURL(/\/verinfo\/?$/);
+    await expect(page).toHaveTitle("Versuni Product Universe");
+
+    // The catalog is a separate app with its own nav - it must offer a way
+    // back to this one, not just the browser's back button.
+    const backLink = page.getByRole("link", { name: /Innovation Explorer/ });
+    await expect(backLink).toBeVisible();
+    await expect(backLink).toHaveAttribute("href", "/");
+  });
+
+  test("WorldPad footer control steps between worlds and returns home, mirroring the keyboard shortcuts", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Home" })).toHaveText("HOME");
+    await expect(page.getByRole("button", { name: "Previous world" })).toBeDisabled();
+
+    await page.getByRole("button", { name: "Next world" }).click();
+    await expect(page.getByText("WHAT EXISTS?")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Home" })).toHaveText("1/5");
+
+    await page.getByRole("button", { name: "Next world" }).click();
+    await expect(page.getByText("WHAT IS CHANGING")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Home" })).toHaveText("2/5");
+
+    await page.getByRole("button", { name: "Home" }).click();
+    await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Home" })).toHaveText("HOME");
+  });
+
   test("How We Got Here shows a live, non-empty funnel", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "HOW WE GOT HERE" }).click();
@@ -198,10 +235,25 @@ test.describe("Versuni Disruptive Innovation - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("Innovation Machine homepage: RADAR through NEW PRODUCTS are real, clickable, and traced", async ({ page }) => {
+  test("Innovations cards link to a real, downloadable Innovation Disclosure PDF per candidate", async ({ page, request }) => {
+    await page.goto("/");
+    await navButton(page, /INNOVATIONS/).click();
+    await expect(page.getByText("WHAT'S NEXT")).toBeVisible({ timeout: 5000 });
+    const links = page.getByRole("link", { name: /Read the Innovation Disclosure/ });
+    await expect(links).toHaveCount(3);
+    for (const id of ["OS-1", "OS-2", "OS-3"]) {
+      const link = page.getByRole("link", { name: /Read the Innovation Disclosure/, exact: false }).and(page.locator(`[href="/innovation-disclosures/${id}.pdf"]`));
+      await expect(link).toHaveCount(1);
+      const res = await request.get(`/innovation-disclosures/${id}.pdf`);
+      expect(res.status()).toBe(200);
+      expect(res.headers()["content-type"]).toContain("pdf");
+    }
+  });
+
+  test("Intelligence Machine homepage: RADAR through NEW PRODUCTS are real, clickable, and traced", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
-    await expect(page.getByText("Innovation Machine")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("heading", { name: "Intelligence Machine" })).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("● RUNNING")).toBeVisible();
     await expect(page.getByText(/SNAPSHOT [0-9a-f]{10}/)).toBeVisible();
 
