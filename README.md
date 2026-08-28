@@ -1,5 +1,9 @@
 # Versuni — Innovation AI Expert case study
 
+**Live website:** https://versuni-intelligence-machine-production.up.railway.app
+(the Versuni Intelligence Machine — deployed from this repository's
+`Dockerfile`; run locally with `docker build -t vim . && docker run -p 8000:8000 vim`)
+
 This repository contains two things, in this order:
 
 ## 1. Mandatory Deliverables/
