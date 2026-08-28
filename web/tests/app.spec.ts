@@ -103,6 +103,25 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     expect(clipped).toEqual([]);
   });
 
+  test("header and footer never force horizontal page overflow, even at narrow widths", async ({ page }) => {
+    // Real bug: the header/footer are a 3-column CSS grid ("1fr auto 1fr").
+    // Grid/flex items have an implicit content-based min-width by default,
+    // so the middle "auto" track (5 nav buttons, or the WorldPad/Sources/
+    // How-We-Got-Here cluster) never actually shrinks - at narrow widths it
+    // silently pushes the whole header/footer wider than the viewport.
+    // minmax(0, ...) on every track is what actually fixes this.
+    for (const width of [461, 700, 900]) {
+      await page.setViewportSize({ width, height: 800 });
+      await page.goto("/");
+      await expect(page.getByRole("heading", { name: "Intelligence Machine" })).toBeVisible({ timeout: 5000 });
+      const overflow = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+      }));
+      expect(overflow.scrollWidth, `width=${width}`).toBeLessThanOrEqual(overflow.clientWidth + 1);
+    }
+  });
+
   test("real official product images load with no broken images", async ({ page }) => {
     await page.goto("/");
     await navButton(page, /PRODUCTS/).click();

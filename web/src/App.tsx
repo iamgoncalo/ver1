@@ -84,10 +84,10 @@ export default function App() {
           <ErrorBoundary key={world}>{worldEl}</ErrorBoundary>
         </div>
       </main>
-      <footer style={{ flexShrink: 0, padding: "6px 22px", borderTop: "1px solid var(--line)", background: "var(--surface)", fontSize: 10.5, color: "var(--ink-faint)", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 12 }}>
-        <span>Versuni Intelligence Machine — Amsterdam</span>
+      <footer style={{ flexShrink: 0, padding: "6px 22px", borderTop: "1px solid var(--line)", background: "var(--surface)", fontSize: 10.5, color: "var(--ink-faint)", display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, auto) minmax(0, 1fr)", alignItems: "center", gap: 12, maxWidth: "100vw" }}>
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>Versuni Intelligence Machine — Amsterdam</span>
         <WorldPad world={world} onSelect={setWorld} onGoHome={() => setWorld(0)} />
-        <div style={{ display: "flex", alignItems: "center", gap: 14, justifySelf: "end" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, justifySelf: "end", overflowX: "auto", maxWidth: "100%" }}>
           <HowWeGotHere />
           <SourcesDock />
         </div>
