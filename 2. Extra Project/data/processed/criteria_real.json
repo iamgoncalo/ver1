@@ -11,7 +11,11 @@
       "how_tested": "Every source in this pipeline carries a URL, retrieval method, and retrieval date (see Sources dock).",
       "pass_condition": "Source has a real URL/DOI/PMID and a recorded retrieval date.",
       "challenge_condition": "Source exists but retrieval method or date is incomplete.",
-      "kill_condition": "Source cannot be located or verified at all."
+      "kill_condition": "Source cannot be located or verified at all.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "E2",
@@ -22,7 +26,11 @@
       "how_tested": "Every research card carries an explicit DOES NOT ESTABLISH field alongside FOUND.",
       "pass_condition": "The claim matches the source's own stated finding.",
       "challenge_condition": "The claim extends beyond what the source's DOES_NOT_ESTABLISH allows.",
-      "kill_condition": "The claim contradicts the source."
+      "kill_condition": "The claim contradicts the source.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "E3",
@@ -33,7 +41,11 @@
       "how_tested": "Signal state field: CONVERGING (2+ source families agree) vs SINGLE_SOURCE_FAMILY vs CONTESTED.",
       "pass_condition": "CONVERGING - independent families agree.",
       "challenge_condition": "SINGLE_SOURCE_FAMILY - real, but not yet independently corroborated.",
-      "kill_condition": "N/A - contested evidence is CHALLENGE, not automatically killed (see CONTESTED)."
+      "kill_condition": "N/A - contested evidence is CHALLENGE, not automatically killed (see CONTESTED).",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "E4",
@@ -44,7 +56,11 @@
       "how_tested": "Each paper carries a real publication year; this session verified 5 of 12 papers as 2025+.",
       "pass_condition": "2025+ for fast-moving topics, or a foundational/regulatory source with no material update since.",
       "challenge_condition": "Pre-2023 evidence on a fast-moving topic (sensing, connectivity) with no newer corroboration.",
-      "kill_condition": "N/A."
+      "kill_condition": "N/A.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "METHOD_DEFINED - imports MATERIALITY_FLOOR_PCT (0.5%) live from decision_framework_real.py; an analyst-set method parameter, adjustable per run in the Lab Scenario lens, never duplicated in the UI",
+      "code_reference": "src/real/decision_framework_real.py::compute (gate)"
     },
     {
       "id": "H1",
@@ -55,7 +71,11 @@
       "how_tested": "Each possibility's friction_theme_name, derived from real Amazon review-text classification.",
       "pass_condition": "A named real friction theme with n>0 real reviews.",
       "challenge_condition": "N/A.",
-      "kill_condition": "No real friction theme backs the concept."
+      "kill_condition": "No real friction theme backs the concept.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "H2",
@@ -66,7 +86,11 @@
       "how_tested": "gate_passed = csat_impact present AND prevalence_pct >= materiality floor.",
       "pass_condition": "gate_passed = true.",
       "challenge_condition": "Passes the floor only marginally.",
-      "kill_condition": "gate_passed = false -> NO_OBSERVED_PAIN kill in the graveyard."
+      "kill_condition": "gate_passed = false -> NO_OBSERVED_PAIN kill in the graveyard.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "H3",
@@ -77,7 +101,11 @@
       "how_tested": "CSAT impact (real rating delta) is a behavioural proxy already used for H2; no separate behavioural-observation dataset exists.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "H4",
@@ -88,7 +116,11 @@
       "how_tested": "Real friction themes here are context-specific by construction (e.g. noise = 'motor/fan noise at higher speeds').",
       "pass_condition": "Friction theme names a specific context.",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "H5",
@@ -99,7 +131,11 @@
       "how_tested": "Cross-check against the health_outcome_uncertainty signal (CONTESTED) and RP-08's real RCT finding.",
       "pass_condition": "A named RCT or equivalent directly supports the implied health outcome.",
       "challenge_condition": "Health outcome implied but the underlying signal is CONTESTED (real evidence genuinely disagrees).",
-      "kill_condition": "Health outcome claimed with zero supporting study - see F4/UNSUPPORTED HEALTH CLAIM."
+      "kill_condition": "Health outcome claimed with zero supporting study - see F4/UNSUPPORTED HEALTH CLAIM.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "D1",
@@ -110,7 +146,11 @@
       "how_tested": "Design DNA 'A' parent: a real category_assumptions.json entry sharing a paper with this theme's signal.",
       "pass_condition": "A real assumption is joined (Design DNA A = PRESENT).",
       "challenge_condition": "N/A",
-      "kill_condition": "No assumption joins (Design DNA A = MISSING_UNVERIFIED) - see D5."
+      "kill_condition": "No assumption joins (Design DNA A = MISSING_UNVERIFIED) - see D5.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "D2",
@@ -121,7 +161,11 @@
       "how_tested": "category_assumptions.json::evidence_for_prevalence (real corpus-composition statistic, e.g. '72% of real corpus products').",
       "pass_condition": "evidence_for_prevalence shows the assumption holds for a majority of the real corpus.",
       "challenge_condition": "Prevalence is real but a substantial minority already breaks it.",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "D3",
@@ -132,7 +176,11 @@
       "how_tested": "No systematic real-market counterexample census exists in this pipeline beyond the 237-product Amazon corpus' own architecture split.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A - reported NEEDS_EVIDENCE."
+      "kill_condition": "N/A - reported NEEDS_EVIDENCE.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "D4",
@@ -143,7 +191,11 @@
       "how_tested": "Design DNA 'T' (scientific tension) parent - a real research_tensions.json entry describing a genuine trade-off this concept touches.",
       "pass_condition": "A real tension is joined (Design DNA T = PRESENT) describing a genuine behaviour/architecture trade-off.",
       "challenge_condition": "N/A",
-      "kill_condition": "No tension joins - classify FEATURE/INCREMENTAL, not disruptive (see D5)."
+      "kill_condition": "No tension joins - classify FEATURE/INCREMENTAL, not disruptive (see D5).",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "D5",
@@ -154,7 +206,11 @@
       "how_tested": "No real evidence in this pipeline measures category-wide competitive-basis shift.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A - reported NEEDS_EVIDENCE."
+      "kill_condition": "N/A - reported NEEDS_EVIDENCE.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "V1",
@@ -165,7 +221,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "V2",
@@ -176,7 +236,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "V3",
@@ -187,7 +251,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "V4",
@@ -198,7 +266,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "V5",
@@ -209,7 +281,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "V6",
@@ -220,7 +296,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "V7",
@@ -231,7 +311,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "V8",
@@ -242,7 +326,11 @@
       "how_tested": "Directionally readable from the operator definition (e.g. REMOVE/MERGE reduce steps; DISTRIBUTE/PERSONALISE can add them) - not a measured usability study.",
       "pass_condition": "Operator is REMOVE, MERGE, or CONCENTRATE (fewer things to manage).",
       "challenge_condition": "Operator is DISTRIBUTE, PERSONALISE, or AMBIENT (more surface area to manage, unverified whether users experience it as more or less complex).",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "C1",
@@ -253,7 +341,11 @@
       "how_tested": "is_white_space / competitor_gap_brands from real competitor (rivals_real.json) review-corpus analysis.",
       "pass_condition": "is_white_space = true with 2+ named real competitors measurably weaker on this theme.",
       "challenge_condition": "Some competitors weak here but below the white-space threshold.",
-      "kill_condition": "Not white space - the friction is not clearly worse for named competitors than for the category average."
+      "kill_condition": "Not white space - the friction is not clearly worse for named competitors than for the category average.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "C2",
@@ -264,7 +356,11 @@
       "how_tested": "No systematic Dyson/SharkNinja capability benchmark exists in this pipeline - only two isolated manufacturer press-release articles (TC-R07 Philips, TC-R11 Dyson) are real, and neither supports a 'would they trivially beat this' judgment. Reported NEEDS_EVIDENCE rather than assumed either way.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "METHOD_DEFINED - white-space rule computed by src/real/rivals_real.py from real per-brand theme gaps (min-reviews floor recorded in rivals_real.json)",
+      "code_reference": "src/real/rivals_real.py"
     },
     {
       "id": "C3",
@@ -275,7 +371,11 @@
       "how_tested": "No systematic Dyson/SharkNinja capability benchmark exists in this pipeline - only two isolated manufacturer press-release articles (TC-R07 Philips, TC-R11 Dyson) are real, and neither supports a 'would they trivially beat this' judgment. Reported NEEDS_EVIDENCE rather than assumed either way.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "C4",
@@ -286,7 +386,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "C5",
@@ -297,7 +401,11 @@
       "how_tested": "No systematic Dyson/SharkNinja capability benchmark exists in this pipeline - only two isolated manufacturer press-release articles (TC-R07 Philips, TC-R11 Dyson) are real, and neither supports a 'would they trivially beat this' judgment. Reported NEEDS_EVIDENCE rather than assumed either way.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "C6",
@@ -308,7 +416,11 @@
       "how_tested": "Design DNA A (assumption) - several category assumptions (A1 dedicated box, A2 fixed location) directly ask this.",
       "pass_condition": "N/A",
       "challenge_condition": "The concept still assumes a dedicated standalone box (Design DNA A1-style).",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "B1",
@@ -319,7 +431,11 @@
       "how_tested": "No real usability/adoption/behavioural-observation study exists in this pipeline for this concept - review text can show a friction exists, not how a real household would behave once it were fixed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "B2",
@@ -330,7 +446,11 @@
       "how_tested": "Design DNA S (signal) join to sensor_trust, where it exists.",
       "pass_condition": "N/A",
       "challenge_condition": "Concept relies on a sensor/automated claim - see RP-09/RP-10's precision-vs-accuracy tension.",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "B3",
@@ -341,7 +461,11 @@
       "how_tested": "No real usability/adoption/behavioural-observation study exists in this pipeline for this concept - review text can show a friction exists, not how a real household would behave once it were fixed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "B4",
@@ -352,7 +476,11 @@
       "how_tested": "No real usability/adoption/behavioural-observation study exists in this pipeline for this concept - review text can show a friction exists, not how a real household would behave once it were fixed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "B5",
@@ -363,7 +491,11 @@
       "how_tested": "Design DNA T (tension) join, where a real operating-mode tension exists.",
       "pass_condition": "N/A",
       "challenge_condition": "A real tension shows technical capability and realized value diverge for this theme.",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "P1",
@@ -374,7 +506,11 @@
       "how_tested": "No real spatial-placement/room-level measurement study exists in this pipeline beyond RP-04's floor-resuspension finding - concept-level spatial classification below is a structural reading of the fixed operator vocabulary (see OPERATORS), not a measured placement study.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "P2",
@@ -385,7 +521,11 @@
       "how_tested": "Design DNA T join to RP-04-backed tensions, where present.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "P3",
@@ -396,7 +536,11 @@
       "how_tested": "No real spatial-placement/room-level measurement study exists in this pipeline beyond RP-04's floor-resuspension finding - concept-level spatial classification below is a structural reading of the fixed operator vocabulary (see OPERATORS), not a measured placement study.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "P4",
@@ -407,7 +551,11 @@
       "how_tested": "Read directly from the concept's real design operator definition (OPERATORS vocabulary).",
       "pass_condition": "N/A (structural classification, not a pass/fail test).",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "P5",
@@ -418,7 +566,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "EC1",
@@ -429,7 +581,11 @@
       "how_tested": "This category's real economics are household-consumer, single-party (buyer=payer=user=beneficiary) by construction - no split-incentive data exists to challenge that.",
       "pass_condition": "Household consumer is buyer/payer/user/beneficiary (the default here).",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "EC2",
@@ -440,7 +596,11 @@
       "how_tested": "Read from the concept's own friction-to-operator transformation (e.g. PREDICT: reactive->anticipatory avoids surprise failure).",
       "pass_condition": "A specific, real friction is named as the mechanism.",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "EC3",
@@ -451,7 +611,11 @@
       "how_tested": "typical_market_price_usd - real median observed price across real affected products.",
       "pass_condition": "A real median price with n>=1 distinct priced product exists.",
       "challenge_condition": "N/A",
-      "kill_condition": "No real price coverage for this theme."
+      "kill_condition": "No real price coverage for this theme.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "EC4",
@@ -462,7 +626,11 @@
       "how_tested": "Dutch Wallet (economics_real.json) computes this at the Products-world level for verified official products; not yet joined per Magic Box concept.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A - reported NEEDS_EVIDENCE at concept level."
+      "kill_condition": "N/A - reported NEEDS_EVIDENCE at concept level.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "EC5",
@@ -473,7 +641,11 @@
       "how_tested": "Dutch Wallet uses real CBS wage/income anchors - explicitly labelled AFFORDABILITY CONTEXT, NOT WTP.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "EC6",
@@ -484,7 +656,11 @@
       "how_tested": "Only genuinely applicable to the filter_cost theme's own concepts (Micro-Filter Subscription, Filter-Inclusive Pricing) by construction.",
       "pass_condition": "friction_theme == filter_cost.",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A - NEEDS_EVIDENCE for all other themes."
+      "kill_condition": "N/A - NEEDS_EVIDENCE for all other themes.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "EC7",
@@ -495,7 +671,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "EC8",
@@ -506,7 +686,11 @@
       "how_tested": "For OS-1/OS-2 (the formal Bet candidates), decision_framework_real.py's sensitivity field already names this explicitly.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A - only computed for the 2 formal Bet candidates, NEEDS_EVIDENCE for the other 10 Magic Box concepts."
+      "kill_condition": "N/A - only computed for the 2 formal Bet candidates, NEEDS_EVIDENCE for the other 10 Magic Box concepts.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "F1",
@@ -517,7 +701,11 @@
       "how_tested": "No real engineering feasibility study exists in this pipeline; the design-operator vocabulary itself does not encode a physical-incoherence check.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A - reported NEEDS_EVIDENCE, not assumed PASS."
+      "kill_condition": "N/A - reported NEEDS_EVIDENCE, not assumed PASS.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "F2",
@@ -528,7 +716,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "F3",
@@ -539,7 +731,11 @@
       "how_tested": "feasibility_2_5y.rating - real, already-computed judgment with a stated rationale and evidence_ids.",
       "pass_condition": "rating = high.",
       "challenge_condition": "rating = medium.",
-      "kill_condition": "rating would need to be effectively impossible within 5 years (not currently modelled as a rating value)."
+      "kill_condition": "rating would need to be effectively impossible within 5 years (not currently modelled as a rating value).",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "F4",
@@ -550,7 +746,11 @@
       "how_tested": "Real regulatory trend docs exist for ozone (TC-R02 ENERGY STAR, TC-R04 CARB); health_outcome_uncertainty signal is CONTESTED.",
       "pass_condition": "No health claim implied, or friction_theme != ozone_odor_safety.",
       "challenge_condition": "friction_theme == ozone_odor_safety (real regulatory scrutiny theme) or implies a health outcome while health_outcome_uncertainty is CONTESTED.",
-      "kill_condition": "A specific health outcome is claimed with zero supporting study."
+      "kill_condition": "A specific health outcome is claimed with zero supporting study.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "F5",
@@ -561,7 +761,11 @@
       "how_tested": "No real Versuni internal-capability dataset (portfolio inventory, HomeID/app install base, brand-permission research, IP/patent register, service network) exists anywhere in this pipeline - reported NEEDS_EVIDENCE, never assumed.",
       "pass_condition": "N/A",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A"
+      "kill_condition": "N/A",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     },
     {
       "id": "F6",
@@ -572,7 +776,11 @@
       "how_tested": "A real first_experiment is authored for the 2 formal Bet candidates (OS-1/OS-2) in decision_framework_real.py.",
       "pass_condition": "A concrete first_experiment exists.",
       "challenge_condition": "N/A",
-      "kill_condition": "N/A - NEEDS_EVIDENCE for the other 10 Magic Box concepts, which have no authored first_experiment yet."
+      "kill_condition": "N/A - NEEDS_EVIDENCE for the other 10 Magic Box concepts, which have no authored first_experiment yet.",
+      "epistemic_type": "METHOD_CHOICE",
+      "missing_data_behavior": "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero",
+      "threshold_origin": "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored as method design; no hidden numeric threshold",
+      "code_reference": "src/real/criteria_real.py::evaluate_concept"
     }
   ],
   "funnel": {

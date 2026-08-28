@@ -95,7 +95,7 @@ export default function App() {
       case 1: return <ProductsWorld key="products" />;
       case 2: return <SignalsWorld key="radar" onSendToMagicBox={goSendToMagicBox} />;
       case 3: return <PathsWorld key="paths" onGoToWorld={setWorld} />;
-      case 4: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} />;
+      case 4: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} onGoToWorld={setWorld} />;
       case 5: return <InnovationsWorld key="innovations" onData={setInnovations} onGoToWorld={setWorld} />;
       case 8: return <CriteriaWorld key="criteria" />;
       default: return null;

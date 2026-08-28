@@ -475,6 +475,45 @@ def evaluate_concept(possibility, critic_entry, signals_by_id):
     return results
 
 
+def _with_provenance(criteria):
+    """Every criterion definition is a METHOD_CHOICE (the machine's own
+    test design); each threshold names where it comes from, and numeric
+    rules import their value live from the one canonical source rather
+    than re-declaring it here."""
+    from decision_framework_real import MATERIALITY_FLOOR_PCT
+    overrides = {
+        "E4": {
+            "threshold_origin": ("METHOD_DEFINED - imports MATERIALITY_FLOOR_PCT "
+                                 "({}%) live from decision_framework_real.py; an "
+                                 "analyst-set method parameter, adjustable per run in "
+                                 "the Lab Scenario lens, never duplicated in the "
+                                 "UI".format(MATERIALITY_FLOOR_PCT)),
+            "code_reference": "src/real/decision_framework_real.py::compute (gate)",
+        },
+        "C2": {
+            "threshold_origin": ("METHOD_DEFINED - white-space rule computed by "
+                                 "src/real/rivals_real.py from real per-brand theme "
+                                 "gaps (min-reviews floor recorded in rivals_real.json)"),
+            "code_reference": "src/real/rivals_real.py",
+        },
+    }
+    out = []
+    for c in criteria:
+        c = dict(c)
+        c.setdefault("epistemic_type", "METHOD_CHOICE")
+        c.setdefault("missing_data_behavior",
+                     "NEEDS_EVIDENCE - missing evidence never becomes FAIL or zero")
+        ov = overrides.get(c["id"], {})
+        c.setdefault("threshold_origin", ov.get(
+            "threshold_origin",
+            "ANALYST_JUDGMENT - qualitative pass/challenge/kill conditions authored "
+            "as method design; no hidden numeric threshold"))
+        c.setdefault("code_reference", ov.get(
+            "code_reference", "src/real/criteria_real.py::evaluate_concept"))
+        out.append(c)
+    return out
+
+
 def build():
     funnel = compute_funnel_counts()
     magic_box = _load("magic_box_real.json")
@@ -545,7 +584,7 @@ def build():
             "a fourth score."
         ),
         "generated_by": "src/real/criteria_real.py",
-        "criteria_library": CRITERIA_LIBRARY,
+        "criteria_library": _with_provenance(CRITERIA_LIBRARY),
         "funnel": funnel,
         "magic_box_funnel": magic_box_funnel,
         "assumptions": assumptions,

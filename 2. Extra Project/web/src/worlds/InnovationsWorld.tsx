@@ -300,7 +300,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
         )}
       </FocusPanel>
       {labId && data && (
-        <Lab osId={labId} score={data.scores[labId]} verdict={data.verdict} onClose={() => setLabId(null)} />
+        <Lab osId={labId} score={data.scores[labId]} scores={data.scores} verdict={data.verdict} onClose={() => setLabId(null)} />
       )}
     </div>
   );

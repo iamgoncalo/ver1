@@ -4,6 +4,7 @@
   "market_scenario_used": "imarc",
   "scenario_cagr_pct": 6.54,
   "decision_priority_used": "pain_feasibility_majority",
+  "materiality_floor_pct": 0.5,
   "scores": {
     "OS-1": {
       "name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
@@ -155,6 +156,7 @@
     "recommended_name": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
     "decision_type": "NON_DOMINATED_PLUS_JUDGMENT",
     "decision_priority_used": "pain_feasibility_majority",
+    "materiality_floor_pct": 0.5,
     "why": "Neither dominates outright — Pain + Feasibility majority rule selected Reliability-Verified Air Purifiers.",
     "killed": [
       {

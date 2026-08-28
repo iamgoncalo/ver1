@@ -6,6 +6,7 @@ import { FocusPanel } from "../components/FocusPanel";
 interface Criterion {
   id: string; category: string; name: string; question: string; why_it_matters: string;
   how_tested: string; pass_condition: string; challenge_condition: string; kill_condition: string;
+  epistemic_type?: string; threshold_origin?: string; code_reference?: string; missing_data_behavior?: string;
 }
 interface Concept { name: string; criteria: Record<string, { status: string; note: string }> }
 interface CriteriaDoc {
@@ -88,7 +89,7 @@ export function CriteriaWorld() {
                 style={{ padding: "6px 12px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 11.5,
                   background: category === cat ? "var(--surface)" : "var(--surface-2)", fontWeight: category === cat ? 700 : 500,
                   boxShadow: category === cat ? "var(--shadow)" : "none" }}>
-                {cat}
+                {cat.charAt(0) + cat.slice(1).toLowerCase()}
               </button>
             ))}
           </div>
@@ -133,6 +134,17 @@ export function CriteriaWorld() {
               <div style={{ marginBottom: 16 }}>
                 <SectionLabel>How it is tested</SectionLabel>
                 <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{criterionFocus.how_tested}</p>
+              </div>
+              <div style={{ marginBottom: 12, borderTop: "1px solid var(--line)", paddingTop: 10 }}>
+                <SectionLabel>Provenance — where this rule comes from</SectionLabel>
+                <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>
+                  <b>Threshold origin:</b> {criterionFocus.threshold_origin ?? "not recorded"}
+                </p>
+                <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4 }}>
+                  <b>Epistemic type:</b> {(criterionFocus.epistemic_type ?? "").replace(/_/g, " ").toLowerCase() || "not recorded"} ·{" "}
+                  <b>Missing data:</b> {criterionFocus.missing_data_behavior ?? "NEEDS_EVIDENCE"}
+                </p>
+                <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4 }}>{criterionFocus.code_reference}</p>
               </div>
               <StatRow label="Pass condition" value={criterionFocus.pass_condition} />
               <StatRow label="Challenge condition" value={criterionFocus.challenge_condition} />

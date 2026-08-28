@@ -130,7 +130,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // Genuine abbreviations and data ids are fine; three-plus-word shouting
     // sentences are not. Checks rendered text of every world.
     const ALLOWED = /^(API|DOI|PMID|PMCID|URL|PDF|CADR|HEPA|USD|EUR|NL|US|EU|AI|IOT|PM2\.5|CSAT|WTP|OS-\d|TC-R\d+|RP-\d+|CR-\d+|MB|CO2|VOC|UV|LED|WHO|EPA|AHAM|CARB|CSA|CBS|SPA-\w+|[A-Z]{2,6}\d*[A-Z0-9/]*)$/;
-    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations"]) {
+    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria"]) {
       await page.goto(path);
       await page.waitForTimeout(600);
       const shouts = await page.evaluate(() => {
@@ -231,6 +231,45 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await page.getByRole("button", { name: "Back to air purification →" }).click();
     await expect(page.getByText("Corpus provenance:")).toBeVisible({ timeout: 5000 });
     expect(errors).toEqual([]);
+  });
+
+  test("Criteria is a visible system layer: shell access, Magic box entry, refresh, provenance - never stage 6", async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await page.goto("/");
+    // the five-stage nav does NOT contain Criteria...
+    await expect(page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /Criteria/ })).toHaveCount(0);
+    // ...but the System group does, from anywhere in the shell
+    await page.getByRole("group", { name: "System tools" }).getByRole("button", { name: /Criteria/ }).click();
+    await expect(page.getByText("Criteria are not scores. They are tests.")).toBeVisible({ timeout: 5000 });
+    await expect(page).toHaveURL(/\/criteria$/);
+    // direct refresh keeps the route
+    await page.reload();
+    await expect(page.getByText("Criteria are not scores. They are tests.")).toBeVisible({ timeout: 5000 });
+    await noDocumentScroll(page);
+    // a criterion click exposes full rule provenance
+    await page.getByRole("button", { name: /Source reality/ }).click();
+    await expect(page.getByText("Provenance — where this rule comes from")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/Threshold origin:/)).toBeVisible();
+    await page.keyboard.press("Escape");
+    // Magic box links to the governance layer
+    await page.goto("/magic-box");
+    await page.getByRole("button", { name: /How concepts are judged/ }).click();
+    await expect(page.getByText("Criteria are not scores. They are tests.")).toBeVisible({ timeout: 5000 });
+    expect(errors).toEqual([]);
+  });
+
+  test("Lab scenario floor is the engine's own live value, not a UI literal", async ({ page }) => {
+    await page.goto("/innovations");
+    await page.getByRole("button", { name: "Open Lab →" }).first().click();
+    await page.getByRole("button", { name: "Scenario" }).click();
+    // the floor input carries the runtime value served by the engine
+    const floorInput = page.getByLabel(/Materiality floor/);
+    await expect(floorInput).toHaveValue("0.5", { timeout: 5000 });
+    // prediction options are built from runtime candidates, incl. the honest none-option
+    const options = await page.getByLabel(/Expected direction/).locator("option").allTextContents();
+    expect(options.some((o) => o.includes("No recommendation"))).toBe(true);
+    expect(options.length).toBeGreaterThanOrEqual(4);
+    await page.getByRole("button", { name: "Close Lab" }).click();
   });
 
   test("Radar coverage lens shows the honest source matrix", async ({ page }) => {

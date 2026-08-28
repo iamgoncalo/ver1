@@ -20,6 +20,7 @@ const LENSES: { key: Lens; label: string }[] = [
 interface LabProps {
   osId: string;
   score: any;
+  scores: Record<string, any>;
   verdict: any;
   onClose: () => void;
 }
@@ -28,7 +29,7 @@ const THEME_OF_EVIDENCE = (score: any): string | null =>
   score?.evidence_ids?.find((e: string) => e.startsWith("taxonomy:"))?.split(":")[1] ??
   score?.evidence_ids?.find((e: string) => e.startsWith("keyword_search:"))?.split(":")[1] ?? null;
 
-export function Lab({ osId, score, verdict, onClose }: LabProps) {
+export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
   const [lens, setLens] = useState<Lens>("overview");
   const [critic, setCritic] = useState<any>(null);
   const [runsDoc, setRunsDoc] = useState<any[]>([]);
@@ -57,7 +58,8 @@ export function Lab({ osId, score, verdict, onClose }: LabProps) {
   // ---------------- Scenario lens state ----------------
   const [priority, setPriority] = useState("pain_feasibility_majority");
   const [market, setMarket] = useState("mordor");
-  const [floor, setFloor] = useState("0.5");
+  const [floor, setFloor] = useState("");
+  const baseFloor = verdict?.materiality_floor_pct != null ? String(verdict.materiality_floor_pct) : "";
   const [exclude, setExclude] = useState("");
   const [prediction, setPrediction] = useState("");
   const [scenarioOut, setScenarioOut] = useState<any>(null);
@@ -70,7 +72,9 @@ export function Lab({ osId, score, verdict, onClose }: LabProps) {
     setLastPrediction(prediction);
     try {
       const params = new URLSearchParams({ market_scenario: market, decision_priority: priority });
-      if (floor !== "0.5") params.set("materiality_floor", floor);
+      const effFloor = floor || baseFloor;
+      if (effFloor && effFloor !== baseFloor) params.set("materiality_floor", effFloor);
+      else if (floor && floor === baseFloor) { /* explicit same-as-default: omit */ }
       if (exclude) params.set("exclude_sku", exclude);
       const res = await fetch(`/api/innovations/scenario?${params}`);
       setScenarioOut(await res.json());
@@ -203,8 +207,9 @@ export function Lab({ osId, score, verdict, onClose }: LabProps) {
                     <option value="imarc">IMARC Group (6.54% CAGR)</option>
                   </select>
                 </label>
-                <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>Materiality floor (%)
-                  <input value={floor} onChange={(e) => setFloor(e.target.value)} inputMode="decimal"
+                <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>Materiality floor (%) — evidence gate E4
+                  <input value={floor || baseFloor} onChange={(e) => setFloor(e.target.value)} inputMode="decimal"
+                    title="The live engine's current gate value - imported from the decision framework, never re-declared in the interface"
                     style={{ display: "block", width: "100%", marginTop: 4, padding: 6, borderRadius: 8, border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink)", fontSize: 12 }} />
                 </label>
                 <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>Exclude product (ASIN, optional)
@@ -215,9 +220,11 @@ export function Lab({ osId, score, verdict, onClose }: LabProps) {
               <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>Expected direction — required before the rerun
                 <select value={prediction} onChange={(e) => setPrediction(e.target.value)} style={{ display: "block", width: "100%", marginTop: 4, padding: 6, borderRadius: 8, border: "1px solid var(--accent-blue)", background: "var(--surface)", color: "var(--ink)", fontSize: 12 }}>
                   <option value="">— state your prediction first —</option>
-                  <option value="OS-1">Recommendation stays OS-1 (Reliability-Verified)</option>
-                  <option value="OS-2">Flips to OS-2 (Whisper-Quiet)</option>
-                  <option value="OS-3">Flips to OS-3 (Smart/Connected)</option>
+                  {Object.entries(scores as Record<string, any>).map(([id, s]) => (
+                    <option key={id} value={id}>
+                      {id === verdict?.recommended ? `Recommendation stays ${id}` : `Flips to ${id}`} ({String(s.name).split(" (")[0]})
+                    </option>
+                  ))}
                   <option value="NONE">No recommendation (insufficient evidence)</option>
                 </select>
               </label>

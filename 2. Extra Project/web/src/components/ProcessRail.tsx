@@ -71,7 +71,21 @@ export function ProcessRail({ active, onSelect, onGoHome, category, onCategoryCh
           );
         })}
       </nav>
-      <div style={{ justifySelf: "end" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, justifySelf: "end" }}>
+        <div role="group" aria-label="System tools" style={{ display: "flex", alignItems: "center", gap: 6, paddingRight: 10, borderRight: "1px solid var(--line)" }}>
+          <button onClick={() => onSelect(8)} aria-current={active === 8 ? "page" : undefined}
+            title="Criteria — how the machine decides what is credible, important, generative, testable or rejectable. A system-wide governance layer, not a sixth stage."
+            style={{
+              padding: "5px 10px", borderRadius: 8, border: "1px dashed",
+              borderColor: active === 8 ? "var(--accent-blue)" : "var(--line)",
+              background: active === 8 ? "var(--surface-2)" : "transparent",
+              cursor: "pointer", whiteSpace: "nowrap", fontSize: 11.5,
+              color: active === 8 ? "var(--accent-blue-ink)" : "var(--ink-dim)",
+              transition: "background 120ms, border-color 120ms",
+            }}>
+            ⚖ Criteria
+          </button>
+        </div>
         <VersuniProductsLink />
       </div>
     </header>

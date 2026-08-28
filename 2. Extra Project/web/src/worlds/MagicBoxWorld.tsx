@@ -132,7 +132,7 @@ function ConceptCard({ p, onClick, maxEcon }: { p: Concept; onClick: () => void;
   );
 }
 
-export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) {
+export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: string | null; onGoToWorld?: (n: number) => void }) {
   const [data, setData] = useState<CriteriaDoc | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [conceptFocus, setConceptFocus] = useState<Concept | null>(null);
@@ -174,7 +174,16 @@ export function MagicBoxWorld({ themeFilter }: { themeFilter?: string | null }) 
             </div>
           )}
         </div>
-        <DistilledRawToggle mode={mode} onChange={setMode} />
+        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          {onGoToWorld && (
+            <button onClick={() => onGoToWorld(8)}
+              title="The criteria every concept here is tested against — the machine's governance layer"
+              style={{ fontSize: 11.5, padding: "7px 12px", borderRadius: 8, border: "1px dashed var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", whiteSpace: "nowrap" }}>
+              ⚖ How concepts are judged →
+            </button>
+          )}
+          <DistilledRawToggle mode={mode} onChange={setMode} />
+        </div>
       </div>
 
       {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real Magic Box state…</div>}

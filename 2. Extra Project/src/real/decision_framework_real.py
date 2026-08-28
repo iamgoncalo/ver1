@@ -580,6 +580,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
                 "recommended_name": None,
                 "decision_type": "INSUFFICIENT_EVIDENCE_FOR_RECOMMENDATION",
                 "decision_priority_used": decision_priority,
+        "materiality_floor_pct": floor,
                 "why": "No real candidate cleared the Consumer Pain evidence-sufficiency gate "
                       "(prevalence >= {}% with a real CSAT signal) - there is no candidate with "
                       "sufficient real evidence to recommend.".format(floor),
@@ -603,6 +604,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
         "recommended": winner_id, "recommended_name": winner["name"],
         "decision_type": decision_type,
         "decision_priority_used": decision_priority,
+        "materiality_floor_pct": floor,
         "why": "{win_name} dominates every real dimension.".format(win_name=winner["name"].split(" (")[0])
         if decision_type == "DOMINANT" else (
             "Neither dominates outright — {rule_short} selected {win_name}."
@@ -658,6 +660,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
         "market_scenario_used": scenario,
         "scenario_cagr_pct": scenario_cagr,
         "decision_priority_used": decision_priority,
+        "materiality_floor_pct": floor,
         "scores": scores, "verdict": verdict,
     }
 
