@@ -4,6 +4,12 @@
 (the Versuni Intelligence Machine — deployed from this repository's
 `Dockerfile`; run locally with `docker build -t vim . && docker run -p 8000:8000 vim`)
 
+This repository is **private**, per the case brief. To grant an evaluator
+read access: GitHub → Settings → Collaborators → *Add people* → enter the
+evaluator's GitHub username → role **Read** (or run
+`gh api -X PUT repos/iamgoncalo/ver1/collaborators/<username> -f permission=pull`).
+The live website above is public and needs no access grant.
+
 This repository contains two things, in this order:
 
 ## 1. Mandatory Deliverables/
