@@ -23,6 +23,19 @@ interface Verdict {
 }
 interface Scores { [id: string]: { name: string; usage_context: string; friction: string; evidence_ids?: string[]; assumptions?: string[]; uncertainty?: string[] } }
 
+function SourceNote({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ marginTop: 14, paddingTop: 8, borderTop: "1px solid var(--line)", maxWidth: 720 }}>
+      <button onClick={() => setOpen((v) => !v)}
+        style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-faint)" }}>
+        {open ? "▾ source" : "▸ source"}
+      </button>
+      {open && <p className="mono" style={{ fontSize: 10, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 6 }}><TraceText text={text} /></p>}
+    </div>
+  );
+}
+
 export function NewProductsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }) {
   const [finalists, setFinalists] = useState<Finalist[] | null>(null);
   const [verdict, setVerdict] = useState<Verdict | null>(null);
@@ -120,11 +133,7 @@ export function NewProductsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => 
         {finalists && finalists.length === 0 && (
           <p style={{ fontSize: 12.5, color: "var(--ink-faint)" }}>No hypothesis currently clears the evidence gates — an honest empty state, not an error.</p>
         )}
-        <div style={{ marginTop: 16, maxWidth: 720 }}>
-          <p className="mono" style={{ fontSize: 10, color: "var(--ink-faint)", lineHeight: 1.5 }}>
-            <TraceText text="GET /api/magic-box -> finalists (src/real/magic_box_real.py: gate -> evidence -> Pareto dominance) + GET /api/innovations -> verdict (src/real/decision_framework_real.py: first experiment / kill criterion). Recomputed by every pipeline run - add or remove evidence and this set changes." />
-          </p>
-        </div>
+        <SourceNote text="GET /api/magic-box -> finalists (src/real/magic_box_real.py: gate -> evidence -> Pareto dominance) + GET /api/innovations -> verdict (src/real/decision_framework_real.py: first experiment / kill criterion). Recomputed by every pipeline run - add or remove evidence and this set changes." />
       </div>
     </div>
   );
