@@ -71,7 +71,7 @@ DECISION_METRICS = [
      "Price-Weighted Exposure (USD): sum of real observed listed prices "
      "across affected real reviews with a known price. A relative reach x "
      "price indicator, explicitly NOT a revenue, market-size, or WTP "
-     "estimate - named Financial Value Proxy in earlier drafts of this repo."),
+     "estimate."),
     ("feasibility_2_5y", "2-5 Year Feasibility",
      "Ordinal (high/medium/low), grounded in whether a real trend-corpus "
      "document (data/raw/trend_corpus.json) shows an already-standardized "
@@ -80,20 +80,6 @@ DECISION_METRICS = [
      "in the assembled real evidence."),
 ]
 
-# Legacy field names some older code/deliverable text still reads - same
-# definitions as above, kept so nothing silently breaks mid-refactor.
-DECISION_METRICS_LEGACY_ALIASES = [
-    ("friction_prevalence_pct", "Friction Prevalence %",
-     "Share of real reviews whose text carries the theme (polarity-gated) - "
-     "the evidence-sufficiency gate behind Consumer Pain, not a standalone "
-     "fourth dimension."),
-    ("csat_impact", "CSAT Impact",
-     "Mean star rating of real reviews carrying the theme minus corpus mean (stars)."),
-    ("financial_value_proxy_usd", "Financial Value Proxy",
-     "Price-Weighted Exposure (USD): sum of real observed listed prices across "
-     "affected real reviews with a known price. A relative reach x price "
-     "indicator, NOT a revenue, market-size, or WTP estimate."),
-]
 
 OPPORTUNITY_SPACES = [
     {
