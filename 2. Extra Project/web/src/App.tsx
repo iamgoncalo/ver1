@@ -5,33 +5,39 @@ import { HowWeGotHere } from "./components/HowWeGotHere";
 import { SourcesDock } from "./components/SourcesDock";
 import { WorldPad } from "./components/WorldPad";
 import { AskShell } from "./components/AskShell";
+import { CategoryGate } from "./components/CategoryGate";
 import { ProductsWorld } from "./worlds/ProductsWorld";
 import { SignalsWorld } from "./worlds/SignalsWorld";
 import { PathsWorld } from "./worlds/PathsWorld";
-import { FieldWorld } from "./worlds/FieldWorld";
 import { MagicBoxWorld } from "./worlds/MagicBoxWorld";
 import { InnovationsWorld } from "./worlds/InnovationsWorld";
-import { NewProductsWorld } from "./worlds/NewProductsWorld";
 import { CriteriaWorld } from "./worlds/CriteriaWorld";
 import { FunnelWorld } from "./worlds/FunnelWorld";
 import { api } from "./lib/api";
 import type { InnovationsResponse, MagicBoxResponse, RivalsResponse, WhiteSpaceResponse } from "./lib/types";
 
-// The canonical machine: Overview -> Radar -> Paths -> Field -> Magic box ->
-// Innovations -> New products, plus two library views (the existing Product
-// Universe, and Criteria - how the machine decides) reachable from within
-// the machine, not part of the primary sequence.
+// The canonical machine - exactly five principal worlds:
+// 1 Product universe · 2 Radar · 3 Paths (Field grounded inside) ·
+// 4 Magic box · 5 Innovations (Lab inside). Overview is home, Criteria is
+// a reference view inside Innovations. Old routes redirect into the five.
 const WORLD_PATH: Record<number, string> = {
-  0: "/", 1: "/radar", 2: "/paths", 3: "/field", 4: "/magic-box",
-  5: "/innovations", 6: "/new-products", 7: "/products", 8: "/criteria",
+  0: "/", 1: "/products", 2: "/radar", 3: "/paths", 4: "/magic-box",
+  5: "/innovations", 8: "/criteria",
 };
-const PATH_WORLD: Record<string, number> = Object.fromEntries(
-  Object.entries(WORLD_PATH).map(([n, p]) => [p, Number(n)]));
+const PATH_WORLD: Record<string, number> = {
+  "/": 0, "/products": 1, "/radar": 2, "/paths": 3, "/magic-box": 4,
+  "/innovations": 5, "/criteria": 8,
+  // legacy routes fold into their canonical worlds
+  "/field": 3, "/new-products": 5,
+};
+
+export type CategoryId = "AIR_PURIFICATION" | "FLOOR_CARE";
 
 export default function App() {
   const [world, setWorld] = useState(() => PATH_WORLD[window.location.pathname] ?? 0);
   const [askOpen, setAskOpen] = useState(false);
   const [themeFilter, setThemeFilter] = useState<string | null>(null);
+  const [category, setCategory] = useState<CategoryId>("AIR_PURIFICATION");
 
   const [innovations, setInnovations] = useState<InnovationsResponse | undefined>();
   const [magicBox, setMagicBox] = useState<MagicBoxResponse | undefined>();
@@ -63,14 +69,14 @@ export default function App() {
   useEffect(() => {
     function isTypingTarget(el: EventTarget | null) {
       const tag = (el as HTMLElement)?.tagName;
-      return tag === "INPUT" || tag === "TEXTAREA";
+      return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
     }
     function onKey(e: KeyboardEvent) {
       if (isTypingTarget(e.target)) return;
       if (e.key === "0") { setWorld(0); return; }
-      if (e.key >= "1" && e.key <= "6") { setWorld(Number(e.key)); return; }
-      if (e.key === "ArrowRight") { setWorld((w) => (w >= 1 && w < 6 ? w + 1 : w)); return; }
-      if (e.key === "ArrowLeft") { setWorld((w) => (w > 1 && w <= 6 ? w - 1 : w)); return; }
+      if (e.key >= "1" && e.key <= "5") { setWorld(Number(e.key)); return; }
+      if (e.key === "ArrowRight") { setWorld((w) => (w >= 1 && w < 5 ? w + 1 : w)); return; }
+      if (e.key === "ArrowLeft") { setWorld((w) => (w > 1 && w <= 5 ? w - 1 : w)); return; }
       if (e.key === " ") { e.preventDefault(); setAskOpen((v) => !v); return; }
       if (e.key === "Escape") { setAskOpen(false); return; }
     }
@@ -79,26 +85,30 @@ export default function App() {
   }, []);
 
   const worldEl = useMemo(() => {
+    // A non-runnable category shows its honest live eligibility state in
+    // every world - never another category's data under this label.
+    if (category !== "AIR_PURIFICATION" && world >= 1 && world <= 5) {
+      return <CategoryGate key={`gate-${category}-${world}`} category={category} world={world} onBackToAir={() => setCategory("AIR_PURIFICATION")} />;
+    }
     switch (world) {
       case 0: return <FunnelWorld key="overview" onGoToWorld={setWorld} />;
-      case 1: return <SignalsWorld key="radar" onSendToMagicBox={goSendToMagicBox} />;
-      case 2: return <PathsWorld key="paths" onGoToWorld={setWorld} />;
-      case 3: return <FieldWorld key="field" onGoToWorld={setWorld} />;
+      case 1: return <ProductsWorld key="products" />;
+      case 2: return <SignalsWorld key="radar" onSendToMagicBox={goSendToMagicBox} />;
+      case 3: return <PathsWorld key="paths" onGoToWorld={setWorld} />;
       case 4: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} />;
       case 5: return <InnovationsWorld key="innovations" onData={setInnovations} onGoToWorld={setWorld} />;
-      case 6: return <NewProductsWorld key="new_products" onGoToWorld={setWorld} />;
-      case 7: return <ProductsWorld key="products" />;
       case 8: return <CriteriaWorld key="criteria" />;
       default: return null;
     }
-  }, [world, themeFilter, goSendToMagicBox]);
+  }, [world, themeFilter, goSendToMagicBox, category]);
 
   return (
     <div style={{ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <ProcessRail active={world} onSelect={setWorld} onGoHome={() => setWorld(0)} />
+      <ProcessRail active={world} onSelect={setWorld} onGoHome={() => setWorld(0)}
+        category={category} onCategoryChange={setCategory} />
       <main style={{ flex: 1, position: "relative", overflow: "hidden" }}>
-        <div key={world} className="world-enter" style={{ position: "absolute", inset: 0 }}>
-          <ErrorBoundary key={world}>{worldEl}</ErrorBoundary>
+        <div key={`${world}-${category}`} className="world-enter" style={{ position: "absolute", inset: 0 }}>
+          <ErrorBoundary key={`${world}-${category}`}>{worldEl}</ErrorBoundary>
         </div>
       </main>
       <footer style={{ flexShrink: 0, padding: "6px 22px", borderTop: "1px solid var(--line)", background: "var(--surface)", fontSize: 10.5, color: "var(--ink-faint)", display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, auto) minmax(0, 1fr)", alignItems: "center", gap: 12, maxWidth: "100vw" }}>

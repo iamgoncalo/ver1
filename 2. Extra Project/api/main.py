@@ -11,6 +11,7 @@ Run:  python3 -m uvicorn api.main:app --port 8000   (or: make app)
 import json
 import os
 import sys
+from typing import Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -311,12 +312,36 @@ def innovations():
 
 @app.get("/api/innovations/scenario")
 def innovations_scenario(market_scenario: str = "mordor",
-                         decision_priority: str = "pain_feasibility_majority"):
+                         decision_priority: str = "pain_feasibility_majority",
+                         materiality_floor: Optional[float] = None,
+                         exclude_sku: Optional[str] = None):
     """Live recompute - pure function, no file write. Powers the dynamic
-    decision UI (World 5). Never mutates data/raw or data/processed."""
+    decision UI and the Lab's Scenario lens. Never mutates data/raw or
+    data/processed - floor and exclusion apply in memory to this call only."""
     from decision_framework_real import compute
     try:
-        return compute(market_scenario, decision_priority=decision_priority)
+        return compute(market_scenario, decision_priority=decision_priority,
+                       materiality_floor=materiality_floor, exclude_sku=exclude_sku)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/api/runs")
+def runs():
+    """The real run ledger - every pipeline run's id, timestamps, input
+    snapshot hash and object deltas. Read-only; written only by
+    src/real/funnel_real.py."""
+    return read_json("funnel_run_history.json")
+
+
+@app.get("/api/category-state")
+def category_state(category: str = "AIR_PURIFICATION"):
+    """Live category-eligibility computation - the same filters over the
+    same real stores for every registered category. An unregistered
+    category is a visible 400, never a silent Air fallback."""
+    from category_state import compute_category_state
+    try:
+        return compute_category_state(category)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 

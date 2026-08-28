@@ -3,6 +3,7 @@ import { api } from "../lib/api";
 import { useState as usePanelState } from "react";
 import { Pill, SectionLabel } from "../components/ui";
 import { TraceText } from "../components/TraceText";
+import { FocusPanel } from "../components/FocusPanel";
 
 // A real Path is a directional claim about where reality is moving - from
 // one state toward another - carried by real evidence and owning its own
@@ -60,13 +61,21 @@ function Trajectory({ p, active, onClick }: { p: PathData; active: boolean; onCl
 export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }) {
   const [paths, setPaths] = useState<PathData[] | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
+  const [fieldOpen, setFieldOpen] = useState(false);
+  const [brief, setBrief] = useState<any>(null);
+  const [fieldAssumptions, setFieldAssumptions] = useState<any[]>([]);
+  const [anchors, setAnchors] = useState<Record<string, any>>({});
+  const [assumptionFocus, setAssumptionFocus] = useState<any>(null);
 
   useEffect(() => {
     api.funnel().then((d: any) => {
       const ps = d?.homepage_funnel?.paths ?? [];
       setPaths(ps);
       if (ps.length) setFocusId(ps[0].id);
+      setBrief(d?.homepage_funnel?.field ?? null);
     }).catch(() => setPaths([]));
+    api.assumptions().then((d: any) => setFieldAssumptions(d?.assumptions ?? [])).catch(() => {});
+    api.economics().then((d: any) => setAnchors(d?.anchors ?? {})).catch(() => {});
   }, []);
 
   const focus = useMemo(() => paths?.find((p) => p.id === focusId) ?? null, [paths, focusId]);
@@ -119,8 +128,40 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }
               </div>
               <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
                 <button onClick={() => onGoToWorld(1)} style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", fontSize: 12 }}>← Radar evidence</button>
-                <button onClick={() => onGoToWorld(3)} style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>Ground it in Field →</button>
+                <button onClick={() => setFieldOpen((v) => !v)} aria-expanded={fieldOpen}
+                  style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: fieldOpen ? "var(--surface-2)" : "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+                  {fieldOpen ? "Hide field grounding ▾" : "Ground it in the field ▸"}
+                </button>
               </div>
+              {fieldOpen && (
+                <div style={{ marginTop: 14, borderTop: "1px solid var(--line)", paddingTop: 12 }}>
+                  <SectionLabel>Field — what this trajectory means in the real world</SectionLabel>
+                  {brief && (
+                    <>
+                      <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5, marginBottom: 6 }}><b>True now:</b> {brief.now}</p>
+                      <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 6 }}><b>Moving:</b> {brief.moving}</p>
+                      <p style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.5, marginBottom: 10 }}><b>Wrong if:</b> {brief.wrong_if}</p>
+                    </>
+                  )}
+                  <SectionLabel>Category assumptions this path touches</SectionLabel>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10 }}>
+                    {fieldAssumptions.map((a) => (
+                      <button key={a.assumption_id} onClick={() => setAssumptionFocus(a)}
+                        style={{ fontSize: 10.5, padding: "4px 9px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink-dim)", cursor: "pointer", maxWidth: 250, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                        title={a.text}>
+                        {a.text}
+                      </button>
+                    ))}
+                  </div>
+                  <SectionLabel>Economic anchors (NL, each individually verified)</SectionLabel>
+                  {Object.entries(anchors).slice(0, 3).map(([k, a]: [string, any]) => (
+                    <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: 11.5, padding: "2px 0" }}>
+                      <span style={{ color: "var(--ink-dim)" }}>{k.replace(/_/g, " ").replace(" eur", " (€)")}</span>
+                      <span className="mono">{a.value.toLocaleString()} <span style={{ color: "var(--ink-faint)" }}>· {a.source.split(" - ")[0]} {a.year}</span></span>
+                    </div>
+                  ))}
+                </div>
+              )}
               <SourceNote text="GET /api/funnel -> homepage_funnel.paths - built by src/real/funnel_real.py from research_tensions.json + category_assumptions.json. Nothing here is authored in the interface." />
             </>
           ) : (
@@ -128,6 +169,21 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }
           )}
         </div>
       </div>
+
+      <FocusPanel open={!!assumptionFocus} onClose={() => setAssumptionFocus(null)} eyebrow="Category assumption" title={assumptionFocus?.text ?? ""}>
+        {assumptionFocus && (
+          <>
+            <SectionLabel>Evidence for prevalence</SectionLabel>
+            <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 8 }}>{assumptionFocus.evidence_for_prevalence}</p>
+            <SectionLabel>Real evidence that bears on it</SectionLabel>
+            <p className="mono" style={{ fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 8 }}>
+              {Array.isArray(assumptionFocus.real_evidence_that_bears_on_it) ? assumptionFocus.real_evidence_that_bears_on_it.join(" · ") : assumptionFocus.real_evidence_that_bears_on_it}
+            </p>
+            <SectionLabel>Counterfactual — what if it's wrong?</SectionLabel>
+            <p style={{ fontSize: 12, color: "var(--rose)", lineHeight: 1.5 }}>{assumptionFocus.counterfactual}</p>
+          </>
+        )}
+      </FocusPanel>
     </div>
   );
 }

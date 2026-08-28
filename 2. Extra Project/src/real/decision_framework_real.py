@@ -401,7 +401,7 @@ def evaluate(profiles, decision_priority="pain_feasibility_majority"):
 _default_compute_cache = {}  # populated on first fully-default call, reused for the process lifetime
 
 
-def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority="pain_feasibility_majority"):
+def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority="pain_feasibility_majority", materiality_floor=None, exclude_sku=None):
     """Pure computation, no file writes - the ONE scoring implementation
     shared by the CLI (main, below) and dashboard/app.py's Scenario Lab.
 
@@ -420,7 +420,15 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
     every call, so runtime changes to MATERIALITY_FLOOR_PCT or
     decision_priority always take effect.
     """
-    use_cache = rows is None and tax is None and wtp is None
+    # Scenario parameters (Lab): an explicit floor overrides the module
+    # default for THIS call only; excluding a product filters rows in
+    # memory - frozen files are never touched, and neither parameter is
+    # ever cached.
+    floor = MATERIALITY_FLOOR_PCT if materiality_floor is None else float(materiality_floor)
+    if exclude_sku:
+        rows = [r for r in (rows if rows is not None else load_clean())
+                if r["product_sku"] != exclude_sku]
+    use_cache = rows is None and tax is None and wtp is None and materiality_floor is None
     if use_cache and "rows" in _default_compute_cache:
         rows = _default_compute_cache["rows"]
         theme_stats = _default_compute_cache["theme_stats"]
@@ -461,7 +469,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
     scenario_cagr, scenario_source = SCENARIOS[scenario]
 
     def gate(csat, prevalence_pct):
-        return csat is not None and (prevalence_pct or 0) >= MATERIALITY_FLOOR_PCT
+        return csat is not None and (prevalence_pct or 0) >= floor
 
     def feasibility_block(oid):
         f = FEASIBILITY[oid]
@@ -574,7 +582,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
                 "decision_priority_used": decision_priority,
                 "why": "No real candidate cleared the Consumer Pain evidence-sufficiency gate "
                       "(prevalence >= {}% with a real CSAT signal) - there is no candidate with "
-                      "sufficient real evidence to recommend.".format(MATERIALITY_FLOOR_PCT),
+                      "sufficient real evidence to recommend.".format(floor),
                 "killed": [{"id": pid, "name": p["name"], "reason": p["decision_reason"]}
                           for pid, p in profiles.items()],
                 "market_scenario": {"used": scenario_source, "cagr_pct": scenario_cagr},

@@ -29,13 +29,13 @@ function PadButton({ dir, onClick, disabled }: { dir: "left" | "right"; onClick:
 }
 
 // A small "gameboy d-pad" echo of the app's own keyboard shortcuts (Left/Right
-// step between the six machine worlds, the center pill is Home/world "0" - same
+// step between the five machine worlds, the center pill is Home/world "0" - same
 // arrow-key and "0" behavior already wired in App.tsx's onKey handler, just
 // given a visible, clickable form for anyone not using the keyboard.
 export function WorldPad({ world, onSelect, onGoHome }: { world: number; onSelect: (n: number) => void; onGoHome: () => void }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 5, padding: 3, borderRadius: 12, border: "1px solid var(--line)", background: "var(--surface-2)" }}>
-      <PadButton dir="left" disabled={world <= 1 || world > 6} onClick={() => onSelect(Math.max(1, world - 1))} />
+      <PadButton dir="left" disabled={world <= 1 || world > 5} onClick={() => onSelect(Math.max(1, world - 1))} />
       <button
         onClick={onGoHome}
         title="Jump to the machine overview"
@@ -48,9 +48,9 @@ export function WorldPad({ world, onSelect, onGoHome }: { world: number; onSelec
           padding: "0 8px",
         }}
       >
-        {world === 0 ? "Home" : world > 6 ? "Home" : `${world}/6`}
+        {world === 0 ? "Home" : world > 5 ? "Home" : `${world}/5`}
       </button>
-      <PadButton dir="right" disabled={world >= 6} onClick={() => onSelect(Math.min(6, world + 1))} />
+      <PadButton dir="right" disabled={world >= 5} onClick={() => onSelect(Math.min(5, world + 1))} />
     </div>
   );
 }

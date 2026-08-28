@@ -66,3 +66,6 @@ intelligence-watch:
 		$(MAKE) refresh-intelligence || echo "refresh-intelligence failed this cycle - will retry next interval"; \
 		sleep $${interval}; \
 	done
+
+final-check:
+	python3 scripts/final_check.py

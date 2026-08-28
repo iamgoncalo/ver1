@@ -36,17 +36,15 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("all six machine worlds + product universe are reachable via nav, render real content, never scroll the page", async ({ page }) => {
+  test("all five machine worlds are reachable via nav, render real content, never scroll the page", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
     const expectations = [
+      { nav: /^Product universe$/, heading: "what exists today" },
       { nav: /^Radar$/, heading: "what are we observing?" },
       { nav: /^Paths$/, heading: "Where does reality appear to be moving?" },
-      { nav: /^Field$/, heading: "What is actually true around these paths?" },
       { nav: /^Magic box$/, heading: "what could exist now?" },
       { nav: /^Innovations$/, heading: "which possibilities are becoming serious?" },
-      { nav: /^New products$/, heading: "ready to meet reality?" },
-      { nav: /Product universe/, heading: "what exists today" },
     ];
     for (const { nav, heading } of expectations) {
       await navButton(page, nav).click();
@@ -56,34 +54,33 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("keyboard navigation (0-6, arrows) moves through the machine", async ({ page }) => {
+  test("keyboard navigation (0-5, arrows) moves through the machine", async ({ page }) => {
     await page.goto("/");
     await page.keyboard.press("4");
     await expect(page.getByText("what could exist now?")).toBeVisible();
     await page.keyboard.press("ArrowRight");
     await expect(page.getByText("which possibilities are becoming serious?")).toBeVisible();
+    await page.keyboard.press("ArrowRight"); // clamps at 5
+    await expect(page.getByText("which possibilities are becoming serious?")).toBeVisible();
     await page.keyboard.press("ArrowLeft");
     await expect(page.getByText("what could exist now?")).toBeVisible();
-    await page.keyboard.press("2");
+    await page.keyboard.press("3");
     await expect(page.getByText("Where does reality appear to be moving?")).toBeVisible();
-    await page.keyboard.press("6");
-    await expect(page.getByText("ready to meet reality?")).toBeVisible();
-    await page.keyboard.press("ArrowRight"); // clamps at 6
-    await expect(page.getByText("ready to meet reality?")).toBeVisible();
     await page.keyboard.press("0");
     await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible();
   });
 
   test("every world has a working deep link and browser Back is never required", async ({ page }) => {
     for (const [path, marker] of [
+      ["/products", "what exists today"],
       ["/radar", "what are we observing?"],
       ["/paths", "Where does reality appear to be moving?"],
-      ["/field", "What is actually true around these paths?"],
       ["/magic-box", "what could exist now?"],
       ["/innovations", "which possibilities are becoming serious?"],
-      ["/new-products", "ready to meet reality?"],
-      ["/products", "what exists today"],
       ["/criteria", "how the machine decides"],
+      // legacy routes fold into their canonical worlds
+      ["/field", "Where does reality appear to be moving?"],
+      ["/new-products", "which possibilities are becoming serious?"],
     ] as const) {
       await page.goto(path);
       await expect(page.getByText(marker).first()).toBeVisible({ timeout: 5000 });
@@ -133,7 +130,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // Genuine abbreviations and data ids are fine; three-plus-word shouting
     // sentences are not. Checks rendered text of every world.
     const ALLOWED = /^(API|DOI|PMID|PMCID|URL|PDF|CADR|HEPA|USD|EUR|NL|US|EU|AI|IOT|PM2\.5|CSAT|WTP|OS-\d|TC-R\d+|RP-\d+|CR-\d+|MB|CO2|VOC|UV|LED|WHO|EPA|AHAM|CARB|CSA|CBS|SPA-\w+|[A-Z]{2,6}\d*[A-Z0-9/]*)$/;
-    for (const path of ["/", "/radar", "/paths", "/field", "/magic-box", "/innovations", "/new-products", "/products"]) {
+    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations"]) {
       await page.goto(path);
       await page.waitForTimeout(600);
       const shouts = await page.evaluate(() => {
@@ -180,33 +177,59 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await rows.nth(2).click();
     await expect(page.getByText("Consequences")).toBeVisible();
     await expect(page).toHaveURL(/\/paths$/);
+    // Field is nested inside Paths - grounding opens in place, no route change
+    await page.getByRole("button", { name: /Ground it in the field/ }).click();
+    await expect(page.getByText("Field — what this trajectory means in the real world")).toBeVisible();
+    await expect(page.getByText("Category assumptions this path touches")).toBeVisible();
+    await expect(page).toHaveURL(/\/paths$/);
     await noDocumentScroll(page);
     expect(errors).toEqual([]);
   });
 
-  test("Field world: brief, assumption map and verified anchors are real and clickable", async ({ page }) => {
+  test("Lab opens inside an Innovation with honest lenses and a working prediction-gated Scenario", async ({ page }) => {
     const errors = trackConsoleErrors(page);
-    await page.goto("/field");
-    await expect(page.getByText("Field brief — what is true now")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText("Wrong if")).toBeVisible();
-    await expect(page.getByText("Category assumption map")).toBeVisible();
-    await expect(page.getByText("Verified economic anchors (NL)")).toBeVisible();
-    await page.getByText(/CADR/).first().click();
-    await expect(page.getByText("Real evidence that bears on it")).toBeVisible({ timeout: 5000 });
-    await page.keyboard.press("Escape");
-    await noDocumentScroll(page);
+    await page.goto("/innovations");
+    await page.getByRole("button", { name: "Open Lab →" }).first().click();
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Lab — where possibility meets reality")).toBeVisible();
+    // honest prototype state
+    await page.getByRole("button", { name: "Prototype" }).click();
+    await expect(page.getByText("No digital or physical prototype has")).toBeVisible();
+    // simulation honesty
+    await page.getByRole("button", { name: "Simulation" }).click();
+    await expect(page.getByText("scenario arithmetic")).toBeVisible();
+    await expect(page.getByText("No Monte Carlo, statistical, or physical simulation")).toBeVisible();
+    // scenario requires a stated prediction before running
+    await page.getByRole("button", { name: "Scenario" }).click();
+    await expect(page.getByRole("button", { name: "Run scenario" })).toBeDisabled();
+    await page.getByLabel(/Materiality floor/).fill("3.0");
+    await page.getByLabel(/Expected direction/).selectOption("OS-2");
+    await page.getByRole("button", { name: "Run scenario" }).click();
+    await expect(page.getByText("prediction confirmed")).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText(/Whisper-Quiet Night Mode/).first()).toBeVisible();
+    // artifacts resolve
+    await page.getByRole("button", { name: "Artifacts" }).click();
+    await expect(page.getByRole("dialog").getByRole("link", { name: /Innovation Disclosure/ })).toBeVisible();
+    await page.getByRole("button", { name: "Close Lab" }).click();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
     expect(errors).toEqual([]);
   });
 
-  test("New products world: product hypotheses with experiment and kill criterion, distinct from the existing portfolio", async ({ page }) => {
+  test("category is a real computation input: Floor care shows its honest live eligibility, never Air data", async ({ page }) => {
     const errors = trackConsoleErrors(page);
-    await page.goto("/new-products");
-    await expect(page.getByText(/hypotheses currently priority to test/)).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText("formal case recommendation")).toBeVisible();
-    await expect(page.getByText("First experiment", { exact: true })).toBeVisible();
-    await expect(page.getByText("Kill criterion", { exact: true })).toBeVisible();
-    await expect(page.getByText("Price-weighted exposure").first()).toBeVisible();
-    await noDocumentScroll(page);
+    await page.goto("/radar");
+    await expect(page.getByText("Corpus provenance:")).toBeVisible({ timeout: 5000 });
+    await page.getByRole("button", { name: "Floor care" }).click();
+    await expect(page.getByText("insufficient evidence")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Eligible evidence, by family")).toBeVisible();
+    // genuinely zero eligible evidence for floor care - live computation, not
+    // authored: at least four families render a literal 0 count
+    await expect(page.getByText("reviews", { exact: true })).toBeVisible();
+    expect(await page.getByText(/^0$/).count()).toBeGreaterThanOrEqual(4);
+    // no Air content is shown under the Floor care label
+    await expect(page.getByText("Corpus provenance:")).toHaveCount(0);
+    await page.getByRole("button", { name: "Back to air purification →" }).click();
+    await expect(page.getByText("Corpus provenance:")).toBeVisible({ timeout: 5000 });
     expect(errors).toEqual([]);
   });
 
@@ -283,19 +306,19 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(backLink).toHaveAttribute("href", "/");
   });
 
-  test("WorldPad footer control steps between the six worlds and returns home", async ({ page }) => {
+  test("WorldPad footer control steps between the five worlds and returns home", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible();
     await expect(page.getByRole("button", { name: "Home" })).toHaveText("Home");
     await expect(page.getByRole("button", { name: "Previous world" })).toBeDisabled();
 
     await page.getByRole("button", { name: "Next world" }).click();
-    await expect(page.getByText("what are we observing?")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Home" })).toHaveText("1/6");
+    await expect(page.getByText("what exists today").first()).toBeVisible();
+    await expect(page.getByRole("button", { name: "Home" })).toHaveText("1/5");
 
     await page.getByRole("button", { name: "Next world" }).click();
-    await expect(page.getByText("Where does reality appear to be moving?")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Home" })).toHaveText("2/6");
+    await expect(page.getByText("what are we observing?")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Home" })).toHaveText("2/5");
 
     await page.getByRole("button", { name: "Home" }).click();
     await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible();
@@ -345,14 +368,14 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     }
   });
 
-  test("Overview: the six-stage machine is live, clickable, and traced", async ({ page }) => {
+  test("Overview: the five-stage machine is live, clickable, and traced", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
     await expect(page.getByRole("heading", { name: "Intelligence Machine" })).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("● running")).toBeVisible();
     await expect(page.getByText(/snapshot [0-9a-f]{10}/)).toBeVisible();
 
-    for (const label of ["Radar", "Paths", "Field", "Magic box", "Innovations", "New products"]) {
+    for (const label of ["Product universe", "Radar", "Paths", "Magic box", "Innovations"]) {
       await expect(page.locator("main button").filter({ hasText: label }).first()).toBeVisible();
     }
 
@@ -362,10 +385,11 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText(/compute_homepage_funnel/)).toBeVisible();
     await page.keyboard.press("Escape");
 
-    await page.locator("main button").filter({ hasText: "Field" }).first().click();
+    await page.getByTitle("Paths — click for detail and trace").click();
+    await page.getByRole("button", { name: /Field brief/ }).click();
     await expect(page.getByText("Wrong if")).toBeVisible({ timeout: 5000 });
-    await page.getByRole("button", { name: "Open the Field world →" }).click();
-    await expect(page.getByText("What is actually true around these paths?")).toBeVisible({ timeout: 5000 });
+    await page.getByRole("button", { name: "Ground it inside Paths →" }).click();
+    await expect(page.getByText("Where does reality appear to be moving?")).toBeVisible({ timeout: 5000 });
 
     await page.getByTitle("Machine overview — home").click();
     await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible({ timeout: 5000 });

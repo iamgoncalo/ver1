@@ -3,6 +3,7 @@ import { api } from "../lib/api";
 import type { InnovationsResponse } from "../lib/types";
 import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+import { Lab } from "../components/Lab";
 import { traceBetChain } from "../lib/trace";
 import { TraceTree, TraceLegend } from "../components/TraceTree";
 import { FrictionIcon } from "../components/ThemeIcon";
@@ -76,6 +77,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
   const maxEcon = data ? Math.max(...ids.map((id) => data.scores[id].economic_value ?? 0), 1) : 1;
   const maxPain = data ? Math.max(...ids.map((id) => Math.abs(data.scores[id].consumer_pain.severity_csat ?? 0)), 1) : 1;
   const winnerId = data?.verdict.recommended;
+  const [labId, setLabId] = useState<string | null>(null);
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
@@ -159,6 +161,10 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
                 {themeFromEvidenceIds(s.evidence_ids) && <FrictionIcon theme={themeFromEvidenceIds(s.evidence_ids)!} size={32} />}
               </div>
               <h3 style={{ fontSize: 18, marginBottom: 6, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={s.name}>{s.name}</h3>
+              <button onClick={(e) => { e.stopPropagation(); setLabId(id); }}
+                style={{ marginBottom: 10, padding: "6px 12px", borderRadius: 8, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 11.5, fontWeight: 600 }}>
+                Open Lab →
+              </button>
 
               {s.typical_market_price_usd != null && (
                 <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 10 }}>
@@ -289,6 +295,9 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
           </>
         )}
       </FocusPanel>
+      {labId && data && (
+        <Lab osId={labId} score={data.scores[labId]} verdict={data.verdict} onClose={() => setLabId(null)} />
+      )}
     </div>
   );
 }

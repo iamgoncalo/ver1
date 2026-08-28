@@ -32,19 +32,19 @@ interface FunnelDoc {
   homepage_funnel: HomepageFunnel;
 }
 
-const STAGES: { key: FunnelStageKey; label: string; tagline: string }[] = [
-  { key: "radar", label: "Radar", tagline: "Receives wide reality" },
-  { key: "paths", label: "Paths", tagline: "Compresses it into direction" },
-  { key: "field", label: "Field", tagline: "Grounds those paths" },
-  { key: "magic_box", label: "Magic box", tagline: "Expands into possibility" },
-  { key: "innovations", label: "Innovations", tagline: "Challenges and evolves" },
-  { key: "new_products", label: "New products", tagline: "Concrete enough to test" },
+type StageDef = { key: string; icon: FunnelStageKey; label: string; tagline: string; world: number };
+const STAGES: StageDef[] = [
+  { key: "product_universe", icon: "new_products", label: "Product universe", tagline: "What Versuni already has", world: 1 },
+  { key: "radar", icon: "radar", label: "Radar", tagline: "What we actually see", world: 2 },
+  { key: "paths", icon: "paths", label: "Paths", tagline: "Where reality moves — grounded", world: 3 },
+  { key: "magic_box", icon: "magic_box", label: "Magic box", tagline: "What could exist now", world: 4 },
+  { key: "innovations", icon: "innovations", label: "Innovations", tagline: "Worth developing next", world: 5 },
 ];
 
 // A world to jump to for each real RADAR family - not every family has one
 // (ECONOMICS/PATENTS/NATURE have no dedicated page yet).
 const FAMILY_WORLD: Record<string, number> = {
-  RESEARCH: 1, TRENDS: 1, CONSUMERS: 1, MARKET: 1, TECHNOLOGY_AI: 1, PRODUCTS: 7, RIVALS: 1,
+  RESEARCH: 2, TRENDS: 2, CONSUMERS: 2, MARKET: 2, TECHNOLOGY_AI: 2, PRODUCTS: 1, RIVALS: 2,
 };
 
 function timeAgo(iso: string) {
@@ -98,18 +98,18 @@ function Source({ text }: { text: string }) {
   );
 }
 
-function headline(hf: HomepageFunnel, key: FunnelStageKey): number | null {
+function headline(hf: HomepageFunnel, key: string): number | null {
   switch (key) {
+    case "product_universe": return hf.radar.families.PRODUCTS ?? null;
     case "radar": return Object.values(hf.radar.families).reduce((a, b) => a + b, 0);
     case "paths": return hf.paths.length;
-    case "field": return null;
     case "magic_box": return hf.magic_box.count;
     case "innovations": return hf.innovations.count;
-    case "new_products": return hf.new_products.count;
+    default: return null;
   }
 }
 
-function StageTile({ stage, hf, status, onOpen }: { stage: typeof STAGES[number]; hf: HomepageFunnel; status: string; onOpen: () => void }) {
+function StageTile({ stage, hf, status, onOpen }: { stage: StageDef; hf: HomepageFunnel; status: string; onOpen: () => void }) {
   const [hover, setHover] = useState(false);
   const n = headline(hf, stage.key);
   return (
@@ -129,7 +129,7 @@ function StageTile({ stage, hf, status, onOpen }: { stage: typeof STAGES[number]
         transition: "border-color 160ms, box-shadow 160ms, transform 160ms",
       }}
     >
-      <FunnelStageIcon stage={stage.key} size={40} />
+      <FunnelStageIcon stage={stage.icon} size={40} />
       {n !== null
         ? <div className="mono" style={{ fontSize: 30, fontWeight: 700, lineHeight: 1, color: "var(--ink)" }}>{n}</div>
         : <Pill tone={status === "RUNNING" ? "good" : "rose"}>● live</Pill>}
@@ -149,7 +149,7 @@ function FlowConnector() {
 
 export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }) {
   const [data, setData] = useState<FunnelDoc | null>(null);
-  const [openStage, setOpenStage] = useState<FunnelStageKey | null>(null);
+  const [openStage, setOpenStage] = useState<string | null>(null);
 
   useEffect(() => { api.funnel().then(setData).catch(() => setData(null)); }, []);
 
@@ -188,7 +188,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
           </div>
 
           <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 18, flexShrink: 0 }}>
-            {[["Radar", 1], ["Paths", 2], ["Field", 3], ["Magic box", 4], ["Innovations", 5], ["New products", 6], ["Product universe", 7]].map(([label, n]) => (
+            {[["Product universe", 1], ["Radar", 2], ["Paths", 3], ["Magic box", 4], ["Innovations", 5]].map(([label, n]) => (
               <button key={label as string} onClick={() => onGoToWorld(n as number)}
                 style={{ fontSize: 11.5, padding: "6px 12px", borderRadius: 8, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer" }}>
                 {label} →
@@ -197,6 +197,23 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
           </div>
         </>
       )}
+
+      {/* PRODUCT UNIVERSE */}
+      <FocusPanel open={openStage === "product_universe"} onClose={() => setOpenStage(null)} eyebrow="Product universe — what Versuni already has" title={`${hf?.radar.families.PRODUCTS ?? 0} verified real products`}>
+        {hf && (
+          <>
+            <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 12 }}>
+              The hand-validated product corpus plus the individually-verified official portfolio — the machine's
+              ground truth for what exists and what capabilities can be borrowed.
+            </p>
+            <button onClick={() => goTo(1)}
+              style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
+              Open the Product universe →
+            </button>
+            <Source text="GET /api/funnel -> homepage_funnel.radar.families.PRODUCTS + GET /api/products - src/real/products_signals_real.py." />
+          </>
+        )}
+      </FocusPanel>
 
       {/* RADAR */}
       <FocusPanel open={openStage === "radar"} onClose={() => setOpenStage(null)} eyebrow="Radar — what the machine observes" title="Evidence families">
@@ -224,7 +241,11 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
             {hf.paths.map((p) => (
               <PathRow key={p.id} p={p} />
             ))}
-            <button onClick={() => goTo(2)}
+            <button onClick={() => setOpenStage("field")}
+              style={{ marginTop: 6, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", fontSize: 12.5 }}>
+              Field brief — what this means in the real world ▸
+            </button>
+            <button onClick={() => goTo(3)}
               style={{ marginTop: 6, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Open the Paths world →
             </button>
@@ -248,7 +269,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
             )}
             <button onClick={() => goTo(3)}
               style={{ marginTop: 8, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              Open the Field world →
+              Ground it inside Paths →
             </button>
             <Source text="GET /api/funnel -> homepage_funnel.field, a 1:1 relabelling of decision_framework_real.json[&quot;verdict&quot;] — src/real/decision_framework_real.py." />
           </>
@@ -299,36 +320,24 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Explore Innovations →
             </button>
-            <Source text="GET /api/funnel -> homepage_funnel.innovations — magic_box_real.json[&quot;non_dominated&quot;] (Pareto survivors of the generated set - counts shown are live), each joined to its Critic verdict." />
+            <div style={{ marginTop: 14 }}>
+              <SectionLabel>Current priority to test ({hf.new_products.count} machine hypotheses)</SectionLabel>
+              {hf.new_products.products.map((p) => (
+                <div key={p.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
+                  <span>{p.name}</span>
+                  <span className="mono" style={{ color: "var(--ink-faint)" }}>{p.feasibility}</span>
+                </div>
+              ))}
+              <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.45 }}>
+                Formal-case recommendation: {hf.new_products.bet} — its experiment and kill criterion live in
+                the Innovations Lab.
+              </p>
+            </div>
+            <Source text="GET /api/funnel -> homepage_funnel.innovations + new_products — magic_box_real.json (gate -> evidence -> dominance screening), each joined to its Critic verdict." />
           </>
         )}
       </FocusPanel>
 
-      {/* NEW PRODUCTS */}
-      <FocusPanel open={openStage === "new_products"} onClose={() => setOpenStage(null)} eyebrow="New products — concrete enough to test" title={`${hf?.new_products.count ?? 0} product hypotheses`}>
-        {hf && (
-          <>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {hf.new_products.products.map((p) => (
-                <div key={p.id} style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: 12 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600 }}>{p.name}</div>
-                  <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>{p.friction_theme_name} × {p.operator}</div>
-                  <div style={{ marginTop: 6 }}>
-                    <StatRow label="Price" value={p.typical_market_price_usd != null ? `$${p.typical_market_price_usd.toFixed(2)}` : "no verified price"} />
-                    <StatRow label="Exposure" value={`$${p.economic_value.toLocaleString()}`} />
-                    <StatRow label="Feasibility" value={p.feasibility} />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <button onClick={() => goTo(6)}
-              style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              Open New products →
-            </button>
-            <Source text="GET /api/funnel -> homepage_funnel.new_products — magic_box_real.json[&quot;finalists&quot;]." />
-          </>
-        )}
-      </FocusPanel>
     </div>
   );
 }

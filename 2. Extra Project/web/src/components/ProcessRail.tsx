@@ -1,16 +1,23 @@
 import { Logo } from "./Logo";
 import { VersuniProductsLink } from "./VersuniProductsLink";
+import type { CategoryId } from "../App";
 
 const STAGES = [
-  { n: 1, world: "Radar", q: "What are we observing?" },
-  { n: 2, world: "Paths", q: "Where does reality appear to be moving?" },
-  { n: 3, world: "Field", q: "What is actually true around those paths?" },
-  { n: 4, world: "Magic box", q: "What could exist now that didn't make sense before?" },
-  { n: 5, world: "Innovations", q: "Which possibilities are becoming serious?" },
-  { n: 6, world: "New products", q: "Which product hypotheses are ready to meet reality?" },
+  { n: 1, world: "Product universe", q: "What does Versuni already have and know how to build?" },
+  { n: 2, world: "Radar", q: "What are we actually seeing?" },
+  { n: 3, world: "Paths", q: "Where is reality moving, and what does that mean?" },
+  { n: 4, world: "Magic box", q: "What could exist because of what we now know?" },
+  { n: 5, world: "Innovations", q: "Which possibilities are worth developing, and what should we learn next?" },
 ] as const;
 
-export function ProcessRail({ active, onSelect, onGoHome }: { active: number; onSelect: (n: number) => void; onGoHome: () => void }) {
+const CATEGORIES: { id: CategoryId; label: string }[] = [
+  { id: "AIR_PURIFICATION", label: "Air" },
+  { id: "FLOOR_CARE", label: "Floor care" },
+];
+
+export function ProcessRail({ active, onSelect, onGoHome, category, onCategoryChange }:
+  { active: number; onSelect: (n: number) => void; onGoHome: () => void;
+    category: CategoryId; onCategoryChange: (c: CategoryId) => void }) {
   return (
     <header
       style={{
@@ -19,10 +26,27 @@ export function ProcessRail({ active, onSelect, onGoHome }: { active: number; on
         flexShrink: 0, gap: 12, maxWidth: "100vw",
       }}
     >
-      <button onClick={onGoHome} title="Machine overview — home" aria-current={active === 0 ? "step" : undefined}
-        style={{ border: "none", background: "none", cursor: "pointer", padding: 4, borderRadius: 8, opacity: active === 0 ? 1 : 0.85, justifySelf: "start" }}>
-        <Logo />
-      </button>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, justifySelf: "start", minWidth: 0 }}>
+        <button onClick={onGoHome} title="Machine overview — home" aria-current={active === 0 ? "step" : undefined}
+          style={{ border: "none", background: "none", cursor: "pointer", padding: 4, borderRadius: 8, opacity: active === 0 ? 1 : 0.85 }}>
+          <Logo />
+        </button>
+        <div role="group" aria-label="Category" style={{ display: "flex", gap: 2, background: "var(--surface-2)", borderRadius: 8, padding: 2 }}>
+          {CATEGORIES.map((c) => (
+            <button key={c.id} onClick={() => onCategoryChange(c.id)}
+              title={`Switch the machine to ${c.label.toLowerCase()} — a real computation input, not a filter`}
+              style={{
+                padding: "4px 9px", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 11,
+                background: category === c.id ? "var(--surface)" : "transparent",
+                fontWeight: category === c.id ? 700 : 400,
+                color: category === c.id ? "var(--ink)" : "var(--ink-faint)",
+                boxShadow: category === c.id ? "var(--shadow)" : "none",
+              }}>
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </div>
       <nav aria-label="The machine" style={{ display: "flex", gap: 2, justifySelf: "center", overflowX: "auto", maxWidth: "100%" }}>
         {STAGES.map((s) => {
           const isActive = s.n === active;
@@ -46,22 +70,6 @@ export function ProcessRail({ active, onSelect, onGoHome }: { active: number; on
             </button>
           );
         })}
-        <button
-          onClick={() => onSelect(7)}
-          aria-current={active === 7 ? "step" : undefined}
-          title="Product Universe — the verified existing-product intelligence library"
-          style={{
-            padding: "6px 10px", borderRadius: 8, border: "1px solid",
-            borderColor: active === 7 ? "var(--accent-blue)" : "transparent",
-            background: active === 7 ? "var(--surface-2)" : "transparent",
-            cursor: "pointer", whiteSpace: "nowrap", marginLeft: 8,
-            transition: "background 120ms, border-color 120ms",
-          }}
-        >
-          <span style={{ fontSize: 12.5, fontWeight: 500, color: active === 7 ? "var(--accent-blue-ink)" : "var(--ink-dim)" }}>
-            ⌸ Product universe
-          </span>
-        </button>
       </nav>
       <div style={{ justifySelf: "end" }}>
         <VersuniProductsLink />
