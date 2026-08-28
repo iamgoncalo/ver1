@@ -1,14 +1,13 @@
-# Final acceptance — generated 2026-08-28T19:35:53.517110+00:00 @ 6bcd70e
+# Final acceptance — generated 2026-08-28T19:38:28.621530+00:00 @ ba7c9a4
 
 **PASS 19 · FAIL 1 · MANUAL 3**
 
 
 ## repository
 - [x] **PASS** correct repo + main canonical — https://github.com/iamgoncalo/ver1.git
-- [ ] **FAIL** clean working tree — M "2. Extra Project/Makefile"
- M "2. Extra Project/api/main.py"
- M "2. Extra Project/data/processed/
-- [x] **PASS** local main == origin/main — local 6bcd70e6e vs origin 6bcd70e6e
+- [ ] **FAIL** clean working tree — M "2. Extra Project/data/processed/funnel_run_history.json"
+ M "2. Extra Project/scripts/final_check
+- [x] **PASS** local main == origin/main — local ba7c9a444 vs origin ba7c9a444
 - [x] **PASS** no absolute personal paths in tracked files — none
 - [x] **PASS** no obvious secrets — signature scan clean
 - [x] **PASS** public repository — GitHub API visibility

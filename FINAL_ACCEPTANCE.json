@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-08-28T19:35:53.517110+00:00",
- "main_sha": "6bcd70e",
+ "generated_at": "2026-08-28T19:38:28.621530+00:00",
+ "main_sha": "ba7c9a4",
  "results": [
   {
    "section": "repository",
@@ -12,13 +12,13 @@
    "section": "repository",
    "name": "clean working tree",
    "status": "FAIL",
-   "detail": "M \"2. Extra Project/Makefile\"\n M \"2. Extra Project/api/main.py\"\n M \"2. Extra Project/data/processed/"
+   "detail": "M \"2. Extra Project/data/processed/funnel_run_history.json\"\n M \"2. Extra Project/scripts/final_check"
   },
   {
    "section": "repository",
    "name": "local main == origin/main",
    "status": "PASS",
-   "detail": "local 6bcd70e6e vs origin 6bcd70e6e"
+   "detail": "local ba7c9a444 vs origin ba7c9a444"
   },
   {
    "section": "repository",
