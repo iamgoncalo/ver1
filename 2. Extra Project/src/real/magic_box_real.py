@@ -54,6 +54,12 @@ OPERATORS = {
 # Fixed, transparent, author-reviewed mapping: which operator(s) fit which
 # real friction theme. This table itself is the "design judgment" layer -
 # declared once, applied deterministically, never per-run randomness.
+# HONEST METHOD LABEL: this operator table and the POSSIBILITY_NAMES below
+# are ANALYST-DESIGNED, DETERMINISTIC METHOD - a rule set authored for the
+# air-purification category specifically. The generation is category-
+# specific by construction; it is NOT a general category-independent
+# generator, and no other category's results can be claimed from it
+# without authoring (or genuinely generalizing) an equivalent rule set.
 THEME_OPERATORS = {
     "reliability": ["PREDICT", "MATERIALISE", "CROSS_CATEGORY_TRANSFER"],
     "noise": ["AMBIENT", "TEMPORAL_SHIFT", "CROSS_CATEGORY_TRANSFER"],
@@ -217,6 +223,11 @@ def generate_possibilities():
                 "friction_theme_name": THEMES[theme_id][0],
                 "operator": op,
                 "operator_definition": OPERATORS[op],
+                "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+                "donor_state": ("MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor "
+                                "capability relationship and none exists in this pipeline; "
+                                "treat the transfer as HYPOTHESIS"
+                                if op == "CROSS_CATEGORY_TRANSFER" else None),
                 "consumer_pain_csat": stats["csat_impact"],
                 "consumer_pain_prevalence_pct": stats["prevalence_pct"],
                 "consumer_pain_methodology": {
@@ -304,6 +315,14 @@ def run_funnel():
                           "kill_reason": "Another concept beats it on pain, value, and feasibility."})
 
     return {
+        "generation_method": {
+            "class": "ANALYST_DESIGNED_DETERMINISTIC",
+            "epistemic_type": "METHOD_CHOICE / ANALYST_DESIGN_JUDGMENT",
+            "scope": "AIR_PURIFICATION only - the theme x operator rule table and "
+                     "possibility names are authored for this category; not "
+                     "category-general",
+            "code_reference": "src/real/magic_box_real.py::THEME_OPERATORS / POSSIBILITY_NAMES",
+        },
         "_provenance": "Every count is len() of a real filtered Python list. Dominance "
                        "reuses src/real/decision_framework_real.py::dominates() exactly, "
                        "generalized to N candidates.",

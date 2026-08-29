@@ -79,14 +79,26 @@ def compute_category_state(category_id):
     eligible_papers = [p for p in papers
                        if rterms.search((p.get("title") or "") + " " + (p.get("found") or ""))]
 
+    # market evidence is category-LINKED: each real market source counts only
+    # if its own recorded scope/name matches this category's terms
+    market = _load_json(os.path.join(RAW, "market_metrics.json")) or {}
+    n_market = 0
+    for s in (market.get("sources") or []):
+        blob = " ".join(str(s.get(k, "")) for k in ("name", "scope", "metric", "notes", "title"))
+        if cat["research_terms"].search(blob) or inc.search(blob):
+            n_market += 1
+
     trends = _load_json(os.path.join(RAW, "trend_corpus.json")) or {"articles": []}
     eligible_trends = [a for a in trends["articles"]
                        if rterms.search((a.get("title") or "") + " " + (a.get("scope_note") or ""))]
 
     rivals = _load_json(os.path.join(PROC, "rivals_real.json")) or {"rivals": []}
-    # rivals are derived from the review corpus, so their eligibility follows
-    # the eligible review base, reported at the brand level
-    n_rivals = len(rivals["rivals"]) if n_reviews > 0 else 0
+    # rivals are category-filtered for real: a rival counts only if its brand
+    # actually appears among this category's eligible products
+    eligible_brands = { (p.get("brand") or "").strip().lower()
+                        for p in eligible_products if p.get("brand") }
+    n_rivals = sum(1 for r in rivals["rivals"]
+                   if (r.get("brand") or r.get("name") or "").strip().lower() in eligible_brands)
 
     families = {
         "products": {"count": len(eligible_products), "state": _sufficiency(len(eligible_products), 50)},
@@ -94,11 +106,24 @@ def compute_category_state(category_id):
         "research": {"count": len(eligible_papers), "state": _sufficiency(len(eligible_papers), 5)},
         "trend_documents": {"count": len(eligible_trends), "state": _sufficiency(len(eligible_trends), 5)},
         "competitors": {"count": n_rivals, "state": _sufficiency(n_rivals, 10)},
-        "market_reports": {"count": 2 if category_id == "AIR_PURIFICATION" else 0,
-                            "state": "SUFFICIENT" if category_id == "AIR_PURIFICATION" else "INSUFFICIENT"},
+        "market_reports": {"count": n_market, "state": _sufficiency(n_market, 2)},
     }
-    runnable = all(f["state"] == "SUFFICIENT" for k, f in families.items()
-                   if k in ("products", "reviews"))
+    def stage_state(*fams):
+        states = [families[f]["state"] for f in fams]
+        if all(s == "SUFFICIENT" for s in states):
+            return "SUFFICIENT"
+        if all(s == "INSUFFICIENT" for s in states):
+            return "INSUFFICIENT"
+        return "PARTIAL"
+
+    stages = {
+        "product_universe": stage_state("products"),
+        "radar": stage_state("reviews", "research", "trend_documents", "competitors", "market_reports"),
+        "paths_field": stage_state("research", "reviews"),
+        "magic_box": stage_state("reviews", "research"),
+        "innovations": stage_state("reviews", "market_reports"),
+    }
+    runnable = all(s == "SUFFICIENT" for s in stages.values())
     return {
         "_provenance": "Computed live by src/real/category_state.py - the same keyword-"
                        "eligibility filters over the same real evidence stores for every "
@@ -106,8 +131,10 @@ def compute_category_state(category_id):
         "category": category_id,
         "label": cat["label"],
         "families": families,
+        "stage_readiness": stages,
         "machine_runnable": runnable,
-        "honest_note": (None if runnable else
+        "honest_note": ("Every stage of the machine currently has sufficient eligible evidence "
+                        "for this category." if runnable else
                         "The machine cannot honestly run for this category yet: the frozen "
                         "evidence base contains too little eligible material. Acquiring it "
                         "means re-running the acquisition pipeline with this category's "

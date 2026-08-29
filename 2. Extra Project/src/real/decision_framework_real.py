@@ -173,6 +173,19 @@ FEASIBILITY = {
     },
 }
 
+# Structured design of the defined first experiment - authored METHOD
+# (analyst design), one canonical home; UIs render it, never re-author it.
+EXPERIMENT_DESIGN = {
+    "OS-1": {
+        "question": "Do reliability failures cluster in specific brands/price tiers, or spread category-wide?",
+        "hypothesis": "Failure reports cluster by brand/price tier, or spread across the category",
+        "dependent_variable": "distribution of failure-mention share across products",
+        "data": "the real 10,529-review clean corpus (no new collection needed)",
+        "expected_direction": "spread across the category -> category-wide QA opportunity",
+        "undesigned": "baseline, sample-size and procedure fields beyond the above are not yet designed",
+    },
+}
+
 FIRST_EXPERIMENT = {
     "OS-1": ("Cross-reference the real review corpus's product-level failure mentions "
             "('stopped working', 'died', 'never worked') against each real product's "
@@ -469,7 +482,12 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
     scenario_cagr, scenario_source = SCENARIOS[scenario]
 
     def gate(csat, prevalence_pct):
-        return csat is not None and (prevalence_pct or 0) >= floor
+        # Missing evidence is an explicit evidence gap (gate not met and
+        # reported as such downstream) - it is never coerced to a zero
+        # score or a zero prevalence.
+        if csat is None or prevalence_pct is None:
+            return False
+        return prevalence_pct >= floor
 
     def feasibility_block(oid):
         f = FEASIBILITY[oid]
@@ -636,6 +654,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
                  alt=(runner_up["name"].split(" (")[0] if (runner_up["economic_value"] or 0) > (winner["economic_value"] or 0)
                       else winner["name"].split(" (")[0])),
         "first_experiment": FIRST_EXPERIMENT.get(winner_id, FIRST_EXPERIMENT["OS-1"]),
+        "experiment_design": EXPERIMENT_DESIGN.get(winner_id),
         "abandon_signal": ABANDON_SIGNAL.get(winner_id, ABANDON_SIGNAL["OS-1"]),
         "first_experiment_os1": FIRST_EXPERIMENT.get(winner_id, FIRST_EXPERIMENT["OS-1"]),
         "abandon_signal_os1": ABANDON_SIGNAL.get(winner_id, ABANDON_SIGNAL["OS-1"]),

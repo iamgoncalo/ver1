@@ -13,7 +13,13 @@ interface PathData {
   id: string; kind: "TENSION" | "ASSUMPTION"; name: string; from: string; to: string;
   driver: string; blocker: string; what_opens: string; what_closes: string; distortion: string;
   evidence: string[]; nature_analogue: string; detail: string;
+  maturity: "candidate" | "tentative" | "supported" | "challenged" | "insufficient";
+  causal_drivers_verified: boolean;
 }
+
+const MATURITY_TONE: Record<string, "good" | "amber" | "rose" | "neutral"> = {
+  supported: "good", tentative: "amber", challenged: "rose", candidate: "neutral", insufficient: "rose",
+};
 
 const KIND_META: Record<string, { tone: "rose" | "amber"; label: string; hint: string }> = {
   TENSION: { tone: "rose", label: "Tension", hint: "real evidence genuinely pulls in two directions" },
@@ -43,8 +49,9 @@ function Trajectory({ p, active, onClick }: { p: PathData; active: boolean; onCl
         border: "1px solid", borderColor: active ? "var(--accent-blue)" : "var(--line)",
         borderRadius: 12, padding: "10px 14px", transition: "border-color 120ms, background 120ms",
       }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0 }}>
         <Pill tone={meta.tone}>{meta.label}</Pill>
+        <Pill tone={MATURITY_TONE[p.maturity] ?? "neutral"}>{p.maturity}</Pill>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8, minWidth: 0 }}>
         <span style={{ fontSize: 12.5, color: "var(--ink-dim)", flex: "1 1 0", minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={p.from}>{p.from}</span>
@@ -62,19 +69,19 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }
   const [paths, setPaths] = useState<PathData[] | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [fieldOpen, setFieldOpen] = useState(false);
-  const [brief, setBrief] = useState<any>(null);
   const [fieldAssumptions, setFieldAssumptions] = useState<any[]>([]);
   const [anchors, setAnchors] = useState<Record<string, any>>({});
   const [assumptionFocus, setAssumptionFocus] = useState<any>(null);
+  const [evidenceCards, setEvidenceCards] = useState<any[]>([]);
 
   useEffect(() => {
     api.funnel().then((d: any) => {
       const ps = d?.homepage_funnel?.paths ?? [];
       setPaths(ps);
       if (ps.length) setFocusId(ps[0].id);
-      setBrief(d?.homepage_funnel?.field ?? null);
     }).catch(() => setPaths([]));
     api.assumptions().then((d: any) => setFieldAssumptions(d?.assumptions ?? [])).catch(() => {});
+    fetch("/api/research/evidence").then((r) => r.json()).then((d: any) => setEvidenceCards(d?.cards ?? [])).catch(() => {});
     api.economics().then((d: any) => setAnchors(d?.anchors ?? {})).catch(() => {});
   }, []);
 
@@ -85,10 +92,10 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "18px 28px", background: "var(--surface)", minHeight: 0 }}>
       <div style={{ flexShrink: 0, marginBottom: 12 }}>
-        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.05em" }}>2 · Paths</div>
+        <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.05em" }}>3 · Paths</div>
         <h1 style={{ fontSize: 22, marginTop: 2 }}>Where does reality appear to be moving?</h1>
         <p style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 4 }}>
-          {paths ? `${paths.length} real paths — ${tensions.length} tensions where evidence genuinely disagrees, ${assumptions.length} category assumptions in motion. Select one to see what it opens, what would falsify it, and the evidence behind it.` : "Loading real paths…"}
+          {paths ? `${paths.length} paths, each labelled by its evidence maturity — ${tensions.length} tensions (contested evidence), ${assumptions.length} assumptions in motion. No path yet has verified causal drivers; each says so.` : "Loading paths…"}
         </p>
       </div>
 
@@ -107,7 +114,13 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }
             <>
               <Pill tone={KIND_META[focus.kind].tone}>{KIND_META[focus.kind].label}</Pill>
               <span style={{ fontSize: 10.5, color: "var(--ink-faint)", marginLeft: 8 }}>{KIND_META[focus.kind].hint}</span>
+              <span style={{ marginLeft: 6 }}><Pill tone={MATURITY_TONE[focus.maturity] ?? "neutral"}>{focus.maturity}</Pill></span>
               <h2 style={{ fontSize: 16, margin: "10px 0 4px" }}>{focus.from} → {focus.to}</h2>
+              {!focus.causal_drivers_verified && (
+                <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 8 }}>
+                  No verified causal driver behind this trajectory yet — direction is evidence-suggested, not mechanism-proven.
+                </p>
+              )}
               <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 12 }}>{focus.detail}</p>
               <div style={{ marginTop: 2 }}>
                 <SectionLabel>Consequences</SectionLabel>
@@ -127,41 +140,49 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }
                 </p>
               </div>
               <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-                <button onClick={() => onGoToWorld(1)} style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", fontSize: 12 }}>← Radar evidence</button>
+                <button onClick={() => onGoToWorld(2)} style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", fontSize: 12 }}>← Radar evidence</button>
                 <button onClick={() => setFieldOpen((v) => !v)} aria-expanded={fieldOpen}
                   style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: fieldOpen ? "var(--surface-2)" : "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
                   {fieldOpen ? "Hide field grounding ▾" : "Ground it in the field ▸"}
                 </button>
               </div>
-              {fieldOpen && (
-                <div style={{ marginTop: 14, borderTop: "1px solid var(--line)", paddingTop: 12 }}>
-                  <SectionLabel>Field — what this trajectory means in the real world</SectionLabel>
-                  {brief && (
-                    <>
-                      <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5, marginBottom: 6 }}><b>True now:</b> {brief.now}</p>
-                      <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 6 }}><b>Moving:</b> {brief.moving}</p>
-                      <p style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.5, marginBottom: 10 }}><b>Wrong if:</b> {brief.wrong_if}</p>
-                    </>
-                  )}
-                  <SectionLabel>Category assumptions this path touches</SectionLabel>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10 }}>
-                    {fieldAssumptions.map((a) => (
-                      <button key={a.assumption_id} onClick={() => setAssumptionFocus(a)}
-                        style={{ fontSize: 10.5, padding: "4px 9px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink-dim)", cursor: "pointer", maxWidth: 250, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-                        title={a.text}>
-                        {a.text}
-                      </button>
+              {fieldOpen && (() => {
+                // Path-SPECIFIC grounding: this path's own assumption (for
+                // assumption paths) or its own evidence papers (for
+                // tensions) - never one global brief reused everywhere.
+                const ownAssumption = focus.kind === "ASSUMPTION"
+                  ? fieldAssumptions.find((a) => `assumption:${a.assumption_id}` === focus.id) ?? null : null;
+                const ownCards = focus.kind === "TENSION"
+                  ? evidenceCards.filter((c) => (focus.evidence || []).includes(c.research_id)) : [];
+                return (
+                  <div style={{ marginTop: 14, borderTop: "1px solid var(--line)", paddingTop: 12 }}>
+                    <SectionLabel>Field — what THIS trajectory means in the real world</SectionLabel>
+                    {ownAssumption && (
+                      <>
+                        <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5, marginBottom: 6 }}><b>The assumption in the world today:</b> {ownAssumption.evidence_for_prevalence}</p>
+                        <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 6 }}><b>Real evidence bearing on it:</b> {Array.isArray(ownAssumption.real_evidence_that_bears_on_it) ? ownAssumption.real_evidence_that_bears_on_it.join(" · ") : ownAssumption.real_evidence_that_bears_on_it}</p>
+                        <p style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.5, marginBottom: 10 }}><b>If the world flips:</b> {ownAssumption.counterfactual}</p>
+                        <button onClick={() => setAssumptionFocus(ownAssumption)} style={{ fontSize: 11, background: "none", border: "none", padding: 0, color: "var(--accent-blue-ink)", cursor: "pointer", textDecoration: "underline", marginBottom: 8 }}>Full assumption record ▸</button>
+                      </>
+                    )}
+                    {focus.kind === "TENSION" && (ownCards.length > 0 ? ownCards.slice(0, 3).map((c: any) => (
+                      <div key={c.research_id} style={{ marginBottom: 8 }}>
+                        <p style={{ fontSize: 11.5, color: "var(--ink)", lineHeight: 1.45 }}><b>{c.research_id}:</b> {c.found}</p>
+                        <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4 }}>Does not establish: {c.does_not_establish}</p>
+                      </div>
+                    )) : (
+                      <p style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 8 }}>The cited evidence records for this tension are not in the evidence-card set — open Radar → Research for the papers themselves.</p>
+                    ))}
+                    <SectionLabel>Economic context (NL, each anchor individually verified)</SectionLabel>
+                    {Object.entries(anchors).slice(0, 2).map(([k, a]: [string, any]) => (
+                      <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: 11.5, padding: "2px 0" }}>
+                        <span style={{ color: "var(--ink-dim)" }}>{k.replace(/_/g, " ").replace(" eur", " (€)")}</span>
+                        <span className="mono">{a.value.toLocaleString()} <span style={{ color: "var(--ink-faint)" }}>· {a.source.split(" - ")[0]} {a.year}</span></span>
+                      </div>
                     ))}
                   </div>
-                  <SectionLabel>Economic anchors (NL, each individually verified)</SectionLabel>
-                  {Object.entries(anchors).slice(0, 3).map(([k, a]: [string, any]) => (
-                    <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: 11.5, padding: "2px 0" }}>
-                      <span style={{ color: "var(--ink-dim)" }}>{k.replace(/_/g, " ").replace(" eur", " (€)")}</span>
-                      <span className="mono">{a.value.toLocaleString()} <span style={{ color: "var(--ink-faint)" }}>· {a.source.split(" - ")[0]} {a.year}</span></span>
-                    </div>
-                  ))}
-                </div>
-              )}
+                );
+              })()}
               <SourceNote text="GET /api/funnel -> homepage_funnel.paths - built by src/real/funnel_real.py from research_tensions.json + category_assumptions.json. Nothing here is authored in the interface." />
             </>
           ) : (

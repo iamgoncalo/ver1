@@ -35,7 +35,9 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
   const [runsDoc, setRunsDoc] = useState<any[]>([]);
   const [magic, setMagic] = useState<any>(null);
 
+  const [labState, setLabState] = useState<any>(null);
   useEffect(() => {
+    fetch(`/api/lab-state?os_id=${encodeURIComponent(osId)}`).then((r) => r.json()).then(setLabState).catch(() => {});
     api.critic().then(setCritic).catch(() => {});
     fetch("/api/runs").then((r) => r.json()).then((d) => setRunsDoc(Array.isArray(d) ? d : [])).catch(() => {});
     api.magicBox().then(setMagic).catch(() => {});
@@ -143,18 +145,17 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
 
           {lens === "prototype" && (
             <div style={{ maxWidth: 720 }}>
-              <Pill tone="amber">concept</Pill>
+              <Pill tone="amber">{(labState?.prototype?.state ?? "…").toLowerCase()}</Pill>
               <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55, marginTop: 10 }}>
-                Honest prototype state: <b>CONCEPT</b>. A concept document exists — the Innovation Disclosure
-                (Artifacts lens) with architecture, claims and derivation. No digital or physical prototype has
-                been built, and no user test has run; those states are earned by real work, never displayed
-                speculatively.
+                Prototype state is computed from what actually exists on disk — {labState?.prototype?.note?.toLowerCase() ?? "loading…"}
+                {" "}No digital or physical prototype has been built, and no user test has run; those states are
+                earned by real work, never displayed speculatively.
               </p>
               <div style={{ marginTop: 12 }}>
-                <StatRow label="Concept document" value={`${osId}.pdf (Artifacts lens)`} />
-                <StatRow label="Digital prototype" value="not started" />
-                <StatRow label="Physical prototype" value="not started" />
-                <StatRow label="User test" value="not started" />
+                <StatRow label="Concept document" value={labState?.artifacts?.some((a: any) => a.kind === "concept_document") ? `${osId}.pdf (Artifacts lens)` : "none on disk"} />
+                <StatRow label="Digital prototype" value={(labState?.prototype?.digital ?? "…").toLowerCase().replace(/_/g, " ")} />
+                <StatRow label="Physical prototype" value={(labState?.prototype?.physical ?? "…").toLowerCase().replace(/_/g, " ")} />
+                <StatRow label="User test" value={(labState?.prototype?.user_tested ?? "…").toLowerCase().replace(/_/g, " ")} />
               </div>
             </div>
           )}
@@ -165,18 +166,25 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
                 <>
                   <SectionLabel>First experiment (defined)</SectionLabel>
                   <p style={{ fontSize: 12.5, color: "var(--ink)", lineHeight: 1.55, marginBottom: 10 }}>{verdict.first_experiment}</p>
-                  <StatRow label="Hypothesis" value="failure reports cluster by brand/price tier, or spread category-wide" />
-                  <StatRow label="Dependent variable" value="distribution of failure-mention share across products" />
-                  <StatRow label="Data" value="the real 10,529-review clean corpus (no new collection needed)" />
-                  <StatRow label="Expected direction (stated before run)" value="spread across the category → category-wide QA opportunity" />
+                  {verdict.experiment_design ? (
+                    <>
+                      <StatRow label="Hypothesis" value={verdict.experiment_design.hypothesis} />
+                      <StatRow label="Dependent variable" value={verdict.experiment_design.dependent_variable} />
+                      <StatRow label="Data" value={verdict.experiment_design.data} />
+                      <StatRow label="Expected direction (stated before run)" value={verdict.experiment_design.expected_direction.replace("->", "→")} />
+                    </>
+                  ) : (
+                    <p style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>No structured design recorded for this candidate.</p>
+                  )}
                   <div style={{ marginTop: 10 }}>
                     <SectionLabel>Kill criterion</SectionLabel>
                     <p style={{ fontSize: 12.5, color: "var(--rose)", lineHeight: 1.55 }}>{verdict.abandon_signal}</p>
                   </div>
-                  <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 10, lineHeight: 1.5 }}>
-                    Baseline, sample-size and procedure fields beyond the above are not yet designed — stated
-                    honestly rather than filled with plausible text.
-                  </p>
+                  {verdict.experiment_design?.undesigned && (
+                    <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 10, lineHeight: 1.5 }}>
+                      {verdict.experiment_design.undesigned} — stated honestly rather than filled with plausible text.
+                    </p>
+                  )}
                 </>
               ) : (
                 <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
@@ -314,20 +322,21 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
 
           {lens === "artifacts" && (
             <div style={{ maxWidth: 720 }}>
-              <SectionLabel>Artifacts — every link verified live by the test suite</SectionLabel>
+              <SectionLabel>Artifacts — computed from what exists on disk, link-verified by the test suite</SectionLabel>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`/innovation-disclosures/${osId}.pdf`} style={{ display: "block", border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px", textDecoration: "none", color: "var(--ink)" }}>
-                  <div style={{ fontSize: 13, fontWeight: 600 }}>Innovation Disclosure — {osId}.pdf <Pill tone="teal">generated</Pill></div>
-                  <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>Patent-style concept document, regenerated by every pipeline run (opens inline).</div>
-                </a>
-                <a href="/api/evidence/table" style={{ display: "block", border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px", textDecoration: "none", color: "var(--ink)" }}>
-                  <div style={{ fontSize: 13, fontWeight: 600 }}>Evidence table (JSON) <Pill tone="teal">generated</Pill></div>
-                  <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>Every final claim's source, location, transformation and generating code.</div>
-                </a>
+                {(labState?.artifacts ?? []).map((a: any) => (
+                  <a key={a.id} href={a.path} style={{ display: "block", border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px", textDecoration: "none", color: "var(--ink)" }}>
+                    <div style={{ fontSize: 13, fontWeight: 600 }}>{a.title} <Pill tone="teal">{a.state}</Pill></div>
+                    <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>{a.note}</div>
+                  </a>
+                ))}
+                {labState && (labState.artifacts ?? []).length === 0 && (
+                  <p style={{ fontSize: 12, color: "var(--ink-faint)" }}>No artifacts exist for this innovation yet.</p>
+                )}
               </div>
               <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 10, lineHeight: 1.5 }}>
-                No prototype images, simulation outputs or experiment reports exist yet — the list above is the
-                complete, honest artifact set for this innovation.
+                No prototype images, simulation outputs or experiment reports exist yet — this list is the
+                complete, honest artifact set, assembled at request time from the filesystem.
               </p>
             </div>
           )}

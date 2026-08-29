@@ -86,28 +86,10 @@ export function ProductsWorld() {
 
       {mode === "distilled" ? (
         <div className="scrollY" style={{ flex: 1 }}>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 8 }}>
-            <TraceableMetric label="Real products" value={products.length || "…"}
-              onClick={() => setMetricFocus({ label: "Real products", value: products.length,
-                trace: "GET /api/products -> len(data/processed/products_real.json[\"products\"]), built by src/real/products_signals_real.py from the real, hand-validated Amazon purifier corpus (McAuley-Lab Amazon-Reviews-2023, filtered by src/real/filter_purifier_products.py) - the count shown IS the live corpus size." })} />
-            <TraceableMetric label="Connected / reactive share" value={`${connectedShare}%`}
-              onClick={() => setMetricFocus({ label: "Connected / reactive share", value: `${connectedShare}%`,
-                trace: "Computed live in ProductsWorld.tsx from data/processed/products_real.json: count of products where cluster_intelligence !== \"manual\", divided by total real products. cluster_intelligence itself is assigned by src/real/products_signals_real.py from each real product's title/description keywords." })} />
-            <TraceableMetric label="Price range" value={priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "…"}
-              onClick={() => setMetricFocus({ label: "Price range", value: priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "no verified data",
-                trace: `Computed live from data/processed/products_real.json: min/max of price_usd across all real products with a known observed price (${products.filter(p => p.price_usd != null).length} of ${products.length} have one - McAuley-Lab product metadata). Products with no listed price are excluded, not assumed.` })} />
-            <TraceableMetric label="Real reviews behind this" value={products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString() || "…"}
-              onClick={() => setMetricFocus({ label: "Real reviews behind this", value: products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString(),
-                trace: `Computed live from data/processed/products_real.json: sum of n_real_reviews_in_corpus across all ${products.length} real products - the real, hand-validated Amazon review count each product's evidence is drawn from (src/real/build_reviews_csv.py).` })} />
-          </div>
-          <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 16, marginBottom: 20, fontFamily: "var(--font-display)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-            The portfolio is moving from air-cleaning toward sensing and connectivity — but {100 - connectedShare}%
-            of this real corpus is still fully manual.
-          </p>
           {officialProducts && officialProducts.length > 0 && (
             <div style={{ marginBottom: 20 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 4 }}>
-                <SectionLabel>Verified official portfolio — not the Amazon corpus below</SectionLabel>
+                <SectionLabel>Verified Versuni portfolio — what Versuni actually ships (official pages)</SectionLabel>
                 {officialProducts.length > 4 && (
                   <button onClick={() => setShowAllOfficial(true)}
                     style={{ flexShrink: 0, fontSize: 12, fontWeight: 600, padding: "4px 10px", borderRadius: 999,
@@ -126,6 +108,31 @@ export function ProductsWorld() {
               </div>
             </div>
           )}
+          <div style={{ marginTop: 20 }}>
+            <SectionLabel>Category universe — the Amazon evidence corpus (market context, NOT Versuni's portfolio)</SectionLabel>
+            <p style={{ fontSize: 11.5, color: "var(--ink-faint)", maxWidth: 640, lineHeight: 1.5, marginBottom: 10 }}>
+              237 hand-validated air-purifier products from the whole category on Amazon.com — the evidence base the
+              machine reasons over. Versuni's own verified products are the section above.
+            </p>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 8 }}>
+            <TraceableMetric label="Category products (all brands)" value={products.length || "…"}
+              onClick={() => setMetricFocus({ label: "Category products (all brands)", value: products.length,
+                trace: "GET /api/products -> len(data/processed/products_real.json[\"products\"]), built by src/real/products_signals_real.py from the real, hand-validated Amazon purifier corpus (McAuley-Lab Amazon-Reviews-2023, filtered by src/real/filter_purifier_products.py) - the count shown IS the live corpus size." })} />
+            <TraceableMetric label="Connected / reactive share" value={`${connectedShare}%`}
+              onClick={() => setMetricFocus({ label: "Connected / reactive share", value: `${connectedShare}%`,
+                trace: "Computed live in ProductsWorld.tsx from data/processed/products_real.json: count of products where cluster_intelligence !== \"manual\", divided by total real products. cluster_intelligence itself is assigned by src/real/products_signals_real.py from each real product's title/description keywords." })} />
+            <TraceableMetric label="Price range" value={priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "…"}
+              onClick={() => setMetricFocus({ label: "Price range", value: priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "no verified data",
+                trace: `Computed live from data/processed/products_real.json: min/max of price_usd across all real products with a known observed price (${products.filter(p => p.price_usd != null).length} of ${products.length} have one - McAuley-Lab product metadata). Products with no listed price are excluded, not assumed.` })} />
+            <TraceableMetric label="Real reviews behind this" value={products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString() || "…"}
+              onClick={() => setMetricFocus({ label: "Real reviews behind this", value: products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString(),
+                trace: `Computed live from data/processed/products_real.json: sum of n_real_reviews_in_corpus across all ${products.length} real products - the real, hand-validated Amazon review count each product's evidence is drawn from (src/real/build_reviews_csv.py).` })} />
+          </div>
+          <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 16, marginBottom: 20, fontFamily: "var(--font-display)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+            The portfolio is moving from air-cleaning toward sensing and connectivity — but {100 - connectedShare}%
+            of this real corpus is still fully manual.
+          </p>
           {econ && (
             <div style={{ marginTop: 20, padding: "16px 20px", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, maxWidth: 640 }}>
               <SectionLabel>Dutch household context (real, verified)</SectionLabel>

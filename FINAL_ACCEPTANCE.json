@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-08-28T19:48:22.130007+00:00",
- "main_sha": "b234094",
+ "generated_at": "2026-08-29T14:49:56.818490+00:00",
+ "main_sha": "4baa5e8",
  "results": [
   {
    "section": "repository",
@@ -11,14 +11,14 @@
   {
    "section": "repository",
    "name": "clean working tree",
-   "status": "PASS",
-   "detail": "clean"
+   "status": "FAIL",
+   "detail": "M \"1. Mandatory Deliverables/01_Code/data/manifest.json\"\n M \"1. Mandatory Deliverables/01_Code/data/"
   },
   {
    "section": "repository",
    "name": "local main == origin/main",
    "status": "PASS",
-   "detail": "local b23409491 vs origin b23409491"
+   "detail": "local 4baa5e823 vs origin 4baa5e823"
   },
   {
    "section": "repository",
@@ -120,66 +120,72 @@
    "section": "hardcoding",
    "name": "snapshot hash deterministic",
    "status": "PASS",
-   "detail": "737ea413d1dd"
+   "detail": "360c41fc86bf"
   },
   {
    "section": "tests",
    "name": "extra project full discovery",
    "status": "PASS",
-   "detail": "61 tests"
+   "detail": "67 tests"
   },
   {
    "section": "tests",
-   "name": "playwright suite",
+   "name": "playwright full suite (all viewports)",
+   "status": "PASS",
+   "detail": "112 passed, exit=0"
+  },
+  {
+   "section": "tests",
+   "name": "frontend production build",
+   "status": "PASS",
+   "detail": "vite production build"
+  },
+  {
+   "section": "tests",
+   "name": "docker production build",
+   "status": "PASS",
+   "detail": "sha256:1b6ea077348a24860d55e9e05c7c5cc1b0db0e4fae91d190a4d09"
+  },
+  {
+   "section": "hardcoding",
+   "name": "no stale ontology in shipped state",
+   "status": "PASS",
+   "detail": "UI + funnel labels clean"
+  },
+  {
+   "section": "hardcoding",
+   "name": "no missing-to-zero display coercion",
+   "status": "FAIL",
+   "detail": "guarded display sites"
+  },
+  {
+   "section": "public_data",
+   "name": "reviewer identity ships only as a hash",
+   "status": "PASS",
+   "detail": "header check"
+  },
+  {
+   "section": "public_data",
+   "name": "data notice present",
+   "status": "PASS",
+   "detail": "DATA_NOTICE.md"
+  },
+  {
+   "section": "category",
+   "name": "stage-level readiness, no hardcoded market",
+   "status": "PASS",
+   "detail": "stage readiness + category-linked market"
+  },
+  {
+   "section": "production",
+   "name": "live checks",
    "status": "MANUAL",
-   "detail": "run `cd web && npx playwright test` (104 scenarios; last run green)"
-  },
-  {
-   "section": "production",
-   "name": "live health + release identity",
-   "status": "PASS",
-   "detail": "deployed b234094 vs main b234094"
-  },
-  {
-   "section": "production",
-   "name": "route /",
-   "status": "PASS",
-   "detail": "200"
-  },
-  {
-   "section": "production",
-   "name": "route /products",
-   "status": "PASS",
-   "detail": "200"
-  },
-  {
-   "section": "production",
-   "name": "route /radar",
-   "status": "PASS",
-   "detail": "200"
-  },
-  {
-   "section": "production",
-   "name": "route /paths",
-   "status": "PASS",
-   "detail": "200"
-  },
-  {
-   "section": "production",
-   "name": "route /magic-box",
-   "status": "PASS",
-   "detail": "200"
-  },
-  {
-   "section": "production",
-   "name": "route /innovations",
-   "status": "PASS",
-   "detail": "200"
+   "detail": "set RAILWAY_URL=https://... to run live checks"
   }
  ],
  "totals": {
-  "PASS": 27,
-  "FAIL": 0,
+  "PASS": 26,
+  "FAIL": 2,
   "MANUAL": 2
  }
 }

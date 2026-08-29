@@ -12,7 +12,7 @@ A live decision-engine API (FastAPI) plus a five-world React/TypeScript
 web app that lets you interactively walk the machine's reasoning:
 
 ```
-PRODUCTS + SIGNALS + COMPETITORS  →  MAGIC BOX (concept generation)
+PRODUCT UNIVERSE → RADAR (signal + competitor evidence) → PATHS + FIELD → MAGIC BOX (concept generation)
         →  CRITERIA (how intelligence decides)  →  INNOVATIONS
         →  CRITIC  →  FINALISTS
 ```

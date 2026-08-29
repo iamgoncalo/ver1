@@ -214,7 +214,7 @@ def write_sample_provenance(picked):
     independently checkable, not taken on faith."""
     import json
     meta = {r["review_id"]: r for r in load_clean() if r["review_id"] in {p["review_id"] for p in picked}}
-    keys = {(m["product_sku"], m["review_date_raw_epoch_ms"], m["reviewer_id"]): rid
+    keys = {(m["product_sku"], m["review_date_raw_epoch_ms"], m["reviewer_hash"]): rid
             for rid, m in meta.items()}
     found = {}
     for fn, upstream in ((os.path.join(ROOT, "data", "real_raw", "reviews_hk.jsonl"),
@@ -224,7 +224,8 @@ def write_sample_provenance(picked):
         with open(fn, encoding="utf-8") as fh:
             for line in fh:
                 raw = json.loads(line)
-                k = (raw.get("parent_asin"), str(raw.get("timestamp")), raw.get("user_id"))
+                import hashlib as _h
+                k = (raw.get("parent_asin"), str(raw.get("timestamp")), _h.sha256((raw.get("user_id") or "").encode()).hexdigest()[:16])
                 if k in keys and keys[k] not in found:
                     found[keys[k]] = (os.path.relpath(fn, ROOT), upstream, raw.get("asin"))
     ds = "https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023"

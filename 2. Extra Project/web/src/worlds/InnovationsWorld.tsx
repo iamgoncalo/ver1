@@ -75,7 +75,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
   const loading = status === "loading";
   const ids = data ? Object.keys(data.scores) : [];
   const maxEcon = data ? Math.max(...ids.map((id) => data.scores[id].economic_value ?? 0), 1) : 1;
-  const maxPain = data ? Math.max(...ids.map((id) => Math.abs(data.scores[id].consumer_pain.severity_csat ?? 0)), 1) : 1;
+  const maxPain = data ? Math.max(...ids.map((id) => data.scores[id].consumer_pain.severity_csat).filter((v): v is number => v != null).map(Math.abs), 1) : 1;
   const winnerId = data?.verdict.recommended;
   const [labId, setLabId] = useState<string | null>(null);
 
@@ -189,7 +189,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
                       <span>Consumer Pain (CSAT)</span><span className="mono">{s.consumer_pain.severity_csat}</span>
                     </div>
-                    <MiniBar value={s.consumer_pain.severity_csat ?? 0} max={maxPain} tone="rose" />
+                    {s.consumer_pain.severity_csat != null ? <MiniBar value={s.consumer_pain.severity_csat} max={maxPain} tone="rose" /> : <p style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>no measured CSAT signal — evidence gap, not zero</p>}
                     {s.consumer_pain.methodology && (
                       <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}
                         title="Keyword-classified real Amazon review text, not a survey or panel.">
@@ -200,7 +200,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
                   </div>
                   <div style={{ marginBottom: 8 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
-                      <span>Market exposure (price-weighted)</span><span className="mono">${(s.economic_value ?? 0).toLocaleString()}</span>
+                      <span>Market exposure (price-weighted)</span><span className="mono">{s.economic_value != null ? `$${s.economic_value.toLocaleString()}` : "unknown — no priced reviews"}</span>
                     </div>
                     <MiniBar value={s.economic_value ?? 0} max={maxEcon} tone="teal" />
                     <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}>

@@ -117,9 +117,11 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
             <MiniBar value={s.prevalence_pct} max={maxPrevalence} tone="blue" />
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 10 }}>
               <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>star-rating impact</span>
-              <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: (s.csat_impact ?? 0) < 0 ? "var(--rose)" : "var(--good)" }}>
-                {(s.csat_impact ?? 0) < 0 ? "▼" : "▲"} {Math.abs(s.csat_impact ?? 0).toFixed(3)}★
-              </span>
+              {s.csat_impact != null ? (
+                <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: s.csat_impact < 0 ? "var(--rose)" : "var(--good)" }}>
+                  {s.csat_impact < 0 ? "▼" : "▲"} {Math.abs(s.csat_impact).toFixed(3)}★
+                </span>
+              ) : <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>not measured</span>}
             </div>
             <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4 }}>
               {(s.n_reviews ?? 0).toLocaleString()} real reviews · {s.source_families.join(" + ")}

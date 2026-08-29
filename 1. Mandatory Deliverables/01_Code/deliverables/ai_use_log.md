@@ -1,8 +1,9 @@
 # AI-Use Log
 
-**Tools and roles.** *Claude Code (Anthropic):* repository work — data
-acquisition scripts, pipeline code, tests, verification tooling,
-AI-assisted review of outputs, and this document's prose. *ChatGPT
+**Tools and roles.** *Claude Code, running Claude Sonnet and later Claude
+Fable (Anthropic):* repository work — data acquisition scripts, pipeline
+code, tests, verification tooling, AI-assisted review of outputs, the
+AI-provisional Q3 labels below, and this document's prose. *ChatGPT
 (OpenAI):* used by the case owner to draft brief interpretation and the
 structured repair/review instructions given to Claude Code. *Human (case
 owner):* accountable for the case, final interpretation and acceptance of

@@ -8,6 +8,7 @@ import { Pill, SectionLabel, StatRow } from "./ui";
 interface FamilyState { count: number; state: string }
 interface CategoryState {
   category: string; label: string; families: Record<string, FamilyState>;
+  stage_readiness: Record<string, string>;
   machine_runnable: boolean; honest_note: string | null;
 }
 
@@ -55,6 +56,15 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
                 </span>
               </div>
             ))}
+            <div style={{ marginTop: 12 }}>
+              <SectionLabel>Machine readiness, stage by stage</SectionLabel>
+              {Object.entries(state.stage_readiness ?? {}).map(([k, s]) => (
+                <div key={k} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0" }}>
+                  <span style={{ fontSize: 12.5, color: "var(--ink-dim)" }}>{k.replace(/_/g, " ")}</span>
+                  <Pill tone={STATE_TONE[s] ?? "amber"}>{s.toLowerCase()}</Pill>
+                </div>
+              ))}
+            </div>
             {state.honest_note && (
               <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.55, marginTop: 14 }}>{state.honest_note}</p>
             )}

@@ -6,7 +6,7 @@
   "category": "Air Purification",
   "business_unit": "Versuni - Home Air",
   "repository": "versuni-connected-air-treatment",
-  "built_at": "2026-08-28T18:51:24+00:00",
+  "built_at": "2026-08-29T14:42:58+00:00",
   "built_by": "src/real/build_manifest_real.py",
   "reproducible": true,
   "reproduce_with": [
@@ -20,15 +20,15 @@
   ],
   "reproducibility_caveat": "The two upstream McAuley-Lab source files (Appliances.jsonl, Home_and_Kitchen.jsonl) are hosted on HuggingFace and are NOT bundled with this repository - they are streamed and filtered live, per §3.5 of the brief ('where a source cannot be redistributed, ship the fetching script and the manifest entry instead'). The FILTERED, purifier-only output (data/real_raw/reviews_appliances.jsonl, reviews_hk.jsonl - a few thousand rows, not the full multi-GB source) IS bundled and is what data/raw/consumer_reviews.csv is actually built from, so re-running build_reviews_csv.py alone reproduces it without any network access. Re-running the two filter_*.py steps requires network access to huggingface.co and will take significant time (~886MB + ~31GB streamed).",
   "file_count": 3,
-  "total_bytes": 6637280,
+  "total_bytes": 6510692,
   "files": [
     {
       "filename": "consumer_reviews.csv",
       "relative_path": "data/raw/consumer_reviews.csv",
-      "bytes": 6610287,
-      "sha256": "89296d913d84036a66bf9a91b3ff9eae8a1c503db79e0bd1a1f301663ecd7395",
+      "bytes": 6483699,
+      "sha256": "48ee760c551e42cb8c0bb789ca784395da6f39f911ee595244eceb2b360acd88",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T18:51:24+00:00",
+      "generated_at": "2026-08-29T14:42:58+00:00",
       "immutable": true,
       "format": "csv",
       "origin": {
@@ -38,7 +38,7 @@
         "dataset_licence": "Public HuggingFace dataset, research/academic use; see dataset card for full terms",
         "collection_method": "streamed + filtered against a 237-product, manually-validated purifier allowlist (src/real/reclassify_purifiers.py)",
         "product_inclusion_exclusion_logic": "data/real_raw/purifier_products_frozen.jsonl + src/real/reclassify_purifiers.py",
-        "pii": "reviewer_id is Amazon's own pseudonymous user_id, already de-identified in the published dataset - no PII collected by this project"
+        "pii": "reviewer identity ships only as a one-way SHA-256 hash (reviewer_hash); the pseudonymous user_id is used transiently for dedup and de-identified in the published dataset - no PII collected by this project"
       },
       "record_count": 10547,
       "distinct_real_products": 237,
@@ -56,7 +56,7 @@
         "review_text",
         "verified_purchase",
         "helpful_votes",
-        "reviewer_id",
+        "reviewer_hash",
         "source_ingested_at"
       ],
       "encoding": "utf-8",
@@ -67,9 +67,9 @@
       "filename": "market_metrics.json",
       "relative_path": "data/raw/market_metrics.json",
       "bytes": 8119,
-      "sha256": "ae5a349835979c12a0bd5e4b376db7c13146257c0433f684cd8fce2b18d23cf5",
+      "sha256": "82102e8258d581df43454e66dc5b63a65be7a6fdd2f253ee80725ae07444a2bd",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T18:51:24+00:00",
+      "generated_at": "2026-08-29T14:42:58+00:00",
       "immutable": true,
       "format": "json",
       "origin": {
@@ -88,9 +88,9 @@
       "filename": "trend_corpus.json",
       "relative_path": "data/raw/trend_corpus.json",
       "bytes": 18874,
-      "sha256": "dd17c4afce28b8c6640e3b1de4bfcd6bec6fda2ea58fbdfa5602f16d89dd4361",
+      "sha256": "2862995d120742da9f44f9061be5ac7c33b4467613c8918cc974a1e80789e2e9",
       "retrieved_at": "2026-08-26",
-      "generated_at": "2026-08-28T18:51:24+00:00",
+      "generated_at": "2026-08-29T14:42:58+00:00",
       "immutable": true,
       "format": "json",
       "origin": {

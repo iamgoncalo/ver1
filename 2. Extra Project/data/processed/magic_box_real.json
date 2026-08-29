@@ -1,4 +1,10 @@
 {
+  "generation_method": {
+    "class": "ANALYST_DESIGNED_DETERMINISTIC",
+    "epistemic_type": "METHOD_CHOICE / ANALYST_DESIGN_JUDGMENT",
+    "scope": "AIR_PURIFICATION only - the theme x operator rule table and possibility names are authored for this category; not category-general",
+    "code_reference": "src/real/magic_box_real.py::THEME_OPERATORS / POSSIBILITY_NAMES"
+  },
   "_provenance": "Every count is len() of a real filtered Python list. Dominance reuses src/real/decision_framework_real.py::dominates() exactly, generalized to N candidates.",
   "generated_by": "src/real/magic_box_real.py",
   "funnel": [
@@ -36,6 +42,8 @@
       "friction_theme_name": "Reliability / stopped working",
       "operator": "PREDICT",
       "operator_definition": "Reactive -> anticipatory.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.223,
       "consumer_pain_prevalence_pct": 1.58,
       "consumer_pain_methodology": {
@@ -137,6 +145,8 @@
       "friction_theme_name": "Reliability / stopped working",
       "operator": "MATERIALISE",
       "operator_definition": "Turn digital perception/information into physical intervention.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.223,
       "consumer_pain_prevalence_pct": 1.58,
       "consumer_pain_methodology": {
@@ -238,6 +248,8 @@
       "friction_theme_name": "Reliability / stopped working",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -2.223,
       "consumer_pain_prevalence_pct": 1.58,
       "consumer_pain_methodology": {
@@ -339,6 +351,8 @@
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "AMBIENT",
       "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -0.571,
       "consumer_pain_prevalence_pct": 3.5,
       "consumer_pain_methodology": {
@@ -457,6 +471,8 @@
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "TEMPORAL_SHIFT",
       "operator_definition": "Move the job earlier/later.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -0.571,
       "consumer_pain_prevalence_pct": 3.5,
       "consumer_pain_methodology": {
@@ -575,6 +591,8 @@
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -0.571,
       "consumer_pain_prevalence_pct": 3.5,
       "consumer_pain_methodology": {
@@ -693,6 +711,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CONCENTRATE",
       "operator_definition": "Multiple systems -> one system.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -787,6 +807,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -881,6 +903,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "PERSONALISE",
       "operator_definition": "Room/system -> individual/context.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -975,6 +999,8 @@
       "friction_theme_name": "Customer service / returns / warranty",
       "operator": "INVERT",
       "operator_definition": "Act before instead of after.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.429,
       "consumer_pain_prevalence_pct": 0.34,
       "consumer_pain_methodology": {
@@ -1056,6 +1082,8 @@
       "friction_theme_name": "Customer service / returns / warranty",
       "operator": "REMOVE",
       "operator_definition": "Eliminate an interaction/component.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.429,
       "consumer_pain_prevalence_pct": 0.34,
       "consumer_pain_methodology": {
@@ -1137,6 +1165,8 @@
       "friction_theme_name": "Filter cost / replacement (weak real signal)",
       "operator": "DISTRIBUTE",
       "operator_definition": "One large system -> several smaller systems.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -1.252,
       "consumer_pain_prevalence_pct": 0.26,
       "consumer_pain_methodology": {
@@ -1218,6 +1248,8 @@
       "friction_theme_name": "Filter cost / replacement (weak real signal)",
       "operator": "MERGE",
       "operator_definition": "Combine functions / objects / jobs.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -1.252,
       "consumer_pain_prevalence_pct": 0.26,
       "consumer_pain_methodology": {
@@ -1299,6 +1331,8 @@
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "MOVE",
       "operator_definition": "Change physical location.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -1.102,
       "consumer_pain_prevalence_pct": 0.81,
       "consumer_pain_methodology": {
@@ -1383,6 +1417,8 @@
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "PERSONALISE",
       "operator_definition": "Room/system -> individual/context.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -1.102,
       "consumer_pain_prevalence_pct": 0.81,
       "consumer_pain_methodology": {
@@ -1467,6 +1503,8 @@
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -1.102,
       "consumer_pain_prevalence_pct": 0.81,
       "consumer_pain_methodology": {
@@ -1553,6 +1591,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CONCENTRATE",
       "operator_definition": "Multiple systems -> one system.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -1647,6 +1687,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -1741,6 +1783,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "PERSONALISE",
       "operator_definition": "Room/system -> individual/context.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -1837,6 +1881,8 @@
       "friction_theme_name": "Reliability / stopped working",
       "operator": "PREDICT",
       "operator_definition": "Reactive -> anticipatory.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.223,
       "consumer_pain_prevalence_pct": 1.58,
       "consumer_pain_methodology": {
@@ -1938,6 +1984,8 @@
       "friction_theme_name": "Reliability / stopped working",
       "operator": "MATERIALISE",
       "operator_definition": "Turn digital perception/information into physical intervention.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.223,
       "consumer_pain_prevalence_pct": 1.58,
       "consumer_pain_methodology": {
@@ -2039,6 +2087,8 @@
       "friction_theme_name": "Reliability / stopped working",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -2.223,
       "consumer_pain_prevalence_pct": 1.58,
       "consumer_pain_methodology": {
@@ -2140,6 +2190,8 @@
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "AMBIENT",
       "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -0.571,
       "consumer_pain_prevalence_pct": 3.5,
       "consumer_pain_methodology": {
@@ -2258,6 +2310,8 @@
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "TEMPORAL_SHIFT",
       "operator_definition": "Move the job earlier/later.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -0.571,
       "consumer_pain_prevalence_pct": 3.5,
       "consumer_pain_methodology": {
@@ -2376,6 +2430,8 @@
       "friction_theme_name": "Noise / motor sound (weak real signal)",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -0.571,
       "consumer_pain_prevalence_pct": 3.5,
       "consumer_pain_methodology": {
@@ -2494,6 +2550,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CONCENTRATE",
       "operator_definition": "Multiple systems -> one system.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -2588,6 +2646,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -2682,6 +2742,8 @@
       "friction_theme_name": "Perceived value / does it actually clean the air",
       "operator": "PERSONALISE",
       "operator_definition": "Room/system -> individual/context.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.724,
       "consumer_pain_prevalence_pct": 0.77,
       "consumer_pain_methodology": {
@@ -2778,6 +2840,8 @@
       "friction_theme_name": "Customer service / returns / warranty",
       "operator": "INVERT",
       "operator_definition": "Act before instead of after.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.429,
       "consumer_pain_prevalence_pct": 0.34,
       "consumer_pain_methodology": {
@@ -2861,6 +2925,8 @@
       "friction_theme_name": "Customer service / returns / warranty",
       "operator": "REMOVE",
       "operator_definition": "Eliminate an interaction/component.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -2.429,
       "consumer_pain_prevalence_pct": 0.34,
       "consumer_pain_methodology": {
@@ -2944,6 +3010,8 @@
       "friction_theme_name": "Filter cost / replacement (weak real signal)",
       "operator": "DISTRIBUTE",
       "operator_definition": "One large system -> several smaller systems.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -1.252,
       "consumer_pain_prevalence_pct": 0.26,
       "consumer_pain_methodology": {
@@ -3027,6 +3095,8 @@
       "friction_theme_name": "Filter cost / replacement (weak real signal)",
       "operator": "MERGE",
       "operator_definition": "Combine functions / objects / jobs.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -1.252,
       "consumer_pain_prevalence_pct": 0.26,
       "consumer_pain_methodology": {
@@ -3110,6 +3180,8 @@
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "MOVE",
       "operator_definition": "Change physical location.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -1.102,
       "consumer_pain_prevalence_pct": 0.81,
       "consumer_pain_methodology": {
@@ -3196,6 +3268,8 @@
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "PERSONALISE",
       "operator_definition": "Room/system -> individual/context.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": null,
       "consumer_pain_csat": -1.102,
       "consumer_pain_prevalence_pct": 0.81,
       "consumer_pain_methodology": {
@@ -3282,6 +3356,8 @@
       "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
+      "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
       "consumer_pain_csat": -1.102,
       "consumer_pain_prevalence_pct": 0.81,
       "consumer_pain_methodology": {

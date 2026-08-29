@@ -126,7 +126,57 @@ def main():
         m = re.search(r"Ran (\d+) tests", r.stderr)
         return ("OK" in r.stderr), f"{m.group(1) if m else '?'} tests"
     check("tests", "extra project full discovery", extra_tests)
-    check("tests", "playwright suite", lambda: ("MANUAL", "run `cd web && npx playwright test` (104 scenarios; last run green)"))
+    def playwright():
+        import urllib.request as _u
+        try:
+            _u.urlopen("http://localhost:8000/api/health", timeout=5)
+        except Exception:
+            subprocess.Popen([sys.executable, "-m", "uvicorn", "api.main:app", "--port", "8000"],
+                             cwd=HERE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            import time as _t; _t.sleep(5)
+        r = run(["npx", "playwright", "test", "--reporter=line"], cwd=os.path.join(HERE, "web"), timeout=1800)
+        m = re.search(r"(\d+) passed", r.stdout + r.stderr)
+        ok = "failed" not in (r.stdout + r.stderr).split("passed")[-1] and bool(m) and r.returncode == 0
+        return ok, f"{m.group(1) if m else '?'} passed, exit={r.returncode}"
+    check("tests", "playwright full suite (all viewports)", playwright)
+
+    def frontend_build():
+        r = run(["npm", "run", "build"], cwd=os.path.join(HERE, "web"), timeout=600)
+        return r.returncode == 0 and "built in" in (r.stdout + r.stderr), "vite production build"
+    check("tests", "frontend production build", frontend_build)
+
+    def docker_build():
+        env_path = os.environ.get("PATH", "") + ":/Applications/Docker.app/Contents/Resources/bin"
+        r = subprocess.run(["docker", "build", "-q", "-t", "versuni-vim:acceptance", "."],
+                           cwd=REPO, capture_output=True, text=True, timeout=900,
+                           env={**os.environ, "PATH": env_path})
+        if r.returncode != 0 and ("daemon" in r.stderr.lower() or "not found" in r.stderr.lower() or "Cannot connect" in r.stderr):
+            return "MANUAL", "docker daemon unavailable here - BLOCKED locally, built remotely by the deploy"
+        return r.returncode == 0, (r.stdout.strip()[:60] or r.stderr[-100:])
+    check("tests", "docker production build", docker_build)
+
+    check("hardcoding", "no stale ontology in shipped state", lambda: (
+        run('grep -rn "\bWINNER\b\|\bFINALISTS\b" web/src --include="*.tsx" | head -2').stdout.strip() == ""
+        and "FINALISTS" not in json.load(open(os.path.join(HERE, "data", "processed", "funnel_real.json")))["stages"][7]["label"],
+        "UI + funnel labels clean"))
+    check("hardcoding", "no missing-to-zero display coercion", lambda: (
+        run(r'grep -rnE "csat_impact \?\? 0|severity_csat \?\? 0|economic_value \?\? 0\)\.toLocaleString" web/src --include="*.tsx" | head -2').stdout.strip() == "",
+        "guarded display sites"))
+    check("public_data", "reviewer identity ships only as a hash", lambda: (
+        "reviewer_hash" in open(os.path.join(HERE, "data", "raw", "consumer_reviews.csv"), encoding="utf-8").readline()
+        and "reviewer_id" not in open(os.path.join(HERE, "data", "raw", "consumer_reviews.csv"), encoding="utf-8").readline(),
+        "header check"))
+    check("public_data", "data notice present", lambda: (
+        os.path.exists(os.path.join(HERE, "data", "DATA_NOTICE.md")), "DATA_NOTICE.md"))
+    def category_integrity():
+        air = compute_category_state("AIR_PURIFICATION")
+        floor = compute_category_state("FLOOR_CARE")
+        stages_ok = "stage_readiness" in air and set(air["stage_readiness"]) == {
+            "product_universe", "radar", "paths_field", "magic_box", "innovations"}
+        return (stages_ok and not floor["machine_runnable"]
+                and floor["families"]["market_reports"]["count"] == 0
+                and air["families"]["market_reports"]["count"] >= 2), "stage readiness + category-linked market"
+    check("category", "stage-level readiness, no hardcoded market", category_integrity)
 
     # ---------- production ----------
     url = os.environ.get("RAILWAY_URL")
@@ -136,7 +186,7 @@ def main():
             loc = run(["git", "rev-parse", "--short", "main"], cwd=REPO).stdout.strip()
             return d["status"] == "ok" and d["commit"].startswith(loc), f"deployed {d['commit']} vs main {loc}"
         check("production", "live health + release identity", prod_health)
-        for route in ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations"]:
+        for route in ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria"]:
             check("production", f"route {route}", lambda r=route: (
                 urllib.request.urlopen(f"{url}{r}", timeout=30).status == 200, "200"))
     else:

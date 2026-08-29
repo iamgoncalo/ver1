@@ -89,16 +89,16 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
 
   test("Distilled/raw toggle changes content on Product universe", async ({ page }) => {
     await page.goto("/products");
-    await expect(page.getByText("Verified official portfolio").first()).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Verified Versuni portfolio").first()).toBeVisible({ timeout: 5000 });
     await page.getByRole("button", { name: "raw" }).click();
     await expect(page.getByText("Consumer review corpus")).toBeVisible();
-    await expect(page.getByText("Verified official portfolio")).toHaveCount(0);
+    await expect(page.getByText("Verified Versuni portfolio")).toHaveCount(0);
   });
 
   test("no text is clipped by an overflow:hidden ancestor at the narrowest supported width", async ({ page }) => {
     await page.setViewportSize({ width: 1024, height: 700 });
     await page.goto("/products");
-    await expect(page.getByText("Verified official portfolio").first()).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Verified Versuni portfolio").first()).toBeVisible({ timeout: 5000 });
     const clipped = await page.evaluate(() => {
       const offenders: string[] = [];
       document.querySelectorAll("main *").forEach((el) => {
@@ -166,7 +166,10 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
   test("Paths world: real trajectories with consequences and falsifiers; no placeholder rows; inspector opens in-world", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/paths");
-    await expect(page.getByText(/\d+ real paths/)).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/\d+ paths, each labelled by its evidence maturity/)).toBeVisible({ timeout: 5000 });
+    // every trajectory carries a computed maturity label; none claims verified causal drivers
+    await expect(page.getByText("challenged").first()).toBeVisible();
+    await expect(page.getByText(/No verified causal driver behind this trajectory/)).toBeVisible();
     await expect(page.getByText("Consequences")).toBeVisible();
     await expect(page.getByText(/Closes \/ would falsify/).first()).toBeVisible();
     // fields with no verified evidence are absent, never placeholder rows
@@ -179,9 +182,12 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page).toHaveURL(/\/paths$/);
     // Field is nested inside Paths - grounding opens in place, no route change
     await page.getByRole("button", { name: /Ground it in the field/ }).click();
-    await expect(page.getByText("Field — what this trajectory means in the real world")).toBeVisible();
-    await expect(page.getByText("Category assumptions this path touches")).toBeVisible();
+    await expect(page.getByText("Field — what THIS trajectory means in the real world")).toBeVisible();
     await expect(page).toHaveURL(/\/paths$/);
+    // regression: "Radar evidence" navigates to Radar, never Product universe
+    await page.getByRole("button", { name: "← Radar evidence" }).click();
+    await expect(page).toHaveURL(/\/radar$/);
+    await expect(page.getByText("what are we observing?")).toBeVisible({ timeout: 5000 });
     await noDocumentScroll(page);
     expect(errors).toEqual([]);
   });

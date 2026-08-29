@@ -28,8 +28,9 @@ for the one-command reproduction and a map of every deliverable.
 reality (reviews · papers · trends · market · products)
       │ fetch + freeze + hash          (raw artifacts, provenance)
       ▼
-Radar ──► Paths ──► Field ──► Magic box ──► Innovations ──► New products
-(observe)  (direction) (ground)  (expand)     (challenge)     (test-ready)
+Product universe ──► Radar ──► Paths + Field ──► Magic box ──► Innovations
+(what Versuni has)   (observe)  (direction, grounded)  (expand)   (worth developing — Lab inside)
+                         Criteria = system-wide governance layer (/criteria)
       ▲                                                            │
       └───────────────── learning returns to Radar ◄───────────────┘
 ```
@@ -46,8 +47,8 @@ connection is worse than a missing one.
 
 A wider, self-directed exploration built on the same real evidence base —
 the **Versuni Intelligence Machine**: a live decision-engine API and a
-five-world React/TypeScript web app (Products / Signals / Magic Box /
-Criteria / Innovations) that lets you interactively explore the same
+five-world React/TypeScript web app (Product universe / Radar / Paths+Field / Magic box /
+Innovations, with Criteria as the governance layer) that lets you interactively explore the same
 reasoning the case answers describe. Supplementary, not required by the
 brief, and never a source of truth for the formal case. See
 [`2. Extra Project/README.md`](<2. Extra Project/README.md>) to run it.

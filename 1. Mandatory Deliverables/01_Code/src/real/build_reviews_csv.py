@@ -11,6 +11,7 @@ this file are whatever a real Amazon export actually contains, discovered
 Run:  python3 src/real/build_reviews_csv.py
 """
 import csv
+import hashlib
 import json
 import os
 import sys
@@ -30,7 +31,7 @@ OUT = os.path.join(ROOT, "data", "raw", "consumer_reviews.csv")
 FIELDS = [
     "review_id", "product_sku", "product_name", "brand", "marketplace",
     "review_date", "review_date_raw_epoch_ms", "rating", "review_title",
-    "review_text", "verified_purchase", "helpful_votes", "reviewer_id",
+    "review_text", "verified_purchase", "helpful_votes", "reviewer_hash",
     "source_ingested_at",
 ]
 
@@ -92,7 +93,8 @@ def main():
                     "review_text": rec.get("text") or "",
                     "verified_purchase": "true" if rec.get("verified_purchase") else "false",
                     "helpful_votes": rec.get("helpful_vote") or 0,
-                    "reviewer_id": rec.get("user_id"),
+                    # identity used transiently for dedup above; only a one-way hash ships
+                    "reviewer_hash": hashlib.sha256((rec.get("user_id") or "").encode()).hexdigest()[:16],
                     "source_ingested_at": C.RETRIEVAL_TS,
                 })
 

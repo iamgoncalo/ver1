@@ -113,7 +113,7 @@ def main():
                                            "(src/real/reclassify_purifiers.py)",
                       "product_inclusion_exclusion_logic": "data/real_raw/"
                           "purifier_products_frozen.jsonl + src/real/reclassify_purifiers.py",
-                      "pii": "reviewer_id is Amazon's own pseudonymous user_id, already "
+                      "pii": "reviewer identity ships only as a one-way SHA-256 hash (reviewer_hash); the pseudonymous user_id is used transiently for dedup and "
                             "de-identified in the published dataset - no PII collected by "
                             "this project",
                   },

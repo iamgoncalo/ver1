@@ -1,6 +1,6 @@
 """THE VERSUNI INNOVATION FUNNEL MACHINE - one canonical funnel state.
 
-PRODUCTS + SIGNALS + COMPETITORS -> MAGIC BOX / PATTERN INTELLIGENCE ->
+PRODUCT UNIVERSE -> RADAR (signal + competitor evidence) -> PATHS+FIELD -> MAGIC BOX ->
 CRITERIA -> INNOVATIONS -> CRITIC -> FINALISTS.
 
 This module computes NOTHING new - it is a pure aggregation/reclassification
@@ -266,28 +266,28 @@ def compute_stages(patterns, signal_families):
     pattern_total = sum(len(v) for v in patterns.values())
 
     return [
-        {"id": "products", "label": "PRODUCTS", "count": len(products["products"]),
+        {"id": "products", "label": "PRODUCT UNIVERSE", "count": len(products["products"]),
          "inputs": ["McAuley-Lab Amazon-Reviews-2023 (real product metadata)"],
          "outputs_to": ["magic_box"],
          "trace": "GET /api/products -> len(data/processed/products_real.json[\"products\"]), built by src/real/products_signals_real.py."},
-        {"id": "signals", "label": "SIGNALS", "count": signals["count"],
+        {"id": "signals", "label": "RADAR · SIGNAL EVIDENCE", "count": signals["count"],
          "families": {k: v["count"] for k, v in signal_families.items()},
          "inputs": ["real review-text taxonomy", "verified research corpus", "trend corpus", "market sizing"],
          "outputs_to": ["magic_box"],
          "trace": "GET /api/signals -> data/processed/signals_real.json[\"count\"], built by src/real/signals_from_research_real.py."},
-        {"id": "competitors", "label": "COMPETITORS", "count": len(rivals["rivals"]),
+        {"id": "competitors", "label": "RADAR · COMPETITOR EVIDENCE", "count": len(rivals["rivals"]),
          "verified_strategic_rivals": len(rivals["rivals"]),
          "parity_insight": "Every competitor here is a real brand with >= {} reviews in the same real corpus, weighted by which real friction theme it under-performs the category average on the most - never inferred from an absence of online evidence.".format(rivals["min_reviews_floor"]),
          "inputs": ["real Amazon review corpus, competitor brands"],
          "outputs_to": ["magic_box"],
          "trace": "GET /api/rivals -> len(data/processed/rivals_real.json[\"rivals\"]), built by src/real/rivals_real.py."},
-        {"id": "magic_box", "label": "MAGIC BOX / PATTERN INTELLIGENCE", "count": pattern_total,
+        {"id": "magic_box", "label": "MAGIC BOX", "count": pattern_total,
          "pattern_type_counts": {k: len(v) for k, v in patterns.items()},
          "strongest_patterns": [{"type": k, "example": v[0]["name"]} for k, v in patterns.items() if v][:5],
          "inputs": ["products", "signals", "competitors"],
          "outputs_to": ["criteria"],
          "trace": "GET /api/funnel -> sum(len(v) for v in patterns.values()), computed live by src/real/funnel_real.py::compute_patterns() from signals_real.json + research_tensions.json + category_assumptions.json + magic_box_real.json + white_space_real.json + defect_detection_report_real.json."},
-        {"id": "criteria", "label": "CRITERIA", "count": len(criteria["criteria_library"]),
+        {"id": "criteria", "label": "CRITERIA (GOVERNANCE LAYER)", "count": len(criteria["criteria_library"]),
          "concepts_evaluated": len(criteria["concepts"]),
          "inputs": ["magic_box possibilities", "critic verdicts", "assumptions", "tensions"],
          "outputs_to": ["innovations"],
@@ -299,13 +299,13 @@ def compute_stages(patterns, signal_families):
          "inputs": ["criteria-gated concepts"],
          "outputs_to": ["critic"],
          "trace": "GET /api/magic-box -> len(data/processed/magic_box_real.json[\"possibilities\"]), built by src/real/magic_box_real.py::generate_possibilities()."},
-        {"id": "critic", "label": "CRITIC", "count": len(critic["concepts"]) if critic else 0,
+        {"id": "critic", "label": "INNOVATIONS · CRITIC PASS", "count": len(critic["concepts"]) if critic else 0,
          "verdict_counts": ({v: sum(1 for c in critic["concepts"] if c["critic_overall"] == v) for v in ("SURVIVE", "CHALLENGE", "NEEDS_EVIDENCE", "REJECT")}
                             if critic else {}),
          "why_ideas_are_dying": [{"name": g["name"], "reason": g["kill_reason"]} for g in magic_box["graveyard"][:3]],
          "inputs": ["innovations"], "outputs_to": ["finalists"],
          "trace": "GET /api/critic -> len(data/processed/critic_real.json[\"concepts\"]), built by src/real/critic_real.py::build()."},
-        {"id": "finalists", "label": "FINALISTS", "count": len(magic_box["finalists"]),
+        {"id": "finalists", "label": "INNOVATIONS · PRIORITY TO TEST", "count": len(magic_box["finalists"]),
          "finalist_names": [f["name"] for f in magic_box["finalists"]],
          "bet": decision["verdict"]["recommended_name"],
          "inputs": ["critic-surviving concepts"], "outputs_to": [],
@@ -315,6 +315,21 @@ def compute_stages(patterns, signal_families):
 
 NO_DATA = "NO VERIFIED DATA"
 NO_NATURE = "NO VERIFIED NATURE ANALOGUE - no biomimicry/nature-analogue dataset exists in this pipeline."
+
+
+def path_maturity(evidence_ids, kind):
+    """Mechanical evidence-maturity rule (no per-path authoring):
+    0 evidence ids -> candidate; 1 -> tentative; >=2 -> supported.
+    A TENSION is definitionally contested evidence, so it caps at
+    'challenged' - real sources genuinely disagree. No path in this
+    corpus has verified causal drivers; that is reported per path, never
+    upgraded silently."""
+    n = len(evidence_ids or [])
+    if n == 0:
+        return "candidate"
+    if kind == "TENSION":
+        return "challenged"
+    return "tentative" if n == 1 else "supported"
 
 
 def compute_homepage_funnel(patterns, signal_families):
@@ -371,6 +386,8 @@ def compute_homepage_funnel(patterns, signal_families):
             "from": frm, "to": to, "driver": NO_DATA, "blocker": NO_DATA,
             "what_opens": t["design_consequence"], "what_closes": NO_DATA, "distortion": NO_DATA,
             "evidence": t["evidence_ids"], "nature_analogue": NO_NATURE,
+            "maturity": path_maturity(t["evidence_ids"], "TENSION"),
+            "causal_drivers_verified": False,
             "detail": t["statement"],
         })
     for a in assumptions:
@@ -379,6 +396,8 @@ def compute_homepage_funnel(patterns, signal_families):
             "from": a["text"], "to": a["counterfactual"], "driver": NO_DATA, "blocker": NO_DATA,
             "what_opens": a["counterfactual"], "what_closes": NO_DATA, "distortion": NO_DATA,
             "evidence": a["real_evidence_that_bears_on_it"], "nature_analogue": NO_NATURE,
+            "maturity": path_maturity(a["real_evidence_that_bears_on_it"], "ASSUMPTION"),
+            "causal_drivers_verified": False,
             "detail": a["evidence_note"],
         })
 

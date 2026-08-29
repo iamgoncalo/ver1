@@ -1,12 +1,13 @@
-# Final acceptance — generated 2026-08-28T19:48:22.130007+00:00 @ b234094
+# Final acceptance — generated 2026-08-29T14:49:56.818490+00:00 @ 4baa5e8
 
-**PASS 27 · FAIL 0 · MANUAL 2**
+**PASS 26 · FAIL 2 · MANUAL 2**
 
 
 ## repository
 - [x] **PASS** correct repo + main canonical — https://github.com/iamgoncalo/ver1.git
-- [x] **PASS** clean working tree — clean
-- [x] **PASS** local main == origin/main — local b23409491 vs origin b23409491
+- [ ] **FAIL** clean working tree — M "1. Mandatory Deliverables/01_Code/data/manifest.json"
+ M "1. Mandatory Deliverables/01_Code/data/
+- [x] **PASS** local main == origin/main — local 4baa5e823 vs origin 4baa5e823
 - [x] **PASS** no absolute personal paths in tracked files — none
 - [x] **PASS** no obvious secrets — signature scan clean
 - [x] **PASS** public repository — GitHub API visibility
@@ -31,17 +32,24 @@
 ## hardcoding
 - [x] **PASS** mutation: floor 3.0 changes the verdict — verdict responds to threshold
 - [x] **PASS** idempotency: unchanged rerun identical — stable
-- [x] **PASS** snapshot hash deterministic — 737ea413d1dd
+- [x] **PASS** snapshot hash deterministic — 360c41fc86bf
 
 ## tests
-- [x] **PASS** extra project full discovery — 61 tests
-- [~] **MANUAL** playwright suite — run `cd web && npx playwright test` (104 scenarios; last run green)
+- [x] **PASS** extra project full discovery — 67 tests
+- [x] **PASS** playwright full suite (all viewports) — 112 passed, exit=0
+- [x] **PASS** frontend production build — vite production build
+- [x] **PASS** docker production build — sha256:1b6ea077348a24860d55e9e05c7c5cc1b0db0e4fae91d190a4d09
+
+## hardcoding
+- [x] **PASS** no stale ontology in shipped state — UI + funnel labels clean
+- [ ] **FAIL** no missing-to-zero display coercion — guarded display sites
+
+## public_data
+- [x] **PASS** reviewer identity ships only as a hash — header check
+- [x] **PASS** data notice present — DATA_NOTICE.md
+
+## category
+- [x] **PASS** stage-level readiness, no hardcoded market — stage readiness + category-linked market
 
 ## production
-- [x] **PASS** live health + release identity — deployed b234094 vs main b234094
-- [x] **PASS** route / — 200
-- [x] **PASS** route /products — 200
-- [x] **PASS** route /radar — 200
-- [x] **PASS** route /paths — 200
-- [x] **PASS** route /magic-box — 200
-- [x] **PASS** route /innovations — 200
+- [~] **MANUAL** live checks — set RAILWAY_URL=https://... to run live checks
