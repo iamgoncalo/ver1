@@ -758,9 +758,9 @@
   {
     "run_id": "run-33",
     "started_at": "2026-08-28T23:41:07.533848+00:00",
-    "finished_at": "2026-08-28T23:43:45.274772+00:00",
-    "last_checked_at": "2026-08-28T23:43:45.274772+00:00",
-    "check_count": 115,
+    "finished_at": "2026-08-29T14:12:56.191442+00:00",
+    "last_checked_at": "2026-08-29T14:12:56.191442+00:00",
+    "check_count": 116,
     "input_snapshot_hash": "dedbfff5fb00cdd8dbcfacd5bd0052f0af72c8731616e74aa17bbca6b15342b6",
     "stage_counts": {
       "products": 237,
