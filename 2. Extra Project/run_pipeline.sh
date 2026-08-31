@@ -113,6 +113,11 @@ python3 src/real/generate_innovation_dossiers.py
 # now exists for it - a pure re-read, no recomputation
 python3 src/real/innovations_real.py
 
+echo "== stage 8i3/9: CAUSAL ATLAS + need-coverage matrix (real, derived) - MUST run =="
+echo "   after the innovations rebuild above (joins innovations_real.json's state/ =="
+echo "   critic fields) and Floor Care's induced possibilities are on disk. =="
+python3 src/real/causal_atlas_real.py
+
 echo "== stage 8j/9: INNOVATION FUNNEL MACHINE - canonical funnel state + patterns (real) =="
 python3 src/real/funnel_real.py
 

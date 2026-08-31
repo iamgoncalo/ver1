@@ -1,0 +1,1814 @@
+{
+  "_provenance": "One row per real possibility (Air's Magic Box + Floor Care's induced possibilities). NEEDS/THEME_TO_NEED/OPERATOR_BURDEN_MAP/OPERATOR_PRIMITIVES/DOMAIN_DIRECTION are declared METHOD_CHOICE mappings, applied deterministically - see src/real/causal_atlas_real.py module docstring.",
+  "generated_by": "src/real/causal_atlas_real.py",
+  "home_domains": {
+    "AIR": "Indoor air quality/purification.",
+    "FLOOR": "Floor care (vacuuming/mopping).",
+    "FOOD": "Food preparation/cooking.",
+    "BEVERAGE": "Beverage preparation (coffee, water, etc.).",
+    "THERMAL_COMFORT": "Indoor temperature/humidity comfort.",
+    "WATER": "Water quality/usage in the home.",
+    "GARMENT": "Garment/laundry care.",
+    "CLEANLINESS": "General home surface/object cleanliness (non-floor).",
+    "SECURITY": "Home security/monitoring.",
+    "CARE": "Care of dependents (children, elderly, ill).",
+    "PET": "Pet care.",
+    "GARDEN": "Garden/outdoor plant care.",
+    "SLEEP": "Sleep environment.",
+    "RESOURCES": "Home resource use (energy/water/consumables) awareness.",
+    "KNOWLEDGE": "Home-related information/decision support.",
+    "HOME_COORDINATION": "Coordination across household tasks/devices."
+  },
+  "category_to_domain": {
+    "AIR_PURIFICATION": "AIR",
+    "FLOOR_CARE": "FLOOR"
+  },
+  "needs": {
+    "RELIABILITY_LONGEVITY": "The product keeps working for its expected functional lifetime, without premature failure.",
+    "QUIET_OPERATION": "The product operates without objectionable noise.",
+    "VERIFIED_EFFECTIVENESS": "The product measurably performs its core job (cleans/purifies) as claimed, not just as advertised.",
+    "SERVICE_CONTINUITY_COST": "Ongoing consumable/replacement-part cost and cadence don't erode ownership value over time.",
+    "ODOR_AIR_SAFETY": "The product does not introduce smell, irritation, or an unsafe byproduct into the home.",
+    "CUSTOMER_SUPPORT_WARRANTY": "Getting help, a replacement, a refund, or a warranty honoured when something goes wrong is straightforward.",
+    "VALUE_FOR_MONEY": "The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+    "BUILD_QUALITY_MATERIALS": "The physical construction/materials feel sufficiently robust out of the box, not flimsy, defective, or a 'lemon'."
+  },
+  "count": 40,
+  "count_by_domain": {
+    "AIR": 16,
+    "FLOOR": 24
+  },
+  "rows": [
+    {
+      "id": "reliability:PREDICT",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Predictive-Maintenance Air Purifier",
+      "friction_theme_id": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "PREDICT: Reactive -> anticipatory.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns PREDICT - \"Reactive -> anticipatory.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 1.58% of trusted reviews (n=166 reviews across 60 products) carry the 'Reliability / stopped working' friction, with an average rating gap of -2.22★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a SENSE + PREDICT capability, per PREDICT's own definition: \"Reactive -> anticipatory.\".",
+      "L5_freedom_created": "If realized, reduces the attention + decisions burden on the resident - structurally implied by PREDICT's own definition (\"Reactive -> anticipatory.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "PREDICT"
+      ],
+      "burden_dimensions_addressed": [
+        "attention",
+        "decisions"
+      ],
+      "current_state": "Today: 1.58% of trusted reviews (detected, lower bound) carry this friction; affected products average -2.22★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+      "form_factor": "tower",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": true,
+        "innovation_state": "challenged",
+        "innovation_lifecycle": "challenged",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "reliability:MATERIALISE",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Health-Indicator Air Purifier",
+      "friction_theme_id": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MATERIALISE: Turn digital perception/information into physical intervention.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns MATERIALISE - \"Turn digital perception/information into physical intervention.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 1.58% of trusted reviews (n=166 reviews across 60 products) carry the 'Reliability / stopped working' friction, with an average rating gap of -2.22★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a SENSE + RESTORE capability, per MATERIALISE's own definition: \"Turn digital perception/information into physical intervention.\".",
+      "L5_freedom_created": "If realized, reduces the effort + decisions burden on the resident - structurally implied by MATERIALISE's own definition (\"Turn digital perception/information into physical intervention.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "RESTORE"
+      ],
+      "burden_dimensions_addressed": [
+        "effort",
+        "decisions"
+      ],
+      "current_state": "Today: 1.58% of trusted reviews (detected, lower bound) carry this friction; affected products average -2.22★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+      "form_factor": "tower",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": true,
+        "innovation_state": "challenged",
+        "innovation_lifecycle": "challenged",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "reliability:CROSS_CATEGORY_TRANSFER",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Self-Testing Air Purifier",
+      "friction_theme_id": "reliability",
+      "friction_theme_name": "Reliability / stopped working",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CROSS_CATEGORY_TRANSFER: Transfer a verified capability from another product/category.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 1.58% of trusted reviews (n=166 reviews across 60 products) carry the 'Reliability / stopped working' friction, with an average rating gap of -2.22★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (A provenance operator (capability verified elsewhere), not a causal mechanism itself - no primitive applies.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (The definition is about the SOURCE of a capability (verified elsewhere), not about which burden it reduces - that depends entirely on the transferred capability itself, which this pipeline never verifies (donor_state is always MISSING).) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 1.58% of trusted reviews (detected, lower bound) carry this friction; affected products average -2.22★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+      "form_factor": "mobile",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": true,
+        "innovation_state": "challenged",
+        "innovation_lifecycle": "challenged",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:reliability"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "noise:AMBIENT",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Ambient-Sensing Night Purifier",
+      "friction_theme_id": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "primary_need": "QUIET_OPERATION",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "AMBIENT: Explicit interaction -> invisible environmental behaviour.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns AMBIENT - \"Explicit interaction -> invisible environmental behaviour.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 3.50% of trusted reviews (n=369 reviews across 77 products) carry the 'Noise / motor sound (weak real signal)' friction, with an average rating gap of -0.57★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): QUIET_OPERATION — The product operates without objectionable noise.",
+      "L4_capability_created": "Adds a SENSE + MAINTAIN capability, per AMBIENT's own definition: \"Explicit interaction -> invisible environmental behaviour.\".",
+      "L5_freedom_created": "If realized, reduces the attention + presence burden on the resident - structurally implied by AMBIENT's own definition (\"Explicit interaction -> invisible environmental behaviour.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "MAINTAIN"
+      ],
+      "burden_dimensions_addressed": [
+        "attention",
+        "presence"
+      ],
+      "current_state": "Today: 3.50% of trusted reviews (detected, lower bound) carry this friction; affected products average -0.57★ below the corpus mean.",
+      "desired_state": "If realized: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+      "form_factor": "wall",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "medium",
+        "is_white_space": true,
+        "innovation_state": "developing",
+        "innovation_lifecycle": "active",
+        "critic_overall": "NEEDS_EVIDENCE"
+      },
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "tension:T6",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "noise:TEMPORAL_SHIFT",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Pre-Sleep Air Purifier",
+      "friction_theme_id": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "primary_need": "QUIET_OPERATION",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "TEMPORAL_SHIFT: Move the job earlier/later.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns TEMPORAL_SHIFT - \"Move the job earlier/later.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 3.50% of trusted reviews (n=369 reviews across 77 products) carry the 'Noise / motor sound (weak real signal)' friction, with an average rating gap of -0.57★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): QUIET_OPERATION — The product operates without objectionable noise.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from TEMPORAL_SHIFT's own definition alone (Only WHEN a job happens is specified; earlier vs. later implies no single mechanism, so no primitive is confidently assigned.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from TEMPORAL_SHIFT's own definition alone (\"Move the job earlier/later\" only specifies WHEN, not that any burden is removed - and \"earlier\" vs. \"later\" would imply opposite effects on time pressure, so no direction is confidently claimed.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 3.50% of trusted reviews (detected, lower bound) carry this friction; affected products average -0.57★ below the corpus mean.",
+      "desired_state": "If realized: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+      "form_factor": "tower",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "medium",
+        "is_white_space": true,
+        "innovation_state": "developing",
+        "innovation_lifecycle": "active",
+        "critic_overall": "NEEDS_EVIDENCE"
+      },
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "tension:T6",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "noise:CROSS_CATEGORY_TRANSFER",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Noise-Cancelling Air Purifier",
+      "friction_theme_id": "noise",
+      "friction_theme_name": "Noise / motor sound (weak real signal)",
+      "primary_need": "QUIET_OPERATION",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CROSS_CATEGORY_TRANSFER: Transfer a verified capability from another product/category.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 3.50% of trusted reviews (n=369 reviews across 77 products) carry the 'Noise / motor sound (weak real signal)' friction, with an average rating gap of -0.57★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): QUIET_OPERATION — The product operates without objectionable noise.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (A provenance operator (capability verified elsewhere), not a causal mechanism itself - no primitive applies.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (The definition is about the SOURCE of a capability (verified elsewhere), not about which burden it reduces - that depends entirely on the transferred capability itself, which this pipeline never verifies (donor_state is always MISSING).) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 3.50% of trusted reviews (detected, lower bound) carry this friction; affected products average -0.57★ below the corpus mean.",
+      "desired_state": "If realized: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+      "form_factor": "mobile",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "medium",
+        "is_white_space": true,
+        "innovation_state": "developing",
+        "innovation_lifecycle": "active",
+        "critic_overall": "NEEDS_EVIDENCE"
+      },
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "tension:T6",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "evidence_ids": [
+        "taxonomy:noise"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "value_effectiveness:CONCENTRATE",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Verified-Performance Air Purifier",
+      "friction_theme_id": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "primary_need": "VERIFIED_EFFECTIVENESS",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CONCENTRATE: Multiple systems -> one system.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CONCENTRATE - \"Multiple systems -> one system.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.77% of trusted reviews (n=81 reviews across 36 products) carry the 'Perceived value / does it actually clean the air' friction, with an average rating gap of -2.72★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): VERIFIED_EFFECTIVENESS — The product measurably performs its core job (cleans/purifies) as claimed, not just as advertised.",
+      "L4_capability_created": "Adds a COORDINATE capability, per CONCENTRATE's own definition: \"Multiple systems -> one system.\".",
+      "L5_freedom_created": "If realized, reduces the setup + decisions burden on the resident - structurally implied by CONCENTRATE's own definition (\"Multiple systems -> one system.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [
+        "setup",
+        "decisions"
+      ],
+      "current_state": "Today: 0.77% of trusted reviews (detected, lower bound) carry this friction; affected products average -2.72★ below the corpus mean.",
+      "desired_state": "If realized: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+      "form_factor": "tower",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": false,
+        "innovation_state": "challenged",
+        "innovation_lifecycle": "challenged",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "assumption:A2",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Certified-Clean Air Purifier",
+      "friction_theme_id": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "primary_need": "VERIFIED_EFFECTIVENESS",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CROSS_CATEGORY_TRANSFER: Transfer a verified capability from another product/category.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.77% of trusted reviews (n=81 reviews across 36 products) carry the 'Perceived value / does it actually clean the air' friction, with an average rating gap of -2.72★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): VERIFIED_EFFECTIVENESS — The product measurably performs its core job (cleans/purifies) as claimed, not just as advertised.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (A provenance operator (capability verified elsewhere), not a causal mechanism itself - no primitive applies.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (The definition is about the SOURCE of a capability (verified elsewhere), not about which burden it reduces - that depends entirely on the transferred capability itself, which this pipeline never verifies (donor_state is always MISSING).) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.77% of trusted reviews (detected, lower bound) carry this friction; affected products average -2.72★ below the corpus mean.",
+      "desired_state": "If realized: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+      "form_factor": "mobile",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": false,
+        "innovation_state": "challenged",
+        "innovation_lifecycle": "challenged",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "assumption:A2",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "value_effectiveness:PERSONALISE",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Personal Air Purifier",
+      "friction_theme_id": "value_effectiveness",
+      "friction_theme_name": "Perceived value / does it actually clean the air",
+      "primary_need": "VERIFIED_EFFECTIVENESS",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "PERSONALISE: Room/system -> individual/context.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns PERSONALISE - \"Room/system -> individual/context.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.77% of trusted reviews (n=81 reviews across 36 products) carry the 'Perceived value / does it actually clean the air' friction, with an average rating gap of -2.72★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): VERIFIED_EFFECTIVENESS — The product measurably performs its core job (cleans/purifies) as claimed, not just as advertised.",
+      "L4_capability_created": "Adds a CLASSIFY + PERSONALIZE capability, per PERSONALISE's own definition: \"Room/system -> individual/context.\".",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from PERSONALISE's own definition alone (\"Room/system -> individual/context\" is a scope change (WHO/WHERE it targets), not itself a statement about which burden shrinks - left empty rather than inferring one.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "CLASSIFY",
+        "PERSONALIZE"
+      ],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.77% of trusted reviews (detected, lower bound) carry this friction; affected products average -2.72★ below the corpus mean.",
+      "desired_state": "If realized: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+      "form_factor": "portable",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": false,
+        "innovation_state": "challenged",
+        "innovation_lifecycle": "challenged",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "assumption:A2",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "evidence_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "customer_service:INVERT",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Self-Reporting Air Purifier",
+      "friction_theme_id": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "primary_need": "CUSTOMER_SUPPORT_WARRANTY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "INVERT: Act before instead of after.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns INVERT - \"Act before instead of after.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.34% of trusted reviews (n=36 reviews across 19 products) carry the 'Customer service / returns / warranty' friction, with an average rating gap of -2.43★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): CUSTOMER_SUPPORT_WARRANTY — Getting help, a replacement, a refund, or a warranty honoured when something goes wrong is straightforward.",
+      "L4_capability_created": "Adds a PREDICT capability, per INVERT's own definition: \"Act before instead of after.\".",
+      "L5_freedom_created": "If realized, reduces the decisions burden on the resident - structurally implied by INVERT's own definition (\"Act before instead of after.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "PREDICT"
+      ],
+      "burden_dimensions_addressed": [
+        "decisions"
+      ],
+      "current_state": "Today: 0.34% of trusted reviews (detected, lower bound) carry this friction; affected products average -2.43★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here.",
+      "form_factor": "tower",
+      "evidence_state": {
+        "gate_passed": false,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "medium",
+        "is_white_space": false,
+        "innovation_state": "rejected",
+        "innovation_lifecycle": "rejected",
+        "critic_overall": "REJECT"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "customer_service:REMOVE",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Swap-Ready Air Purifier",
+      "friction_theme_id": "customer_service",
+      "friction_theme_name": "Customer service / returns / warranty",
+      "primary_need": "CUSTOMER_SUPPORT_WARRANTY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "REMOVE: Eliminate an interaction/component.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns REMOVE - \"Eliminate an interaction/component.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.34% of trusted reviews (n=36 reviews across 19 products) carry the 'Customer service / returns / warranty' friction, with an average rating gap of -2.43★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): CUSTOMER_SUPPORT_WARRANTY — Getting help, a replacement, a refund, or a warranty honoured when something goes wrong is straightforward.",
+      "L4_capability_created": "Adds a SEPARATE capability, per REMOVE's own definition: \"Eliminate an interaction/component.\".",
+      "L5_freedom_created": "If realized, reduces the effort + attention burden on the resident - structurally implied by REMOVE's own definition (\"Eliminate an interaction/component.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "SEPARATE"
+      ],
+      "burden_dimensions_addressed": [
+        "effort",
+        "attention"
+      ],
+      "current_state": "Today: 0.34% of trusted reviews (detected, lower bound) carry this friction; affected products average -2.43★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here.",
+      "form_factor": "tower",
+      "evidence_state": {
+        "gate_passed": false,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "medium",
+        "is_white_space": false,
+        "innovation_state": "rejected",
+        "innovation_lifecycle": "rejected",
+        "critic_overall": "REJECT"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:customer_service"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "filter_cost:DISTRIBUTE",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Micro-Filter Air Purifier",
+      "friction_theme_id": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "primary_need": "SERVICE_CONTINUITY_COST",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "DISTRIBUTE: One large system -> several smaller systems.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns DISTRIBUTE - \"One large system -> several smaller systems.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.26% of trusted reviews (n=27 reviews across 15 products) carry the 'Filter cost / replacement (weak real signal)' friction, with an average rating gap of -1.25★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): SERVICE_CONTINUITY_COST — Ongoing consumable/replacement-part cost and cadence don't erode ownership value over time.",
+      "L4_capability_created": "Adds a COORDINATE capability, per DISTRIBUTE's own definition: \"One large system -> several smaller systems.\".",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from DISTRIBUTE's own definition alone (\"One large system -> several smaller systems\" is a topology change with no stated direction of burden - could mean less to carry per unit or more units to manage. Genuinely ambiguous, left empty per the mission's own callout.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.26% of trusted reviews (detected, lower bound) carry this friction; affected products average -1.25★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here.",
+      "form_factor": "distributed",
+      "evidence_state": {
+        "gate_passed": false,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "medium",
+        "is_white_space": false,
+        "innovation_state": "rejected",
+        "innovation_lifecycle": "rejected",
+        "critic_overall": "REJECT"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "filter_cost:MERGE",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "All-Inclusive Air Purifier",
+      "friction_theme_id": "filter_cost",
+      "friction_theme_name": "Filter cost / replacement (weak real signal)",
+      "primary_need": "SERVICE_CONTINUITY_COST",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MERGE: Combine functions / objects / jobs.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns MERGE - \"Combine functions / objects / jobs.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.26% of trusted reviews (n=27 reviews across 15 products) carry the 'Filter cost / replacement (weak real signal)' friction, with an average rating gap of -1.25★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): SERVICE_CONTINUITY_COST — Ongoing consumable/replacement-part cost and cadence don't erode ownership value over time.",
+      "L4_capability_created": "Adds a COORDINATE capability, per MERGE's own definition: \"Combine functions / objects / jobs.\".",
+      "L5_freedom_created": "If realized, reduces the setup + decisions burden on the resident - structurally implied by MERGE's own definition (\"Combine functions / objects / jobs.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [
+        "setup",
+        "decisions"
+      ],
+      "current_state": "Today: 0.26% of trusted reviews (detected, lower bound) carry this friction; affected products average -1.25★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here.",
+      "form_factor": "furniture_integrated",
+      "evidence_state": {
+        "gate_passed": false,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "medium",
+        "is_white_space": false,
+        "innovation_state": "rejected",
+        "innovation_lifecycle": "rejected",
+        "critic_overall": "REJECT"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "ozone_odor_safety:MOVE",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Placement-Sensing Air Purifier",
+      "friction_theme_id": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "primary_need": "ODOR_AIR_SAFETY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MOVE: Change physical location.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns MOVE - \"Change physical location.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.81% of trusted reviews (n=85 reviews across 29 products) carry the 'Ozone / smell / irritation (weak real signal)' friction, with an average rating gap of -1.10★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): ODOR_AIR_SAFETY — The product does not introduce smell, irritation, or an unsafe byproduct into the home.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from MOVE's own definition alone (Purely a physical-relocation definition; no listed primitive (heat/cool/steam/move-air/mix/separate/sense/classify/predict/personalize/coordinate/restore/maintain) genuinely describes relocation itself.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from MOVE's own definition alone (MOVE's own definition (\"change physical location\") does not itself say TO a more or less convenient location - direction is unspecified, so no burden dimension is confidently reduced.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.81% of trusted reviews (detected, lower bound) carry this friction; affected products average -1.10★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+      "form_factor": "mobile",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": false,
+        "innovation_state": "rejected",
+        "innovation_lifecycle": "rejected",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "ozone_odor_safety:PERSONALISE",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Sensitivity-Aware Air Purifier",
+      "friction_theme_id": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "primary_need": "ODOR_AIR_SAFETY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "PERSONALISE: Room/system -> individual/context.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns PERSONALISE - \"Room/system -> individual/context.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.81% of trusted reviews (n=85 reviews across 29 products) carry the 'Ozone / smell / irritation (weak real signal)' friction, with an average rating gap of -1.10★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): ODOR_AIR_SAFETY — The product does not introduce smell, irritation, or an unsafe byproduct into the home.",
+      "L4_capability_created": "Adds a CLASSIFY + PERSONALIZE capability, per PERSONALISE's own definition: \"Room/system -> individual/context.\".",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from PERSONALISE's own definition alone (\"Room/system -> individual/context\" is a scope change (WHO/WHERE it targets), not itself a statement about which burden shrinks - left empty rather than inferring one.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [
+        "CLASSIFY",
+        "PERSONALIZE"
+      ],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.81% of trusted reviews (detected, lower bound) carry this friction; affected products average -1.10★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+      "form_factor": "wearable_personal",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": false,
+        "innovation_state": "rejected",
+        "innovation_lifecycle": "rejected",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+      "category": "AIR_PURIFICATION",
+      "home_domain": "AIR",
+      "name": "Wearable Odor/Ozone Safety Clip",
+      "friction_theme_id": "ozone_odor_safety",
+      "friction_theme_name": "Ozone / smell / irritation (weak real signal)",
+      "primary_need": "ODOR_AIR_SAFETY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CROSS_CATEGORY_TRANSFER: Transfer a verified capability from another product/category.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this friction. Analyst design judgment, applied deterministically.",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.81% of trusted reviews (n=85 reviews across 29 products) carry the 'Ozone / smell / irritation (weak real signal)' friction, with an average rating gap of -1.10★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping): ODOR_AIR_SAFETY — The product does not introduce smell, irritation, or an unsafe byproduct into the home.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (A provenance operator (capability verified elsewhere), not a causal mechanism itself - no primitive applies.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (The definition is about the SOURCE of a capability (verified elsewhere), not about which burden it reduces - that depends entirely on the transferred capability itself, which this pipeline never verifies (donor_state is always MISSING).) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move indoor air quality from something residents actively worry about toward something they stop noticing because it is reliably handled.",
+      "state_variables": [
+        "consumer_pain_prevalence_pct",
+        "consumer_pain_csat",
+        "economic_value",
+        "feasibility_2_5y.rating"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.81% of trusted reviews (detected, lower bound) carry this friction; affected products average -1.10★ below the corpus mean.",
+      "desired_state": "If realized: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+      "form_factor": "wearable_personal",
+      "evidence_state": {
+        "gate_passed": true,
+        "truth_class": "DESIGN_POSSIBILITY",
+        "feasibility_2_5y_rating": "high",
+        "is_white_space": false,
+        "innovation_state": "rejected",
+        "innovation_lifecycle": "rejected",
+        "critic_overall": "CHALLENGE"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real friction/possibility/critic/gate fields, verbatim). METHOD_CHOICE: primary_need (THEME_TO_NEED), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact)."
+    },
+    {
+      "id": "don't waste money.:AMBIENT",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "AMBIENT × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "AMBIENT: Explicit interaction -> invisible environmental behaviour.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns AMBIENT - \"Explicit interaction -> invisible environmental behaviour.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a SENSE + MAINTAIN capability, per AMBIENT's own definition: \"Explicit interaction -> invisible environmental behaviour.\".",
+      "L5_freedom_created": "If realized, reduces the attention + presence burden on the resident - structurally implied by AMBIENT's own definition (\"Explicit interaction -> invisible environmental behaviour.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "MAINTAIN"
+      ],
+      "burden_dimensions_addressed": [
+        "attention",
+        "presence"
+      ],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator AMBIENT (\"Explicit interaction -> invisible environmental behaviour.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:CONCENTRATE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "CONCENTRATE × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CONCENTRATE: Multiple systems -> one system.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns CONCENTRATE - \"Multiple systems -> one system.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a COORDINATE capability, per CONCENTRATE's own definition: \"Multiple systems -> one system.\".",
+      "L5_freedom_created": "If realized, reduces the setup + decisions burden on the resident - structurally implied by CONCENTRATE's own definition (\"Multiple systems -> one system.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [
+        "setup",
+        "decisions"
+      ],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator CONCENTRATE (\"Multiple systems -> one system.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:CROSS_CATEGORY_TRANSFER",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "CROSS_CATEGORY_TRANSFER × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CROSS_CATEGORY_TRANSFER: Transfer a verified capability from another product/category.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (A provenance operator (capability verified elsewhere), not a causal mechanism itself - no primitive applies.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (The definition is about the SOURCE of a capability (verified elsewhere), not about which burden it reduces - that depends entirely on the transferred capability itself, which this pipeline never verifies (donor_state is always MISSING).) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator CROSS_CATEGORY_TRANSFER (\"Transfer a verified capability from another product/category.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:DISTRIBUTE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "DISTRIBUTE × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "DISTRIBUTE: One large system -> several smaller systems.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns DISTRIBUTE - \"One large system -> several smaller systems.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a COORDINATE capability, per DISTRIBUTE's own definition: \"One large system -> several smaller systems.\".",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from DISTRIBUTE's own definition alone (\"One large system -> several smaller systems\" is a topology change with no stated direction of burden - could mean less to carry per unit or more units to manage. Genuinely ambiguous, left empty per the mission's own callout.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator DISTRIBUTE (\"One large system -> several smaller systems.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:INVERT",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "INVERT × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "INVERT: Act before instead of after.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns INVERT - \"Act before instead of after.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a PREDICT capability, per INVERT's own definition: \"Act before instead of after.\".",
+      "L5_freedom_created": "If realized, reduces the decisions burden on the resident - structurally implied by INVERT's own definition (\"Act before instead of after.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "PREDICT"
+      ],
+      "burden_dimensions_addressed": [
+        "decisions"
+      ],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator INVERT (\"Act before instead of after.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:MATERIALISE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "MATERIALISE × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MATERIALISE: Turn digital perception/information into physical intervention.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns MATERIALISE - \"Turn digital perception/information into physical intervention.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a SENSE + RESTORE capability, per MATERIALISE's own definition: \"Turn digital perception/information into physical intervention.\".",
+      "L5_freedom_created": "If realized, reduces the effort + decisions burden on the resident - structurally implied by MATERIALISE's own definition (\"Turn digital perception/information into physical intervention.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "RESTORE"
+      ],
+      "burden_dimensions_addressed": [
+        "effort",
+        "decisions"
+      ],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator MATERIALISE (\"Turn digital perception/information into physical intervention.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:MERGE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "MERGE × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MERGE: Combine functions / objects / jobs.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns MERGE - \"Combine functions / objects / jobs.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a COORDINATE capability, per MERGE's own definition: \"Combine functions / objects / jobs.\".",
+      "L5_freedom_created": "If realized, reduces the setup + decisions burden on the resident - structurally implied by MERGE's own definition (\"Combine functions / objects / jobs.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [
+        "setup",
+        "decisions"
+      ],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator MERGE (\"Combine functions / objects / jobs.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:MOVE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "MOVE × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MOVE: Change physical location.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns MOVE - \"Change physical location.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from MOVE's own definition alone (Purely a physical-relocation definition; no listed primitive (heat/cool/steam/move-air/mix/separate/sense/classify/predict/personalize/coordinate/restore/maintain) genuinely describes relocation itself.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from MOVE's own definition alone (MOVE's own definition (\"change physical location\") does not itself say TO a more or less convenient location - direction is unspecified, so no burden dimension is confidently reduced.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator MOVE (\"Change physical location.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:PERSONALISE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "PERSONALISE × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "PERSONALISE: Room/system -> individual/context.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns PERSONALISE - \"Room/system -> individual/context.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a CLASSIFY + PERSONALIZE capability, per PERSONALISE's own definition: \"Room/system -> individual/context.\".",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from PERSONALISE's own definition alone (\"Room/system -> individual/context\" is a scope change (WHO/WHERE it targets), not itself a statement about which burden shrinks - left empty rather than inferring one.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "CLASSIFY",
+        "PERSONALIZE"
+      ],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator PERSONALISE (\"Room/system -> individual/context.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:PREDICT",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "PREDICT × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "PREDICT: Reactive -> anticipatory.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns PREDICT - \"Reactive -> anticipatory.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a SENSE + PREDICT capability, per PREDICT's own definition: \"Reactive -> anticipatory.\".",
+      "L5_freedom_created": "If realized, reduces the attention + decisions burden on the resident - structurally implied by PREDICT's own definition (\"Reactive -> anticipatory.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "PREDICT"
+      ],
+      "burden_dimensions_addressed": [
+        "attention",
+        "decisions"
+      ],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator PREDICT (\"Reactive -> anticipatory.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:REMOVE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "REMOVE × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "REMOVE: Eliminate an interaction/component.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns REMOVE - \"Eliminate an interaction/component.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "Adds a SEPARATE capability, per REMOVE's own definition: \"Eliminate an interaction/component.\".",
+      "L5_freedom_created": "If realized, reduces the effort + attention burden on the resident - structurally implied by REMOVE's own definition (\"Eliminate an interaction/component.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "SEPARATE"
+      ],
+      "burden_dimensions_addressed": [
+        "effort",
+        "attention"
+      ],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator REMOVE (\"Eliminate an interaction/component.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "don't waste money.:TEMPORAL_SHIFT",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "TEMPORAL_SHIFT × don't waste money.",
+      "friction_theme_id": "don't waste money.",
+      "friction_theme_name": "don't waste money.",
+      "primary_need": "VALUE_FOR_MONEY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "TEMPORAL_SHIFT: Move the job earlier/later.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns TEMPORAL_SHIFT - \"Move the job earlier/later.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 0.78% of reviews (n=2888 reviews across 369 products) carry the 'don't waste money.' friction, with an average rating gap of -2.44★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): VALUE_FOR_MONEY — The purchase feels justified by what the product actually delivers - the opposite of purchase regret.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from TEMPORAL_SHIFT's own definition alone (Only WHEN a job happens is specified; earlier vs. later implies no single mechanism, so no primitive is confidently assigned.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from TEMPORAL_SHIFT's own definition alone (\"Move the job earlier/later\" only specifies WHEN, not that any burden is removed - and \"earlier\" vs. \"later\" would imply opposite effects on time pressure, so no direction is confidently claimed.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 0.78% of reviews (detected, lower bound) carry this friction; affected products average -2.44★ below the corpus mean.",
+      "desired_state": "If realized: applying operator TEMPORAL_SHIFT (\"Move the job earlier/later.\") to the 'don't waste money.' friction (currently 0.78% of reviews, -2.44★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:don't waste money."
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:AMBIENT",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "AMBIENT × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "AMBIENT: Explicit interaction -> invisible environmental behaviour.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns AMBIENT - \"Explicit interaction -> invisible environmental behaviour.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a SENSE + MAINTAIN capability, per AMBIENT's own definition: \"Explicit interaction -> invisible environmental behaviour.\".",
+      "L5_freedom_created": "If realized, reduces the attention + presence burden on the resident - structurally implied by AMBIENT's own definition (\"Explicit interaction -> invisible environmental behaviour.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "MAINTAIN"
+      ],
+      "burden_dimensions_addressed": [
+        "attention",
+        "presence"
+      ],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator AMBIENT (\"Explicit interaction -> invisible environmental behaviour.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:CONCENTRATE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "CONCENTRATE × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CONCENTRATE: Multiple systems -> one system.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns CONCENTRATE - \"Multiple systems -> one system.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a COORDINATE capability, per CONCENTRATE's own definition: \"Multiple systems -> one system.\".",
+      "L5_freedom_created": "If realized, reduces the setup + decisions burden on the resident - structurally implied by CONCENTRATE's own definition (\"Multiple systems -> one system.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [
+        "setup",
+        "decisions"
+      ],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator CONCENTRATE (\"Multiple systems -> one system.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:CROSS_CATEGORY_TRANSFER",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "CROSS_CATEGORY_TRANSFER × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "CROSS_CATEGORY_TRANSFER: Transfer a verified capability from another product/category.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (A provenance operator (capability verified elsewhere), not a causal mechanism itself - no primitive applies.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from CROSS_CATEGORY_TRANSFER's own definition alone (The definition is about the SOURCE of a capability (verified elsewhere), not about which burden it reduces - that depends entirely on the transferred capability itself, which this pipeline never verifies (donor_state is always MISSING).) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator CROSS_CATEGORY_TRANSFER (\"Transfer a verified capability from another product/category.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:DISTRIBUTE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "DISTRIBUTE × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "DISTRIBUTE: One large system -> several smaller systems.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns DISTRIBUTE - \"One large system -> several smaller systems.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a COORDINATE capability, per DISTRIBUTE's own definition: \"One large system -> several smaller systems.\".",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from DISTRIBUTE's own definition alone (\"One large system -> several smaller systems\" is a topology change with no stated direction of burden - could mean less to carry per unit or more units to manage. Genuinely ambiguous, left empty per the mission's own callout.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator DISTRIBUTE (\"One large system -> several smaller systems.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:INVERT",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "INVERT × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "INVERT: Act before instead of after.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns INVERT - \"Act before instead of after.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a PREDICT capability, per INVERT's own definition: \"Act before instead of after.\".",
+      "L5_freedom_created": "If realized, reduces the decisions burden on the resident - structurally implied by INVERT's own definition (\"Act before instead of after.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "PREDICT"
+      ],
+      "burden_dimensions_addressed": [
+        "decisions"
+      ],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator INVERT (\"Act before instead of after.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:MATERIALISE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "MATERIALISE × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MATERIALISE: Turn digital perception/information into physical intervention.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns MATERIALISE - \"Turn digital perception/information into physical intervention.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a SENSE + RESTORE capability, per MATERIALISE's own definition: \"Turn digital perception/information into physical intervention.\".",
+      "L5_freedom_created": "If realized, reduces the effort + decisions burden on the resident - structurally implied by MATERIALISE's own definition (\"Turn digital perception/information into physical intervention.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "RESTORE"
+      ],
+      "burden_dimensions_addressed": [
+        "effort",
+        "decisions"
+      ],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator MATERIALISE (\"Turn digital perception/information into physical intervention.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:MERGE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "MERGE × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MERGE: Combine functions / objects / jobs.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns MERGE - \"Combine functions / objects / jobs.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a COORDINATE capability, per MERGE's own definition: \"Combine functions / objects / jobs.\".",
+      "L5_freedom_created": "If realized, reduces the setup + decisions burden on the resident - structurally implied by MERGE's own definition (\"Combine functions / objects / jobs.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "COORDINATE"
+      ],
+      "burden_dimensions_addressed": [
+        "setup",
+        "decisions"
+      ],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator MERGE (\"Combine functions / objects / jobs.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:MOVE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "MOVE × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "MOVE: Change physical location.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns MOVE - \"Change physical location.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from MOVE's own definition alone (Purely a physical-relocation definition; no listed primitive (heat/cool/steam/move-air/mix/separate/sense/classify/predict/personalize/coordinate/restore/maintain) genuinely describes relocation itself.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from MOVE's own definition alone (MOVE's own definition (\"change physical location\") does not itself say TO a more or less convenient location - direction is unspecified, so no burden dimension is confidently reduced.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator MOVE (\"Change physical location.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:PERSONALISE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "PERSONALISE × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "PERSONALISE: Room/system -> individual/context.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns PERSONALISE - \"Room/system -> individual/context.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a CLASSIFY + PERSONALIZE capability, per PERSONALISE's own definition: \"Room/system -> individual/context.\".",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from PERSONALISE's own definition alone (\"Room/system -> individual/context\" is a scope change (WHO/WHERE it targets), not itself a statement about which burden shrinks - left empty rather than inferring one.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "CLASSIFY",
+        "PERSONALIZE"
+      ],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator PERSONALISE (\"Room/system -> individual/context.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:PREDICT",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "PREDICT × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "PREDICT: Reactive -> anticipatory.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns PREDICT - \"Reactive -> anticipatory.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a SENSE + PREDICT capability, per PREDICT's own definition: \"Reactive -> anticipatory.\".",
+      "L5_freedom_created": "If realized, reduces the attention + decisions burden on the resident - structurally implied by PREDICT's own definition (\"Reactive -> anticipatory.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "SENSE",
+        "PREDICT"
+      ],
+      "burden_dimensions_addressed": [
+        "attention",
+        "decisions"
+      ],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator PREDICT (\"Reactive -> anticipatory.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:REMOVE",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "REMOVE × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "REMOVE: Eliminate an interaction/component.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns REMOVE - \"Eliminate an interaction/component.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "Adds a SEPARATE capability, per REMOVE's own definition: \"Eliminate an interaction/component.\".",
+      "L5_freedom_created": "If realized, reduces the effort + attention burden on the resident - structurally implied by REMOVE's own definition (\"Eliminate an interaction/component.\").",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [
+        "SEPARATE"
+      ],
+      "burden_dimensions_addressed": [
+        "effort",
+        "attention"
+      ],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator REMOVE (\"Eliminate an interaction/component.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    },
+    {
+      "id": "completely stopped:TEMPORAL_SHIFT",
+      "category": "FLOOR_CARE",
+      "home_domain": "FLOOR",
+      "name": "TEMPORAL_SHIFT × completely stopped",
+      "friction_theme_id": "completely stopped",
+      "friction_theme_name": "completely stopped",
+      "primary_need": "RELIABILITY_LONGEVITY",
+      "primary_need_epistemic_type": "METHOD_CHOICE",
+      "L0_mechanism": "TEMPORAL_SHIFT: Move the job earlier/later.",
+      "L1_transformation": "METHOD CHOICE, not evidence: the category-independent operator vocabulary assigns TEMPORAL_SHIFT - \"Move the job earlier/later.\" - to this machine-induced friction theme (machine cross-product, not an authored theme x operator pairing table - see src/real/floor_care_pipeline.py::compute_possibilities_doc).",
+      "L2_proximal_problem": "Detected complaint share (lower bound): 4.12% of reviews (n=15169 reviews across 415 products) carry the 'completely stopped' friction, with an average rating gap of -2.16★ vs. the corpus mean — the proximal problem this concept targets.",
+      "L3_human_need": "Human need (METHOD_CHOICE mapping via a deterministic keyword classifier over this theme's own real member_terms): RELIABILITY_LONGEVITY — The product keeps working for its expected functional lifetime, without premature failure.",
+      "L4_capability_created": "No confident capability-primitive claim can be derived from TEMPORAL_SHIFT's own definition alone (Only WHEN a job happens is specified; earlier vs. later implies no single mechanism, so no primitive is confidently assigned.).",
+      "L5_freedom_created": "No confident freedom/burden-reduction claim can be derived from TEMPORAL_SHIFT's own definition alone (\"Move the job earlier/later\" only specifies WHEN, not that any burden is removed - and \"earlier\" vs. \"later\" would imply opposite effects on time pressure, so no direction is confidently claimed.) - left honestly undetermined rather than guessed.",
+      "L6_ultimate_direction": "DIRECTIONAL FRAMING, not a fact: Move floor cleaning from a recurring physical chore residents must schedule and perform toward a background task the home increasingly handles for them.",
+      "state_variables": [
+        "friction.prevalence_pct",
+        "friction.rating_gap_vs_corpus_mean",
+        "economics.price_weighted_exposure_usd"
+      ],
+      "causal_primitives": [],
+      "burden_dimensions_addressed": [],
+      "current_state": "Today: 4.12% of reviews (detected, lower bound) carry this friction; affected products average -2.16★ below the corpus mean.",
+      "desired_state": "If realized: applying operator TEMPORAL_SHIFT (\"Move the job earlier/later.\") to the 'completely stopped' friction (currently 4.12% of reviews, -2.16★ rating gap) would directly target that friction — no independent product_consequence evidence exists for Floor Care yet (no why_here/research-tension corpus is wired for this category).",
+      "form_factor": null,
+      "evidence_state": {
+        "state": "exploratory",
+        "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+        "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten"
+      },
+      "parent_path_ids": [],
+      "evidence_ids": [
+        "floor_theme:completely stopped"
+      ],
+      "epistemic_type": "DERIVED",
+      "epistemic_note": "OBSERVED: friction_theme_name, L2_proximal_problem, current_state, state_variables' underlying numbers, and evidence_state (real possibility state/promotion fields, verbatim). METHOD_CHOICE: primary_need (the deterministic Floor keyword classifier), L0/L1/L4/L5 (operator vocabulary + OPERATOR_PRIMITIVES/OPERATOR_BURDEN_MAP), L6_ultimate_direction (DOMAIN_DIRECTION, aspirational framing, never asserted as fact). parent_path_ids is honestly empty: Floor Care has no research-tension/assumption corpus wired in this pipeline yet."
+    }
+  ]
+}

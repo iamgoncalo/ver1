@@ -33,4 +33,6 @@ export const api = {
       `/api/innovations/scenario?market_scenario=${encodeURIComponent(marketScenario)}&decision_priority=${encodeURIComponent(decisionPriority)}`
     ),
   health: () => j<{ status: string; commit: string }>("/api/health"),
+  causalAtlas: () => j<any>("/api/causal-atlas"),
+  needCoverage: () => j<any>("/api/need-coverage"),
 };

@@ -12,6 +12,7 @@ import { PathsWorld } from "./worlds/PathsWorld";
 import { MagicBoxWorld } from "./worlds/MagicBoxWorld";
 import { InnovationsWorld } from "./worlds/InnovationsWorld";
 import { CriteriaWorld } from "./worlds/CriteriaWorld";
+import { AtlasWorld } from "./worlds/AtlasWorld";
 import { FunnelWorld } from "./worlds/FunnelWorld";
 import { api } from "./lib/api";
 import type { InnovationsResponse, MagicBoxResponse, RivalsResponse, WhiteSpaceResponse } from "./lib/types";
@@ -22,11 +23,11 @@ import type { InnovationsResponse, MagicBoxResponse, RivalsResponse, WhiteSpaceR
 // a reference view inside Innovations. Old routes redirect into the five.
 const WORLD_PATH: Record<number, string> = {
   0: "/", 1: "/products", 2: "/radar", 3: "/paths", 4: "/magic-box",
-  5: "/innovations", 8: "/criteria",
+  5: "/innovations", 8: "/criteria", 9: "/atlas",
 };
 const PATH_WORLD: Record<string, number> = {
   "/": 0, "/products": 1, "/radar": 2, "/paths": 3, "/magic-box": 4,
-  "/innovations": 5, "/criteria": 8,
+  "/innovations": 5, "/criteria": 8, "/atlas": 9,
   // legacy routes fold into their canonical worlds
   "/field": 3, "/new-products": 5,
 };
@@ -112,6 +113,7 @@ export default function App() {
       case 4: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} onGoToWorld={navigate} />;
       case 5: return <InnovationsWorld key="innovations" onData={setInnovations} onGoToWorld={navigate} />;
       case 8: return <CriteriaWorld key="criteria" />;
+      case 9: return <AtlasWorld key="atlas" navigate={navigate} />;
       default: return null;
     }
   }, [world, themeFilter, goSendToMagicBox, category, navigate]);

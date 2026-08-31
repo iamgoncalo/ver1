@@ -130,7 +130,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // Genuine abbreviations and data ids are fine; three-plus-word shouting
     // sentences are not. Checks rendered text of every world.
     const ALLOWED = /^(API|DOI|PMID|PMCID|URL|PDF|CADR|HEPA|USD|EUR|NL|US|EU|AI|IOT|PM2\.5|CSAT|WTP|OS-\d|TC-R\d+|RP-\d+|CR-\d+|MB|CO2|VOC|UV|LED|WHO|EPA|AHAM|CARB|CSA|CBS|SPA-\w+|[A-Z]{2,6}\d*[A-Z0-9/]*)$/;
-    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria"]) {
+    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria", "/atlas"]) {
       await page.goto(path);
       await page.waitForTimeout(600);
       const shouts = await page.evaluate(() => {
@@ -575,7 +575,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText("n (reviews in theme)")).toBeVisible();
     await page.keyboard.press("Escape");
     // no user-visible "CSAT" anywhere in the five worlds' default views
-    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria"]) {
+    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria", "/atlas"]) {
       await page.goto(path);
       await page.waitForTimeout(500);
       const hasCsat = await page.evaluate(() => (document.querySelector("main")?.textContent ?? "").includes("CSAT"));
@@ -742,6 +742,57 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByTestId("lineage")).toBeVisible();
     await page.getByTestId("lineage").getByRole("button", { name: /RP-\d+/ }).first().click();
     await expect(page).toHaveURL(/\/radar\?.*paper=RP-/);
+  });
+
+  // ---------------- PASS 4: causal atlas (cross-cutting lens) ----------------
+
+  test("Atlas is reachable as a system tool, shows real causal-atlas rows grouped by domain", async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await page.goto("/");
+    await page.getByRole("group", { name: "System tools" }).getByRole("button", { name: /Atlas/ }).click();
+    await expect(page).toHaveURL(/\/atlas$/);
+    await expect(page.getByTestId("atlas-table")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/\d+ possibilities/)).toBeVisible();
+    // both real domains appear as groups - never a fabricated Food/Beverage row
+    await expect(page.getByText(/^Air · \d+/)).toBeVisible();
+    await expect(page.getByText(/^Floor care · \d+/)).toBeVisible();
+    await expect(page.getByText(/^Food ·/)).toHaveCount(0);
+    await noDocumentScroll(page);
+    expect(errors).toEqual([]);
+  });
+
+  test("Atlas row detail shows the full L0-L6 causal chain with real numbers, and opens Magic Box", async ({ page }) => {
+    await page.goto("/atlas");
+    await expect(page.getByTestId("atlas-table")).toBeVisible({ timeout: 5000 });
+    await page.locator("table tbody tr").first().click();
+    await expect(page.getByTestId("atlas-row-detail")).toBeVisible({ timeout: 5000 });
+    const d = page.getByTestId("atlas-row-detail");
+    await expect(d.getByText("L0 · Mechanism")).toBeVisible();
+    await expect(d.getByText("L1 · Transformation")).toBeVisible();
+    await expect(d.getByText("L5 · Freedom created")).toBeVisible();
+    await expect(d.getByText("L6 · Ultimate direction")).toBeVisible();
+    await expect(d.getByText(/OBSERVED|METHOD_CHOICE/).first()).toBeVisible();
+    await page.getByRole("button", { name: "Open in Magic Box →" }).click();
+    await expect(page).toHaveURL(/\/magic-box\?possibility=/);
+    await expect(page.getByText("what could exist now?")).toBeVisible({ timeout: 5000 });
+  });
+
+  test("Atlas need-coverage view shows real STRONG/SECONDARY/WEAK states with rating-gap evidence, never fabricated coverage", async ({ page }) => {
+    await page.goto("/atlas?view=coverage");
+    await expect(page.getByTestId("coverage-table")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("strong").first()).toBeVisible();
+    await page.locator("table tbody tr").first().click();
+    await expect(page.getByRole("dialog").getByText("Coverage")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("dialog").getByText(/Themes addressing this need/)).toBeVisible();
+  });
+
+  test("Atlas deep link with a row param restores that exact possibility on refresh", async ({ page }) => {
+    await page.goto("/atlas");
+    await expect(page.getByTestId("atlas-table")).toBeVisible({ timeout: 5000 });
+    await page.locator("table tbody tr").first().click();
+    await expect(page).toHaveURL(/\/atlas\?.*row=/);
+    await page.reload();
+    await expect(page.getByTestId("atlas-row-detail")).toBeVisible({ timeout: 5000 });
   });
 
   test("acronyms are expanded where shown: CAGR on Market, CADR/WTP in Products", async ({ page }) => {

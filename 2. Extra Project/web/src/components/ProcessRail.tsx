@@ -85,6 +85,18 @@ export function ProcessRail({ active, onSelect, onGoHome, category, onCategoryCh
             }}>
             ⚖ Criteria
           </button>
+          <button onClick={() => onSelect(9)} aria-current={active === 9 ? "page" : undefined}
+            title="Atlas — the causal relationships behind every friction: which need it serves, what mechanism addresses it, what human burden it could remove. A cross-cutting analytical lens, not a seventh stage."
+            style={{
+              padding: "5px 10px", borderRadius: 8, border: "1px dashed",
+              borderColor: active === 9 ? "var(--accent-blue)" : "var(--line)",
+              background: active === 9 ? "var(--surface-2)" : "transparent",
+              cursor: "pointer", whiteSpace: "nowrap", fontSize: 11.5,
+              color: active === 9 ? "var(--accent-blue-ink)" : "var(--ink-dim)",
+              transition: "background 120ms, border-color 120ms",
+            }}>
+            ◈ Atlas
+          </button>
         </div>
         <VersuniProductsLink />
       </div>

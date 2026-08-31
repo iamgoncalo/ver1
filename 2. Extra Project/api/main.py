@@ -379,6 +379,38 @@ def magic_box():
     return read_json("magic_box_real.json")
 
 
+@app.get("/api/causal-atlas")
+def causal_atlas(category: Optional[str] = None):
+    """The L0-L6 causal-chain layer over the real possibility population
+    (Air's Magic Box + Floor Care's induced possibilities) - built offline
+    by src/real/causal_atlas_real.py, served verbatim. category, if given,
+    filters rows to that category's own possibilities only (AIR_PURIFICATION
+    or FLOOR_CARE) - an unknown category returns zero rows, never another
+    category's data relabeled."""
+    doc = read_json("causal_atlas.json")
+    rows = doc["rows"]
+    if category:
+        rows = [r for r in rows if r["category"] == category]
+    return {"_provenance": doc["_provenance"], "generated_by": doc["generated_by"],
+            "count": len(rows), "rows": rows}
+
+
+@app.get("/api/need-coverage")
+def need_coverage(category: Optional[str] = None):
+    """The need-coverage matrix (NEEDS x HOME_DOMAINS) - built offline by
+    src/real/causal_atlas_real.py, served verbatim. category, if given,
+    filters rows to that category's own home_domain (AIR_PURIFICATION ->
+    AIR, FLOOR_CARE -> FLOOR); any other value returns zero rows."""
+    doc = read_json("need_coverage_matrix.json")
+    rows = doc["rows"]
+    if category:
+        from causal_atlas_real import CATEGORY_TO_DOMAIN
+        domain = CATEGORY_TO_DOMAIN.get(category)
+        rows = [r for r in rows if r["home_domain"] == domain]
+    return {"_provenance": doc["_provenance"], "generated_by": doc["generated_by"],
+            "count": len(rows), "rows": rows}
+
+
 @app.get("/api/innovations")
 def innovations():
     return read_json("decision_framework_real.json")
