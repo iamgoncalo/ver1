@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-08-29T14:49:56.818490+00:00",
- "main_sha": "4baa5e8",
+ "generated_at": "2026-08-31T16:08:35.116014+00:00",
+ "main_sha": "c56f80a",
  "results": [
   {
    "section": "repository",
@@ -12,13 +12,13 @@
    "section": "repository",
    "name": "clean working tree",
    "status": "FAIL",
-   "detail": "M \"1. Mandatory Deliverables/01_Code/data/manifest.json\"\n M \"1. Mandatory Deliverables/01_Code/data/"
+   "detail": "M \"2. Extra Project/data/processed/funnel_run_history.json\"\n M \"2. Extra Project/tests/test_floor_ca"
   },
   {
    "section": "repository",
    "name": "local main == origin/main",
    "status": "PASS",
-   "detail": "local 4baa5e823 vs origin 4baa5e823"
+   "detail": "local c56f80a20 vs origin c56f80a20"
   },
   {
    "section": "repository",
@@ -94,15 +94,21 @@
   },
   {
    "section": "category",
-   "name": "floor care honestly insufficient (same pipeline)",
+   "name": "floor care reports from its OWN real stores, not air's",
    "status": "PASS",
-   "detail": "{\"products\": 0, \"reviews\": 0, \"research\": 0, \"trend_documents\": 0, \"competitors\": 0, \"market_reports\": 0}"
+   "detail": "floor products 572==572 (file), reviews 384253==384253 (file), both != air (223, 10478)"
   },
   {
    "section": "category",
-   "name": "no air masquerading as floor care",
+   "name": "no floor-care stage reports readiness above its evidence",
    "status": "PASS",
-   "detail": "eligibility genuinely differs per category"
+   "detail": "no stage above its evidence; research=CANDIDATE_ONLY, runnable=False"
+  },
+  {
+   "section": "category",
+   "name": "no air theme/possibility leaks into floor care surfaces",
+   "status": "PASS",
+   "detail": "33 induced theme ids clean; 24 possibility names clean"
   },
   {
    "section": "hardcoding",
@@ -120,19 +126,19 @@
    "section": "hardcoding",
    "name": "snapshot hash deterministic",
    "status": "PASS",
-   "detail": "360c41fc86bf"
+   "detail": "9d1decb9fa08"
   },
   {
    "section": "tests",
    "name": "extra project full discovery",
    "status": "PASS",
-   "detail": "67 tests"
+   "detail": "110 tests"
   },
   {
    "section": "tests",
    "name": "playwright full suite (all viewports)",
    "status": "PASS",
-   "detail": "112 passed, exit=0"
+   "detail": "180 passed, exit=0"
   },
   {
    "section": "tests",
@@ -144,7 +150,7 @@
    "section": "tests",
    "name": "docker production build",
    "status": "PASS",
-   "detail": "sha256:1b6ea077348a24860d55e9e05c7c5cc1b0db0e4fae91d190a4d09"
+   "detail": "sha256:b3fdd700ea9996ab52fc21abf1b90efa56014cb6d6cadf5c9fe11"
   },
   {
    "section": "hardcoding",
@@ -174,7 +180,7 @@
    "section": "category",
    "name": "stage-level readiness, no hardcoded market",
    "status": "PASS",
-   "detail": "stage readiness + category-linked market"
+   "detail": "stage readiness present for both; floor readiness never above evidence; real air market"
   },
   {
    "section": "production",
@@ -184,7 +190,7 @@
   }
  ],
  "totals": {
-  "PASS": 26,
+  "PASS": 27,
   "FAIL": 2,
   "MANUAL": 2
  }

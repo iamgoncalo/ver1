@@ -54,7 +54,7 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
           {state && !state.machine_runnable && <Pill tone="neutral">full machine not runnable yet</Pill>}
         </div>
         <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4, maxWidth: 780 }}>
-          Everything below is this category's OWN evidence, acquired and induced by the machine — the same
+          Everything below is this category's OWN evidence, acquired by the machine and derived from the reviews themselves — the same
           method stages as air purification, run on an independently-acquired corpus. A stage with no real
           evidence says so; nothing borrows from another category.
         </p>
@@ -88,7 +88,7 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
 
         {world === 2 && data && (
           <div style={{ maxWidth: 820 }}>
-            <SectionLabel>Machine-induced complaint themes (labels are machine-generated, validation pending human labels)</SectionLabel>
+            <SectionLabel>Complaint themes learned from the reviews themselves (labels are machine-generated, validation pending human labels)</SectionLabel>
             {topThemes.map((t: any) => (
               <div key={t.theme_id} style={{ display: "flex", justifyContent: "space-between", gap: 10, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
                 <span style={{ fontSize: 12.5, color: "var(--ink)" }}>{t.theme_name}</span>
@@ -137,7 +137,7 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
             <SectionLabel>Exploratory possibilities — machine-induced cross-product, all NOT_PROMOTED</SectionLabel>
             <p style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 10 }}>
               The 12 authored design operators (category-independent vocabulary) crossed with every induced theme
-              clearing the same materiality floor the Air case uses. Labels are machine-generated; nothing here is
+              clearing the same materiality floor (the minimum complaint share a theme must reach to count) the Air case uses. Labels are machine-generated; nothing here is
               a recommendation.
             </p>
             {possibilities.slice(0, 12).map((x: any) => (

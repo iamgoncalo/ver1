@@ -114,8 +114,11 @@ def build():
             "innovation_id": c["id"],
             "name": c["name"],
             # Deterministic composition of stored fields - never free prose.
-            "proposition": "{} applied to the real '{}' friction: {}".format(
-                c["operator"], c["friction_theme_name"], why.get("product_consequence", "")),
+            # A colleague's first sentence: what the idea IS, composed from
+            # stored fields only - the full derivation stays in why_here.
+            "proposition": "A concept for the real '{}' friction, built with the {} design move - {}".format(
+                c["friction_theme_name"], c["operator"],
+                (c.get("operator_definition") or "").rstrip(".").lower() + "."),
             "target_category": c.get("target_category") or "AIR_PURIFICATION",
             "target_user_context": {
                 "evidence_based": "Households whose real reviews carry this friction: {} reviews "

@@ -92,7 +92,7 @@ CRITERIA_LIBRARY = [
     {"id": "H2", "category": "HUMAN", "name": "Real friction",
      "question": "Is the friction materially severe and prevalent, not a rare edge case?",
      "why_it_matters": "This pipeline's own materiality floor (Q6 gate) exists to filter out thin evidence.",
-     "how_tested": "gate_passed = csat_impact present AND prevalence_pct >= materiality floor.",
+     "how_tested": "Passes when a real average rating gap exists for the friction AND its detected complaint share clears the declared minimum (the materiality floor) - the same two conditions the evidence gate computes.",
      "pass_condition": "gate_passed = true.",
      "challenge_condition": "Passes the floor only marginally.",
      "kill_condition": "gate_passed = false -> NO_OBSERVED_PAIN kill in the graveyard."},

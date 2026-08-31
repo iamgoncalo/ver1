@@ -1,13 +1,13 @@
-# Final acceptance — generated 2026-08-29T14:49:56.818490+00:00 @ 4baa5e8
+# Final acceptance — generated 2026-08-31T16:08:35.116014+00:00 @ c56f80a
 
-**PASS 26 · FAIL 2 · MANUAL 2**
+**PASS 27 · FAIL 2 · MANUAL 2**
 
 
 ## repository
 - [x] **PASS** correct repo + main canonical — https://github.com/iamgoncalo/ver1.git
-- [ ] **FAIL** clean working tree — M "1. Mandatory Deliverables/01_Code/data/manifest.json"
- M "1. Mandatory Deliverables/01_Code/data/
-- [x] **PASS** local main == origin/main — local 4baa5e823 vs origin 4baa5e823
+- [ ] **FAIL** clean working tree — M "2. Extra Project/data/processed/funnel_run_history.json"
+ M "2. Extra Project/tests/test_floor_ca
+- [x] **PASS** local main == origin/main — local c56f80a20 vs origin c56f80a20
 - [x] **PASS** no absolute personal paths in tracked files — none
 - [x] **PASS** no obvious secrets — signature scan clean
 - [x] **PASS** public repository — GitHub API visibility
@@ -26,19 +26,20 @@
 
 ## category
 - [x] **PASS** air runnable from real eligibility — {"products": 223, "reviews": 10478, "research": 11, "trend_documents": 11, "competitors": 34, "market_reports": 2}
-- [x] **PASS** floor care honestly insufficient (same pipeline) — {"products": 0, "reviews": 0, "research": 0, "trend_documents": 0, "competitors": 0, "market_reports": 0}
-- [x] **PASS** no air masquerading as floor care — eligibility genuinely differs per category
+- [x] **PASS** floor care reports from its OWN real stores, not air's — floor products 572==572 (file), reviews 384253==384253 (file), both != air (223, 10478)
+- [x] **PASS** no floor-care stage reports readiness above its evidence — no stage above its evidence; research=CANDIDATE_ONLY, runnable=False
+- [x] **PASS** no air theme/possibility leaks into floor care surfaces — 33 induced theme ids clean; 24 possibility names clean
 
 ## hardcoding
 - [x] **PASS** mutation: floor 3.0 changes the verdict — verdict responds to threshold
 - [x] **PASS** idempotency: unchanged rerun identical — stable
-- [x] **PASS** snapshot hash deterministic — 360c41fc86bf
+- [x] **PASS** snapshot hash deterministic — 9d1decb9fa08
 
 ## tests
-- [x] **PASS** extra project full discovery — 67 tests
-- [x] **PASS** playwright full suite (all viewports) — 112 passed, exit=0
+- [x] **PASS** extra project full discovery — 110 tests
+- [x] **PASS** playwright full suite (all viewports) — 180 passed, exit=0
 - [x] **PASS** frontend production build — vite production build
-- [x] **PASS** docker production build — sha256:1b6ea077348a24860d55e9e05c7c5cc1b0db0e4fae91d190a4d09
+- [x] **PASS** docker production build — sha256:b3fdd700ea9996ab52fc21abf1b90efa56014cb6d6cadf5c9fe11
 
 ## hardcoding
 - [x] **PASS** no stale ontology in shipped state — UI + funnel labels clean
@@ -49,7 +50,7 @@
 - [x] **PASS** data notice present — DATA_NOTICE.md
 
 ## category
-- [x] **PASS** stage-level readiness, no hardcoded market — stage readiness + category-linked market
+- [x] **PASS** stage-level readiness, no hardcoded market — stage readiness present for both; floor readiness never above evidence; real air market
 
 ## production
 - [~] **MANUAL** live checks — set RAILWAY_URL=https://... to run live checks

@@ -98,7 +98,7 @@ def enrich_taxonomy_signals(base, cards):
 PURE_RESEARCH_SIGNALS = [
     {
         "id": "sensor_trust", "name": "Sensor precision != sensor accuracy",
-        "meaning": "Consumer-grade IAQ sensors can track relative change well while reporting materially wrong absolute numbers - a 'smart' claim needs a trust qualifier, not just a reading.",
+        "meaning": "Consumer-grade indoor-air-quality (IAQ) sensors can track relative change well while reporting materially wrong absolute numbers - a 'smart' claim needs a trust qualifier, not just a reading.",
         "prevalence_pct": None, "csat_impact": None, "n_reviews": None,
         "evidence_ids": ["RP-09", "RP-10"], "n_independent_studies": 2,
         "source_families": ["Peer-Reviewed Research"], "state": "CONVERGING",
@@ -125,7 +125,7 @@ PURE_RESEARCH_SIGNALS = [
     },
     {
         "id": "health_outcome_uncertainty", "name": "Filtration-to-health-benefit evidence is genuinely split",
-        "meaning": "One real RCT (RP-08) found a significant asthma-control benefit from HEPA filtration; two other real studies (RP-03, RP-05) measuring related pollutants/symptoms found no such association.",
+        "meaning": "One real randomised controlled trial (RCT, RP-08) found a significant asthma-control benefit from HEPA filtration; two other real studies (RP-03, RP-05) measuring related pollutants/symptoms found no such association.",
         "prevalence_pct": None, "csat_impact": None, "n_reviews": None,
         "evidence_ids": ["RP-08", "RP-03", "RP-05"], "n_independent_studies": 3,
         "source_families": ["Peer-Reviewed Research"], "state": "CONTESTED",

@@ -316,7 +316,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                   ["consumers", `${withPrevalence.length} consumer signals from ${corpus ? Number(corpus.records_after_dq).toLocaleString() : "…"} retained real reviews`, "Detected complaint shares are conservative lower bounds - see Classifier honesty."],
                   ["research", `${research?.peer_reviewed_count ?? "…"} verified peer-reviewed papers`, "Every paper has a real DOI you can open."],
                   ["trends", `${trends?.article_count ?? "…"} regulatory / standards / industry documents`, "Documents, not search-interest data - Google Trends is honestly not connected."],
-                  ["market", `${market ? market.sources.length : "…"} syndicated market sources - shown disagreeing`, market ? `${market.conflict_summary.spread_pp}pp spread in growth estimates, reported, not averaged.` : ""],
+                  ["market", `${market ? market.sources.length : "…"} syndicated market sources - shown disagreeing`, market ? `${market.conflict_summary.spread_pp} percentage-point (pp) spread in growth estimates, reported, not averaged.` : ""],
                   ["competitors", `${sortedRivals.length || "…"} competitor brands · ${spaces.length} white-space opportunities`, "White space needs pain + measurable competitor weakness + feasibility, all real."],
                   ["sources", "Full source coverage - and honest gaps", "A connector that does not exist says so."],
                 ] as [Tab, string, string][]).map(([k, head, note]) => (
@@ -426,7 +426,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                   <td style={{ ...TD, fontFamily: "var(--font-mono)" }}>{s.n_reviews?.toLocaleString() ?? "—"}</td>
                   <td style={{ ...TD, fontFamily: "var(--font-mono)" }}>{themeMean(s.id)?.toFixed(3) ?? "—"}</td>
                   <td style={{ ...TD, fontFamily: "var(--font-mono)" }}>{s.csat_impact != null && corpusMean != null ? corpusMean.toFixed(3) : "—"}</td>
-                  <td style={{ ...TD, fontFamily: "var(--font-mono)", color: (s.csat_impact ?? 0) < 0 ? "var(--rose)" : "var(--good)" }}>{s.csat_impact ?? "—"}</td>
+                  <td style={{ ...TD, fontFamily: "var(--font-mono)", color: s.csat_impact != null && s.csat_impact < 0 ? "var(--rose)" : s.csat_impact != null ? "var(--good)" : "var(--ink-faint)" }}>{s.csat_impact ?? "—"}</td>
                   <td style={{ ...TD, fontSize: 10.5 }}>{s.source_families.join(", ")}</td>
                   <td style={{ ...TD, fontFamily: "var(--font-mono)", fontSize: 10 }}>{s.evidence_ids.join(", ")}</td>
                 </tr>
@@ -587,7 +587,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                     ))}
                   </div>
                   <div style={{ padding: "14px 18px", background: "var(--surface-2)", borderRadius: 12 }}>
-                    <SectionLabel>Why they disagree — {market.conflict_summary.spread_pp}pp spread</SectionLabel>
+                    <SectionLabel>Why they disagree — a {market.conflict_summary.spread_pp} percentage-point (pp) spread</SectionLabel>
                     <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.55, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{market.conflict_summary.headline}</p>
                     <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{market.conflict_summary.note_on_realism}</p>
                   </div>

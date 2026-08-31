@@ -124,7 +124,7 @@ function ConceptCard({ p, onClick, maxEcon }: { p: Concept; onClick: () => void;
       )}
       <div style={{ marginBottom: 8 }}>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
-          <span>Why it matters — market exposure</span><span className="mono">${p.economic_value.toLocaleString()}</span>
+          <span title="Sum of real listed prices on the reviews carrying this friction — a relative indicator of what this friction touches, never a revenue estimate.">Why it matters — market exposure ⓘ</span><span className="mono">${p.economic_value.toLocaleString()}</span>
         </div>
         <MiniBar value={p.economic_value} max={maxEcon} tone="teal" />
       </div>
@@ -598,7 +598,7 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
               {(stageFocus === "counterfactuals_generated" || stageFocus === "concept_seeds") && "Every (friction theme × design operator) combination the fixed Magic Box rule table generates — before any gate is applied."}
               {stageFocus === "__versuni_edge" && "Not a count — see the Versuni Edge section on Criteria, where each finalist's classification is computed from the evidence actually available (missing Versuni-internal evidence shows as NEEDS_EVIDENCE, never scored)."}
               {stageFocus === "critic_evaluated" && "Every concept the Critic has run SURVIVE/CHALLENGE/NEEDS_EVIDENCE/REJECT verdicts against — the count shown is the live coverage."}
-              {stageFocus === "finalists" && "Concepts that survived gate → evidence → Pareto dominance, ranked by Consumer Pain."}
+              {stageFocus === "finalists" && "Concepts that survived the evidence gate and dominance screening (kept unless another concept beats them on every measure), ranked by Consumer Pain."}
               {stageFocus === "__bet" && "The current recommended concept from the live decision engine — never hardcoded."}
             </p>
             <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 10, padding: "8px 10px", background: "var(--surface-2)", borderRadius: 8 }}>

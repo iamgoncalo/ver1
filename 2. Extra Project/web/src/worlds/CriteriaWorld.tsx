@@ -155,7 +155,7 @@ export function CriteriaWorld() {
                   <b>Threshold origin:</b> {criterionFocus.threshold_origin ?? "not recorded"}
                 </p>
                 <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4 }}>
-                  <b>Epistemic type:</b> {(criterionFocus.epistemic_type ?? "").replace(/_/g, " ").toLowerCase() || "not recorded"} ·{" "}
+                  <b>Kind of rule (how we know it):</b> {(criterionFocus.epistemic_type ?? "").replace(/_/g, " ").toLowerCase() || "not recorded"} ·{" "}
                   <b>Missing data:</b> {criterionFocus.missing_data_behavior ?? "NEEDS_EVIDENCE"}
                 </p>
                 <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4 }}>{criterionFocus.code_reference}</p>

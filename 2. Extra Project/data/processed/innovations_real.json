@@ -24,7 +24,7 @@
     {
       "innovation_id": "reliability:PREDICT",
       "name": "Predictive-Maintenance Air Purifier",
-      "proposition": "PREDICT applied to the real 'Reliability / stopped working' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+      "proposition": "A concept for the real 'Reliability / stopped working' friction, built with the PREDICT design move - reactive -> anticipatory.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 166 reviews across 60 real products (85.5% verified purchase, 2006-04-20-2023-08-27).",
@@ -448,7 +448,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "reliability:PREDICT",
-            "generated_at": "2026-08-31T12:16:37.699426+00:00",
+            "generated_at": "2026-08-31T16:09:19.518923+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -461,14 +461,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "reliability:MATERIALISE",
       "name": "Health-Indicator Air Purifier",
-      "proposition": "MATERIALISE applied to the real 'Reliability / stopped working' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+      "proposition": "A concept for the real 'Reliability / stopped working' friction, built with the MATERIALISE design move - turn digital perception/information into physical intervention.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 166 reviews across 60 real products (85.5% verified purchase, 2006-04-20-2023-08-27).",
@@ -892,7 +892,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "reliability:MATERIALISE",
-            "generated_at": "2026-08-31T12:16:37.700126+00:00",
+            "generated_at": "2026-08-31T16:09:19.519740+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -905,14 +905,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "reliability:CROSS_CATEGORY_TRANSFER",
       "name": "Self-Testing Air Purifier",
-      "proposition": "CROSS_CATEGORY_TRANSFER applied to the real 'Reliability / stopped working' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+      "proposition": "A concept for the real 'Reliability / stopped working' friction, built with the CROSS_CATEGORY_TRANSFER design move - transfer a verified capability from another product/category.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 166 reviews across 60 real products (85.5% verified purchase, 2006-04-20-2023-08-27).",
@@ -1336,7 +1336,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "reliability:CROSS_CATEGORY_TRANSFER",
-            "generated_at": "2026-08-31T12:16:37.700730+00:00",
+            "generated_at": "2026-08-31T16:09:19.520860+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -1349,14 +1349,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "noise:AMBIENT",
       "name": "Ambient-Sensing Night Purifier",
-      "proposition": "AMBIENT applied to the real 'Noise / motor sound (weak real signal)' friction: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+      "proposition": "A concept for the real 'Noise / motor sound (weak real signal)' friction, built with the AMBIENT design move - explicit interaction -> invisible environmental behaviour.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 369 reviews across 77 real products (69.6% verified purchase, 2004-10-14-2023-08-08).",
@@ -1815,7 +1815,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "noise:AMBIENT",
-            "generated_at": "2026-08-31T12:16:37.701217+00:00",
+            "generated_at": "2026-08-31T16:09:19.521787+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -1828,14 +1828,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "noise:TEMPORAL_SHIFT",
       "name": "Pre-Sleep Air Purifier",
-      "proposition": "TEMPORAL_SHIFT applied to the real 'Noise / motor sound (weak real signal)' friction: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+      "proposition": "A concept for the real 'Noise / motor sound (weak real signal)' friction, built with the TEMPORAL_SHIFT design move - move the job earlier/later.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 369 reviews across 77 real products (69.6% verified purchase, 2004-10-14-2023-08-08).",
@@ -2294,7 +2294,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "noise:TEMPORAL_SHIFT",
-            "generated_at": "2026-08-31T12:16:37.701711+00:00",
+            "generated_at": "2026-08-31T16:09:19.522463+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -2307,14 +2307,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "noise:CROSS_CATEGORY_TRANSFER",
       "name": "Noise-Cancelling Air Purifier",
-      "proposition": "CROSS_CATEGORY_TRANSFER applied to the real 'Noise / motor sound (weak real signal)' friction: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+      "proposition": "A concept for the real 'Noise / motor sound (weak real signal)' friction, built with the CROSS_CATEGORY_TRANSFER design move - transfer a verified capability from another product/category.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 369 reviews across 77 real products (69.6% verified purchase, 2004-10-14-2023-08-08).",
@@ -2773,7 +2773,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "noise:CROSS_CATEGORY_TRANSFER",
-            "generated_at": "2026-08-31T12:16:37.702300+00:00",
+            "generated_at": "2026-08-31T16:09:19.523105+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -2786,14 +2786,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "value_effectiveness:CONCENTRATE",
       "name": "Verified-Performance Air Purifier",
-      "proposition": "CONCENTRATE applied to the real 'Perceived value / does it actually clean the air' friction: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+      "proposition": "A concept for the real 'Perceived value / does it actually clean the air' friction, built with the CONCENTRATE design move - multiple systems -> one system.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 81 reviews across 36 real products (90.1% verified purchase, 2010-06-21-2023-04-24).",
@@ -3244,7 +3244,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "value_effectiveness:CONCENTRATE",
-            "generated_at": "2026-08-31T12:16:37.702869+00:00",
+            "generated_at": "2026-08-31T16:09:19.523691+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -3257,14 +3257,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
       "name": "Certified-Clean Air Purifier",
-      "proposition": "CROSS_CATEGORY_TRANSFER applied to the real 'Perceived value / does it actually clean the air' friction: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+      "proposition": "A concept for the real 'Perceived value / does it actually clean the air' friction, built with the CROSS_CATEGORY_TRANSFER design move - transfer a verified capability from another product/category.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 81 reviews across 36 real products (90.1% verified purchase, 2010-06-21-2023-04-24).",
@@ -3715,7 +3715,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-            "generated_at": "2026-08-31T12:16:37.703460+00:00",
+            "generated_at": "2026-08-31T16:09:19.524295+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -3728,14 +3728,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "value_effectiveness:PERSONALISE",
       "name": "Personal Air Purifier",
-      "proposition": "PERSONALISE applied to the real 'Perceived value / does it actually clean the air' friction: Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+      "proposition": "A concept for the real 'Perceived value / does it actually clean the air' friction, built with the PERSONALISE design move - room/system -> individual/context.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 81 reviews across 36 real products (90.1% verified purchase, 2010-06-21-2023-04-24).",
@@ -4187,7 +4187,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "value_effectiveness:PERSONALISE",
-            "generated_at": "2026-08-31T12:16:37.704095+00:00",
+            "generated_at": "2026-08-31T16:09:19.524737+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -4200,14 +4200,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "customer_service:INVERT",
       "name": "Self-Reporting Air Purifier",
-      "proposition": "INVERT applied to the real 'Customer service / returns / warranty' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here.",
+      "proposition": "A concept for the real 'Customer service / returns / warranty' friction, built with the INVERT design move - act before instead of after.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 36 reviews across 19 real products (69.4% verified purchase, 2007-11-01-2023-07-17).",
@@ -4620,7 +4620,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "customer_service:INVERT",
-            "generated_at": "2026-08-31T12:16:37.704731+00:00",
+            "generated_at": "2026-08-31T16:09:19.525390+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -4633,14 +4633,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "customer_service:REMOVE",
       "name": "Swap-Ready Air Purifier",
-      "proposition": "REMOVE applied to the real 'Customer service / returns / warranty' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here.",
+      "proposition": "A concept for the real 'Customer service / returns / warranty' friction, built with the REMOVE design move - eliminate an interaction/component.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 36 reviews across 19 real products (69.4% verified purchase, 2007-11-01-2023-07-17).",
@@ -5053,7 +5053,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "customer_service:REMOVE",
-            "generated_at": "2026-08-31T12:16:37.705498+00:00",
+            "generated_at": "2026-08-31T16:09:19.525886+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -5066,14 +5066,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "filter_cost:DISTRIBUTE",
       "name": "Micro-Filter Air Purifier",
-      "proposition": "DISTRIBUTE applied to the real 'Filter cost / replacement (weak real signal)' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here.",
+      "proposition": "A concept for the real 'Filter cost / replacement (weak real signal)' friction, built with the DISTRIBUTE design move - one large system -> several smaller systems.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 27 reviews across 15 real products (70.4% verified purchase, 2012-04-24-2023-07-21).",
@@ -5486,7 +5486,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "filter_cost:DISTRIBUTE",
-            "generated_at": "2026-08-31T12:16:37.706118+00:00",
+            "generated_at": "2026-08-31T16:09:19.526381+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -5499,14 +5499,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "filter_cost:MERGE",
       "name": "All-Inclusive Air Purifier",
-      "proposition": "MERGE applied to the real 'Filter cost / replacement (weak real signal)' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here.",
+      "proposition": "A concept for the real 'Filter cost / replacement (weak real signal)' friction, built with the MERGE design move - combine functions / objects / jobs.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 27 reviews across 15 real products (70.4% verified purchase, 2012-04-24-2023-07-21).",
@@ -5919,7 +5919,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "filter_cost:MERGE",
-            "generated_at": "2026-08-31T12:16:37.706633+00:00",
+            "generated_at": "2026-08-31T16:09:19.526847+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -5932,14 +5932,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "ozone_odor_safety:MOVE",
       "name": "Placement-Sensing Air Purifier",
-      "proposition": "MOVE applied to the real 'Ozone / smell / irritation (weak real signal)' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+      "proposition": "A concept for the real 'Ozone / smell / irritation (weak real signal)' friction, built with the MOVE design move - change physical location.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 85 reviews across 29 real products (82.4% verified purchase, 2011-05-18-2023-04-13).",
@@ -6355,7 +6355,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "ozone_odor_safety:MOVE",
-            "generated_at": "2026-08-31T12:16:37.707265+00:00",
+            "generated_at": "2026-08-31T16:09:19.527441+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -6368,14 +6368,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "ozone_odor_safety:PERSONALISE",
       "name": "Sensitivity-Aware Air Purifier",
-      "proposition": "PERSONALISE applied to the real 'Ozone / smell / irritation (weak real signal)' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+      "proposition": "A concept for the real 'Ozone / smell / irritation (weak real signal)' friction, built with the PERSONALISE design move - room/system -> individual/context.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 85 reviews across 29 real products (82.4% verified purchase, 2011-05-18-2023-04-13).",
@@ -6791,7 +6791,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "ozone_odor_safety:PERSONALISE",
-            "generated_at": "2026-08-31T12:16:37.707768+00:00",
+            "generated_at": "2026-08-31T16:09:19.527982+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -6804,14 +6804,14 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     },
     {
       "innovation_id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
       "name": "Wearable Odor/Ozone Safety Clip",
-      "proposition": "CROSS_CATEGORY_TRANSFER applied to the real 'Ozone / smell / irritation (weak real signal)' friction: Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+      "proposition": "A concept for the real 'Ozone / smell / irritation (weak real signal)' friction, built with the CROSS_CATEGORY_TRANSFER design move - transfer a verified capability from another product/category.",
       "target_category": "AIR_PURIFICATION",
       "target_user_context": {
         "evidence_based": "Households whose real reviews carry this friction: 85 reviews across 29 real products (82.4% verified purchase, 2011-05-18-2023-04-13).",
@@ -7226,7 +7226,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
-            "generated_at": "2026-08-31T12:16:37.708572+00:00",
+            "generated_at": "2026-08-31T16:09:19.528668+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -7239,7 +7239,7 @@
         }
       ],
       "run_history": {
-        "magic_run_input_sha256": "4117b84af53a4e462731de998371d487f8a814e47b4faf473dd28942e04e67c1",
+        "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
         "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
       }
     }

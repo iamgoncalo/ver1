@@ -264,7 +264,15 @@ class TestCategoryStateSeparation(unittest.TestCase):
             self.assertNotEqual(floor["families"]["reviews"]["count"],
                                 air["families"]["reviews"]["count"])
         else:
-            self.assertEqual(floor["families"]["reviews"]["count"], 0)
+            # The 160MB clean corpus is not bundled (see DATA_NOTICE): a
+            # fresh clone must report the RECORDED run-ledger count,
+            # explicitly flagged as not bundled - never a silent zero and
+            # never an unflagged number.
+            with open(os.path.join(FLOOR_DIR, "state.json"), encoding="utf-8") as fh:
+                recorded = json.load(fh).get("counts", {}).get("reviews", 0)
+            self.assertEqual(floor["families"]["reviews"]["count"], recorded)
+            self.assertIs(floor["families"]["reviews"].get("store_bundled"), False)
+            self.assertIn("not bundled", floor["families"]["reviews"].get("note", ""))
 
     def test_floor_readiness_never_above_evidence(self):
         floor = compute_category_state("FLOOR_CARE")

@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-46",
-    "last_run_started_at": "2026-08-31T12:07:44.115770+00:00",
-    "last_run_finished_at": "2026-08-31T12:07:44.115770+00:00",
-    "last_checked_at": "2026-08-31T12:07:44.115770+00:00",
+    "last_run_id": "run-48",
+    "last_run_started_at": "2026-08-31T16:09:20.438732+00:00",
+    "last_run_finished_at": "2026-08-31T16:09:20.438732+00:00",
+    "last_checked_at": "2026-08-31T16:09:20.438732+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37",
+    "input_snapshot_hash": "1e18a8d2272793042c26d8b93af72139a48d638a0470b7ffa2f03a37e9a30699",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 46,
+    "total_runs_recorded": 48,
     "errors": []
   },
   "stages": [
@@ -3038,7 +3038,7 @@
           "RP-09",
           "RP-10"
         ],
-        "detail": "Independent evidence families agree: Consumer-grade IAQ sensors can track relative change well while reporting materially wrong absolute numbers - a 'smart' claim needs a trust qualifier, not just a reading."
+        "detail": "Independent evidence families agree: Consumer-grade indoor-air-quality (IAQ) sensors can track relative change well while reporting materially wrong absolute numbers - a 'smart' claim needs a trust qualifier, not just a reading."
       }
     ],
     "TENSION": [
@@ -3095,7 +3095,7 @@
           "RP-03",
           "RP-05"
         ],
-        "detail": "Real evidence genuinely disagrees: One real RCT (RP-08) found a significant asthma-control benefit from HEPA filtration; two other real studies (RP-03, RP-05) measuring related pollutants/symptoms found no such association."
+        "detail": "Real evidence genuinely disagrees: One real randomised controlled trial (RCT, RP-08) found a significant asthma-control benefit from HEPA filtration; two other real studies (RP-03, RP-05) measuring related pollutants/symptoms found no such association."
       }
     ],
     "ASSUMPTION": [
@@ -3356,7 +3356,7 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "1bac873965660cb2",
+  "snapshot": "ea4b564ba36b4c91",
   "last_refresh": {
     "run_id": "discovery-1787943742",
     "started_at": "2026-08-28T19:02:02.017700+00:00",

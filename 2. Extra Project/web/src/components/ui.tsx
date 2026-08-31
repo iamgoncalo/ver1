@@ -115,7 +115,11 @@ const TRUTH_TONE: Record<string, "blue" | "teal" | "amber" | "neutral"> = {
   OBSERVED: "blue", DERIVED: "teal", DESIGN_POSSIBILITY: "amber", HYPOTHESIS: "amber",
 };
 export function TruthBadge({ truthClass }: { truthClass: string }) {
-  return <Pill tone={TRUTH_TONE[truthClass] ?? "neutral"}>{truthClass.replace(/_/g, " ").toLowerCase()}</Pill>;
+  return (
+    <span title="How we know this: observed directly in real data, derived by computation from it, a design possibility, or a hypothesis still to be tested.">
+      <Pill tone={TRUTH_TONE[truthClass] ?? "neutral"}>{truthClass.replace(/_/g, " ").toLowerCase()}</Pill>
+    </span>
+  );
 }
 
 export function MiniBar({ value, max, tone = "blue" }: { value: number; max: number; tone?: "blue" | "teal" | "amber" | "rose" }) {

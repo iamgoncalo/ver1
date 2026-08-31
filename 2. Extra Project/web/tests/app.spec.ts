@@ -294,7 +294,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await page.getByRole("button", { name: "Floor care" }).click();
     // the Radar stage shows Floor Care's OWN machine-induced evidence
     await expect(page.getByTestId("category-stage-radar")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText(/Machine-induced complaint themes/)).toBeVisible();
+    await expect(page.getByText(/Complaint themes learned from the reviews themselves/)).toBeVisible();
     await expect(page.getByText(/share \(lower bound\)/).first()).toBeVisible();
     await expect(page.getByText(/Real competitor brands \(\d+ with/)).toBeVisible();
     // honestly missing families stay declared missing, not zero-faked or hidden

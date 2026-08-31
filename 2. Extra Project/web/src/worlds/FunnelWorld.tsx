@@ -39,7 +39,7 @@ const STAGES: StageDef[] = [
   { key: "radar", icon: "radar", label: "Radar", tagline: "What we actually see", world: 2, unit: "observation records" },
   { key: "paths", icon: "paths", label: "Paths", tagline: "Tensions and beliefs to test", world: 3, unit: "tensions + assumptions" },
   { key: "magic_box", icon: "magic_box", label: "Magic box", tagline: "What could exist now", world: 4, unit: "possibilities" },
-  { key: "innovations", icon: "innovations", label: "Innovations", tagline: "Worth developing next", world: 5, unit: "non-dominated candidates" },
+  { key: "innovations", icon: "innovations", label: "Innovations", tagline: "Worth developing next", world: 5, unit: "candidates still in the running" },
 ];
 
 // Where each real RADAR family actually lives - world plus the Radar lens

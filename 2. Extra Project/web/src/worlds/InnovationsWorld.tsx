@@ -84,7 +84,12 @@ function InnovationDetail({ i, navigate }: { i: any; navigate?: (n: number, para
       {Object.entries(env).map(([k, v]: [string, any]) => {
         if (typeof v === "string") return <p key={k} style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4 }}>{v}</p>;
         if (!v || typeof v !== "object") return null;
-        const label = k.replace(/_/g, " ");
+        const ENV_LABEL: Record<string, string> = {
+          performance_cadr_m3h: "clean-air delivery rate (CADR)", room_coverage_m2: "room coverage",
+          acoustic_min_dba: "minimum noise", target_mass_kg: "target mass", target_power_w: "target power",
+          target_dimensions: "target dimensions", reference_market_price_usd: "reference market price",
+        };
+        const label = ENV_LABEL[k] ?? k.replace(/_/g, " ");
         if (v.epistemic_type === "OBSERVED_COMPARABLE") return <StatRow key={k} label={`${label} (observed, n=${v.n_comparables})`} value={`${v.min}–${v.max} ${v.unit}`} />;
         if (v.epistemic_type === "REFERENCE_MARKET_PRICE") return <StatRow key={k} label={`${label} (reference)`} value={`median $${v.median} (${v.n_comparables} products)`} />;
         return <StatRow key={k} label={label} value="unknown — no comparable publishes this" />;
@@ -217,8 +222,9 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
           </div>
           <h1 style={{ fontSize: 24 }}>Innovations</h1>
           <p style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 2 }}>
-            The machine tracks its non-dominated possibilities in the Magic box; the three formal
-            opportunity spaces below are the case's evaluated bets — each opens a full Lab.
+            Every idea the machine developed lives here with the state its own evidence earns; ideas no
+            rival concept beats on every measure ("non-dominated") stay in the running. The formal case's
+            three evaluated bets follow below — each opens a full Lab.
           </p>
         </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>

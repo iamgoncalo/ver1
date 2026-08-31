@@ -276,7 +276,7 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number, params?: 
         <p style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 4 }}>
           {paths && ontology
             ? `${trajectories.length} verified trajectories · ${tensions.length} open tensions · ${assumptions.length} assumptions worth challenging — three different claims, never blended.`
-            : "Loading the path ontology…"}
+            : "Loading the paths…"}
         </p>
       </div>
 

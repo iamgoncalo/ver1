@@ -114,7 +114,7 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
             <div style={{ maxWidth: 720 }}>
               <StatRow label="Current state" value={state} />
               <StatRow label="Consumer pain" value={`${score?.friction_prevalence_pct ?? "—"}% of real reviews · ${score?.csat_impact ?? "—"}★ vs corpus mean`} />
-              <StatRow label="Price-weighted exposure" value={score?.economic_value != null ? `$${Number(score.economic_value).toLocaleString()}` : "unknown — no priced reviews carry this theme"} />
+              <StatRow label="Price-weighted exposure (sum of listed prices on affected reviews — not revenue)" value={score?.economic_value != null ? `$${Number(score.economic_value).toLocaleString()}` : "unknown — no priced reviews carry this theme"} />
               <StatRow label="Feasibility" value={`${score?.feasibility_2_5y?.rating} · ${score?.feasibility_2_5y?.rank}/3 (3 = easiest)`} />
               <div style={{ marginTop: 12 }}>
                 <SectionLabel>Biggest uncertainty</SectionLabel>
@@ -218,7 +218,7 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
                 </label>
                 <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>Materiality floor (%) — evidence gate E4
                   <input value={floor || baseFloor} onChange={(e) => setFloor(e.target.value)} inputMode="decimal"
-                    title="The live engine's current gate value - imported from the decision framework, never re-declared in the interface"
+                    title="The minimum share of reviews a friction must reach before the engine counts it - the live gate value, imported from the decision framework, never re-declared in the interface"
                     style={{ display: "block", width: "100%", marginTop: 4, padding: 6, borderRadius: 8, border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink)", fontSize: 12 }} />
                 </label>
                 <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>Exclude product (ASIN, optional)
@@ -282,7 +282,7 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
                   <span className="mono" style={{ fontSize: 12 }}>{e.replace(/_/g, " ")}</span>
                   <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>
                     {e.startsWith("taxonomy:") ? `real review theme — ${score?.n_reviews_supporting ?? "?"} supporting reviews in the clean corpus` :
-                     e.startsWith("keyword_search:") ? "keyword-prevalence diagnostic over the clean corpus (no polarity gate — weaker class, labelled as such)" :
+                     e.startsWith("keyword_search:") ? "keyword-prevalence diagnostic over the clean corpus (counts any mention without checking it is negative — a weaker evidence class, labelled as such)" :
                      e.startsWith("TC-") ? "archived trend/regulatory document (Radar → Trends)" : "evidence record"}
                   </p>
                 </div>

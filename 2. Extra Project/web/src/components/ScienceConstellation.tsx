@@ -89,8 +89,9 @@ export function ScienceConstellation({ onPaperClick }: { onPaperClick: (id: stri
       ) : (
         <div>
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 12, lineHeight: 1.5 }}>
-            {modelB?.method} — a cross-check against the canonical territories above, not a replacement.
-            Text similarity and strategic territory are different axes and aren't expected to agree perfectly.
+            Papers grouped purely by similarity of their own wording ({modelB?.method}) — a cross-check
+            against the canonical territories above, not a replacement. Text similarity and strategic
+            territory are different axes and aren't expected to agree perfectly.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {(modelB?.clusters ?? []).map((c) => (
