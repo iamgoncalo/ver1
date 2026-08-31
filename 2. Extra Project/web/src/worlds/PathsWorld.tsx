@@ -4,6 +4,7 @@ import { useState as usePanelState } from "react";
 import { Pill, SectionLabel } from "../components/ui";
 import { TraceText } from "../components/TraceText";
 import { FocusPanel } from "../components/FocusPanel";
+import { getParam, useUrlParam } from "../lib/urlState";
 
 // A real Path is a directional claim about where reality is moving - from
 // one state toward another - carried by real evidence and owning its own
@@ -78,12 +79,19 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }
     api.funnel().then((d: any) => {
       const ps = d?.homepage_funnel?.paths ?? [];
       setPaths(ps);
-      if (ps.length) setFocusId(ps[0].id);
+      // Deep link: /paths?path=<id> overrides the default first-path focus.
+      const wanted = getParam("path");
+      const hit = wanted ? ps.find((p: PathData) => p.id === wanted) : null;
+      if (hit) setFocusId(hit.id);
+      else if (ps.length) setFocusId(ps[0].id);
     }).catch(() => setPaths([]));
     api.assumptions().then((d: any) => setFieldAssumptions(d?.assumptions ?? [])).catch(() => {});
     fetch("/api/research/evidence").then((r) => r.json()).then((d: any) => setEvidenceCards(d?.cards ?? [])).catch(() => {});
     api.economics().then((d: any) => setAnchors(d?.anchors ?? {})).catch(() => {});
   }, []);
+
+  // Keep the URL a refresh-safe record of the focused path.
+  useUrlParam("path", focusId);
 
   const focus = useMemo(() => paths?.find((p) => p.id === focusId) ?? null, [paths, focusId]);
   const tensions = paths?.filter((p) => p.kind === "TENSION") ?? [];

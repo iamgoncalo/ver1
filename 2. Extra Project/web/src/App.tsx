@@ -52,8 +52,22 @@ export default function App() {
 
   useEffect(() => {
     const target = WORLD_PATH[world] ?? "/";
+    // Only push when the PATH differs - never clobber query params that a
+    // cross-world navigate() just pushed for this same world.
     if (window.location.pathname !== target) window.history.pushState({}, "", target);
   }, [world]);
+
+  // Cross-world navigation that can carry object focus params
+  // (e.g. /radar?lens=research&paper=RP-05). Pushes path+query THEN sets
+  // the world, so the world-sync effect sees a matching pathname and
+  // leaves the params intact for the target world's read-on-mount.
+  const navigate = useCallback((n: number, params?: Record<string, string>) => {
+    const target = WORLD_PATH[n] ?? "/";
+    const qs = params && Object.keys(params).length
+      ? "?" + new URLSearchParams(params).toString() : "";
+    window.history.pushState({}, "", target + qs);
+    setWorld(n);
+  }, []);
 
   useEffect(() => {
     function onPop() { setWorld(PATH_WORLD[window.location.pathname] ?? 0); }
@@ -63,8 +77,8 @@ export default function App() {
 
   const goSendToMagicBox = useCallback((theme: string) => {
     setThemeFilter(theme);
-    setWorld(4);
-  }, []);
+    navigate(4, { theme });
+  }, [navigate]);
 
   useEffect(() => {
     function isTypingTarget(el: EventTarget | null) {
@@ -91,16 +105,16 @@ export default function App() {
       return <CategoryGate key={`gate-${category}-${world}`} category={category} world={world} onBackToAir={() => setCategory("AIR_PURIFICATION")} />;
     }
     switch (world) {
-      case 0: return <FunnelWorld key="overview" onGoToWorld={setWorld} />;
+      case 0: return <FunnelWorld key="overview" onGoToWorld={navigate} navigate={navigate} />;
       case 1: return <ProductsWorld key="products" />;
       case 2: return <SignalsWorld key="radar" onSendToMagicBox={goSendToMagicBox} />;
-      case 3: return <PathsWorld key="paths" onGoToWorld={setWorld} />;
-      case 4: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} onGoToWorld={setWorld} />;
-      case 5: return <InnovationsWorld key="innovations" onData={setInnovations} onGoToWorld={setWorld} />;
+      case 3: return <PathsWorld key="paths" onGoToWorld={navigate} />;
+      case 4: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} onGoToWorld={navigate} />;
+      case 5: return <InnovationsWorld key="innovations" onData={setInnovations} onGoToWorld={navigate} />;
       case 8: return <CriteriaWorld key="criteria" />;
       default: return null;
     }
-  }, [world, themeFilter, goSendToMagicBox, category]);
+  }, [world, themeFilter, goSendToMagicBox, category, navigate]);
 
   return (
     <div style={{ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column", overflow: "hidden" }}>

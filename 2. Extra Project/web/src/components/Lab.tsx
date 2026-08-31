@@ -209,10 +209,10 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
                     <option value="economic_value_override">Economic value override</option>
                   </select>
                 </label>
-                <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>Market scenario (Q5)
+                <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }} title="CAGR = compound annual growth rate, the vendor's projected yearly market growth">Market scenario (Q5) — growth source
                   <select value={market} onChange={(e) => setMarket(e.target.value)} style={{ display: "block", width: "100%", marginTop: 4, padding: 6, borderRadius: 8, border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink)", fontSize: 12 }}>
-                    <option value="mordor">Mordor Intelligence (5.37% CAGR)</option>
-                    <option value="imarc">IMARC Group (6.54% CAGR)</option>
+                    <option value="mordor">Mordor Intelligence (5.37%/yr growth — CAGR)</option>
+                    <option value="imarc">IMARC Group (6.54%/yr growth — CAGR)</option>
                   </select>
                 </label>
                 <label style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>Materiality floor (%) — evidence gate E4

@@ -40,7 +40,7 @@ function resolveOne(id: string, ctx: TraceCtx): TraceNode {
     );
     return {
       id, kind: "signal", label: signal.name,
-      detail: `${signal.state.replace(/_/g, " ")} · prevalence ${signal.prevalence_pct ?? "n/a"}% · CSAT ${signal.csat_impact ?? "n/a"} · ${signal.n_reviews ?? 0} real reviews`,
+      detail: `${signal.state.replace(/_/g, " ")} · prevalence ${signal.prevalence_pct ?? "n/a"}% · rating gap ${signal.csat_impact ?? "n/a"}★ · ${signal.n_reviews ?? 0} real reviews`,
       children,
     };
   }

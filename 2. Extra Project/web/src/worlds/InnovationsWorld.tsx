@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getParam, useUrlParam } from "../lib/urlState";
 import { api } from "../lib/api";
 import type { InnovationsResponse } from "../lib/types";
 import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, type ViewMode } from "../components/ui";
@@ -47,6 +48,8 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
   const [tensions, setTensions] = useState<any[]>([]);
   const [criteria, setCriteria] = useState<any>(null);
   const [traceId, setTraceId] = useState<string | null>(null);
+  const deepLinkApplied = useRef(false);
+  const [labId, setLabId] = useState<string | null>(null);
 
   useEffect(() => { api.signals().then((r) => setSignals(r.signals)).catch(() => {}); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
@@ -63,6 +66,15 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
       setData(d);
       onData(d);
       setStatus(Object.keys(d.scores ?? {}).length > 0 ? "success" : "empty");
+      // Deep links, applied once on first load: ?lab=<id> opens the Lab
+      // (taking precedence), else ?innovation=<id> opens the trace panel.
+      if (!deepLinkApplied.current) {
+        deepLinkApplied.current = true;
+        const lab = getParam("lab");
+        const innovation = getParam("innovation");
+        if (lab && d.scores?.[lab]) setLabId(lab);
+        else if (innovation && d.scores?.[innovation]) setTraceId(innovation);
+      }
     }).catch(() => {
       if (stale) return;
       clearTimeout(timeoutId);
@@ -77,7 +89,10 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
   const maxEcon = data ? Math.max(...ids.map((id) => data.scores[id].economic_value ?? 0), 1) : 1;
   const maxPain = data ? Math.max(...ids.map((id) => data.scores[id].consumer_pain.severity_csat).filter((v): v is number => v != null).map(Math.abs), 1) : 1;
   const winnerId = data?.verdict.recommended;
-  const [labId, setLabId] = useState<string | null>(null);
+
+  // Keep the URL a refresh-safe record of the open panel (lab wins).
+  useUrlParam("lab", labId);
+  useUrlParam("innovation", labId ? null : traceId);
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
@@ -187,9 +202,9 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
                 <>
                   <div style={{ marginBottom: 8 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
-                      <span>Consumer Pain (CSAT)</span><span className="mono">{s.consumer_pain.severity_csat}</span>
+                      <span>Consumer Pain (average rating gap ★)</span><span className="mono">{s.consumer_pain.severity_csat}</span>
                     </div>
-                    {s.consumer_pain.severity_csat != null ? <MiniBar value={s.consumer_pain.severity_csat} max={maxPain} tone="rose" /> : <p style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>no measured CSAT signal — evidence gap, not zero</p>}
+                    {s.consumer_pain.severity_csat != null ? <MiniBar value={s.consumer_pain.severity_csat} max={maxPain} tone="rose" /> : <p style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>no measured rating-gap signal — evidence gap, not zero</p>}
                     {s.consumer_pain.methodology && (
                       <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}
                         title="Keyword-classified real Amazon review text, not a survey or panel.">
@@ -211,8 +226,8 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
               ) : (
                 <div style={{ marginBottom: 8, padding: "8px 12px", background: "rgba(166,67,63,0.08)", border: "1px solid rgba(166,67,63,0.25)", borderRadius: 8 }}>
                   <div style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}
-                    title={s.decision_reason ?? "Consumer Pain evidence-sufficiency gate failed — no real CSAT signal exists for this theme."}>
-                    {s.decision_reason ?? "Consumer Pain evidence-sufficiency gate failed — no real CSAT signal exists for this theme."}
+                    title={s.decision_reason ?? "Consumer Pain evidence-sufficiency gate failed — no real rating-gap signal exists for this theme."}>
+                    {s.decision_reason ?? "Consumer Pain evidence-sufficiency gate failed — no real rating-gap signal exists for this theme."}
                   </div>
                 </div>
               )}

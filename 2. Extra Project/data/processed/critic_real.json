@@ -143,7 +143,7 @@
       "critic_dimensions": {
         "EVIDENCE": {
           "verdict": "SURVIVE",
-          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, CSAT -0.571 - materially above the gate floor."
+          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, average rating gap -0.571 - materially above the gate floor."
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",
@@ -183,7 +183,7 @@
       "critic_dimensions": {
         "EVIDENCE": {
           "verdict": "SURVIVE",
-          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, CSAT -0.571 - materially above the gate floor."
+          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, average rating gap -0.571 - materially above the gate floor."
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",
@@ -223,7 +223,7 @@
       "critic_dimensions": {
         "EVIDENCE": {
           "verdict": "SURVIVE",
-          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, CSAT -0.571 - materially above the gate floor."
+          "reasoning": "Real Consumer Pain evidence: prevalence 3.5%, average rating gap -0.571 - materially above the gate floor."
         },
         "ECONOMIC": {
           "verdict": "SURVIVE",

@@ -56,7 +56,7 @@ def load_evidence_cards():
 
 TAXONOMY_MEANING = {
     "noise": "Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use.",
-    "reliability": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact.",
+    "reliability": "'Stopped working' or failing early is the most severe complaint theme by average rating gap.",
     "ozone_odor_safety": "Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits.",
     "value_effectiveness": "Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials.",
     "customer_service": "Customer service and warranty handling — a real, operational issue, not a research question.",

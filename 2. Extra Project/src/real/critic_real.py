@@ -36,7 +36,7 @@ def critic_evidence_dimension(p):
     if not p["gate_passed"]:
         return "REJECT", "Consumer Pain evidence-sufficiency gate failed - no real, materially-prevalent friction to build against."
     if p["consumer_pain_prevalence_pct"] and p["consumer_pain_prevalence_pct"] >= 2.0:
-        return "SURVIVE", "Real Consumer Pain evidence: prevalence {}%, CSAT {} - materially above the gate floor.".format(
+        return "SURVIVE", "Real Consumer Pain evidence: prevalence {}%, average rating gap {} - materially above the gate floor.".format(
             p["consumer_pain_prevalence_pct"], p["consumer_pain_csat"])
     return "CHALLENGE", "Gate passed but prevalence ({}%) is only marginally above the materiality floor - thin evidence base.".format(
         p["consumer_pain_prevalence_pct"])

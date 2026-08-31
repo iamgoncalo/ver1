@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 import { Pill, SectionLabel, StatRow, DistilledRawToggle, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+import { getParam, useUrlParam } from "../lib/urlState";
 
 interface Criterion {
   id: string; category: string; name: string; question: string; why_it_matters: string;
@@ -25,7 +26,20 @@ export function CriteriaWorld() {
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("EVIDENCE");
   const [criterionFocus, setCriterionFocus] = useState<Criterion | null>(null);
 
-  useEffect(() => { api.criteria().then(setData).catch(() => setData(null)); }, []);
+  useEffect(() => {
+    api.criteria().then((d) => {
+      setData(d);
+      // Deep link: /criteria?criterion=<id> opens that rule and lands on
+      // its own category tab.
+      const id = getParam("criterion");
+      const c = id ? d.criteria_library?.find((x: Criterion) => x.id === id) : null;
+      if (c) {
+        if ((CATEGORIES as readonly string[]).includes(c.category)) setCategory(c.category as (typeof CATEGORIES)[number]);
+        setCriterionFocus(c);
+      }
+    }).catch(() => setData(null));
+  }, []);
+  useUrlParam("criterion", criterionFocus?.id ?? null);
 
   const criteriaInCategory = useMemo(
     () => (data?.criteria_library ?? []).filter((c) => c.category === category),

@@ -241,7 +241,7 @@
     {
       "id": "reliability",
       "name": "Reliability / stopped working",
-      "meaning": "'Stopped working' or failing early is the most severe complaint theme by CSAT impact.",
+      "meaning": "'Stopped working' or failing early is the most severe complaint theme by average rating gap.",
       "prevalence_pct": 1.58,
       "csat_impact": -2.223,
       "n_reviews": 166,

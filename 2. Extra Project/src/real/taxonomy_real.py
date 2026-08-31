@@ -297,7 +297,7 @@ def compute_theme_stats(rows):
                       "text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - "
                       "NOT an academic study, survey, or panel. Each review is assigned to the theme "
                       "whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest "
-                      "in its text; CSAT impact is that theme's mean real star rating minus the "
+                      "in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the "
                       "corpus-wide mean real star rating, both restricted to reviews flagged "
                       "rating_trusted."),
             "prevalence_pct": round(100.0 * len(present) / len(rows), 2) if rows else None,

@@ -371,7 +371,7 @@ def criteria_table(criteria_dict, ids):
 
 
 def comparative_table(all_scores):
-    rows = [("Candidate", "Real prevalence", "Real CSAT impact", "Real typical price", "Real status")]
+    rows = [("Candidate", "Real prevalence", "Real avg rating gap", "Real typical price", "Real status")]
     for cid, c in all_scores.items():
         cp = c["consumer_pain"]
         rows.append((

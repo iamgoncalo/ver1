@@ -339,7 +339,7 @@ def evaluate(profiles, decision_priority="pain_feasibility_majority"):
         if pid not in survivors:
             status[pid] = "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE"
             reasons[pid] = ("Consumer Pain evidence-sufficiency gate failed: prevalence "
-                            "{}% is below the {}% materiality floor, or no real CSAT "
+                            "{}% is below the {}% materiality floor, or no real rating-gap "
                             "signal exists for this theme at all - there is nothing to "
                             "be severe OR broad about, regardless of Economic Value or "
                             "Feasibility.").format(p["consumer_pain"]["prevalence_pct"],
@@ -600,7 +600,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
                 "decision_priority_used": decision_priority,
         "materiality_floor_pct": floor,
                 "why": "No real candidate cleared the Consumer Pain evidence-sufficiency gate "
-                      "(prevalence >= {}% with a real CSAT signal) - there is no candidate with "
+                      "(prevalence >= {}% with a real rating-gap signal) - there is no candidate with "
                       "sufficient real evidence to recommend.".format(floor),
                 "killed": [{"id": pid, "name": p["name"], "reason": p["decision_reason"]}
                           for pid, p in profiles.items()],
@@ -645,7 +645,7 @@ def compute(scenario="mordor", rows=None, tax=None, wtp=None, decision_priority=
              "reason": ("Unlike the earlier synthetic-fixture version of this exercise, "
                        "connectivity mentions are not literally zero in real data (~1%) - "
                        "but they fail the Consumer Pain evidence-sufficiency gate (no real "
-                       "CSAT signal) and skew positive when they do appear. High technical "
+                       "rating-gap signal) and skew positive when they do appear. High technical "
                        "Feasibility does not rescue a candidate with no real friction "
                        "evidence to build against.") if pid == "OS-3" else profiles[pid]["decision_reason"]}
             for pid in others if pid != runner_up_id

@@ -14,7 +14,7 @@
         "2023-08-27"
       ],
       "pct_verified_purchase": 85.5,
-      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
       "prevalence_pct": 1.58,
       "mean_rating": 1.95,
       "csat_impact": -2.223
@@ -29,7 +29,7 @@
         "2023-04-24"
       ],
       "pct_verified_purchase": 90.1,
-      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
       "prevalence_pct": 0.77,
       "mean_rating": 1.449,
       "csat_impact": -2.724
@@ -44,7 +44,7 @@
         "2023-07-17"
       ],
       "pct_verified_purchase": 69.4,
-      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
       "prevalence_pct": 0.34,
       "mean_rating": 1.743,
       "csat_impact": -2.429
@@ -59,7 +59,7 @@
         "2023-07-21"
       ],
       "pct_verified_purchase": 70.4,
-      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
       "prevalence_pct": 0.26,
       "mean_rating": 2.92,
       "csat_impact": -1.252
@@ -74,7 +74,7 @@
         "2023-08-08"
       ],
       "pct_verified_purchase": 69.6,
-      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
       "prevalence_pct": 3.5,
       "mean_rating": 3.602,
       "csat_impact": -0.571
@@ -89,7 +89,7 @@
         "2023-04-13"
       ],
       "pct_verified_purchase": 82.4,
-      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+      "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
       "prevalence_pct": 0.81,
       "mean_rating": 3.07,
       "csat_impact": -1.102

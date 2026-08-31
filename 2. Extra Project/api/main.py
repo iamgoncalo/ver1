@@ -227,7 +227,33 @@ def consumer_corpus():
     with open(os.path.join(PROC, "defect_detection_report_real.json"), encoding="utf-8") as fh:
         dq = json.load(fh)
     f = next(x for x in manifest["files"] if x["filename"] == "consumer_reviews.csv")
+    # Classifier honesty block: the deterministic keyword classifier's own
+    # measured limits (coverage, blind-validation result) plus the per-theme
+    # mean ratings behind every "average rating gap" shown in the UI. Served
+    # verbatim from taxonomy_themes_real.json - never recomputed here.
+    with open(os.path.join(PROC, "taxonomy_themes_real.json"), encoding="utf-8") as fh:
+        tax = json.load(fh)
+    val = tax.get("validation", {})
+    classifier = {
+        "corpus_mean_rating_trusted": tax.get("corpus_mean_rating_trusted"),
+        "unassigned_pct": tax.get("unassigned_pct"),
+        "n_reviews_classified": tax.get("n_reviews_classified"),
+        "themes": {
+            k: {"mean_rating": v.get("mean_rating"), "csat_impact": v.get("csat_impact"),
+                "n_reviews": v.get("n_reviews")}
+            for k, v in tax.get("themes", {}).items()
+        },
+        "validation": {
+            "n_labelled": val.get("n_labelled"),
+            "raw_agreement_pct": val.get("raw_agreement_pct"),
+            "status": val.get("status"),
+            "epistemic_type": val.get("epistemic_type"),
+            "labeller": val.get("labeller"),
+            "interpretation": val.get("interpretation"),
+        },
+    }
     return {
+        "classifier": classifier,
         "source": f["origin"].get("described_as"),
         "source_url": f["origin"].get("url") or f["origin"].get("source_url"),
         "retrieved_at": f["retrieved_at"],

@@ -179,14 +179,14 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     const rows = page.locator("main button").filter({ hasText: /Tension|Assumption/ });
     await rows.nth(2).click();
     await expect(page.getByText("Consequences")).toBeVisible();
-    await expect(page).toHaveURL(/\/paths$/);
+    await expect(page).toHaveURL(/\/paths(\?|$)/);
     // Field is nested inside Paths - grounding opens in place, no route change
     await page.getByRole("button", { name: /Ground it in the field/ }).click();
     await expect(page.getByText("Field — what THIS trajectory means in the real world")).toBeVisible();
-    await expect(page).toHaveURL(/\/paths$/);
+    await expect(page).toHaveURL(/\/paths(\?|$)/);
     // regression: "Radar evidence" navigates to Radar, never Product universe
     await page.getByRole("button", { name: "← Radar evidence" }).click();
-    await expect(page).toHaveURL(/\/radar$/);
+    await expect(page).toHaveURL(/\/radar(\?|$)/);
     await expect(page.getByText("what are we observing?")).toBeVisible({ timeout: 5000 });
     await noDocumentScroll(page);
     expect(errors).toEqual([]);
@@ -224,7 +224,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
   test("category is a real computation input: Floor care shows its honest live eligibility, never Air data", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/radar");
-    await expect(page.getByText("Corpus provenance:")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Reviews retained").first()).toBeVisible({ timeout: 5000 });
     await page.getByRole("button", { name: "Floor care" }).click();
     await expect(page.getByText("insufficient evidence")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("Eligible evidence, by family")).toBeVisible();
@@ -233,9 +233,9 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText("reviews", { exact: true })).toBeVisible();
     expect(await page.getByText(/^0$/).count()).toBeGreaterThanOrEqual(4);
     // no Air content is shown under the Floor care label
-    await expect(page.getByText("Corpus provenance:")).toHaveCount(0);
+    await expect(page.getByText("Reviews retained")).toHaveCount(0);
     await page.getByRole("button", { name: "Back to air purification →" }).click();
-    await expect(page.getByText("Corpus provenance:")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Reviews retained").first()).toBeVisible({ timeout: 5000 });
     expect(errors).toEqual([]);
   });
 
@@ -287,7 +287,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
   });
 
   test("Radar consumer lens shows exact corpus provenance", async ({ page }) => {
-    await page.goto("/radar");
+    await page.goto("/radar?lens=consumers");
     await expect(page.getByText("Corpus provenance:")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText(/10,547 reviews normalized → 10,529 retained/)).toBeVisible();
     await expect(page.getByText("Who is missing:")).toBeVisible();
@@ -316,9 +316,9 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await page.goto("/innovations");
     await page.getByRole("button", { name: "How the machine decides →" }).click();
     await expect(page.getByText("Criteria are not scores. They are tests.")).toBeVisible({ timeout: 5000 });
-    await expect(page).toHaveURL(/\/criteria$/);
+    await expect(page).toHaveURL(/\/criteria(\?|$)/);
     await navButton(page, /^Radar$/).click();
-    await expect(page).toHaveURL(/\/radar$/);
+    await expect(page).toHaveURL(/\/radar(\?|$)/);
   });
 
   test("Radar competitors lens shows white space and sends a theme to the Magic box", async ({ page }) => {
@@ -439,5 +439,175 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await page.getByTitle("Machine overview — home").click();
     await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible({ timeout: 5000 });
     expect(errors).toEqual([]);
+  });
+
+  // ---------------- PASS 1: foundation + radar ----------------
+
+  test("Radar defaults to the synthesized Overview lens with honest temporal claim", async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await page.goto("/radar");
+    await expect(page.getByTestId("radar-distilled-overview")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Reviews retained").first()).toBeVisible();
+    await expect(page.getByText("Peer-reviewed papers").first()).toBeVisible();
+    // the machine never claims a trend over time from this corpus
+    await expect(page.getByText(/no validated time-series exists in this corpus/)).toBeVisible();
+    // classifier honesty is on the overview, with the measured coverage gap
+    await expect(page.getByText("Classifier honesty:").first()).toBeVisible();
+    await expect(page.getByText(/match no theme keyword/).first()).toBeVisible();
+    await expect(page.getByText(/92\.74%/).first()).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test("every Radar lens has a genuinely different Distilled and Raw view", async ({ page }) => {
+    await page.goto("/radar");
+    for (const lens of [
+      { tab: "Overview", key: "overview" },
+      { tab: "Consumer", key: "consumers" },
+      { tab: "Research", key: "research" },
+      { tab: "Trends", key: "trends" },
+      { tab: "Market", key: "market" },
+      { tab: "Coverage", key: "sources" },
+      { tab: "Competitors", key: "competitors" },
+    ]) {
+      await page.getByRole("button", { name: lens.tab, exact: true }).click();
+      await page.getByRole("button", { name: "distilled" }).click();
+      await expect(page.getByTestId(`radar-distilled-${lens.key}`), `${lens.key} distilled`).toBeVisible({ timeout: 5000 });
+      await expect(page.getByTestId(`radar-raw-${lens.key}`)).toHaveCount(0);
+      await page.getByRole("button", { name: "raw" }).click();
+      await expect(page.getByTestId(`radar-raw-${lens.key}`), `${lens.key} raw`).toBeVisible({ timeout: 5000 });
+      await expect(page.getByTestId(`radar-distilled-${lens.key}`)).toHaveCount(0);
+      // raw is structurally a record table on every table-backed lens
+      if (lens.key !== "competitors") {
+        await expect(page.getByTestId(`radar-raw-${lens.key}`).locator("table")).toBeVisible();
+      }
+      await page.getByRole("button", { name: "distilled" }).click();
+    }
+  });
+
+  test("public CSAT language is gone: rating gap shown with theme vs corpus means and n", async ({ page }) => {
+    await page.goto("/radar?lens=consumers");
+    await expect(page.getByText("detected complaint share (lower bound)").first()).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("average rating gap").first()).toBeVisible();
+    // open a signal: the method block decomposes the gap honestly
+    await page.getByText("average rating gap").first().click();
+    await expect(page.getByText("Average rating gap — how it is computed")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Theme mean rating")).toBeVisible();
+    await expect(page.getByText("Corpus mean rating")).toBeVisible();
+    await expect(page.getByText("n (reviews in theme)")).toBeVisible();
+    await page.keyboard.press("Escape");
+    // no user-visible "CSAT" anywhere in the five worlds' default views
+    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria"]) {
+      await page.goto(path);
+      await page.waitForTimeout(500);
+      const hasCsat = await page.evaluate(() => (document.querySelector("main")?.textContent ?? "").includes("CSAT"));
+      expect(hasCsat, `world=${path}`).toBe(false);
+    }
+  });
+
+  test("deep links: /radar lens/paper params land on the exact object and refresh restores it", async ({ page }) => {
+    await page.goto("/radar?lens=research");
+    await expect(page.getByTestId("radar-distilled-research")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/All papers \(\d+\)/)).toBeVisible();
+    // open a specific paper via param
+    await page.goto("/radar?paper=RP-01");
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("dialog").getByText("Does NOT establish")).toBeVisible();
+    // the URL keeps the object; a hard refresh restores the same panel
+    await page.reload();
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("dialog").getByText("Does NOT establish")).toBeVisible();
+  });
+
+  test("deep links: market lens and a signal focus survive refresh", async ({ page }) => {
+    await page.goto("/radar?lens=market");
+    await expect(page.getByText(/Why they disagree/)).toBeVisible({ timeout: 5000 });
+    await page.goto("/radar?signal=noise");
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("dialog").getByText("Design consequence")).toBeVisible();
+    await page.reload();
+    await expect(page.getByRole("dialog").getByText("Design consequence")).toBeVisible({ timeout: 5000 });
+  });
+
+  test("deep links: a focused path is in the URL and a refresh restores that exact path", async ({ page }) => {
+    await page.goto("/paths");
+    await expect(page.getByText("Consequences")).toBeVisible({ timeout: 5000 });
+    const rows = page.locator("main button").filter({ hasText: /Tension|Assumption/ });
+    await rows.nth(3).click();
+    const heading = await page.locator("main h2").first().textContent();
+    await expect(page).toHaveURL(/\/paths\?path=/);
+    await page.reload();
+    await expect(page.getByText("Consequences")).toBeVisible({ timeout: 5000 });
+    expect(await page.locator("main h2").first().textContent()).toBe(heading);
+  });
+
+  test("deep links: /innovations?lab= opens the Lab directly; innovation param opens the trace", async ({ page }) => {
+    await page.goto("/innovations?lab=OS-2");
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText("Lab — where possibility meets reality")).toBeVisible();
+    await page.getByRole("button", { name: "Close Lab" }).click();
+    await page.goto("/innovations?innovation=OS-1");
+    await expect(page.getByText("Trace this bet — evidence, theme, and every concept built on it")).toBeVisible({ timeout: 15000 });
+  });
+
+  test("deep links: a focused official product and criterion survive refresh", async ({ page }) => {
+    await page.goto("/products");
+    await page.locator("main img").first().waitFor({ timeout: 5000 });
+    await page.getByText(/official Versuni|official source/).first().waitFor({ timeout: 5000 });
+    // open the first verified official card
+    await page.locator("main").getByRole("button").filter({ has: page.locator("img") }).first().click();
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    await expect(page).toHaveURL(/official=/);
+    await page.reload();
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("dialog").getByText("Specs (official page)")).toBeVisible();
+    // criteria: /criteria?criterion=V1 opens the exact rule on its category tab
+    await page.goto("/criteria?criterion=V1");
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Provenance — where this rule comes from")).toBeVisible();
+    await page.reload();
+    await expect(page.getByText("Provenance — where this rule comes from")).toBeVisible({ timeout: 5000 });
+  });
+
+  test("homepage funnel families land on their own Radar lenses, dead families stay honest", async ({ page }) => {
+    await page.goto("/");
+    await page.locator("main button").filter({ hasText: "Radar" }).first().click();
+    // clicking the RESEARCH family lands on the Research lens, not the default
+    await page.getByRole("button", { name: /RESEARCH →/ }).click();
+    await expect(page).toHaveURL(/\/radar\?lens=research/);
+    await expect(page.getByTestId("radar-distilled-research")).toBeVisible({ timeout: 5000 });
+    // and MARKET lands on Market
+    await page.goto("/");
+    await page.locator("main button").filter({ hasText: "Radar" }).first().click();
+    await page.getByRole("button", { name: /MARKET →/ }).click();
+    await expect(page).toHaveURL(/\/radar\?lens=market/);
+    await expect(page.getByText(/Why they disagree/)).toBeVisible({ timeout: 5000 });
+    // families with no page render without the arrow affordance
+    await page.goto("/");
+    await page.locator("main button").filter({ hasText: "Radar" }).first().click();
+    await expect(page.getByText(/^ECONOMICS$/)).toBeVisible();
+    await expect(page.getByRole("button", { name: /ECONOMICS →/ })).toHaveCount(0);
+  });
+
+  test("Product universe headline is the verified Versuni portfolio count, never the Amazon corpus", async ({ page }) => {
+    await page.goto("/products");
+    await expect(page.getByRole("heading", { name: /^\d+ verified Versuni products$/ })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("a verified subset checked against official pages")).toBeVisible();
+    // the Amazon corpus stays clearly labelled as market context
+    await expect(page.getByText(/market context, NOT Versuni's portfolio/)).toBeVisible();
+    // the verified portfolio links onward to the full local catalog
+    const catalogLink = page.getByTestId("products-verinfo-link");
+    await expect(catalogLink).toBeVisible();
+    await expect(catalogLink).toHaveAttribute("href", "/verinfo/");
+    // homepage tile mirrors the same verified count
+    await page.goto("/");
+    await expect(page.getByText("verified Versuni products").first()).toBeVisible({ timeout: 5000 });
+  });
+
+  test("acronyms are expanded where shown: CAGR on Market, CADR/WTP in Products", async ({ page }) => {
+    await page.goto("/radar?lens=market");
+    await expect(page.getByText(/compound annual growth rate \(CAGR\)/).first()).toBeVisible({ timeout: 5000 });
+    await page.goto("/products");
+    await page.getByRole("button", { name: "raw" }).click();
+    await expect(page.getByText(/clean-air-delivery-rate \(CADR\)/)).toBeVisible({ timeout: 5000 });
   });
 });

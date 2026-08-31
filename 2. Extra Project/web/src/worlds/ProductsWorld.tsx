@@ -3,6 +3,7 @@ import { api } from "../lib/api";
 import type { Product, ProductsResponse } from "../lib/types";
 import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+import { getParam, useUrlParam } from "../lib/urlState";
 
 const LENS = {
   type: { key: "cluster_type" as const, label: "ARCHITECTURE (type)" },
@@ -33,9 +34,31 @@ export function ProductsWorld() {
   const [officialProducts, setOfficialProducts] = useState<any[] | null>(null);
   const [showAllOfficial, setShowAllOfficial] = useState(false);
 
-  useEffect(() => { api.products().then(setData).catch(() => setData(null)); }, []);
+  useEffect(() => {
+    api.products().then((d) => {
+      setData(d);
+      // Deep link: /products?product=<corpus id> opens that product once
+      // its corpus loads (an unknown id simply opens nothing).
+      const id = getParam("product");
+      const p = id ? d.products.find((x: Product) => x.id === id) : null;
+      if (p) { setFocus(p); setMode("raw"); }
+    }).catch(() => setData(null));
+  }, []);
   useEffect(() => { api.economics().then(setEcon).catch(() => setEcon(null)); }, []);
-  useEffect(() => { api.productImages().then((r) => setOfficialProducts(r.products)).catch(() => setOfficialProducts(null)); }, []);
+  useEffect(() => {
+    api.productImages().then((r) => {
+      setOfficialProducts(r.products);
+      // Deep link: /products?official=<product_id> opens the verified
+      // official product.
+      const id = getParam("official");
+      const p = id ? r.products?.find((x: any) => x.product_id === id) : null;
+      if (p) setOfficialFocus(p);
+    }).catch(() => setOfficialProducts(null));
+  }, []);
+
+  // Keep the URL a refresh-safe record of the focused object.
+  useUrlParam("product", focus?.id ?? null);
+  useUrlParam("official", officialFocus?.product_id ?? null);
 
   function dutchWallet(priceUsd: number) {
     if (!econ) return null;
@@ -79,7 +102,16 @@ export function ProductsWorld() {
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
             Product universe — what exists today
           </div>
-          <h1 style={{ fontSize: 24 }}>Product universe</h1>
+          <h1 style={{ fontSize: 24 }}>
+            {officialProducts && officialProducts.length > 0
+              ? `${officialProducts.length} verified Versuni products`
+              : "Product universe"}
+          </h1>
+          {officialProducts && officialProducts.length > 0 && (
+            <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 3 }}>
+              a verified subset checked against official pages — plus the all-brands market evidence corpus below
+            </div>
+          )}
         </div>
         <DistilledRawToggle mode={mode} onChange={setMode} />
       </div>
@@ -106,6 +138,13 @@ export function ProductsWorld() {
                   <OfficialProductCard key={p.product_id} p={p} onClick={() => setOfficialFocus(p)} />
                 ))}
               </div>
+              <a href="/verinfo/" data-testid="products-verinfo-link"
+                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 12,
+                  padding: "12px 16px", borderRadius: 12, border: "1px solid var(--accent-blue)", textDecoration: "none",
+                  background: "transparent", color: "var(--accent-blue-ink)" }}>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>Want to browse every Versuni product? The full catalog lives here →</span>
+                <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>/verinfo/</span>
+              </a>
             </div>
           )}
           <div style={{ marginTop: 20 }}>
@@ -148,7 +187,7 @@ export function ProductsWorld() {
       ) : (
       <>
       <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--rose)", letterSpacing: "0.04em", marginBottom: 10, flexShrink: 0 }}>
-        Consumer review corpus — real competitor brands from Amazon reviews. This is evidence, not Versuni's official portfolio (see the verified official product above in Distilled).
+        Consumer review corpus — real competitor brands from Amazon reviews. This is evidence, not Versuni's official portfolio (the verified records are in the table below).
       </div>
       <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 12, flexShrink: 0 }}>
           <input
@@ -167,11 +206,40 @@ export function ProductsWorld() {
           </div>
           <span style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>
             {filtered.length} real, hand-validated products. Two verified cluster lenses — Performance/Context/Generation
-            omitted: no real CADR/room-coverage/generation-lineage evidence exists. Missing stays missing, never inferred.
+            omitted: no real clean-air-delivery-rate (CADR), room-coverage, or generation-lineage evidence exists.
+            Missing stays missing, never inferred.
           </span>
       </div>
 
       <div className="scrollY" style={{ flex: 1, display: "flex", flexDirection: "column", gap: 18 }}>
+        {officialProducts && officialProducts.length > 0 && (
+          <div>
+            <SectionLabel>Verified official records · {officialProducts.length}</SectionLabel>
+            <div data-testid="products-raw-official" style={{ overflowX: "auto", border: "1px solid var(--line)", borderRadius: 12 }}>
+              <table style={{ borderCollapse: "collapse", width: "100%" }}>
+                <thead><tr>
+                  {["id", "family", "SKU", "verified status", "retrieved", "official source"].map((c) => (
+                    <th key={c} style={{ textAlign: "left", padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", whiteSpace: "nowrap" }}>{c}</th>
+                  ))}
+                </tr></thead>
+                <tbody>
+                  {officialProducts.map((p) => (
+                    <tr key={p.product_id} onClick={() => setOfficialFocus(p)} style={{ cursor: "pointer" }}>
+                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--ink-faint)" }}>{p.product_id}</td>
+                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 11.5, color: "var(--ink)", fontWeight: 500 }}>{p.family}</td>
+                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-dim)" }}>{p.sku}</td>
+                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--good)" }}>{p.status}</td>
+                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-dim)" }}>{p.retrieved_at}</td>
+                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10.5 }}>
+                        <a href={p.official_url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>open →</a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
         {groups.map(([key, items]) => (
           <div key={key}>
             <SectionLabel>{labelMap[key] ?? key} · {items.length}</SectionLabel>
@@ -228,7 +296,7 @@ export function ProductsWorld() {
               if (!w) return null;
               return (
                 <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-                  <SectionLabel>Dutch Wallet — affordability context, not WTP</SectionLabel>
+                  <SectionLabel>Dutch Wallet — affordability context, not willingness to pay (WTP)</SectionLabel>
                   <StatRow label="Price (EUR, modelled from real spot rate)" value={`€${w.priceEur}`} />
                   <StatRow label="Median gross work hours" value={w.workHours} />
                   <StatRow label="Share of mean household disposable income" value={`${w.shareOfIncomePct}%`} />

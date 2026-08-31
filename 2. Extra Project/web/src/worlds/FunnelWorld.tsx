@@ -34,17 +34,26 @@ interface FunnelDoc {
 
 type StageDef = { key: string; icon: FunnelStageKey; label: string; tagline: string; world: number; unit: string };
 const STAGES: StageDef[] = [
-  { key: "product_universe", icon: "field", label: "Product universe", tagline: "What Versuni already has", world: 1, unit: "verified products" },
+  { key: "product_universe", icon: "field", label: "Product universe", tagline: "What Versuni already has", world: 1, unit: "verified Versuni products" },
   { key: "radar", icon: "radar", label: "Radar", tagline: "What we actually see", world: 2, unit: "observation records" },
   { key: "paths", icon: "paths", label: "Paths", tagline: "Where reality moves — grounded", world: 3, unit: "real paths" },
   { key: "magic_box", icon: "magic_box", label: "Magic box", tagline: "What could exist now", world: 4, unit: "possibilities" },
   { key: "innovations", icon: "innovations", label: "Innovations", tagline: "Worth developing next", world: 5, unit: "non-dominated candidates" },
 ];
 
-// A world to jump to for each real RADAR family - not every family has one
-// (ECONOMICS/PATENTS/NATURE have no dedicated page yet).
-const FAMILY_WORLD: Record<string, number> = {
-  RESEARCH: 2, TRENDS: 2, CONSUMERS: 2, MARKET: 2, TECHNOLOGY_AI: 2, PRODUCTS: 1, RIVALS: 2,
+// Where each real RADAR family actually lives - world plus the Radar lens
+// that shows THAT family's evidence, so "click Research" lands on the
+// Research lens, never the default. Families with no dedicated page yet
+// (ECONOMICS/PATENTS/NATURE) have no target and stay honest, unclickable rows.
+const FAMILY_TARGET: Record<string, { world: number; lens?: string }> = {
+  PRODUCTS: { world: 1 },
+  CONSUMERS: { world: 2, lens: "consumers" },
+  RESEARCH: { world: 2, lens: "research" },
+  TRENDS: { world: 2, lens: "trends" },
+  MARKET: { world: 2, lens: "market" },
+  RIVALS: { world: 2, lens: "competitors" },
+  COMPETITORS: { world: 2, lens: "competitors" },
+  TECHNOLOGY_AI: { world: 2, lens: "sources" },
 };
 
 function timeAgo(iso: string) {
@@ -98,9 +107,11 @@ function Source({ text }: { text: string }) {
   );
 }
 
-function headline(hf: HomepageFunnel, key: string): number | null {
+function headline(hf: HomepageFunnel, key: string, verifiedCount: number | null): number | null {
   switch (key) {
-    case "product_universe": return hf.radar.families.PRODUCTS ?? null;
+    // Verified official portfolio count - the all-brands Amazon corpus is
+    // context inside the world, never this headline.
+    case "product_universe": return verifiedCount;
     case "radar": return Object.values(hf.radar.families).reduce((a, b) => a + b, 0);
     case "paths": return hf.paths.length;
     case "magic_box": return hf.magic_box.count;
@@ -109,9 +120,9 @@ function headline(hf: HomepageFunnel, key: string): number | null {
   }
 }
 
-function StageTile({ stage, hf, status, onOpen }: { stage: StageDef; hf: HomepageFunnel; status: string; onOpen: () => void }) {
+function StageTile({ stage, hf, status, verifiedCount, onOpen }: { stage: StageDef; hf: HomepageFunnel; status: string; verifiedCount: number | null; onOpen: () => void }) {
   const [hover, setHover] = useState(false);
-  const n = headline(hf, stage.key);
+  const n = headline(hf, stage.key, verifiedCount);
   return (
     <button
       onClick={onOpen}
@@ -150,14 +161,23 @@ function FlowConnector() {
   );
 }
 
-export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void }) {
+export function FunnelWorld({ onGoToWorld, navigate }: {
+  onGoToWorld: (n: number) => void;
+  navigate: (n: number, params?: Record<string, string>) => void;
+}) {
   const [data, setData] = useState<FunnelDoc | null>(null);
   const [openStage, setOpenStage] = useState<string | null>(null);
+  const [verifiedCount, setVerifiedCount] = useState<number | null>(null);
 
   useEffect(() => { api.funnel().then(setData).catch(() => setData(null)); }, []);
+  // The Product-universe headline is the individually-verified official
+  // Versuni portfolio - never the all-brands Amazon evidence corpus.
+  useEffect(() => {
+    api.productImages().then((r) => setVerifiedCount(r.products?.length ?? null)).catch(() => setVerifiedCount(null));
+  }, []);
 
   const hf = data?.homepage_funnel;
-  const goTo = (n: number) => { setOpenStage(null); onGoToWorld(n); };
+  const goTo = (n: number, params?: Record<string, string>) => { setOpenStage(null); navigate(n, params); };
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "22px 32px", background: "var(--surface)" }}>
@@ -184,7 +204,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
           <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 4, minHeight: 0 }}>
             {STAGES.map((s, i) => (
               <div key={s.key} style={{ display: "flex", alignItems: "center", flex: "1 1 0", minWidth: 0 }}>
-                <StageTile stage={s} hf={hf} status={data!.machine_state.status} onOpen={() => setOpenStage(s.key)} />
+                <StageTile stage={s} hf={hf} status={data!.machine_state.status} verifiedCount={verifiedCount} onOpen={() => setOpenStage(s.key)} />
                 {i < STAGES.length - 1 && <FlowConnector />}
               </div>
             ))}
@@ -202,18 +222,20 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
       )}
 
       {/* PRODUCT UNIVERSE */}
-      <FocusPanel open={openStage === "product_universe"} onClose={() => setOpenStage(null)} eyebrow="Product universe — what Versuni already has" title={`${hf?.radar.families.PRODUCTS ?? 0} verified real products`}>
+      <FocusPanel open={openStage === "product_universe"} onClose={() => setOpenStage(null)} eyebrow="Product universe — what Versuni already has"
+        title={verifiedCount != null ? `${verifiedCount} verified Versuni products` : "Verified Versuni portfolio"}>
         {hf && (
           <>
             <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 12 }}>
-              The hand-validated product corpus plus the individually-verified official portfolio — the machine's
-              ground truth for what exists and what capabilities can be borrowed.
+              {verifiedCount != null ? `${verifiedCount} official Versuni/Philips air-purifier families, each individually checked against its official page — a verified subset, not the whole catalogue. ` : ""}
+              Alongside them: {hf.radar.families.PRODUCTS ?? 0} hand-validated category products (all brands) from the Amazon
+              evidence corpus — market context the machine reasons over, never Versuni's own portfolio.
             </p>
             <button onClick={() => goTo(1)}
               style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
               Open the Product universe →
             </button>
-            <Source text="GET /api/funnel -> homepage_funnel.radar.families.PRODUCTS + GET /api/products - src/real/products_signals_real.py." />
+            <Source text="Headline: GET /api/product-images -> len(products) - the individually verified official portfolio (data/processed/product_images_real.json). Category context: GET /api/funnel -> homepage_funnel.radar.families.PRODUCTS - src/real/products_signals_real.py." />
           </>
         )}
       </FocusPanel>
@@ -223,11 +245,11 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
         {hf && (
           <>
             {Object.entries(hf.radar.families).map(([k, v]) => {
-              const world = FAMILY_WORLD[k];
+              const target = FAMILY_TARGET[k];
               return (
-                <button key={k} onClick={() => world && goTo(world)}
-                  style={{ display: "block", width: "100%", background: "none", border: "none", padding: "8px 0", textAlign: "left", cursor: world ? "pointer" : "default" }}>
-                  <StatRow label={k.replace(/_/g, " ") + (world ? " →" : "")} value={v} />
+                <button key={k} onClick={() => target && goTo(target.world, target.lens ? { lens: target.lens } : undefined)}
+                  style={{ display: "block", width: "100%", background: "none", border: "none", padding: "8px 0", textAlign: "left", cursor: target ? "pointer" : "default" }}>
+                  <StatRow label={k.replace(/_/g, " ") + (target ? " →" : "")} value={v} />
                   {hf.radar.notes[k] && <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginTop: 2 }}>{hf.radar.notes[k]}</p>}
                 </button>
               );
@@ -242,7 +264,7 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
         {hf && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {hf.paths.map((p) => (
-              <PathRow key={p.id} p={p} />
+              <PathRow key={p.id} p={p} onOpen={() => goTo(3, { path: p.id })} />
             ))}
             <button onClick={() => setOpenStage("field")}
               style={{ marginTop: 6, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", fontSize: 12.5 }}>
@@ -285,10 +307,11 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
               {hf.magic_box.possibilities.map((p) => (
-                <div key={p.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, padding: "6px 0", borderBottom: "1px solid var(--line)" }}>
-                  <span>{p.name}</span>
+                <button key={p.id} onClick={() => goTo(4, { possibility: p.id })}
+                  style={{ display: "flex", width: "100%", justifyContent: "space-between", fontSize: 12.5, padding: "6px 0", borderBottom: "1px solid var(--line)", background: "none", border: "none", borderTop: "none", borderLeft: "none", borderRight: "none", cursor: "pointer", textAlign: "left", color: "var(--ink)" }}>
+                  <span>{p.name} →</span>
                   <span style={{ color: "var(--ink-faint)" }}>{p.friction_theme.replace(/_/g, " ")}</span>
-                </div>
+                </button>
               ))}
             </div>
             <SectionLabel>Pattern types behind these</SectionLabel>
@@ -310,13 +333,14 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {hf.innovations.candidates.map((c) => (
-                <div key={c.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 12px", border: "1px solid var(--line)", borderRadius: 10 }}>
+                <button key={c.id} onClick={() => goTo(5, { innovation: c.id })}
+                  style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", padding: "10px 12px", border: "1px solid var(--line)", borderRadius: 10, background: "none", cursor: "pointer", textAlign: "left", color: "var(--ink)" }}>
                   <div>
-                    <div style={{ fontSize: 13, fontWeight: 500 }}>{c.name}</div>
+                    <div style={{ fontSize: 13, fontWeight: 500 }}>{c.name} →</div>
                     <div style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>{c.friction_theme.replace(/_/g, " ")}</div>
                   </div>
                   {c.critic_overall && <Pill tone={c.critic_overall === "SURVIVE" ? "good" : c.critic_overall === "REJECT" ? "rose" : "amber"}>{c.critic_overall.replace(/_/g, " ")}</Pill>}
-                </div>
+                </button>
               ))}
             </div>
             <button onClick={() => goTo(5)}
@@ -326,10 +350,11 @@ export function FunnelWorld({ onGoToWorld }: { onGoToWorld: (n: number) => void 
             <div style={{ marginTop: 14 }}>
               <SectionLabel>Current priority to test ({hf.new_products.count} machine hypotheses)</SectionLabel>
               {hf.new_products.products.map((p) => (
-                <div key={p.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
-                  <span>{p.name}</span>
+                <button key={p.id} onClick={() => goTo(5, { innovation: p.id })}
+                  style={{ display: "flex", width: "100%", justifyContent: "space-between", fontSize: 12, padding: "5px 0", borderBottom: "1px solid var(--line)", background: "none", border: "none", cursor: "pointer", textAlign: "left", color: "var(--ink)" }}>
+                  <span>{p.name} →</span>
                   <span className="mono" style={{ color: "var(--ink-faint)" }}>{p.feasibility}</span>
-                </div>
+                </button>
               ))}
               <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.45 }}>
                 Formal-case recommendation: {hf.new_products.bet} — its experiment and kill criterion live in
@@ -349,7 +374,7 @@ function gapText(v: string) {
   return /^NO VERIFIED/i.test(v) ? "not established — no verified evidence" : v;
 }
 
-function PathRow({ p }: { p: PathData }) {
+function PathRow({ p, onOpen }: { p: PathData; onOpen: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ border: "1px solid var(--line)", borderRadius: 12, overflow: "hidden" }}>
@@ -360,6 +385,10 @@ function PathRow({ p }: { p: PathData }) {
       {open && (
         <div style={{ padding: "0 14px 14px" }}>
           <p style={{ fontSize: 11.5, color: "var(--ink-dim)", marginBottom: 8, lineHeight: 1.45 }}>{preview(p.detail, 160)}</p>
+          <button onClick={onOpen}
+            style={{ marginBottom: 8, padding: "6px 12px", borderRadius: 8, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 11.5, fontWeight: 600 }}>
+            Open this path in the Paths world →
+          </button>
           <StatRow label="Opens" value={preview(p.what_opens, 60)} />
           <StatRow label="Closes" value={gapText(p.what_closes)} />
           <StatRow label="Driver" value={gapText(p.driver)} />

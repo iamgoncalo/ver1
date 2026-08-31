@@ -15,7 +15,7 @@
         "prevalence_pct": 1.58,
         "gate_passed": true,
         "methodology": {
-          "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+          "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
           "n_reviews": 166,
           "n_distinct_products": 60,
           "review_date_range": [
@@ -68,7 +68,7 @@
         "prevalence_pct": 3.5,
         "gate_passed": true,
         "methodology": {
-          "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; CSAT impact is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
+          "method": "Deterministic keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023 dataset, real purifier products only) - NOT an academic study, survey, or panel. Each review is assigned to the theme whose keyword phrase (see THEMES in src/real/taxonomy_real.py) appears earliest in its text; the average rating gap (stored as csat_impact) is that theme's mean real star rating minus the corpus-wide mean real star rating, both restricted to reviews flagged rating_trusted.",
           "n_reviews": 369,
           "n_distinct_products": 77,
           "review_date_range": [
@@ -148,7 +148,7 @@
       "csat_impact": null,
       "price_weighted_exposure_usd": null,
       "dominance_status": "GATE_FAILED_INSUFFICIENT_PAIN_EVIDENCE",
-      "decision_reason": "Consumer Pain evidence-sufficiency gate failed: prevalence 1.016% is below the 0.5% materiality floor, or no real CSAT signal exists for this theme at all - there is nothing to be severe OR broad about, regardless of Economic Value or Feasibility."
+      "decision_reason": "Consumer Pain evidence-sufficiency gate failed: prevalence 1.016% is below the 0.5% materiality floor, or no real rating-gap signal exists for this theme at all - there is nothing to be severe OR broad about, regardless of Economic Value or Feasibility."
     }
   },
   "verdict": {
@@ -169,7 +169,7 @@
         "id": "OS-3",
         "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
         "killing_metric": "Failed the Consumer Pain evidence gate (1.016% prevalence, 107 of 10529 reviews)",
-        "reason": "Unlike the earlier synthetic-fixture version of this exercise, connectivity mentions are not literally zero in real data (~1%) - but they fail the Consumer Pain evidence-sufficiency gate (no real CSAT signal) and skew positive when they do appear. High technical Feasibility does not rescue a candidate with no real friction evidence to build against."
+        "reason": "Unlike the earlier synthetic-fixture version of this exercise, connectivity mentions are not literally zero in real data (~1%) - but they fail the Consumer Pain evidence-sufficiency gate (no real rating-gap signal) and skew positive when they do appear. High technical Feasibility does not rescue a candidate with no real friction evidence to build against."
       }
     ],
     "sensitivity": "Switch to Economic Value override → picks Whisper-Quiet Night Mode instead.",

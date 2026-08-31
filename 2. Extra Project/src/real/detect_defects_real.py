@@ -258,7 +258,7 @@ def main():
         },
         "headline_metrics": {"before": before, "after": after},
         "quantified_consequence": (lambda tr, al: {
-            "metric": "corpus mean star rating (the baseline every Q3 CSAT Impact is measured against)",
+            "metric": "corpus mean star rating (the baseline every Q3 average-rating-gap figure is measured against)",
             "without_remedy_all_rows": round(sum(al) / len(al), 4),
             "with_remedy_trusted_only": round(sum(tr) / len(tr), 4),
             "absolute_difference_stars": round(sum(tr) / len(tr) - sum(al) / len(al), 4),
@@ -266,7 +266,7 @@ def main():
             "rows_driving_it": "the {} quarantined sentiment-conflict rows (their mean rating is {})".format(
                 len(al) - len(tr), round((sum(al) - sum(tr)) / (len(al) - len(tr)), 4)),
             "note": "A real, same-corpus before/after - deliberately small, reported at its true size "
-                    "rather than manufactured into drama. Every per-theme CSAT Impact figure shifts "
+                    "rather than manufactured into drama. Every per-theme average-rating-gap figure shifts "
                     "with this baseline.",
         })([float(r["rating"]) for r in clean if r["rating_trusted"] == "true"],
            [float(r["rating"]) for r in clean]),

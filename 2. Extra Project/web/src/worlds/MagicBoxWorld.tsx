@@ -8,6 +8,7 @@ import { traceConceptChain } from "../lib/trace";
 import { TraceTree, TraceLegend } from "../components/TraceTree";
 import { TraceText } from "../components/TraceText";
 import type { DesignDna } from "../lib/types";
+import { getParam, useUrlParam } from "../lib/urlState";
 
 interface Criterion {
   id: string; category: string; name: string; question: string; why_it_matters: string;
@@ -145,17 +146,30 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
   const [research, setResearch] = useState<any>(null);
   const [tensions, setTensions] = useState<any[]>([]);
 
-  useEffect(() => { api.criteria().then(setData).catch(() => setData(null)); }, []);
+  // Deep links: /magic-box?theme=<friction theme> filters exactly like
+  // arriving from the Radar's "Send to Magic Box"; ?possibility=<id> opens
+  // that concept once the corpus loads.
+  const [urlTheme] = useState<string | null>(() => getParam("theme"));
+  useEffect(() => {
+    api.criteria().then((d) => {
+      setData(d);
+      const id = getParam("possibility");
+      const c = id ? d.concepts?.find((x: Concept) => x.id === id) : null;
+      if (c) setConceptFocus(c);
+    }).catch(() => setData(null));
+  }, []);
+  useUrlParam("possibility", conceptFocus?.id ?? null);
   useEffect(() => { api.signals().then((r) => setSignals(r.signals)).catch(() => {}); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
   useEffect(() => { api.researchTensions().then((r) => setTensions(r.tensions ?? [])).catch(() => {}); }, []);
 
+  const effectiveTheme = themeFilter ?? urlTheme;
   const conceptsFiltered = useMemo(() => {
     const all = data?.concepts ?? [];
-    if (!themeFilter) return all;
-    const filtered = all.filter((p) => p.friction_theme === themeFilter);
+    if (!effectiveTheme) return all;
+    const filtered = all.filter((p) => p.friction_theme === effectiveTheme);
     return filtered.length ? filtered : all;
-  }, [data, themeFilter]);
+  }, [data, effectiveTheme]);
   const finalists = useMemo(() => (data?.concepts ?? []).filter((p) => p.is_finalist), [data]);
   const maxEcon = useMemo(() => Math.max(...(data?.concepts ?? []).map((p) => p.economic_value ?? 0), 1), [data]);
 
@@ -168,9 +182,9 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
           </div>
           <h1 style={{ fontSize: 24 }}>Magic box</h1>
           <div style={{ fontSize: 13, color: "var(--ink-dim)", marginTop: 2 }}>Evidence in. Real concepts out.</div>
-          {themeFilter && (
+          {effectiveTheme && (
             <div style={{ fontSize: 11.5, color: "var(--accent-teal)", marginTop: 6 }}>
-              Filtered from Competitors' white space → theme: <span className="mono">{themeFilter}</span>
+              Filtered from Competitors' white space → theme: <span className="mono">{effectiveTheme}</span>
             </div>
           )}
         </div>
@@ -331,7 +345,7 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
                 <b>{conceptFocus.friction_theme_name}</b> — a real friction — transformed by <b>{conceptFocus.operator}</b>: {conceptFocus.operator_definition}
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
-                {conceptFocus.consumer_pain_csat != null ? <Pill tone={conceptFocus.consumer_pain_csat < 0 ? "rose" : "good"}>CSAT {conceptFocus.consumer_pain_csat}</Pill> : <Pill tone="neutral">CSAT unknown — evidence gap</Pill>}
+                {conceptFocus.consumer_pain_csat != null ? <Pill tone={conceptFocus.consumer_pain_csat < 0 ? "rose" : "good"}>rating gap {conceptFocus.consumer_pain_csat}★</Pill> : <Pill tone="neutral">rating gap unknown — evidence gap</Pill>}
                 <Pill>{conceptFocus.consumer_pain_prevalence_pct}% of reviews</Pill>
                 {conceptFocus.competitor_gap_brands.length > 0 && <Pill tone="amber">{conceptFocus.competitor_gap_brands.length} competitors weak here</Pill>}
               </div>

@@ -99,7 +99,7 @@ CRITERIA_LIBRARY = [
     {"id": "H3", "category": "HUMAN", "name": "Behavioural consequence",
      "question": "Does the friction actually change what the consumer does (return it, stop using it, downgrade rating)?",
      "why_it_matters": "A complaint that never changes behaviour is a weaker signal than one that does.",
-     "how_tested": "CSAT impact (real rating delta) is a behavioural proxy already used for H2; no separate behavioural-observation dataset exists.",
+     "how_tested": "Average rating gap (real rating delta, stored as csat_impact) is a behavioural proxy already used for H2; no separate behavioural-observation dataset exists.",
      "pass_condition": "N/A", "challenge_condition": "N/A", "kill_condition": "N/A"},
     {"id": "H4", "category": "HUMAN", "name": "Context specificity",
      "question": "Is the job/friction specific to a real context (bedroom at night, allergy season), or vague?",

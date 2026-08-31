@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-34",
-    "last_run_started_at": "2026-08-29T14:43:14.105736+00:00",
-    "last_run_finished_at": "2026-08-29T14:43:14.105736+00:00",
-    "last_checked_at": "2026-08-29T14:43:14.105736+00:00",
+    "last_run_id": "run-36",
+    "last_run_started_at": "2026-08-29T15:23:55.139554+00:00",
+    "last_run_finished_at": "2026-08-29T15:23:55.139554+00:00",
+    "last_checked_at": "2026-08-29T15:23:55.139554+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "da2697265fb355532fccae614484859dd75d238613df50031bb009766796fd43",
+    "input_snapshot_hash": "1fbee90dfb9cca7726fcdf3391287a391634d70ba213a0ddc68cf04e5d9bdc31",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 34,
+    "total_runs_recorded": 36,
     "errors": []
   },
   "stages": [
@@ -593,7 +593,7 @@
         },
         {
           "name": "Smart/Connected Feature Expansion (app control, voice assistant)",
-          "reason": "Unlike the earlier synthetic-fixture version of this exercise, connectivity mentions are not literally zero in real data (~1%) - but they fail the Consumer Pain evidence-sufficiency gate (no real CSAT signal) and skew positive when they do appear. High technical Feasibility does not rescue a candidate with no real friction evidence to build against."
+          "reason": "Unlike the earlier synthetic-fixture version of this exercise, connectivity mentions are not literally zero in real data (~1%) - but they fail the Consumer Pain evidence-sufficiency gate (no real rating-gap signal) and skew positive when they do appear. High technical Feasibility does not rescue a candidate with no real friction evidence to build against."
         }
       ],
       "wrong_if": "If the failure-mention cross-reference above shows reliability complaints concentrated in 2-3 specific older/discontinued products rather than spread across the category, treat this as a solved-or-solving problem rather than a live opportunity, and abandon."
@@ -1222,7 +1222,7 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "aa76e99a5a7b3503",
+  "snapshot": "1abffa5bce60e295",
   "last_refresh": {
     "run_id": "discovery-1787943742",
     "started_at": "2026-08-28T19:02:02.017700+00:00",

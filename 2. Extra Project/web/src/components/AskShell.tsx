@@ -36,7 +36,7 @@ function buildAnswers(ctx: AskContext): { q: string; a: string }[] {
   answers.push({
     q: "Why did the top Magic Box idea appear?",
     a: topPossibility
-      ? `"${topPossibility.name}" = friction "${topPossibility.friction_theme_name}" (Consumer Pain CSAT ${topPossibility.consumer_pain_csat}) transformed by the ${topPossibility.operator} operator (${topPossibility.operator_definition}). Economic Value $${topPossibility.economic_value.toLocaleString()}, Feasibility ${topPossibility.feasibility_2_5y.rating}.`
+      ? `"${topPossibility.name}" = friction "${topPossibility.friction_theme_name}" (Consumer Pain rating gap ${topPossibility.consumer_pain_csat}★) transformed by the ${topPossibility.operator} operator (${topPossibility.operator_definition}). Economic Value $${topPossibility.economic_value.toLocaleString()}, Feasibility ${topPossibility.feasibility_2_5y.rating}.`
       : "Magic Box data has not loaded yet.",
   });
 
