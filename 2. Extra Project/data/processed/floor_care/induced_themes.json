@@ -1,0 +1,720 @@
+{
+  "_provenance": "MACHINE-INDUCED from the REAL Floor Care review corpus by src/real/floor_care_pipeline.py. No prewritten themes, no Air Purification theme reused, no human-authored labels.",
+  "generated_by": "src/real/floor_care_pipeline.py",
+  "n_reviews_classified": 368486,
+  "corpus_mean_rating": 3.929,
+  "themes": [
+    {
+      "theme_id": "don't waste money.",
+      "theme_name": "don't waste money.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "don't waste money.",
+        "what waste",
+        "don't waste",
+        "waste time",
+        "don't waste money",
+        "time money",
+        "don't buy",
+        "save money",
+        "never buy another",
+        "buy something"
+      ],
+      "n_reviews": 2888,
+      "prevalence_pct": 0.78,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 369,
+      "mean_rating": 1.488,
+      "rating_gap_vs_corpus_mean": -2.441,
+      "pct_verified_purchase": 81.9,
+      "review_date_range": [
+        "2007-10-06",
+        "2023-08-27"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "completely stopped",
+      "theme_name": "completely stopped",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "completely stopped",
+        "months stopped",
+        "stopped working after",
+        "working after months",
+        "first months",
+        "after less",
+        "stopped charging",
+        "working after",
+        "worked great first",
+        "less year",
+        "when worked",
+        "first month",
+        "after months.",
+        "stopped working",
+        "less year.",
+        "quit working",
+        "lasted months",
+        "stopped working.",
+        "broke after",
+        "vacuum stopped working",
+        "great first",
+        "months battery",
+        "quit working.",
+        "stopped.",
+        "stopped",
+        "when works",
+        "after uses",
+        "vacuum stopped"
+      ],
+      "n_reviews": 15169,
+      "prevalence_pct": 4.12,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 415,
+      "mean_rating": 1.767,
+      "rating_gap_vs_corpus_mean": -2.162,
+      "pct_verified_purchase": 85.4,
+      "review_date_range": [
+        "2007-02-01",
+        "2023-09-04"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "less months",
+      "theme_name": "less months",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "less months",
+        "within months"
+      ],
+      "n_reviews": 546,
+      "prevalence_pct": 0.15,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 174,
+      "mean_rating": 1.471,
+      "rating_gap_vs_corpus_mean": -2.458,
+      "pct_verified_purchase": 83.2,
+      "review_date_range": [
+        "2008-07-23",
+        "2023-07-05"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "even last",
+      "theme_name": "even last",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "even last",
+        "even pick",
+        "won't even",
+        "doesn even"
+      ],
+      "n_reviews": 779,
+      "prevalence_pct": 0.21,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 243,
+      "mean_rating": 1.43,
+      "rating_gap_vs_corpus_mean": -2.499,
+      "pct_verified_purchase": 81.9,
+      "review_date_range": [
+        "2008-02-28",
+        "2023-08-19"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "will returning",
+      "theme_name": "will returning",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "will returning",
+        "will never buy",
+        "will longer",
+        "will charge"
+      ],
+      "n_reviews": 851,
+      "prevalence_pct": 0.23,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 248,
+      "mean_rating": 1.515,
+      "rating_gap_vs_corpus_mean": -2.414,
+      "pct_verified_purchase": 83.8,
+      "review_date_range": [
+        "2009-11-13",
+        "2023-08-06"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "broke within",
+      "theme_name": "broke within",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "broke within"
+      ],
+      "n_reviews": 316,
+      "prevalence_pct": 0.09,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 149,
+      "mean_rating": 1.421,
+      "rating_gap_vs_corpus_mean": -2.508,
+      "pct_verified_purchase": 90.2,
+      "review_date_range": [
+        "2007-01-09",
+        "2023-07-12"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "work all.",
+      "theme_name": "work all.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "work all.",
+        "doesn't work.",
+        "well all."
+      ],
+      "n_reviews": 919,
+      "prevalence_pct": 0.25,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 264,
+      "mean_rating": 1.409,
+      "rating_gap_vs_corpus_mean": -2.52,
+      "pct_verified_purchase": 87.2,
+      "review_date_range": [
+        "2008-01-07",
+        "2023-08-21"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "service center",
+      "theme_name": "service center",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "service center"
+      ],
+      "n_reviews": 152,
+      "prevalence_pct": 0.04,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 58,
+      "mean_rating": 1.441,
+      "rating_gap_vs_corpus_mean": -2.488,
+      "pct_verified_purchase": 73.0,
+      "review_date_range": [
+        "2007-01-18",
+        "2023-05-16"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "save yourself",
+      "theme_name": "save yourself",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "save yourself"
+      ],
+      "n_reviews": 182,
+      "prevalence_pct": 0.05,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 111,
+      "mean_rating": 1.434,
+      "rating_gap_vs_corpus_mean": -2.495,
+      "pct_verified_purchase": 81.3,
+      "review_date_range": [
+        "2008-03-13",
+        "2023-07-20"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "went use",
+      "theme_name": "went use",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "went use",
+        "tried use"
+      ],
+      "n_reviews": 489,
+      "prevalence_pct": 0.13,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 192,
+      "mean_rating": 1.495,
+      "rating_gap_vs_corpus_mean": -2.434,
+      "pct_verified_purchase": 84.5,
+      "review_date_range": [
+        "2008-06-21",
+        "2023-08-09"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "poor suction",
+      "theme_name": "poor suction",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "poor suction"
+      ],
+      "n_reviews": 229,
+      "prevalence_pct": 0.06,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 116,
+      "mean_rating": 1.502,
+      "rating_gap_vs_corpus_mean": -2.427,
+      "pct_verified_purchase": 89.5,
+      "review_date_range": [
+        "2010-12-16",
+        "2023-08-24"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "authorized",
+      "theme_name": "authorized",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "authorized"
+      ],
+      "n_reviews": 138,
+      "prevalence_pct": 0.04,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 58,
+      "mean_rating": 1.486,
+      "rating_gap_vs_corpus_mean": -2.443,
+      "pct_verified_purchase": 76.8,
+      "review_date_range": [
+        "2008-05-30",
+        "2023-08-16"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "defective.",
+      "theme_name": "defective.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "defective."
+      ],
+      "n_reviews": 287,
+      "prevalence_pct": 0.08,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 152,
+      "mean_rating": 2.017,
+      "rating_gap_vs_corpus_mean": -1.912,
+      "pct_verified_purchase": 88.9,
+      "review_date_range": [
+        "2011-03-07",
+        "2023-06-03"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "honor",
+      "theme_name": "honor",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "honor"
+      ],
+      "n_reviews": 129,
+      "prevalence_pct": 0.04,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 85,
+      "mean_rating": 1.403,
+      "rating_gap_vs_corpus_mean": -2.526,
+      "pct_verified_purchase": 72.1,
+      "review_date_range": [
+        "2011-07-26",
+        "2023-07-30"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "buyer",
+      "theme_name": "buyer",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "buyer"
+      ],
+      "n_reviews": 327,
+      "prevalence_pct": 0.09,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 169,
+      "mean_rating": 1.367,
+      "rating_gap_vs_corpus_mean": -2.562,
+      "pct_verified_purchase": 77.7,
+      "review_date_range": [
+        "2009-04-18",
+        "2023-07-04"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "spits",
+      "theme_name": "spits",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "spits"
+      ],
+      "n_reviews": 351,
+      "prevalence_pct": 0.1,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 104,
+      "mean_rating": 1.538,
+      "rating_gap_vs_corpus_mean": -2.391,
+      "pct_verified_purchase": 80.6,
+      "review_date_range": [
+        "2008-06-16",
+        "2023-05-23"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "repair shop",
+      "theme_name": "repair shop",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "repair shop"
+      ],
+      "n_reviews": 182,
+      "prevalence_pct": 0.05,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 71,
+      "mean_rating": 1.637,
+      "rating_gap_vs_corpus_mean": -2.292,
+      "pct_verified_purchase": 71.4,
+      "review_date_range": [
+        "2009-03-27",
+        "2023-08-31"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "policy",
+      "theme_name": "policy",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "policy"
+      ],
+      "n_reviews": 184,
+      "prevalence_pct": 0.05,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 106,
+      "mean_rating": 1.418,
+      "rating_gap_vs_corpus_mean": -2.511,
+      "pct_verified_purchase": 86.4,
+      "review_date_range": [
+        "2008-12-08",
+        "2023-04-14"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "hold charge.",
+      "theme_name": "hold charge.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "hold charge."
+      ],
+      "n_reviews": 218,
+      "prevalence_pct": 0.06,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 85,
+      "mean_rating": 1.546,
+      "rating_gap_vs_corpus_mean": -2.383,
+      "pct_verified_purchase": 87.6,
+      "review_date_range": [
+        "2011-12-12",
+        "2023-09-10"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "better off",
+      "theme_name": "better off",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "better off"
+      ],
+      "n_reviews": 246,
+      "prevalence_pct": 0.07,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 138,
+      "mean_rating": 1.63,
+      "rating_gap_vs_corpus_mean": -2.299,
+      "pct_verified_purchase": 78.0,
+      "review_date_range": [
+        "2008-02-08",
+        "2023-07-05"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "sending back",
+      "theme_name": "sending back",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "sending back"
+      ],
+      "n_reviews": 223,
+      "prevalence_pct": 0.06,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 129,
+      "mean_rating": 1.668,
+      "rating_gap_vs_corpus_mean": -2.261,
+      "pct_verified_purchase": 91.5,
+      "review_date_range": [
+        "2011-01-16",
+        "2023-05-10"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "anything up.",
+      "theme_name": "anything up.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "anything up.",
+        "suck anything"
+      ],
+      "n_reviews": 360,
+      "prevalence_pct": 0.1,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 140,
+      "mean_rating": 1.486,
+      "rating_gap_vs_corpus_mean": -2.443,
+      "pct_verified_purchase": 87.8,
+      "review_date_range": [
+        "2008-11-20",
+        "2023-08-11"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "lemon",
+      "theme_name": "lemon",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "lemon"
+      ],
+      "n_reviews": 197,
+      "prevalence_pct": 0.05,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 107,
+      "mean_rating": 1.447,
+      "rating_gap_vs_corpus_mean": -2.482,
+      "pct_verified_purchase": 78.2,
+      "review_date_range": [
+        "2008-04-18",
+        "2023-04-19"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "avail.",
+      "theme_name": "avail.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "avail."
+      ],
+      "n_reviews": 193,
+      "prevalence_pct": 0.05,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 105,
+      "mean_rating": 1.513,
+      "rating_gap_vs_corpus_mean": -2.416,
+      "pct_verified_purchase": 79.3,
+      "review_date_range": [
+        "2011-03-20",
+        "2023-06-17"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "high hopes",
+      "theme_name": "high hopes",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "high hopes"
+      ],
+      "n_reviews": 391,
+      "prevalence_pct": 0.11,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 171,
+      "mean_rating": 1.729,
+      "rating_gap_vs_corpus_mean": -2.2,
+      "pct_verified_purchase": 83.4,
+      "review_date_range": [
+        "2009-01-17",
+        "2023-08-19"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "constantly gets",
+      "theme_name": "constantly gets",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "constantly gets"
+      ],
+      "n_reviews": 338,
+      "prevalence_pct": 0.09,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 118,
+      "mean_rating": 1.751,
+      "rating_gap_vs_corpus_mean": -2.178,
+      "pct_verified_purchase": 79.0,
+      "review_date_range": [
+        "2012-06-21",
+        "2023-06-04"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "response.",
+      "theme_name": "response.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "response."
+      ],
+      "n_reviews": 228,
+      "prevalence_pct": 0.06,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 116,
+      "mean_rating": 1.491,
+      "rating_gap_vs_corpus_mean": -2.438,
+      "pct_verified_purchase": 78.9,
+      "review_date_range": [
+        "2009-08-19",
+        "2023-06-28"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "expired",
+      "theme_name": "expired",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "expired"
+      ],
+      "n_reviews": 202,
+      "prevalence_pct": 0.05,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 105,
+      "mean_rating": 1.653,
+      "rating_gap_vs_corpus_mean": -2.276,
+      "pct_verified_purchase": 81.2,
+      "review_date_range": [
+        "2007-12-21",
+        "2023-07-29"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "wanted love",
+      "theme_name": "wanted love",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "wanted love"
+      ],
+      "n_reviews": 401,
+      "prevalence_pct": 0.11,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 156,
+      "mean_rating": 1.865,
+      "rating_gap_vs_corpus_mean": -2.064,
+      "pct_verified_purchase": 79.1,
+      "review_date_range": [
+        "2010-07-22",
+        "2023-07-22"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "refused",
+      "theme_name": "refused",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "refused"
+      ],
+      "n_reviews": 226,
+      "prevalence_pct": 0.06,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 116,
+      "mean_rating": 1.513,
+      "rating_gap_vs_corpus_mean": -2.416,
+      "pct_verified_purchase": 78.8,
+      "review_date_range": [
+        "2008-09-20",
+        "2023-07-29"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "followed instructions",
+      "theme_name": "followed instructions",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "followed instructions"
+      ],
+      "n_reviews": 248,
+      "prevalence_pct": 0.07,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 116,
+      "mean_rating": 1.383,
+      "rating_gap_vs_corpus_mean": -2.546,
+      "pct_verified_purchase": 87.5,
+      "review_date_range": [
+        "2011-05-15",
+        "2023-07-23"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "cheaply made.",
+      "theme_name": "cheaply made.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "cheaply made."
+      ],
+      "n_reviews": 330,
+      "prevalence_pct": 0.09,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 127,
+      "mean_rating": 2.118,
+      "rating_gap_vs_corpus_mean": -1.811,
+      "pct_verified_purchase": 89.4,
+      "review_date_range": [
+        "2008-01-12",
+        "2023-05-16"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    },
+    {
+      "theme_id": "broken.",
+      "theme_name": "broken.",
+      "label_origin": "MACHINE_GENERATED - highest-lift member term, verbatim",
+      "member_terms": [
+        "broken."
+      ],
+      "n_reviews": 665,
+      "prevalence_pct": 0.18,
+      "prevalence_caveat": "Detected share - a conservative LOWER BOUND: the polarity-gated keyword classifier misses frictions phrased mildly or outside the induced terms.",
+      "n_distinct_products": 220,
+      "mean_rating": 2.185,
+      "rating_gap_vs_corpus_mean": -1.744,
+      "pct_verified_purchase": 88.3,
+      "review_date_range": [
+        "2008-03-15",
+        "2023-07-02"
+      ],
+      "method": "MACHINE-INDUCED keyword classification of real Amazon.com customer review text (McAuley-Lab Amazon-Reviews-2023, real floor-care products only) - NOT a survey, panel, or academic study, and the theme labels are machine-generated (each theme is named by its own highest-lift member term, verbatim - no human naming). Terms were lift-ranked in 1-2 star reviews (same math as taxonomy_real.induce), grouped by shared token stem, and matched back with a POLARITY GATE mirroring taxonomy_real.theme_hits: a member-term hit only counts if the review's star rating is <= 3 OR the sentence containing the term scores negative under detect_defects_real.sentiment_score (negation-aware bag-of-terms polarity). Each review is assigned to at most ONE theme - the theme of its earliest gated hit - so prevalence figures are conservative lower bounds on friction prevalence, not point estimates. Statistics are computed over the corpus with exact duplicate texts counted once (is_duplicate_text rows excluded) so a copy-pasted review cannot inflate any count."
+    }
+  ],
+  "unassigned_pct": 92.24,
+  "validation": {
+    "status": "HUMAN_LABELS_PENDING",
+    "note": "No validation numbers exist for this category. A human must hand-label data/processed/floor_care/floor_care_hand_label_BLANK.csv (50 stratified real reviews, hand_label column left empty by the machine) before any precision/recall/agreement figure may be reported. Nothing here is validated until then."
+  }
+}

@@ -1,0 +1,1427 @@
+{
+  "_provenance": "EXPLORATORY machine generation over the REAL Floor Care corpus. Operators are the category-independent authored vocabulary (magic_box_real.OPERATORS); every theme, pairing and label is machine-induced. Air's THEME_OPERATORS and POSSIBILITY_NAMES are deliberately NOT used.",
+  "generated_by": "src/real/floor_care_pipeline.py",
+  "materiality_floor_pct": 0.5,
+  "materiality_floor_source": "src/real/decision_framework_real.py::MATERIALITY_FLOOR_PCT",
+  "n_operators": 12,
+  "possibilities": [
+    {
+      "id": "don't waste money.:AMBIENT",
+      "name": "AMBIENT × don't waste money.",
+      "machine_labelled": true,
+      "operator": "AMBIENT",
+      "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:CONCENTRATE",
+      "name": "CONCENTRATE × don't waste money.",
+      "machine_labelled": true,
+      "operator": "CONCENTRATE",
+      "operator_definition": "Multiple systems -> one system.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:CROSS_CATEGORY_TRANSFER",
+      "name": "CROSS_CATEGORY_TRANSFER × don't waste money.",
+      "machine_labelled": true,
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+      "donor_state": "MISSING — no verified donor-category evidence exists in this pipeline for Floor Care"
+    },
+    {
+      "id": "don't waste money.:DISTRIBUTE",
+      "name": "DISTRIBUTE × don't waste money.",
+      "machine_labelled": true,
+      "operator": "DISTRIBUTE",
+      "operator_definition": "One large system -> several smaller systems.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:INVERT",
+      "name": "INVERT × don't waste money.",
+      "machine_labelled": true,
+      "operator": "INVERT",
+      "operator_definition": "Act before instead of after.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:MATERIALISE",
+      "name": "MATERIALISE × don't waste money.",
+      "machine_labelled": true,
+      "operator": "MATERIALISE",
+      "operator_definition": "Turn digital perception/information into physical intervention.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:MERGE",
+      "name": "MERGE × don't waste money.",
+      "machine_labelled": true,
+      "operator": "MERGE",
+      "operator_definition": "Combine functions / objects / jobs.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:MOVE",
+      "name": "MOVE × don't waste money.",
+      "machine_labelled": true,
+      "operator": "MOVE",
+      "operator_definition": "Change physical location.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:PERSONALISE",
+      "name": "PERSONALISE × don't waste money.",
+      "machine_labelled": true,
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:PREDICT",
+      "name": "PREDICT × don't waste money.",
+      "machine_labelled": true,
+      "operator": "PREDICT",
+      "operator_definition": "Reactive -> anticipatory.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:REMOVE",
+      "name": "REMOVE × don't waste money.",
+      "machine_labelled": true,
+      "operator": "REMOVE",
+      "operator_definition": "Eliminate an interaction/component.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "don't waste money.:TEMPORAL_SHIFT",
+      "name": "TEMPORAL_SHIFT × don't waste money.",
+      "machine_labelled": true,
+      "operator": "TEMPORAL_SHIFT",
+      "operator_definition": "Move the job earlier/later.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "don't waste money.",
+      "friction": {
+        "theme_name": "don't waste money.",
+        "member_terms": [
+          "don't waste money.",
+          "what waste",
+          "don't waste",
+          "waste time",
+          "don't waste money",
+          "time money",
+          "don't buy",
+          "save money",
+          "never buy another",
+          "buy something"
+        ],
+        "n_reviews": 2888,
+        "prevalence_pct": 0.78,
+        "n_distinct_products": 369,
+        "mean_rating": 1.488,
+        "rating_gap_vs_corpus_mean": -2.441,
+        "review_date_range": [
+          "2007-10-06",
+          "2023-08-27"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 2888,
+        "n_affected_with_known_real_price": 1503,
+        "price_weighted_exposure_usd": 362848.05,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 167.38,
+        "n_distinct_priced_products_affected": 202,
+        "median_real_price_caveat": "MEDIAN real listed price across the 202 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 167.38,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:AMBIENT",
+      "name": "AMBIENT × completely stopped",
+      "machine_labelled": true,
+      "operator": "AMBIENT",
+      "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:CONCENTRATE",
+      "name": "CONCENTRATE × completely stopped",
+      "machine_labelled": true,
+      "operator": "CONCENTRATE",
+      "operator_definition": "Multiple systems -> one system.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:CROSS_CATEGORY_TRANSFER",
+      "name": "CROSS_CATEGORY_TRANSFER × completely stopped",
+      "machine_labelled": true,
+      "operator": "CROSS_CATEGORY_TRANSFER",
+      "operator_definition": "Transfer a verified capability from another product/category.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet",
+      "donor_state": "MISSING — no verified donor-category evidence exists in this pipeline for Floor Care"
+    },
+    {
+      "id": "completely stopped:DISTRIBUTE",
+      "name": "DISTRIBUTE × completely stopped",
+      "machine_labelled": true,
+      "operator": "DISTRIBUTE",
+      "operator_definition": "One large system -> several smaller systems.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:INVERT",
+      "name": "INVERT × completely stopped",
+      "machine_labelled": true,
+      "operator": "INVERT",
+      "operator_definition": "Act before instead of after.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:MATERIALISE",
+      "name": "MATERIALISE × completely stopped",
+      "machine_labelled": true,
+      "operator": "MATERIALISE",
+      "operator_definition": "Turn digital perception/information into physical intervention.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:MERGE",
+      "name": "MERGE × completely stopped",
+      "machine_labelled": true,
+      "operator": "MERGE",
+      "operator_definition": "Combine functions / objects / jobs.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:MOVE",
+      "name": "MOVE × completely stopped",
+      "machine_labelled": true,
+      "operator": "MOVE",
+      "operator_definition": "Change physical location.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:PERSONALISE",
+      "name": "PERSONALISE × completely stopped",
+      "machine_labelled": true,
+      "operator": "PERSONALISE",
+      "operator_definition": "Room/system -> individual/context.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:PREDICT",
+      "name": "PREDICT × completely stopped",
+      "machine_labelled": true,
+      "operator": "PREDICT",
+      "operator_definition": "Reactive -> anticipatory.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:REMOVE",
+      "name": "REMOVE × completely stopped",
+      "machine_labelled": true,
+      "operator": "REMOVE",
+      "operator_definition": "Eliminate an interaction/component.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    },
+    {
+      "id": "completely stopped:TEMPORAL_SHIFT",
+      "name": "TEMPORAL_SHIFT × completely stopped",
+      "machine_labelled": true,
+      "operator": "TEMPORAL_SHIFT",
+      "operator_definition": "Move the job earlier/later.",
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE, category-independent) - src/real/magic_box_real.py::OPERATORS",
+      "theme_id": "completely stopped",
+      "friction": {
+        "theme_name": "completely stopped",
+        "member_terms": [
+          "completely stopped",
+          "months stopped",
+          "stopped working after",
+          "working after months",
+          "first months",
+          "after less",
+          "stopped charging",
+          "working after",
+          "worked great first",
+          "less year",
+          "when worked",
+          "first month",
+          "after months.",
+          "stopped working",
+          "less year.",
+          "quit working",
+          "lasted months",
+          "stopped working.",
+          "broke after",
+          "vacuum stopped working",
+          "great first",
+          "months battery",
+          "quit working.",
+          "stopped.",
+          "stopped",
+          "when works",
+          "after uses",
+          "vacuum stopped"
+        ],
+        "n_reviews": 15169,
+        "prevalence_pct": 4.12,
+        "n_distinct_products": 415,
+        "mean_rating": 1.767,
+        "rating_gap_vs_corpus_mean": -2.162,
+        "review_date_range": [
+          "2007-02-01",
+          "2023-09-04"
+        ]
+      },
+      "economics": {
+        "n_reviews_affected": 15169,
+        "n_affected_with_known_real_price": 7253,
+        "price_weighted_exposure_usd": 1833218.73,
+        "price_weighted_exposure_caveat": "SUM of real observed listed prices across affected reviews with a known price. A RELATIVE exposure indicator, not a revenue or market-size estimate - no units-sold, conversion-rate, or time-period basis.",
+        "median_real_price_usd": 159.99,
+        "n_distinct_priced_products_affected": 230,
+        "median_real_price_caveat": "MEDIAN real listed price across the 230 distinct real products affected by this friction that have a known price (one price PER DISTINCT PRODUCT). What products in this segment cost today - not a proposed price for a new concept, which this evidence cannot establish."
+      },
+      "engineering_envelope": {
+        "status": "UNKNOWN — no verified official floor-care product pages exist in this pipeline; no engineering spec can be asserted for any field.",
+        "reference_market_price_usd": 159.99,
+        "reference_market_price_basis": "median real listed price of the distinct affected products (per-product dedup)"
+      },
+      "generation_method": "MACHINE_INDUCED_CROSS_PRODUCT — operators are authored category-independent vocabulary; themes, pairings and labels are machine-induced from the Floor Care corpus; nothing prewritten",
+      "state": "exploratory",
+      "promotion": "NOT_PROMOTED — no research corpus, no trend corpus, no feasibility evidence exists for this category yet"
+    }
+  ]
+}

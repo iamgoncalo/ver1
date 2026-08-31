@@ -1,0 +1,472 @@
+{
+  "_provenance": "REAL live PubMed E-utilities discovery results. Every record is status CANDIDATE - never promoted into any accepted corpus, never given evidence-card fields. Queries are derived from category_state.py's FLOOR_CARE research_terms.",
+  "generated_by": "src/real/floor_care_pipeline.py",
+  "status": "CANDIDATES_ONLY",
+  "attempted_queries": [
+    {
+      "registry_branch": "vacuum clean",
+      "pubmed_term": "\"vacuum cleaner\"[Title/Abstract] AND (particle OR emission OR dust)"
+    },
+    {
+      "registry_branch": "floor clean",
+      "pubmed_term": "\"floor cleaning\"[Title/Abstract] AND (hygiene OR dust OR bacteria)"
+    },
+    {
+      "registry_branch": "carpet",
+      "pubmed_term": "carpet[Title/Abstract] AND (dust OR allergen)"
+    },
+    {
+      "registry_branch": "dust mite remov",
+      "pubmed_term": "\"dust mite\"[Title/Abstract] AND (removal OR vacuum)"
+    },
+    {
+      "registry_branch": "robotic clean",
+      "pubmed_term": "(\"robot vacuum\"[Title/Abstract] OR \"robotic vacuum\"[Title/Abstract] OR \"robotic cleaning\"[Title/Abstract])"
+    }
+  ],
+  "errors": [],
+  "candidates": [
+    {
+      "pmid": "41973617",
+      "title": "Prevalence and Species Distribution of House Dust Mites in Household Dust Samples from Homes of Individuals with Allergic Complaints in Ordu, Turkey",
+      "year": 2026,
+      "journal": "Journal of visualized experiments : JoVE",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136410+00:00"
+    },
+    {
+      "pmid": "41274123",
+      "title": "Environmental and health perspectives on trace elements in vacuum cleaner dust",
+      "year": 2025,
+      "journal": "The Science of the total environment",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136451+00:00"
+    },
+    {
+      "pmid": "40611011",
+      "title": "Risk perception, barriers, and working safely with silica dust in construction: a psychological network approach",
+      "year": 2025,
+      "journal": "BMC public health",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136460+00:00"
+    },
+    {
+      "pmid": "39494078",
+      "title": "Assessment of the microbial contamination in \"Do It Yourself\" (DIY) stores - a holistic approach to protect workers' and consumers' health",
+      "year": 2024,
+      "journal": "Frontiers in public health",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136466+00:00"
+    },
+    {
+      "pmid": "39416826",
+      "title": "Design of a sweeping robot based on fuzzy QFD and ARIZ algorithms",
+      "year": 2024,
+      "journal": "Heliyon",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136473+00:00"
+    },
+    {
+      "pmid": "38183642",
+      "title": "The prevalence of IgE positivity, environmental factors, and clinical implications associated with mite species in allergic patients in Taiwan",
+      "year": 2026,
+      "journal": "Asian Pacific journal of allergy and immunology",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136478+00:00"
+    },
+    {
+      "pmid": "37778314",
+      "title": "\"Total Human DNA Sampling\" - Forensic DNA profiles from large areas",
+      "year": 2023,
+      "journal": "Forensic science international. Genetics",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136485+00:00"
+    },
+    {
+      "pmid": "37756361",
+      "title": "Personal exposure to gaseous and particulate phase polycyclic aromatic hydrocarbons (PAHs) and nanoparticles and lung deposited surface area (LDSA) for soot among Norwegian chimney sweepers",
+      "year": 2024,
+      "journal": "Journal of occupational and environmental hygiene",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136492+00:00"
+    },
+    {
+      "pmid": "37675600",
+      "title": "Viable Clostridium botulinum spores not detected in the household dust of major Canadian cities",
+      "year": 2023,
+      "journal": "Epidemiology and infection",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136498+00:00"
+    },
+    {
+      "pmid": "37251465",
+      "title": "Physico-chemical characterization of indoor settled dust in Children's microenvironments in Ikeja and Ota, Nigeria",
+      "year": 2023,
+      "journal": "Heliyon",
+      "status": "CANDIDATE",
+      "registry_branch": "vacuum clean",
+      "retrieved_at": "2026-08-31T12:53:10.136503+00:00"
+    },
+    {
+      "pmid": "41878365",
+      "title": "Contact Dermatitis among Hospital Cleaners in Dar es Salaam: Prevalence and Associated Factors",
+      "year": 2025,
+      "journal": "Malawi medical journal : the journal of Medical Association of Malawi",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783462+00:00"
+    },
+    {
+      "pmid": "41312982",
+      "title": "Transmission of fecal contamination to stored drinking water in unplanned settlements in Lusaka",
+      "year": 2025,
+      "journal": "Journal of water and health",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783508+00:00"
+    },
+    {
+      "pmid": "41100510",
+      "title": "Integration of mathematical modeling and economics approaches to evaluate strategies for control of Salmonella Dublin in a heifer-raising operation",
+      "year": 2025,
+      "journal": "PloS one",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783519+00:00"
+    },
+    {
+      "pmid": "40069444",
+      "title": "Technical implications of light greywater production and quality for decentralized treatment and reuse: A case study in Bucaramanga, Colombia",
+      "year": 2025,
+      "journal": "Environmental monitoring and assessment",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783528+00:00"
+    },
+    {
+      "pmid": "39962442",
+      "title": "Better floors, better health: a theory of change for an improved household flooring intervention in rural communities in Kwale and Bungoma counties, Kenya",
+      "year": 2025,
+      "journal": "BMC public health",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783537+00:00"
+    },
+    {
+      "pmid": "39403216",
+      "title": "Non-typhoidal Salmonella among slaughterhouse workers and in the pork value chain in selected districts of Uganda",
+      "year": 2024,
+      "journal": "Frontiers in veterinary science",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783545+00:00"
+    },
+    {
+      "pmid": "38737960",
+      "title": "Identifying Potential Determinants of Faecal Contamination on Domestic Floors in Three Settings in Rural Kenya: A Mixed Methods Analysis",
+      "year": 2024,
+      "journal": "Environmental health insights",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783553+00:00"
+    },
+    {
+      "pmid": "38550782",
+      "title": "Association of biosecurity and hygiene practices with avian influenza A/H5 and A/H9 virus infections in turkey farms",
+      "year": 2024,
+      "journal": "Frontiers in veterinary science",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783562+00:00"
+    },
+    {
+      "pmid": "37738695",
+      "title": "Molecular epidemiology, antibiogram profile and risk factor analysis of pathogenic Escherichia coli associated with pre-weaning diarrhoea in piglets from Haryana, India",
+      "year": 2023,
+      "journal": "Journal of infection and public health",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783576+00:00"
+    },
+    {
+      "pmid": "36319080",
+      "title": "Comparison of Floor Cleaning and Disinfection Processes in a Research Animal Facility",
+      "year": 2022,
+      "journal": "Journal of the American Association for Laboratory Animal Science : JAALAS",
+      "status": "CANDIDATE",
+      "registry_branch": "floor clean",
+      "retrieved_at": "2026-08-31T12:53:11.783584+00:00"
+    },
+    {
+      "pmid": "42253935",
+      "title": "Trends in Asthma-Rhinitis Allergic Multimorbidity and Polysensitization in China: The CARRAD Study",
+      "year": 2026,
+      "journal": "MedComm",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370660+00:00"
+    },
+    {
+      "pmid": "39770767",
+      "title": "Resuspension and Dissemination of MS2 Virus from Flooring After Human Activities in Built Environment: Impact of Dust Particles",
+      "year": 2024,
+      "journal": "Microorganisms",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370713+00:00"
+    },
+    {
+      "pmid": "39642652",
+      "title": "Understanding prenatal household exposures to per- and polyfluorylalkyl substances using paired Biological and dust measurements with sociodemographic and housing variables",
+      "year": 2024,
+      "journal": "Environment international",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370729+00:00"
+    },
+    {
+      "pmid": "39590986",
+      "title": "Organophosphate Esters and Polybrominated Diphenyl Ethers in Vehicle Dust: Concentrations, Sources, and Health Risk Assessment",
+      "year": 2024,
+      "journal": "Toxics",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370743+00:00"
+    },
+    {
+      "pmid": "39326242",
+      "title": "Residential proximity to agricultural herbicide and fungicide applications and dust levels in homes of California children",
+      "year": 2024,
+      "journal": "Environment international",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370756+00:00"
+    },
+    {
+      "pmid": "39204652",
+      "title": "Comparison of Festuca glauca 'Uchte' and Festuca amethystina 'Walberla' Varieties in a Simulated Extensive Roof Garden Environment",
+      "year": 2024,
+      "journal": "Plants (Basel, Switzerland)",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370769+00:00"
+    },
+    {
+      "pmid": "38735219",
+      "title": "Systematic evidence mapping of potential correlates of exposure for per- and poly-fluoroalkyl substances (PFAS) based on measured occurrence in biomatrices and surveys of dietary consumption and product use",
+      "year": 2024,
+      "journal": "International journal of hygiene and environmental health",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370782+00:00"
+    },
+    {
+      "pmid": "38265760",
+      "title": "Organophosphate Esters in Building Materials from China: Levels, Sources, Emissions, and Preliminary Assessment of Human Exposure",
+      "year": 2024,
+      "journal": "Environmental science & technology",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370794+00:00"
+    },
+    {
+      "pmid": "37951260",
+      "title": "Participant-collected household dust for assessing microorganisms and semi-volatile organic compounds in urban homes",
+      "year": 2024,
+      "journal": "The Science of the total environment",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370807+00:00"
+    },
+    {
+      "pmid": "37806477",
+      "title": "Fungal diversity in homes and asthma morbidity among school-age children in New York City",
+      "year": 2023,
+      "journal": "Environmental research",
+      "status": "CANDIDATE",
+      "registry_branch": "carpet",
+      "retrieved_at": "2026-08-31T12:53:13.370820+00:00"
+    },
+    {
+      "pmid": "42432033",
+      "title": "Single-cell RNA sequencing of hematopoietic and non-hematopoietic cells defines a distinct signature in atopic and NRG1 mouse lung",
+      "year": 2026,
+      "journal": "Scientific reports",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824187+00:00"
+    },
+    {
+      "pmid": "41678259",
+      "title": "Removal of volatile organic compounds by chemical filters significantly inhibited the development of atopic dermatitis symptoms in mice: potential implications for air-conditioning systems in healthcare environments",
+      "year": 2026,
+      "journal": "Toxicological sciences : an official journal of the Society of Toxicology",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824236+00:00"
+    },
+    {
+      "pmid": "41560298",
+      "title": "OTUD6A in Airway Epithelial Cells Exacerbates Allergic Asthma by Promoting Airway Inflammation and Airway Remodeling Through Deubiquitination of hResistin/mRELMα",
+      "year": 2026,
+      "journal": "Advanced science (Weinheim, Baden-Wurttemberg, Germany)",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824252+00:00"
+    },
+    {
+      "pmid": "40207915",
+      "title": "Fecal microbiota transplants (FMT) of three distinct human communities to germ-free mice exacerbated inflammation and decreased lung function in their offspring",
+      "year": 2025,
+      "journal": "mBio",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824266+00:00"
+    },
+    {
+      "pmid": "38902328",
+      "title": "Mononuclear phagocyte sub-types in vitro display diverse transcriptional responses to dust mite exposure",
+      "year": 2024,
+      "journal": "Scientific reports",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824279+00:00"
+    },
+    {
+      "pmid": "37614946",
+      "title": "Toll-like receptor 4 and Syk kinase shape dendritic cell-induced immune activation to major house dust mite allergens",
+      "year": 2023,
+      "journal": "Frontiers in medicine",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824291+00:00"
+    },
+    {
+      "pmid": "36883483",
+      "title": "Associations between environmental characteristics, high-resolution indoor microbiome, metabolome and allergic and non-allergic rhinitis symptoms for junior high school students",
+      "year": 2023,
+      "journal": "Environmental science. Processes & impacts",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824304+00:00"
+    },
+    {
+      "pmid": "35904395",
+      "title": "Simultaneous assessment of organophosphate flame retardants, plasticizers, trace metals, and house dust mite allergens in settled house dust",
+      "year": 2022,
+      "journal": "Indoor air",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824316+00:00"
+    },
+    {
+      "pmid": "35608203",
+      "title": "A leak-free head-out plethysmography system to accurately assess lung function in mice",
+      "year": 2022,
+      "journal": "Journal of applied physiology (Bethesda, Md. : 1985)",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824328+00:00"
+    },
+    {
+      "pmid": "35474731",
+      "title": "Effect of air filtration on house dust mite, cat and dog allergens and particulate matter in homes",
+      "year": 2022,
+      "journal": "Clinical and translational allergy",
+      "status": "CANDIDATE",
+      "registry_branch": "dust mite remov",
+      "retrieved_at": "2026-08-31T12:53:14.824340+00:00"
+    },
+    {
+      "pmid": "42468941",
+      "title": "Implementation and Evaluation of Environment-Derived Dust-Based Environmental Health Monitoring in an Open-Top Housing Laboratory Animal Facility",
+      "year": 2026,
+      "journal": "Journal of the American Association for Laboratory Animal Science : JAALAS",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.402954+00:00"
+    },
+    {
+      "pmid": "40890211",
+      "title": "AI-Integrated autonomous robotics for solar panel cleaning and predictive maintenance using drone and ground-based systems",
+      "year": 2025,
+      "journal": "Scientific reports",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.403045+00:00"
+    },
+    {
+      "pmid": "39275848",
+      "title": "Developing an intuitionistic fuzzy rough new correlation coefficient approach for enhancing robotic vacuum cleaner",
+      "year": 2024,
+      "journal": "Science progress",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.403058+00:00"
+    },
+    {
+      "pmid": "37152861",
+      "title": "Floor Cleaners as Helper Pets: Projecting Assistive Robots' Agency on Zoomorphic Affordances",
+      "year": 2023,
+      "journal": "SN computer science",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.403069+00:00"
+    },
+    {
+      "pmid": "32886642",
+      "title": "Efficacy of an Automated Robotic Cleaning Device for Compounding Pharmacies",
+      "year": 2020,
+      "journal": "International journal of pharmaceutical compounding",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.403079+00:00"
+    },
+    {
+      "pmid": "32531960",
+      "title": "Vision Based Wall Following Framework: A Case Study With HSR Robot for Cleaning Application",
+      "year": 2020,
+      "journal": "Sensors (Basel, Switzerland)",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.403089+00:00"
+    },
+    {
+      "pmid": "29742310",
+      "title": "Sampling and inactivation of wet disseminated spores from flooring materials, using commercially available robotic vacuum cleaners",
+      "year": 2018,
+      "journal": "Journal of applied microbiology",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.403099+00:00"
+    },
+    {
+      "pmid": "28239926",
+      "title": "Documenting DNA in the dust",
+      "year": 2017,
+      "journal": "Molecular ecology",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.403109+00:00"
+    },
+    {
+      "pmid": "27965967",
+      "title": "Physiological and Behavioral Responses of Dairy Cattle to the Introduction of Robot Scrapers",
+      "year": 2016,
+      "journal": "Frontiers in veterinary science",
+      "status": "CANDIDATE",
+      "registry_branch": "robotic clean",
+      "retrieved_at": "2026-08-31T12:53:16.403119+00:00"
+    }
+  ],
+  "retrieved_at": "2026-08-31T12:53:16.403127+00:00"
+}

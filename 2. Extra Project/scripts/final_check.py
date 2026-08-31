@@ -100,12 +100,92 @@ def main():
     check("category", "air runnable from real eligibility", lambda: (
         air["machine_runnable"] and air["families"]["reviews"]["count"] > 5000,
         json.dumps({k: v["count"] for k, v in air["families"].items()})))
-    check("category", "floor care honestly insufficient (same pipeline)", lambda: (
-        not floor["machine_runnable"] and floor["families"]["reviews"]["count"] == 0,
-        json.dumps({k: v["count"] for k, v in floor["families"].items()})))
-    check("category", "no air masquerading as floor care", lambda: (
-        floor["families"]["products"]["count"] != air["families"]["products"]["count"],
-        "eligibility genuinely differs per category"))
+    # MECHANISM checks (not pinned values): Floor Care may legitimately grow
+    # real evidence - what must NEVER happen is Air data reported under a
+    # Floor Care label, or readiness reported above the evidence.
+    def _count_lines(path):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                return sum(1 for line in fh if line.strip())
+        except FileNotFoundError:
+            return 0
+    def _count_csv_rows(path):
+        try:
+            import csv as _csv
+            with open(path, newline="", encoding="utf-8") as fh:
+                return sum(1 for _ in _csv.DictReader(fh))
+        except FileNotFoundError:
+            return 0
+    def floor_counts_from_real_floor_stores():
+        n_frozen = _count_lines(os.path.join(HERE, "data", "real_raw",
+                                             "floor_care_products_frozen.jsonl"))
+        n_reviews = _count_csv_rows(os.path.join(HERE, "data", "processed",
+                                                 "floor_care", "reviews_clean.csv"))
+        ok = (floor["families"]["products"]["count"] == n_frozen
+              and floor["families"]["reviews"]["count"] == n_reviews
+              and floor["families"]["products"]["count"] != air["families"]["products"]["count"]
+              and floor["families"]["reviews"]["count"] != air["families"]["reviews"]["count"])
+        return ok, ("floor products {}=={} (file), reviews {}=={} (file), both != air "
+                    "({}, {})".format(floor["families"]["products"]["count"], n_frozen,
+                                      floor["families"]["reviews"]["count"], n_reviews,
+                                      air["families"]["products"]["count"],
+                                      air["families"]["reviews"]["count"]))
+    check("category", "floor care reports from its OWN real stores, not air's",
+          floor_counts_from_real_floor_stores)
+    def floor_no_overreported_readiness():
+        zero_fams = [f for f, v in floor["families"].items() if v["count"] == 0]
+        # any stage that depends on a zero-evidence family must not claim SUFFICIENT
+        stage_fams = {"product_universe": ["products"],
+                      "radar": ["reviews", "research", "trend_documents",
+                                "competitors", "market_reports"],
+                      "paths_field": ["research", "reviews"],
+                      "magic_box": ["reviews", "research"],
+                      "innovations": ["reviews", "market_reports"]}
+        over = [s for s, fams in stage_fams.items()
+                if any(f in zero_fams for f in fams)
+                and floor["stage_readiness"].get(s) == "SUFFICIENT"]
+        research_ok = floor["families"]["research"]["state"] in (
+            "INSUFFICIENT", "CANDIDATE_ONLY")  # candidates never count as a corpus
+        runnable_ok = (floor["machine_runnable"] is False
+                       if (floor["families"]["trend_documents"]["count"] == 0
+                           or floor["families"]["market_reports"]["count"] == 0)
+                       else True)
+        return (not over and research_ok and runnable_ok,
+                "no stage above its evidence; research={}, runnable={}".format(
+                    floor["families"]["research"]["state"], floor["machine_runnable"]))
+    check("category", "no floor-care stage reports readiness above its evidence",
+          floor_no_overreported_readiness)
+    def floor_no_air_leakage():
+        air_theme_ids = {"reliability", "noise", "value_effectiveness",
+                         "customer_service", "filter_cost", "ozone_odor_safety"}
+        from magic_box_real import POSSIBILITY_NAMES
+        air_names = set(POSSIBILITY_NAMES.values())
+        themes_path = os.path.join(HERE, "data", "processed", "floor_care",
+                                   "induced_themes.json")
+        poss_path = os.path.join(HERE, "data", "processed", "floor_care",
+                                 "possibilities.json")
+        details = []
+        if os.path.exists(themes_path):
+            doc = json.load(open(themes_path, encoding="utf-8"))
+            floor_ids = {t["theme_id"] for t in doc.get("themes", [])}
+            leaked = floor_ids & air_theme_ids
+            if leaked:
+                return False, "air theme ids in floor care: {}".format(sorted(leaked))
+            details.append("{} induced theme ids clean".format(len(floor_ids)))
+        else:
+            details.append("induced_themes.json absent (stage not yet run - nothing to leak)")
+        if os.path.exists(poss_path):
+            doc = json.load(open(poss_path, encoding="utf-8"))
+            names = [p.get("name", "") for p in doc.get("possibilities", [])]
+            leaked = [n for n in names if n in air_names or "Air Purifier" in n]
+            if leaked:
+                return False, "air possibility names in floor care: {}".format(leaked[:3])
+            details.append("{} possibility names clean".format(len(names)))
+        else:
+            details.append("possibilities.json absent (stage not yet run - nothing to leak)")
+        return True, "; ".join(details)
+    check("category", "no air theme/possibility leaks into floor care surfaces",
+          floor_no_air_leakage)
 
     # ---------- hardcoding / dynamics ----------
     import decision_framework_real as dfr
@@ -171,11 +251,22 @@ def main():
     def category_integrity():
         air = compute_category_state("AIR_PURIFICATION")
         floor = compute_category_state("FLOOR_CARE")
-        stages_ok = "stage_readiness" in air and set(air["stage_readiness"]) == {
+        stages_ok = all("stage_readiness" in s and set(s["stage_readiness"]) == {
             "product_universe", "radar", "paths_field", "magic_box", "innovations"}
-        return (stages_ok and not floor["machine_runnable"]
-                and floor["families"]["market_reports"]["count"] == 0
-                and air["families"]["market_reports"]["count"] >= 2), "stage readiness + category-linked market"
+            for s in (air, floor))
+        # MECHANISM, not pinned zeros: market/trend evidence for floor care is
+        # honestly absent today, and any stage depending on an absent family
+        # must not report SUFFICIENT (so machine_runnable must be False while
+        # trend/market are 0). Air's own market evidence stays real (>= 2).
+        floor_market_absent = (floor["families"]["market_reports"]["count"] == 0
+                               and floor["families"]["trend_documents"]["count"] == 0)
+        floor_honest = ((not floor_market_absent) or (
+            not floor["machine_runnable"]
+            and floor["stage_readiness"]["radar"] != "SUFFICIENT"
+            and floor["stage_readiness"]["innovations"] != "SUFFICIENT"))
+        return (stages_ok and floor_honest
+                and air["families"]["market_reports"]["count"] >= 2), \
+            "stage readiness present for both; floor readiness never above evidence; real air market"
     check("category", "stage-level readiness, no hardcoded market", category_integrity)
 
     # ---------- production ----------

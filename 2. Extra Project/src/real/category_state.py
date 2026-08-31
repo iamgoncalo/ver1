@@ -29,6 +29,21 @@ CATEGORIES = {
         "include": re.compile(r"vacuum|mop|floor\s*(care|clean)|carpet clean|robot.?vac|sweep", re.I),
         "exclude": re.compile(r"air\s*purif|hepa\s*air", re.I),
         "research_terms": re.compile(r"vacuum clean|floor clean|carpet|dust mite remov|robotic clean", re.I),
+        # REAL per-category evidence stores (PASS_3): Floor Care now has its
+        # own frozen product list and derived outputs, so its counts come
+        # from THOSE files - never from Air's stores wearing a filter.
+        # Eligibility for the frozen store was applied at freeze time by
+        # src/real/freeze_floor_care_products.py (declared METHOD_CHOICE:
+        # keyword classification + rating_number >= 500 evidence floor).
+        # Families with no real Floor Care evidence (trend documents, market
+        # reports) have NO store entry and honestly report 0.
+        "stores": {
+            "products_frozen": os.path.join(ROOT, "data", "real_raw", "floor_care_products_frozen.jsonl"),
+            "reviews_clean": os.path.join(PROC, "floor_care", "reviews_clean.csv"),
+            "themes": os.path.join(PROC, "floor_care", "induced_themes.json"),
+            "rivals": os.path.join(PROC, "floor_care", "rivals.json"),
+            "research_candidates": os.path.join(PROC, "floor_care", "research_candidates.json"),
+        },
     },
 }
 
@@ -49,11 +64,111 @@ def _sufficiency(n, minimum):
     return "SUFFICIENT"
 
 
+def _stage_state(families, *fams):
+    states = [families[f]["state"] for f in fams]
+    if all(s == "SUFFICIENT" for s in states):
+        return "SUFFICIENT"
+    if all(s == "INSUFFICIENT" for s in states):
+        return "INSUFFICIENT"
+    return "PARTIAL"
+
+
+def _stages_and_verdict(families):
+    stages = {
+        "product_universe": _stage_state(families, "products"),
+        "radar": _stage_state(families, "reviews", "research", "trend_documents",
+                              "competitors", "market_reports"),
+        "paths_field": _stage_state(families, "research", "reviews"),
+        "magic_box": _stage_state(families, "reviews", "research"),
+        "innovations": _stage_state(families, "reviews", "market_reports"),
+    }
+    return stages, all(s == "SUFFICIENT" for s in stages.values())
+
+
+def _compute_from_stores(category_id, cat):
+    """PASS_3 path: a category with its OWN real evidence stores reports the
+    counts of THOSE files. Nothing is filtered out of another category's
+    store, nothing is zero-filled - a missing file is an honest 0, and
+    research candidates are counted but can never make the research family
+    SUFFICIENT (state CANDIDATE_ONLY: candidates are not an accepted,
+    reproducible corpus)."""
+    stores = cat["stores"]
+
+    n_products = 0
+    try:
+        with open(stores["products_frozen"], encoding="utf-8") as fh:
+            n_products = sum(1 for line in fh if line.strip())
+    except FileNotFoundError:
+        pass
+
+    n_reviews = 0
+    reviews_bundled = True
+    try:
+        with open(stores["reviews_clean"], newline="", encoding="utf-8") as fh:
+            n_reviews = sum(1 for _ in csv.DictReader(fh))
+    except FileNotFoundError:
+        # The clean review corpus (160MB) is too large to bundle in the
+        # repository (see data/DATA_NOTICE.md - the stream scripts are the
+        # primary acquisition route). A fresh clone reports the RECORDED
+        # count from the run ledger, explicitly flagged as not bundled -
+        # never a silent zero and never a fabricated store.
+        reviews_bundled = False
+        state_doc = _load_json(os.path.join(PROC, "floor_care", "state.json")) or {}
+        n_reviews = (state_doc.get("counts") or {}).get("reviews", 0)
+
+    rivals = _load_json(stores["rivals"]) or {"rivals": []}
+    n_rivals = len(rivals.get("rivals", []))
+
+    research = _load_json(stores["research_candidates"]) or {}
+    candidates = research.get("candidates", []) or []
+    n_candidates = len(candidates)
+
+    families = {
+        "products": {"count": n_products, "state": _sufficiency(n_products, 50)},
+        "reviews": dict({"count": n_reviews, "state": _sufficiency(n_reviews, 1000)},
+                         **({} if reviews_bundled else {
+                             "store_bundled": False,
+                             "note": "Count from the recorded run ledger (state.json); the 160MB clean "
+                                     "corpus is not bundled - refetch via the documented stream scripts."})),
+        # CANDIDATE_ONLY: real discovered candidates exist, but no accepted,
+        # human-promoted research corpus does - never reported SUFFICIENT.
+        "research": {"count": n_candidates,
+                     "state": "CANDIDATE_ONLY" if n_candidates else "INSUFFICIENT"},
+        "trend_documents": {"count": 0, "state": "INSUFFICIENT"},
+        "competitors": {"count": n_rivals, "state": _sufficiency(n_rivals, 10)},
+        "market_reports": {"count": 0, "state": "INSUFFICIENT"},
+    }
+    stages, runnable = _stages_and_verdict(families)
+    return {
+        "_provenance": "Computed live by src/real/category_state.py from this "
+                       "category's OWN real evidence stores (see the registry's "
+                       "'stores' entry) - never another category's data relabeled. "
+                       "Families with no real store honestly report 0; research "
+                       "counts are discovery CANDIDATES only (CANDIDATE_ONLY), "
+                       "never an accepted corpus.",
+        "category": category_id,
+        "label": cat["label"],
+        "families": families,
+        "stage_readiness": stages,
+        "machine_runnable": runnable,
+        "honest_note": ("Every stage of the machine currently has sufficient eligible evidence "
+                        "for this category." if runnable else
+                        "The machine cannot honestly run for this category yet: real product "
+                        "and review evidence exists, but the research corpus is candidates-"
+                        "only and no trend or market evidence has been acquired. Acquiring "
+                        "it means real acquisition runs with this category's filters - not "
+                        "relabeling another category's data."),
+        "registered_categories": sorted(CATEGORIES),
+    }
+
+
 def compute_category_state(category_id):
     if category_id not in CATEGORIES:
         raise ValueError("unknown category {!r} - registered: {}".format(
             category_id, sorted(CATEGORIES)))
     cat = CATEGORIES[category_id]
+    if "stores" in cat:
+        return _compute_from_stores(category_id, cat)
     inc, exc = cat["include"], cat["exclude"]
 
     def eligible(text):

@@ -287,21 +287,34 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("category is a real computation input: Floor care shows its honest live eligibility, never Air data", async ({ page }) => {
+  test("Floor care is a real second category: its own induced evidence per stage, never Air data", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/radar");
     await expect(page.getByText("Reviews retained").first()).toBeVisible({ timeout: 5000 });
     await page.getByRole("button", { name: "Floor care" }).click();
-    await expect(page.getByText("insufficient evidence")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText("Eligible evidence, by family")).toBeVisible();
-    // genuinely zero eligible evidence for floor care - live computation, not
-    // authored: at least four families render a literal 0 count
-    await expect(page.getByText("reviews", { exact: true })).toBeVisible();
-    expect(await page.getByText(/^0$/).count()).toBeGreaterThanOrEqual(4);
-    // no Air content is shown under the Floor care label
+    // the Radar stage shows Floor Care's OWN machine-induced evidence
+    await expect(page.getByTestId("category-stage-radar")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/Machine-induced complaint themes/)).toBeVisible();
+    await expect(page.getByText(/share \(lower bound\)/).first()).toBeVisible();
+    await expect(page.getByText(/Real competitor brands \(\d+ with/)).toBeVisible();
+    // honestly missing families stay declared missing, not zero-faked or hidden
+    await expect(page.getByText(/Honestly missing:/)).toBeVisible();
+    await expect(page.getByText("full machine not runnable yet")).toBeVisible();
+    // no Air content leaks under the Floor care label
     await expect(page.getByText("Reviews retained")).toHaveCount(0);
+    await expect(page.getByText(/Air Purifier/)).toHaveCount(0);
+    // Product universe stage shows the real frozen corpus
+    await page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /^Product universe$/ }).click();
+    await expect(page.getByTestId("category-stage-product_universe")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Frozen validated products")).toBeVisible();
+    await expect(page.getByText(/rating_number ≥ 500/)).toBeVisible();
+    // Magic stage shows exploratory, never-promoted possibilities
+    await page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /^Magic box$/ }).click();
+    await expect(page.getByTestId("category-stage-magic_box")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/all NOT_PROMOTED/)).toBeVisible();
     await page.getByRole("button", { name: "Back to air purification →" }).click();
-    await expect(page.getByText("Reviews retained").first()).toBeVisible({ timeout: 5000 });
+    // back on Air, the Magic box world shows Air's own real concepts again
+    await expect(page.getByText("what could exist now?")).toBeVisible({ timeout: 5000 });
     expect(errors).toEqual([]);
   });
 
@@ -705,6 +718,30 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // lineage is clickable back to the parent path
     await page.getByTestId("innovation-detail").getByRole("button", { name: "tension:T1 →" }).click();
     await expect(page.getByText("Where is reality actually moving?")).toBeVisible({ timeout: 5000 });
+  });
+
+  test("full flow: an Innovation walks back through path, field, real reviews, paper, and magic - every step clickable", async ({ page }) => {
+    // Innovation -> parent path
+    await page.goto("/innovations?innovation=noise:AMBIENT");
+    await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
+    await page.getByTestId("innovation-detail").getByRole("button", { name: "tension:T1 →" }).click();
+    await expect(page).toHaveURL(/\/paths\?path=tension/);
+    // path -> its field grounding -> the real reviews behind the friction
+    await page.getByRole("button", { name: /Ground it in the field/ }).click();
+    await page.getByTestId("field-friction").first().click();
+    await expect(page.getByRole("dialog").getByText(/CR-\d+/).first()).toBeVisible({ timeout: 5000 });
+    await page.keyboard.press("Escape");
+    // field -> a supporting paper, landing on the Radar's own record
+    await page.getByTestId("path-field").getByRole("button", { name: /RP-\d+ ·/ }).first().click();
+    await expect(page).toHaveURL(/\/radar\?.*paper=RP-/);
+    await expect(page.getByRole("dialog").getByText("Does NOT establish")).toBeVisible({ timeout: 5000 });
+    await page.keyboard.press("Escape");
+    // reverse: magic possibility -> back to the same innovation's parent path
+    await page.goto("/magic-box?possibility=noise:AMBIENT");
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByTestId("lineage")).toBeVisible();
+    await page.getByTestId("lineage").getByRole("button", { name: /RP-\d+/ }).first().click();
+    await expect(page).toHaveURL(/\/radar\?.*paper=RP-/);
   });
 
   test("acronyms are expanded where shown: CAGR on Market, CADR/WTP in Products", async ({ page }) => {

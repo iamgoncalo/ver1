@@ -1,0 +1,81 @@
+{
+  "_provenance": "Honest per-stage ledger for the Floor Care pipeline - what ran, what was skipped and why, and the real counts observed.",
+  "generated_by": "src/real/floor_care_pipeline.py",
+  "generated_at": "2026-08-31T12:53:16.410294+00:00",
+  "stream_note": "data/real_raw/floor_care_reviews_hk.jsonl (and the appliances file after it) are written by a background streaming job over the raw McAuley-Lab review exports; counts reflect those files as of generated_at, and this pipeline must be re-run after the stream completes.",
+  "counts": {
+    "products": 572,
+    "reviews": 384253,
+    "themes": 33,
+    "rivals": 159,
+    "possibilities": 24,
+    "research_candidates": 49,
+    "trend_documents": 0,
+    "market_reports": 0
+  },
+  "manifest": {
+    "source_rows_read": 388018,
+    "rows_matched_to_frozen_products": 384253,
+    "rows_dropped_exact_export_dup": 3765,
+    "source_files": {
+      "data/real_raw/floor_care_reviews_hk.jsonl": {
+        "exists": true,
+        "n_lines_read": 388018
+      },
+      "data/real_raw/floor_care_reviews_appliances.jsonl": {
+        "exists": true,
+        "n_lines_read": 0
+      }
+    },
+    "rows_flagged_duplicate_text": 15767,
+    "rows_clean_for_stats": 368486
+  },
+  "stages": {
+    "reviews_clean": {
+      "status": "RAN",
+      "n_rows": 384253,
+      "output": "data/processed/floor_care/reviews_clean.csv"
+    },
+    "induced_terms": {
+      "status": "RAN",
+      "n_terms": 80,
+      "min_count": 280,
+      "top": 80,
+      "output": "data/processed/floor_care/induced_terms.csv"
+    },
+    "induced_themes": {
+      "status": "RAN",
+      "n_themes": 33,
+      "output": "data/processed/floor_care/induced_themes.json"
+    },
+    "hand_label_blank": {
+      "status": "RAN",
+      "n_rows": 50,
+      "output": "data/processed/floor_care/floor_care_hand_label_BLANK.csv",
+      "note": "hand_label column EMPTY - a human must fill it"
+    },
+    "rivals": {
+      "status": "RAN",
+      "n_rivals": 159,
+      "output": "data/processed/floor_care/rivals.json"
+    },
+    "possibilities": {
+      "status": "RAN",
+      "n_possibilities": 24,
+      "output": "data/processed/floor_care/possibilities.json"
+    },
+    "research_discovery": {
+      "status": "RAN",
+      "n_candidates": 49,
+      "output": "data/processed/floor_care/research_candidates.json"
+    },
+    "trend_corpus": {
+      "status": "SKIPPED",
+      "reason": "SKIPPED - no Floor Care trend corpus exists. Acquiring one means running a real acquisition with this category's filters - not relabeling Air Purification's trend documents."
+    },
+    "market_metrics": {
+      "status": "SKIPPED",
+      "reason": "SKIPPED - no Floor Care market source exists in data/real_raw/market_sources. Never borrowed from Air."
+    }
+  }
+}

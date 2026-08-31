@@ -16,3 +16,10 @@ only path.
 Reviewer identity: the dataset's pseudonymous `user_id` is used transiently
 during ingestion (cross-variant deduplication) and ships in the analytical
 CSVs only as a one-way SHA-256 hash (`reviewer_hash`).
+
+Floor Care large-file note: the raw floor-care review stream (226MB) and its
+clean CSV (160MB) exceed repository size limits and are NOT bundled - the
+stream scripts in run_pipeline.sh / src/real/filter_floor_care_products.py /
+freeze_floor_care_products.py are the acquisition route, and the category
+state reports recorded run-ledger counts flagged store_bundled:false when
+the files are absent.

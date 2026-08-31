@@ -478,6 +478,48 @@ def category_state(category: str = "AIR_PURIFICATION"):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+@app.get("/api/category-data")
+def category_data(category: str = "FLOOR_CARE"):
+    """The real per-stage evidence behind a non-formal category - served so
+    the UI can show each stage's actual data (or its honest absence) instead
+    of one generic gate. Currently FLOOR_CARE only; an unknown category is a
+    visible 400."""
+    if category != "FLOOR_CARE":
+        raise HTTPException(status_code=400, detail="only FLOOR_CARE has a category-data store")
+    fc = os.path.join(PROC, "floor_care")
+    def _j(name):
+        try:
+            with open(os.path.join(fc, name), encoding="utf-8") as fh:
+                return json.load(fh)
+        except FileNotFoundError:
+            return None
+    themes_doc = _j("induced_themes.json")
+    rivals_doc = _j("rivals.json")
+    poss_doc = _j("possibilities.json")
+    research_doc = _j("research_candidates.json")
+    state_doc = _j("state.json")
+    products = []
+    frozen = os.path.join(ROOT, "data", "real_raw", "floor_care_products_frozen.jsonl")
+    if os.path.isfile(frozen):
+        with open(frozen, encoding="utf-8") as fh:
+            for i, line in enumerate(fh):
+                if i >= 12:
+                    break
+                r = json.loads(line)
+                products.append({"parent_asin": r.get("parent_asin"), "title": r.get("title"),
+                                 "store": r.get("store"), "rating_number": r.get("rating_number"),
+                                 "average_rating": r.get("average_rating"), "price": r.get("price")})
+    return {
+        "category": category,
+        "state": state_doc,
+        "products_sample": products,
+        "themes": themes_doc,
+        "rivals": rivals_doc,
+        "possibilities": poss_doc,
+        "research_candidates": research_doc,
+    }
+
+
 @app.get("/api/evidence/trace/{claim_id}")
 def evidence_trace(claim_id: str):
     import trace_claim as tc
