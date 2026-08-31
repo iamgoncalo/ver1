@@ -1,7 +1,7 @@
 """THE VERSUNI INNOVATION FUNNEL MACHINE - one canonical funnel state.
 
 PRODUCT UNIVERSE -> RADAR (signal + competitor evidence) -> PATHS+FIELD -> MAGIC BOX ->
-CRITERIA -> INNOVATIONS -> CRITIC -> FINALISTS.
+CRITERIA -> INNOVATIONS -> CRITIC -> READY TO TEST.
 
 This module computes NOTHING new - it is a pure aggregation/reclassification
 layer over already-real processed files (products_real.json,
@@ -314,13 +314,30 @@ def compute_stages(patterns, signal_families):
          "verdict_counts": ({v: sum(1 for c in critic["concepts"] if c["critic_overall"] == v) for v in ("SURVIVE", "CHALLENGE", "NEEDS_EVIDENCE", "REJECT")}
                             if critic else {}),
          "why_ideas_are_dying": [{"name": g["name"], "reason": g["kill_reason"]} for g in magic_box["graveyard"][:3]],
-         "inputs": ["innovations"], "outputs_to": ["finalists"],
+         "inputs": ["innovations"], "outputs_to": ["ready_to_test"],
          "trace": "GET /api/critic -> len(data/processed/critic_real.json[\"concepts\"]), built by src/real/critic_real.py::build()."},
-        {"id": "finalists", "label": "INNOVATIONS · PRIORITY TO TEST", "count": len(magic_box["finalists"]),
-         "finalist_names": [f["name"] for f in magic_box["finalists"]],
-         "bet": decision["verdict"]["recommended_name"],
+        # Evidence-driven, not a ranked top-N cut: the same rule
+        # innovations_real.py::innovation_state() uses for state
+        # "ready_to_test" (non-dominated AND Critic verdict SURVIVE AND
+        # grounded in a real research tension). magic_box["finalists"] (the
+        # top-3-by-pain-score cut) stays available as Magic-Box-internal
+        # funnel-stage data (see /api/magic-box) but is never read here -
+        # several of those 3 currently fail this rule on real Critic
+        # verdicts, so presenting them as "ready to test" would be false.
+        {"id": "ready_to_test", "label": "INNOVATIONS · READY TO TEST",
+         "count": sum(1 for c in criteria["concepts"]
+                     if bool(c.get("is_non_dominated")) and c.get("critic_overall") == "SURVIVE"
+                     and (c.get("why_here") or {}).get("consequence_basis") == "RESEARCH_TENSION"),
+         "ready_to_test_names": [c["name"] for c in criteria["concepts"]
+                                 if bool(c.get("is_non_dominated")) and c.get("critic_overall") == "SURVIVE"
+                                 and (c.get("why_here") or {}).get("consequence_basis") == "RESEARCH_TENSION"],
+         "formal_case_bet": decision["verdict"]["recommended_name"],
          "inputs": ["critic-surviving concepts"], "outputs_to": [],
-         "trace": "GET /api/innovations -> data/processed/magic_box_real.json[\"finalists\"] (several, never one hardcoded winner); bet from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"]."},
+         "trace": "GET /api/criteria -> concepts filtered by is_non_dominated + critic_overall==SURVIVE + "
+                  "why_here.consequence_basis==RESEARCH_TENSION (same rule as "
+                  "src/real/innovations_real.py::innovation_state()'s 'ready_to_test'); formal_case_bet "
+                  "from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"] - "
+                  "the formal case's own separate recommendation, not this population's pick."},
     ]
 
 
@@ -547,6 +564,17 @@ def compute_homepage_funnel(patterns, signal_families):
     for p in paths:
         p["field"] = fields[p["id"]]
 
+    # REVERSE LINEAGE - which Magic Box possibilities were actually derived
+    # from each path. A real scan of magic_box_real.json["possibilities"]
+    # for any whose parent_path_ids cites this path's id - never invented,
+    # honestly an empty list where no possibility cites this path.
+    possibility_ids_by_path = {}
+    for p in magic_box["possibilities"]:
+        for pid in (p.get("parent_path_ids") or []):
+            possibility_ids_by_path.setdefault(pid, []).append(p["id"])
+    for p in paths:
+        p["derived_possibility_ids"] = possibility_ids_by_path.get(p["id"], [])
+
     path_ontology = {
         "classes": {
             "TRAJECTORY": 0,
@@ -601,17 +629,39 @@ def compute_homepage_funnel(patterns, signal_families):
         ],
     }
 
-    # NEW PRODUCTS - "make possibility physical": only the real finalists
-    # that survived the full funnel, never a hardcoded winner.
-    new_products_stage = {
-        "count": len(magic_box["finalists"]),
-        "products": [
-            {"id": f["id"], "name": f["name"], "friction_theme_name": f["friction_theme_name"],
-             "operator": f["operator"], "typical_market_price_usd": f["typical_market_price_usd"],
-             "economic_value": f["economic_value"], "feasibility": f["feasibility_2_5y"]["rating"]}
-            for f in magic_box["finalists"]
+    # READY TO TEST - evidence-driven, not a ranked top-N cut: the exact
+    # same rule src/real/innovations_real.py::innovation_state() uses for
+    # state "ready_to_test" (non-dominated AND Critic verdict SURVIVE AND
+    # grounded in a real research tension), computed independently here
+    # from criteria_real.json/critic_real.json so this module keeps its own
+    # declared dependency list - never magic_box["finalists"] (a top-3-by-
+    # pain-score cut that is Magic-Box-internal funnel-stage data, not a
+    # ranked "winner" set; several of those 3 currently fail this very rule
+    # on real Critic verdicts, which is exactly why finalist membership must
+    # never be read as "ready to test").
+    def _ready_to_test(concept):
+        grounded = (concept.get("why_here") or {}).get("consequence_basis") == "RESEARCH_TENSION"
+        return (bool(concept.get("is_non_dominated"))
+               and concept.get("critic_overall") == "SURVIVE"
+               and grounded)
+
+    criteria = _load("processed", "criteria_real.json")
+    ready = [c for c in criteria["concepts"] if _ready_to_test(c)]
+    ready_to_test_stage = {
+        "count": len(ready),
+        "innovations": [
+            {"id": c["id"], "name": c["name"], "friction_theme_name": c["friction_theme_name"],
+             "operator": c["operator"], "typical_market_price_usd": c["typical_market_price_usd"],
+             "economic_value": c["economic_value"], "feasibility": c["feasibility_2_5y"]["rating"]}
+            for c in ready
         ],
-        "bet": v["recommended_name"],
+        "method_note": "Non-dominated AND Critic verdict SURVIVE AND grounded in a real research "
+                       "tension - same rule as innovations_real.py's 'ready_to_test' state, never a "
+                       "top-3-by-pain-score cut.",
+        # The formal case's own separate, human-authored recommendation -
+        # kept as reference alongside (never blended into) the general
+        # population's evidence-driven ready-to-test set above.
+        "formal_case_bet": v["recommended_name"],
     }
 
     return {
@@ -621,7 +671,7 @@ def compute_homepage_funnel(patterns, signal_families):
         "formal_case_brief": formal_case_brief,
         "magic_box": magic_box_stage,
         "innovations": innovations_stage,
-        "new_products": new_products_stage,
+        "ready_to_test": ready_to_test_stage,
     }
 
 

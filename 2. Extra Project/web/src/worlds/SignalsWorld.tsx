@@ -513,7 +513,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
             <TraceableMetric label="Trend documents" value={trends?.article_count ?? "…"}
               onClick={() => setMetricFocus({ label: "Trend documents", value: trends?.article_count ?? "no verified data",
                 trace: "GET /api/trends -> data/processed/trend_corpus.json[\"article_count\"] == len(articles): real regulatory, technical-standard, industry-association, manufacturer, and syndicated-research documents individually fetched and archived by src/real/research_discovery_real.py, each with a credibility tier." })} />
-            <button onClick={() => setMetricFocus({ label: "Google Trends (search interest)", value: "NOT IMPLEMENTED",
+            <button onClick={() => setMetricFocus({ label: "Google Trends (search interest)", value: "Not implemented",
                 trace: "GET /api/sources -> data/processed/sources_real.json: the google_trends source is honestly recorded with status \"NOT_IMPLEMENTED\" - no search-interest connector exists in this pipeline. Shown as a real absence rather than faked or omitted." })}
               title="Click for why" style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
               <Pill tone="neutral">Google Trends: not connected</Pill>

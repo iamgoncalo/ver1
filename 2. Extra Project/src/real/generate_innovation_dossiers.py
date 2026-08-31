@@ -2,25 +2,40 @@
 """Innovation dossiers - public Extra Project artefacts.
 
 Writes web/public/innovation-dossiers/<innovation_id with ':' -> '_'>.pdf,
-one 3-page dossier per innovation in data/processed/innovations_real.json.
+one 5-page dossier per innovation in data/processed/innovations_real.json.
 
-Page 1  The idea            - proposition, concept figure (redrawn from the
-                              neutral drawing spec in web/public/concept-visuals,
-                              so the web SVG and the PDF figure are the same
-                              artefact), target user, mechanism, archetype,
-                              engineering envelope, state, why-now.
-Page 2  Why this idea exists - the 3-part why_here derivation verbatim, parent
-                              paths (name + epistemic class + falsifier test),
-                              design DNA, economics with both caveats,
-                              uncertainties, epistemic summary strip.
-Page 3  How to learn        - prototype state (CONCEPT_VISUAL = a schematic
-                              exists, nothing more), next experiment, kill
-                              criterion, critic dimensions, criteria summary,
-                              lineage/provenance; graveyard reason if rejected.
+Ten-section outline (spread across 5 pages so nothing is force-cramped):
+  Page 1  1. What is it?              - name + one-sentence proposition
+          2. Physical architecture    - product archetype (+ form_factor if
+                                        Agent 2 has added it), the redrawn
+                                        concept figure, mechanism/operator
+  Page 2  3. Why it exists            - the 3-part why_here derivation
+                                        verbatim, plus target user/context
+          4. Evidence and lineage     - parent paths (name, epistemic class,
+                                        falsifier test, reverse
+                                        derived_possibility_ids if present),
+                                        evidence ids, design-DNA table
+  Page 3  5. Comparable products      - the OBSERVED_COMPARABLE envelope rows
+                                        with their source/n, as real
+                                        comparables, not this concept's spec
+          6. Engineering envelope     - the full typed table (CADR, coverage,
+                                        acoustic, mass, power, dimensions)
+  Page 4  7. Economics                - price-weighted exposure + comparable
+                                        market median (explicitly not this
+                                        concept's price) + both caveats
+          8. Prototype                - prototype_state, honestly stating
+                                        nothing more exists
+          9. Experiment / next learning - next_experiment, kill_criterion
+  Page 5  10. What could kill it?     - state_why (rejected/challenged) or
+                                        kill_criterion + contradictions +
+                                        uncertainties, critic dimensions,
+                                        criteria summary, lineage/provenance
 
 Honesty rules (same as the rest of the pipeline):
 - every substantive string is taken from the stored JSON, never invented;
-- UNKNOWN stays UNKNOWN, epistemic types are printed next to the data;
+- UNKNOWN stays UNKNOWN, epistemic types are printed next to the data - only
+  their CASING is normalised for display (see LABEL_MAP / desnake_lead), the
+  words themselves are never changed or removed;
 - the obsolete funnel wording is never used.
 
 This file must not touch src/real/generate_innovation_disclosures.py or
@@ -29,6 +44,7 @@ web/public/innovation-disclosures/* (the formal case's artifacts).
 
 import json
 import os
+import re
 from collections import Counter
 
 from reportlab.lib.colors import HexColor
@@ -48,6 +64,7 @@ MARGIN = 48
 CONTENT_W = PAGE_W - 2 * MARGIN
 BOTTOM = 58
 FOOTER_Y = 36
+N_PAGES = 5
 
 # ---------------------------------------------------------------- palette
 INK = HexColor("#1a1d23")
@@ -85,6 +102,8 @@ TAG_COLORS = {
     "REJECT": RED,
     "TENSION": AMBER,
     "ASSUMPTION_TO_TEST": BLUE,
+    "NOT_MODELLED": GRAY,
+    "N/A": GRAY,
 }
 
 F = "Helvetica"
@@ -100,7 +119,7 @@ _REPL = {
     "⇄": "<->", "★": "*", "☆": "*", "✕": "x",
     "✓": "v", "™": "(TM)", "‘": "'", "’": "'",
     "“": '"', "”": '"', "•": "-", "…": "...",
-    " ": " ",
+    " ": " ",
 }
 
 
@@ -115,6 +134,84 @@ def S(text):
 
 def pretty_key(k):
     return S(k).replace("_", " ")
+
+
+# --------------------------------------------------------- epistemic labels
+# Every epistemic-type / status enum this pipeline actually produces, mapped
+# to a human, sentence-case phrase. The pipeline data itself never changes -
+# only how a bare enum token is *displayed* when our own code draws it as a
+# label or chip. Free-text sentences copied verbatim from the JSON (e.g.
+# state_why, detail fields) are never rewritten, even if they happen to
+# mention an enum mid-sentence - only strings that ARE a bare tag, or that
+# are a stored "TAG - clause" record (product_archetype/mechanism
+# epistemic_type, the per-field UNKNOWN notes), get relabelled.
+LABEL_MAP = {
+    "UNKNOWN": "Unknown",
+    "OBSERVED_COMPARABLE": "Observed comparable",
+    "REFERENCE_MARKET_PRICE": "Reference market price",
+    "PRESENT": "Present",
+    "MISSING_UNVERIFIED": "Missing / unverified",
+    "METHOD_CHOICE": "Method choice",
+    "DESIGN_RULE": "Design rule",
+    "PASS": "Pass",
+    "SURVIVE": "Survive",
+    "CHALLENGE": "Challenge",
+    "NEEDS_EVIDENCE": "Needs evidence",
+    "KILL": "Kill",
+    "REJECT": "Reject",
+    "TENSION": "Tension",
+    "ASSUMPTION_TO_TEST": "Assumption to test",
+    "CONCEPT_VISUAL": "Concept visual",
+    "OBSERVED": "Observed",
+    "RESEARCH_TENSION": "Research tension",
+    "FEASIBILITY_PRECEDENT": "Feasibility precedent",
+    "NOT_MODELLED": "Not modelled",
+    "N/A": "N/A",
+    "developing": "Developing",
+    "challenged": "Challenged",
+    "rejected": "Rejected",
+    "paused": "Paused",
+}
+
+_LEAD_RE = re.compile(r"^([A-Za-z][A-Za-z0-9_/]*)\s*[-—–]\s*(.*)$",
+                       re.S)
+
+
+def LBL(tag):
+    """Human, sentence-case label for a bare epistemic-type/status token."""
+    tag = "" if tag is None else str(tag)
+    if tag in LABEL_MAP:
+        return LABEL_MAP[tag]
+    if tag.isupper():
+        return tag.replace("_", " ").capitalize()
+    return tag
+
+
+def desnake_lead(text):
+    """For a stored 'TOKEN - clause' record, relabel only the leading token
+    (must be a known enum in LABEL_MAP) and keep the rest of the sentence
+    exactly as authored. Anything else is returned untouched."""
+    text = "" if text is None else str(text)
+    m = _LEAD_RE.match(text)
+    if not m:
+        return text
+    token, rest = m.group(1), m.group(2)
+    if token in LABEL_MAP:
+        return "%s - %s" % (LABEL_MAP[token], rest)
+    return text
+
+
+# friendly names for the engineering-envelope metrics (mirrors the web UI's
+# ENV_LABEL in InnovationsWorld.tsx so the two artefacts read consistently)
+ENV_LABEL = {
+    "performance_cadr_m3h": "clean-air delivery rate (CADR)",
+    "room_coverage_m2": "room coverage",
+    "acoustic_min_dba": "minimum noise",
+    "target_mass_kg": "target mass",
+    "target_power_w": "target power",
+    "target_dimensions": "target dimensions",
+    "reference_market_price_usd": "reference market price",
+}
 
 
 # ---------------------------------------------------------------- layout
@@ -152,13 +249,29 @@ class Flow:
             self.c.line(self.x, self.y, self.x + self.w, self.y)
         self._use(3)
 
-    def label(self, text, color=MUT, size=6.6):
+    def section(self, title, color=INK, size=10.6):
+        """Top-level numbered section header (sentence case, never typed in
+        caps - the rule above + bold weight carry the visual emphasis)."""
+        size *= self.k
+        self._use(5 * self.k)
+        if not self.dry and not self.overflow:
+            self.c.setStrokeColor(INK)
+            self.c.setLineWidth(1.1)
+            self.c.line(self.x, self.y, self.x + self.w, self.y)
+        self._use(size + 5 * self.k)
+        if not self.dry and not self.overflow:
+            self.c.setFont(FB, size)
+            self.c.setFillColor(color)
+            self.c.drawString(self.x, self.y, S(title))
+        self._use(4 * self.k)
+
+    def label(self, text, color=MUT, size=6.9):
         size *= self.k
         self._use(size + 3 * self.k)
         if not self.dry and not self.overflow:
             self.c.setFont(FB, size)
             self.c.setFillColor(color)
-            self.c.drawString(self.x, self.y, S(text).upper())
+            self.c.drawString(self.x, self.y, S(text))
         self._use(2.2 * self.k)
 
     def para(self, text, font=F, size=8.0, color=INK, gap=3.0, indent=0,
@@ -361,11 +474,11 @@ def draw_spec_figure(c, spec, x0, y_top, target_w):
 def page_chrome(c, innovation, page_no, section_title):
     name = S(innovation["name"])
     iid = S(innovation["innovation_id"])
-    # header (pages 2 and 3 get a compact one; page 1 draws its own title)
+    # header (pages 2-5 get a compact one; page 1 draws its own title)
     if page_no > 1:
         c.setFont(FB, 8.2)
         c.setFillColor(INK)
-        c.drawString(MARGIN, PAGE_H - 40, S(section_title).upper())
+        c.drawString(MARGIN, PAGE_H - 40, S(section_title))
         c.setFont(M, 7.2)
         c.setFillColor(MUT)
         c.drawRightString(PAGE_W - MARGIN, PAGE_H - 40, iid)
@@ -385,18 +498,46 @@ def page_chrome(c, innovation, page_no, section_title):
     brand_start = PAGE_W / 2 - stringWidth(brand, F, 6.6) / 2
     if left_end + 12 < brand_start:
         c.drawCentredString(PAGE_W / 2, FOOTER_Y, brand)
-    c.drawRightString(PAGE_W - MARGIN, FOOTER_Y, "page %d/3" % page_no)
+    c.drawRightString(PAGE_W - MARGIN, FOOTER_Y, "page %d/%d" % (page_no,
+                                                                 N_PAGES))
 
 
 NO_PARENTS_LINE = ("No parent paths - this innovation cites no tension or "
                    "assumption paths; its grounding is the friction evidence "
-                   "on page 1.")
+                   "in section 3, why it exists.")
 
-PROTO_MEANING = ("CONCEPT_VISUAL means a schematic exists, nothing more: no "
+PROTO_MEANING = ("Concept visual means a schematic exists, nothing more: no "
                  "digital model, no physical prototype, no test data.")
+
+# literal section-header strings, drawn verbatim by Flow.section() below and
+# reused by tests/test_dossiers.py to slice out one section's text - keep
+# these two definitions in sync.
+SECTION2_HEADER = "2. Physical architecture"
+SECTION3_HEADER = "3. Why it exists"
 
 
 # ---------------------------------------------------------------- page 1
+def render_page1_title(c, inn):
+    """Fixed-size title block; returns the vertical space it used."""
+    c.setFont(M, 8)
+    c.setFillColor(MUT)
+    c.drawString(MARGIN, PAGE_H - 46, S(inn["innovation_id"]))
+    state = inn["state"]
+    state_txt = LBL(state)
+    draw_chip(c, PAGE_W - MARGIN - stringWidth(state_txt, FB, 6.3) - 8,
+              PAGE_H - 46, state_txt, STATE_COLORS.get(state, GRAY))
+    c.setFont(FB, 16)
+    c.setFillColor(INK)
+    c.drawString(MARGIN, PAGE_H - 66, S(inn["name"]))
+    c.setFont(F, 8)
+    c.setFillColor(MUT)
+    c.drawString(MARGIN, PAGE_H - 79, "Innovation dossier")
+    c.setStrokeColor(INK)
+    c.setLineWidth(1.1)
+    c.line(MARGIN, PAGE_H - 86, PAGE_W - MARGIN, PAGE_H - 86)
+    return 96
+
+
 def render_page1(c, inn, spec, top_used, scale, dry):
     y_top = PAGE_H - top_used
     fig_w = 300.0
@@ -405,11 +546,13 @@ def render_page1(c, inn, spec, top_used, scale, dry):
     right_w = CONTENT_W - fig_w - gap
 
     full = Flow(c, MARGIN, CONTENT_W, y_top, BOTTOM, scale, dry)
-    full.label("Proposition", color=MUT)
-    full.para(inn["proposition"], size=8.0, gap=6)
+    full.section("1. What is it?")
+    full.para(inn["proposition"], size=8.6, gap=8)
 
+    full.section(SECTION2_HEADER)
     region_top = full.y
-    # left column: the concept figure + its CONCEPT_VISUAL caption
+
+    # left column: the concept figure + its concept-visual caption
     left = Flow(c, MARGIN, fig_w, region_top, BOTTOM, scale, dry)
     fig_h = 420.0 / 640.0 * fig_w
     left._use(fig_h)
@@ -420,7 +563,7 @@ def render_page1(c, inn, spec, top_used, scale, dry):
     arts = inn.get("artifacts") or []
     if arts:
         prov_note = arts[0].get("provenance", {}).get("note", "")
-    left.chip_line([("CONCEPT_VISUAL", BLUE)], lead_text="Figure:",
+    left.chip_line([(LBL("CONCEPT_VISUAL"), BLUE)], lead_text="Figure:",
                    lead_size=7.2)
     if prov_note:
         left.para(prov_note, size=6.4, color=MUT, gap=2)
@@ -429,104 +572,34 @@ def render_page1(c, inn, spec, top_used, scale, dry):
                                           arts[0].get("path", "")),
                   font=M, size=6.0, color=FAINT, gap=0)
 
-    # right column: target user, mechanism, archetype
+    # right column: product archetype (+ form_factor if present) + mechanism
     right = Flow(c, right_x, right_w, region_top, BOTTOM, scale, dry)
-    right.label("Target user / context", color=TEAL)
-    right.para(inn["target_user_context"]["evidence_based"], size=7.4)
-    right.para(inn["target_user_context"]["persona"], font=FO, size=7.0,
-               color=MUT, gap=5)
-
-    mech = inn["mechanism"]
-    right.label("Mechanism - method choice", color=BLUE)
-    right.para("%s - %s" % (mech["operator"], mech["definition"]), font=FB,
-               size=7.8, gap=1.5)
-    right.para(mech["epistemic_type"], size=6.6, color=MUT, gap=5)
-
     pa = inn["product_archetype"]
-    right.label("Product archetype - design rule", color=BLUE)
-    unknown_keys = []
-    unknown_val = None
+    right.label("Product archetype", color=BLUE)
     for k, v in pa.items():
         if k == "epistemic_type":
             continue
-        if str(v).startswith("UNKNOWN"):
-            unknown_keys.append(pretty_key(k))
-            unknown_val = v
-        else:
-            right.kv(pretty_key(k) + ":", v, key_size=7.0, val_size=7.0)
-    if unknown_keys:
-        right.para("%s: %s" % (", ".join(unknown_keys), unknown_val),
-                   size=6.6, color=MUT, gap=3)
-    right.para(pa.get("epistemic_type", ""), size=6.4, color=MUT, gap=0)
+        right.kv(pretty_key(k) + ":", desnake_lead(v), key_size=7.0,
+                 val_size=7.0)
+    if "form_factor" not in pa:
+        right.para("Form factor: not yet classified.", font=FO, size=6.6,
+                   color=MUT, gap=2)
+    right.para(desnake_lead(pa.get("epistemic_type", "")), size=6.4,
+               color=MUT, gap=5)
 
-    # continue full-width below whichever column is deeper
-    y_cont = min(left.y, right.y) - 10 * scale
-    lower = Flow(c, MARGIN, CONTENT_W, y_cont, BOTTOM, scale, dry)
-    lower.label("Engineering envelope", color=TEAL)
-    ee = inn["engineering_envelope"]
-    if "comparable_basis" in ee:
-        lower.para("comparable basis: " + ee["comparable_basis"], size=6.8,
-                   color=MUT, gap=3)
-    c0, c1, c2 = 0, 132, 372
-    lower.row([(c0, c1 - c0 - 6, "metric", FB, 6.4, MUT),
-               (c1, c2 - c1 - 6, "value from verified comparables", FB, 6.4, MUT),
-               (c2, CONTENT_W - c2, "epistemic type", FB, 6.4, MUT)], gap=1)
-    if not dry:
-        c.setStrokeColor(RULE)
-        c.setLineWidth(0.6)
-        c.line(MARGIN, lower.y - 1.5, MARGIN + CONTENT_W, lower.y - 1.5)
-    lower.gap(3)
-    for key, block in ee.items():
-        if not isinstance(block, dict) or "epistemic_type" not in block:
-            continue
-        et = block["epistemic_type"]
-        if et == "OBSERVED_COMPARABLE":
-            val = "%s-%s %s  (n=%s comparables)" % (
-                block.get("min"), block.get("max"), block.get("unit", ""),
-                block.get("n_comparables"))
-        elif et == "REFERENCE_MARKET_PRICE":
-            val = ("median $%s (range $%s-$%s, n=%s) - market price of "
-                   "affected products today, not a proposed price" % (
-                       block.get("median"), block.get("min"),
-                       block.get("max"), block.get("n_comparables")))
-        else:
-            val = block.get("note", "no comparable publishes this")
-        lower.row([(c0, c1 - c0 - 6, pretty_key(key), FB, 7.2, INK),
-                   (c1, c2 - c1 - 6, val, F, 7.2,
-                    INK if et != "UNKNOWN" else MUT),
-                   (c2, CONTENT_W - c2, et, MB, 6.2, tag_color(et))])
-    lower.gap(4)
+    arch = inn.get("architecture")
+    if arch:
+        right.label("System architecture", color=MUT)
+        right.para(desnake_lead(arch), size=6.8, color=MUT, gap=5)
 
-    lower.chip_line([(inn["state"].upper(),
-                      STATE_COLORS.get(inn["state"], GRAY))],
-                    lead_text="State:", lead_size=8.4)
-    lower.para(inn["state_why"], size=7.4, color=MUT, gap=6)
+    mech = inn["mechanism"]
+    right.label("Method choice", color=BLUE)
+    right.para("%s - %s" % (mech["operator"], mech["definition"]), font=FB,
+               size=7.8, gap=1.5)
+    right.para(desnake_lead(mech.get("epistemic_type", "")), size=6.6,
+               color=MUT, gap=0)
 
-    lower.label("Why now - the observed reality", color=TEAL)
-    lower.para(inn["why_here"]["reality"], size=7.6, gap=0)
-
-    return not (full.overflow or left.overflow or right.overflow or
-                lower.overflow)
-
-
-def render_page1_title(c, inn):
-    """Fixed-size title block; returns the vertical space it used."""
-    c.setFont(M, 8)
-    c.setFillColor(MUT)
-    c.drawString(MARGIN, PAGE_H - 46, S(inn["innovation_id"]))
-    state = inn["state"]
-    draw_chip(c, PAGE_W - MARGIN - stringWidth(state.upper(), FB, 6.3) - 8,
-              PAGE_H - 46, state.upper(), STATE_COLORS.get(state, GRAY))
-    c.setFont(FB, 16)
-    c.setFillColor(INK)
-    c.drawString(MARGIN, PAGE_H - 66, S(inn["name"]))
-    c.setFont(F, 8)
-    c.setFillColor(MUT)
-    c.drawString(MARGIN, PAGE_H - 79, "Innovation dossier  -  1. The idea")
-    c.setStrokeColor(INK)
-    c.setLineWidth(1.1)
-    c.line(MARGIN, PAGE_H - 86, PAGE_W - MARGIN, PAGE_H - 86)
-    return 96
+    return not (full.overflow or left.overflow or right.overflow)
 
 
 # ---------------------------------------------------------------- page 2
@@ -537,45 +610,69 @@ def render_page2(c, inn, paths_by_id, scale, dry):
     right = Flow(c, MARGIN + col_w + 18, col_w, y_top, BOTTOM, scale, dry)
 
     wh = inn["why_here"]
-    left.label("The derivation - three parts, each labelled", color=MUT)
-    left.chip_line([("OBSERVED", TEAL)], lead_text="1. Reality",
+    left.section(SECTION3_HEADER)
+    left.chip_line([(LBL("OBSERVED"), TEAL)], lead_text="Reality",
                    lead_size=7.8, gap=1.5)
-    left.para(wh["reality"], size=7.3, gap=4)
-    left.chip_line([("METHOD_CHOICE", BLUE)], lead_text="2. Transformation",
+    left.para(wh["reality"], size=7.3, gap=3)
+    tuc = inn.get("target_user_context") or {}
+    if tuc.get("evidence_based"):
+        left.para(tuc["evidence_based"], size=7.0, color=MUT, gap=2)
+    if tuc.get("persona"):
+        left.para(desnake_lead(tuc["persona"]), font=FO, size=6.7,
+                  color=MUT, gap=5)
+
+    left.chip_line([(LBL("METHOD_CHOICE"), BLUE)], lead_text="Transformation",
                    lead_size=7.8, gap=1.5)
     left.para(wh["transformation"], size=7.3, gap=4)
-    left.chip_line([(wh.get("consequence_basis", ""), BLUE)],
-                   lead_text="3. Product consequence", lead_size=7.8, gap=1.5)
+
+    cb = wh.get("consequence_basis", "")
+    left.chip_line([(LBL(cb), BLUE)],
+                   lead_text="Product consequence", lead_size=7.8, gap=1.5)
     left.para(wh["product_consequence"], size=7.3, gap=6)
 
-    left.label("Parent paths", color=MUT)
+    # right column ------------------------------------------------------
+    right.section("4. Evidence and lineage")
+    right.label("Parent paths", color=MUT)
     parent_ids = inn.get("parent_path_ids") or []
     seen_titles = []
     if not parent_ids:
-        left.para(NO_PARENTS_LINE, font=FO, size=7.2, color=MUT, gap=4)
+        right.para(NO_PARENTS_LINE, font=FO, size=6.9, color=MUT, gap=4)
     for pid in parent_ids:
         p = paths_by_id.get(pid)
         if p is None:
-            left.para(pid, font=M, size=7, color=MUT)
+            right.para(pid, font=M, size=7, color=MUT)
             continue
-        left.chip_line([(p["epistemic_class"], tag_color(p["epistemic_class"]))],
-                       lead_text="%s - %s" % (pid, p["name"]), lead_size=7.2,
-                       gap=1.2)
-        left.kv("test:", p["test"]["text"], key_size=6.8, val_size=6.8,
-                key_color=MUT, val_color=INK, gap=3.2)
+        right.chip_line(
+            [(LBL(p["epistemic_class"]), tag_color(p["epistemic_class"]))],
+            lead_text="%s - %s" % (pid, p["name"]), lead_size=7.0, gap=1.2)
+        right.kv("test:", p["test"]["text"], key_size=6.6, val_size=6.6,
+                key_color=MUT, val_color=INK, gap=2.4)
+        derived = p.get("derived_possibility_ids")
+        if derived:
+            right.para("derived possibilities: " + ", ".join(derived),
+                      size=6.2, color=MUT, gap=2)
         for ev in p.get("field", {}).get("supporting_evidence", []):
             title = ev.get("title")
             if title and title not in seen_titles:
                 seen_titles.append(title)
-    left.gap(2)
-    left.kv("evidence ids:", ", ".join(inn.get("evidence_ids") or []),
-            key_size=7.0, val_size=7.0, val_color=MUT, gap=3)
-    if seen_titles:
-        left.label("Field evidence behind these paths (titles)", color=MUT)
-        for title in seen_titles:
-            left.para("- " + title, size=6.4, color=MUT, gap=0.8)
+    right.gap(2)
+    right.kv("evidence ids:", ", ".join(inn.get("evidence_ids") or []),
+            key_size=6.8, val_size=6.8, val_color=MUT, gap=3)
 
-    # right column ------------------------------------------------------
+    assumptions = inn.get("assumptions") or {}
+    if assumptions.get("ids"):
+        right.kv("category assumptions:", ", ".join(assumptions["ids"]),
+                 key_size=6.8, val_size=6.8, gap=3)
+    elif assumptions.get("note"):
+        right.kv("category assumptions:", assumptions["note"], key_size=6.8,
+                 val_size=6.4, val_color=MUT, gap=3)
+
+    if seen_titles:
+        right.label("Field evidence behind these paths (titles)", color=MUT)
+        for title in seen_titles:
+            right.para("- " + title, size=6.2, color=MUT, gap=0.8)
+    right.gap(3)
+
     right.label("Design DNA", color=MUT)
     for letter, row in inn["design_dna"].items():
         status = row.get("status", "")
@@ -585,159 +682,207 @@ def render_page2(c, inn, paths_by_id, scale, dry):
             detail += "  [" + ", ".join(row["brands"]) + "]"
         if row.get("id"):
             head += "  (%s)" % row["id"]
-        right.chip_line([(status, tag_color(status))], lead_text=head,
-                        lead_size=6.9, gap=0.6)
-        right.para(detail, size=6.4, color=MUT, gap=2.2)
-    right.gap(3)
-
-    econ = inn.get("economics") or {}
-    right.label("Economics - relative indicators only", color=MUT)
-    right.kv("price-weighted exposure:",
-             "$%s" % econ.get("price_weighted_exposure_usd"),
-             key_size=7.2, val_size=7.2, gap=1.5)
-    right.para(econ.get("caveat", ""), size=6.3, color=MUT, gap=3)
-    right.kv("comparable market median:",
-             "$%s (n=%s products) - not this concept's price" % (
-                 econ.get("comparable_market_median_usd"),
-                 econ.get("comparable_market_median_n_products")),
-             key_size=7.2, val_size=7.2, gap=1.5)
-    right.para(econ.get("comparable_market_median_caveat", ""), size=6.3,
-               color=MUT, gap=4)
-
-    assumptions = inn.get("assumptions") or {}
-    if assumptions.get("ids"):
-        right.kv("category assumptions:", ", ".join(assumptions["ids"]),
-                 key_size=7.0, val_size=7.0, gap=3)
-    elif assumptions.get("note"):
-        right.kv("category assumptions:", assumptions["note"], key_size=7.0,
-                 val_size=6.6, val_color=MUT, gap=3)
-
-    right.label("Uncertainties", color=MUT)
-    for u in (inn.get("uncertainties") or []):
-        right.para("- " + u, size=6.8, color=INK, gap=1.5)
-    if not (inn.get("uncertainties") or []):
-        right.para("- none recorded", size=6.8, color=MUT, gap=1.5)
-    contradictions = inn.get("contradictions") or []
-    right.gap(2)
-    right.label("Contradictions", color=MUT)
-    if contradictions:
-        for ctr in contradictions:
-            right.para("- " + str(ctr), size=6.8, gap=1.5)
-    else:
-        right.para("- none recorded for this innovation", size=6.8,
-                   color=MUT, gap=1.5)
-    right.gap(3)
-
-    # epistemic summary strip
-    right.label("Observed vs estimated vs unknown", color=MUT)
-    ee = inn["engineering_envelope"]
-    observed = [pretty_key(k) for k, v in ee.items()
-                if isinstance(v, dict)
-                and v.get("epistemic_type") == "OBSERVED_COMPARABLE"]
-    unknown = [pretty_key(k) for k, v in ee.items()
-               if isinstance(v, dict) and v.get("epistemic_type") == "UNKNOWN"]
-    dna = inn["design_dna"]
-    present = [k for k, v in dna.items() if v.get("status") == "PRESENT"]
-    missing = [k for k, v in dna.items()
-               if v.get("status") == "MISSING_UNVERIFIED"]
-    method = [k for k, v in dna.items() if v.get("status") == "METHOD_CHOICE"]
-    right.kv("observed:",
-             "friction stats; envelope: %s; DNA %s" % (
-                 ", ".join(observed) or "none", "/".join(present) or "-"),
-             key_size=6.6, val_size=6.6, key_color=TEAL, gap=1.5)
-    right.kv("method choice:",
-             "operator, archetype design rule; DNA %s" % (
-                 "/".join(method) or "-"),
-             key_size=6.6, val_size=6.6, key_color=BLUE, gap=1.5)
-    right.kv("unknown:",
-             "envelope: %s; persona; DNA %s" % (
-                 ", ".join(unknown) or "none", "/".join(missing) or "-"),
-             key_size=6.6, val_size=6.6, key_color=GRAY, gap=0)
+        right.chip_line([(LBL(status), tag_color(status))], lead_text=head,
+                        lead_size=6.7, gap=0.6)
+        right.para(detail, size=6.2, color=MUT, gap=2.0)
 
     return not (left.overflow or right.overflow)
 
 
 # ---------------------------------------------------------------- page 3
-def render_page3(c, inn, meta, scale, dry):
+def render_page3(c, inn, scale, dry):
+    y_top = PAGE_H - 56
+    fl = Flow(c, MARGIN, CONTENT_W, y_top, BOTTOM, scale, dry)
+    ee = inn["engineering_envelope"]
+
+    fl.section("5. Comparable products")
+    if "comparable_basis" in ee:
+        fl.kv("comparable set:", ee["comparable_basis"], key_size=7.0,
+              val_size=7.0, gap=3)
+    if ee.get("form_factor_note"):
+        fl.para(ee["form_factor_note"], font=FO, size=6.8, color=AMBER,
+                gap=4)
+    observed = [(k, v) for k, v in ee.items()
+                if isinstance(v, dict)
+                and v.get("epistemic_type") == "OBSERVED_COMPARABLE"]
+    if not observed:
+        fl.para("No observed-comparable metrics recorded for this concept.",
+                size=7.2, color=MUT, gap=4)
+    for key, block in observed:
+        label = ENV_LABEL.get(key, pretty_key(key))
+        fl.kv(label + ":", "%s-%s %s across %s real comparables" % (
+                  block.get("min"), block.get("max"), block.get("unit", ""),
+                  block.get("n_comparables")),
+              key_size=7.2, val_size=7.2, gap=1.4)
+        if block.get("source"):
+            fl.para("source: " + block["source"], size=6.2, color=FAINT,
+                    gap=3)
+    fl.gap(4)
+
+    fl.section("6. Engineering envelope")
+    c0, c1, c2 = 0, 132, 372
+    fl.row([(c0, c1 - c0 - 6, "metric", FB, 6.4, MUT),
+            (c1, c2 - c1 - 6, "value from verified comparables", FB, 6.4,
+             MUT),
+            (c2, CONTENT_W - c2, "epistemic type", FB, 6.4, MUT)], gap=1)
+    if not dry:
+        c.setStrokeColor(RULE)
+        c.setLineWidth(0.6)
+        c.line(MARGIN, fl.y - 1.5, MARGIN + CONTENT_W, fl.y - 1.5)
+    fl.gap(3)
+    skip_keys = {"comparable_basis", "reference_market_price_usd",
+                 "form_factor_note"}
+    for key, block in ee.items():
+        if key in skip_keys or not isinstance(block, dict) \
+                or "epistemic_type" not in block:
+            continue
+        et = block["epistemic_type"]
+        if et == "OBSERVED_COMPARABLE":
+            val = "%s-%s %s  (n=%s comparables)" % (
+                block.get("min"), block.get("max"), block.get("unit", ""),
+                block.get("n_comparables"))
+        else:
+            val = block.get("note", "no comparable publishes this")
+        fl.row([(c0, c1 - c0 - 6, ENV_LABEL.get(key, pretty_key(key)), FB,
+                 7.2, INK),
+                (c1, c2 - c1 - 6, val, F, 7.2,
+                 INK if et != "UNKNOWN" else MUT),
+                (c2, CONTENT_W - c2, LBL(et), MB, 6.2, tag_color(et))])
+
+    return not fl.overflow
+
+
+# ---------------------------------------------------------------- page 4
+def render_page4(c, inn, scale, dry):
     y_top = PAGE_H - 56
     fl = Flow(c, MARGIN, CONTENT_W, y_top, BOTTOM, scale, dry)
 
-    if inn["state"] == "rejected":
-        fl.chip_line([("REJECTED - GRAVEYARD", RED)],
-                     lead_text="Where this idea stands:", lead_size=8.6,
-                     gap=1.5)
-        fl.para(inn["state_why"], size=7.8, color=RED, gap=6)
-    else:
-        fl.chip_line([(inn["state"].upper(),
-                       STATE_COLORS.get(inn["state"], GRAY))],
-                     lead_text="Where this idea stands:", lead_size=8.6,
-                     gap=1.5)
-        fl.para(inn["state_why"], size=7.8, color=MUT, gap=6)
+    fl.section("7. Economics")
+    econ = inn.get("economics") or {}
+    fl.kv("price-weighted exposure:",
+          "$%s" % econ.get("price_weighted_exposure_usd"),
+          key_size=7.4, val_size=7.4, gap=1.5)
+    fl.para(econ.get("caveat", ""), size=6.6, color=MUT, gap=4)
+    fl.kv("comparable market median:",
+          "$%s (n=%s products) - not this concept's price" % (
+              econ.get("comparable_market_median_usd"),
+              econ.get("comparable_market_median_n_products")),
+          key_size=7.4, val_size=7.4, gap=1.5)
+    fl.para(econ.get("comparable_market_median_caveat", ""), size=6.6,
+            color=MUT, gap=4)
+    tpr = inn.get("target_price_range") or {}
+    if tpr.get("note"):
+        fl.kv("target price:", "%s - %s" % (LBL(tpr.get("status", "")),
+                                             tpr["note"]),
+              key_size=7.0, val_size=6.8, val_color=MUT, gap=4)
+    fl.gap(2)
 
-    fl.label("Prototype state", color=BLUE)
-    fl.chip_line([(inn["prototype_state"], BLUE)], gap=1.5)
+    fl.section("8. Prototype")
+    fl.chip_line([(LBL(inn["prototype_state"]), BLUE)], lead_text="State:",
+                 lead_size=8.0, gap=1.5)
     fl.para(PROTO_MEANING, size=7.2, color=MUT, gap=2)
     arts = inn.get("artifacts") or []
     if arts:
         fl.para(arts[0].get("provenance", {}).get("note", ""), size=6.6,
                 color=FAINT, gap=5)
+    fl.gap(2)
 
+    fl.section("9. Experiment and next learning")
     fl.label("Next experiment", color=TEAL)
     fl.para(inn["next_experiment"], size=7.8, gap=5)
     fl.label("Kill criterion", color=RED)
-    fl.para(inn["kill_criterion"], size=7.8, gap=6)
+    fl.para(inn["kill_criterion"], size=7.8, gap=4)
+
+    return not fl.overflow
+
+
+# ---------------------------------------------------------------- page 5
+def render_page5(c, inn, meta, scale, dry):
+    y_top = PAGE_H - 56
+    fl = Flow(c, MARGIN, CONTENT_W, y_top, BOTTOM, scale, dry)
+
+    fl.section("10. What could kill it?")
+    state = inn["state"]
+    if state == "rejected":
+        fl.chip_line([("rejected - graveyard", RED)],
+                     lead_text="Where this idea stands:", lead_size=8.4,
+                     gap=1.5)
+        fl.para(inn["state_why"], size=7.6, color=RED, gap=5)
+    else:
+        fl.chip_line([(LBL(state), STATE_COLORS.get(state, GRAY))],
+                     lead_text="Where this idea stands:", lead_size=8.4,
+                     gap=1.5)
+        fl.para(inn["state_why"], size=7.6, color=MUT, gap=5)
+
+    fl.kv("kill criterion:", inn.get("kill_criterion", ""), key_size=7.2,
+          val_size=7.2, val_color=INK, gap=3)
+    contradictions = inn.get("contradictions") or []
+    if contradictions:
+        fl.label("Contradictions", color=MUT)
+        for ctr in contradictions:
+            fl.para("- " + str(ctr), size=6.8, gap=1.3)
+    uncertainties = inn.get("uncertainties") or []
+    fl.label("Uncertainties", color=MUT)
+    if uncertainties:
+        for u in uncertainties:
+            fl.para("- " + u, size=6.8, color=INK, gap=1.3)
+    else:
+        fl.para("- none recorded", size=6.8, color=MUT, gap=1.3)
+    fl.gap(3)
 
     fl.label("Critic dimensions", color=MUT)
     c0, c1, c2 = 0, 96, 196
     for dim, row in inn["critic_dimensions"].items():
-        fl.row([(c0, c1 - c0 - 8, dim, FB, 7.0, INK),
-                (c1, c2 - c1 - 8, row.get("verdict", ""), MB, 6.4,
+        fl.row([(c0, c1 - c0 - 8, LBL(dim), FB, 7.0, INK),
+                (c1, c2 - c1 - 8, LBL(row.get("verdict", "")), MB, 6.4,
                  tag_color(row.get("verdict", ""))),
                 (c2, CONTENT_W - c2, row.get("reasoning", ""), F, 6.8, MUT)],
-               gap=1.8)
-    fl.kv("critic overall:", inn.get("critic_overall", ""), key_size=7.4,
-          val_size=7.4, val_color=tag_color(inn.get("critic_overall", "")),
-          gap=6)
+               gap=1.6)
+    fl.kv("critic overall:", LBL(inn.get("critic_overall", "")),
+          key_size=7.2, val_size=7.2,
+          val_color=tag_color(inn.get("critic_overall", "")), gap=5)
 
     fl.label("Criteria results", color=MUT)
     counts = Counter(r["status"] for r in inn["criteria_results"].values())
-    fl.para("  -  ".join("%s: %d" % (s, n) for s, n in
+    fl.para("  -  ".join("%s: %d" % (LBL(s), n) for s, n in
                          sorted(counts.items(), key=lambda kv: -kv[1])),
-            font=M, size=7.0, color=MUT, gap=3)
+            font=M, size=6.8, color=MUT, gap=3)
     flagged = [(cid, r) for cid, r in inn["criteria_results"].items()
                if r["status"] in ("KILL", "CHALLENGE")]
     if flagged:
         for cid, r in flagged:
             fl.row([(0, 30, cid, FB, 7.0, INK),
-                    (34, 66, r["status"], MB, 6.4, tag_color(r["status"])),
+                    (34, 66, LBL(r["status"]), MB, 6.4,
+                     tag_color(r["status"])),
                     (104, CONTENT_W - 104, r.get("note", ""), F, 6.8, MUT)],
-                   gap=1.8)
+                   gap=1.6)
     else:
-        fl.para("no KILL or CHALLENGE rows - remaining criteria are PASS or "
-                "NEEDS_EVIDENCE (see counts above)", size=6.8, color=MUT,
+        fl.para("no kill or challenge rows - remaining criteria are pass or "
+                "needs-evidence (see counts above)", size=6.6, color=MUT,
                 gap=2)
     fl.gap(4)
 
-    fl.label("Lineage / provenance", color=MUT)
+    fl.label("Lineage and provenance", color=MUT)
     rh = inn.get("run_history") or {}
-    fl.kv("generated by:", meta.get("generated_by", ""), key_size=6.8,
-          val_size=6.8, val_font=M, val_color=MUT, gap=1.2)
+    fl.kv("generated by:", meta.get("generated_by", ""), key_size=6.6,
+          val_size=6.6, val_font=M, val_color=MUT, gap=1.1)
     for k, v in rh.items():
-        fl.kv(pretty_key(k) + ":", v, key_size=6.8, val_size=6.2, val_font=M,
-              val_color=MUT, gap=1.2)
+        fl.kv(pretty_key(k) + ":", v, key_size=6.6, val_size=6.0, val_font=M,
+              val_color=MUT, gap=1.1)
+    arts = inn.get("artifacts") or []
     if arts:
         prov = arts[0].get("provenance", {})
         fl.kv("figure source:",
               "%s  (generated %s by %s)" % (arts[0].get("path", ""),
                                             prov.get("generated_at", ""),
                                             prov.get("tool", "")),
-              key_size=6.8, val_size=6.2, val_font=M, val_color=MUT, gap=1.2)
+              key_size=6.6, val_size=6.0, val_font=M, val_color=MUT, gap=1.1)
     fl.kv("data source:",
           "data/processed/innovations_real.json + data/processed/"
           "funnel_real.json (deterministic; no invented fields)",
-          key_size=6.8, val_size=6.2, val_font=M, val_color=MUT, gap=1.2)
+          key_size=6.6, val_size=6.0, val_font=M, val_color=MUT, gap=1.1)
     fl.kv("dossier generator:", "src/real/generate_innovation_dossiers.py",
-          key_size=6.8, val_size=6.2, val_font=M, val_color=MUT, gap=0)
+          key_size=6.6, val_size=6.0, val_font=M, val_color=MUT, gap=0)
 
     return not fl.overflow
 
@@ -770,25 +915,37 @@ def build_dossier(inn, paths_by_id, meta, out_path):
     with open(spec_file) as fh:
         spec = json.load(fh)
 
-    # page 1
+    # page 1 - 1. What is it? / 2. Physical architecture
     top_used = render_page1_title(c, inn)
     fit_and_render(
         lambda cv, scale, dry: render_page1(cv, inn, spec, top_used, scale,
                                             dry), c)
-    page_chrome(c, inn, 1, "The idea")
+    page_chrome(c, inn, 1, "1-2. What is it / physical architecture")
     c.showPage()
 
-    # page 2
+    # page 2 - 3. Why it exists / 4. Evidence and lineage
     fit_and_render(
         lambda cv, scale, dry: render_page2(cv, inn, paths_by_id, scale,
                                             dry), c)
-    page_chrome(c, inn, 2, "2. Why this idea exists")
+    page_chrome(c, inn, 2, "3-4. Why it exists / evidence and lineage")
     c.showPage()
 
-    # page 3
+    # page 3 - 5. Comparable products / 6. Engineering envelope
     fit_and_render(
-        lambda cv, scale, dry: render_page3(cv, inn, meta, scale, dry), c)
-    page_chrome(c, inn, 3, "3. How to learn")
+        lambda cv, scale, dry: render_page3(cv, inn, scale, dry), c)
+    page_chrome(c, inn, 3, "5-6. Comparable products / engineering envelope")
+    c.showPage()
+
+    # page 4 - 7. Economics / 8. Prototype / 9. Experiment and next learning
+    fit_and_render(
+        lambda cv, scale, dry: render_page4(cv, inn, scale, dry), c)
+    page_chrome(c, inn, 4, "7-9. Economics / prototype / next learning")
+    c.showPage()
+
+    # page 5 - 10. What could kill it?
+    fit_and_render(
+        lambda cv, scale, dry: render_page5(cv, inn, meta, scale, dry), c)
+    page_chrome(c, inn, 5, "10. What could kill it")
     c.showPage()
 
     c.save()

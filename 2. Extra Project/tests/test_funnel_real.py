@@ -44,7 +44,18 @@ class TestA_RealCountsMatchIndependentRecount(unittest.TestCase):
         with open(os.path.join(ROOT, "data", "processed", "magic_box_real.json"), encoding="utf-8") as fh:
             mb = json.load(fh)
             self.assertEqual(stages["innovations"]["count"], len(mb["possibilities"]))
-            self.assertEqual(stages["finalists"]["count"], len(mb["finalists"]))
+        with open(os.path.join(ROOT, "data", "processed", "criteria_real.json"), encoding="utf-8") as fh:
+            crit = json.load(fh)
+            # "ready_to_test" replaced the old tournament-language "finalists"
+            # stage: it is now an independent recount of criteria_real.json,
+            # not len(magic_box_real.json["finalists"]) (a top-3-by-pain cut
+            # that must never be presented as "the" ready-to-test population).
+            expected_ready = sum(
+                1 for c in crit["concepts"]
+                if bool(c.get("is_non_dominated")) and c.get("critic_overall") == "SURVIVE"
+                and (c.get("why_here") or {}).get("consequence_basis") == "RESEARCH_TENSION"
+            )
+            self.assertEqual(stages["ready_to_test"]["count"], expected_ready)
         with open(os.path.join(ROOT, "data", "processed", "criteria_real.json"), encoding="utf-8") as fh:
             self.assertEqual(stages["criteria"]["count"], len(json.load(fh)["criteria_library"]))
 

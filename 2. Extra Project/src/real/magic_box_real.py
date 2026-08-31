@@ -107,7 +107,106 @@ OPERATOR_PRODUCT_HINTS = {
 }
 
 
-def compute_product_conditions(theme_id, operator):
+# --- FORM_FACTOR_RULE ------------------------------------------------------
+# A second, separate METHOD_CHOICE layer, same pattern as THEME_OPERATORS:
+# authored once, applied deterministically, never per-run randomness. It
+# answers a narrower question than OPERATOR_PRODUCT_HINTS above ("is it
+# mobile?"): which of a fixed set of PHYSICAL TOPOLOGY classes a concept's
+# silhouette should use, so genuinely different concepts render as genuinely
+# different shapes instead of all defaulting to the same tower(). Every rule
+# below is derived from an operator's own fixed OPERATORS[...] definition,
+# from a friction theme's own THEMES[...] description, or from a possibility's
+# own authored POSSIBILITY_NAMES text - never invented per-concept.
+FORM_FACTOR_TOPOLOGIES = {
+    "tower": "Standalone room-scale unit - the room-fixed default shape when no "
+             "operator/theme signal implies otherwise.",
+    "wall": "Fixed, wall-mounted flat panel - implied by an operator whose own "
+            "definition is about receding into the environment (AMBIENT).",
+    "window": "Frame mounted in a window opening - declared for future concepts "
+              "whose operator/theme implies an intake/exhaust boundary at a "
+              "window; no current possibility triggers it (never forced).",
+    "portable": "Small handheld/tabletop personal-scale unit - PERSONALISE "
+                "applied to a theme that is not itself about direct individual "
+                "physical exposure.",
+    "distributed": "Several small nodes instead of one system - the literal "
+                   "structural meaning of DISTRIBUTE.",
+    "furniture_integrated": "Embedded in a furniture silhouette - MERGE is "
+                            "defined as combining functions/objects, so a "
+                            "MERGE-derived concept structurally becomes part "
+                            "of another object rather than standing alone.",
+    "mobile": "Wheeled/relocatable tower - MOVE is defined as changing physical "
+              "location; CROSS_CATEGORY_TRANSFER always carries donor_state "
+              "MISSING in this pipeline (no verified donor tells us the "
+              "transferred capability's real shape), so it is conservatively "
+              "treated the same way unless a stronger signal (see wearable "
+              "override below) applies.",
+    "wearable_personal": "Worn on/carried against the body - PERSONALISE "
+                         "applied to a theme that is itself about direct "
+                         "individual physical exposure (ozone_odor_safety), "
+                         "or a possibility whose own authored name says "
+                         "'wearable'/'clip'.",
+    "other": "No operator/theme/name signal above matched - declared default "
+             "for any future operator this table does not yet cover, never a "
+             "guessed shape.",
+}
+
+# Friction themes whose own THEMES[...] description is about a direct
+# individual physical exposure (breathing/skin/irritation), not a general
+# room-level or economic/service friction. See taxonomy_real.py::THEMES -
+# ozone_odor_safety's own description is "Ozone / smell / irritation": a
+# bodily exposure, unlike e.g. value_effectiveness ("does it actually clean
+# the air") which is about performance, not exposure.
+INDIVIDUAL_EXPOSURE_THEMES = {"ozone_odor_safety"}
+
+# Operators whose own fixed OPERATORS[...] definition directly implies a
+# physical topology (see FORM_FACTOR_TOPOLOGIES for the reasoning behind
+# each mapping). Operators absent here have no such structural implication
+# and fall through to the "tower" declared default in compute_form_factor -
+# never guessed per possibility.
+FORM_FACTOR_RULE = {
+    "DISTRIBUTE": "distributed",
+    "MERGE": "furniture_integrated",
+    "MOVE": "mobile",
+    "CROSS_CATEGORY_TRANSFER": "mobile",
+    "AMBIENT": "wall",
+    # PERSONALISE and CONCENTRATE are resolved by compute_form_factor()
+    # below (PERSONALISE needs the theme; CONCENTRATE is a declared "tower"
+    # - consolidation folds into one standard-shaped unit, which is what
+    # tower already means).
+}
+
+
+def compute_form_factor(theme_id, operator, name=None):
+    """FORM_FACTOR_RULE, resolved. See FORM_FACTOR_TOPOLOGIES/FORM_FACTOR_RULE/
+    INDIVIDUAL_EXPOSURE_THEMES above for the authored, documented reasoning
+    behind every branch - this function only applies that table, it does not
+    add any new judgment of its own."""
+    name_l = (name or "").lower()
+    # Strongest, most concrete signal: the possibility's OWN authored name
+    # already says what it physically is (POSSIBILITY_NAMES is
+    # analyst-authored text, same status as the operator table itself).
+    if "wearable" in name_l or "clip" in name_l:
+        return "wearable_personal"
+
+    if operator == "PERSONALISE":
+        return "wearable_personal" if theme_id in INDIVIDUAL_EXPOSURE_THEMES else "portable"
+
+    if operator in FORM_FACTOR_RULE:
+        return FORM_FACTOR_RULE[operator]
+
+    # CONCENTRATE structurally folds several systems into one standard unit
+    # - that consolidated unit is exactly what "tower" means here.
+    if operator == "CONCENTRATE":
+        return "tower"
+
+    # No operator/theme/name signal implies a different topology - declared
+    # default, not a guess (see FORM_FACTOR_TOPOLOGIES["tower"]).
+    if operator in OPERATORS:
+        return "tower"
+    return "other"
+
+
+def compute_product_conditions(theme_id, operator, name=None):
     """Product-shape hints, honestly UNKNOWN unless the operator's own fixed
     definition or the friction theme itself directly implies a field - never
     a fabricated spec. See OPERATOR_PRODUCT_HINTS and OPERATORS above."""
@@ -124,6 +223,7 @@ def compute_product_conditions(theme_id, operator):
             if theme_id == "filter_cost" else UNKNOWN
         ),
         "connected": hints.get("connected", UNKNOWN),
+        "form_factor": compute_form_factor(theme_id, operator, name),
     }
     return conditions
 
@@ -328,7 +428,8 @@ def generate_possibilities(rows=None, prices=None, white_space_doc=None,
                 "epistemic_type": "REFERENCE_MARKET_PRICE",
                 "caveat": pe.get("median_real_price_caveat"),
             }
-            archetype = compute_product_conditions(theme_id, op)
+            name = POSSIBILITY_NAMES.get((theme_id, op), "{} x {}".format(theme_id, op))
+            archetype = compute_product_conditions(theme_id, op, name)
             if "portable" in archetype.get("mobility", "").lower() or "Relocatable" in archetype.get("mobility", ""):
                 envelope = dict(envelope)
                 envelope["form_factor_note"] = ("The operator implies a different form factor than the "
@@ -339,7 +440,7 @@ def generate_possibilities(rows=None, prices=None, white_space_doc=None,
                 "id": pid,
                 "possibility_id": pid,
                 "target_category": "AIR_PURIFICATION",
-                "name": POSSIBILITY_NAMES.get((theme_id, op), "{} x {}".format(theme_id, op)),
+                "name": name,
                 "friction_theme": theme_id,
                 "friction_theme_name": THEMES[theme_id][0],
                 "operator": op,
@@ -477,6 +578,8 @@ def run_funnel(**inject):
                 "THEME_OPERATORS (which operators fit which friction theme)",
                 "POSSIBILITY_NAMES (all 16 concept names)",
                 "OPERATOR_PRODUCT_HINTS (product-shape rules that follow from operator definitions)",
+                "FORM_FACTOR_RULE / INDIVIDUAL_EXPOSURE_THEMES / compute_form_factor "
+                "(physical topology class per concept - DESIGN_RULE, not evidence)",
                 "decision_framework_real.py::THEME_FEASIBILITY (analyst feasibility judgments, "
                 "epistemic_type ANALYST_JUDGMENT, carried per possibility)",
                 "web OPERATOR_TAGLINE strings (UI copies of the operator definitions - same authored vocabulary)",

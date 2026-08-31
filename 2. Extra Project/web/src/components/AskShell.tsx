@@ -14,14 +14,14 @@ function buildAnswers(ctx: AskContext): { q: string; a: string }[] {
   const answers: { q: string; a: string }[] = [];
 
   answers.push({
-    q: "Why is the current winner winning?",
+    q: "Why is the current recommendation the current recommendation?",
     a: v
       ? `${v.recommended} — ${v.recommended_name}. ${v.why}`
       : "Innovations data has not loaded yet.",
   });
 
   answers.push({
-    q: "What would flip the winner?",
+    q: "What would flip the recommendation?",
     a: v ? v.sensitivity : "Innovations data has not loaded yet.",
   });
 
@@ -32,9 +32,14 @@ function buildAnswers(ctx: AskContext): { q: string; a: string }[] {
       : "Innovations data has not loaded yet.",
   });
 
-  const topPossibility = ctx.magicBox?.finalists?.[0];
+  // A representative Magic Box idea, picked by evidence tier (non-dominated
+  // first) - never the top-3-by-pain "finalists" ranking, which is an
+  // internal funnel-stage cut, not a population ordering.
+  const nonDominatedIds = new Set(ctx.magicBox?.non_dominated ?? []);
+  const topPossibility = (ctx.magicBox?.possibilities ?? []).find((p) => nonDominatedIds.has(p.id))
+    ?? ctx.magicBox?.possibilities?.[0];
   answers.push({
-    q: "Why did the top Magic Box idea appear?",
+    q: "Why did this Magic Box idea appear?",
     a: topPossibility
       ? `"${topPossibility.name}" = friction "${topPossibility.friction_theme_name}" (Consumer Pain rating gap ${topPossibility.consumer_pain_csat}★) transformed by the ${topPossibility.operator} operator (${topPossibility.operator_definition}). Economic Value $${topPossibility.economic_value.toLocaleString()} (price-weighted exposure - a relative indicator, not revenue), Feasibility ${topPossibility.feasibility_2_5y.rating}.`
       : "Magic Box data has not loaded yet.",

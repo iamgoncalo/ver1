@@ -1,12 +1,16 @@
 """Tests for the public innovation dossiers (web/public/innovation-dossiers).
 
 For every innovation in data/processed/innovations_real.json:
-- the dossier PDF exists, parses, and has exactly 3 pages;
+- the dossier PDF exists, parses, and has exactly 5 pages (the 10-section
+  outline: 1-2 on page 1, 3-4 on page 2, 5-6 on page 3, 7-9 on page 4, 10 on
+  page 5 - see src/real/generate_innovation_dossiers.py's module docstring);
 - its extracted text contains the innovation_id, the name, a snippet of its
   own next_experiment, and at least one of its parent path ids (innovations
   with no parent paths must instead carry the honest no-parents line);
 - a pairwise text-similarity guard (Jaccard over word 5-grams) proves the
-  dossiers are not copies of one another.
+  dossiers are not copies of one another;
+- the first two innovations' "Physical architecture" sections (section 2)
+  are not substantively the same dossier re-labelled.
 
 Text extraction probes for the best available tool: pypdf, then pdfminer,
 then a byte-level fallback (zlib-decompress the content streams and read the
@@ -45,7 +49,11 @@ SAME_THEME_MAX = 0.92
 # must match src/real/generate_innovation_dossiers.py
 NO_PARENTS_LINE = ("No parent paths - this innovation cites no tension or "
                    "assumption paths; its grounding is the friction evidence "
-                   "on page 1.")
+                   "in section 3, why it exists.")
+# section-header markers used to slice out one section's text below - must
+# match Flow.section() calls in src/real/generate_innovation_dossiers.py
+SECTION2_HEADER = "2. Physical architecture"
+SECTION3_HEADER = "3. Why it exists"
 _REPL = {
     "—": "-", "–": "-", "→": "->", "←": "<-",
     "⇄": "<->", "★": "*", "☆": "*", "✕": "x",
@@ -209,12 +217,12 @@ class TestDossiers(unittest.TestCase):
             self.assertGreater(len(self.texts[inn["innovation_id"]]), 500,
                                "suspiciously little text in " + path)
 
-    def test_page_count_is_three(self):
+    def test_page_count_is_five(self):
         for inn in self.innovations:
             iid = inn["innovation_id"]
             self.assertEqual(
-                self.pages.get(iid), 3,
-                "%s: expected exactly 3 pages, got %s" % (iid,
+                self.pages.get(iid), 5,
+                "%s: expected exactly 5 pages, got %s" % (iid,
                                                           self.pages.get(iid)))
 
     def test_each_dossier_carries_its_own_content(self):
@@ -263,6 +271,46 @@ class TestDossiers(unittest.TestCase):
               "%.3f (%s vs %s)" % worst)
         self.assertFalse(failures, "similarity guard tripped:\n" +
                          "\n".join(failures))
+
+    def test_first_two_dossiers_physical_architecture_differ(self):
+        """Direct encoding of the mission requirement that the first and
+        second innovation PDFs must NOT be substantively the same: slice out
+        just the "Physical architecture" section (section 2, bounded by the
+        "3. Why it exists" header that starts section 3) for the first two
+        possibilities in innovations_real.json order, and assert they are
+        not equal. This is a stronger, more targeted check than the overall
+        Jaccard guard above - it isolates exactly the section a lazy
+        re-labelling would leave untouched."""
+        self.assertGreaterEqual(len(self.innovations), 2,
+                                "need at least 2 innovations for this check")
+        first, second = self.innovations[0], self.innovations[1]
+
+        def section2_text(inn):
+            iid = inn["innovation_id"]
+            text = norm(self.texts[iid])
+            start = norm(SECTION2_HEADER)
+            end = norm(SECTION3_HEADER)
+            i = text.find(start)
+            j = text.find(end, i + len(start)) if i >= 0 else -1
+            self.assertTrue(i >= 0 and j > i,
+                            "%s: could not locate the physical architecture "
+                            "section (looking for %r ... %r)" % (
+                                iid, SECTION2_HEADER, SECTION3_HEADER))
+            return text[i + len(start):j].strip()
+
+        sec_a = section2_text(first)
+        sec_b = section2_text(second)
+        self.assertTrue(len(sec_a) > 20 and len(sec_b) > 20,
+                        "physical architecture section suspiciously short")
+        self.assertNotEqual(
+            sec_a, sec_b,
+            "%s and %s have byte-identical Physical architecture sections - "
+            "the dossiers are substantively the same, not just re-labelled"
+            % (first["innovation_id"], second["innovation_id"]))
+        print("[dossier tests] first-two-dossiers physical-architecture "
+              "difference: %s vs %s -> confirmed different (%d vs %d chars)"
+              % (first["innovation_id"], second["innovation_id"],
+                 len(sec_a), len(sec_b)))
 
     def test_no_obsolete_funnel_wording(self):
         obsolete = norm("Products - Signals - Magic - Criteria - Innovations")

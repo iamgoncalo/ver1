@@ -50,6 +50,13 @@ function InnovationCard({ i, onOpen }: { i: any; onOpen: () => void }) {
       <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 6 }}>
         <Pill tone={i.state === "developing" || i.state === "ready_to_test" ? "good" : i.state === "rejected" ? "rose" : i.state === "challenged" ? "amber" : "neutral"}>{i.state.replace(/_/g, " ")}</Pill>
         <Pill tone="neutral">{i.prototype_state === "CONCEPT_VISUAL" ? "concept visual" : "no prototype"}</Pill>
+        {i.lifecycle && i.lifecycle !== "active" && (
+          <span title="Registry-derived lifecycle — data/processed/innovation_registry.json">
+            <Pill tone={i.lifecycle === "new" ? "good" : i.lifecycle === "rejected" || i.lifecycle === "superseded" ? "rose" : "neutral"}>
+              {i.lifecycle}
+            </Pill>
+          </span>
+        )}
       </div>
       <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 6, lineHeight: 1.4 }}>
         {cadr?.epistemic_type === "OBSERVED_COMPARABLE" ? `comparables: ${cadr.min}–${cadr.max} ${cadr.unit} (n=${cadr.n_comparables})` : "envelope: comparables pending"}
@@ -130,8 +137,14 @@ function InnovationDetail({ i, navigate }: { i: any; navigate?: (n: number, para
 
       {(i.artifacts ?? []).filter((a: any) => a.kind === "innovation_dossier").map((a: any) => (
         <a key={a.id} href={a.path} target="_blank" rel="noopener noreferrer"
-          style={{ display: "inline-block", marginTop: 4, padding: "8px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", color: "var(--accent-blue-ink)", textDecoration: "none", fontSize: 12, fontWeight: 600 }}>
-          Innovation dossier (PDF) →
+          title="The full 10-section dossier behind this page's summary - what it is, why it exists, the evidence, and what could kill it"
+          style={{
+            marginTop: 6, display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+            padding: "9px 14px", borderRadius: 10, textDecoration: "none",
+            background: "linear-gradient(120deg, var(--accent-blue) 0%, var(--accent-teal) 100%)",
+            color: "#fff", fontSize: 12, fontWeight: 700,
+          }}>
+          <DocIcon /> Read the full innovation dossier (PDF) →
         </a>
       ))}
       <p className="mono" style={{ fontSize: 9.5, color: "var(--ink-faint)", marginTop: 12, lineHeight: 1.5 }}>
@@ -159,6 +172,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
   const [objects, setObjects] = useState<any>(null);
   const [innovFocus, setInnovFocus] = useState<any>(null);
   const [showRejected, setShowRejected] = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
   useEffect(() => {
     fetch("/api/innovation-objects").then((r) => r.json()).then((d) => {
       setObjects(d);
@@ -257,6 +271,11 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
             evidence and Critic verdict earn (<span className="mono" style={{ fontSize: 10.5 }}>method rule, never a tournament</span>) —
             the formal case's evaluated bets and recommendation follow separately below.
           </div>
+          {objects.new_this_run_note && (
+            <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginBottom: 10, lineHeight: 1.4 }}>
+              {objects.new_this_run_note}
+            </div>
+          )}
           {(["ready_to_test", "developing", "grounded", "exploratory", "challenged", "paused"] as const).map((st) => {
             const group = objects.innovations.filter((i: any) => i.state === st);
             if (!group.length) return null;
@@ -286,12 +305,39 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
               </div>
             );
           })()}
+          {(() => {
+            const archived = objects.archived_innovations ?? [];
+            if (!archived.length) return null;
+            return (
+              <div style={{ marginBottom: 6 }} data-testid="innovation-archive">
+                <button onClick={() => setShowArchived((v) => !v)}
+                  style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 11, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>
+                  {showArchived ? "▾" : "▸"} archive · {archived.length} — rejected, superseded, or stale past the
+                  grace period; left the active population, never deleted
+                </button>
+                {showArchived && (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 8, marginTop: 8 }}>
+                    {archived.map((a: any) => (
+                      <div key={a.innovation_id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 12, padding: 10 }}>
+                        <div className="mono" style={{ fontSize: 11, fontWeight: 600, marginBottom: 4 }}>{a.innovation_id}</div>
+                        <p style={{ fontSize: 10.5, color: "var(--ink-dim)", lineHeight: 1.4, marginBottom: 4 }}>{a.reason}</p>
+                        <p style={{ fontSize: 9.5, color: "var(--ink-faint)", lineHeight: 1.4 }}>
+                          {a.run_id} · {a.date ? new Date(a.date).toLocaleDateString() : "—"}
+                          {a.successor_id && <> · superseded by <span className="mono">{a.successor_id}</span></>}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </div>
       )}
 
       <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "6px 0 12px" }}>
-        <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.08em", color: "var(--accent-blue-ink)", fontWeight: 700 }}>
-          FORMAL CASE RECOMMENDATION
+        <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.04em", color: "var(--accent-blue-ink)", fontWeight: 700 }}>
+          Formal case recommendation
         </span>
         <span style={{ flex: 1, height: 1, background: "var(--line)" }} />
         <span style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>

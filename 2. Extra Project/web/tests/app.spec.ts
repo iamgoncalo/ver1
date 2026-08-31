@@ -311,7 +311,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // Magic stage shows exploratory, never-promoted possibilities
     await page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /^Magic box$/ }).click();
     await expect(page.getByTestId("category-stage-magic_box")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText(/all NOT_PROMOTED/)).toBeVisible();
+    await expect(page.getByText(/none yet promoted to an innovation/)).toBeVisible();
     await page.getByRole("button", { name: "Back to air purification →" }).click();
     // back on Air, the Magic box world shows Air's own real concepts again
     await expect(page.getByText("what could exist now?")).toBeVisible({ timeout: 5000 });
@@ -694,7 +694,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText(/challenged · \d+/)).toBeVisible();
     await expect(page.getByText(/rejected · \d+ — killed by the funnel or the Critic/)).toBeVisible();
     // the formal case is a separately-marked lens, never blended
-    await expect(page.getByText("FORMAL CASE RECOMMENDATION", { exact: true })).toBeVisible();
+    await expect(page.getByText("Formal case recommendation", { exact: true })).toBeVisible();
     // concept visuals genuinely load (a broken image would leave naturalWidth 0)
     const img = page.locator('img[src*="concept-visuals"]').first();
     await expect(img).toBeVisible();

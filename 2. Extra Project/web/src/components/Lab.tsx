@@ -307,7 +307,7 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
                     <div className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>{c.possibility_id}</div>
                   </div>
                   <div style={{ display: "flex", gap: 6 }}>
-                    <Pill tone="neutral">{String(c.evolution_stage).toLowerCase()}</Pill>
+                    <Pill tone="neutral">{String(c.evolution_stage).toLowerCase().replace(/_/g, " ")}</Pill>
                     <Pill tone={c.critic_overall === "SURVIVE" ? "good" : c.critic_overall === "REJECT" ? "rose" : "amber"}>{String(c.critic_overall).toLowerCase()}</Pill>
                   </div>
                 </div>

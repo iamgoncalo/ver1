@@ -2,7 +2,7 @@
   "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
   "generator_version": "1.0",
   "innovation_id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-  "generated_at": "2026-08-31T16:09:19.524295+00:00",
+  "generated_at": "2026-08-31T18:00:05.651143+00:00",
   "artifact_state": "CONCEPT_VISUAL",
   "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
 }

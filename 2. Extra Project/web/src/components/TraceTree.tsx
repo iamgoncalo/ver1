@@ -3,7 +3,7 @@ import type { TraceNode } from "../lib/trace";
 
 const KIND_LABEL: Record<string, string> = {
   signal: "Signal", trend_doc: "Trend doc", paper: "Peer-reviewed paper",
-  keyword_search: "Keyword search", tension: "RESEARCH TENSION", assumption: "Category assumption",
+  keyword_search: "Keyword search", tension: "Research tension", assumption: "Category assumption",
   concept: "Concept", bet: "Bet", info: "Real, not a document", unresolved: "Unresolved",
 };
 const KIND_ICON: Record<string, string> = {

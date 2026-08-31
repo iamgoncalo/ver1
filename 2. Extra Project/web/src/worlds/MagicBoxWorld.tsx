@@ -62,8 +62,8 @@ const DNA_ORDER = ["F", "S", "T", "R", "C", "A", "E", "O"] as const;
 const FUNNEL_STAGES: { key: string; label: string }[] = [
   { key: "sources_admitted", label: "Sources" },
   { key: "signals_total", label: "Signals" },
-  { key: "tensions", label: "TENSION" },
-  { key: "assumptions", label: "ASSUMPTION" },
+  { key: "tensions", label: "Tension" },
+  { key: "assumptions", label: "Assumption" },
   { key: "counterfactuals_generated", label: "Counterfactuals" },
   { key: "concept_seeds", label: "Concepts" },
   { key: "__versuni_edge", label: "Versuni edge" },

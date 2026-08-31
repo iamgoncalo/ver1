@@ -82,11 +82,17 @@ def overall_verdict(dimension_verdicts):
     return "NEEDS_EVIDENCE"
 
 
-def evolution_stage(possibility_id, funnel_sets, finalist_ids, graveyard_ids):
+def evolution_stage(possibility_id, funnel_sets, critic_overall, graveyard_ids):
+    """Evidence-driven stage, never a tournament placement: a possibility
+    reaches the top stage by clearing the SAME dominance screen and Critic
+    verdict every possibility is evaluated against - never by ranking
+    against its siblings. (Magic Box's own internal top-3-by-pain
+    'finalists' funnel-stage data still exists as a documented pipeline
+    stage, but nothing downstream reads it to assign a stage.)"""
     if possibility_id in graveyard_ids:
         return "REJECTED"
-    if possibility_id in finalist_ids:
-        return "FINALIST"
+    if possibility_id in funnel_sets["non_dominated"] and critic_overall == "SURVIVE":
+        return "STRONG_SURVIVOR"
     if possibility_id in funnel_sets["non_dominated"]:
         return "SURVIVOR"
     if possibility_id in funnel_sets["evidence"]:
@@ -97,7 +103,6 @@ def evolution_stage(possibility_id, funnel_sets, finalist_ids, graveyard_ids):
 def build():
     magic_box = load("magic_box_real.json")
     possibilities = magic_box["possibilities"]
-    finalist_ids = {f["id"] for f in magic_box["finalists"]}
     non_dominated_ids = {p["id"] for p in magic_box["non_dominated"]}
     graveyard = {g["id"]: g for g in magic_box["graveyard"]}
     evidence_ids = {p["id"] for p in possibilities if p["gate_passed"]}
@@ -119,12 +124,13 @@ def build():
         for name, note in UNASSESSED_DIMENSIONS.items():
             dims[name] = ("NEEDS_EVIDENCE", note)
 
-        stage = evolution_stage(p["id"], funnel_sets, finalist_ids, graveyard)
+        critic_overall = overall_verdict(dims)
+        stage = evolution_stage(p["id"], funnel_sets, critic_overall, graveyard)
         entry = {
             "possibility_id": p["id"],
             "name": p["name"],
             "evolution_stage": stage,
-            "critic_overall": overall_verdict(dims),
+            "critic_overall": critic_overall,
             "critic_dimensions": {k: {"verdict": v[0], "reasoning": v[1]} for k, v in dims.items()},
         }
         if stage == "REJECTED" and p["id"] in graveyard:
@@ -139,12 +145,13 @@ def build():
             "(gate_passed, economic_value vs. corpus median, is_white_space/competitor_gap_brands). "
             "5 of 8 requested Critic dimensions (HUMAN/PHYSICAL/VERSUNI_FIT/TIMING/ROBUSTNESS) have no "
             "real evidence anywhere in this pipeline and are honestly reported NEEDS_EVIDENCE, never "
-            "guessed. Evolution stage is derived from the possibility's real position in the already-"
-            "computed funnel (generated/gate/evidence/non-dominated/finalist) and graveyard membership."
+            "guessed. Evolution stage is derived from the possibility's own evidence position in the "
+            "already-computed funnel (generated/gate/evidence/non-dominated) crossed with its own "
+            "Critic verdict, and graveyard membership - never from a ranking against its siblings."
         ),
         "generated_by": "src/real/critic_real.py",
         "verdict_vocabulary": list(VERDICTS),
-        "evolution_stages": ["SEED", "CHALLENGED", "SURVIVOR", "FINALIST", "REJECTED"],
+        "evolution_stages": ["SEED", "CHALLENGED", "SURVIVOR", "STRONG_SURVIVOR", "REJECTED"],
         "concepts": results,
     }
 

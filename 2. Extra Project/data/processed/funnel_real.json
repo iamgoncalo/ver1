@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-48",
-    "last_run_started_at": "2026-08-31T16:09:20.438732+00:00",
-    "last_run_finished_at": "2026-08-31T16:09:20.438732+00:00",
-    "last_checked_at": "2026-08-31T16:09:20.438732+00:00",
+    "last_run_id": "run-51",
+    "last_run_started_at": "2026-08-31T18:00:06.493858+00:00",
+    "last_run_finished_at": "2026-08-31T18:00:06.493858+00:00",
+    "last_checked_at": "2026-08-31T18:00:06.493858+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "1e18a8d2272793042c26d8b93af72139a48d638a0470b7ffa2f03a37e9a30699",
+    "input_snapshot_hash": "933035cfaeb5c7adef564b21e11d2ef4633b1f7328d25088269a198a80cfd15c",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 48,
+    "total_runs_recorded": 51,
     "errors": []
   },
   "stages": [
@@ -264,25 +264,21 @@
         "innovations"
       ],
       "outputs_to": [
-        "finalists"
+        "ready_to_test"
       ],
       "trace": "GET /api/critic -> len(data/processed/critic_real.json[\"concepts\"]), built by src/real/critic_real.py::build()."
     },
     {
-      "id": "finalists",
-      "label": "INNOVATIONS · PRIORITY TO TEST",
-      "count": 3,
-      "finalist_names": [
-        "Verified-Performance Air Purifier",
-        "Certified-Clean Air Purifier",
-        "Personal Air Purifier"
-      ],
-      "bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
+      "id": "ready_to_test",
+      "label": "INNOVATIONS · READY TO TEST",
+      "count": 0,
+      "ready_to_test_names": [],
+      "formal_case_bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)",
       "inputs": [
         "critic-surviving concepts"
       ],
       "outputs_to": [],
-      "trace": "GET /api/innovations -> data/processed/magic_box_real.json[\"finalists\"] (several, never one hardcoded winner); bet from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"]."
+      "trace": "GET /api/criteria -> concepts filtered by is_non_dominated + critic_overall==SURVIVE + why_here.consequence_basis==RESEARCH_TENSION (same rule as src/real/innovations_real.py::innovation_state()'s 'ready_to_test'); formal_case_bet from data/processed/decision_framework_real.json[\"verdict\"][\"recommended_name\"] - the formal case's own separate recommendation, not this population's pick."
     }
   ],
   "homepage_funnel": {
@@ -627,7 +623,15 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": [
+          "noise:AMBIENT",
+          "noise:TEMPORAL_SHIFT",
+          "noise:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:CONCENTRATE",
+          "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:PERSONALISE"
+        ]
       },
       {
         "id": "tension:T2",
@@ -931,7 +935,15 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": [
+          "noise:AMBIENT",
+          "noise:TEMPORAL_SHIFT",
+          "noise:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:CONCENTRATE",
+          "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:PERSONALISE"
+        ]
       },
       {
         "id": "tension:T3",
@@ -1255,7 +1267,15 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": [
+          "noise:AMBIENT",
+          "noise:TEMPORAL_SHIFT",
+          "noise:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:CONCENTRATE",
+          "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:PERSONALISE"
+        ]
       },
       {
         "id": "tension:T4",
@@ -1318,7 +1338,8 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": []
       },
       {
         "id": "tension:T5",
@@ -1378,7 +1399,8 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": []
       },
       {
         "id": "tension:T6",
@@ -1585,7 +1607,12 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": [
+          "noise:AMBIENT",
+          "noise:TEMPORAL_SHIFT",
+          "noise:CROSS_CATEGORY_TRANSFER"
+        ]
       },
       {
         "id": "assumption:A1",
@@ -1643,7 +1670,8 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": []
       },
       {
         "id": "assumption:A2",
@@ -1842,7 +1870,12 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": [
+          "value_effectiveness:CONCENTRATE",
+          "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:PERSONALISE"
+        ]
       },
       {
         "id": "assumption:A3",
@@ -1903,7 +1936,8 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": []
       },
       {
         "id": "assumption:A4",
@@ -1936,7 +1970,8 @@
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           },
           "no_evidence": "This path carries no resolvable evidence ids - its field grounding is honestly empty rather than borrowed from a neighbouring path."
-        }
+        },
+        "derived_possibility_ids": []
       },
       {
         "id": "assumption:A5",
@@ -2259,7 +2294,15 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": [
+          "noise:AMBIENT",
+          "noise:TEMPORAL_SHIFT",
+          "noise:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:CONCENTRATE",
+          "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:PERSONALISE"
+        ]
       },
       {
         "id": "assumption:A6",
@@ -2584,7 +2627,15 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": [
+          "noise:AMBIENT",
+          "noise:TEMPORAL_SHIFT",
+          "noise:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:CONCENTRATE",
+          "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "value_effectiveness:PERSONALISE"
+        ]
       },
       {
         "id": "assumption:A7",
@@ -2617,7 +2668,8 @@
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           },
           "no_evidence": "This path carries no resolvable evidence ids - its field grounding is honestly empty rather than borrowed from a neighbouring path."
-        }
+        },
+        "derived_possibility_ids": []
       },
       {
         "id": "assumption:A8",
@@ -2681,7 +2733,8 @@
             "behaviour": "Review text can show a friction exists, not how a real household would behave once it were fixed - no persona, diary, or panel dataset exists in this pipeline.",
             "physical_constraints": "No weight/dimension/installation dataset exists for corpus products - physical envelope claims would be invented, so none are made."
           }
-        }
+        },
+        "derived_possibility_ids": []
       }
     ],
     "path_ontology": {
@@ -2896,38 +2949,11 @@
         }
       ]
     },
-    "new_products": {
-      "count": 3,
-      "products": [
-        {
-          "id": "value_effectiveness:CONCENTRATE",
-          "name": "Verified-Performance Air Purifier",
-          "friction_theme_name": "Perceived value / does it actually clean the air",
-          "operator": "CONCENTRATE",
-          "typical_market_price_usd": 199.99,
-          "economic_value": 10648.05,
-          "feasibility": "high"
-        },
-        {
-          "id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-          "name": "Certified-Clean Air Purifier",
-          "friction_theme_name": "Perceived value / does it actually clean the air",
-          "operator": "CROSS_CATEGORY_TRANSFER",
-          "typical_market_price_usd": 199.99,
-          "economic_value": 10648.05,
-          "feasibility": "high"
-        },
-        {
-          "id": "value_effectiveness:PERSONALISE",
-          "name": "Personal Air Purifier",
-          "friction_theme_name": "Perceived value / does it actually clean the air",
-          "operator": "PERSONALISE",
-          "typical_market_price_usd": 199.99,
-          "economic_value": 10648.05,
-          "feasibility": "high"
-        }
-      ],
-      "bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)"
+    "ready_to_test": {
+      "count": 0,
+      "innovations": [],
+      "method_note": "Non-dominated AND Critic verdict SURVIVE AND grounded in a real research tension - same rule as innovations_real.py's 'ready_to_test' state, never a top-3-by-pain-score cut.",
+      "formal_case_bet": "Reliability-Verified Air Purifiers (extended-life guarantee + real-time self-diagnostic)"
     }
   },
   "signal_families": {
@@ -3356,7 +3382,7 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "ea4b564ba36b4c91",
+  "snapshot": "d17c5985a3a4ce6d",
   "last_refresh": {
     "run_id": "discovery-1787943742",
     "started_at": "2026-08-28T19:02:02.017700+00:00",

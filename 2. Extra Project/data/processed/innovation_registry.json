@@ -1,0 +1,313 @@
+{
+  "last_input_hash": "0f50913be3496ec29bb10bd06076360e6b34249d09f9b791c019436e4c848c15",
+  "run_counter": 2,
+  "innovations": {
+    "reliability:PREDICT": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "48d226f2e7537853465fb5381268169c82b7c5c014a18942d8cbb5f6703ca923",
+      "current_state": "challenged",
+      "lifecycle": "challenged",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "reliability:MATERIALISE": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "bb3196ba16b4a1aaa74ae574a810787bad3a3d78b9c9ad0ad1fb1ec5ff51abd3",
+      "current_state": "challenged",
+      "lifecycle": "challenged",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "reliability:CROSS_CATEGORY_TRANSFER": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "56e3b54f582a1eee50c3ae0c052df3e7102bf6c0fdec67485fdb0c394070c328",
+      "current_state": "challenged",
+      "lifecycle": "challenged",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "noise:AMBIENT": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "c0848ec3505d3d928e08786352cdd6cef554adf03b0d7a738ce04cc89fed43e7",
+      "current_state": "developing",
+      "lifecycle": "active",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "developing",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "noise:TEMPORAL_SHIFT": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "3f8c80cf2d6b2c178ab9133745ccc13fa27149d502dddab20d086a92c0d7b7fb",
+      "current_state": "developing",
+      "lifecycle": "active",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "developing",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "noise:CROSS_CATEGORY_TRANSFER": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "307ff272a8cb319b226e6a37e0a1bc3caee70ae0e9455035956445a75d5e98f7",
+      "current_state": "developing",
+      "lifecycle": "active",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "developing",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "value_effectiveness:CONCENTRATE": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "9ec8773b6ce331fa35b3a72d2c3e6972503bc53840fe76625024a52f61406003",
+      "current_state": "challenged",
+      "lifecycle": "challenged",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "value_effectiveness:CROSS_CATEGORY_TRANSFER": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "3018c7e3f92f30187f60dd032251cc324adf9a33d5373298fadc556c4324fae5",
+      "current_state": "challenged",
+      "lifecycle": "challenged",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "value_effectiveness:PERSONALISE": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "d74f36f88ebc83f234ed176546c600fac5a33def6bab2c2ebf44d536991c6dff",
+      "current_state": "challenged",
+      "lifecycle": "challenged",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 0,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "customer_service:INVERT": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "e9b2edc6962056bf8f836731a9a038eae5fec9c117c9dfc50227982b58ae035b",
+      "current_state": "rejected",
+      "lifecycle": "rejected",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 1,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "customer_service:REMOVE": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "cde126d4c33856a446ef748beb3ce066da0119e083e02f350ee6261aee9439d3",
+      "current_state": "rejected",
+      "lifecycle": "rejected",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 1,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "filter_cost:DISTRIBUTE": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "f118464d7229f4009194eb6c1c8916d7df7b3e605bb40ac4ddbf19aa634339f6",
+      "current_state": "rejected",
+      "lifecycle": "rejected",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 1,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "filter_cost:MERGE": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "7005188bcaadd9d3d10a0daa6a00d561ebb1f7c9858f844089b5539b3724cadd",
+      "current_state": "rejected",
+      "lifecycle": "rejected",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 1,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "ozone_odor_safety:MOVE": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "bee49d2d9820dcf68fd4643366e6daa8e1f6101db4439eeb868f7611685d2c5e",
+      "current_state": "rejected",
+      "lifecycle": "rejected",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 1,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "ozone_odor_safety:PERSONALISE": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "53be54af3ece73c947af06e86ade927eb39bf53f06b22cff4d9605138b7ab701",
+      "current_state": "rejected",
+      "lifecycle": "rejected",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 1,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    },
+    "ozone_odor_safety:CROSS_CATEGORY_TRANSFER": {
+      "first_seen_run": "run-1",
+      "first_seen_at": "2026-08-31T17:53:53.831289+00:00",
+      "current_fingerprint": "052a60676112d4d4cba3e5428240998b63cd8481431fcb57c3eb2d0132d838c9",
+      "current_state": "rejected",
+      "lifecycle": "rejected",
+      "consecutive_unchanged_runs": 1,
+      "grace_count": 1,
+      "superseded_by": null,
+      "history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ]
+    }
+  },
+  "last_checked_at": "2026-08-31T18:12:41.100027+00:00",
+  "last_run_id": "run-2",
+  "last_check_count": 11
+}

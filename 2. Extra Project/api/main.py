@@ -149,9 +149,10 @@ def research_candidates():
 def funnel():
     """The canonical Innovation Funnel Machine state - PRODUCTS + SIGNALS +
     COMPETITORS -> MAGIC BOX / PATTERN INTELLIGENCE -> CRITERIA ->
-    INNOVATIONS -> CRITIC -> FINALISTS. Recomputed live on every request
-    from already-real files (src/real/funnel_real.py) - never cached
-    stale, never hardcoded."""
+    INNOVATIONS -> CRITIC -> READY TO TEST (evidence-driven: non-dominated +
+    Critic SURVIVE + research-tension-grounded - never a top-3-by-pain-score
+    cut). Recomputed live on every request from already-real files
+    (src/real/funnel_real.py) - never cached stale, never hardcoded."""
     import funnel_real
     return funnel_real.build()
 
@@ -410,8 +411,14 @@ def runs():
 @app.get("/api/innovation-objects")
 def innovation_objects():
     """The developed-possibility population (Pass 3): one Innovation per
-    Magic Box possibility with mechanical states, plus the separate
-    formal-case recommendation block - built by src/real/innovations_real.py."""
+    Magic Box possibility with mechanical states, a registry-derived
+    lifecycle field (new/active/updated/challenged/rejected/superseded/
+    stale/archived - see src/real/innovations_real.py::LIFECYCLE_RULE and
+    data/processed/innovation_registry.json), the archived_innovations list
+    of ids that left the active population, plus the separate formal-case
+    recommendation block - all built by src/real/innovations_real.py. This
+    file already carries every field the endpoint returns; no separate
+    lifecycle/archive endpoint exists."""
     with open(os.path.join(PROC, "innovations_real.json"), encoding="utf-8") as fh:
         return json.load(fh)
 

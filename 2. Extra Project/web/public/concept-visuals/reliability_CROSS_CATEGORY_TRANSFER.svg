@@ -1,31 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="640" height="420">
 <rect width="640" height="420" fill="white"/>
 <text x="24" y="34" font-size="17" fill="#22262d" font-family="system-ui,Segoe UI,sans-serif" font-weight="700">Self-Testing Air Purifier</text>
-<text x="24" y="52" font-size="11" fill="#6b7280" font-family="system-ui,Segoe UI,sans-serif">Reliability / stopped working x CROSS_CATEGORY_TRANSFER - concept schematic</text>
+<text x="24" y="52" font-size="11" fill="#6b7280" font-family="system-ui,Segoe UI,sans-serif">Reliability / stopped working x CROSS_CATEGORY_TRANSFER - concept schematic (topology: mobile)</text>
 <rect x="0.5" y="0.5" width="639" height="419" rx="14" fill="none" stroke="#d7dbe2" stroke-width="1"/>
-<rect x="125.0" y="145.0" width="90" height="150" rx="14" fill="#f6f7f9" stroke="#22262d" stroke-width="1.6"/>
-<line x1="137.0" y1="167.0" x2="203.0" y2="167.0" stroke="#9aa1ab" stroke-width="1.4"/>
-<line x1="137.0" y1="179.0" x2="203.0" y2="179.0" stroke="#9aa1ab" stroke-width="1.4"/>
-<circle cx="170" cy="269.0" r="10" fill="none" stroke="#6b7280" stroke-width="1.6"/>
+<rect x="125.0" y="160.0" width="90" height="120" rx="14" fill="#f6f7f9" stroke="#22262d" stroke-width="1.6"/>
+<line x1="137.0" y1="182.0" x2="203.0" y2="182.0" stroke="#9aa1ab" stroke-width="1.4"/>
+<line x1="137.0" y1="194.0" x2="203.0" y2="194.0" stroke="#9aa1ab" stroke-width="1.4"/>
+<circle cx="170" cy="254.0" r="10" fill="none" stroke="#6b7280" stroke-width="1.6"/>
+<circle cx="142" cy="294" r="9" fill="none" stroke="#22262d" stroke-width="1.6"/>
+<circle cx="198" cy="294" r="9" fill="none" stroke="#22262d" stroke-width="1.6"/>
+<line x1="232" y1="260" x2="266" y2="260" stroke="#1f7a6d" stroke-width="2"/>
+<line x1="258" y1="253" x2="266" y2="260" stroke="#1f7a6d" stroke-width="2"/>
+<line x1="258" y1="267" x2="266" y2="260" stroke="#1f7a6d" stroke-width="2"/>
 <rect x="10" y="180" width="84" height="60" rx="10" fill="none" stroke="#a6433f" stroke-width="1.6" stroke-dasharray="5 4"/>
 <text x="52" y="208" font-size="10" fill="#a6433f" font-family="system-ui,Segoe UI,sans-serif" text-anchor="middle">donor:</text>
 <text x="52" y="222" font-size="10" fill="#a6433f" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" text-anchor="middle">MISSING</text>
 <line x1="96" y1="210" x2="122" y2="210" stroke="#a6433f" stroke-width="1.4" stroke-dasharray="5 4"/>
 <text x="170" y="338" font-size="10" fill="#a6433f" font-family="system-ui,Segoe UI,sans-serif" text-anchor="middle">transfer is a hypothesis until a donor exists</text>
-<text x="350" y="96" font-size="10" fill="#1f7a6d" font-family="ui-monospace,Menlo,monospace" font-weight="700">REAL EVIDENCE</text>
+<text x="350" y="96" font-size="10" fill="#1f7a6d" font-family="ui-monospace,Menlo,monospace" font-weight="700">Real evidence</text>
 <text x="350" y="114" font-size="11" fill="#22262d" font-family="system-ui,Segoe UI,sans-serif">friction: 1.58% of trusted reviews</text>
 <text x="350" y="130" font-size="11" fill="#22262d" font-family="system-ui,Segoe UI,sans-serif">rating gap: -2.223* (166 reviews)</text>
-<text x="350" y="158" font-size="10" fill="#3a6ea5" font-family="ui-monospace,Menlo,monospace" font-weight="700">COMPARABLE ENVELOPE</text>
+<text x="350" y="158" font-size="10" fill="#3a6ea5" font-family="ui-monospace,Menlo,monospace" font-weight="700">Comparable envelope</text>
 <text x="350" y="176" font-size="11" fill="#22262d" font-family="system-ui,Segoe UI,sans-serif">clean-air delivery: 165-600 m3/h (n=9)</text>
 <text x="350" y="192" font-size="11" fill="#22262d" font-family="system-ui,Segoe UI,sans-serif">room coverage: 42-156 m2 (n=9)</text>
 <text x="350" y="208" font-size="11" fill="#22262d" font-family="system-ui,Segoe UI,sans-serif">min. noise: 13-20.5 dBA (n=6)</text>
 <text x="350" y="224" font-size="11" fill="#22262d" font-family="system-ui,Segoe UI,sans-serif">comparable median: $199.99 (27 products)</text>
-<text x="350" y="248" font-size="10" fill="#a6433f" font-family="ui-monospace,Menlo,monospace" font-weight="700">UNKNOWN (never invented)</text>
+<text x="350" y="248" font-size="10" fill="#a6433f" font-family="ui-monospace,Menlo,monospace" font-weight="700">Unknown (never invented)</text>
 <text x="350" y="266" font-size="11" fill="#9aa1ab" font-family="system-ui,Segoe UI,sans-serif">mass: no comparable publishes this</text>
 <text x="350" y="281" font-size="11" fill="#9aa1ab" font-family="system-ui,Segoe UI,sans-serif">power: no comparable publishes this</text>
 <text x="350" y="296" font-size="11" fill="#9aa1ab" font-family="system-ui,Segoe UI,sans-serif">dimensions: no comparable publishes this</text>
 <text x="350" y="311" font-size="11" fill="#9aa1ab" font-family="system-ui,Segoe UI,sans-serif">target price: no comparable publishes this</text>
 <line x1="24" y1="376" x2="616" y2="376" stroke="#d7dbe2" stroke-width="1"/>
-<text x="24" y="394" font-size="9" fill="#9aa1ab" font-family="system-ui,Segoe UI,sans-serif">CONCEPT_VISUAL - machine-composed schematic from this innovation's own stored data. Not a design rendering; no invented geometry.</text>
+<text x="24" y="394" font-size="9" fill="#9aa1ab" font-family="system-ui,Segoe UI,sans-serif">Concept visual — machine-composed schematic from this innovation's own stored data. Not a design rendering; no invented geometry.</text>
 <text x="24" y="407" font-size="9" fill="#9aa1ab" font-family="ui-monospace,Menlo,monospace">tool: Claude Fable 5 generator (src/real/concept_visuals.py) - id: reliability:CROSS_CATEGORY_TRANSFER</text>
 </svg>

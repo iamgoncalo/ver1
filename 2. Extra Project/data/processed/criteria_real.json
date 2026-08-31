@@ -1140,6 +1140,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "Likely — operator PREDICT (reactive → anticipatory) requires sensing/data.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -1588,6 +1589,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "Likely — operator MATERIALISE turns a digital signal into a physical action.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -2036,6 +2038,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "mobile",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -2515,6 +2518,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "Likely — operator AMBIENT (invisible environmental behaviour) requires sensing.",
+        "form_factor": "wall",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -2994,6 +2998,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -3473,6 +3478,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "mobile",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -3933,6 +3939,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -3999,7 +4006,7 @@
       "comparable_market_median_caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": true,
       "is_non_dominated": true,
-      "evolution_stage": "FINALIST",
+      "evolution_stage": "SURVIVOR",
       "critic_overall": "CHALLENGE",
       "critic_dimensions": {
         "EVIDENCE": {
@@ -4393,6 +4400,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "mobile",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -4459,7 +4467,7 @@
       "comparable_market_median_caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": true,
       "is_non_dominated": true,
-      "evolution_stage": "FINALIST",
+      "evolution_stage": "SURVIVOR",
       "critic_overall": "CHALLENGE",
       "critic_dimensions": {
         "EVIDENCE": {
@@ -4853,6 +4861,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "portable",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -4920,7 +4929,7 @@
       "comparable_market_median_caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": true,
       "is_non_dominated": true,
-      "evolution_stage": "FINALIST",
+      "evolution_stage": "SURVIVOR",
       "critic_overall": "CHALLENGE",
       "critic_dimensions": {
         "EVIDENCE": {
@@ -5279,6 +5288,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -5704,6 +5714,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -6129,6 +6140,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "High — this concept directly targets filter cost/frequency friction.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "distributed",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -6554,6 +6566,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "High — this concept directly targets filter cost/frequency friction.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "furniture_integrated",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -6985,6 +6998,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "mobile",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -7417,6 +7431,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "wearable_personal",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {
@@ -7849,6 +7864,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "wearable_personal",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "engineering_envelope": {

@@ -19,11 +19,11 @@ interface FieldData {
 interface MagicBoxData { count: number; possibilities: { id: string; name: string; friction_theme: string }[]; pattern_type_counts: Record<string, number> }
 interface InnovationCandidate { id: string; name: string; friction_theme: string; typical_market_price_usd: number | null; critic_overall: string | null }
 interface InnovationsData { count: number; candidates: InnovationCandidate[] }
-interface NewProduct { id: string; name: string; friction_theme_name: string; operator: string; typical_market_price_usd: number | null; economic_value: number; feasibility: string }
-interface NewProductsData { count: number; products: NewProduct[]; bet: string }
+interface ReadyToTestItem { id: string; name: string; friction_theme_name: string; operator: string; typical_market_price_usd: number | null; economic_value: number; feasibility: string }
+interface ReadyToTestData { count: number; innovations: ReadyToTestItem[]; method_note: string; formal_case_bet: string }
 interface HomepageFunnel {
   radar: RadarData; paths: PathData[]; formal_case_brief: FieldData; magic_box: MagicBoxData;
-  innovations: InnovationsData; new_products: NewProductsData;
+  innovations: InnovationsData; ready_to_test: ReadyToTestData;
 }
 interface FunnelDoc {
   machine_state: {
@@ -355,8 +355,15 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
               Explore Innovations →
             </button>
             <div style={{ marginTop: 14 }}>
-              <SectionLabel>Current priority to test ({hf.new_products.count} machine hypotheses)</SectionLabel>
-              {hf.new_products.products.map((p) => (
+              <SectionLabel>Ready to test ({hf.ready_to_test.count} — evidence-driven, not a ranked cut)</SectionLabel>
+              {hf.ready_to_test.count === 0 && (
+                <p style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.45, marginBottom: 6 }}>
+                  No innovation currently clears every gate this state requires (non-dominated + Critic verdict
+                  SURVIVE + grounded in a real research tension) — an honest zero, not an empty placeholder. See
+                  "developing" in the Innovations world for the closest real candidates.
+                </p>
+              )}
+              {hf.ready_to_test.innovations.map((p) => (
                 <button key={p.id} onClick={() => goTo(5, { innovation: p.id })}
                   style={{ display: "flex", width: "100%", justifyContent: "space-between", fontSize: 12, padding: "5px 0", borderBottom: "1px solid var(--line)", background: "none", border: "none", cursor: "pointer", textAlign: "left", color: "var(--ink)" }}>
                   <span>{p.name} →</span>
@@ -364,11 +371,11 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
                 </button>
               ))}
               <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.45 }}>
-                Formal-case recommendation: {hf.new_products.bet} — its experiment and kill criterion live in
-                the Innovations Lab.
+                Formal-case recommendation: {hf.ready_to_test.formal_case_bet} — a separate, human-authored bet;
+                its experiment and kill criterion live in the Innovations Lab.
               </p>
             </div>
-            <Source text="GET /api/funnel -> homepage_funnel.innovations + new_products — magic_box_real.json (gate -> evidence -> dominance screening), each joined to its Critic verdict." />
+            <Source text="GET /api/funnel -> homepage_funnel.innovations + ready_to_test — the latter filters criteria_real.json concepts by is_non_dominated + critic_overall==SURVIVE + why_here.consequence_basis==RESEARCH_TENSION (src/real/funnel_real.py), the same rule innovations_real.py uses for state 'ready_to_test'." />
           </>
         )}
       </FocusPanel>
@@ -383,7 +390,7 @@ function PathRow({ p, onOpen }: { p: PathData; onOpen: () => void }) {
     <div style={{ border: "1px solid var(--line)", borderRadius: 12, overflow: "hidden" }}>
       <button onClick={() => setOpen((v) => !v)} style={{ display: "block", width: "100%", background: "none", border: "none", padding: "10px 14px", textAlign: "left", cursor: "pointer" }}>
         <Pill tone={p.epistemic_class === "TENSION" ? "rose" : "amber"}>
-          {p.epistemic_class === "TENSION" ? "TENSION" : "ASSUMPTION TO TEST"}
+          {p.epistemic_class === "TENSION" ? "Tension" : "Assumption to test"}
         </Pill>
         <span style={{ marginLeft: 6 }}><Pill tone="neutral">{p.evidence_state}</Pill></span>
         <div style={{ fontSize: 13, fontWeight: 600, marginTop: 6 }}>

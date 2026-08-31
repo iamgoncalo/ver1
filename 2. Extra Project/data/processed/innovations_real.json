@@ -1,5 +1,5 @@
 {
-  "_provenance": "One Innovation per Magic Box possibility, every field a deterministic function of criteria_real.json / magic_box_real.json / funnel_real.json / signals_real.json / decision_framework_real.json. Missing evidence stays missing (no persona, no architecture dataset, no target-price model).",
+  "_provenance": "One Innovation per Magic Box possibility, every field a deterministic function of criteria_real.json / magic_box_real.json / funnel_real.json / signals_real.json / decision_framework_real.json. Missing evidence stays missing (no persona, no architecture dataset, no target-price model). Lifecycle fields are a deterministic function of data/processed/innovation_registry.json, appended to only on a genuine input change (funnel_run_history.json's exact idempotent pattern).",
   "generated_by": "src/real/innovations_real.py",
   "state_rule": {
     "epistemic_type": "METHOD_CHOICE",
@@ -7,11 +7,12 @@
       "1 killed in the Magic funnel -> rejected",
       "2 Critic REJECT -> rejected",
       "3 Critic CHALLENGE -> challenged",
-      "4 finalist -> ready_to_test",
+      "4 non-dominated + Critic SURVIVE + research-tension-grounded -> ready_to_test",
       "5 non-dominated + research-tension-grounded -> developing",
       "6 research-tension-grounded -> grounded",
       "7 otherwise -> exploratory",
-      "paused: vocabulary only - honestly zero until a human pauses one"
+      "paused: vocabulary only - honestly zero until a human pauses one",
+      "NOTE: is_finalist (the magic-box top-3-by-pain cut) is never read here - ready_to_test is earned by evidence (non-dominated + Critic SURVIVE + research-tension-grounded), not by an arbitrary top-N count."
     ]
   },
   "state_counts": {
@@ -20,6 +21,33 @@
     "rejected": 7,
     "paused": 0
   },
+  "lifecycle_rule": {
+    "epistemic_type": "METHOD_CHOICE",
+    "rule": [
+      "new: id has never been recorded in the registry before this run.",
+      "rejected: this run's mechanical state is 'rejected' (funnel kill or Critic REJECT).",
+      "superseded: another id shares its friction_theme, its source_evidence_ids are a real STRICT SUPERSET of this id's, and its Critic verdict is equal-or-stronger - see detect_supersession().",
+      "challenged: this run's mechanical state is 'challenged' (Critic CHALLENGE) and neither rejected nor superseded applies.",
+      "updated: the id's structural/semantic fingerprint (friction_theme, operator, sorted parent_path_ids, sorted source_evidence_ids) changed since the last genuine run, and none of the above apply.",
+      "stale: the fingerprint AND mechanical state have been unchanged for >= STALE_AFTER_RUNS consecutive genuine runs.",
+      "active: none of the above - a healthy, unremarkable run for this id.",
+      "archived: rejected/superseded/stale for >= ARCHIVE_GRACE_RUNS consecutive genuine runs - leaves the active population, recorded permanently in archived_innovations (never deleted, only moved out of the active view)."
+    ],
+    "stale_after_runs": 5,
+    "archive_grace_runs": 2
+  },
+  "lifecycle_counts": {
+    "challenged": 6,
+    "active": 3,
+    "rejected": 7,
+    "new": 0,
+    "updated": 0,
+    "superseded": 0,
+    "stale": 0,
+    "archived": 0
+  },
+  "new_this_run": [],
+  "new_this_run_note": "No new qualified innovation this run - every id's fingerprint already existed in the registry unchanged (Air's fixed operator table regenerating the same ids is correctly recognised as no novelty).",
   "innovations": [
     {
       "innovation_id": "reliability:PREDICT",
@@ -40,6 +68,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "Likely — operator PREDICT (reactive → anticipatory) requires sensing/data.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -432,7 +461,7 @@
       "state": "challenged",
       "state_why": "Critic verdict CHALLENGE - a real dimension pushes back.",
       "next_experiment": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-reliability:PREDICT",
@@ -448,7 +477,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "reliability:PREDICT",
-            "generated_at": "2026-08-31T16:09:19.518923+00:00",
+            "generated_at": "2026-08-31T18:00:05.646592+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -462,8 +491,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "challenged",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "reliability:MATERIALISE",
@@ -484,6 +525,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "Likely — operator MATERIALISE turns a digital signal into a physical action.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -876,7 +918,7 @@
       "state": "challenged",
       "state_why": "Critic verdict CHALLENGE - a real dimension pushes back.",
       "next_experiment": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-reliability:MATERIALISE",
@@ -892,7 +934,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "reliability:MATERIALISE",
-            "generated_at": "2026-08-31T16:09:19.519740+00:00",
+            "generated_at": "2026-08-31T18:00:05.647376+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -906,8 +948,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "challenged",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "reliability:CROSS_CATEGORY_TRANSFER",
@@ -928,6 +982,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "mobile",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -1320,7 +1375,7 @@
       "state": "challenged",
       "state_why": "Critic verdict CHALLENGE - a real dimension pushes back.",
       "next_experiment": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-reliability:CROSS_CATEGORY_TRANSFER",
@@ -1336,7 +1391,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "reliability:CROSS_CATEGORY_TRANSFER",
-            "generated_at": "2026-08-31T16:09:19.520860+00:00",
+            "generated_at": "2026-08-31T18:00:05.648178+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -1350,8 +1405,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "challenged",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "noise:AMBIENT",
@@ -1372,6 +1439,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "Likely — operator AMBIENT (invisible environmental behaviour) requires sensing.",
+        "form_factor": "wall",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -1799,7 +1867,7 @@
       "state": "developing",
       "state_why": "Non-dominated and grounded in a real research tension.",
       "next_experiment": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-noise:AMBIENT",
@@ -1815,7 +1883,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "noise:AMBIENT",
-            "generated_at": "2026-08-31T16:09:19.521787+00:00",
+            "generated_at": "2026-08-31T18:00:05.648837+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -1829,8 +1897,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "active",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "developing",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "noise:TEMPORAL_SHIFT",
@@ -1851,6 +1931,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -2278,7 +2359,7 @@
       "state": "developing",
       "state_why": "Non-dominated and grounded in a real research tension.",
       "next_experiment": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-noise:TEMPORAL_SHIFT",
@@ -2294,7 +2375,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "noise:TEMPORAL_SHIFT",
-            "generated_at": "2026-08-31T16:09:19.522463+00:00",
+            "generated_at": "2026-08-31T18:00:05.649397+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -2308,8 +2389,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "active",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "developing",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "noise:CROSS_CATEGORY_TRANSFER",
@@ -2330,6 +2423,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "mobile",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -2757,7 +2851,7 @@
       "state": "developing",
       "state_why": "Non-dominated and grounded in a real research tension.",
       "next_experiment": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-noise:CROSS_CATEGORY_TRANSFER",
@@ -2773,7 +2867,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "noise:CROSS_CATEGORY_TRANSFER",
-            "generated_at": "2026-08-31T16:09:19.523105+00:00",
+            "generated_at": "2026-08-31T18:00:05.650001+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -2787,8 +2881,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "active",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "developing",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "value_effectiveness:CONCENTRATE",
@@ -2809,6 +2915,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -3228,7 +3335,7 @@
       "state": "challenged",
       "state_why": "Critic verdict CHALLENGE - a real dimension pushes back.",
       "next_experiment": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further.",
-      "kill_criterion": "Formal-case kill criterion applies (see formal_case.abandon_signal)",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-value_effectiveness:CONCENTRATE",
@@ -3244,7 +3351,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "value_effectiveness:CONCENTRATE",
-            "generated_at": "2026-08-31T16:09:19.523691+00:00",
+            "generated_at": "2026-08-31T18:00:05.650519+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -3258,8 +3365,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "challenged",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
@@ -3280,6 +3399,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "mobile",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -3699,7 +3819,7 @@
       "state": "challenged",
       "state_why": "Critic verdict CHALLENGE - a real dimension pushes back.",
       "next_experiment": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further.",
-      "kill_criterion": "Formal-case kill criterion applies (see formal_case.abandon_signal)",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-value_effectiveness:CROSS_CATEGORY_TRANSFER",
@@ -3715,7 +3835,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
-            "generated_at": "2026-08-31T16:09:19.524295+00:00",
+            "generated_at": "2026-08-31T18:00:05.651143+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -3729,8 +3849,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "challenged",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "value_effectiveness:PERSONALISE",
@@ -3751,6 +3883,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "portable",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -4171,7 +4304,7 @@
       "state": "challenged",
       "state_why": "Critic verdict CHALLENGE - a real dimension pushes back.",
       "next_experiment": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further.",
-      "kill_criterion": "Formal-case kill criterion applies (see formal_case.abandon_signal)",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-value_effectiveness:PERSONALISE",
@@ -4187,7 +4320,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "value_effectiveness:PERSONALISE",
-            "generated_at": "2026-08-31T16:09:19.524737+00:00",
+            "generated_at": "2026-08-31T18:00:05.651553+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -4201,8 +4334,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "challenged",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "challenged",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "customer_service:INVERT",
@@ -4223,6 +4368,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -4604,7 +4750,7 @@
       "state": "rejected",
       "state_why": "Killed in the Magic funnel: Not enough real complaint evidence — 0.34% is below the 0.5% floor.",
       "next_experiment": "Real internal service-capacity data would let this split into a proper technical-feasibility rating plus a separate, currently-missing organizational-feasibility rating.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-customer_service:INVERT",
@@ -4620,7 +4766,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "customer_service:INVERT",
-            "generated_at": "2026-08-31T16:09:19.525390+00:00",
+            "generated_at": "2026-08-31T18:00:05.651962+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -4634,8 +4780,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "rejected",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "customer_service:REMOVE",
@@ -4656,6 +4814,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "tower",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -5037,7 +5196,7 @@
       "state": "rejected",
       "state_why": "Killed in the Magic funnel: Not enough real complaint evidence — 0.34% is below the 0.5% floor.",
       "next_experiment": "Real internal service-capacity data would let this split into a proper technical-feasibility rating plus a separate, currently-missing organizational-feasibility rating.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-customer_service:REMOVE",
@@ -5053,7 +5212,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "customer_service:REMOVE",
-            "generated_at": "2026-08-31T16:09:19.525886+00:00",
+            "generated_at": "2026-08-31T18:00:05.652362+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -5067,8 +5226,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "rejected",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "filter_cost:DISTRIBUTE",
@@ -5089,6 +5260,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "High — this concept directly targets filter cost/frequency friction.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "distributed",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -5470,7 +5642,7 @@
       "state": "rejected",
       "state_why": "Killed in the Magic funnel: Not enough real complaint evidence — 0.26% is below the 0.5% floor.",
       "next_experiment": "Real internal margin/logistics data for a filter-subscription model would let this split into a proper technical-feasibility rating plus a separate, currently-missing commercial-feasibility rating.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-filter_cost:DISTRIBUTE",
@@ -5486,7 +5658,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "filter_cost:DISTRIBUTE",
-            "generated_at": "2026-08-31T16:09:19.526381+00:00",
+            "generated_at": "2026-08-31T18:00:05.652995+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -5500,8 +5672,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "rejected",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "filter_cost:MERGE",
@@ -5522,6 +5706,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "High — this concept directly targets filter cost/frequency friction.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "furniture_integrated",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -5903,7 +6088,7 @@
       "state": "rejected",
       "state_why": "Killed in the Magic funnel: Not enough real complaint evidence — 0.26% is below the 0.5% floor.",
       "next_experiment": "Real internal margin/logistics data for a filter-subscription model would let this split into a proper technical-feasibility rating plus a separate, currently-missing commercial-feasibility rating.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-filter_cost:MERGE",
@@ -5919,7 +6104,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "filter_cost:MERGE",
-            "generated_at": "2026-08-31T16:09:19.526847+00:00",
+            "generated_at": "2026-08-31T18:00:05.653418+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -5933,8 +6118,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "rejected",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "ozone_odor_safety:MOVE",
@@ -5955,6 +6152,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "mobile",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -6339,7 +6537,7 @@
       "state": "rejected",
       "state_why": "Killed in the Magic funnel: Another concept beats it on pain, value, and feasibility.",
       "next_experiment": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-ozone_odor_safety:MOVE",
@@ -6355,7 +6553,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "ozone_odor_safety:MOVE",
-            "generated_at": "2026-08-31T16:09:19.527441+00:00",
+            "generated_at": "2026-08-31T18:00:05.653917+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -6369,8 +6567,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "rejected",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "ozone_odor_safety:PERSONALISE",
@@ -6391,6 +6601,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "wearable_personal",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -6775,7 +6986,7 @@
       "state": "rejected",
       "state_why": "Killed in the Magic funnel: Another concept beats it on pain, value, and feasibility.",
       "next_experiment": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-ozone_odor_safety:PERSONALISE",
@@ -6791,7 +7002,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "ozone_odor_safety:PERSONALISE",
-            "generated_at": "2026-08-31T16:09:19.527982+00:00",
+            "generated_at": "2026-08-31T18:00:05.654587+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -6805,8 +7016,20 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "rejected",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     },
     {
       "innovation_id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
@@ -6827,6 +7050,7 @@
         "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
         "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
         "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "form_factor": "wearable_personal",
         "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
       },
       "architecture": "UNKNOWN - no system-architecture dataset exists; the archetype above is a design rule from the operator's own definition.",
@@ -7210,7 +7434,7 @@
       "state": "rejected",
       "state_why": "Killed in the Magic funnel: Another concept beats it on pain, value, and feasibility.",
       "next_experiment": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it.",
-      "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
+      "kill_criterion": "No authored kill criterion yet for this innovation - only the formal case (see formal_case.abandon_signal) has a human-authored one; this innovation earns its own by developing further evidence or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
         "visual-ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
@@ -7226,7 +7450,7 @@
             "tool": "Claude Fable 5 generator - src/real/concept_visuals.py",
             "generator_version": "1.0",
             "innovation_id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
-            "generated_at": "2026-08-31T16:09:19.528668+00:00",
+            "generated_at": "2026-08-31T18:00:05.655172+00:00",
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
@@ -7240,10 +7464,23 @@
       ],
       "run_history": {
         "magic_run_input_sha256": "0b3f9862e0e270a295eacd709182802e981090e817f4f1072000e37aa83f150c",
-        "funnel_snapshot": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37"
-      }
+        "funnel_snapshot": "d5d03b0d3856721f04d7d1c4ee7f2fe2a7d1df64ac4d2d4130bede07d2b13f61"
+      },
+      "lifecycle": "rejected",
+      "lifecycle_first_seen_run": "run-1",
+      "lifecycle_history": [
+        {
+          "run_id": "run-1",
+          "from_state": null,
+          "to_state": "rejected",
+          "why": "First observed in the registry.",
+          "at": "2026-08-31T17:53:53.831289+00:00"
+        }
+      ],
+      "superseded_by": null
     }
   ],
+  "archived_innovations": [],
   "formal_case": {
     "label": "FORMAL CASE RECOMMENDATION",
     "note": "The formal Air case's three Opportunity Spaces and its one recommendation - kept separate from the general innovation population above, never a tournament over it.",

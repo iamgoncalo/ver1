@@ -134,7 +134,7 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
 
         {world === 4 && data && (
           <div style={{ maxWidth: 820 }}>
-            <SectionLabel>Exploratory possibilities — machine-induced cross-product, all NOT_PROMOTED</SectionLabel>
+            <SectionLabel>Exploratory possibilities — machine-induced cross-product, none yet promoted to an innovation</SectionLabel>
             <p style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 10 }}>
               The 12 authored design operators (category-independent vocabulary) crossed with every induced theme
               clearing the same materiality floor (the minimum complaint share a theme must reach to count) the Air case uses. Labels are machine-generated; nothing here is
@@ -155,7 +155,7 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
             <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
               No innovations are promoted for this category — promotion requires feasibility evidence (trend/market
               families are honestly empty) and criteria evaluation over an accepted research corpus. The
-              {" "}{possibilities.length} exploratory possibilities live in the Magic box stage, clearly NOT_PROMOTED.
+              {" "}{possibilities.length} exploratory possibilities live in the Magic box stage, clearly not yet promoted.
             </p>
           </div>
         )}

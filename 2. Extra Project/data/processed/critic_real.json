@@ -1,5 +1,5 @@
 {
-  "_provenance": "Critic verdicts derived ONLY from real signals already computed by magic_box_real.py (gate_passed, economic_value vs. corpus median, is_white_space/competitor_gap_brands). 5 of 8 requested Critic dimensions (HUMAN/PHYSICAL/VERSUNI_FIT/TIMING/ROBUSTNESS) have no real evidence anywhere in this pipeline and are honestly reported NEEDS_EVIDENCE, never guessed. Evolution stage is derived from the possibility's real position in the already-computed funnel (generated/gate/evidence/non-dominated/finalist) and graveyard membership.",
+  "_provenance": "Critic verdicts derived ONLY from real signals already computed by magic_box_real.py (gate_passed, economic_value vs. corpus median, is_white_space/competitor_gap_brands). 5 of 8 requested Critic dimensions (HUMAN/PHYSICAL/VERSUNI_FIT/TIMING/ROBUSTNESS) have no real evidence anywhere in this pipeline and are honestly reported NEEDS_EVIDENCE, never guessed. Evolution stage is derived from the possibility's own evidence position in the already-computed funnel (generated/gate/evidence/non-dominated) crossed with its own Critic verdict, and graveyard membership - never from a ranking against its siblings.",
   "generated_by": "src/real/critic_real.py",
   "verdict_vocabulary": [
     "SURVIVE",
@@ -11,7 +11,7 @@
     "SEED",
     "CHALLENGED",
     "SURVIVOR",
-    "FINALIST",
+    "STRONG_SURVIVOR",
     "REJECTED"
   ],
   "concepts": [
@@ -258,7 +258,7 @@
     {
       "possibility_id": "value_effectiveness:CONCENTRATE",
       "name": "Verified-Performance Air Purifier",
-      "evolution_stage": "FINALIST",
+      "evolution_stage": "SURVIVOR",
       "critic_overall": "CHALLENGE",
       "critic_dimensions": {
         "EVIDENCE": {
@@ -298,7 +298,7 @@
     {
       "possibility_id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
       "name": "Certified-Clean Air Purifier",
-      "evolution_stage": "FINALIST",
+      "evolution_stage": "SURVIVOR",
       "critic_overall": "CHALLENGE",
       "critic_dimensions": {
         "EVIDENCE": {
@@ -338,7 +338,7 @@
     {
       "possibility_id": "value_effectiveness:PERSONALISE",
       "name": "Personal Air Purifier",
-      "evolution_stage": "FINALIST",
+      "evolution_stage": "SURVIVOR",
       "critic_overall": "CHALLENGE",
       "critic_dimensions": {
         "EVIDENCE": {
