@@ -38,7 +38,106 @@ const DECISION_TYPE_LABEL: Record<string, string> = {
 type FetchStatus = "loading" | "success" | "empty" | "error" | "timeout";
 const TIMEOUT_MS = 15000;
 
-export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: InnovationsResponse) => void; onGoToWorld?: (n: number) => void }) {
+function InnovationCard({ i, onOpen }: { i: any; onOpen: () => void }) {
+  const env = i.engineering_envelope ?? {};
+  const cadr = env.performance_cadr_m3h;
+  return (
+    <div onClick={onOpen} role="button" tabIndex={0} onKeyDown={(e) => e.key === "Enter" && onOpen()}
+      style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, padding: 12, cursor: "pointer" }}>
+      <img src={`/concept-visuals/${i.innovation_id.replace(":", "_")}.svg`} alt={`${i.name} concept schematic`}
+        style={{ width: "100%", borderRadius: 10, border: "1px solid var(--line)", marginBottom: 8, background: "white" }} />
+      <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={i.name}>{i.name}</div>
+      <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 6 }}>
+        <Pill tone={i.state === "developing" || i.state === "ready_to_test" ? "good" : i.state === "rejected" ? "rose" : i.state === "challenged" ? "amber" : "neutral"}>{i.state.replace(/_/g, " ")}</Pill>
+        <Pill tone="neutral">{i.prototype_state === "CONCEPT_VISUAL" ? "concept visual" : "no prototype"}</Pill>
+      </div>
+      <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 6, lineHeight: 1.4 }}>
+        {cadr?.epistemic_type === "OBSERVED_COMPARABLE" ? `comparables: ${cadr.min}–${cadr.max} ${cadr.unit} (n=${cadr.n_comparables})` : "envelope: comparables pending"}
+      </div>
+    </div>
+  );
+}
+
+function InnovationDetail({ i, navigate }: { i: any; navigate?: (n: number, params?: Record<string, string>) => void }) {
+  const env = i.engineering_envelope ?? {};
+  return (
+    <div data-testid="innovation-detail">
+      <img src={`/concept-visuals/${i.innovation_id.replace(":", "_")}.svg`} alt={`${i.name} concept schematic`}
+        style={{ width: "100%", borderRadius: 12, border: "1px solid var(--line)", background: "white", marginBottom: 6 }} />
+      <p style={{ fontSize: 10, color: "var(--ink-faint)", marginBottom: 12 }}>
+        CONCEPT_VISUAL — machine-composed schematic from this innovation's own data, not a design rendering.
+      </p>
+
+      <SectionLabel>What is it?</SectionLabel>
+      <p style={{ fontSize: 12.5, color: "var(--ink)", lineHeight: 1.5, marginBottom: 10 }}>{i.proposition}</p>
+
+      <SectionLabel>Why does it exist?</SectionLabel>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}><b>Reality:</b> {i.why_here?.reality}</p>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4 }}><b>Transformation:</b> {i.why_here?.transformation}</p>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4, marginBottom: 10 }}><b>Consequence:</b> {i.why_here?.product_consequence}</p>
+
+      <SectionLabel>Who / where (only what evidence supports)</SectionLabel>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>{i.target_user_context?.evidence_based}</p>
+      <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginBottom: 10 }}>{i.target_user_context?.persona}</p>
+
+      <SectionLabel>How big / heavy / expensive might it be?</SectionLabel>
+      {Object.entries(env).map(([k, v]: [string, any]) => {
+        if (typeof v === "string") return <p key={k} style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4 }}>{v}</p>;
+        if (!v || typeof v !== "object") return null;
+        const label = k.replace(/_/g, " ");
+        if (v.epistemic_type === "OBSERVED_COMPARABLE") return <StatRow key={k} label={`${label} (observed, n=${v.n_comparables})`} value={`${v.min}–${v.max} ${v.unit}`} />;
+        if (v.epistemic_type === "REFERENCE_MARKET_PRICE") return <StatRow key={k} label={`${label} (reference)`} value={`median $${v.median} (${v.n_comparables} products)`} />;
+        return <StatRow key={k} label={label} value="unknown — no comparable publishes this" />;
+      })}
+      <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, margin: "4px 0 10px" }}>{i.target_price_range?.note}</p>
+
+      <SectionLabel>Evidence behind it</SectionLabel>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 6 }}>{i.problem}</p>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
+        {(i.parent_path_ids ?? []).map((pid: string) => (
+          <button key={pid} onClick={() => navigate?.(3, { path: pid })} className="mono"
+            style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--ink-dim)" }}>
+            {pid} →
+          </button>
+        ))}
+        {(i.evidence_ids ?? []).filter((e: string) => e.startsWith("RP-")).map((rid: string) => (
+          <button key={rid} onClick={() => navigate?.(2, { paper: rid })} className="mono"
+            style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--accent-blue-ink)" }}>
+            {rid} →
+          </button>
+        ))}
+        <button onClick={() => navigate?.(4, { possibility: i.innovation_id })} className="mono"
+          style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--accent-blue)", background: "var(--surface)", cursor: "pointer", color: "var(--accent-blue-ink)" }}>
+          magic possibility →
+        </button>
+      </div>
+
+      <SectionLabel>Estimated vs unknown</SectionLabel>
+      {(i.uncertainties ?? []).map((u: string, idx: number) => (
+        <p key={idx} style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.45, marginBottom: 4 }}>{u}</p>
+      ))}
+      {i.contradictions && <p style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.45, marginBottom: 10 }}>Contradiction: {i.contradictions}</p>}
+
+      <SectionLabel>What should be tested next?</SectionLabel>
+      <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5 }}>{i.next_experiment ?? "No machine-derivable next test for this state."}</p>
+      <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.45, marginTop: 4, marginBottom: 10 }}>{i.kill_criterion}</p>
+      <p style={{ fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.45, marginBottom: 10 }}><b>State:</b> {i.state.replace(/_/g, " ")} — {i.state_why}</p>
+
+      {(i.artifacts ?? []).filter((a: any) => a.kind === "innovation_dossier").map((a: any) => (
+        <a key={a.id} href={a.path} target="_blank" rel="noopener noreferrer"
+          style={{ display: "inline-block", marginTop: 4, padding: "8px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", color: "var(--accent-blue-ink)", textDecoration: "none", fontSize: 12, fontWeight: 600 }}>
+          Innovation dossier (PDF) →
+        </a>
+      ))}
+      <p className="mono" style={{ fontSize: 9.5, color: "var(--ink-faint)", marginTop: 12, lineHeight: 1.5 }}>
+        GET /api/innovation-objects — src/real/innovations_real.py; state rule is a labelled METHOD_CHOICE;
+        run {String(i.run_history?.magic_run_input_sha256 ?? "").slice(0, 12)}
+      </p>
+    </div>
+  );
+}
+
+export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: InnovationsResponse) => void; onGoToWorld?: (n: number, params?: Record<string, string>) => void }) {
   const [data, setData] = useState<InnovationsResponse | null>(null);
   const [priority, setPriority] = useState(DEFAULT_PRIORITY);
   const [status, setStatus] = useState<FetchStatus>("loading");
@@ -50,6 +149,21 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
   const [traceId, setTraceId] = useState<string | null>(null);
   const deepLinkApplied = useRef(false);
   const [labId, setLabId] = useState<string | null>(null);
+  // The developed-possibility population (Pass 3) - one Innovation per
+  // Magic possibility, mechanical states, formal case kept separate.
+  const [objects, setObjects] = useState<any>(null);
+  const [innovFocus, setInnovFocus] = useState<any>(null);
+  const [showRejected, setShowRejected] = useState(false);
+  useEffect(() => {
+    fetch("/api/innovation-objects").then((r) => r.json()).then((d) => {
+      setObjects(d);
+      const id = getParam("innovation");
+      if (id && id.includes(":")) {
+        const hit = d.innovations?.find((x: any) => x.innovation_id === id);
+        if (hit) setInnovFocus(hit);
+      }
+    }).catch(() => setObjects(null));
+  }, []);
 
   useEffect(() => { api.signals().then((r) => setSignals(r.signals)).catch(() => {}); }, []);
   useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
@@ -92,7 +206,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
 
   // Keep the URL a refresh-safe record of the open panel (lab wins).
   useUrlParam("lab", labId);
-  useUrlParam("innovation", labId ? null : traceId);
+  useUrlParam("innovation", labId ? null : (traceId ?? innovFocus?.innovation_id ?? null));
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
@@ -128,6 +242,57 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
         </div>
       </div>
 
+      <div className="scrollY" style={{ flex: 1, minHeight: 0 }}>
+
+      {objects && (
+        <div style={{ marginBottom: 18 }} data-testid="innovation-population">
+          <div style={{ fontSize: 12, color: "var(--ink-dim)", marginBottom: 10, lineHeight: 1.5, maxWidth: 760 }}>
+            {objects.innovations.length} developed possibilities from the Magic box, each in the state its own
+            evidence and Critic verdict earn (<span className="mono" style={{ fontSize: 10.5 }}>method rule, never a tournament</span>) —
+            the formal case's evaluated bets and recommendation follow separately below.
+          </div>
+          {(["ready_to_test", "developing", "grounded", "exploratory", "challenged", "paused"] as const).map((st) => {
+            const group = objects.innovations.filter((i: any) => i.state === st);
+            if (!group.length) return null;
+            return (
+              <div key={st} style={{ marginBottom: 12 }}>
+                <SectionLabel>{st.replace(/_/g, " ")} · {group.length}</SectionLabel>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 10 }}>
+                  {group.map((i: any) => <InnovationCard key={i.innovation_id} i={i} onOpen={() => setInnovFocus(i)} />)}
+                </div>
+              </div>
+            );
+          })}
+          {(() => {
+            const rejected = objects.innovations.filter((i: any) => i.state === "rejected");
+            if (!rejected.length) return null;
+            return (
+              <div style={{ marginBottom: 6 }}>
+                <button onClick={() => setShowRejected((v) => !v)}
+                  style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 11, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>
+                  {showRejected ? "▾" : "▸"} rejected · {rejected.length} — killed by the funnel or the Critic, kept honest
+                </button>
+                {showRejected && (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 10, marginTop: 8 }}>
+                    {rejected.map((i: any) => <InnovationCard key={i.innovation_id} i={i} onOpen={() => setInnovFocus(i)} />)}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+        </div>
+      )}
+
+      <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "6px 0 12px" }}>
+        <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.08em", color: "var(--accent-blue-ink)", fontWeight: 700 }}>
+          FORMAL CASE RECOMMENDATION
+        </span>
+        <span style={{ flex: 1, height: 1, background: "var(--line)" }} />
+        <span style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>
+          the Air case's three evaluated bets — separate from the population above
+        </span>
+      </div>
+
       {status === "loading" && (
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-faint)", fontSize: 13 }}>
           Computing live decision from real evidence…
@@ -155,7 +320,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
         </div>
       )}
       {status === "success" && (
-      <div className="scrollY" style={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14, alignContent: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14, alignContent: "start" }}>
         {ids.map((id) => {
           const s = data!.scores[id];
           const isWinner = id === winnerId;
@@ -299,6 +464,14 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
           )}
         </div>
       )}
+
+      </div>
+
+      <FocusPanel open={!!innovFocus} onClose={() => setInnovFocus(null)}
+        eyebrow={innovFocus ? `${innovFocus.state.replace(/_/g, " ")} · ${innovFocus.target_category}` : ""}
+        title={innovFocus?.name ?? ""}>
+        {innovFocus && <InnovationDetail i={innovFocus} navigate={onGoToWorld} />}
+      </FocusPanel>
 
       <FocusPanel open={!!traceId} onClose={() => setTraceId(null)} eyebrow="Trace this bet — evidence, theme, and every concept built on it" title={traceId ? data?.scores[traceId]?.name ?? traceId : ""}>
         {traceId && data && (

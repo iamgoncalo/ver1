@@ -407,6 +407,15 @@ def runs():
     return read_json("funnel_run_history.json")
 
 
+@app.get("/api/innovation-objects")
+def innovation_objects():
+    """The developed-possibility population (Pass 3): one Innovation per
+    Magic Box possibility with mechanical states, plus the separate
+    formal-case recommendation block - built by src/real/innovations_real.py."""
+    with open(os.path.join(PROC, "innovations_real.json"), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 @app.get("/api/lab-state")
 def lab_state(os_id: str = "OS-1"):
     """Prototype and artifact state for one innovation, computed from what
@@ -432,8 +441,22 @@ def lab_state(os_id: str = "OS-1"):
             "path": "/api/evidence/table",
             "note": "Every final claim's source, location, transformation and generating code.",
         })
+    with open(os.path.join(PROC, "criteria_real.json"), encoding="utf-8") as fh:
+        _wdw = json.load(fh)["why_did_this_win"]
     return {
         "os_id": os_id,
+        "most_sensitive_assumption": _wdw["most_sensitive_assumption"],
+        "simulation": {
+            "model": "scenario arithmetic",
+            "description": "The one simulation class that genuinely exists: a deterministic "
+                           "recompute of gate -> dominance -> judgment over real review-derived "
+                           "inputs. Inputs, assumptions and outputs are those of the run itself; "
+                           "uncertainty is carried by the underlying evidence, not modelled "
+                           "separately.",
+            "code_reference": "src/real/decision_framework_real.py::compute",
+            "not_available": "No Monte Carlo, statistical, or physical simulation exists in this "
+                             "machine - stated plainly rather than dressing a visualization up as one.",
+        },
         "prototype": {
             "state": "CONCEPT" if any(a["kind"] == "concept_document" for a in artifacts) else "NOT_STARTED",
             "digital": "NOT_STARTED", "physical": "NOT_STARTED", "user_tested": "NOT_STARTED",
@@ -510,6 +533,21 @@ if os.path.isdir(WEB_DIST):
     app.mount("/assets", StaticFiles(directory=os.path.join(WEB_DIST, "assets")), name="assets")
     app.mount("/brand", StaticFiles(directory=os.path.join(WEB_DIST, "brand")), name="brand")
     app.mount("/products", StaticFiles(directory=os.path.join(WEB_DIST, "products")), name="products")
+    if os.path.isdir(os.path.join(WEB_DIST, "concept-visuals")):
+        app.mount("/concept-visuals", StaticFiles(directory=os.path.join(WEB_DIST, "concept-visuals")), name="concept-visuals")
+
+    # Innovation dossiers (Pass 3): one 3-page PDF per developed possibility,
+    # served inline like the formal-case disclosures below.
+    INNOVATION_DOSSIERS_DIR = os.path.join(WEB_DIST, "innovation-dossiers")
+
+    @app.get("/innovation-dossiers/{filename}")
+    def innovation_dossier(filename: str):
+        if not filename.endswith(".pdf") or "/" in filename or ".." in filename:
+            raise HTTPException(status_code=404, detail="not found")
+        path = os.path.join(INNOVATION_DOSSIERS_DIR, filename)
+        if not os.path.isfile(path):
+            raise HTTPException(status_code=404, detail="not found")
+        return FileResponse(path, media_type="application/pdf", headers={"Content-Disposition": f'inline; filename="{filename}"'})
 
     # A plain StaticFiles mount would leave the browser/OS default to decide
     # download vs. inline view - some browsers are configured to always

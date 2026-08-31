@@ -670,6 +670,43 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText("verified Versuni products").first()).toBeVisible({ timeout: 5000 });
   });
 
+  // ---------------- PASS 3: innovations as developed possibilities ----------------
+
+  test("Innovations page is the developed-possibility population, formal case clearly separate", async ({ page }) => {
+    const errors = trackConsoleErrors(page);
+    await page.goto("/innovations");
+    await expect(page.getByTestId("innovation-population")).toBeVisible({ timeout: 10000 });
+    // mechanical states render as sections; no tournament framing over the population
+    await expect(page.getByText(/developing · \d+/)).toBeVisible();
+    await expect(page.getByText(/challenged · \d+/)).toBeVisible();
+    await expect(page.getByText(/rejected · \d+ — killed by the funnel or the Critic/)).toBeVisible();
+    // the formal case is a separately-marked lens, never blended
+    await expect(page.getByText("FORMAL CASE RECOMMENDATION", { exact: true })).toBeVisible();
+    // concept visuals genuinely load (a broken image would leave naturalWidth 0)
+    const img = page.locator('img[src*="concept-visuals"]').first();
+    await expect(img).toBeVisible();
+    await expect.poll(async () => img.evaluate((el: HTMLImageElement) => el.naturalWidth), { timeout: 5000 }).toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  });
+
+  test("an Innovation detail answers the 20-second questions and deep-links survive refresh", async ({ page }) => {
+    await page.goto("/innovations?innovation=noise:AMBIENT");
+    await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
+    const d = page.getByTestId("innovation-detail");
+    await expect(d.getByText("What is it?")).toBeVisible();
+    await expect(d.getByText("Why does it exist?")).toBeVisible();
+    await expect(d.getByText("How big / heavy / expensive might it be?")).toBeVisible();
+    await expect(d.getByText(/unknown — no comparable publishes this/).first()).toBeVisible();
+    await expect(d.getByText("What should be tested next?")).toBeVisible();
+    // the prototype claim never exceeds what exists
+    await expect(page.getByText(/CONCEPT_VISUAL — machine-composed schematic/).first()).toBeVisible();
+    await page.reload();
+    await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
+    // lineage is clickable back to the parent path
+    await page.getByTestId("innovation-detail").getByRole("button", { name: "tension:T1 →" }).click();
+    await expect(page.getByText("Where is reality actually moving?")).toBeVisible({ timeout: 5000 });
+  });
+
   test("acronyms are expanded where shown: CAGR on Market, CADR/WTP in Products", async ({ page }) => {
     await page.goto("/radar?lens=market");
     await expect(page.getByText(/compound annual growth rate \(CAGR\)/).first()).toBeVisible({ timeout: 5000 });

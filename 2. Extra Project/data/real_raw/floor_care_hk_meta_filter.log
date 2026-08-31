@@ -1,0 +1,19 @@
+...scanned 200000 products, kept 866
+...scanned 400000 products, kept 1713
+...scanned 600000 products, kept 2593
+...scanned 800000 products, kept 3379
+...scanned 1000000 products, kept 4215
+...scanned 1200000 products, kept 5077
+...scanned 1400000 products, kept 5973
+...scanned 1600000 products, kept 6824
+...scanned 1800000 products, kept 7721
+...scanned 2000000 products, kept 8663
+...scanned 2200000 products, kept 9555
+...scanned 2400000 products, kept 10449
+...scanned 2600000 products, kept 11323
+...scanned 2800000 products, kept 12281
+...scanned 3000000 products, kept 13196
+...scanned 3200000 products, kept 14135
+...scanned 3400000 products, kept 14905
+...scanned 3600000 products, kept 15656
+DONE. scanned=3735584 kept=16128 reasons={'no_match': 3522442, 'excluded': 197014, 'matched': 16128}

@@ -123,9 +123,10 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
                 ))}
               </div>
               <div style={{ marginTop: 8 }}>
-                <SectionLabel>Most sensitive assumption</SectionLabel>
+                <SectionLabel>Most sensitive assumption (from the live case record)</SectionLabel>
                 <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>
-                  The judgment that a severe-but-narrower friction outweighs a shallow-but-broader one — flip it live in the Scenario lens (Economic value override) and watch the decision change.
+                  {labState?.most_sensitive_assumption ?? "Loading the live case record…"}
+                  {" "}Flip it live in the Scenario lens (Economic value override) and watch the decision change.
                 </p>
               </div>
               {latestRun && (
@@ -257,17 +258,19 @@ export function Lab({ osId, score, scores, verdict, onClose }: LabProps) {
 
           {lens === "simulation" && (
             <div style={{ maxWidth: 720 }}>
-              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
-                One simulation class genuinely exists: <b>scenario arithmetic</b> — the deterministic recompute of
-                gate → dominance → judgment over real review-derived inputs (Scenario lens; code:
-                <span className="mono" style={{ fontSize: 11 }}> src/real/decision_framework_real.py::compute</span>).
-                Inputs, assumptions and outputs are those of the run itself; uncertainty is carried by the
-                underlying evidence, not modelled separately.
-              </p>
-              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55, marginTop: 10 }}>
-                No Monte Carlo, statistical, or physical simulation exists in this machine — stated plainly
-                rather than dressing a visualization up as one.
-              </p>
+              {labState?.simulation ? (
+                <>
+                  <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
+                    One simulation class genuinely exists: <b>{labState.simulation.model}</b> — {labState.simulation.description}
+                    {" "}<span className="mono" style={{ fontSize: 11 }}>{labState.simulation.code_reference}</span>
+                  </p>
+                  <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55, marginTop: 10 }}>
+                    {labState.simulation.not_available}
+                  </p>
+                </>
+              ) : (
+                <p style={{ fontSize: 12.5, color: "var(--ink-faint)" }}>Loading the live simulation record…</p>
+              )}
             </div>
           )}
 

@@ -1080,9 +1080,9 @@
   {
     "run_id": "run-47",
     "started_at": "2026-08-31T12:08:04.969711+00:00",
-    "finished_at": "2026-08-31T12:11:14.792390+00:00",
-    "last_checked_at": "2026-08-31T12:11:14.792390+00:00",
-    "check_count": 243,
+    "finished_at": "2026-08-31T12:26:15.829875+00:00",
+    "last_checked_at": "2026-08-31T12:26:15.829875+00:00",
+    "check_count": 244,
     "input_snapshot_hash": "9d1decb9fa0858341b241096ac5667cddd8f04475d59b0fc5cb1a77703111658",
     "stage_counts": {
       "products": 237,

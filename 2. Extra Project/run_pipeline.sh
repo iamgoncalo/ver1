@@ -105,6 +105,10 @@ echo "   (live research discovery is network-enabled and NOT part of this offlin
 echo "    run 'make refresh-intelligence' separately to discover new CANDIDATE papers)"
 python3 src/real/intelligence_fabric.py
 
+echo "== stage 8i2/9: concept visuals + Innovation objects (real, derived) =="
+python3 src/real/concept_visuals.py
+python3 src/real/innovations_real.py
+
 echo "== stage 8j/9: INNOVATION FUNNEL MACHINE - canonical funnel state + patterns (real) =="
 python3 src/real/funnel_real.py
 
