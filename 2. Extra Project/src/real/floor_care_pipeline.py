@@ -61,6 +61,7 @@ REVIEW_FILES = [
 ]
 
 REVIEWS_CLEAN = os.path.join(OUT_DIR, "reviews_clean.csv")
+REVIEW_THEMES = os.path.join(OUT_DIR, "review_themes.csv")
 INDUCED_TERMS = os.path.join(OUT_DIR, "induced_terms.csv")
 INDUCED_THEMES = os.path.join(OUT_DIR, "induced_themes.json")
 HAND_LABEL_BLANK = os.path.join(OUT_DIR, "floor_care_hand_label_BLANK.csv")
@@ -372,6 +373,25 @@ def classify_rows(rows, themes):
                         best = cand
         out[r["review_id"]] = themes[best[1]]["theme_id"] if best else None
     return out
+
+
+def write_review_themes_csv(corpus, theme_of):
+    """Persist the real review->theme->product join this pipeline already
+    computes in memory, so downstream product-level tables (Master Products,
+    Product x Need/Transformation/Burden matrices) can join a real SKU to
+    the friction themes its own reviews were classified into - the same
+    pattern review_themes_real.csv already provides for Air Purification.
+    Rows with no gated theme hit (theme_of[review_id] is None) are omitted,
+    never written as a fabricated 'none' theme."""
+    rows_out = [{"review_id": r["review_id"], "product_sku": r["product_sku"],
+                "theme_id": theme_of[r["review_id"]]}
+               for r in corpus if theme_of.get(r["review_id"])]
+    with open(REVIEW_THEMES, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["review_id", "product_sku", "theme_id"])
+        for row in rows_out:
+            w.writerow([row["review_id"], row["product_sku"], row["theme_id"]])
+    return len(rows_out)
 
 
 def compute_theme_doc(rows, themes):
@@ -852,6 +872,14 @@ def main():
             print("wrote {} ({} machine-induced themes, corpus_mean={}, unassigned={}%)".format(
                 INDUCED_THEMES, len(themes), theme_doc["corpus_mean_rating"],
                 theme_doc["unassigned_pct"]))
+
+            theme_of = classify_rows(corpus, themes)
+            n_review_themes = write_review_themes_csv(corpus, theme_of)
+            counts["review_themes"] = n_review_themes
+            stages["review_themes"] = {"status": "RAN", "n_rows": n_review_themes,
+                                       "output": os.path.relpath(REVIEW_THEMES, ROOT)}
+            print("wrote {} ({} review->theme->product rows)".format(
+                REVIEW_THEMES, n_review_themes))
 
             n_blank = emit_hand_label_blank(rows)
             stages["hand_label_blank"] = {

@@ -1,15 +1,51 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
-import type { Product, ProductsResponse } from "../lib/types";
-import { Card, Pill, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
+import { Pill, SectionLabel, StatRow, TruthBadge, CompactInspector, CompactRow } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+import { DataTable, type Column, type GroupOption } from "../components/DataTable";
 import { getParam, useUrlParam } from "../lib/urlState";
 
-const LENS = {
-  type: { key: "cluster_type" as const, label: "ARCHITECTURE (type)" },
-  intelligence: { key: "cluster_intelligence" as const, label: "Intelligence" },
-};
+// Product Atlas — table-first replacement for the old card-grid Products
+// world. Every product SKU (Air + Floor Care), joined to the causal atlas
+// via its own real review evidence (src/real/product_causal_join.py).
+// evidence_state === "NO_LINKED_EVIDENCE" rows are honest, not a bug: no
+// review of that product happened to land in a classified friction theme.
+// Nothing here is invented — missing renders as "—", never 0 or guessed.
 
+interface LinkedTheme {
+  friction_theme_id: string; friction_theme_name: string;
+  n_evidence_reviews: number; atlas_row_ids: string[];
+}
+interface NeedTouch { need: string; n_evidence_reviews: number }
+interface AtlasProduct {
+  id: string; name: string; brand: string; domain: "AIR" | "FLOOR"; category: string;
+  price_usd: number | null; average_rating: number | null; rating_number_lifetime: number | null;
+  n_real_reviews_in_corpus: number; cluster_type: string | null; cluster_intelligence: string | null;
+  truth_class: string; evidence_state: "LINKED" | "NO_LINKED_EVIDENCE";
+  linked_themes: LinkedTheme[]; needs_touched: NeedTouch[];
+  transformations_touched: string[]; state_variables_touched: string[]; burdens_touched: string[];
+}
+interface ProductAtlasResponse {
+  _provenance: string; generated_by: string; n_products: number;
+  n_products_linked: number; n_products_unlinked: number; count: number; products: AtlasProduct[];
+}
+interface ProductRelationship {
+  product_a_id: string; product_a_name: string; product_a_domain: string;
+  product_b_id: string; product_b_name: string; product_b_domain: string;
+  relationship_type: string; cross_domain: boolean;
+  shared_needs: string[]; shared_transformations: string[]; shared_burdens: string[]; shared_state_variables: string[];
+  overlap_strength: number;
+}
+interface ProductRelationshipsResponse {
+  _provenance: string; generated_by: string; n_total_candidates_before_cap: number;
+  capped: boolean; count: number; relationships: ProductRelationship[];
+}
+
+type Tab = "table" | "matrix" | "relationships";
+type DimensionKey = "needs" | "transformations" | "burdens" | "state_variables";
+type DomainFilter = "ALL" | "AIR" | "FLOOR";
+
+const DOMAIN_LABEL: Record<string, string> = { AIR: "Air", FLOOR: "Floor care" };
 const TYPE_LABEL: Record<string, string> = {
   standard_purifier: "Standard purifier", personal_portable: "Personal / portable",
   purifier_fan_combo: "Purifier + fan combo", purifier_humidifier_combo: "Purifier + humidifier combo",
@@ -17,379 +53,409 @@ const TYPE_LABEL: Record<string, string> = {
 const INTEL_LABEL: Record<string, string> = {
   manual: "Manual", reactive: "Reactive (auto-sensor)", connected: "Connected (app/voice)", adaptive: "Adaptive (learns/predicts)",
 };
-// Raw pipeline status codes are internal jargon - never shown verbatim.
-const PRODUCT_STATUS_DETAIL: Record<string, string> = {
-  EXACT_VERIFIED: "Exact match to the official product page.",
+const DIMENSIONS: { key: DimensionKey; label: string }[] = [
+  { key: "needs", label: "Needs" },
+  { key: "transformations", label: "Transformations" },
+  { key: "burdens", label: "Burdens" },
+  { key: "state_variables", label: "State variables" },
+];
+
+// Humanizers — the SCREAMING_SNAKE_CASE / snake_case enum values from the
+// real pipeline (src/real/causal_atlas_real.py, product_causal_join.py)
+// are never shown raw in primary UI text; the raw value stays available in
+// a title tooltip for power users.
+// Same NEEDS enum as src/real/causal_atlas_real.py / AtlasWorld's
+// NEED_LABEL — kept in sync so a need reads identically in both worlds.
+const NEED_LABEL: Record<string, string> = {
+  RELIABILITY_LONGEVITY: "Reliability & longevity", QUIET_OPERATION: "Quiet operation",
+  VERIFIED_EFFECTIVENESS: "Verified effectiveness", SERVICE_CONTINUITY_COST: "Service continuity & cost",
+  ODOR_AIR_SAFETY: "Odor & air safety", CUSTOMER_SUPPORT_WARRANTY: "Customer support & warranty",
+  VALUE_FOR_MONEY: "Value for money", BUILD_QUALITY_MATERIALS: "Build quality & materials",
 };
+function humanizeToken(s: string): string {
+  return s.replace(/[._]/g, " ").trim().replace(/\s+/g, " ");
+}
+function toSentence(s: string): string {
+  const h = humanizeToken(s).toLowerCase();
+  return h ? h.charAt(0).toUpperCase() + h.slice(1) : s;
+}
+function needLabel(need: string): string {
+  return NEED_LABEL[need] ?? toSentence(need);
+}
+function toTitle(s: string): string {
+  const h = humanizeToken(s).toLowerCase();
+  return h.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+function clusterLabel(clusterType: string | null): string {
+  if (!clusterType) return "—";
+  return TYPE_LABEL[clusterType] ?? toSentence(clusterType);
+}
+function intelligenceLabel(clusterIntelligence: string | null): string {
+  if (!clusterIntelligence) return "—";
+  return INTEL_LABEL[clusterIntelligence] ?? toSentence(clusterIntelligence);
+}
+function topNeeds(needs: NeedTouch[], n = 3): string {
+  if (!needs.length) return "—";
+  const sorted = [...needs].sort((a, b) => b.n_evidence_reviews - a.n_evidence_reviews);
+  const top = sorted.slice(0, n).map((e) => needLabel(e.need));
+  const extra = sorted.length - top.length;
+  return top.join(", ") + (extra > 0 ? ` +${extra} more` : "");
+}
+function joinTruncate(arr: string[], n = 4, labeler: (v: string) => string = toSentence): string {
+  if (!arr.length) return "—";
+  const top = arr.slice(0, n).map(labeler);
+  const extra = arr.length - top.length;
+  return top.join(", ") + (extra > 0 ? ` +${extra} more` : "");
+}
+function dimensionValues(p: AtlasProduct, key: DimensionKey): string[] {
+  if (key === "needs") return p.needs_touched.map((n) => n.need);
+  if (key === "transformations") return p.transformations_touched;
+  if (key === "burdens") return p.burdens_touched;
+  return p.state_variables_touched;
+}
+// Picks the friction theme with the most total evidence reviews among a
+// selection of products — real, not invented; just the dominant real
+// signal already present in the selected rows' linked_themes.
+function dominantTheme(selected: AtlasProduct[]): string | null {
+  const totals = new Map<string, number>();
+  for (const p of selected) {
+    for (const t of p.linked_themes) {
+      totals.set(t.friction_theme_id, (totals.get(t.friction_theme_id) ?? 0) + t.n_evidence_reviews);
+    }
+  }
+  if (!totals.size) return null;
+  return [...totals.entries()].sort((a, b) => b[1] - a[1])[0][0];
+}
 
-export function ProductsWorld() {
-  const [data, setData] = useState<ProductsResponse | null>(null);
-  const [lensKey, setLensKey] = useState<keyof typeof LENS>("type");
-  const [query, setQuery] = useState("");
-  const [focus, setFocus] = useState<Product | null>(null);
-  const [officialFocus, setOfficialFocus] = useState<any | null>(null);
-  const [metricFocus, setMetricFocus] = useState<MetricTrace | null>(null);
-  const [mode, setMode] = useState<ViewMode>("distilled");
-  const [econ, setEcon] = useState<any>(null);
-  const [officialProducts, setOfficialProducts] = useState<any[] | null>(null);
-  const [showAllOfficial, setShowAllOfficial] = useState(false);
+const ACTION_BTN_STYLE = {
+  padding: "6px 12px", borderRadius: 8, border: "1px solid var(--accent-blue)",
+  background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer",
+  fontSize: 11.5, fontWeight: 600,
+} as const;
+const ACTION_BTN_DISABLED_STYLE = {
+  padding: "6px 12px", borderRadius: 8, border: "1px solid var(--line)",
+  background: "transparent", color: "var(--ink-faint)", cursor: "not-allowed",
+  fontSize: 11.5, fontWeight: 600,
+} as const;
+
+export function ProductsWorld({ onGoToWorld }: { onGoToWorld?: (n: number, params?: Record<string, string>) => void }) {
+  const [atlasDoc, setAtlasDoc] = useState<ProductAtlasResponse | null>(null);
+  const [relDoc, setRelDoc] = useState<ProductRelationshipsResponse | null>(null);
+  const [tab, setTab] = useState<Tab>(() => (getParam("tab") as Tab) || "table");
+  const [domainFilter, setDomainFilter] = useState<DomainFilter>("ALL");
+  const [dimensionKey, setDimensionKey] = useState<DimensionKey>("needs");
+  const [focus, setFocus] = useState<AtlasProduct | null>(null);
+  const [focusTab, setFocusTab] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    api.products().then((d) => {
-      setData(d);
-      // Deep link: /products?product=<corpus id> opens that product once
-      // its corpus loads (an unknown id simply opens nothing).
+    api.productAtlas().then((d: ProductAtlasResponse) => {
+      setAtlasDoc(d);
       const id = getParam("product");
-      const p = id ? d.products.find((x: Product) => x.id === id) : null;
-      if (p) { setFocus(p); setMode("raw"); }
-    }).catch(() => setData(null));
+      const p = id ? d.products.find((x) => x.id === id) : null;
+      if (p) setFocus(p);
+    }).catch(() => setAtlasDoc(null));
   }, []);
-  useEffect(() => { api.economics().then(setEcon).catch(() => setEcon(null)); }, []);
   useEffect(() => {
-    api.productImages().then((r) => {
-      setOfficialProducts(r.products);
-      // Deep link: /products?official=<product_id> opens the verified
-      // official product.
-      const id = getParam("official");
-      const p = id ? r.products?.find((x: any) => x.product_id === id) : null;
-      if (p) setOfficialFocus(p);
-    }).catch(() => setOfficialProducts(null));
+    api.productRelationships().then(setRelDoc).catch(() => setRelDoc(null));
   }, []);
 
-  // Keep the URL a refresh-safe record of the focused object.
+  useUrlParam("tab", tab);
   useUrlParam("product", focus?.id ?? null);
-  useUrlParam("official", officialFocus?.product_id ?? null);
 
-  function dutchWallet(priceUsd: number) {
-    if (!econ) return null;
-    const fx = econ.anchors.eur_usd_spot_rate.eur_per_usd;
-    const priceEur = Math.round(priceUsd * fx * 100) / 100;
-    const wage = econ.anchors.median_gross_hourly_wage_eur.value;
-    const meanIncome = econ.anchors.mean_disposable_household_income_eur.value;
-    return {
-      priceEur, fx,
-      workHours: Math.round((priceEur / wage) * 10) / 10,
-      shareOfIncomePct: Math.round((priceEur / meanIncome) * 1000) / 10,
-    };
+  function openFocus(p: AtlasProduct, tabKey?: string) {
+    setFocus(p);
+    setFocusTab(tabKey);
   }
 
-  const products = data?.products ?? [];
-  const connectedShare = products.length
-    ? Math.round((products.filter((p) => p.cluster_intelligence !== "manual").length / products.length) * 100)
-    : 0;
-  const pricesKnown = products.filter((p) => p.price_usd).map((p) => p.price_usd as number);
-  const priceRange = pricesKnown.length ? [Math.min(...pricesKnown), Math.max(...pricesKnown)] : [0, 0];
+  const products = atlasDoc?.products ?? [];
   const filtered = useMemo(
-    () => products.filter((p) => (query ? (p.name + p.brand).toLowerCase().includes(query.toLowerCase()) : true)),
-    [products, query]
+    () => (domainFilter === "ALL" ? products : products.filter((p) => p.domain === domainFilter)),
+    [products, domainFilter]
   );
-  const lens = LENS[lensKey];
-  const labelMap = lensKey === "type" ? TYPE_LABEL : INTEL_LABEL;
-  const groups = useMemo(() => {
-    const m = new Map<string, Product[]>();
-    for (const p of filtered) {
-      const k = p[lens.key];
-      if (!m.has(k)) m.set(k, []);
-      m.get(k)!.push(p);
-    }
-    return [...m.entries()].sort((a, b) => b[1].length - a[1].length);
-  }, [filtered, lens]);
+  const relationships = relDoc?.relationships ?? [];
+  const filteredRelationships = useMemo(
+    () => (domainFilter === "ALL" ? relationships : relationships.filter((r) => r.product_a_domain === domainFilter || r.product_b_domain === domainFilter)),
+    [relationships, domainFilter]
+  );
+
+  const tableColumns: Column<AtlasProduct>[] = useMemo(() => [
+    { key: "name", label: "Product", width: "220px", render: (p) => p.name, sortValue: (p) => p.name },
+    { key: "brand", label: "Brand", width: "100px", render: (p) => p.brand, sortValue: (p) => p.brand },
+    { key: "domain", label: "Domain", width: "80px", render: (p) => <Pill tone="neutral">{DOMAIN_LABEL[p.domain] ?? p.domain}</Pill>, sortValue: (p) => p.domain },
+    { key: "price", label: "Price", width: "70px", align: "right", render: (p) => (p.price_usd != null ? `$${p.price_usd}` : "—"), sortValue: (p) => p.price_usd ?? undefined },
+    { key: "rating", label: "Rating", width: "60px", align: "right", render: (p) => (p.average_rating != null ? `★${p.average_rating}` : "—"), sortValue: (p) => p.average_rating ?? undefined },
+    { key: "reviews", label: "Reviews", width: "70px", align: "right", render: (p) => p.n_real_reviews_in_corpus, sortValue: (p) => p.n_real_reviews_in_corpus },
+    { key: "cluster", label: "Cluster", width: "150px", render: (p) => clusterLabel(p.cluster_type), sortValue: (p) => p.cluster_type ?? undefined },
+    { key: "needs", label: "Needs", width: "220px", render: (p) => topNeeds(p.needs_touched) },
+    { key: "transformations", label: "Transformations", width: "200px", render: (p) => joinTruncate(p.transformations_touched) },
+    { key: "burdens", label: "Burdens", width: "160px", render: (p) => joinTruncate(p.burdens_touched) },
+    {
+      key: "evidence", label: "Evidence", width: "140px",
+      render: (p) => (p.evidence_state === "LINKED" ? <Pill tone="good">Linked</Pill> : <Pill tone="neutral">No linked evidence</Pill>),
+      sortValue: (p) => p.evidence_state,
+    },
+  ], []);
+
+  const tableGroupOptions: GroupOption<AtlasProduct>[] = useMemo(() => [
+    { key: "domain", label: "Domain", groupValue: (p) => DOMAIN_LABEL[p.domain] ?? p.domain },
+    { key: "brand", label: "Brand", groupValue: (p) => p.brand },
+    { key: "cluster", label: "Cluster", groupValue: (p) => clusterLabel(p.cluster_type) },
+    { key: "primary_need", label: "Primary need", groupValue: (p) => (p.needs_touched[0]?.need ? needLabel(p.needs_touched[0].need) : "Unclassified") },
+  ], []);
+
+  const dimensionColumnValues = useMemo(() => {
+    const set = new Set<string>();
+    for (const p of filtered) for (const v of dimensionValues(p, dimensionKey)) set.add(v);
+    return [...set].sort();
+  }, [filtered, dimensionKey]);
+
+  const matrixColumns: Column<AtlasProduct>[] = useMemo(() => {
+    const base: Column<AtlasProduct>[] = [
+      { key: "product", label: "Product", width: "220px", render: (p) => p.name, sortValue: (p) => p.name },
+      { key: "brand", label: "Brand", width: "100px", render: (p) => p.brand, sortValue: (p) => p.brand },
+    ];
+    const dimCols: Column<AtlasProduct>[] = dimensionColumnValues.map((val) => ({
+      key: `dim:${val}`,
+      label: toTitle(val),
+      width: "88px",
+      align: "right" as const,
+      render: (p: AtlasProduct) => {
+        if (dimensionKey === "needs") {
+          const hit = p.needs_touched.find((n) => n.need === val);
+          return hit ? hit.n_evidence_reviews : "—";
+        }
+        return dimensionValues(p, dimensionKey).includes(val) ? "✓" : "—";
+      },
+      sortValue: (p: AtlasProduct) => {
+        if (dimensionKey === "needs") {
+          const hit = p.needs_touched.find((n) => n.need === val);
+          return hit ? hit.n_evidence_reviews : undefined;
+        }
+        return dimensionValues(p, dimensionKey).includes(val) ? 1 : undefined;
+      },
+    }));
+    return [...base, ...dimCols];
+  }, [dimensionColumnValues, dimensionKey]);
+
+  const relationshipColumns: Column<ProductRelationship>[] = useMemo(() => [
+    { key: "a", label: "Product A", width: "200px", render: (r) => r.product_a_name, sortValue: (r) => r.product_a_name },
+    { key: "b", label: "Product B", width: "200px", render: (r) => r.product_b_name, sortValue: (r) => r.product_b_name },
+    { key: "type", label: "Type", width: "170px", render: (r) => toSentence(r.relationship_type), sortValue: (r) => r.relationship_type },
+    { key: "cross", label: "Cross-domain", width: "90px", render: (r) => (r.cross_domain ? "Yes" : "No"), sortValue: (r) => (r.cross_domain ? 1 : 0) },
+    { key: "needs", label: "Shared needs", width: "220px", render: (r) => joinTruncate(r.shared_needs, 4, needLabel) },
+    { key: "mechanisms", label: "Shared mechanisms", width: "220px", render: (r) => joinTruncate(r.shared_transformations) },
+    { key: "overlap", label: "Overlap", width: "70px", align: "right", render: (r) => r.overlap_strength, sortValue: (r) => r.overlap_strength },
+  ], []);
+
+  const relationshipGroupOptions: GroupOption<ProductRelationship>[] = useMemo(() => [
+    { key: "type", label: "Type", groupValue: (r) => toSentence(r.relationship_type) },
+  ], []);
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14, flexShrink: 0 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 12, flexShrink: 0, flexWrap: "wrap", gap: 10 }}>
         <div>
           <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--accent-blue-ink)", letterSpacing: "0.06em", marginBottom: 4 }}>
-            Product universe — what exists today
+            Product atlas — every real SKU, joined to the causal atlas via real review evidence
           </div>
           <h1 style={{ fontSize: 24 }}>
-            {officialProducts && officialProducts.length > 0
-              ? `${officialProducts.length} verified Versuni products`
-              : "Product universe"}
+            {atlasDoc ? `${atlasDoc.n_products} products · ${atlasDoc.n_products_linked} evidence-linked` : "Product atlas"}
           </h1>
-          {officialProducts && officialProducts.length > 0 && (
-            <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 3 }}>
-              a verified subset checked against official pages — plus the all-brands market evidence corpus below
-            </div>
-          )}
         </div>
-        <DistilledRawToggle mode={mode} onChange={setMode} />
+        <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
+          {(["table", "matrix", "relationships"] as Tab[]).map((t) => (
+            <button key={t} onClick={() => setTab(t)}
+              style={{ padding: "7px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
+                background: tab === t ? "var(--surface)" : "transparent", fontWeight: tab === t ? 700 : 500,
+                boxShadow: tab === t ? "var(--shadow)" : "none", textTransform: "capitalize" }}>
+              {t}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {mode === "distilled" ? (
-        <div className="scrollY" style={{ flex: 1 }}>
-          {officialProducts && officialProducts.length > 0 && (
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 4 }}>
-                <SectionLabel>Verified Versuni portfolio — what Versuni actually ships (official pages)</SectionLabel>
-                {officialProducts.length > 4 && (
-                  <button onClick={() => setShowAllOfficial(true)}
-                    style={{ flexShrink: 0, fontSize: 12, fontWeight: 600, padding: "4px 10px", borderRadius: 999,
-                      border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer" }}>
-                    +{officialProducts.length - 4} more →
-                  </button>
-                )}
-              </div>
-              <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 640, lineHeight: 1.5, marginBottom: 12, display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                {officialProducts.length} real air-purifier families individually checked against their official page — every family not listed here is genuinely unverified, not assumed.
-              </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14 }}>
-                {officialProducts.slice(0, 4).map((p) => (
-                  <OfficialProductCard key={p.product_id} p={p} onClick={() => setOfficialFocus(p)} />
-                ))}
-              </div>
-              <a href="/verinfo/" data-testid="products-verinfo-link"
-                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 12,
-                  padding: "12px 16px", borderRadius: 12, border: "1px solid var(--accent-blue)", textDecoration: "none",
-                  background: "transparent", color: "var(--accent-blue-ink)" }}>
-                <span style={{ fontSize: 13, fontWeight: 600 }}>Want to browse every Versuni product? The full catalog lives here →</span>
-                <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>/verinfo/</span>
-              </a>
-            </div>
-          )}
-          <div style={{ marginTop: 20 }}>
-            <SectionLabel>Category universe — the Amazon evidence corpus (market context, NOT Versuni's portfolio)</SectionLabel>
-            <p style={{ fontSize: 11.5, color: "var(--ink-faint)", maxWidth: 640, lineHeight: 1.5, marginBottom: 10 }}>
-              237 hand-validated air-purifier products from the whole category on Amazon.com — the evidence base the
-              machine reasons over. Versuni's own verified products are the section above.
-            </p>
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 40, marginBottom: 8 }}>
-            <TraceableMetric label="Category products (all brands)" value={products.length || "…"}
-              onClick={() => setMetricFocus({ label: "Category products (all brands)", value: products.length,
-                trace: "GET /api/products -> len(data/processed/products_real.json[\"products\"]), built by src/real/products_signals_real.py from the real, hand-validated Amazon purifier corpus (McAuley-Lab Amazon-Reviews-2023, filtered by src/real/filter_purifier_products.py) - the count shown IS the live corpus size." })} />
-            <TraceableMetric label="Connected / reactive share" value={`${connectedShare}%`}
-              onClick={() => setMetricFocus({ label: "Connected / reactive share", value: `${connectedShare}%`,
-                trace: "Computed live in ProductsWorld.tsx from data/processed/products_real.json: count of products where cluster_intelligence !== \"manual\", divided by total real products. cluster_intelligence itself is assigned by src/real/products_signals_real.py from each real product's title/description keywords." })} />
-            <TraceableMetric label="Price range" value={priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "…"}
-              onClick={() => setMetricFocus({ label: "Price range", value: priceRange[1] ? `$${priceRange[0]}–${priceRange[1]}` : "no verified data",
-                trace: `Computed live from data/processed/products_real.json: min/max of price_usd across all real products with a known observed price (${products.filter(p => p.price_usd != null).length} of ${products.length} have one - McAuley-Lab product metadata). Products with no listed price are excluded, not assumed.` })} />
-            <TraceableMetric label="Real reviews behind this" value={products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString() || "…"}
-              onClick={() => setMetricFocus({ label: "Real reviews behind this", value: products.reduce((a, p) => a + p.n_real_reviews_in_corpus, 0).toLocaleString(),
-                trace: `Computed live from data/processed/products_real.json: sum of n_real_reviews_in_corpus across all ${products.length} real products - the real, hand-validated Amazon review count each product's evidence is drawn from (src/real/build_reviews_csv.py).` })} />
-          </div>
-          <p style={{ fontSize: 15, color: "var(--ink)", maxWidth: 640, lineHeight: 1.55, marginTop: 16, marginBottom: 20, fontFamily: "var(--font-display)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-            The portfolio is moving from air-cleaning toward sensing and connectivity — but {100 - connectedShare}%
-            of this real corpus is still fully manual.
-          </p>
-          {econ && (
-            <div style={{ marginTop: 20, padding: "16px 20px", background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, maxWidth: 640 }}>
-              <SectionLabel>Dutch household context (real, verified)</SectionLabel>
-              <div style={{ display: "flex", gap: 32 }}>
-                <StatRow label="Mean household disposable income" value={`€${econ.anchors.mean_disposable_household_income_eur.value.toLocaleString()}/yr (2024)`} />
-                <StatRow label="Appliance-market turnover/household" value={`€${econ.derived.appliance_market_turnover_per_household_eur} (2025)`} />
-              </div>
-              <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6 }}>Click any product for its own affordability context.</p>
-            </div>
-          )}
-          <CounterfactualPrompt>What if "air purifier" is the wrong unit of innovation?</CounterfactualPrompt>
-        </div>
-      ) : (
-      <>
-      <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--rose)", letterSpacing: "0.04em", marginBottom: 10, flexShrink: 0 }}>
-        Consumer review corpus — real competitor brands from Amazon reviews. This is evidence, not Versuni's official portfolio (the verified records are in the table below).
-      </div>
-      <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 12, flexShrink: 0 }}>
-          <input
-            value={query} onChange={(e) => setQuery(e.target.value)} placeholder={products.length ? `Search ${products.length} products…` : "Search products…"}
-            style={{ padding: "8px 12px", borderRadius: 10, border: "1px solid var(--line)", background: "var(--surface)", fontSize: 13, width: 220, color: "var(--ink)" }}
-          />
+      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12, flexShrink: 0, flexWrap: "wrap" }}>
+        <select value={domainFilter} onChange={(e) => setDomainFilter(e.target.value as DomainFilter)}
+          style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid var(--line)", background: "var(--surface)", fontSize: 12, color: "var(--ink)" }}>
+          <option value="ALL">All domains</option>
+          <option value="AIR">Air</option>
+          <option value="FLOOR">Floor care</option>
+        </select>
+        {tab === "matrix" && (
           <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
-            {(Object.keys(LENS) as (keyof typeof LENS)[]).map((k) => (
-              <button key={k} onClick={() => setLensKey(k)}
-                style={{ padding: "6px 12px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
-                  background: lensKey === k ? "var(--surface)" : "transparent", fontWeight: lensKey === k ? 600 : 400,
-                  boxShadow: lensKey === k ? "var(--shadow)" : "none" }}>
-                {LENS[k].label}
+            {DIMENSIONS.map((d) => (
+              <button key={d.key} onClick={() => setDimensionKey(d.key)}
+                style={{ padding: "6px 10px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 11.5,
+                  background: dimensionKey === d.key ? "var(--surface)" : "transparent", fontWeight: dimensionKey === d.key ? 700 : 500 }}>
+                {d.label}
               </button>
             ))}
           </div>
-          <span style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>
-            {filtered.length} real, hand-validated products. Two verified cluster lenses — Performance/Context/Generation
-            omitted: no real clean-air-delivery-rate (CADR), room-coverage, or generation-lineage evidence exists.
-            Missing stays missing, never inferred.
+        )}
+        {tab === "relationships" && relDoc && (
+          <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>
+            Showing top {relDoc.count.toLocaleString()} of {relDoc.n_total_candidates_before_cap.toLocaleString()} candidate pairs by overlap strength
+            {relDoc.capped ? " (capped)" : ""}
           </span>
+        )}
       </div>
 
-      <div className="scrollY" style={{ flex: 1, display: "flex", flexDirection: "column", gap: 18 }}>
-        {officialProducts && officialProducts.length > 0 && (
-          <div>
-            <SectionLabel>Verified official records · {officialProducts.length}</SectionLabel>
-            <div data-testid="products-raw-official" style={{ overflowX: "auto", border: "1px solid var(--line)", borderRadius: 12 }}>
-              <table style={{ borderCollapse: "collapse", width: "100%" }}>
-                <thead><tr>
-                  {["id", "family", "SKU", "verified status", "retrieved", "official source"].map((c) => (
-                    <th key={c} style={{ textAlign: "left", padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", whiteSpace: "nowrap" }}>{c}</th>
-                  ))}
-                </tr></thead>
-                <tbody>
-                  {officialProducts.map((p) => (
-                    <tr key={p.product_id} onClick={() => setOfficialFocus(p)} style={{ cursor: "pointer" }}>
-                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--ink-faint)" }}>{p.product_id}</td>
-                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 11.5, color: "var(--ink)", fontWeight: 500 }}>{p.family}</td>
-                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-dim)" }}>{p.sku}</td>
-                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--good)" }}>{p.status}</td>
-                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-dim)" }}>{p.retrieved_at}</td>
-                      <td style={{ padding: "5px 10px", borderBottom: "1px solid var(--line)", fontSize: 10.5 }}>
-                        <a href={p.official_url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>open →</a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <div className="scrollY" style={{ flex: 1, minHeight: 0 }}>
+        {!atlasDoc && <p style={{ fontSize: 12, color: "var(--ink-faint)" }}>Loading real product evidence…</p>}
+
+        {atlasDoc && tab === "table" && (
+          <DataTable
+            rows={filtered}
+            columns={tableColumns}
+            getRowId={(p) => p.id}
+            onRowClick={(p) => openFocus(p, undefined)}
+            groupOptions={tableGroupOptions}
+            defaultGroupKey="domain"
+            searchable
+            searchValue={(p) => `${p.name} ${p.brand}`}
+            selectable
+            selectionActions={(selectedRows, clearSelection) => {
+              const theme = dominantTheme(selectedRows);
+              return (
+                <button
+                  disabled={!theme}
+                  onClick={() => { if (theme && onGoToWorld) { onGoToWorld(4, { theme }); clearSelection(); } }}
+                  title={theme ? `Filters Magic Box to the ${theme} friction theme` : "No products in this selection have evidence-linked friction themes yet"}
+                  style={theme ? ACTION_BTN_STYLE : ACTION_BTN_DISABLED_STYLE}
+                >
+                  {theme ? `Send ${selectedRows.length} to Magic Box` : "No linked friction theme in selection"}
+                </button>
+              );
+            }}
+            emptyMessage="No products match."
+          />
         )}
-        {groups.map(([key, items]) => (
-          <div key={key}>
-            <SectionLabel>{labelMap[key] ?? key} · {items.length}</SectionLabel>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
-              {items.slice(0, 60).map((p) => (
-                <Card key={p.id} onClick={() => setFocus(p)}>
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                    <span style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-faint)" }}>{p.brand}</span>
-                    <span style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", color: "var(--ink-faint)" }}>
-                      {p.average_rating ? `★${p.average_rating}` : "—"}
-                    </span>
-                  </div>
-                  <div style={{ fontSize: 13, fontWeight: 500, margin: "6px 0 8px", lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                    {p.name}
-                  </div>
-                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                    <Pill>{p.price_usd ? `$${p.price_usd}` : "price unknown"}</Pill>
-                    <Pill tone="teal">{p.n_real_reviews_in_corpus} reviews</Pill>
-                  </div>
-                </Card>
-              ))}
-              {items.length > 60 && (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-faint)", fontSize: 12 }}>
-                  +{items.length - 60} more (search to narrow)
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-        {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real product evidence…</div>}
+
+        {atlasDoc && tab === "matrix" && (
+          <>
+            <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 10 }}>
+              {dimensionColumnValues.length} distinct {DIMENSIONS.find((d) => d.key === dimensionKey)?.label.toLowerCase()} observed across {filtered.length} products.
+              {dimensionKey === "needs" ? " Cell = real evidence reviews behind that need for that product." : " ✓ = this product's evidence touches that value; no per-value review count exists beyond needs."}
+            </p>
+            <DataTable
+              rows={filtered}
+              columns={matrixColumns}
+              getRowId={(p) => p.id}
+              onRowClick={(p) => openFocus(p, dimensionKey === "needs" ? "needs" : "causality")}
+              searchable
+              searchValue={(p) => `${p.name} ${p.brand}`}
+              emptyMessage="No products match."
+            />
+          </>
+        )}
+
+        {tab === "relationships" && (
+          <DataTable
+            rows={filteredRelationships}
+            columns={relationshipColumns}
+            getRowId={(r) => `${r.product_a_id}::${r.product_b_id}`}
+            groupOptions={relationshipGroupOptions}
+            defaultGroupKey="type"
+            searchable
+            searchValue={(r) => `${r.product_a_name} ${r.product_b_name}`}
+            defaultSortKey="overlap"
+            defaultSortDir="desc"
+            emptyMessage={relDoc ? "No relationships match." : "Loading product relationships…"}
+          />
+        )}
       </div>
-      </>
-      )}
 
       <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow={focus?.brand} title={focus?.name ?? ""}>
         {focus && (
-          <>
-            <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
-              <TruthBadge truthClass={focus.truth_class} />
-              <Pill>{TYPE_LABEL[focus.cluster_type] ?? focus.cluster_type}</Pill>
-              <Pill tone="teal">{INTEL_LABEL[focus.cluster_intelligence] ?? focus.cluster_intelligence}</Pill>
-            </div>
-            <StatRow label="Price (observed)" value={focus.price_usd ? `$${focus.price_usd}` : "unknown"} />
-            <StatRow label="Average rating (lifetime)" value={focus.average_rating ?? "unknown"} />
-            <StatRow label="Ratings (lifetime, all Amazon)" value={focus.rating_number_lifetime?.toLocaleString() ?? "unknown"} />
-            <StatRow label="Reviews in this corpus" value={focus.n_real_reviews_in_corpus} />
-            <StatRow label="Mean rating in this corpus" value={focus.mean_rating_in_corpus} />
-            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Evidence</SectionLabel>
-              <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{focus.evidence}</p>
-            </div>
-            {focus.price_usd && econ && (() => {
-              const w = dutchWallet(focus.price_usd as number);
-              if (!w) return null;
-              return (
-                <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-                  <SectionLabel>Dutch Wallet — affordability context, not willingness to pay (WTP)</SectionLabel>
-                  <StatRow label="Price (EUR, modelled from real spot rate)" value={`€${w.priceEur}`} />
-                  <StatRow label="Median gross work hours" value={w.workHours} />
-                  <StatRow label="Share of mean household disposable income" value={`${w.shareOfIncomePct}%`} />
-                  <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 8 }}>
-                    Wage anchor €{econ.anchors.median_gross_hourly_wage_eur.value}/hr (2025, {econ.anchors.median_gross_hourly_wage_eur.confidence} confidence
-                    — see economics.md for a documented cross-source conflict on this figure). Income anchor €{econ.anchors.mean_disposable_household_income_eur.value.toLocaleString()}
-                    /household (CBS, 2024 preliminary). This is affordability context, never willingness to pay.
-                  </p>
-                </div>
-              );
-            })()}
-          </>
+          <CompactInspector
+            defaultTab={focusTab}
+            summary={[
+              { label: "Domain", value: DOMAIN_LABEL[focus.domain] ?? focus.domain },
+              { label: "Brand", value: focus.brand },
+              { label: "Price", value: focus.price_usd != null ? `$${focus.price_usd}` : "Unknown" },
+              { label: "Rating", value: focus.average_rating != null ? `★${focus.average_rating}` : "Unknown" },
+              { label: "Reviews", value: focus.n_real_reviews_in_corpus },
+              { label: "Cluster", value: <span title={focus.cluster_intelligence ? intelligenceLabel(focus.cluster_intelligence) : undefined}>{clusterLabel(focus.cluster_type)}</span> },
+              { label: "Evidence state", value: focus.evidence_state === "LINKED" ? <Pill tone="good">Linked</Pill> : <Pill tone="neutral">No linked evidence</Pill> },
+              { label: "Truth class", value: <TruthBadge truthClass={focus.truth_class} /> },
+            ]}
+            tabs={[
+              {
+                key: "needs", label: "Needs",
+                content: focus.needs_touched.length ? (
+                  <div>
+                    {[...focus.needs_touched].sort((a, b) => b.n_evidence_reviews - a.n_evidence_reviews).map((n) => (
+                      <CompactRow key={n.need} label={needLabel(n.need)} value={n.n_evidence_reviews} title={n.need} />
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>No evidence-linked needs — no review of this product was classified into a friction theme yet.</p>
+                ),
+              },
+              {
+                key: "causality", label: "Causality",
+                content: (
+                  <div>
+                    <SectionLabel>Transformations</SectionLabel>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
+                      {focus.transformations_touched.length
+                        ? focus.transformations_touched.map((t) => <Pill key={t} tone="teal">{toSentence(t)}</Pill>)
+                        : <span style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>—</span>}
+                    </div>
+                    <SectionLabel>State variables</SectionLabel>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
+                      {focus.state_variables_touched.length
+                        ? focus.state_variables_touched.map((v) => <Pill key={v} tone="blue">{toSentence(v)}</Pill>)
+                        : <span style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>—</span>}
+                    </div>
+                    <SectionLabel>Burdens</SectionLabel>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                      {focus.burdens_touched.length
+                        ? focus.burdens_touched.map((b) => <Pill key={b} tone="amber">{toSentence(b)}</Pill>)
+                        : <span style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>—</span>}
+                    </div>
+                  </div>
+                ),
+              },
+              {
+                key: "evidence", label: "Evidence",
+                content: focus.linked_themes.length ? (
+                  <div>
+                    {focus.linked_themes.map((t) => (
+                      <div key={t.friction_theme_id} style={{ borderBottom: "1px solid var(--line)", padding: "8px 0" }}>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: "var(--ink)" }}>{t.friction_theme_name}</div>
+                        <div style={{ fontSize: 11, color: "var(--ink-dim)", marginTop: 2 }}>{t.n_evidence_reviews} evidence reviews</div>
+                        <div className="mono" style={{ fontSize: 10, color: "var(--ink-faint)", marginTop: 2, wordBreak: "break-word" }}>{t.atlas_row_ids.join(", ")}</div>
+                        {onGoToWorld && (
+                          <button onClick={() => onGoToWorld(9, { theme: t.friction_theme_id })}
+                            style={{ ...ACTION_BTN_STYLE, marginTop: 6 }}>
+                            Open in Atlas →
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>No linked friction themes — honestly empty, no review of this product was classified into a theme.</p>
+                ),
+              },
+              {
+                key: "trace", label: "Trace",
+                content: (
+                  <div>
+                    <StatRow label="Truth class" value={focus.truth_class.replace(/_/g, " ").toLowerCase()} />
+                    <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 10 }}>
+                      Derived from real review evidence, joined by set-intersection against the causal atlas — see
+                      data/processed/product_causal_join.json, built by src/real/product_causal_join.py. Nothing on
+                      this record is invented; an empty field means no matching evidence exists yet.
+                    </p>
+                  </div>
+                ),
+              },
+            ]}
+          />
         )}
       </FocusPanel>
-
-      <FocusPanel open={!!officialFocus} onClose={() => setOfficialFocus(null)} eyebrow={officialFocus ? `${officialFocus.family} — official Versuni/Philips` : ""} title={officialFocus?.official_name ?? ""}>
-        {officialFocus && (
-          <>
-            <img src={`/products/${officialFocus.local_asset.split("/").pop()}`} alt={officialFocus.official_name}
-              style={{ width: "100%", maxWidth: 220, objectFit: "contain", display: "block", margin: "0 auto 16px" }} />
-            {PRODUCT_STATUS_DETAIL[officialFocus.status] && (
-              <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 16 }}>{PRODUCT_STATUS_DETAIL[officialFocus.status]}</p>
-            )}
-            <StatRow label="SKU" value={officialFocus.sku} />
-            <StatRow label="Region verified" value={officialFocus.region} />
-            <StatRow label="Publisher" value={officialFocus.publisher} />
-            <StatRow label="Retrieved" value={officialFocus.retrieved_at} />
-            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Specs (official page)</SectionLabel>
-              <StatRow label="Clean-air delivery rate" value={officialFocus.specs.cadr_m3h ? `${officialFocus.specs.cadr_m3h} m³/h` : "not published"} />
-              <StatRow label="Room coverage" value={officialFocus.specs.room_coverage_m2 ? `${officialFocus.specs.room_coverage_m2} m²` : "not published"} />
-              <StatRow label="Min. noise" value={officialFocus.specs.noise_min_dba ? `${officialFocus.specs.noise_min_dba} dBA` : "not published"} />
-              <StatRow label="Filter architecture" value={officialFocus.specs.filter_architecture} />
-              <StatRow label="Connectivity" value={officialFocus.specs.connectivity} />
-              <StatRow label="Sensors" value={officialFocus.specs.sensors} />
-              <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>{officialFocus.specs.confidence}</p>
-            </div>
-            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Provenance</SectionLabel>
-              <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, wordBreak: "break-all" }}>
-                sha256: {officialFocus.sha256}
-              </p>
-              <a href={officialFocus.official_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12 }}>official source →</a>
-            </div>
-          </>
-        )}
-      </FocusPanel>
-
-      <MetricFocusPanel metric={metricFocus} onClose={() => setMetricFocus(null)} />
-
-      {showAllOfficial && officialProducts && (
-        <>
-          <div onClick={() => setShowAllOfficial(false)} style={{ position: "fixed", inset: 0, background: "rgba(10,12,16,0.42)", zIndex: 60 }} />
-          <div style={{
-            position: "fixed", top: "8vh", left: "50%", transform: "translateX(-50%)", width: "min(920px, 94vw)", maxHeight: "84vh",
-            background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 18, boxShadow: "var(--shadow)",
-            zIndex: 61, display: "flex", flexDirection: "column", overflow: "hidden",
-          }}>
-            <div style={{ padding: "18px 24px", borderBottom: "1px solid var(--line)", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
-              <div>
-                <SectionLabel>Verified official portfolio</SectionLabel>
-                <div style={{ fontWeight: 600, fontSize: 17, marginTop: 4 }}>All {officialProducts.length} checked products</div>
-              </div>
-              <button onClick={() => setShowAllOfficial(false)} style={{ border: "1px solid var(--line)", background: "var(--surface-2)", borderRadius: 8, width: 30, height: 30, cursor: "pointer" }}>✕</button>
-            </div>
-            <div className="scrollY" style={{ padding: 20, flex: 1 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-                {officialProducts.map((p) => (
-                  <OfficialProductCard key={p.product_id} p={p} onClick={() => { setOfficialFocus(p); setShowAllOfficial(false); }} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </>
-      )}
     </div>
-  );
-}
-
-function OfficialProductCard({ p, onClick }: { p: any; onClick: () => void }) {
-  return (
-    <Card onClick={onClick} focusable={false}
-      style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 18px", borderColor: "var(--accent-blue)", borderRadius: 16, boxSizing: "border-box" }}>
-      <img src={`/products/${p.local_asset.split("/").pop()}`} alt={p.official_name}
-        style={{ width: 70, height: 70, objectFit: "contain", flexShrink: 0 }} />
-      <div style={{ flex: "1 1 auto", minWidth: 0 }}>
-        <div className="mono" style={{ fontSize: 10.5, color: "var(--accent-blue-ink)", letterSpacing: "0.03em" }}>{p.sku}</div>
-        <div style={{ fontWeight: 600, fontSize: 13, marginTop: 4, lineHeight: 1.3, overflowWrap: "break-word", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={p.official_name}>{p.official_name}</div>
-        <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2, overflowWrap: "break-word" }}>
-          {p.specs.cadr_m3h ? `${p.specs.cadr_m3h} m³/h · ${p.specs.room_coverage_m2} m²` : "specs not published on the verified page"}
-        </div>
-        <a href={p.official_url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ fontSize: 11 }}>official source →</a>
-      </div>
-    </Card>
   );
 }

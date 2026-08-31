@@ -400,7 +400,7 @@ def generate_possibilities(rows=None, prices=None, white_space_doc=None,
                            stats["csat_impact"]))
             if signal:
                 reality += " Signal: {}".format(signal["meaning"])
-            transformation = ("METHOD CHOICE, not evidence: the authored operator table assigns {} - "
+            transformation = ("Method choice, not evidence: the authored operator table assigns {} - "
                               "\"{}\" - to this friction. Analyst design judgment, applied "
                               "deterministically.".format(op, OPERATORS[op]))
             if matching_tensions:

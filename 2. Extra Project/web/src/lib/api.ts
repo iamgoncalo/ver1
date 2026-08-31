@@ -9,6 +9,16 @@ async function j<T>(url: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+// Builds a "?k=v&..." query string, skipping undefined/null/empty values.
+function qs(params?: Record<string, string | number | boolean | undefined>): string {
+  if (!params) return "";
+  const entries = Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== "");
+  if (!entries.length) return "";
+  const sp = new URLSearchParams();
+  for (const [k, v] of entries) sp.set(k, String(v));
+  return `?${sp.toString()}`;
+}
+
 export const api = {
   products: () => j<ProductsResponse>("/api/products"),
   signals: () => j<SignalsResponse>("/api/signals"),
@@ -35,4 +45,7 @@ export const api = {
   health: () => j<{ status: string; commit: string }>("/api/health"),
   causalAtlas: () => j<any>("/api/causal-atlas"),
   needCoverage: () => j<any>("/api/need-coverage"),
+  productAtlas: (params?: { domain?: string; evidence_state?: string }) => j<any>(`/api/product-atlas${qs(params)}`),
+  productRelationships: (params?: { domain?: string; relationship_type?: string; cross_domain?: boolean }) =>
+    j<any>(`/api/product-relationships${qs(params)}`),
 };

@@ -118,6 +118,11 @@ echo "   after the innovations rebuild above (joins innovations_real.json's stat
 echo "   critic fields) and Floor Care's induced possibilities are on disk. =="
 python3 src/real/causal_atlas_real.py
 
+echo "== stage 8i4/9: PRODUCT <-> CAUSAL ATLAS JOIN + relationships (real, derived) =="
+echo "   after causal_atlas.json above; also needs floor_care/review_themes.csv, which =="
+echo "   floor_care_pipeline.py writes (run separately, not part of this Air-first script). =="
+python3 src/real/product_causal_join.py
+
 echo "== stage 8j/9: INNOVATION FUNNEL MACHINE - canonical funnel state + patterns (real) =="
 python3 src/real/funnel_real.py
 

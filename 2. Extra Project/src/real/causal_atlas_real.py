@@ -442,7 +442,7 @@ def _air_atlas_rows(magic_box_doc, innovations_by_id):
                 need, NEEDS.get(need, "")),
             "L4_capability_created": l4,
             "L5_freedom_created": l5,
-            "L6_ultimate_direction": ("DIRECTIONAL FRAMING, not a fact: "
+            "L6_ultimate_direction": ("Directional framing, not a fact: "
                                       + DOMAIN_DIRECTION["AIR"]),
             "state_variables": ["consumer_pain_prevalence_pct", "consumer_pain_csat",
                                 "economic_value", "feasibility_2_5y.rating"],
@@ -455,7 +455,7 @@ def _air_atlas_rows(magic_box_doc, innovations_by_id):
             "parent_path_ids": p.get("parent_path_ids", []),
             "evidence_ids": p.get("evidence_ids", []),
             "epistemic_type": "DERIVED",
-            "epistemic_note": ("OBSERVED: friction_theme_name, L2_proximal_problem, "
+            "epistemic_note": ("Observed: friction_theme_name, L2_proximal_problem, "
                               "current_state, state_variables' underlying numbers, and "
                               "evidence_state (real friction/possibility/critic/gate "
                               "fields, verbatim). METHOD_CHOICE: primary_need "
@@ -528,7 +528,7 @@ def _floor_atlas_rows(floor_possibilities_doc, floor_themes_by_id):
             "primary_need": need,
             "primary_need_epistemic_type": "METHOD_CHOICE",
             "L0_mechanism": "{}: {}".format(op, OPERATORS[op]),
-            "L1_transformation": ("METHOD CHOICE, not evidence: the category-independent "
+            "L1_transformation": ("Method choice, not evidence: the category-independent "
                                   "operator vocabulary assigns {} - \"{}\" - to this "
                                   "machine-induced friction theme (machine cross-product, "
                                   "not an authored theme x operator pairing table - see "
@@ -539,12 +539,12 @@ def _floor_atlas_rows(floor_possibilities_doc, floor_themes_by_id):
                               "keyword classifier over this theme's own real "
                               "member_terms): {} — {}".format(need, NEEDS.get(need, ""))
                               if need else
-                              "UNMAPPED — this theme's real member_terms did not match any "
+                              "Unmapped — this theme's real member_terms did not match any "
                               "declared NEEDS keyword group (see classify_floor_theme_need) "
                               "- left honestly unclassified rather than forced."),
             "L4_capability_created": l4,
             "L5_freedom_created": l5,
-            "L6_ultimate_direction": ("DIRECTIONAL FRAMING, not a fact: "
+            "L6_ultimate_direction": ("Directional framing, not a fact: "
                                       + DOMAIN_DIRECTION["FLOOR"]),
             "state_variables": ["friction.prevalence_pct", "friction.rating_gap_vs_corpus_mean",
                                 "economics.price_weighted_exposure_usd"],
@@ -561,7 +561,7 @@ def _floor_atlas_rows(floor_possibilities_doc, floor_themes_by_id):
             "parent_path_ids": [],
             "evidence_ids": ["floor_theme:{}".format(theme_id)],
             "epistemic_type": "DERIVED",
-            "epistemic_note": ("OBSERVED: friction_theme_name, L2_proximal_problem, "
+            "epistemic_note": ("Observed: friction_theme_name, L2_proximal_problem, "
                               "current_state, state_variables' underlying numbers, and "
                               "evidence_state (real possibility state/promotion fields, "
                               "verbatim). METHOD_CHOICE: primary_need (the deterministic "

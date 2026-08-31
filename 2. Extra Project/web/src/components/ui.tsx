@@ -149,6 +149,61 @@ export function SectionLabel({ children }: { children: ReactNode }) {
   );
 }
 
+// The row-detail pattern for every table-first lens: a tight key/value
+// summary grid up top (never prose), then tabs for everything else.
+// Methodology/provenance goes inside a tab, never leads. Replaces the
+// old pattern of one long vertical FocusPanel of StatRow-after-StatRow
+// plus paragraph blocks.
+export interface InspectorPair { label: string; value: ReactNode }
+export interface InspectorTab { key: string; label: string; content: ReactNode }
+
+export function CompactInspector({ summary, tabs, defaultTab }: {
+  summary: InspectorPair[]; tabs: InspectorTab[]; defaultTab?: string;
+}) {
+  const [tab, setTab] = useState(defaultTab ?? tabs[0]?.key);
+  const active = tabs.find((t) => t.key === tab) ?? tabs[0];
+  return (
+    <div>
+      <div style={{
+        display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 14px",
+        border: "1px solid var(--line)", borderRadius: 10, padding: "10px 12px", marginBottom: 12,
+      }}>
+        {summary.map((p, i) => (
+          <div key={i} style={{ minWidth: 0 }}>
+            <div style={{ fontSize: 9.5, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.03em", marginBottom: 1 }}>{p.label}</div>
+            <div style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.35, overflowWrap: "break-word" }}>{p.value}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: "flex", gap: 2, borderBottom: "1px solid var(--line)", marginBottom: 12, overflowX: "auto" }}>
+        {tabs.map((t) => (
+          <button key={t.key} onClick={() => setTab(t.key)}
+            style={{
+              padding: "6px 10px", border: "none", borderBottom: "2px solid", background: "none", cursor: "pointer",
+              fontSize: 11, fontWeight: (active?.key === t.key) ? 700 : 500, whiteSpace: "nowrap",
+              borderBottomColor: active?.key === t.key ? "var(--accent-blue)" : "transparent",
+              color: active?.key === t.key ? "var(--accent-blue-ink)" : "var(--ink-faint)",
+            }}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+      <div>{active?.content}</div>
+    </div>
+  );
+}
+
+// A short-form key/value pair for use inside CompactInspector tabs - never
+// a paragraph. Truncates long values with a title tooltip for the full text.
+export function CompactRow({ label, value, title }: { label: string; value: ReactNode; title?: string }) {
+  return (
+    <div style={{ display: "flex", gap: 10, fontSize: 11.5, padding: "4px 0", borderBottom: "1px solid var(--line)" }} title={title}>
+      <span style={{ color: "var(--ink-faint)", flexShrink: 0, width: 120 }}>{label}</span>
+      <span style={{ color: "var(--ink-dim)", lineHeight: 1.4, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{value}</span>
+    </div>
+  );
+}
+
 // The one clickable-tile pattern used everywhere a real item (product,
 // signal, competitor, concept, paper...) needs its own detail view: a
 // teal border + shadow "lift" on hover, keyboard-operable, cursor pointer.

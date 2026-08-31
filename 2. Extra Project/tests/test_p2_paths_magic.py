@@ -155,7 +155,7 @@ class TestMagicLineage(unittest.TestCase):
                 self.assertIn(pid, self.path_ids, f"{p['id']} cites unknown path {pid}")
             self.assertIn("METHOD_CHOICE", p["operator_origin"])
             self.assertEqual(p["design_dna"]["O"]["status"], "METHOD_CHOICE")
-            self.assertIn("METHOD CHOICE", p["why_here"]["transformation"])
+            self.assertIn("Method choice, not evidence", p["why_here"]["transformation"])
 
     def test_engineering_ranges_always_carry_provenance(self):
         for p in self.possibilities:

@@ -107,7 +107,7 @@ export default function App() {
     }
     switch (world) {
       case 0: return <FunnelWorld key="overview" onGoToWorld={navigate} navigate={navigate} />;
-      case 1: return <ProductsWorld key="products" />;
+      case 1: return <ProductsWorld key="products" onGoToWorld={navigate} />;
       case 2: return <SignalsWorld key="radar" onSendToMagicBox={goSendToMagicBox} />;
       case 3: return <PathsWorld key="paths" onGoToWorld={navigate} />;
       case 4: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} onGoToWorld={navigate} />;

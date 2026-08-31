@@ -702,20 +702,27 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("an Innovation detail answers the 20-second questions and deep-links survive refresh", async ({ page }) => {
+  test("an Innovation detail is a compact table-first inspector: summary grid + tabs, deep-links survive refresh", async ({ page }) => {
     await page.goto("/innovations?innovation=noise:AMBIENT");
     await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
     const d = page.getByTestId("innovation-detail");
-    await expect(d.getByText("What is it?")).toBeVisible();
-    await expect(d.getByText("Why does it exist?")).toBeVisible();
-    await expect(d.getByText("How big / heavy / expensive might it be?")).toBeVisible();
+    // compact key/value summary leads - never a paragraph
+    await expect(d.getByText("Current state")).toBeVisible();
+    await expect(d.getByText("Desired state")).toBeVisible();
+    await expect(d.getByText("Mechanism")).toBeVisible();
+    // tabs, methodology/provenance behind Trace, never leading
+    await expect(d.getByRole("button", { name: "Physical" })).toBeVisible();
+    await expect(d.getByRole("button", { name: "Causality" })).toBeVisible();
+    await expect(d.getByRole("button", { name: "Evidence" })).toBeVisible();
+    await expect(d.getByRole("button", { name: "Decision" })).toBeVisible();
+    await expect(d.getByRole("button", { name: "Trace" })).toBeVisible();
     await expect(d.getByText(/unknown — no comparable publishes this/).first()).toBeVisible();
-    await expect(d.getByText("What should be tested next?")).toBeVisible();
-    // the prototype claim never exceeds what exists
-    await expect(page.getByText(/CONCEPT_VISUAL — machine-composed schematic/).first()).toBeVisible();
+    await d.getByRole("button", { name: "Trace" }).click();
+    await expect(d.getByText(/machine-composed schematic/).first()).toBeVisible();
     await page.reload();
     await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
-    // lineage is clickable back to the parent path
+    // lineage is clickable back to the parent path, behind the Evidence tab
+    await page.getByTestId("innovation-detail").getByRole("button", { name: "Evidence" }).click();
     await page.getByTestId("innovation-detail").getByRole("button", { name: "tension:T1 →" }).click();
     await expect(page.getByText("Where is reality actually moving?")).toBeVisible({ timeout: 5000 });
   });
@@ -724,6 +731,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // Innovation -> parent path
     await page.goto("/innovations?innovation=noise:AMBIENT");
     await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
+    await page.getByTestId("innovation-detail").getByRole("button", { name: "Evidence" }).click();
     await page.getByTestId("innovation-detail").getByRole("button", { name: "tension:T1 →" }).click();
     await expect(page).toHaveURL(/\/paths\?path=tension/);
     // path -> its field grounding -> the real reviews behind the friction
@@ -761,18 +769,25 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("Atlas row detail shows the full L0-L6 causal chain with real numbers, and opens Magic Box", async ({ page }) => {
+  test("Atlas row detail is a compact table-first inspector: summary grid + causality/relationships/evidence/trace tabs, opens Magic Box", async ({ page }) => {
     await page.goto("/atlas");
     await expect(page.getByTestId("atlas-table")).toBeVisible({ timeout: 5000 });
     await page.locator("table tbody tr").first().click();
     await expect(page.getByTestId("atlas-row-detail")).toBeVisible({ timeout: 5000 });
     const d = page.getByTestId("atlas-row-detail");
-    await expect(d.getByText("L0 · Mechanism")).toBeVisible();
-    await expect(d.getByText("L1 · Transformation")).toBeVisible();
-    await expect(d.getByText("L5 · Freedom created")).toBeVisible();
-    await expect(d.getByText("L6 · Ultimate direction")).toBeVisible();
+    // compact key/value summary leads
+    await expect(d.getByText("Current state")).toBeVisible();
+    await expect(d.getByText("Desired state")).toBeVisible();
+    await expect(d.getByText("Mechanism (L0)", { exact: true })).toBeVisible();
+    // causality tab (default) carries the full L0-L6 chain
+    await expect(d.getByText("L0 Mechanism")).toBeVisible();
+    await expect(d.getByText("L5 Freedom created")).toBeVisible();
+    await expect(d.getByText("L6 Direction")).toBeVisible();
+    // methodology lives behind Trace, never leading
+    await d.getByRole("button", { name: "Trace" }).click();
     await expect(d.getByText(/OBSERVED|METHOD_CHOICE/).first()).toBeVisible();
-    await page.getByRole("button", { name: "Open in Magic Box →" }).click();
+    await d.getByRole("button", { name: "Relationships" }).click();
+    await d.getByRole("button", { name: "Open in Magic Box →" }).click();
     await expect(page).toHaveURL(/\/magic-box\?possibility=/);
     await expect(page.getByText("what could exist now?")).toBeVisible({ timeout: 5000 });
   });

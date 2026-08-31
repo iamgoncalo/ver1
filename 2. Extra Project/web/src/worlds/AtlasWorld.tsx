@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
-import { Pill, SectionLabel, StatRow } from "../components/ui";
+import { Pill, SectionLabel, StatRow, CompactInspector, CompactRow } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { getParam, useUrlParam } from "../lib/urlState";
+
+function truncate(s: string, n: number): string {
+  return s.length > n ? s.slice(0, n - 1) + "…" : s;
+}
 
 // Pass 4 (Causal Foundation) - the causal intelligence layer, exposed as a
 // cross-cutting analytical lens (System tools, world 9), not a seventh
@@ -226,43 +230,71 @@ export function AtlasWorld({ navigate }: { navigate: (n: number, params?: Record
       <FocusPanel open={!!focus} onClose={() => setFocus(null)} eyebrow={focus ? `${DOMAIN_LABEL[focus.home_domain] ?? focus.home_domain} · ${needLabel(focus.primary_need)}` : ""} title={focus?.name ?? ""}>
         {focus && (
           <div data-testid="atlas-row-detail">
-            <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 12 }}>{focus.epistemic_note}</p>
-
-            <SectionLabel>The causal chain</SectionLabel>
-            <StatRow label="L0 · Mechanism" value={focus.L0_mechanism} />
-            <StatRow label="L1 · Transformation" value={focus.L1_transformation} />
-            <StatRow label="L2 · Proximal problem" value={focus.L2_proximal_problem} />
-            <StatRow label="L3 · Human need" value={focus.L3_human_need} />
-            <StatRow label="L4 · Capability created" value={focus.L4_capability_created} />
-            <StatRow label="L5 · Freedom created" value={focus.L5_freedom_created} />
-            <StatRow label="L6 · Ultimate direction" value={focus.L6_ultimate_direction} />
-
-            <div style={{ marginTop: 14 }}>
-              <SectionLabel>State variables and primitives (method choice)</SectionLabel>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-                {(focus.state_variables ?? []).map((v) => <Pill key={v} tone="blue">{v}</Pill>)}
-                {(focus.causal_primitives ?? []).map((v) => <Pill key={v} tone="teal">{v}</Pill>)}
-              </div>
-            </div>
-
-            <div style={{ marginTop: 14 }}>
-              <SectionLabel>Current state → desired state</SectionLabel>
-              <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>{focus.current_state}</p>
-              <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5, marginTop: 4 }}>→ {focus.desired_state}</p>
-            </div>
-
-            <div style={{ marginTop: 14, display: "flex", gap: 8 }}>
-              <button onClick={() => navigate(4, { possibility: focus.id })}
-                style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
-                Open in Magic Box →
-              </button>
-              {focus.parent_path_ids?.[0] && (
-                <button onClick={() => navigate(3, { path: focus.parent_path_ids[0] })}
-                  style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", fontSize: 12 }}>
-                  Open parent path →
-                </button>
-              )}
-            </div>
+            <CompactInspector
+              summary={[
+                { label: "Current state", value: <span title={focus.current_state}>{truncate(focus.current_state, 70)}</span> },
+                { label: "Desired state", value: <span title={focus.desired_state}>{truncate(focus.desired_state, 70)}</span> },
+                { label: "Mechanism (L0)", value: focus.L0_mechanism.split(":")[0] },
+                { label: "Need (L3)", value: needLabel(focus.primary_need) },
+                { label: "Burden addressed", value: (focus.burden_dimensions_addressed ?? []).join(", ") || "none derivable" },
+                { label: "Evidence state", value: String((focus.evidence_state as any)?.state ?? (focus.evidence_state as any)?.status ?? "—").replace(/_/g, " ") },
+              ]}
+              tabs={[
+                {
+                  key: "causality", label: "Causality",
+                  content: (
+                    <div>
+                      <CompactRow label="L0 Mechanism" value={focus.L0_mechanism} />
+                      <CompactRow label="L1 Transformation" value={focus.L1_transformation} title={focus.L1_transformation} />
+                      <CompactRow label="L2 Proximal problem" value={focus.L2_proximal_problem} title={focus.L2_proximal_problem} />
+                      <CompactRow label="L4 Capability" value={focus.L4_capability_created} title={focus.L4_capability_created} />
+                      <CompactRow label="L5 Freedom created" value={focus.L5_freedom_created} title={focus.L5_freedom_created} />
+                      <CompactRow label="L6 Direction" value={focus.L6_ultimate_direction} title={focus.L6_ultimate_direction} />
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 10 }}>
+                        {(focus.state_variables ?? []).map((v) => <Pill key={v} tone="blue">{v}</Pill>)}
+                        {(focus.causal_primitives ?? []).map((v) => <Pill key={v} tone="teal">{v}</Pill>)}
+                      </div>
+                    </div>
+                  ),
+                },
+                {
+                  key: "relationships", label: "Relationships",
+                  content: (
+                    <div>
+                      <CompactRow label="Friction theme" value={focus.friction_theme_name} />
+                      <CompactRow label="Form factor" value={focus.form_factor ?? "not classified"} />
+                      <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+                        <button onClick={() => navigate(4, { possibility: focus.id })}
+                          style={{ flex: 1, padding: "8px 10px", borderRadius: 8, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 11.5, fontWeight: 600 }}>
+                          Open in Magic Box →
+                        </button>
+                        {focus.parent_path_ids?.[0] && (
+                          <button onClick={() => navigate(3, { path: focus.parent_path_ids[0] })}
+                            style={{ flex: 1, padding: "8px 10px", borderRadius: 8, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", fontSize: 11.5 }}>
+                            Open parent path →
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ),
+                },
+                {
+                  key: "evidence", label: "Evidence",
+                  content: (
+                    <div>
+                      <CompactRow label="Evidence ids" value={(focus.evidence_ids ?? []).join(", ") || "none"} />
+                      <CompactRow label="Parent paths" value={(focus.parent_path_ids ?? []).join(", ") || "none — see Trace"} />
+                    </div>
+                  ),
+                },
+                {
+                  key: "trace", label: "Trace",
+                  content: (
+                    <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5 }}>{focus.epistemic_note}</p>
+                  ),
+                },
+              ]}
+            />
           </div>
         )}
       </FocusPanel>

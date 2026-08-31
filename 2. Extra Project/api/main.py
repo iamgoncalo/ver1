@@ -411,6 +411,45 @@ def need_coverage(category: Optional[str] = None):
             "count": len(rows), "rows": rows}
 
 
+@app.get("/api/product-atlas")
+def product_atlas(domain: Optional[str] = None, evidence_state: Optional[str] = None):
+    """Every real product SKU (Air + Floor Care) joined to the causal atlas
+    via its own review evidence - built offline by
+    src/real/product_causal_join.py, served verbatim. domain, if given,
+    filters to AIR or FLOOR; evidence_state, if given, filters to LINKED or
+    NO_LINKED_EVIDENCE (never silently dropped - the caller sees the real
+    unlinked count via /api/product-atlas with no filter)."""
+    doc = read_json("product_causal_join.json")
+    rows = doc["products"]
+    if domain:
+        rows = [r for r in rows if r["domain"] == domain]
+    if evidence_state:
+        rows = [r for r in rows if r["evidence_state"] == evidence_state]
+    return {"_provenance": doc["_provenance"], "generated_by": doc["generated_by"],
+            "n_products": doc["n_products"], "n_products_linked": doc["n_products_linked"],
+            "n_products_unlinked": doc["n_products_unlinked"],
+            "count": len(rows), "products": rows}
+
+
+@app.get("/api/product-relationships")
+def product_relationships(domain: Optional[str] = None, relationship_type: Optional[str] = None,
+                           cross_domain: Optional[bool] = None):
+    """Pairwise product relationships computed by real set-intersection over
+    product_atlas's needs/transformations - built offline by
+    src/real/product_causal_join.py::build_relationships, served verbatim."""
+    doc = read_json("product_relationships.json")
+    rows = doc["relationships"]
+    if domain:
+        rows = [r for r in rows if r["product_a_domain"] == domain or r["product_b_domain"] == domain]
+    if relationship_type:
+        rows = [r for r in rows if r["relationship_type"] == relationship_type]
+    if cross_domain is not None:
+        rows = [r for r in rows if r["cross_domain"] == cross_domain]
+    return {"_provenance": doc["_provenance"], "generated_by": doc["generated_by"],
+            "n_total_candidates_before_cap": doc["n_total_candidates_before_cap"],
+            "capped": doc["capped"], "count": len(rows), "relationships": rows}
+
+
 @app.get("/api/innovations")
 def innovations():
     return read_json("decision_framework_real.json")
