@@ -78,15 +78,17 @@ function DnaBadgeRow({ dna, compact }: { dna: DesignDna; compact?: boolean }) {
       {DNA_ORDER.map((letter) => {
         const p = dna[letter as keyof DesignDna];
         const present = p.status === "PRESENT";
+        const method = p.status === "METHOD_CHOICE";
         return (
-          <span key={letter} title={`${DNA_LETTER_NAME[letter]}: ${present ? "present" : "missing / unverified"} — ${p.detail}`}
+          <span key={letter} title={`${DNA_LETTER_NAME[letter]}: ${method ? "method choice (authored, not evidence)" : present ? "present" : "missing / unverified"} — ${p.detail}`}
             style={{
               display: "inline-flex", alignItems: "center", justifyContent: "center",
               width: compact ? 20 : 24, height: compact ? 20 : 24, borderRadius: 6,
               fontSize: compact ? 10 : 11, fontFamily: "var(--font-mono)", fontWeight: 700,
-              color: present ? "var(--good)" : "var(--ink-faint)",
-              background: present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
-              border: `1px solid ${present ? "var(--good)" : "var(--line)"}`, opacity: present ? 1 : 0.6,
+              color: method ? "var(--accent-blue-ink)" : present ? "var(--good)" : "var(--ink-faint)",
+              background: method ? "rgba(58,110,165,0.10)" : present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
+              border: method ? "1px dashed var(--accent-blue)" : `1px solid ${present ? "var(--good)" : "var(--line)"}`,
+              opacity: present || method ? 1 : 0.6,
             }}>
             {letter}
           </span>
@@ -108,7 +110,8 @@ function ConceptCard({ p, onClick, maxEcon }: { p: Concept; onClick: () => void;
         </div>
         <div style={{ minWidth: 0 }}>
           <div style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={p.name}>{p.name}</div>
-          <div style={{ fontSize: 10.5, color: "var(--accent-teal)", marginTop: 2 }}>
+          <div style={{ fontSize: 10.5, color: "var(--accent-teal)", marginTop: 2 }}
+            title="Authored design vocabulary (a labelled method choice), not discovered intelligence.">
             {OPERATOR_TAGLINE[p.operator as OperatorId] ?? p.operator}
           </div>
         </div>
@@ -116,7 +119,7 @@ function ConceptCard({ p, onClick, maxEcon }: { p: Concept; onClick: () => void;
       {p.typical_market_price_usd != null && (
         <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginBottom: 8 }}>
           <span style={{ fontSize: 19, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>${p.typical_market_price_usd.toFixed(2)}</span>
-          <span style={{ fontSize: 10, color: "var(--ink-faint)" }}>typical real price today</span>
+          <span style={{ fontSize: 10, color: "var(--ink-faint)" }} title="Median listed price of the real products carrying this friction today - a comparable, never this concept's price.">comparable market median</span>
         </div>
       )}
       <div style={{ marginBottom: 8 }}>
@@ -133,7 +136,7 @@ function ConceptCard({ p, onClick, maxEcon }: { p: Concept; onClick: () => void;
   );
 }
 
-export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: string | null; onGoToWorld?: (n: number) => void }) {
+export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: string | null; onGoToWorld?: (n: number, params?: Record<string, string>) => void }) {
   const [data, setData] = useState<CriteriaDoc | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
   const [conceptFocus, setConceptFocus] = useState<Concept | null>(null);
@@ -181,7 +184,7 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
             4 · Magic box — what could exist now?
           </div>
           <h1 style={{ fontSize: 24 }}>Magic box</h1>
-          <div style={{ fontSize: 13, color: "var(--ink-dim)", marginTop: 2 }}>Evidence in. Real concepts out.</div>
+          <div style={{ fontSize: 13, color: "var(--ink-dim)", marginTop: 2 }}>Real frictions × a declared design method — every concept opens with why it exists and its full lineage.</div>
           {effectiveTheme && (
             <div style={{ fontSize: 11.5, color: "var(--accent-teal)", marginTop: 6 }}>
               Filtered from Competitors' white space → theme: <span className="mono">{effectiveTheme}</span>
@@ -316,12 +319,18 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
                   <OperatorIcon operator={conceptFocus.operator} size={52} />
                 </span>
               </div>
-              <div style={{ fontSize: 19, fontWeight: 700, color: "white", lineHeight: 1.35, maxWidth: 340 }}>
+              <div style={{ fontSize: 19, fontWeight: 700, color: "white", lineHeight: 1.35, maxWidth: 340 }}
+                title="Authored design vocabulary (a labelled method choice), not discovered intelligence.">
                 {OPERATOR_TAGLINE[conceptFocus.operator as OperatorId] ?? conceptFocus.operator}
               </div>
               {conceptFocus.typical_market_price_usd != null && (
-                <div style={{ fontSize: 30, fontWeight: 700, color: "white", fontVariantNumeric: "tabular-nums", marginTop: 4 }}>
-                  ${conceptFocus.typical_market_price_usd.toFixed(2)}
+                <div style={{ marginTop: 4 }}>
+                  <div style={{ fontSize: 30, fontWeight: 700, color: "white", fontVariantNumeric: "tabular-nums" }}>
+                    ${conceptFocus.typical_market_price_usd.toFixed(2)}
+                  </div>
+                  <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.85)" }}>
+                    comparable market median ({(conceptFocus as any).comparable_market_median_n_products ?? conceptFocus.typical_market_price_n_products} real products) — not this concept's price
+                  </div>
                 </div>
               )}
               <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.75)", display: "flex", alignItems: "center", gap: 6 }}>
@@ -357,9 +366,66 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
               )}
             </div>
 
+            {(conceptFocus as any).why_here && (
+              <div style={{ marginBottom: 16 }} data-testid="why-here">
+                <SectionLabel>Why does this idea exist?</SectionLabel>
+                <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5 }}>
+                  <b>1 · Reality:</b> {(conceptFocus as any).why_here.reality}
+                </p>
+                <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 6 }}>
+                  <b>2 · Transformation:</b> {(conceptFocus as any).why_here.transformation}
+                </p>
+                <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5, marginTop: 6 }}>
+                  <b>3 · Product consequence:</b> {(conceptFocus as any).why_here.product_consequence}
+                </p>
+                <p className="mono" style={{ fontSize: 10, color: "var(--ink-faint)", marginTop: 4 }}>
+                  consequence basis: {(conceptFocus as any).why_here.consequence_basis}
+                </p>
+              </div>
+            )}
+
+            {((conceptFocus as any).parent_path_ids?.length > 0 || (conceptFocus as any).source_evidence_ids?.length > 0) && (
+              <div style={{ marginBottom: 16 }} data-testid="lineage">
+                <SectionLabel>Lineage — every parent, clickable</SectionLabel>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {((conceptFocus as any).parent_path_ids ?? []).map((pid: string) => (
+                    <button key={pid} onClick={() => onGoToWorld?.(3, { path: pid })} className="mono"
+                      style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--ink-dim)" }}>
+                      {pid} →
+                    </button>
+                  ))}
+                  {((conceptFocus as any).source_evidence_ids ?? []).map((rid: string) => (
+                    <button key={rid} onClick={() => rid.startsWith("RP-") && onGoToWorld?.(2, { paper: rid })} className="mono"
+                      style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: rid.startsWith("RP-") ? "pointer" : "default", color: "var(--accent-blue-ink)" }}>
+                      {rid}{rid.startsWith("RP-") ? " →" : ""}
+                    </button>
+                  ))}
+                </div>
+                <p className="mono" style={{ fontSize: 10, color: "var(--ink-faint)", marginTop: 6 }}>
+                  operator origin: {(conceptFocus as any).operator_origin}
+                </p>
+              </div>
+            )}
+
+            {(conceptFocus as any).engineering_envelope && (
+              <div style={{ marginBottom: 16 }} data-testid="engineering-envelope">
+                <SectionLabel>Engineering envelope — comparables only, never invented</SectionLabel>
+                {Object.entries((conceptFocus as any).engineering_envelope).map(([k, v]: [string, any]) => {
+                  if (typeof v === "string") return <p key={k} style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.45 }}>{v}</p>;
+                  if (!v || typeof v !== "object") return null;
+                  const label = k.replace(/_/g, " ");
+                  if (v.epistemic_type === "OBSERVED_COMPARABLE")
+                    return <StatRow key={k} label={`${label} (observed, ${v.n_comparables} comparables)`} value={`${v.min}–${v.max} ${v.unit}`} />;
+                  if (v.epistemic_type === "REFERENCE_MARKET_PRICE")
+                    return <StatRow key={k} label={`${label} (reference, ${v.n_comparables} products)`} value={`$${v.min}–${v.max}, median $${v.median}`} />;
+                  return <StatRow key={k} label={label} value="unknown — no comparable publishes this" />;
+                })}
+              </div>
+            )}
+
             {conceptFocus.typical_market_price_usd != null && (
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 12 }}>
-                <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>typical real price in this segment today (median of {conceptFocus.typical_market_price_n_products} real products)</span>
+                <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>comparable market median — the median of {conceptFocus.typical_market_price_n_products} real products' own listed prices. What this segment actually costs today, never a proposed price for this concept.</span>
               </div>
             )}
             <StatRow label="Gate passed (real pain evidence)" value={conceptFocus.gate_passed ? "yes" : "no"} />
@@ -394,20 +460,22 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
                   {DNA_ORDER.map((letter) => {
                     const p = conceptFocus.design_dna[letter as keyof DesignDna];
                     const present = p.status === "PRESENT";
+                    const method = p.status === "METHOD_CHOICE";
                     return (
                       <div key={letter} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                         <span style={{
                           flexShrink: 0, width: 22, height: 22, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
                           fontSize: 11, fontFamily: "var(--font-mono)", fontWeight: 700,
-                          color: present ? "var(--good)" : "var(--ink-faint)",
-                          background: present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
-                          border: `1px solid ${present ? "var(--good)" : "var(--line)"}`,
+                          color: method ? "var(--accent-blue-ink)" : present ? "var(--good)" : "var(--ink-faint)",
+                          background: method ? "rgba(58,110,165,0.10)" : present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
+                          border: method ? "1px dashed var(--accent-blue)" : `1px solid ${present ? "var(--good)" : "var(--line)"}`,
                         }}>{letter}</span>
                         <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 12, lineHeight: 1.45, overflowWrap: "break-word" }}>
                           <b style={{ color: "var(--ink)" }}>{DNA_LETTER_NAME[letter]}</b>
                           {" — "}
-                          <span style={{ color: present ? "var(--ink-dim)" : "var(--ink-faint)" }}>
-                            {present ? p.detail : "Missing / unverified — " + p.detail}
+                          <span style={{ color: present || method ? "var(--ink-dim)" : "var(--ink-faint)" }}>
+                            {method ? "Method choice (authored, not evidence) — " + p.detail
+                              : present ? p.detail : "Missing / unverified — " + p.detail}
                           </span>
                         </div>
                       </div>

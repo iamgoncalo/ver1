@@ -29,7 +29,7 @@ class TestScienceChain(unittest.TestCase):
         funnel_paths = j("funnel_real.json")["homepage_funnel"]["paths"]
 
         # forward: pick a paper cited by a tension that surfaced as a path
-        tension_paths = [p for p in funnel_paths if p["kind"] == "TENSION" and p["evidence"]]
+        tension_paths = [p for p in funnel_paths if p["epistemic_class"] == "TENSION" and p["evidence"]]
         self.assertTrue(tension_paths)
         target = tension_paths[0]
         rid = next(e for e in target["evidence"] if e.startswith("RP-"))

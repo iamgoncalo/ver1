@@ -268,6 +268,53 @@ def consumer_corpus():
     }
 
 
+_REVIEWS_BY_THEME = None
+
+
+@app.get("/api/reviews")
+def reviews_for_theme(theme: str, limit: int = 12):
+    """Real review records behind a friction theme - the missing surface
+    for 'click a friction, open real reviews'. Serves bounded excerpts of
+    trusted, non-duplicate reviews (id, product, rating, verified flag,
+    date, title, excerpt) - conservative by design, see data/DATA_NOTICE.md.
+    Built once per process from the two real CSVs, never recomputed."""
+    global _REVIEWS_BY_THEME
+    if _REVIEWS_BY_THEME is None:
+        import csv as _csv
+        themed = {}
+        with open(os.path.join(PROC, "review_themes_real.csv"), encoding="utf-8") as fh:
+            for row in _csv.DictReader(fh):
+                if row["theme"] and row["theme"] != "none":
+                    themed[row["review_id"]] = row["theme"]
+        by_theme = {}
+        with open(os.path.join(PROC, "reviews_clean_real.csv"), encoding="utf-8") as fh:
+            for row in _csv.DictReader(fh):
+                t = themed.get(row["review_id"])
+                if not t or row.get("rating_trusted") != "true" or row.get("is_duplicate_text") == "true":
+                    continue
+                text = (row.get("review_text") or "").strip()
+                by_theme.setdefault(t, []).append({
+                    "review_id": row["review_id"],
+                    "product_sku": row["product_sku"],
+                    "rating": float(row["rating"]) if row.get("rating") else None,
+                    "verified_purchase": row.get("verified_purchase"),
+                    "review_date": row.get("review_date"),
+                    "title": (row.get("review_title") or "").strip()[:160],
+                    "excerpt": text[:320] + ("…" if len(text) > 320 else ""),
+                })
+        _REVIEWS_BY_THEME = by_theme
+    rows = _REVIEWS_BY_THEME.get(theme, [])
+    limit = max(1, min(int(limit), 25))
+    return {
+        "theme": theme,
+        "n_total": len(rows),
+        "reviews": rows[:limit],
+        "_provenance": "data/processed/review_themes_real.csv joined to reviews_clean_real.csv on "
+                       "review_id; trusted, non-duplicate rows only; excerpts bounded at 320 chars "
+                       "(McAuley-Lab Amazon-Reviews-2023 - see data/DATA_NOTICE.md).",
+    }
+
+
 @app.get("/api/product-images")
 def product_images():
     path = os.path.join(ROOT, "data", "visual", "product_images.json")

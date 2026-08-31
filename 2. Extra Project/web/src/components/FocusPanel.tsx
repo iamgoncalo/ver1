@@ -24,6 +24,9 @@ export function FocusPanel({ open, onClose, title, eyebrow, children }: {
       />
       <aside
         aria-hidden={!open}
+        role={open ? "dialog" : undefined}
+        aria-modal={open || undefined}
+        aria-label={title || eyebrow || "Detail panel"}
         style={{
           position: "fixed", top: 0, right: 0, bottom: 0, width: "min(480px, 92vw)",
           background: "var(--surface)", borderLeft: "1px solid var(--line)", zIndex: 41,

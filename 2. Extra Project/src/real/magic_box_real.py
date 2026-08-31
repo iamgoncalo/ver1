@@ -16,6 +16,7 @@ list, never a hardcoded number.
 
 Run:  python3 src/real/magic_box_real.py
 """
+import hashlib
 import json
 import os
 import sys
@@ -23,7 +24,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from taxonomy_real import THEMES  # noqa: E402
-from decision_framework_real import (compute as compute_decision, dominates,  # noqa: E402
+from decision_framework_real import (dominates,  # noqa: E402
                                       pain_score, MATERIALITY_FLOOR_PCT, THEME_FEASIBILITY,
                                       FEASIBILITY_RANK)
 from wtp_real import load_prices, compute_price_exposure  # noqa: E402
@@ -135,6 +136,64 @@ def _load_json_or_none(name):
         return None
 
 
+# The exact files this generator is a deterministic function of - hashed
+# into every output doc so a run is identifiable and mutation-testable.
+MAGIC_INPUT_FILES = [
+    os.path.join(PROC, "reviews_clean_real.csv"),
+    os.path.join(ROOT, "data", "real_raw", "purifier_products_frozen.jsonl"),
+    os.path.join(PROC, "white_space_real.json"),
+    os.path.join(PROC, "signals_real.json"),
+    os.path.join(PROC, "research_tensions.json"),
+    os.path.join(PROC, "category_assumptions.json"),
+]
+
+
+def compute_magic_input_hash():
+    h = hashlib.sha256()
+    for path in MAGIC_INPUT_FILES:
+        h.update(os.path.basename(path).encode("utf-8"))
+        try:
+            with open(path, "rb") as fh:
+                h.update(fh.read())
+        except FileNotFoundError:
+            h.update(b"MISSING")
+    return h.hexdigest()
+
+
+def compute_engineering_envelope_base():
+    """Comparable-based engineering ranges, computed ONLY from the
+    individually verified official product pages (data/visual/
+    product_images.json). Every populated field is OBSERVED_COMPARABLE with
+    its n; a spec no comparable publishes stays UNKNOWN - never invented.
+    These are category comparables, not a concept's own specification."""
+    try:
+        with open(os.path.join(ROOT, "data", "visual", "product_images.json"), encoding="utf-8") as fh:
+            official = json.load(fh)["products"]
+    except FileNotFoundError:
+        official = []
+
+    def observed(key, unit):
+        vals = [p["specs"].get(key) for p in official if p.get("specs", {}).get(key) is not None]
+        if not vals:
+            return {"epistemic_type": "UNKNOWN",
+                    "note": "No verified comparable publishes this value - left unknown, never estimated."}
+        return {"min": min(vals), "max": max(vals), "n_comparables": len(vals), "unit": unit,
+                "epistemic_type": "OBSERVED_COMPARABLE",
+                "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"}
+
+    unknown = {"epistemic_type": "UNKNOWN",
+               "note": "No verified comparable publishes this value - left unknown, never estimated."}
+    return {
+        "comparable_basis": "{} verified official Versuni/Philips air-purifier families (room-scale)".format(len(official)),
+        "performance_cadr_m3h": observed("cadr_m3h", "m3/h"),
+        "room_coverage_m2": observed("room_coverage_m2", "m2"),
+        "acoustic_min_dba": observed("noise_min_dba", "dBA"),
+        "target_mass_kg": unknown,
+        "target_power_w": unknown,
+        "target_dimensions": unknown,
+    }
+
+
 MISSING_UNVERIFIED = {"status": "MISSING_UNVERIFIED"}
 
 
@@ -152,7 +211,11 @@ def compute_design_dna(theme_id, evidence_ids, is_white_space, competitor_gap_br
     dna = {
         "F": {"status": "PRESENT", "kind": "consumer_friction", "id": "taxonomy:{}".format(theme_id),
               "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."},
-        "O": {"status": "PRESENT", "kind": "design_operator", "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."},
+        # O is a METHOD CHOICE, never evidence - it gets its own status so a
+        # DNA badge row can never be read as eight evidence parents.
+        "O": {"status": "METHOD_CHOICE", "kind": "design_operator",
+              "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - "
+                        "see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."},
     }
 
     dna["S"] = ({"status": "PRESENT", "kind": "signal", "id": theme_id, "detail": signal["meaning"]}
@@ -187,47 +250,125 @@ def compute_design_dna(theme_id, evidence_ids, is_white_space, competitor_gap_br
     return dna
 
 
-def generate_possibilities():
+def generate_possibilities(rows=None, prices=None, white_space_doc=None,
+                           signals_doc=None, tensions_doc=None, assumptions_doc=None):
     """Stage 1 of the funnel: every (theme, operator) pair the fixed table
-    defines, regardless of gate status - the raw candidate pool."""
-    rows = load_clean()
+    defines, regardless of gate status - the raw candidate pool.
+
+    Every input is injectable (defaulting to the real files on disk) so
+    mutation tests can remove a parent evidence object in memory and prove
+    the dependent possibility genuinely weakens - the same pattern
+    decision_framework_real.compute(rows=...) already supports."""
+    rows = rows if rows is not None else load_clean()
     theme_stats, corpus_mean, _ = compute_theme_stats(rows)
-    prices = load_prices()
+    prices = prices if prices is not None else load_prices()
     price_exposure = compute_price_exposure(rows, prices)
 
-    try:
-        with open(os.path.join(PROC, "white_space_real.json"), encoding="utf-8") as fh:
-            white_space = {s["theme"]: s for s in json.load(fh)["spaces"]}
-    except FileNotFoundError:
-        white_space = {}
+    if white_space_doc is None:
+        white_space_doc = _load_json_or_none("white_space_real.json") or {"spaces": []}
+    white_space = {s["theme"]: s for s in white_space_doc["spaces"]}
 
-    signals_doc = _load_json_or_none("signals_real.json")
+    signals_doc = signals_doc if signals_doc is not None else _load_json_or_none("signals_real.json")
     signals_by_id = {s["id"]: s for s in signals_doc["signals"]} if signals_doc else {}
-    tensions_doc = _load_json_or_none("research_tensions.json")
+    tensions_doc = tensions_doc if tensions_doc is not None else _load_json_or_none("research_tensions.json")
     tensions = tensions_doc["tensions"] if tensions_doc else []
-    assumptions_doc = _load_json_or_none("category_assumptions.json")
+    assumptions_doc = assumptions_doc if assumptions_doc is not None else _load_json_or_none("category_assumptions.json")
     assumptions = assumptions_doc["assumptions"] if assumptions_doc else []
+
+    envelope_base = compute_engineering_envelope_base()
 
     possibilities = []
     for theme_id, ops in THEME_OPERATORS.items():
         stats = theme_stats[theme_id]
+        signal = signals_by_id.get(theme_id)
+        signal_paper_ids = {r["research_id"] for r in (signal.get("research_support") or [])} if signal else set()
+        matching_tensions = [t for t in tensions if signal_paper_ids & set(t["evidence_ids"])] if signal_paper_ids else []
+        matching_assumptions = [a for a in assumptions if signal_paper_ids & set(a["real_evidence_that_bears_on_it"])] if signal_paper_ids else []
+        pe = price_exposure[theme_id]
         for op in ops:
             pid = "{}:{}".format(theme_id, op)
             gate_passed = (stats["csat_impact"] is not None
                           and (stats["prevalence_pct"] or 0) >= MATERIALITY_FLOOR_PCT)
             ws = white_space.get(theme_id)
+
+            # WHY_HERE - the 3-part derivation every possibility must answer
+            # immediately: reality (evidence) -> transformation (labelled
+            # method) -> product consequence (with its honest basis).
+            reality = ("{}% of trusted reviews ({} reviews across {} real products) carry this friction, "
+                       "with a {}★ average rating gap.".format(
+                           stats["prevalence_pct"], stats["n_reviews"], stats["n_distinct_products"],
+                           stats["csat_impact"]))
+            if signal:
+                reality += " Signal: {}".format(signal["meaning"])
+            transformation = ("METHOD CHOICE, not evidence: the authored operator table assigns {} - "
+                              "\"{}\" - to this friction. Analyst design judgment, applied "
+                              "deterministically.".format(op, OPERATORS[op]))
+            if matching_tensions:
+                consequence_basis = "RESEARCH_TENSION"
+                consequence = matching_tensions[0]["design_consequence"]
+                if matching_assumptions:
+                    consequence += " Assumption challenged: \"{}\" -> {}".format(
+                        matching_assumptions[0]["text"], matching_assumptions[0]["counterfactual"])
+            elif THEME_FEASIBILITY[theme_id].get("rationale"):
+                consequence_basis = "FEASIBILITY_PRECEDENT"
+                consequence = ("Feasibility precedent (from the trend corpus, not a consumer-evidence "
+                               "consequence): {}".format(THEME_FEASIBILITY[theme_id]["rationale"]))
+            else:
+                consequence_basis = "DECLARED_INFERENCE"
+                consequence = ("Declared inference from the friction and the operator alone - no research "
+                               "tension or feasibility precedent backs this consequence.")
+
+            unknowns = [THEME_FEASIBILITY[theme_id].get("missing_internal_evidence")]
+            unknowns = [u for u in unknowns if u]
+
+            envelope = dict(envelope_base)
+            envelope["reference_market_price_usd"] = {
+                "median": pe["median_real_price_usd"], "min": pe["min_real_price_usd"],
+                "max": pe["max_real_price_usd"], "n_comparables": pe["n_distinct_priced_products_affected"],
+                "epistemic_type": "REFERENCE_MARKET_PRICE",
+                "caveat": pe.get("median_real_price_caveat"),
+            }
+            archetype = compute_product_conditions(theme_id, op)
+            if "portable" in archetype.get("mobility", "").lower() or "Relocatable" in archetype.get("mobility", ""):
+                envelope = dict(envelope)
+                envelope["form_factor_note"] = ("The operator implies a different form factor than the "
+                                                "room-scale verified comparables - the ranges above are "
+                                                "category context, not a target for this concept.")
+
             possibilities.append({
                 "id": pid,
+                "possibility_id": pid,
+                "target_category": "AIR_PURIFICATION",
                 "name": POSSIBILITY_NAMES.get((theme_id, op), "{} x {}".format(theme_id, op)),
                 "friction_theme": theme_id,
                 "friction_theme_name": THEMES[theme_id][0],
                 "operator": op,
                 "operator_definition": OPERATORS[op],
+                "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
                 "generation": "analyst-designed deterministic rule (theme x operator), see generation_method",
+                "parent_path_ids": (["tension:" + t["tension_id"] for t in matching_tensions]
+                                     + ["assumption:" + a["assumption_id"] for a in matching_assumptions]),
+                "source_evidence_ids": sorted(signal_paper_ids) + list(THEME_FEASIBILITY[theme_id]["evidence_ids"]),
+                "friction_ids": ["taxonomy:{}".format(theme_id)],
+                "donor_capability_ids": [],
                 "donor_state": ("MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor "
                                 "capability relationship and none exists in this pipeline; "
                                 "treat the transfer as HYPOTHESIS"
                                 if op == "CROSS_CATEGORY_TRANSFER" else None),
+                "assumption_challenged": ({"ids": [a["assumption_id"] for a in matching_assumptions],
+                                            "counterfactuals": [a["counterfactual"] for a in matching_assumptions]}
+                                           if matching_assumptions else
+                                           {"ids": [], "note": "No category assumption shares a paper with this theme's signal evidence."}),
+                "why_here": {"reality": reality, "transformation": transformation,
+                             "product_consequence": consequence, "consequence_basis": consequence_basis},
+                "product_archetype": dict(archetype,
+                                          epistemic_type="DESIGN_RULE - each populated field follows from the "
+                                                          "operator's own fixed definition, never from evidence"),
+                "engineering_envelope": envelope,
+                "unknowns": unknowns,
+                "test": {"type": "CHALLENGE_TEST", "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+                         "text": THEME_FEASIBILITY[theme_id]["what_would_change_rating"],
+                         "derived_from": ["decision_framework_real.py::THEME_FEASIBILITY[{}].what_would_change_rating".format(theme_id)]},
                 "consumer_pain_csat": stats["csat_impact"],
                 "consumer_pain_prevalence_pct": stats["prevalence_pct"],
                 "consumer_pain_methodology": {
@@ -239,14 +380,21 @@ def generate_possibilities():
                     "source": "McAuley-Lab Amazon-Reviews-2023 (Amazon.com real customer reviews)",
                 },
                 "gate_passed": gate_passed,
-                "economic_value": price_exposure[theme_id]["price_weighted_exposure_usd"],
-                "typical_market_price_usd": price_exposure[theme_id]["median_real_price_usd"],
-                "typical_market_price_n_products": price_exposure[theme_id]["n_distinct_priced_products_affected"],
+                "economic_value": pe["price_weighted_exposure_usd"],
+                "economic_value_caveat": pe.get("price_weighted_exposure_caveat"),
+                "typical_market_price_usd": pe["median_real_price_usd"],
+                "typical_market_price_n_products": pe["n_distinct_priced_products_affected"],
+                "comparable_market_median_usd": pe["median_real_price_usd"],
+                "comparable_market_median_n_products": pe["n_distinct_priced_products_affected"],
+                "comparable_market_median_caveat": pe.get("median_real_price_caveat"),
                 "feasibility_2_5y": {
                     "rating": THEME_FEASIBILITY[theme_id]["rating"],
                     "rank": FEASIBILITY_RANK[THEME_FEASIBILITY[theme_id]["rating"]],
+                    "epistemic_type": THEME_FEASIBILITY[theme_id].get("epistemic_type"),
                     "evidence_ids": THEME_FEASIBILITY[theme_id]["evidence_ids"],
                     "rationale": THEME_FEASIBILITY[theme_id]["rationale"],
+                    "missing_internal_evidence": THEME_FEASIBILITY[theme_id].get("missing_internal_evidence"),
+                    "what_would_change_rating": THEME_FEASIBILITY[theme_id].get("what_would_change_rating"),
                 },
                 "is_white_space": bool(ws and ws.get("is_white_space")),
                 "competitor_gap_brands": ws["rivals_measurably_weak_here"] if ws else [],
@@ -255,16 +403,17 @@ def generate_possibilities():
                 "design_dna": compute_design_dna(
                     theme_id, ["taxonomy:{}".format(theme_id)],
                     bool(ws and ws.get("is_white_space")), ws["rivals_measurably_weak_here"] if ws else [],
-                    price_exposure[theme_id]["price_weighted_exposure_usd"],
+                    pe["price_weighted_exposure_usd"],
                     signals_by_id, tensions, assumptions),
             })
     return possibilities
 
 
-def run_funnel():
+def run_funnel(**inject):
     """Every stage count below is len() of a real filtered list - the
-    funnel numbers are computed, never hardcoded."""
-    all_possibilities = generate_possibilities()
+    funnel numbers are computed, never hardcoded. Keyword arguments pass
+    straight through to generate_possibilities() for mutation tests."""
+    all_possibilities = generate_possibilities(**inject)
     stage1 = all_possibilities
     stage2_gate = [p for p in stage1 if p["gate_passed"]]
     stage3_evidence = [p for p in stage2_gate if p["economic_value"] not in (None, 0)]
@@ -321,7 +470,23 @@ def run_funnel():
             "scope": "AIR_PURIFICATION only - the theme x operator rule table and "
                      "possibility names are authored for this category; not "
                      "category-general",
-            "code_reference": "src/real/magic_box_real.py::THEME_OPERATORS / POSSIBILITY_NAMES",
+            "code_reference": "src/real/magic_box_real.py::OPERATORS / THEME_OPERATORS / "
+                              "POSSIBILITY_NAMES / OPERATOR_PRODUCT_HINTS",
+            "authored_constants": [
+                "OPERATORS (the 12 operator definitions - authored vocabulary, not discovered)",
+                "THEME_OPERATORS (which operators fit which friction theme)",
+                "POSSIBILITY_NAMES (all 16 concept names)",
+                "OPERATOR_PRODUCT_HINTS (product-shape rules that follow from operator definitions)",
+                "decision_framework_real.py::THEME_FEASIBILITY (analyst feasibility judgments, "
+                "epistemic_type ANALYST_JUDGMENT, carried per possibility)",
+                "web OPERATOR_TAGLINE strings (UI copies of the operator definitions - same authored vocabulary)",
+            ],
+        },
+        "run": {
+            "input_snapshot_sha256": compute_magic_input_hash(),
+            "input_files": [os.path.relpath(p, ROOT) for p in MAGIC_INPUT_FILES],
+            "deterministic": "Byte-identical inputs always produce a byte-identical document - "
+                             "nothing is sampled, timed, or invented per run.",
         },
         "_provenance": "Every count is len() of a real filtered Python list. Dominance "
                        "reuses src/real/decision_framework_real.py::dominates() exactly, "

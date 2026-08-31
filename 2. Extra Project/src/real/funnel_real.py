@@ -202,10 +202,17 @@ def compute_patterns():
         for s in signals if s["state"] == "CONVERGING"
     ]
 
+    # Kept consistent with the Pass 2 path ontology: a record reclassified
+    # to ASSUMPTION_TO_TEST (T4/T5, machine-checked against signal states)
+    # never appears in the TENSION pattern bucket.
+    signal_state = {s["id"]: s["state"] for s in signals}
+    def _is_reclassified(tid):
+        r = TENSION_RECLASS.get(tid)
+        return bool(r) and signal_state.get(r["check_signal"]) == r["check_state"]
     patterns["TENSION"] = [
         {"id": "tension:{}".format(t["tension_id"]), "name": t["name"], "parent_ids": [t["tension_id"]] + t["evidence_ids"],
          "detail": t["statement"]}
-        for t in tensions
+        for t in tensions if not _is_reclassified(t["tension_id"])
     ]
 
     patterns["CONTRADICTION"] = [
@@ -218,6 +225,10 @@ def compute_patterns():
         {"id": "assumption:{}".format(a["assumption_id"]), "name": a["text"], "parent_ids": [a["assumption_id"]] + a["real_evidence_that_bears_on_it"],
          "detail": a["evidence_for_prevalence"]}
         for a in assumptions
+    ] + [
+        {"id": "tension:{}".format(t["tension_id"]), "name": t["name"], "parent_ids": [t["tension_id"]] + t["evidence_ids"],
+         "detail": t["statement"] + " (reclassified from TENSION: " + TENSION_RECLASS[t["tension_id"]]["why"] + ")"}
+        for t in tensions if _is_reclassified(t["tension_id"])
     ]
 
     patterns["CAPABILITY_TRANSFER"] = [
@@ -314,22 +325,111 @@ def compute_stages(patterns, signal_families):
 
 
 NO_DATA = "NO VERIFIED DATA"
-NO_NATURE = "NO VERIFIED NATURE ANALOGUE - no biomimicry/nature-analogue dataset exists in this pipeline."
+
+# ---------------------------------------------------------------------------
+# Pass 2 path ontology - three explicit epistemic classes, never collapsed:
+#
+#   TRAJECTORY          "reality appears to be moving from X toward Y" -
+#                       requires temporal AND directional evidence.
+#   TENSION             credible evidence genuinely pulls in different
+#                       directions (a real trade-off or disagreement).
+#   ASSUMPTION_TO_TEST  the category behaves as though X were true; we test
+#                       what changes if it is not.
+#
+# This corpus contains NO validated temporal series: paper years are
+# literature accumulating (not the category moving), the trend corpus's own
+# what_this_corpus_cannot_establish disqualifies trend claims, market
+# figures are forward forecasts (not observed history), and the review-share
+# yearly series is non-stationary (denominator drift dominates). So the
+# TRAJECTORY bucket is honestly EMPTY - publishing zero trajectories is the
+# only defensible output, and the note below says exactly why.
+# ---------------------------------------------------------------------------
+
+TRAJECTORY_NOTE = {
+    "count": 0,
+    "statement": "No supported or tentative trajectory can be published from this corpus: a trajectory "
+                 "requires observed temporal + directional evidence, and none exists here.",
+    "why": [
+        "Paper publication years (2018-2026) show the literature accumulating, not the category moving.",
+        "data/raw/trend_corpus.json's own 'what_this_corpus_cannot_establish' states these documents cannot "
+        "establish that any trend is real or growing in a statistical sense.",
+        "market_metrics.json carries forward forecasts only (base year -> forecast year) - a forecast is a "
+        "claim about the future, not an observation that reality moved.",
+        "The per-theme review-share yearly series is dominated by corpus-composition drift (2 reviews in "
+        "2004 vs 2,478 in 2020) - a trend read off it would be a sampling artefact.",
+    ],
+    "what_would_create_one": "A validated multi-year observation of the same measure (e.g. an official "
+                             "yearly category panel, or a stationary review series) showing consistent "
+                             "direction across at least two independent evidence families.",
+}
+
+# Reclassification of two records historically labelled TENSION - a labelled
+# METHOD_CHOICE, each applied only while its machine-checkable condition
+# still holds against the live signals layer (checked at build time).
+TENSION_RECLASS = {
+    "T4": {
+        "epistemic_class": "ASSUMPTION_TO_TEST",
+        "why": "RP-09 and RP-10 agree - the signals layer classifies sensor_trust as CONVERGING with 2 "
+               "independent studies. Agreeing evidence is not a tension; 'more sensing implies more trust' "
+               "is a category belief the evidence already challenges.",
+        "check_signal": "sensor_trust", "check_state": "CONVERGING",
+    },
+    "T5": {
+        "epistemic_class": "ASSUMPTION_TO_TEST",
+        "why": "Single source (RP-04), and the record's own statement says the alternative was never tested "
+               "('RP-04 tested no purifier placement at all') - an open question, not contested evidence.",
+        "check_signal": "spatial_resuspension", "check_state": "SINGLE_SOURCE_FAMILY",
+    },
+}
+
+# Machine-formulated tests per tension record - each derives from stored
+# evidence-card fields (the source_quotes are attached live at build time so
+# the derivation is inspectable). Typed FALSIFIER when a concrete
+# observation would collapse the trade-off, CHALLENGE_TEST for reclassified
+# assumption-like records. The old public fallback sentence is deleted.
+TENSION_TESTS = {
+    "T1": {"type": "FALSIFIER", "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+           "text": "Falsified when one design point achieves RP-01's measured primary-room particulate "
+                   "reduction at a sound level that removes noise as a named reason for running the device "
+                   "less (RP-05) - both halves are stored, quantified findings.",
+           "derived_from": ["RP-01.found", "RP-05.establishes"]},
+    "T2": {"type": "FALSIFIER", "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+           "text": "Falsified when an auto-mode arm reaches the lower bound of RP-07's constant-mode "
+                   "reduction interval while keeping auto's runtime/noise advantage - the two stored "
+                   "confidence intervals would then overlap and the trade-off dissolves.",
+           "derived_from": ["RP-07.found"]},
+    "T3": {"type": "FALSIFIER", "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+           "text": "Falsified when a CADR-derived sizing prediction matches a source-strength-adjusted "
+                   "measured loss rate within the fan-speed band RP-06 reports, in a home with the central "
+                   "air-handling configuration RP-01 identifies as decisive.",
+           "derived_from": ["RP-06.found", "RP-01.does_not_establish"]},
+    "T4": {"type": "CHALLENGE_TEST", "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+           "text": "Challenged when a consumer air-quality sensor passes a formal regulatory validation "
+                   "standard - RP-09's stored finding is that most currently do not.",
+           "derived_from": ["RP-09.found"]},
+    "T5": {"type": "CHALLENGE_TEST", "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+           "text": "Challenged only by a study that tests purifier placement against floor-level "
+                   "resuspension - RP-04's own record states no placement was tested. The honest answer "
+                   "today is that the deciding test does not exist yet.",
+           "derived_from": ["RP-04.does_not_establish"]},
+    "T6": {"type": "FALSIFIER", "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+           "text": "Resolved when an independent replication of RP-08 reproduces its clinical effect in a "
+                   "cohort whose particulate reduction matches RP-03's measured range - RP-08's own record "
+                   "names independent replication as the missing step. A failed replication resolves it the "
+                   "other way.",
+           "derived_from": ["RP-08.found", "RP-08.does_not_establish", "RP-03.found"]},
+}
 
 
-def path_maturity(evidence_ids, kind):
-    """Mechanical evidence-maturity rule (no per-path authoring):
-    0 evidence ids -> candidate; 1 -> tentative; >=2 -> supported.
-    A TENSION is definitionally contested evidence, so it caps at
-    'challenged' - real sources genuinely disagree. No path in this
-    corpus has verified causal drivers; that is reported per path, never
-    upgraded silently."""
+def tension_evidence_state(evidence_ids):
+    return "contested-multi-source" if len(evidence_ids or []) >= 2 else "single-source trade-off"
+
+
+def assumption_evidence_state(evidence_ids):
     n = len(evidence_ids or [])
     if n == 0:
-        return "candidate"
-    if kind == "TENSION":
-        return "challenged"
-    return "tentative" if n == 1 else "supported"
+        return "untested - no direct evidence"
+    return "single-source-informed" if n == 1 else "multi-source-informed"
 
 
 def compute_homepage_funnel(patterns, signal_families):
@@ -370,43 +470,99 @@ def compute_homepage_funnel(patterns, signal_families):
         "NATURE": NO_DATA + " - no biomimicry/nature-analogue dataset exists in this pipeline.",
     }
 
-    # PATHS - "see where reality is moving". Two real, structurally
-    # distinct kinds of path (kept apart, never blended): a research
-    # TENSION (real "X vs. Y" trade-off, name parsed - not invented, the
-    # real corpus name literally is a from/to pair) and a category
-    # ASSUMPTION (real current state -> its own real counterfactual).
-    # driver/blocker/what_closes/distortion/nature_analogue have no real
-    # source anywhere in this pipeline and are reported as such.
+    # PATHS - the Pass 2 epistemic ontology. Three explicit classes
+    # (TRAJECTORY / TENSION / ASSUMPTION_TO_TEST) that are never collapsed:
+    # zero trajectories are publishable from this corpus (TRAJECTORY_NOTE
+    # says exactly why), research tensions stay tensions only while their
+    # evidence genuinely pulls in different directions (T4/T5 are
+    # reclassified with machine-checked conditions), and every path carries
+    # a typed, derivable test instead of the old NO-VERIFIED-DATA slots.
+    signals_doc = _load("processed", "signals_real.json")["signals"]
+    signal_state = {s["id"]: s["state"] for s in signals_doc}
+    cards = {c["research_id"]: c for c in _load("processed", "evidence_cards.json")["cards"]}
+
+    def _quotes(derived_from):
+        out = {}
+        for ref in derived_from:
+            rid, _, fieldname = ref.partition(".")
+            card = cards.get(rid)
+            if card and fieldname in card:
+                out[ref] = card[fieldname]
+        return out
+
     paths = []
+    reclassified = []
     for t in tensions:
+        tid = t["tension_id"]
+        reclass = TENSION_RECLASS.get(tid)
+        # A reclassification is a labelled method choice that applies only
+        # while its machine-checkable signal-state condition still holds.
+        if reclass and signal_state.get(reclass["check_signal"]) != reclass["check_state"]:
+            reclass = None
+        epistemic_class = reclass["epistemic_class"] if reclass else "TENSION"
+        test = dict(TENSION_TESTS[tid]) if tid in TENSION_TESTS else None
+        if test:
+            test["source_quotes"] = _quotes(test["derived_from"])
         parts = t["name"].split(" vs. ", 1)
-        frm, to = (parts[0], parts[1]) if len(parts) == 2 else (t["name"], NO_DATA)
-        paths.append({
-            "id": "tension:" + t["tension_id"], "kind": "TENSION", "name": t["name"],
-            "from": frm, "to": to, "driver": NO_DATA, "blocker": NO_DATA,
-            "what_opens": t["design_consequence"], "what_closes": NO_DATA, "distortion": NO_DATA,
-            "evidence": t["evidence_ids"], "nature_analogue": NO_NATURE,
-            "maturity": path_maturity(t["evidence_ids"], "TENSION"),
+        pole_a, pole_b = (parts[0], parts[1]) if len(parts) == 2 else (t["name"], "")
+        path = {
+            "id": "tension:" + tid, "epistemic_class": epistemic_class, "name": t["name"],
+            "relation": "TRADE_OFF", "from": pole_a, "to": pole_b,
+            "what_opens": t["design_consequence"],
+            "evidence": t["evidence_ids"],
+            "evidence_state": tension_evidence_state(t["evidence_ids"]),
             "causal_drivers_verified": False,
+            "test": test,
             "detail": t["statement"],
-        })
+        }
+        if reclass:
+            path["reclassified_from"] = "TENSION"
+            path["reclassification_why"] = reclass["why"]
+            path["evidence_state"] = assumption_evidence_state(t["evidence_ids"])
+            reclassified.append({"id": path["id"], "to": epistemic_class, "why": reclass["why"]})
+        paths.append(path)
     for a in assumptions:
         paths.append({
-            "id": "assumption:" + a["assumption_id"], "kind": "ASSUMPTION", "name": a["text"],
-            "from": a["text"], "to": a["counterfactual"], "driver": NO_DATA, "blocker": NO_DATA,
-            "what_opens": a["counterfactual"], "what_closes": NO_DATA, "distortion": NO_DATA,
-            "evidence": a["real_evidence_that_bears_on_it"], "nature_analogue": NO_NATURE,
-            "maturity": path_maturity(a["real_evidence_that_bears_on_it"], "ASSUMPTION"),
+            "id": "assumption:" + a["assumption_id"], "epistemic_class": "ASSUMPTION_TO_TEST",
+            "name": a["text"], "relation": "BELIEF_TO_QUESTION",
+            "from": a["text"], "to": a["counterfactual"],
+            "what_opens": a["counterfactual"],
+            "evidence": a["real_evidence_that_bears_on_it"],
+            "evidence_state": assumption_evidence_state(a["real_evidence_that_bears_on_it"]),
             "causal_drivers_verified": False,
+            "test": a.get("challenge_test"),
             "detail": a["evidence_note"],
         })
 
-    # FIELD - "understand the emerging world": a 1:1 relabelling of the
-    # real decision_framework_real.json verdict fields - every one of
-    # these six sub-fields is a real field already computed there, none
-    # synthesized here.
+    # Per-path FIELD grounding - each path's OWN evidence-backed world
+    # model, built by field_grounding_real.py. Replaces the old single
+    # global brief that was reused under every path.
+    from field_grounding_real import build_field_grounding
+    fields = build_field_grounding(paths)
+    for p in paths:
+        p["field"] = fields[p["id"]]
+
+    path_ontology = {
+        "classes": {
+            "TRAJECTORY": 0,
+            "TENSION": sum(1 for p in paths if p["epistemic_class"] == "TENSION"),
+            "ASSUMPTION_TO_TEST": sum(1 for p in paths if p["epistemic_class"] == "ASSUMPTION_TO_TEST"),
+        },
+        "trajectory_note": TRAJECTORY_NOTE,
+        "reclassifications": reclassified,
+        "method": "Classification is a labelled method rule cross-checked against the live signals layer "
+                  "at build time: a record is TENSION only while credible evidence genuinely pulls in "
+                  "different directions; agreeing or single-open-question records are "
+                  "ASSUMPTION_TO_TEST; TRAJECTORY requires observed temporal + directional evidence "
+                  "(none exists in this corpus).",
+    }
+
+    # FORMAL-CASE BRIEF - honestly named for what it is: the decision
+    # framework's verdict for the formal Air case. It is NOT field
+    # grounding and is no longer served as such - per-path field objects
+    # live on each path above.
     v = decision["verdict"]
-    field = {
+    formal_case_brief = {
         "now": v["recommended_name"],
         "moving": v["sensitivity"],
         "because": v["why"],
@@ -456,7 +612,8 @@ def compute_homepage_funnel(patterns, signal_families):
     return {
         "radar": {"families": radar_families, "notes": radar_notes},
         "paths": paths,
-        "field": field,
+        "path_ontology": path_ontology,
+        "formal_case_brief": formal_case_brief,
         "magic_box": magic_box_stage,
         "innovations": innovations_stage,
         "new_products": new_products_stage,

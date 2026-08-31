@@ -7,9 +7,10 @@ import { FunnelStageIcon, type FunnelStageKey } from "../components/FunnelIcons"
 
 interface RadarData { families: Record<string, number>; notes: Record<string, string> }
 interface PathData {
-  id: string; kind: "TENSION" | "ASSUMPTION"; name: string; from: string; to: string;
-  driver: string; blocker: string; what_opens: string; what_closes: string; distortion: string;
-  evidence: string[]; nature_analogue: string; detail: string;
+  id: string; epistemic_class: "TRAJECTORY" | "TENSION" | "ASSUMPTION_TO_TEST"; name: string;
+  from: string; to: string; relation: "TRADE_OFF" | "BELIEF_TO_QUESTION";
+  what_opens: string; evidence: string[]; evidence_state: string; detail: string;
+  test: { type: string; text: string } | null;
 }
 interface FieldData {
   now: string; moving: string; because: string; opens: string;
@@ -21,7 +22,7 @@ interface InnovationsData { count: number; candidates: InnovationCandidate[] }
 interface NewProduct { id: string; name: string; friction_theme_name: string; operator: string; typical_market_price_usd: number | null; economic_value: number; feasibility: string }
 interface NewProductsData { count: number; products: NewProduct[]; bet: string }
 interface HomepageFunnel {
-  radar: RadarData; paths: PathData[]; field: FieldData; magic_box: MagicBoxData;
+  radar: RadarData; paths: PathData[]; formal_case_brief: FieldData; magic_box: MagicBoxData;
   innovations: InnovationsData; new_products: NewProductsData;
 }
 interface FunnelDoc {
@@ -36,7 +37,7 @@ type StageDef = { key: string; icon: FunnelStageKey; label: string; tagline: str
 const STAGES: StageDef[] = [
   { key: "product_universe", icon: "field", label: "Product universe", tagline: "What Versuni already has", world: 1, unit: "verified Versuni products" },
   { key: "radar", icon: "radar", label: "Radar", tagline: "What we actually see", world: 2, unit: "observation records" },
-  { key: "paths", icon: "paths", label: "Paths", tagline: "Where reality moves — grounded", world: 3, unit: "real paths" },
+  { key: "paths", icon: "paths", label: "Paths", tagline: "Tensions and beliefs to test", world: 3, unit: "tensions + assumptions" },
   { key: "magic_box", icon: "magic_box", label: "Magic box", tagline: "What could exist now", world: 4, unit: "possibilities" },
   { key: "innovations", icon: "innovations", label: "Innovations", tagline: "Worth developing next", world: 5, unit: "non-dominated candidates" },
 ];
@@ -260,7 +261,8 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
       </FocusPanel>
 
       {/* PATHS */}
-      <FocusPanel open={openStage === "paths"} onClose={() => setOpenStage(null)} eyebrow="Paths — where reality is moving" title={`${hf?.paths.length ?? 0} real paths`}>
+      <FocusPanel open={openStage === "paths"} onClose={() => setOpenStage(null)} eyebrow="Paths — three claims, never blended"
+        title={`${hf?.paths.filter((p) => p.epistemic_class === "TENSION").length ?? 0} open tensions · ${hf?.paths.filter((p) => p.epistemic_class === "ASSUMPTION_TO_TEST").length ?? 0} assumptions to test`}>
         {hf && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {hf.paths.map((p) => (
@@ -268,7 +270,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
             ))}
             <button onClick={() => setOpenStage("field")}
               style={{ marginTop: 6, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", fontSize: 12.5 }}>
-              Field brief — what this means in the real world ▸
+              Formal-case decision brief ▸
             </button>
             <button onClick={() => goTo(3)}
               style={{ marginTop: 6, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
@@ -278,25 +280,30 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
         )}
       </FocusPanel>
 
-      {/* FIELD */}
-      <FocusPanel open={openStage === "field"} onClose={() => setOpenStage(null)} eyebrow="Field — the emerging world, distilled" title={hf?.field.now ?? ""}>
+      {/* FORMAL-CASE BRIEF - honestly named: the Air case decision verdict,
+          NOT field grounding. Per-path field objects live inside Paths. */}
+      <FocusPanel open={openStage === "field"} onClose={() => setOpenStage(null)} eyebrow="Formal-case decision brief — the Air case verdict" title={hf?.formal_case_brief.now ?? ""}>
         {hf && (
           <>
-            <Expand label="Because" text={hf.field.because} />
-            <Expand label="Moving — what flips it" text={hf.field.moving} />
-            <Expand label="Opens" text={hf.field.opens} />
-            <Expand label="Wrong if" text={hf.field.wrong_if} tone="rose" />
-            {hf.field.blocked_by.length > 0 && (
+            <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 10 }}>
+              One recommendation with its reasoning — the formal case's decision verdict. Field grounding
+              (what each path means in the real world) is path-specific and lives inside the Paths world.
+            </p>
+            <Expand label="Because" text={hf.formal_case_brief.because} />
+            <Expand label="Moving — what flips it" text={hf.formal_case_brief.moving} />
+            <Expand label="Opens" text={hf.formal_case_brief.opens} />
+            <Expand label="Wrong if" text={hf.formal_case_brief.wrong_if} tone="rose" />
+            {hf.formal_case_brief.blocked_by.length > 0 && (
               <div style={{ marginBottom: 10 }}>
                 <SectionLabel>Blocked</SectionLabel>
-                {hf.field.blocked_by.map((k) => <Expand key={k.name} label={k.name} text={k.reason} />)}
+                {hf.formal_case_brief.blocked_by.map((k) => <Expand key={k.name} label={k.name} text={k.reason} />)}
               </div>
             )}
             <button onClick={() => goTo(3)}
               style={{ marginTop: 8, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              Ground it inside Paths →
+              Open the per-path field grounding in Paths →
             </button>
-            <Source text="GET /api/funnel -> homepage_funnel.field, a 1:1 relabelling of decision_framework_real.json[&quot;verdict&quot;] — src/real/decision_framework_real.py." />
+            <Source text="GET /api/funnel -> homepage_funnel.formal_case_brief, a 1:1 relabelling of decision_framework_real.json[&quot;verdict&quot;] — src/real/decision_framework_real.py. Per-path field grounding: homepage_funnel.paths[].field — src/real/field_grounding_real.py." />
           </>
         )}
       </FocusPanel>
@@ -370,17 +377,18 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
   );
 }
 
-function gapText(v: string) {
-  return /^NO VERIFIED/i.test(v) ? "not established — no verified evidence" : v;
-}
-
 function PathRow({ p, onOpen }: { p: PathData; onOpen: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ border: "1px solid var(--line)", borderRadius: 12, overflow: "hidden" }}>
       <button onClick={() => setOpen((v) => !v)} style={{ display: "block", width: "100%", background: "none", border: "none", padding: "10px 14px", textAlign: "left", cursor: "pointer" }}>
-        <Pill tone={p.kind === "TENSION" ? "rose" : "amber"}>{p.kind}</Pill>
-        <div style={{ fontSize: 13, fontWeight: 600, marginTop: 6 }}>{p.from} → {p.to} {open ? "▾" : "▸"}</div>
+        <Pill tone={p.epistemic_class === "TENSION" ? "rose" : "amber"}>
+          {p.epistemic_class === "TENSION" ? "TENSION" : "ASSUMPTION TO TEST"}
+        </Pill>
+        <span style={{ marginLeft: 6 }}><Pill tone="neutral">{p.evidence_state}</Pill></span>
+        <div style={{ fontSize: 13, fontWeight: 600, marginTop: 6 }}>
+          {p.relation === "TRADE_OFF" ? `${p.from} ⇄ ${p.to}` : p.from} {open ? "▾" : "▸"}
+        </div>
       </button>
       {open && (
         <div style={{ padding: "0 14px 14px" }}>
@@ -390,11 +398,7 @@ function PathRow({ p, onOpen }: { p: PathData; onOpen: () => void }) {
             Open this path in the Paths world →
           </button>
           <StatRow label="Opens" value={preview(p.what_opens, 60)} />
-          <StatRow label="Closes" value={gapText(p.what_closes)} />
-          <StatRow label="Driver" value={gapText(p.driver)} />
-          <StatRow label="Blocker" value={gapText(p.blocker)} />
-          <StatRow label="Distortion" value={gapText(p.distortion)} />
-          <StatRow label="Nature" value={gapText(p.nature_analogue.split(" - ")[0])} />
+          {p.test && <StatRow label={p.test.type === "TEST_PROPOSAL" ? "Proposed test (unverified)" : "Test"} value={preview(p.test.text, 90)} />}
           <StatRow label="Evidence" value={p.evidence.join(", ") || "—"} />
         </div>
       )}

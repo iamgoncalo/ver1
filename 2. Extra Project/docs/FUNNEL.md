@@ -16,24 +16,41 @@ Every real evidence family this pipeline has, as a count: `RESEARCH`, `TRENDS`, 
 `NATURE` are real zeros with an honest note — no patent register or biomimicry dataset exists
 in this pipeline.
 
-## PATHS — "See where reality is moving."
+## PATHS — "Where is reality actually moving?"
 
-Two real, structurally distinct kinds of path, never blended:
-- **TENSION** — one per `research_tensions.json` entry. `from`/`to` are parsed from the tension's
-  own real "X vs. Y" name (not invented). `what_opens` = the tension's real `design_consequence`.
-- **ASSUMPTION** — one per `category_assumptions.json` entry. `from` = the real current assumption
-  text, `to` = its own real `counterfactual` field.
+Pass 2 epistemic ontology — three explicit classes (`epistemic_class`), never blended:
+- **TRAJECTORY** — "reality appears to be moving from X toward Y"; requires observed temporal AND
+  directional evidence. This corpus contains none (paper years are literature accumulating, the
+  trend corpus self-disqualifies trend claims, market figures are forward forecasts, the
+  review-share yearly series is non-stationary), so the bucket is honestly EMPTY and
+  `path_ontology.trajectory_note` states exactly why and what observation would create one.
+- **TENSION** — credible evidence genuinely pulls in different directions. One per qualifying
+  `research_tensions.json` entry; `relation: TRADE_OFF`, poles rendered as a two-way pull, never a
+  directional arrow. `evidence_state` distinguishes contested-multi-source from a single-source
+  trade-off.
+- **ASSUMPTION_TO_TEST** — the category behaves as though X were true; we test what changes if it
+  is not. One per `category_assumptions.json` entry, plus records reclassified out of TENSION
+  (T4: its evidence agrees, the signals layer says CONVERGING; T5: its own record says the
+  deciding test was never run). Reclassifications are labelled method choices whose
+  machine-checkable signal-state conditions are re-verified at build time; each carries its
+  `reclassification_why`.
 
-Every path also carries `evidence` (real paper IDs) and a `nature_analogue`, which is always
-`NO VERIFIED NATURE ANALOGUE` in this pipeline. `driver`, `blocker`, `what_closes`, and
-`distortion` have no real source anywhere in this pipeline and are reported as `NO VERIFIED DATA`.
+Every path carries a typed `test` instead of the old `NO VERIFIED DATA` slots: `FALSIFIER` /
+`RESOLUTION_QUESTION` / `CHALLENGE_TEST` derive deterministically from stored evidence-card or
+corpus fields (live `source_quotes` / `current_value` attached), and `TEST_PROPOSAL` (A2/A7 only)
+is an explicitly unverified grounded LLM proposal, never presented as observed evidence. The old
+public fallback sentence ("no falsifier established…") is deleted and its absence is asserted by
+tests.
 
-## FIELD — "Understand the emerging world."
+## FIELD — per-path grounding, never one reused brief.
 
-A 1:1 relabelling of the real `decision_framework_real.json` verdict — every sub-field below is
-an existing real field, not synthesized here: `now` = `recommended_name`, `moving` = `sensitivity`,
-`because` = `why`, `opens` = `first_experiment`, `blocked_by` = `killed[]`, `wrong_if` =
-`abandon_signal`.
+Each path owns `path.field`, built by `src/real/field_grounding_real.py` from the one honest join
+in this corpus (path evidence → signals → taxonomy themes → reviews/products/economics/rivals).
+Fields render only where evidence exists (A4/A7 are honestly empty); Versuni capabilities,
+household behaviour, and physical constraints are declared UNAVAILABLE. Frictions open real
+review excerpts (`GET /api/reviews?theme=`); products, papers, competitors, and signals
+deep-link into their own worlds. The former global brief survives as `formal_case_brief` —
+honestly named as the Air case's decision verdict, not field grounding.
 
 ## MAGIC BOX — "Reveal what could exist."
 

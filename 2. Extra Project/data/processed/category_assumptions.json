@@ -1,17 +1,27 @@
 {
-  "_provenance": "Category assumptions are analyst-INFERRED (see products-clusters.md Section 9), not product facts. Each is linked only to real evidence (research corpus, real product distribution stats) that genuinely bears on it - evidence lists are empty where no real source in this session's corpus addresses that specific assumption.",
+  "_provenance": "Category assumptions are analyst-INFERRED (see products-clusters.md Section 9), not product facts. Each is linked only to real evidence (research corpus, real product distribution stats) that genuinely bears on it - evidence lists are empty where no real source in this session's corpus addresses that specific assumption. Prevalence claims with a stored backing field are recomputed live at build time; challenge tests are DETERMINISTIC_FROM_STORED_FIELDS where recomputable and TEST_PROPOSAL (grounded LLM proposal, unverified) where no stored field exists.",
   "generated_by": "src/real/assumptions_real.py",
   "assumptions": [
     {
       "assumption_id": "A1",
       "text": "Purification requires a dedicated, standalone box.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "170 of 237 real corpus products (72%) are classified standard_purifier - a single dedicated appliance is still the dominant real architecture.",
       "real_evidence_that_bears_on_it": [
         "RP-04"
       ],
       "evidence_note": "RP-04 shows floor-level resuspension is a real, distinct spatial dynamic a stationary box doesn't directly address - opens the question without proving an alternative wins.",
-      "counterfactual": "What if purification were distributed across several small nodes instead of one box?"
+      "counterfactual": "What if purification were distributed across several small nodes instead of one box?",
+      "evidence_for_prevalence": "170 of 237 real corpus products (72%) are classified standard_purifier - a single dedicated appliance is still the dominant real architecture.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when the standard_purifier share of the real product corpus falls below 50% (currently 170/237 = 71.7%).",
+        "derived_from": [
+          "products_real.json -> cluster_type"
+        ],
+        "current_value": "170/237 standard_purifier",
+        "threshold": "share < 50%"
+      }
     },
     {
       "assumption_id": "A2",
@@ -23,28 +33,61 @@
         "RP-01"
       ],
       "evidence_note": "RP-01 shows a purifier's benefit already leaks unevenly beyond its own room; RP-04 shows a real spatial source (walking) the fixed box doesn't chase.",
-      "counterfactual": "What if the device (or its effect) followed the person, not the room?"
+      "counterfactual": "What if the device (or its effect) followed the person, not the room?",
+      "challenge_test": {
+        "type": "TEST_PROPOSAL",
+        "derivation": "LLM_PROPOSED_GROUNDED",
+        "proposed_by": "Claude Fable 5 (grounded proposal over the cited real records only)",
+        "verification_state": "UNVERIFIED_PROPOSAL",
+        "text": "Observe placement behaviour directly: in a small real-home panel, record whether households relocate the unit between rooms within 30 days (RP-01 already shows the benefit leaks unevenly beyond the placed room; RP-04 shows a moving spatial source). The assumption weakens if a material share relocate.",
+        "derived_from": [
+          "RP-01",
+          "RP-04"
+        ],
+        "why_not_deterministic": "products_real.json has no mobility/placement field, so no stored threshold can be recomputed."
+      }
     },
     {
       "assumption_id": "A3",
       "text": "The consumer reacts after pollution is measured, not before.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "162 of 237 products (68%) are cluster_intelligence=manual; only 8 are adaptive.",
       "real_evidence_that_bears_on_it": [
         "RP-09",
         "RP-10"
       ],
       "evidence_note": "RP-09/RP-10 show current sensors are precise-but-not-always-accurate - a real constraint on how confidently any product could act predictively today.",
-      "counterfactual": "What if the product acted on a forecast, not a measurement?"
+      "counterfactual": "What if the product acted on a forecast, not a measurement?",
+      "evidence_for_prevalence": "162 of 237 products (68%) are cluster_intelligence=manual; only 8 are adaptive.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when connected+adaptive products outnumber manual ones (currently 15+8=23 vs 162 manual).",
+        "derived_from": [
+          "products_real.json -> cluster_intelligence"
+        ],
+        "current_value": "23 connected+adaptive vs 162 manual",
+        "threshold": "connected+adaptive > manual"
+      }
     },
     {
       "assumption_id": "A4",
       "text": "Filters are replaced manually by the consumer.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "\"filter_cost\" is a real, distinct consumer-complaint theme in the taxonomy (0.26% prevalence, real evidence) - replacement friction is a lived reality.",
       "real_evidence_that_bears_on_it": [],
       "evidence_note": "No paper in this session's research corpus addresses filter-subscription or auto-replacement models - this counterfactual has no direct research backing, only the real consumer-complaint signal.",
-      "counterfactual": "What if the consumer never has to remember, buy, or touch a filter?"
+      "counterfactual": "What if the consumer never has to remember, buy, or touch a filter?",
+      "evidence_for_prevalence": "\"filter_cost\" is a real, distinct consumer-complaint theme in the taxonomy (0.26% detected share, 27 real reviews) - replacement friction is a lived reality.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when the filter_cost complaint theme's detected share exceeds the noise theme's (currently 0.26% vs 3.5% - both conservative lower bounds from the same classifier).",
+        "derived_from": [
+          "taxonomy_themes_real.json -> themes.filter_cost.prevalence_pct",
+          "themes.noise.prevalence_pct"
+        ],
+        "current_value": "filter_cost 0.26% vs noise 3.5%",
+        "threshold": "filter_cost share > noise share"
+      }
     },
     {
       "assumption_id": "A5",
@@ -57,40 +100,84 @@
         "RP-01"
       ],
       "evidence_note": "RP-07 explicitly reports a discrepancy between theoretical CADR-based sizing and measured performance; RP-06 shows raw real-world averages can mislead entirely; RP-01 shows single-room CADR doesn't capture whole-home effect. Real evidence directly challenges CADR as sufficient, not just as a label.",
-      "counterfactual": "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?"
+      "counterfactual": "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when a certification body in the trend corpus publishes a loss-rate or realized-exposure metric alongside CADR - i.e. when TC-R02 (ENERGY STAR) or TC-R03 (AHAM Verifide) theme tags stop reducing to 'cadr'. Fragile baseline: both documents carry published_date null, so change detection has no dated anchor.",
+        "derived_from": [
+          "data/raw/trend_corpus.json -> TC-R02.themes",
+          "TC-R03.themes"
+        ],
+        "current_value": "TC-R02/TC-R03 themes centre on cadr",
+        "threshold": "a non-CADR official performance metric appears"
+      }
     },
     {
       "assumption_id": "A6",
       "text": "Continuous, constant operation is the default expectation.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "Standard purifier control panels default to a fixed or continuous mode; only 15 of 237 products are classified connected, and 8 adaptive.",
       "real_evidence_that_bears_on_it": [
         "RP-07",
         "RP-05"
       ],
       "evidence_note": "RP-07's own trial shows constant mode filters 66% vs. auto's 40% - constant is not neutral, it's a real trade-off against noise/runtime; RP-05 shows noise measurably suppresses real usage.",
-      "counterfactual": "What if the operating mode were chosen per household noise tolerance, not shipped as one default?"
+      "counterfactual": "What if the operating mode were chosen per household noise tolerance, not shipped as one default?",
+      "evidence_for_prevalence": "Standard purifier control panels default to a fixed or continuous mode; only 15 of 237 products are classified connected, and 8 adaptive.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when connected+adaptive share exceeds 25% of the corpus (currently 23/237 = 9.7%), or when an independent trial reproduces RP-07's constant-mode filtration under auto operation.",
+        "derived_from": [
+          "products_real.json -> cluster_intelligence",
+          "RP-07"
+        ],
+        "current_value": "23/237 connected+adaptive",
+        "threshold": "share > 25%, or RP-07 auto-mode replication"
+      }
     },
     {
       "assumption_id": "A7",
       "text": "The consumer owns the hardware outright after a single upfront purchase.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "All 237 real corpus products are sold as one-time purchases on Amazon - no subscription/service model observed in this corpus.",
       "real_evidence_that_bears_on_it": [],
       "evidence_note": "No paper in this session's research corpus addresses ownership models - this is a pure category-structure observation, not backed by the peer-reviewed corpus.",
-      "counterfactual": "What if clean air were sold as a guaranteed outcome/subscription rather than a device?"
+      "counterfactual": "What if clean air were sold as a guaranteed outcome/subscription rather than a device?",
+      "evidence_for_prevalence": "All 237 real corpus products are sold as one-time purchases on Amazon - no subscription/service model observed in this corpus.",
+      "challenge_test": {
+        "type": "TEST_PROPOSAL",
+        "derivation": "LLM_PROPOSED_GROUNDED",
+        "proposed_by": "Claude Fable 5 (grounded proposal over the cited real records only)",
+        "verification_state": "UNVERIFIED_PROPOSAL",
+        "text": "Track the category's official retail channels for outcome/subscription offers (clean-air-as-a-service, filter-inclusive plans): the assumption weakens the first time a mainstream brand ships one. No paper in this corpus addresses ownership models, so the trigger is an external market observation, not a recomputable corpus statistic.",
+        "derived_from": [
+          "category-structure observation (no corpus field)"
+        ],
+        "why_not_deterministic": "products_real.json has no ownership/subscription field; real_evidence list is empty."
+      }
     },
     {
       "assumption_id": "A8",
       "text": "A visible interface or app is required to trust the product is working.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "15 of 237 products explicitly market app/voice connectivity as a selling point.",
       "real_evidence_that_bears_on_it": [
         "RP-09",
         "RP-10"
       ],
       "evidence_note": "If the underlying sensor reading itself carries real, documented uncertainty (RP-09, RP-10), a more prominent display doesn't fix the trust problem - it may just surface an unreliable number more confidently.",
-      "counterfactual": "What if the most trustworthy product had no visible number at all, only a confidence-qualified state?"
+      "counterfactual": "What if the most trustworthy product had no visible number at all, only a confidence-qualified state?",
+      "evidence_for_prevalence": "15 of 237 products explicitly market app/voice connectivity as a selling point.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when a product marketing app/voice connectivity (currently 15/237 = 6.3%) ships a confidence-qualified state instead of an absolute number - answering RP-10's precise-but-inaccurate finding in-product. Only the count threshold is machine-checkable; the product-side half needs a new observation.",
+        "derived_from": [
+          "products_real.json -> cluster_intelligence == connected",
+          "RP-10"
+        ],
+        "current_value": "15/237 connected",
+        "threshold": "a connected product ships confidence-qualified state"
+      }
     }
   ]
 }

@@ -34,7 +34,7 @@ export interface ConsumerPainMethodology {
   review_date_range: [string, string] | null; pct_verified_purchase: number | null; source: string;
 }
 export interface DesignDnaParent {
-  status: "PRESENT" | "MISSING_UNVERIFIED"; kind: string; detail: string;
+  status: "PRESENT" | "MISSING_UNVERIFIED" | "METHOD_CHOICE"; kind: string; detail: string;
   id?: string; ids?: string[]; brands?: string[];
 }
 export type DesignDna = Record<"F" | "S" | "T" | "R" | "C" | "A" | "E" | "O", DesignDnaParent>;

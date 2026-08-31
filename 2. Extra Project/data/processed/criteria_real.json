@@ -830,12 +830,22 @@
       "assumption_id": "A1",
       "text": "Purification requires a dedicated, standalone box.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "170 of 237 real corpus products (72%) are classified standard_purifier - a single dedicated appliance is still the dominant real architecture.",
       "real_evidence_that_bears_on_it": [
         "RP-04"
       ],
       "evidence_note": "RP-04 shows floor-level resuspension is a real, distinct spatial dynamic a stationary box doesn't directly address - opens the question without proving an alternative wins.",
-      "counterfactual": "What if purification were distributed across several small nodes instead of one box?"
+      "counterfactual": "What if purification were distributed across several small nodes instead of one box?",
+      "evidence_for_prevalence": "170 of 237 real corpus products (72%) are classified standard_purifier - a single dedicated appliance is still the dominant real architecture.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when the standard_purifier share of the real product corpus falls below 50% (currently 170/237 = 71.7%).",
+        "derived_from": [
+          "products_real.json -> cluster_type"
+        ],
+        "current_value": "170/237 standard_purifier",
+        "threshold": "share < 50%"
+      }
     },
     {
       "assumption_id": "A2",
@@ -847,28 +857,61 @@
         "RP-01"
       ],
       "evidence_note": "RP-01 shows a purifier's benefit already leaks unevenly beyond its own room; RP-04 shows a real spatial source (walking) the fixed box doesn't chase.",
-      "counterfactual": "What if the device (or its effect) followed the person, not the room?"
+      "counterfactual": "What if the device (or its effect) followed the person, not the room?",
+      "challenge_test": {
+        "type": "TEST_PROPOSAL",
+        "derivation": "LLM_PROPOSED_GROUNDED",
+        "proposed_by": "Claude Fable 5 (grounded proposal over the cited real records only)",
+        "verification_state": "UNVERIFIED_PROPOSAL",
+        "text": "Observe placement behaviour directly: in a small real-home panel, record whether households relocate the unit between rooms within 30 days (RP-01 already shows the benefit leaks unevenly beyond the placed room; RP-04 shows a moving spatial source). The assumption weakens if a material share relocate.",
+        "derived_from": [
+          "RP-01",
+          "RP-04"
+        ],
+        "why_not_deterministic": "products_real.json has no mobility/placement field, so no stored threshold can be recomputed."
+      }
     },
     {
       "assumption_id": "A3",
       "text": "The consumer reacts after pollution is measured, not before.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "162 of 237 products (68%) are cluster_intelligence=manual; only 8 are adaptive.",
       "real_evidence_that_bears_on_it": [
         "RP-09",
         "RP-10"
       ],
       "evidence_note": "RP-09/RP-10 show current sensors are precise-but-not-always-accurate - a real constraint on how confidently any product could act predictively today.",
-      "counterfactual": "What if the product acted on a forecast, not a measurement?"
+      "counterfactual": "What if the product acted on a forecast, not a measurement?",
+      "evidence_for_prevalence": "162 of 237 products (68%) are cluster_intelligence=manual; only 8 are adaptive.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when connected+adaptive products outnumber manual ones (currently 15+8=23 vs 162 manual).",
+        "derived_from": [
+          "products_real.json -> cluster_intelligence"
+        ],
+        "current_value": "23 connected+adaptive vs 162 manual",
+        "threshold": "connected+adaptive > manual"
+      }
     },
     {
       "assumption_id": "A4",
       "text": "Filters are replaced manually by the consumer.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "\"filter_cost\" is a real, distinct consumer-complaint theme in the taxonomy (0.26% prevalence, real evidence) - replacement friction is a lived reality.",
       "real_evidence_that_bears_on_it": [],
       "evidence_note": "No paper in this session's research corpus addresses filter-subscription or auto-replacement models - this counterfactual has no direct research backing, only the real consumer-complaint signal.",
-      "counterfactual": "What if the consumer never has to remember, buy, or touch a filter?"
+      "counterfactual": "What if the consumer never has to remember, buy, or touch a filter?",
+      "evidence_for_prevalence": "\"filter_cost\" is a real, distinct consumer-complaint theme in the taxonomy (0.26% detected share, 27 real reviews) - replacement friction is a lived reality.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when the filter_cost complaint theme's detected share exceeds the noise theme's (currently 0.26% vs 3.5% - both conservative lower bounds from the same classifier).",
+        "derived_from": [
+          "taxonomy_themes_real.json -> themes.filter_cost.prevalence_pct",
+          "themes.noise.prevalence_pct"
+        ],
+        "current_value": "filter_cost 0.26% vs noise 3.5%",
+        "threshold": "filter_cost share > noise share"
+      }
     },
     {
       "assumption_id": "A5",
@@ -881,40 +924,84 @@
         "RP-01"
       ],
       "evidence_note": "RP-07 explicitly reports a discrepancy between theoretical CADR-based sizing and measured performance; RP-06 shows raw real-world averages can mislead entirely; RP-01 shows single-room CADR doesn't capture whole-home effect. Real evidence directly challenges CADR as sufficient, not just as a label.",
-      "counterfactual": "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?"
+      "counterfactual": "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when a certification body in the trend corpus publishes a loss-rate or realized-exposure metric alongside CADR - i.e. when TC-R02 (ENERGY STAR) or TC-R03 (AHAM Verifide) theme tags stop reducing to 'cadr'. Fragile baseline: both documents carry published_date null, so change detection has no dated anchor.",
+        "derived_from": [
+          "data/raw/trend_corpus.json -> TC-R02.themes",
+          "TC-R03.themes"
+        ],
+        "current_value": "TC-R02/TC-R03 themes centre on cadr",
+        "threshold": "a non-CADR official performance metric appears"
+      }
     },
     {
       "assumption_id": "A6",
       "text": "Continuous, constant operation is the default expectation.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "Standard purifier control panels default to a fixed or continuous mode; only 15 of 237 products are classified connected, and 8 adaptive.",
       "real_evidence_that_bears_on_it": [
         "RP-07",
         "RP-05"
       ],
       "evidence_note": "RP-07's own trial shows constant mode filters 66% vs. auto's 40% - constant is not neutral, it's a real trade-off against noise/runtime; RP-05 shows noise measurably suppresses real usage.",
-      "counterfactual": "What if the operating mode were chosen per household noise tolerance, not shipped as one default?"
+      "counterfactual": "What if the operating mode were chosen per household noise tolerance, not shipped as one default?",
+      "evidence_for_prevalence": "Standard purifier control panels default to a fixed or continuous mode; only 15 of 237 products are classified connected, and 8 adaptive.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when connected+adaptive share exceeds 25% of the corpus (currently 23/237 = 9.7%), or when an independent trial reproduces RP-07's constant-mode filtration under auto operation.",
+        "derived_from": [
+          "products_real.json -> cluster_intelligence",
+          "RP-07"
+        ],
+        "current_value": "23/237 connected+adaptive",
+        "threshold": "share > 25%, or RP-07 auto-mode replication"
+      }
     },
     {
       "assumption_id": "A7",
       "text": "The consumer owns the hardware outright after a single upfront purchase.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "All 237 real corpus products are sold as one-time purchases on Amazon - no subscription/service model observed in this corpus.",
       "real_evidence_that_bears_on_it": [],
       "evidence_note": "No paper in this session's research corpus addresses ownership models - this is a pure category-structure observation, not backed by the peer-reviewed corpus.",
-      "counterfactual": "What if clean air were sold as a guaranteed outcome/subscription rather than a device?"
+      "counterfactual": "What if clean air were sold as a guaranteed outcome/subscription rather than a device?",
+      "evidence_for_prevalence": "All 237 real corpus products are sold as one-time purchases on Amazon - no subscription/service model observed in this corpus.",
+      "challenge_test": {
+        "type": "TEST_PROPOSAL",
+        "derivation": "LLM_PROPOSED_GROUNDED",
+        "proposed_by": "Claude Fable 5 (grounded proposal over the cited real records only)",
+        "verification_state": "UNVERIFIED_PROPOSAL",
+        "text": "Track the category's official retail channels for outcome/subscription offers (clean-air-as-a-service, filter-inclusive plans): the assumption weakens the first time a mainstream brand ships one. No paper in this corpus addresses ownership models, so the trigger is an external market observation, not a recomputable corpus statistic.",
+        "derived_from": [
+          "category-structure observation (no corpus field)"
+        ],
+        "why_not_deterministic": "products_real.json has no ownership/subscription field; real_evidence list is empty."
+      }
     },
     {
       "assumption_id": "A8",
       "text": "A visible interface or app is required to trust the product is working.",
       "status": "INFERRED",
-      "evidence_for_prevalence": "15 of 237 products explicitly market app/voice connectivity as a selling point.",
       "real_evidence_that_bears_on_it": [
         "RP-09",
         "RP-10"
       ],
       "evidence_note": "If the underlying sensor reading itself carries real, documented uncertainty (RP-09, RP-10), a more prominent display doesn't fix the trust problem - it may just surface an unreliable number more confidently.",
-      "counterfactual": "What if the most trustworthy product had no visible number at all, only a confidence-qualified state?"
+      "counterfactual": "What if the most trustworthy product had no visible number at all, only a confidence-qualified state?",
+      "evidence_for_prevalence": "15 of 237 products explicitly market app/voice connectivity as a selling point.",
+      "challenge_test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Challenged when a product marketing app/voice connectivity (currently 15/237 = 6.3%) ships a confidence-qualified state instead of an absolute number - answering RP-10's precise-but-inaccurate finding in-product. Only the count threshold is machine-checkable; the product-side half needs a new observation.",
+        "derived_from": [
+          "products_real.json -> cluster_intelligence == connected",
+          "RP-10"
+        ],
+        "current_value": "15/237 connected",
+        "threshold": "a connected product ships confidence-qualified state"
+      }
     }
   ],
   "concepts": [
@@ -945,11 +1032,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R02",
           "TC-R08"
         ],
-        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+        "missing_internal_evidence": "No real Versuni R&D-capacity or hardware-warranty-claims data - the rating reflects external precedent, not an internal build-cost estimate.",
+        "what_would_change_rating": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -973,9 +1063,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -1018,6 +1108,102 @@
           "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
         }
       },
+      "possibility_id": "reliability:PREDICT",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [
+        "TC-R02",
+        "TC-R08"
+      ],
+      "friction_ids": [
+        "taxonomy:reliability"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "1.58% of trusted reviews (166 reviews across 60 real products) carry this friction, with a -2.223★ average rating gap. Signal: 'Stopped working' or failing early is the most severe complaint theme by average rating gap.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns PREDICT - \"Reactive -> anticipatory.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "Likely — operator PREDICT (reactive → anticipatory) requires sensing/data.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 199.99,
+          "min": 16.99,
+          "max": 855.0,
+          "n_comparables": 27,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 27 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni R&D-capacity or hardware-warranty-claims data - the rating reflects external precedent, not an internal build-cost estimate."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[reliability].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 199.99,
+      "comparable_market_median_n_products": 27,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 27 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -1294,11 +1480,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R02",
           "TC-R08"
         ],
-        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+        "missing_internal_evidence": "No real Versuni R&D-capacity or hardware-warranty-claims data - the rating reflects external precedent, not an internal build-cost estimate.",
+        "what_would_change_rating": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -1322,9 +1511,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -1367,6 +1556,102 @@
           "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
         }
       },
+      "possibility_id": "reliability:MATERIALISE",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [
+        "TC-R02",
+        "TC-R08"
+      ],
+      "friction_ids": [
+        "taxonomy:reliability"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "1.58% of trusted reviews (166 reviews across 60 real products) carry this friction, with a -2.223★ average rating gap. Signal: 'Stopped working' or failing early is the most severe complaint theme by average rating gap.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns MATERIALISE - \"Turn digital perception/information into physical intervention.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "Likely — operator MATERIALISE turns a digital signal into a physical action.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 199.99,
+          "min": 16.99,
+          "max": 855.0,
+          "n_comparables": 27,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 27 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni R&D-capacity or hardware-warranty-claims data - the rating reflects external precedent, not an internal build-cost estimate."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[reliability].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 199.99,
+      "comparable_market_median_n_products": 27,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 27 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -1643,11 +1928,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R02",
           "TC-R08"
         ],
-        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol)."
+        "rationale": "Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+        "missing_internal_evidence": "No real Versuni R&D-capacity or hardware-warranty-claims data - the rating reflects external precedent, not an internal build-cost estimate.",
+        "what_would_change_rating": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -1671,9 +1959,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -1716,6 +2004,102 @@
           "detail": "Real price-weighted exposure computed for this theme ($26,357.86)."
         }
       },
+      "possibility_id": "reliability:CROSS_CATEGORY_TRANSFER",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [
+        "TC-R02",
+        "TC-R08"
+      ],
+      "friction_ids": [
+        "taxonomy:reliability"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "1.58% of trusted reviews (166 reviews across 60 real products) carry this friction, with a -2.223★ average rating gap. Signal: 'Stopped working' or failing early is the most severe complaint theme by average rating gap.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Two real, already-standardized frameworks exist to build on directly: TC-R02 (ENERGY STAR already requires measured, verified ongoing performance criteria - a real regulatory template for an ongoing-performance-verified claim) and TC-R08 (Matter's Air Quality Sensor cluster is an already-standardized connectivity layer that could carry a self-diagnostic/runtime health signal without inventing a new protocol).",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 199.99,
+          "min": 16.99,
+          "max": 855.0,
+          "n_comparables": 27,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 27 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni R&D-capacity or hardware-warranty-claims data - the rating reflects external precedent, not an internal build-cost estimate."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "A real internal engineering estimate showing the self-diagnostic sensor suite costs materially more than a typical product refresh would lower this rating.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[reliability].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 199.99,
+      "comparable_market_median_n_products": 27,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 27 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -1992,10 +2376,13 @@
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R11"
         ],
-        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme.",
+        "missing_internal_evidence": "No real acoustic-engineering trend document exists in this corpus at all - the medium rating is a judgment call made in the absence of any external precedent, not a citation.",
+        "what_would_change_rating": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -2023,9 +2410,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -2082,6 +2469,116 @@
           "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
         }
       },
+      "possibility_id": "noise:AMBIENT",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "tension:T6",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "source_evidence_ids": [
+        "RP-05",
+        "RP-07",
+        "TC-R11"
+      ],
+      "friction_ids": [
+        "taxonomy:noise"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [
+          "A5",
+          "A6"
+        ],
+        "counterfactuals": [
+          "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+          "What if the operating mode were chosen per household noise tolerance, not shipped as one default?"
+        ]
+      },
+      "why_here": {
+        "reality": "3.5% of trusted reviews (369 reviews across 77 real products) carry this friction, with a -0.571★ average rating gap. Signal: Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns AMBIENT - \"Explicit interaction -> invisible environmental behaviour.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+        "consequence_basis": "RESEARCH_TENSION"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "Likely — operator AMBIENT (invisible environmental behaviour) requires sensing.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 179.99,
+          "min": 28.98,
+          "max": 995.0,
+          "n_comparables": 32,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real acoustic-engineering trend document exists in this corpus at all - the medium rating is a judgment call made in the absence of any external precedent, not a citation."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[noise].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 179.99,
+      "comparable_market_median_n_products": 32,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -2358,10 +2855,13 @@
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R11"
         ],
-        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme.",
+        "missing_internal_evidence": "No real acoustic-engineering trend document exists in this corpus at all - the medium rating is a judgment call made in the absence of any external precedent, not a citation.",
+        "what_would_change_rating": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -2389,9 +2889,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -2448,6 +2948,116 @@
           "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
         }
       },
+      "possibility_id": "noise:TEMPORAL_SHIFT",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "tension:T6",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "source_evidence_ids": [
+        "RP-05",
+        "RP-07",
+        "TC-R11"
+      ],
+      "friction_ids": [
+        "taxonomy:noise"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [
+          "A5",
+          "A6"
+        ],
+        "counterfactuals": [
+          "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+          "What if the operating mode were chosen per household noise tolerance, not shipped as one default?"
+        ]
+      },
+      "why_here": {
+        "reality": "3.5% of trusted reviews (369 reviews across 77 real products) carry this friction, with a -0.571★ average rating gap. Signal: Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns TEMPORAL_SHIFT - \"Move the job earlier/later.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+        "consequence_basis": "RESEARCH_TENSION"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 179.99,
+          "min": 28.98,
+          "max": 995.0,
+          "n_comparables": 32,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real acoustic-engineering trend document exists in this corpus at all - the medium rating is a judgment call made in the absence of any external precedent, not a citation."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[noise].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 179.99,
+      "comparable_market_median_n_products": 32,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -2724,10 +3334,13 @@
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R11"
         ],
-        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme."
+        "rationale": "No real trend document in this 12-document corpus directly addresses acoustic/noise engineering - TC-R11 (Dyson's sensor press release) is only tangential. Achievable, but without an external standard or precedent to build on, this requires proprietary acoustic R&D from a colder start than the reliability theme.",
+        "missing_internal_evidence": "No real acoustic-engineering trend document exists in this corpus at all - the medium rating is a judgment call made in the absence of any external precedent, not a citation.",
+        "what_would_change_rating": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low."
       },
       "is_white_space": true,
       "competitor_gap_brands": [
@@ -2755,9 +3368,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -2814,6 +3427,116 @@
           "detail": "Real price-weighted exposure computed for this theme ($84,015.62)."
         }
       },
+      "possibility_id": "noise:CROSS_CATEGORY_TRANSFER",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "tension:T6",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "source_evidence_ids": [
+        "RP-05",
+        "RP-07",
+        "TC-R11"
+      ],
+      "friction_ids": [
+        "taxonomy:noise"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
+      "assumption_challenged": {
+        "ids": [
+          "A5",
+          "A6"
+        ],
+        "counterfactuals": [
+          "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+          "What if the operating mode were chosen per household noise tolerance, not shipped as one default?"
+        ]
+      },
+      "why_here": {
+        "reality": "3.5% of trusted reviews (369 reviews across 77 real products) carry this friction, with a -0.571★ average rating gap. Signal: Motor/fan noise is a recurring complaint, now backed by peer-reviewed evidence it drives real under-use.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"Clean-air delivery rate (CADR) is the primary performance basis.\" -> What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+        "consequence_basis": "RESEARCH_TENSION"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 179.99,
+          "min": 28.98,
+          "max": 995.0,
+          "n_comparables": 32,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real acoustic-engineering trend document exists in this corpus at all - the medium rating is a judgment call made in the absence of any external precedent, not a citation."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "A real acoustic-engineering standard or published low-RPM motor precedent, if found, would raise this to high; a real internal R&D estimate showing it requires novel hardware would lower it to low.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[noise].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 179.99,
+      "comparable_market_median_n_products": 32,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -3090,11 +3813,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R03",
           "TC-R02"
         ],
-        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard.",
+        "missing_internal_evidence": "No real Versuni data on how a certification-based trust score would perform against the real complaint text driving this theme's prevalence - the rating is about integration effort, not measured consumer response to the claim.",
+        "what_would_change_rating": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -3110,9 +3836,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -3156,6 +3882,121 @@
           "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
         }
       },
+      "possibility_id": "value_effectiveness:CONCENTRATE",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "assumption:A2",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "source_evidence_ids": [
+        "RP-01",
+        "RP-02",
+        "RP-06",
+        "RP-07",
+        "TC-R03",
+        "TC-R02"
+      ],
+      "friction_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [
+          "A2",
+          "A5",
+          "A6"
+        ],
+        "counterfactuals": [
+          "What if the device (or its effect) followed the person, not the room?",
+          "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+          "What if the operating mode were chosen per household noise tolerance, not shipped as one default?"
+        ]
+      },
+      "why_here": {
+        "reality": "0.77% of trusted reviews (81 reviews across 36 real products) carry this friction, with a -2.724★ average rating gap. Signal: Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CONCENTRATE - \"Multiple systems -> one system.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+        "consequence_basis": "RESEARCH_TENSION"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "Single-unit — operator CONCENTRATE turns several systems into one.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 199.99,
+          "min": 15.95,
+          "max": 618.0,
+          "n_comparables": 19,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni data on how a certification-based trust score would perform against the real complaint text driving this theme's prevalence - the rating is about integration effort, not measured consumer response to the claim."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[value_effectiveness].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 199.99,
+      "comparable_market_median_n_products": 19,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": true,
       "is_non_dominated": true,
       "evolution_stage": "FINALIST",
@@ -3432,11 +4273,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R03",
           "TC-R02"
         ],
-        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard.",
+        "missing_internal_evidence": "No real Versuni data on how a certification-based trust score would perform against the real complaint text driving this theme's prevalence - the rating is about integration effort, not measured consumer response to the claim.",
+        "what_would_change_rating": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -3452,9 +4296,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -3498,6 +4342,121 @@
           "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
         }
       },
+      "possibility_id": "value_effectiveness:CROSS_CATEGORY_TRANSFER",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "assumption:A2",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "source_evidence_ids": [
+        "RP-01",
+        "RP-02",
+        "RP-06",
+        "RP-07",
+        "TC-R03",
+        "TC-R02"
+      ],
+      "friction_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
+      "assumption_challenged": {
+        "ids": [
+          "A2",
+          "A5",
+          "A6"
+        ],
+        "counterfactuals": [
+          "What if the device (or its effect) followed the person, not the room?",
+          "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+          "What if the operating mode were chosen per household noise tolerance, not shipped as one default?"
+        ]
+      },
+      "why_here": {
+        "reality": "0.77% of trusted reviews (81 reviews across 36 real products) carry this friction, with a -2.724★ average rating gap. Signal: Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+        "consequence_basis": "RESEARCH_TENSION"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 199.99,
+          "min": 15.95,
+          "max": 618.0,
+          "n_comparables": 19,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni data on how a certification-based trust score would perform against the real complaint text driving this theme's prevalence - the rating is about integration effort, not measured consumer response to the claim."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[value_effectiveness].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 199.99,
+      "comparable_market_median_n_products": 19,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": true,
       "is_non_dominated": true,
       "evolution_stage": "FINALIST",
@@ -3774,11 +4733,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R03",
           "TC-R02"
         ],
-        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard."
+        "rationale": "A real third-party verification infrastructure already exists to plug into rather than invent: TC-R03 (AHAM's real Verifide directory already independently certifies CADR/performance claims for named real products) and TC-R02 (ENERGY STAR's real measured-performance criteria). A single-metric trust score or cross-category certification claim has a real existing certification body to anchor to, not a from-scratch standard.",
+        "missing_internal_evidence": "No real Versuni data on how a certification-based trust score would perform against the real complaint text driving this theme's prevalence - the rating is about integration effort, not measured consumer response to the claim.",
+        "what_would_change_rating": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -3794,9 +4756,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -3840,6 +4802,122 @@
           "detail": "Real price-weighted exposure computed for this theme ($10,648.05)."
         }
       },
+      "possibility_id": "value_effectiveness:PERSONALISE",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [
+        "tension:T1",
+        "tension:T2",
+        "tension:T3",
+        "assumption:A2",
+        "assumption:A5",
+        "assumption:A6"
+      ],
+      "source_evidence_ids": [
+        "RP-01",
+        "RP-02",
+        "RP-06",
+        "RP-07",
+        "TC-R03",
+        "TC-R02"
+      ],
+      "friction_ids": [
+        "taxonomy:value_effectiveness"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [
+          "A2",
+          "A5",
+          "A6"
+        ],
+        "counterfactuals": [
+          "What if the device (or its effect) followed the person, not the room?",
+          "What if performance were reported as a loss-rate curve or realized exposure reduction, not a lab CADR number?",
+          "What if the operating mode were chosen per household noise tolerance, not shipped as one default?"
+        ]
+      },
+      "why_here": {
+        "reality": "0.77% of trusted reviews (81 reviews across 36 real products) carry this friction, with a -2.724★ average rating gap. Signal: Whether it 'actually cleans the air' is backed by four real peer-reviewed effectiveness trials.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns PERSONALISE - \"Room/system -> individual/context.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Optimize for hours-actually-run under real noise tolerance, not peak lab CADR. Assumption challenged: \"The device sits in one fixed location, chosen once.\" -> What if the device (or its effect) followed the person, not the room?",
+        "consequence_basis": "RESEARCH_TENSION"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "Personal/portable — operator PERSONALISE moves scope from room to individual.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 199.99,
+          "min": 15.95,
+          "max": 618.0,
+          "n_comparables": 19,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        },
+        "form_factor_note": "The operator implies a different form factor than the room-scale verified comparables - the ranges above are category context, not a target for this concept."
+      },
+      "unknowns": [
+        "No real Versuni data on how a certification-based trust score would perform against the real complaint text driving this theme's prevalence - the rating is about integration effort, not measured consumer response to the claim."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Evidence that AHAM/ENERGY STAR certification specifically addresses this theme's real complaint pattern (not just CADR broadly) would strengthen this rating further.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[value_effectiveness].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 199.99,
+      "comparable_market_median_n_products": 19,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 19 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": true,
       "is_non_dominated": true,
       "evolution_stage": "FINALIST",
@@ -4116,8 +5194,11 @@
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [],
-        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here.",
+        "missing_internal_evidence": "No real Versuni service-organization capability data (support headcount, current SLA, return-logistics cost) - organizational feasibility is genuinely unassessed, not just unfavourably assessed.",
+        "what_would_change_rating": "Real internal service-capacity data would let this split into a proper technical-feasibility rating plus a separate, currently-missing organizational-feasibility rating."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -4133,9 +5214,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -4169,6 +5250,99 @@
           "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
         }
       },
+      "possibility_id": "customer_service:INVERT",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [],
+      "friction_ids": [
+        "taxonomy:customer_service"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "0.34% of trusted reviews (36 reviews across 19 real products) carry this friction, with a -2.429★ average rating gap. Signal: Customer service and warranty handling — a real, operational issue, not a research question.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns INVERT - \"Act before instead of after.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here.",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 249.0,
+          "min": 29.95,
+          "max": 599.95,
+          "n_comparables": 11,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 11 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni service-organization capability data (support headcount, current SLA, return-logistics cost) - organizational feasibility is genuinely unassessed, not just unfavourably assessed."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Real internal service-capacity data would let this split into a proper technical-feasibility rating plus a separate, currently-missing organizational-feasibility rating.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[customer_service].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 249.0,
+      "comparable_market_median_n_products": 11,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 11 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -4445,8 +5619,11 @@
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [],
-        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here."
+        "rationale": "No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here.",
+        "missing_internal_evidence": "No real Versuni service-organization capability data (support headcount, current SLA, return-logistics cost) - organizational feasibility is genuinely unassessed, not just unfavourably assessed.",
+        "what_would_change_rating": "Real internal service-capacity data would let this split into a proper technical-feasibility rating plus a separate, currently-missing organizational-feasibility rating."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -4462,9 +5639,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -4498,6 +5675,99 @@
           "detail": "Real price-weighted exposure computed for this theme ($8,124.56)."
         }
       },
+      "possibility_id": "customer_service:REMOVE",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [],
+      "friction_ids": [
+        "taxonomy:customer_service"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "0.34% of trusted reviews (36 reviews across 19 real products) carry this friction, with a -2.429★ average rating gap. Signal: Customer service and warranty handling — a real, operational issue, not a research question.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns REMOVE - \"Eliminate an interaction/component.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this 12-document corpus addresses warranty/service-contact process design - this is a real gap, not an oversight: proactive-contact and no-ticket-replacement are organizational/process changes, not technology builds, and this pipeline has no real Versuni service-organization capability data to assess execution feasibility. Rating reflects LOW technical complexity only; organizational feasibility is genuinely unassessed here.",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 249.0,
+          "min": 29.95,
+          "max": 599.95,
+          "n_comparables": 11,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 11 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni service-organization capability data (support headcount, current SLA, return-logistics cost) - organizational feasibility is genuinely unassessed, not just unfavourably assessed."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Real internal service-capacity data would let this split into a proper technical-feasibility rating plus a separate, currently-missing organizational-feasibility rating.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[customer_service].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 249.0,
+      "comparable_market_median_n_products": 11,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 11 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -4774,8 +6044,11 @@
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [],
-        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here.",
+        "missing_internal_evidence": "No real Versuni pricing, margin, or subscription-operations data - commercial feasibility is genuinely unassessed, not just unfavourably assessed.",
+        "what_would_change_rating": "Real internal margin/logistics data for a filter-subscription model would let this split into a proper technical-feasibility rating plus a separate, currently-missing commercial-feasibility rating."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -4791,9 +6064,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -4827,6 +6100,99 @@
           "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
         }
       },
+      "possibility_id": "filter_cost:DISTRIBUTE",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [],
+      "friction_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "0.26% of trusted reviews (27 reviews across 15 real products) carry this friction, with a -1.252★ average rating gap. Signal: Filter cost/frequency is a real complaint with no matching peer-reviewed literature.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns DISTRIBUTE - \"One large system -> several smaller systems.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here.",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "Multi-unit — operator DISTRIBUTE turns one system into several smaller ones.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "High — this concept directly targets filter cost/frequency friction.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 249.5,
+          "min": 43.99,
+          "max": 618.0,
+          "n_comparables": 10,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 10 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni pricing, margin, or subscription-operations data - commercial feasibility is genuinely unassessed, not just unfavourably assessed."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Real internal margin/logistics data for a filter-subscription model would let this split into a proper technical-feasibility rating plus a separate, currently-missing commercial-feasibility rating.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[filter_cost].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 249.5,
+      "comparable_market_median_n_products": 10,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 10 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -5103,8 +6469,11 @@
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [],
-        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here."
+        "rationale": "No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here.",
+        "missing_internal_evidence": "No real Versuni pricing, margin, or subscription-operations data - commercial feasibility is genuinely unassessed, not just unfavourably assessed.",
+        "what_would_change_rating": "Real internal margin/logistics data for a filter-subscription model would let this split into a proper technical-feasibility rating plus a separate, currently-missing commercial-feasibility rating."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -5120,9 +6489,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -5156,6 +6525,99 @@
           "detail": "Real price-weighted exposure computed for this theme ($7,390.66)."
         }
       },
+      "possibility_id": "filter_cost:MERGE",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [],
+      "friction_ids": [
+        "taxonomy:filter_cost"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "0.26% of trusted reviews (27 reviews across 15 real products) carry this friction, with a -1.252★ average rating gap. Signal: Filter cost/frequency is a real complaint with no matching peer-reviewed literature.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns MERGE - \"Combine functions / objects / jobs.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): No real technical or regulatory document in this corpus addresses subscription logistics or bundled-pricing design - like customer_service, this is a real business-model change, not a technology gap, and this pipeline has no real Versuni pricing/operations capability data to assess it. Rating reflects LOW technical complexity only; commercial feasibility is genuinely unassessed here.",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "High — this concept directly targets filter cost/frequency friction.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 249.5,
+          "min": 43.99,
+          "max": 618.0,
+          "n_comparables": 10,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 10 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni pricing, margin, or subscription-operations data - commercial feasibility is genuinely unassessed, not just unfavourably assessed."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Real internal margin/logistics data for a filter-subscription model would let this split into a proper technical-feasibility rating plus a separate, currently-missing commercial-feasibility rating.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[filter_cost].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 249.5,
+      "comparable_market_median_n_products": 10,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 10 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -5432,11 +6894,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R04",
           "TC-R08"
         ],
-        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+        "missing_internal_evidence": "No real Versuni data on current CARB-certification status of the specific product lines this would ship on.",
+        "what_would_change_rating": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -5452,9 +6917,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -5488,6 +6953,103 @@
           "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
         }
       },
+      "possibility_id": "ozone_odor_safety:MOVE",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [
+        "TC-R04",
+        "TC-R08"
+      ],
+      "friction_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "0.81% of trusted reviews (85 reviews across 29 real products) carry this friction, with a -1.102★ average rating gap. Signal: Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns MOVE - \"Change physical location.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "Relocatable — operator MOVE is defined as changing physical location.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 79.99,
+          "min": 12.99,
+          "max": 789.99,
+          "n_comparables": 15,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        },
+        "form_factor_note": "The operator implies a different form factor than the room-scale verified comparables - the ranges above are category context, not a target for this concept."
+      },
+      "unknowns": [
+        "No real Versuni data on current CARB-certification status of the specific product lines this would ship on."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[ozone_odor_safety].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 79.99,
+      "comparable_market_median_n_products": 15,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -5764,11 +7326,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R04",
           "TC-R08"
         ],
-        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+        "missing_internal_evidence": "No real Versuni data on current CARB-certification status of the specific product lines this would ship on.",
+        "what_would_change_rating": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -5784,9 +7349,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -5820,6 +7385,103 @@
           "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
         }
       },
+      "possibility_id": "ozone_odor_safety:PERSONALISE",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [
+        "TC-R04",
+        "TC-R08"
+      ],
+      "friction_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": null,
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "0.81% of trusted reviews (85 reviews across 29 real products) carry this friction, with a -1.102★ average rating gap. Signal: Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns PERSONALISE - \"Room/system -> individual/context.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "Personal/portable — operator PERSONALISE moves scope from room to individual.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 79.99,
+          "min": 12.99,
+          "max": 789.99,
+          "n_comparables": 15,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        },
+        "form_factor_note": "The operator implies a different form factor than the room-scale verified comparables - the ranges above are category context, not a target for this concept."
+      },
+      "unknowns": [
+        "No real Versuni data on current CARB-certification status of the specific product lines this would ship on."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[ozone_odor_safety].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 79.99,
+      "comparable_market_median_n_products": 15,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -6096,11 +7758,14 @@
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
+        "epistemic_type": "ANALYST_JUDGMENT",
         "evidence_ids": [
           "TC-R04",
           "TC-R08"
         ],
-        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol)."
+        "rationale": "Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+        "missing_internal_evidence": "No real Versuni data on current CARB-certification status of the specific product lines this would ship on.",
+        "what_would_change_rating": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it."
       },
       "is_white_space": false,
       "competitor_gap_brands": [],
@@ -6116,9 +7781,9 @@
           "detail": "Real Amazon review-text friction theme (see Consumer Pain methodology)."
         },
         "O": {
-          "status": "PRESENT",
+          "status": "METHOD_CHOICE",
           "kind": "design_operator",
-          "detail": "Fixed operator vocabulary, applied deterministically - see THEME_OPERATORS."
+          "detail": "Authored operator vocabulary applied deterministically (METHOD_CHOICE, not evidence) - see OPERATORS/THEME_OPERATORS in src/real/magic_box_real.py."
         },
         "S": {
           "status": "PRESENT",
@@ -6152,6 +7817,102 @@
           "detail": "Real price-weighted exposure computed for this theme ($16,112.87)."
         }
       },
+      "possibility_id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+      "target_category": "AIR_PURIFICATION",
+      "parent_path_ids": [],
+      "source_evidence_ids": [
+        "TC-R04",
+        "TC-R08"
+      ],
+      "friction_ids": [
+        "taxonomy:ozone_odor_safety"
+      ],
+      "operator_origin": "AUTHORED_VOCABULARY (METHOD_CHOICE) - src/real/magic_box_real.py::OPERATORS + THEME_OPERATORS",
+      "donor_capability_ids": [],
+      "donor_state": "MISSING - CROSS_CATEGORY_TRANSFER requires a verified donor capability relationship and none exists in this pipeline; treat the transfer as HYPOTHESIS",
+      "assumption_challenged": {
+        "ids": [],
+        "note": "No category assumption shares a paper with this theme's signal evidence."
+      },
+      "why_here": {
+        "reality": "0.81% of trusted reviews (85 reviews across 29 real products) carry this friction, with a -1.102★ average rating gap. Signal: Ozone/smell/irritation complaints converge with real regulatory guidance on ozone safety limits.",
+        "transformation": "METHOD CHOICE, not evidence: the authored operator table assigns CROSS_CATEGORY_TRANSFER - \"Transfer a verified capability from another product/category.\" - to this friction. Analyst design judgment, applied deterministically.",
+        "product_consequence": "Feasibility precedent (from the trend corpus, not a consumer-evidence consequence): Real, directly-relevant regulatory and technical precedent exists: TC-R04 (CARB's real certified-device list is the existing regulatory bar for ozone-safety compliance sensor-led guidance would need to respect) and TC-R08 (Matter's real already-standardized Air Quality Sensor cluster could carry a placement/sensitivity signal without a new protocol).",
+        "consequence_basis": "FEASIBILITY_PRECEDENT"
+      },
+      "product_archetype": {
+        "room_scale": "UNKNOWN — no real data in this pipeline for this field.",
+        "mobility": "UNKNOWN — no real data in this pipeline for this field.",
+        "size_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "power_class": "UNKNOWN — no real data in this pipeline for this field.",
+        "noise_ambition": "UNKNOWN — no real data in this pipeline for this field.",
+        "maintenance_burden": "UNKNOWN — no real data in this pipeline for this field.",
+        "filter_service_dependency": "UNKNOWN — no real data in this pipeline for this field.",
+        "connected": "UNKNOWN — no real data in this pipeline for this field.",
+        "epistemic_type": "DESIGN_RULE - each populated field follows from the operator's own fixed definition, never from evidence"
+      },
+      "engineering_envelope": {
+        "comparable_basis": "10 verified official Versuni/Philips air-purifier families (room-scale)",
+        "performance_cadr_m3h": {
+          "min": 165,
+          "max": 600,
+          "n_comparables": 9,
+          "unit": "m3/h",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "room_coverage_m2": {
+          "min": 42,
+          "max": 156,
+          "n_comparables": 9,
+          "unit": "m2",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "acoustic_min_dba": {
+          "min": 13,
+          "max": 20.5,
+          "n_comparables": 6,
+          "unit": "dBA",
+          "epistemic_type": "OBSERVED_COMPARABLE",
+          "source": "individually verified official Versuni/Philips product pages (data/visual/product_images.json)"
+        },
+        "target_mass_kg": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_power_w": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "target_dimensions": {
+          "epistemic_type": "UNKNOWN",
+          "note": "No verified comparable publishes this value - left unknown, never estimated."
+        },
+        "reference_market_price_usd": {
+          "median": 79.99,
+          "min": 12.99,
+          "max": 789.99,
+          "n_comparables": 15,
+          "epistemic_type": "REFERENCE_MARKET_PRICE",
+          "caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+        }
+      },
+      "unknowns": [
+        "No real Versuni data on current CARB-certification status of the specific product lines this would ship on."
+      ],
+      "test": {
+        "type": "CHALLENGE_TEST",
+        "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
+        "text": "Confirmation that the relevant Versuni product lines are already CARB-certified would further strengthen this; the reverse would lower it.",
+        "derived_from": [
+          "decision_framework_real.py::THEME_FEASIBILITY[ozone_odor_safety].what_would_change_rating"
+        ]
+      },
+      "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
+      "comparable_market_median_usd": 79.99,
+      "comparable_market_median_n_products": 15,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",

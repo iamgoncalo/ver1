@@ -42,7 +42,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     const expectations = [
       { nav: /^Product universe$/, heading: "what exists today" },
       { nav: /^Radar$/, heading: "what are we observing?" },
-      { nav: /^Paths$/, heading: "Where does reality appear to be moving?" },
+      { nav: /^Paths$/, heading: "Where is reality actually moving?" },
       { nav: /^Magic box$/, heading: "what could exist now?" },
       { nav: /^Innovations$/, heading: "which possibilities are becoming serious?" },
     ];
@@ -65,7 +65,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await page.keyboard.press("ArrowLeft");
     await expect(page.getByText("what could exist now?")).toBeVisible();
     await page.keyboard.press("3");
-    await expect(page.getByText("Where does reality appear to be moving?")).toBeVisible();
+    await expect(page.getByText("Where is reality actually moving?")).toBeVisible();
     await page.keyboard.press("0");
     await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible();
   });
@@ -74,12 +74,12 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     for (const [path, marker] of [
       ["/products", "what exists today"],
       ["/radar", "what are we observing?"],
-      ["/paths", "Where does reality appear to be moving?"],
+      ["/paths", "Where is reality actually moving?"],
       ["/magic-box", "what could exist now?"],
       ["/innovations", "which possibilities are becoming serious?"],
       ["/criteria", "how the machine decides"],
       // legacy routes fold into their canonical worlds
-      ["/field", "Where does reality appear to be moving?"],
+      ["/field", "Where is reality actually moving?"],
       ["/new-products", "which possibilities are becoming serious?"],
     ] as const) {
       await page.goto(path);
@@ -163,33 +163,99 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     }
   });
 
-  test("Paths world: real trajectories with consequences and falsifiers; no placeholder rows; inspector opens in-world", async ({ page }) => {
+  test("Paths ontology: trajectories/tensions/assumptions are separated, honest, and never inflated", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/paths");
-    await expect(page.getByText(/\d+ paths, each labelled by its evidence maturity/)).toBeVisible({ timeout: 5000 });
-    // every trajectory carries a computed maturity label; none claims verified causal drivers
-    await expect(page.getByText("challenged").first()).toBeVisible();
-    await expect(page.getByText(/No verified causal driver behind this trajectory/)).toBeVisible();
-    await expect(page.getByText("Consequences")).toBeVisible();
-    await expect(page.getByText(/Closes \/ would falsify/).first()).toBeVisible();
-    // fields with no verified evidence are absent, never placeholder rows
+    await expect(page.getByText("Where is reality actually moving?")).toBeVisible({ timeout: 5000 });
+    // the three epistemic classes are visually separated sections
+    await expect(page.getByText(/Trajectories — where reality is verifiably moving · 0/)).toBeVisible();
+    await expect(page.getByText(/Open tensions — evidence pulls both ways · \d+/)).toBeVisible();
+    await expect(page.getByText(/Assumptions worth challenging · \d+/)).toBeVisible();
+    // zero trajectories is an honest, explained statement - not a hidden gap
+    await expect(page.getByTestId("trajectory-empty")).toBeVisible();
+    await expect(page.getByTestId("trajectory-empty").getByText(/requires observed temporal/)).toBeVisible();
+    // no "N real paths" inflation anywhere
+    await expect(page.getByText(/\d+ real paths/)).toHaveCount(0);
+    // the forbidden falsifier fallback is dead; a typed test renders instead
+    await expect(page.getByText(/no falsifier established/)).toHaveCount(0);
+    await expect(page.getByTestId("path-test")).toBeVisible();
+    await expect(page.getByText(/What would falsify this|What test would challenge/).first()).toBeVisible();
+    // no placeholder rows anywhere
     await expect(page.getByText(/NO VERIFIED DATA/)).toHaveCount(0);
-    await expect(page.getByText(/not established — no verified/)).toHaveCount(0);
-    // selecting another trajectory swaps the inspector without navigation
+    // selecting another path swaps the inspector without navigation
     const rows = page.locator("main button").filter({ hasText: /Tension|Assumption/ });
     await rows.nth(2).click();
     await expect(page.getByText("Consequences")).toBeVisible();
     await expect(page).toHaveURL(/\/paths(\?|$)/);
-    // Field is nested inside Paths - grounding opens in place, no route change
-    await page.getByRole("button", { name: /Ground it in the field/ }).click();
-    await expect(page.getByText("Field — what THIS trajectory means in the real world")).toBeVisible();
-    await expect(page).toHaveURL(/\/paths(\?|$)/);
-    // regression: "Radar evidence" navigates to Radar, never Product universe
+    // "Radar evidence" lands on the Research lens, never Product universe
     await page.getByRole("button", { name: "← Radar evidence" }).click();
-    await expect(page).toHaveURL(/\/radar(\?|$)/);
-    await expect(page.getByText("what are we observing?")).toBeVisible({ timeout: 5000 });
+    await expect(page).toHaveURL(/\/radar\?.*lens=research/);
     await noDocumentScroll(page);
     expect(errors).toEqual([]);
+  });
+
+  test("a tension is a trade-off, an assumption is a question - and reclassifications explain themselves", async ({ page }) => {
+    // T4 was historically a tension; the machine-checked reclassification
+    // must present it as an assumption to test, with its why.
+    await page.goto("/paths?path=tension:T4");
+    await expect(page.getByText("Assumption to test").first()).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/Reclassified from tension/)).toBeVisible();
+    await expect(page.getByText(/What test would challenge this assumption/)).toBeVisible();
+    // an assumption's counterfactual is presented as a question, never movement
+    await page.goto("/paths?path=assumption:A6");
+    await expect(page.getByText(/Counterfactual question \(not observed movement\)/)).toBeVisible({ timeout: 5000 });
+    // A2's test is a typed machine proposal, never presented as evidence
+    await page.goto("/paths?path=assumption:A2");
+    await expect(page.getByText("Proposed test — machine proposal, unverified")).toBeVisible({ timeout: 5000 });
+  });
+
+  test("Field grounding is path-specific: different paths show different, clickable worlds", async ({ page }) => {
+    await page.goto("/paths?path=tension:T1");
+    await page.getByRole("button", { name: /Ground it in the field/ }).click();
+    await expect(page.getByTestId("path-field")).toBeVisible({ timeout: 5000 });
+    // T1 carries consumer-world grounding: friction, products, competitors
+    await expect(page.getByText("Friction — click for the real reviews")).toBeVisible();
+    await expect(page.getByText("Products carrying this friction")).toBeVisible();
+    await expect(page.getByText("Competitors measurably weaker here")).toBeVisible();
+    const t1Evidence = await page.getByTestId("path-field").textContent();
+    // clicking the friction opens REAL review excerpts in place
+    await page.getByTestId("field-friction").first().click();
+    await expect(page.getByRole("dialog").getByText(/real Amazon.com customer text/)).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("dialog").getByText(/CR-\d+/).first()).toBeVisible();
+    await page.keyboard.press("Escape");
+    // T4's field is genuinely different: sensor papers, no consumer friction
+    await page.goto("/paths?path=tension:T4");
+    await page.getByRole("button", { name: /Ground it in the field/ }).click();
+    await expect(page.getByTestId("path-field")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText("Friction — click for the real reviews")).toHaveCount(0);
+    const t4Evidence = await page.getByTestId("path-field").textContent();
+    expect(t4Evidence).not.toBe(t1Evidence);
+    // a path with no evidence says so - it never borrows a neighbour's field
+    await page.goto("/paths?path=assumption:A7");
+    await page.getByRole("button", { name: /Ground it in the field/ }).click();
+    await expect(page.getByText(/honestly empty rather than borrowed/)).toBeVisible({ timeout: 5000 });
+  });
+
+  test("Magic concept: why-here derivation, clickable lineage, typed envelope, honest comparable price", async ({ page }) => {
+    await page.goto("/magic-box?possibility=noise:AMBIENT");
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
+    // 3-part derivation, with the transformation labelled a method choice
+    await expect(page.getByTestId("why-here")).toBeVisible();
+    await expect(page.getByTestId("why-here").getByText(/1 · Reality:/)).toBeVisible();
+    await expect(page.getByTestId("why-here").getByText(/METHOD CHOICE, not evidence/)).toBeVisible();
+    await expect(page.getByTestId("why-here").getByText(/3 · Product consequence:/)).toBeVisible();
+    // lineage chips resolve to real parents
+    await expect(page.getByTestId("lineage").getByRole("button", { name: /tension:T\d/ }).first()).toBeVisible();
+    // engineering envelope: observed comparables carry n + range, unknowns stay unknown
+    await expect(page.getByTestId("engineering-envelope").getByText(/observed, \d+ comparables/).first()).toBeVisible();
+    await expect(page.getByTestId("engineering-envelope").getByText(/unknown — no comparable publishes this/).first()).toBeVisible();
+    // the price is a comparable market median, never the concept's price
+    await expect(page.getByText(/comparable market median/).first()).toBeVisible();
+    await expect(page.getByText("typical real price today")).toHaveCount(0);
+    // clicking a parent path lands on that exact path
+    await page.getByTestId("lineage").getByRole("button", { name: "tension:T1 →" }).click();
+    await expect(page).toHaveURL(/\/paths\?path=tension%3AT1|\/paths\?path=tension:T1/);
+    await expect(page.getByText("Where is reality actually moving?")).toBeVisible({ timeout: 5000 });
   });
 
   test("Lab opens inside an Innovation with honest lenses and a working prediction-gated Scenario", async ({ page }) => {
@@ -280,7 +346,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
 
   test("Radar coverage lens shows the honest source matrix", async ({ page }) => {
     await page.goto("/radar");
-    await page.getByRole("button", { name: "Coverage" }).click();
+    await page.getByRole("button", { name: "Coverage", exact: true }).click();
     await expect(page.getByText("PubMed / PMC")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("not implemented").first()).toBeVisible();
     await expect(page.getByText("snapshot (verified at retrieval)").first()).toBeVisible();
@@ -323,7 +389,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
 
   test("Radar competitors lens shows white space and sends a theme to the Magic box", async ({ page }) => {
     await page.goto("/radar");
-    await page.getByRole("button", { name: "Competitors" }).click();
+    await page.getByRole("button", { name: "Competitors", exact: true }).click();
     await expect(page.getByText("Real competitors analysed")).toBeVisible({ timeout: 5000 });
     await page.getByRole("button", { name: "Send to Magic Box →" }).first().click();
     await expect(page.getByText("what could exist now?")).toBeVisible({ timeout: 5000 });
@@ -431,10 +497,10 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await page.keyboard.press("Escape");
 
     await page.getByTitle("Paths — click for detail and trace").click();
-    await page.getByRole("button", { name: /Field brief/ }).click();
+    await page.getByRole("button", { name: /Formal-case decision brief/ }).click();
     await expect(page.getByText("Wrong if")).toBeVisible({ timeout: 5000 });
-    await page.getByRole("button", { name: "Ground it inside Paths →" }).click();
-    await expect(page.getByText("Where does reality appear to be moving?")).toBeVisible({ timeout: 5000 });
+    await page.getByRole("button", { name: "Open the per-path field grounding in Paths →" }).click();
+    await expect(page.getByText("Where is reality actually moving?")).toBeVisible({ timeout: 5000 });
 
     await page.getByTitle("Machine overview — home").click();
     await expect(page.getByText("Evidence in. Better bets out.")).toBeVisible({ timeout: 5000 });
@@ -470,17 +536,17 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
       { tab: "Competitors", key: "competitors" },
     ]) {
       await page.getByRole("button", { name: lens.tab, exact: true }).click();
-      await page.getByRole("button", { name: "distilled" }).click();
+      await page.getByRole("button", { name: "distilled", exact: true }).click();
       await expect(page.getByTestId(`radar-distilled-${lens.key}`), `${lens.key} distilled`).toBeVisible({ timeout: 5000 });
       await expect(page.getByTestId(`radar-raw-${lens.key}`)).toHaveCount(0);
-      await page.getByRole("button", { name: "raw" }).click();
+      await page.getByRole("button", { name: "raw", exact: true }).click();
       await expect(page.getByTestId(`radar-raw-${lens.key}`), `${lens.key} raw`).toBeVisible({ timeout: 5000 });
       await expect(page.getByTestId(`radar-distilled-${lens.key}`)).toHaveCount(0);
       // raw is structurally a record table on every table-backed lens
       if (lens.key !== "competitors") {
         await expect(page.getByTestId(`radar-raw-${lens.key}`).locator("table")).toBeVisible();
       }
-      await page.getByRole("button", { name: "distilled" }).click();
+      await page.getByRole("button", { name: "distilled", exact: true }).click();
     }
   });
 
@@ -491,8 +557,8 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // open a signal: the method block decomposes the gap honestly
     await page.getByText("average rating gap").first().click();
     await expect(page.getByText("Average rating gap — how it is computed")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText("Theme mean rating")).toBeVisible();
-    await expect(page.getByText("Corpus mean rating")).toBeVisible();
+    await expect(page.getByText("Theme mean rating", { exact: true })).toBeVisible();
+    await expect(page.getByText("Corpus mean rating", { exact: true })).toBeVisible();
     await expect(page.getByText("n (reviews in theme)")).toBeVisible();
     await page.keyboard.press("Escape");
     // no user-visible "CSAT" anywhere in the five worlds' default views
@@ -553,8 +619,9 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await page.goto("/products");
     await page.locator("main img").first().waitFor({ timeout: 5000 });
     await page.getByText(/official Versuni|official source/).first().waitFor({ timeout: 5000 });
-    // open the first verified official card
-    await page.locator("main").getByRole("button").filter({ has: page.locator("img") }).first().click();
+    // open the first verified official card (clicking its product image
+    // bubbles to the card's onClick)
+    await page.locator('main img[src^="/products/"]').first().click();
     await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
     await expect(page).toHaveURL(/official=/);
     await page.reload();

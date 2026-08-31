@@ -77,16 +77,19 @@ python3 src/real/research_corpus_real.py
 python3 src/real/emergent_clustering_real.py
 python3 src/real/signals_from_research_real.py
 
-echo "== stage 8c2/9: Magic Box - MUST run after the stage 8c signal rebuild above; =="
-echo "   compute_design_dna() reads each signal's real 'meaning'/research_support =="
-echo "   fields, which only exist once signals_from_research_real.py has run. =="
+echo "== stage 8c2/9: category assumption map (real, evidence-linked) - MUST run =="
+echo "   BEFORE the Magic Box below: compute_design_dna() reads =="
+echo "   category_assumptions.json, so running it after would hand Magic a =="
+echo "   stale (or on a clean checkout, absent) assumption file. =="
+python3 src/real/assumptions_real.py
+
+echo "== stage 8c3/9: Magic Box - MUST run after the stage 8c signal rebuild and =="
+echo "   the assumption map above; compute_design_dna() reads each signal's real =="
+echo "   'meaning'/research_support fields AND the live assumption records. =="
 python3 src/real/magic_box_real.py
 
 echo "== stage 8d/9: Dutch economics truth (real, verified anchors) =="
 python3 src/real/economics_real.py
-
-echo "== stage 8e/9: category assumption map (real, evidence-linked) =="
-python3 src/real/assumptions_real.py
 
 echo "== stage 8f/9: honest source/connector status snapshot =="
 python3 src/real/sources_real.py

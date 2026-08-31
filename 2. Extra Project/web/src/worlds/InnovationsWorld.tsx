@@ -191,7 +191,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
                     ${s.typical_market_price_usd.toFixed(2)}
                   </span>
                   <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>
-                    typical real price in this segment today (median of {s.typical_market_price_n_products} real products)
+                    comparable market median — what {s.typical_market_price_n_products} real products in this segment cost today, never a proposed price for this concept
                   </span>
                 </div>
               )}
