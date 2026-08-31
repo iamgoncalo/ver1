@@ -435,7 +435,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-reliability:PREDICT"
+        "visual-reliability:PREDICT",
+        "dossier-reliability:PREDICT"
       ],
       "artifacts": [
         {
@@ -451,6 +452,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-reliability:PREDICT",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/reliability_PREDICT.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -872,7 +879,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-reliability:MATERIALISE"
+        "visual-reliability:MATERIALISE",
+        "dossier-reliability:MATERIALISE"
       ],
       "artifacts": [
         {
@@ -888,6 +896,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-reliability:MATERIALISE",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/reliability_MATERIALISE.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -1309,7 +1323,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-reliability:CROSS_CATEGORY_TRANSFER"
+        "visual-reliability:CROSS_CATEGORY_TRANSFER",
+        "dossier-reliability:CROSS_CATEGORY_TRANSFER"
       ],
       "artifacts": [
         {
@@ -1325,6 +1340,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-reliability:CROSS_CATEGORY_TRANSFER",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/reliability_CROSS_CATEGORY_TRANSFER.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -1781,7 +1802,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-noise:AMBIENT"
+        "visual-noise:AMBIENT",
+        "dossier-noise:AMBIENT"
       ],
       "artifacts": [
         {
@@ -1797,6 +1819,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-noise:AMBIENT",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/noise_AMBIENT.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -2253,7 +2281,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-noise:TEMPORAL_SHIFT"
+        "visual-noise:TEMPORAL_SHIFT",
+        "dossier-noise:TEMPORAL_SHIFT"
       ],
       "artifacts": [
         {
@@ -2269,6 +2298,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-noise:TEMPORAL_SHIFT",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/noise_TEMPORAL_SHIFT.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -2725,7 +2760,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-noise:CROSS_CATEGORY_TRANSFER"
+        "visual-noise:CROSS_CATEGORY_TRANSFER",
+        "dossier-noise:CROSS_CATEGORY_TRANSFER"
       ],
       "artifacts": [
         {
@@ -2741,6 +2777,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-noise:CROSS_CATEGORY_TRANSFER",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/noise_CROSS_CATEGORY_TRANSFER.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -3189,7 +3231,8 @@
       "kill_criterion": "Formal-case kill criterion applies (see formal_case.abandon_signal)",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-value_effectiveness:CONCENTRATE"
+        "visual-value_effectiveness:CONCENTRATE",
+        "dossier-value_effectiveness:CONCENTRATE"
       ],
       "artifacts": [
         {
@@ -3205,6 +3248,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-value_effectiveness:CONCENTRATE",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/value_effectiveness_CONCENTRATE.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -3653,7 +3702,8 @@
       "kill_criterion": "Formal-case kill criterion applies (see formal_case.abandon_signal)",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-value_effectiveness:CROSS_CATEGORY_TRANSFER"
+        "visual-value_effectiveness:CROSS_CATEGORY_TRANSFER",
+        "dossier-value_effectiveness:CROSS_CATEGORY_TRANSFER"
       ],
       "artifacts": [
         {
@@ -3669,6 +3719,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-value_effectiveness:CROSS_CATEGORY_TRANSFER",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/value_effectiveness_CROSS_CATEGORY_TRANSFER.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -4118,7 +4174,8 @@
       "kill_criterion": "Formal-case kill criterion applies (see formal_case.abandon_signal)",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-value_effectiveness:PERSONALISE"
+        "visual-value_effectiveness:PERSONALISE",
+        "dossier-value_effectiveness:PERSONALISE"
       ],
       "artifacts": [
         {
@@ -4134,6 +4191,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-value_effectiveness:PERSONALISE",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/value_effectiveness_PERSONALISE.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -4544,7 +4607,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-customer_service:INVERT"
+        "visual-customer_service:INVERT",
+        "dossier-customer_service:INVERT"
       ],
       "artifacts": [
         {
@@ -4560,6 +4624,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-customer_service:INVERT",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/customer_service_INVERT.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -4970,7 +5040,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-customer_service:REMOVE"
+        "visual-customer_service:REMOVE",
+        "dossier-customer_service:REMOVE"
       ],
       "artifacts": [
         {
@@ -4986,6 +5057,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-customer_service:REMOVE",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/customer_service_REMOVE.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -5396,7 +5473,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-filter_cost:DISTRIBUTE"
+        "visual-filter_cost:DISTRIBUTE",
+        "dossier-filter_cost:DISTRIBUTE"
       ],
       "artifacts": [
         {
@@ -5412,6 +5490,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-filter_cost:DISTRIBUTE",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/filter_cost_DISTRIBUTE.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -5822,7 +5906,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-filter_cost:MERGE"
+        "visual-filter_cost:MERGE",
+        "dossier-filter_cost:MERGE"
       ],
       "artifacts": [
         {
@@ -5838,6 +5923,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-filter_cost:MERGE",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/filter_cost_MERGE.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -6251,7 +6342,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-ozone_odor_safety:MOVE"
+        "visual-ozone_odor_safety:MOVE",
+        "dossier-ozone_odor_safety:MOVE"
       ],
       "artifacts": [
         {
@@ -6267,6 +6359,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-ozone_odor_safety:MOVE",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/ozone_odor_safety_MOVE.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -6680,7 +6778,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-ozone_odor_safety:PERSONALISE"
+        "visual-ozone_odor_safety:PERSONALISE",
+        "dossier-ozone_odor_safety:PERSONALISE"
       ],
       "artifacts": [
         {
@@ -6696,6 +6795,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-ozone_odor_safety:PERSONALISE",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/ozone_odor_safety_PERSONALISE.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {
@@ -7108,7 +7213,8 @@
       "kill_criterion": "No authored kill criterion yet - a non-formal innovation earns one by displacing the formal recommendation (Scenario lens) or by a human decision to invest.",
       "prototype_state": "CONCEPT_VISUAL",
       "artifact_ids": [
-        "visual-ozone_odor_safety:CROSS_CATEGORY_TRANSFER"
+        "visual-ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+        "dossier-ozone_odor_safety:CROSS_CATEGORY_TRANSFER"
       ],
       "artifacts": [
         {
@@ -7124,6 +7230,12 @@
             "artifact_state": "CONCEPT_VISUAL",
             "note": "Machine-composed schematic from the innovation's stored fields only (operator rule, friction stats, comparable envelope). Not a design rendering; a Fable render or drawing would also be CONCEPT_VISUAL, never a digital model or physical prototype."
           }
+        },
+        {
+          "id": "dossier-ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
+          "kind": "innovation_dossier",
+          "path": "/innovation-dossiers/ozone_odor_safety_CROSS_CATEGORY_TRANSFER.pdf",
+          "state": "generated"
         }
       ],
       "run_history": {

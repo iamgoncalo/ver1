@@ -1,7 +1,9 @@
 # Data notice — consumer review corpus
 
 The consumer evidence in this repository is a filtered subset (air-purifier
-products only) of the McAuley-Lab **Amazon-Reviews-2023** dataset
+products, plus a separately-filtered floor-care subset acquired the same
+way for the category-generalization proof) of the McAuley-Lab
+**Amazon-Reviews-2023** dataset
 (https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023), which its
 maintainers publish for research use. This repository does **not** assert any
 licence beyond what the dataset card grants: the subset is included solely so
