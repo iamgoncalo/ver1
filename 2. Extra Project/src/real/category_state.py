@@ -48,6 +48,9 @@ CATEGORIES = {
 }
 
 
+_REVIEW_COUNT_CACHE = {}
+
+
 def _load_json(path):
     try:
         with open(path, encoding="utf-8") as fh:
@@ -104,8 +107,18 @@ def _compute_from_stores(category_id, cat):
     n_reviews = 0
     reviews_bundled = True
     try:
-        with open(stores["reviews_clean"], newline="", encoding="utf-8") as fh:
-            n_reviews = sum(1 for _ in csv.DictReader(fh))
+        # The clean corpus is 160MB / ~384k rows - counting it on every
+        # request is real work for a number that only changes when the file
+        # does, so the count is cached against the file's (mtime, size).
+        st = os.stat(stores["reviews_clean"])
+        cache_key = (stores["reviews_clean"], st.st_mtime_ns, st.st_size)
+        if _REVIEW_COUNT_CACHE.get("key") == cache_key:
+            n_reviews = _REVIEW_COUNT_CACHE["count"]
+        else:
+            with open(stores["reviews_clean"], newline="", encoding="utf-8") as fh:
+                n_reviews = sum(1 for _ in csv.DictReader(fh))
+            _REVIEW_COUNT_CACHE["key"] = cache_key
+            _REVIEW_COUNT_CACHE["count"] = n_reviews
     except FileNotFoundError:
         # The clean review corpus (160MB) is too large to bundle in the
         # repository (see data/DATA_NOTICE.md - the stream scripts are the

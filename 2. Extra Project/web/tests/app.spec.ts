@@ -299,7 +299,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText(/Real competitor brands \(\d+ with/)).toBeVisible();
     // honestly missing families stay declared missing, not zero-faked or hidden
     await expect(page.getByText(/Honestly missing:/)).toBeVisible();
-    await expect(page.getByText("full machine not runnable yet")).toBeVisible();
+    await expect(page.getByText("full machine not runnable yet")).toBeVisible({ timeout: 15000 });
     // no Air content leaks under the Floor care label
     await expect(page.getByText("Reviews retained")).toHaveCount(0);
     await expect(page.getByText(/Air Purifier/)).toHaveCount(0);

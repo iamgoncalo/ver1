@@ -1,13 +1,13 @@
-# Final acceptance — generated 2026-08-31T16:08:35.116014+00:00 @ c56f80a
+# Final acceptance — generated 2026-08-31T16:46:18.862264+00:00 @ 307d12e
 
-**PASS 27 · FAIL 2 · MANUAL 2**
+**PASS 28 · FAIL 1 · MANUAL 2**
 
 
 ## repository
 - [x] **PASS** correct repo + main canonical — https://github.com/iamgoncalo/ver1.git
 - [ ] **FAIL** clean working tree — M "2. Extra Project/data/processed/funnel_run_history.json"
- M "2. Extra Project/tests/test_floor_ca
-- [x] **PASS** local main == origin/main — local c56f80a20 vs origin c56f80a20
+ M "2. Extra Project/src/real/category_s
+- [x] **PASS** local main == origin/main — local 307d12e00 vs origin 307d12e00
 - [x] **PASS** no absolute personal paths in tracked files — none
 - [x] **PASS** no obvious secrets — signature scan clean
 - [x] **PASS** public repository — GitHub API visibility
@@ -33,17 +33,17 @@
 ## hardcoding
 - [x] **PASS** mutation: floor 3.0 changes the verdict — verdict responds to threshold
 - [x] **PASS** idempotency: unchanged rerun identical — stable
-- [x] **PASS** snapshot hash deterministic — 9d1decb9fa08
+- [x] **PASS** snapshot hash deterministic — a7938825644d
 
 ## tests
 - [x] **PASS** extra project full discovery — 110 tests
 - [x] **PASS** playwright full suite (all viewports) — 180 passed, exit=0
 - [x] **PASS** frontend production build — vite production build
-- [x] **PASS** docker production build — sha256:b3fdd700ea9996ab52fc21abf1b90efa56014cb6d6cadf5c9fe11
+- [x] **PASS** docker production build — sha256:7487a19f3f50b06e86cff365c033f373bcfa199ae2fd68f4dbfd5
 
 ## hardcoding
 - [x] **PASS** no stale ontology in shipped state — UI + funnel labels clean
-- [ ] **FAIL** no missing-to-zero display coercion — guarded display sites
+- [x] **PASS** no missing-to-zero display coercion — guarded display sites
 
 ## public_data
 - [x] **PASS** reviewer identity ships only as a hash — header check

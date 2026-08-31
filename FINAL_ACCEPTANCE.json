@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-08-31T16:08:35.116014+00:00",
- "main_sha": "c56f80a",
+ "generated_at": "2026-08-31T16:46:18.862264+00:00",
+ "main_sha": "307d12e",
  "results": [
   {
    "section": "repository",
@@ -12,13 +12,13 @@
    "section": "repository",
    "name": "clean working tree",
    "status": "FAIL",
-   "detail": "M \"2. Extra Project/data/processed/funnel_run_history.json\"\n M \"2. Extra Project/tests/test_floor_ca"
+   "detail": "M \"2. Extra Project/data/processed/funnel_run_history.json\"\n M \"2. Extra Project/src/real/category_s"
   },
   {
    "section": "repository",
    "name": "local main == origin/main",
    "status": "PASS",
-   "detail": "local c56f80a20 vs origin c56f80a20"
+   "detail": "local 307d12e00 vs origin 307d12e00"
   },
   {
    "section": "repository",
@@ -126,7 +126,7 @@
    "section": "hardcoding",
    "name": "snapshot hash deterministic",
    "status": "PASS",
-   "detail": "9d1decb9fa08"
+   "detail": "a7938825644d"
   },
   {
    "section": "tests",
@@ -150,7 +150,7 @@
    "section": "tests",
    "name": "docker production build",
    "status": "PASS",
-   "detail": "sha256:b3fdd700ea9996ab52fc21abf1b90efa56014cb6d6cadf5c9fe11"
+   "detail": "sha256:7487a19f3f50b06e86cff365c033f373bcfa199ae2fd68f4dbfd5"
   },
   {
    "section": "hardcoding",
@@ -161,7 +161,7 @@
   {
    "section": "hardcoding",
    "name": "no missing-to-zero display coercion",
-   "status": "FAIL",
+   "status": "PASS",
    "detail": "guarded display sites"
   },
   {
@@ -190,8 +190,8 @@
   }
  ],
  "totals": {
-  "PASS": 27,
-  "FAIL": 2,
+  "PASS": 28,
+  "FAIL": 1,
   "MANUAL": 2
  }
 }
