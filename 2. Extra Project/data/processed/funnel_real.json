@@ -3,15 +3,15 @@
   "generated_by": "src/real/funnel_real.py",
   "machine_state": {
     "status": "RUNNING",
-    "last_run_id": "run-44",
-    "last_run_started_at": "2026-08-31T11:52:59.528515+00:00",
-    "last_run_finished_at": "2026-08-31T11:52:59.528515+00:00",
-    "last_checked_at": "2026-08-31T11:52:59.528515+00:00",
+    "last_run_id": "run-46",
+    "last_run_started_at": "2026-08-31T12:07:44.115770+00:00",
+    "last_run_finished_at": "2026-08-31T12:07:44.115770+00:00",
+    "last_checked_at": "2026-08-31T12:07:44.115770+00:00",
     "check_count": 1,
-    "input_snapshot_hash": "c86cb516a5d008c6c6c04cbd030162a80d1501201df32beb193c67a2100901e9",
+    "input_snapshot_hash": "73aa128628a9304d744c80cb718ecf82ed99b270b6e5d457a0198b59b6041e37",
     "changed_since_last_run": true,
     "new_since_last_run": {},
-    "total_runs_recorded": 44,
+    "total_runs_recorded": 46,
     "errors": []
   },
   "stages": [
@@ -153,19 +153,19 @@
           "id": "noise:AMBIENT",
           "name": "Ambient-Sensing Night Purifier",
           "friction_theme": "noise",
-          "typical_market_price_usd": 179.99
+          "typical_market_price_usd": 159.9
         },
         {
           "id": "noise:TEMPORAL_SHIFT",
           "name": "Pre-Sleep Air Purifier",
           "friction_theme": "noise",
-          "typical_market_price_usd": 179.99
+          "typical_market_price_usd": 159.9
         },
         {
           "id": "noise:CROSS_CATEGORY_TRANSFER",
           "name": "Noise-Cancelling Air Purifier",
           "friction_theme": "noise",
-          "typical_market_price_usd": 179.99
+          "typical_market_price_usd": 159.9
         },
         {
           "id": "value_effectiveness:CONCENTRATE",
@@ -213,19 +213,19 @@
           "id": "ozone_odor_safety:MOVE",
           "name": "Placement-Sensing Air Purifier",
           "friction_theme": "ozone_odor_safety",
-          "typical_market_price_usd": 79.99
+          "typical_market_price_usd": 62.49
         },
         {
           "id": "ozone_odor_safety:PERSONALISE",
           "name": "Sensitivity-Aware Air Purifier",
           "friction_theme": "ozone_odor_safety",
-          "typical_market_price_usd": 79.99
+          "typical_market_price_usd": 62.49
         },
         {
           "id": "ozone_odor_safety:CROSS_CATEGORY_TRANSFER",
           "name": "Wearable Odor/Ozone Safety Clip",
           "friction_theme": "ozone_odor_safety",
-          "typical_market_price_usd": 79.99
+          "typical_market_price_usd": 62.49
         }
       ],
       "inputs": [
@@ -1608,7 +1608,8 @@
             "products_real.json -> cluster_type"
           ],
           "current_value": "170/237 standard_purifier",
-          "threshold": "share < 50%"
+          "threshold": "share < 50%",
+          "source_quotes": {}
         },
         "detail": "RP-04 shows floor-level resuspension is a real, distinct spatial dynamic a stationary box doesn't directly address - opens the question without proving an alternative wins.",
         "field": {
@@ -1668,7 +1669,11 @@
             "RP-01",
             "RP-04"
           ],
-          "why_not_deterministic": "products_real.json has no mobility/placement field, so no stored threshold can be recomputed."
+          "why_not_deterministic": "products_real.json has no mobility/placement field, so no stored threshold can be recomputed.",
+          "source_quotes": {
+            "RP-01.found": "PM2.5/PM10 fell 78.8%/63.9% in the primary room and 57.9%/60.4% in a secondary room during the filter condition vs. sham.",
+            "RP-04.found": "10 minutes of walking measurably raised PM10/PM2.5/PM1/PM0.1 concentrations, with estimated resuspension rates reported per size fraction."
+          }
         },
         "detail": "RP-01 shows a purifier's benefit already leaks unevenly beyond its own room; RP-04 shows a real spatial source (walking) the fixed box doesn't chase.",
         "field": {
@@ -1861,7 +1866,8 @@
             "products_real.json -> cluster_intelligence"
           ],
           "current_value": "23 connected+adaptive vs 162 manual",
-          "threshold": "connected+adaptive > manual"
+          "threshold": "connected+adaptive > manual",
+          "source_quotes": {}
         },
         "detail": "RP-09/RP-10 show current sensors are precise-but-not-always-accurate - a real constraint on how confidently any product could act predictively today.",
         "field": {
@@ -1919,7 +1925,8 @@
             "themes.noise.prevalence_pct"
           ],
           "current_value": "filter_cost 0.26% vs noise 3.5%",
-          "threshold": "filter_cost share > noise share"
+          "threshold": "filter_cost share > noise share",
+          "source_quotes": {}
         },
         "detail": "No paper in this session's research corpus addresses filter-subscription or auto-replacement models - this counterfactual has no direct research backing, only the real consumer-complaint signal.",
         "field": {
@@ -1949,13 +1956,14 @@
         "test": {
           "type": "CHALLENGE_TEST",
           "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
-          "text": "Challenged when a certification body in the trend corpus publishes a loss-rate or realized-exposure metric alongside CADR - i.e. when TC-R02 (ENERGY STAR) or TC-R03 (AHAM Verifide) theme tags stop reducing to 'cadr'. Fragile baseline: both documents carry published_date null, so change detection has no dated anchor.",
+          "text": "Challenged when a certification body in the trend corpus adopts a loss-rate or realized-exposure metric alongside CADR - concretely, when TC-R03 (AHAM Verifide, the one record whose theme tags contain 'cadr': ['certification', 'cadr', 'iaq_standards']) stops centring on it, or TC-R02 (ENERGY STAR, themes ['regulation', 'energy_efficiency', 'iaq_standards'], CADR present only in its prose scope note) adds a non-CADR performance theme tag. Fragile baseline: both documents carry published_date null, so change detection has no dated anchor.",
           "derived_from": [
-            "data/raw/trend_corpus.json -> TC-R02.themes",
-            "TC-R03.themes"
+            "data/raw/trend_corpus.json -> TC-R03.themes",
+            "TC-R02.themes"
           ],
-          "current_value": "TC-R02/TC-R03 themes centre on cadr",
-          "threshold": "a non-CADR official performance metric appears"
+          "current_value": "TC-R03 themes: ['certification', 'cadr', 'iaq_standards']; TC-R02 themes: ['regulation', 'energy_efficiency', 'iaq_standards']",
+          "threshold": "a non-CADR official performance metric appears in either record's theme tags",
+          "source_quotes": {}
         },
         "detail": "RP-07 explicitly reports a discrepancy between theoretical CADR-based sizing and measured performance; RP-06 shows raw real-world averages can mislead entirely; RP-01 shows single-room CADR doesn't capture whole-home effect. Real evidence directly challenges CADR as sufficient, not just as a label.",
         "field": {
@@ -2276,7 +2284,10 @@
             "RP-07"
           ],
           "current_value": "23/237 connected+adaptive",
-          "threshold": "share > 25%, or RP-07 auto-mode replication"
+          "threshold": "share > 25%, or RP-07 auto-mode replication",
+          "source_quotes": {
+            "RP-07.found": "Constant operation cut weekly mean PM2.5 by 66% (95% CI 59-72%); auto operation cut it by 40% (95% CI 27-50%) but sharply reduced runtime."
+          }
         },
         "detail": "RP-07's own trial shows constant mode filters 66% vs. auto's 40% - constant is not neutral, it's a real trade-off against noise/runtime; RP-05 shows noise measurably suppresses real usage.",
         "field": {
@@ -2595,7 +2606,8 @@
           "derived_from": [
             "category-structure observation (no corpus field)"
           ],
-          "why_not_deterministic": "products_real.json has no ownership/subscription field; real_evidence list is empty."
+          "why_not_deterministic": "products_real.json has no ownership/subscription field; real_evidence list is empty.",
+          "source_quotes": {}
         },
         "detail": "No paper in this session's research corpus addresses ownership models - this is a pure category-structure observation, not backed by the peer-reviewed corpus.",
         "field": {
@@ -2630,7 +2642,10 @@
             "RP-10"
           ],
           "current_value": "15/237 connected",
-          "threshold": "a connected product ships confidence-qualified state"
+          "threshold": "a connected product ships confidence-qualified state",
+          "source_quotes": {
+            "RP-10.found": "One consumer sensor tracked relative CO2/PM changes well (higher correlation) but showed higher bias/RMSE (lower absolute accuracy) than the reference; averaging over longer intervals improved but did not eliminate the gap."
+          }
         },
         "detail": "If the underlying sensor reading itself carries real, documented uncertainty (RP-09, RP-10), a more prominent display doesn't fix the trust problem - it may just surface an unreliable number more confidently.",
         "field": {
@@ -2841,21 +2856,21 @@
           "id": "noise:AMBIENT",
           "name": "Ambient-Sensing Night Purifier",
           "friction_theme": "noise",
-          "typical_market_price_usd": 179.99,
+          "typical_market_price_usd": 159.9,
           "critic_overall": "NEEDS_EVIDENCE"
         },
         {
           "id": "noise:TEMPORAL_SHIFT",
           "name": "Pre-Sleep Air Purifier",
           "friction_theme": "noise",
-          "typical_market_price_usd": 179.99,
+          "typical_market_price_usd": 159.9,
           "critic_overall": "NEEDS_EVIDENCE"
         },
         {
           "id": "noise:CROSS_CATEGORY_TRANSFER",
           "name": "Noise-Cancelling Air Purifier",
           "friction_theme": "noise",
-          "typical_market_price_usd": 179.99,
+          "typical_market_price_usd": 159.9,
           "critic_overall": "NEEDS_EVIDENCE"
         },
         {
@@ -3341,7 +3356,7 @@
     "NEEDS_EVIDENCE": 3,
     "REJECT": 4
   },
-  "snapshot": "e5e4e23952246855",
+  "snapshot": "1bac873965660cb2",
   "last_refresh": {
     "run_id": "discovery-1787943742",
     "started_at": "2026-08-28T19:02:02.017700+00:00",

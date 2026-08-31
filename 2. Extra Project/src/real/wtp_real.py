@@ -75,7 +75,12 @@ def compute_price_exposure(rows, prices):
         value_language_hits = sum(1 for r in affected
                                   if VALUE_LANGUAGE_RE.search(r["review_text"] or ""))
         price_weighted_exposure = sum(prices[r["product_sku"]] for r in affected_priced)
-        distinct_affected_prices = sorted({prices[r["product_sku"]] for r in affected_priced})
+        # One price PER DISTINCT PRODUCT - never per distinct price value.
+        # Deduplicating on the value would silently drop same-priced
+        # products and shift the median (a real defect found and fixed in
+        # the Pass 2 red-team audit: noise $179.99 -> $159.90, n 32 -> 35).
+        product_price = {r["product_sku"]: prices[r["product_sku"]] for r in affected_priced}
+        distinct_affected_prices = sorted(product_price.values())
         median_real_price_usd = (round(statistics.median(distinct_affected_prices), 2)
                                  if distinct_affected_prices else None)
         per_theme[tid] = {

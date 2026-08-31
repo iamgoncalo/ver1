@@ -104,13 +104,13 @@
       "challenge_test": {
         "type": "CHALLENGE_TEST",
         "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
-        "text": "Challenged when a certification body in the trend corpus publishes a loss-rate or realized-exposure metric alongside CADR - i.e. when TC-R02 (ENERGY STAR) or TC-R03 (AHAM Verifide) theme tags stop reducing to 'cadr'. Fragile baseline: both documents carry published_date null, so change detection has no dated anchor.",
+        "text": "Challenged when a certification body in the trend corpus adopts a loss-rate or realized-exposure metric alongside CADR - concretely, when TC-R03 (AHAM Verifide, the one record whose theme tags contain 'cadr': ['certification', 'cadr', 'iaq_standards']) stops centring on it, or TC-R02 (ENERGY STAR, themes ['regulation', 'energy_efficiency', 'iaq_standards'], CADR present only in its prose scope note) adds a non-CADR performance theme tag. Fragile baseline: both documents carry published_date null, so change detection has no dated anchor.",
         "derived_from": [
-          "data/raw/trend_corpus.json -> TC-R02.themes",
-          "TC-R03.themes"
+          "data/raw/trend_corpus.json -> TC-R03.themes",
+          "TC-R02.themes"
         ],
-        "current_value": "TC-R02/TC-R03 themes centre on cadr",
-        "threshold": "a non-CADR official performance metric appears"
+        "current_value": "TC-R03 themes: ['certification', 'cadr', 'iaq_standards']; TC-R02 themes: ['regulation', 'energy_efficiency', 'iaq_standards']",
+        "threshold": "a non-CADR official performance metric appears in either record's theme tags"
       }
     },
     {

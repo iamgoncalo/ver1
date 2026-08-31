@@ -488,6 +488,10 @@ def compute_homepage_funnel(patterns, signal_families):
             card = cards.get(rid)
             if card and fieldname in card:
                 out[ref] = card[fieldname]
+            elif card and not fieldname:
+                # a bare RP id cited by an assumption test - quote its
+                # stored finding so the derivation stays inspectable
+                out[ref + ".found"] = card["found"]
         return out
 
     paths = []
@@ -530,7 +534,8 @@ def compute_homepage_funnel(patterns, signal_families):
             "evidence": a["real_evidence_that_bears_on_it"],
             "evidence_state": assumption_evidence_state(a["real_evidence_that_bears_on_it"]),
             "causal_drivers_verified": False,
-            "test": a.get("challenge_test"),
+            "test": (dict(a["challenge_test"], source_quotes=_quotes(a["challenge_test"].get("derived_from", [])))
+                     if a.get("challenge_test") else None),
             "detail": a["evidence_note"],
         })
 

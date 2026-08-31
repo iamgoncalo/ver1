@@ -928,13 +928,13 @@
       "challenge_test": {
         "type": "CHALLENGE_TEST",
         "derivation": "DETERMINISTIC_FROM_STORED_FIELDS",
-        "text": "Challenged when a certification body in the trend corpus publishes a loss-rate or realized-exposure metric alongside CADR - i.e. when TC-R02 (ENERGY STAR) or TC-R03 (AHAM Verifide) theme tags stop reducing to 'cadr'. Fragile baseline: both documents carry published_date null, so change detection has no dated anchor.",
+        "text": "Challenged when a certification body in the trend corpus adopts a loss-rate or realized-exposure metric alongside CADR - concretely, when TC-R03 (AHAM Verifide, the one record whose theme tags contain 'cadr': ['certification', 'cadr', 'iaq_standards']) stops centring on it, or TC-R02 (ENERGY STAR, themes ['regulation', 'energy_efficiency', 'iaq_standards'], CADR present only in its prose scope note) adds a non-CADR performance theme tag. Fragile baseline: both documents carry published_date null, so change detection has no dated anchor.",
         "derived_from": [
-          "data/raw/trend_corpus.json -> TC-R02.themes",
-          "TC-R03.themes"
+          "data/raw/trend_corpus.json -> TC-R03.themes",
+          "TC-R02.themes"
         ],
-        "current_value": "TC-R02/TC-R03 themes centre on cadr",
-        "threshold": "a non-CADR official performance metric appears"
+        "current_value": "TC-R03 themes: ['certification', 'cadr', 'iaq_standards']; TC-R02 themes: ['regulation', 'energy_efficiency', 'iaq_standards']",
+        "threshold": "a non-CADR official performance metric appears in either record's theme tags"
       }
     },
     {
@@ -2371,8 +2371,8 @@
       },
       "gate_passed": true,
       "economic_value": 84015.62,
-      "typical_market_price_usd": 179.99,
-      "typical_market_price_n_products": 32,
+      "typical_market_price_usd": 159.9,
+      "typical_market_price_n_products": 35,
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
@@ -2556,12 +2556,12 @@
           "note": "No verified comparable publishes this value - left unknown, never estimated."
         },
         "reference_market_price_usd": {
-          "median": 179.99,
+          "median": 159.9,
           "min": 28.98,
           "max": 995.0,
-          "n_comparables": 32,
+          "n_comparables": 35,
           "epistemic_type": "REFERENCE_MARKET_PRICE",
-          "caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+          "caveat": "MEDIAN real listed price across the 35 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
         }
       },
       "unknowns": [
@@ -2576,9 +2576,9 @@
         ]
       },
       "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
-      "comparable_market_median_usd": 179.99,
-      "comparable_market_median_n_products": 32,
-      "comparable_market_median_caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "comparable_market_median_usd": 159.9,
+      "comparable_market_median_n_products": 35,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 35 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -2780,7 +2780,7 @@
         },
         "EC3": {
           "status": "PASS",
-          "note": "Median real price $179.99, n=32 products."
+          "note": "Median real price $159.90, n=35 products."
         },
         "EC6": {
           "status": "NEEDS_EVIDENCE",
@@ -2850,8 +2850,8 @@
       },
       "gate_passed": true,
       "economic_value": 84015.62,
-      "typical_market_price_usd": 179.99,
-      "typical_market_price_n_products": 32,
+      "typical_market_price_usd": 159.9,
+      "typical_market_price_n_products": 35,
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
@@ -3035,12 +3035,12 @@
           "note": "No verified comparable publishes this value - left unknown, never estimated."
         },
         "reference_market_price_usd": {
-          "median": 179.99,
+          "median": 159.9,
           "min": 28.98,
           "max": 995.0,
-          "n_comparables": 32,
+          "n_comparables": 35,
           "epistemic_type": "REFERENCE_MARKET_PRICE",
-          "caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+          "caveat": "MEDIAN real listed price across the 35 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
         }
       },
       "unknowns": [
@@ -3055,9 +3055,9 @@
         ]
       },
       "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
-      "comparable_market_median_usd": 179.99,
-      "comparable_market_median_n_products": 32,
-      "comparable_market_median_caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "comparable_market_median_usd": 159.9,
+      "comparable_market_median_n_products": 35,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 35 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -3259,7 +3259,7 @@
         },
         "EC3": {
           "status": "PASS",
-          "note": "Median real price $179.99, n=32 products."
+          "note": "Median real price $159.90, n=35 products."
         },
         "EC6": {
           "status": "NEEDS_EVIDENCE",
@@ -3329,8 +3329,8 @@
       },
       "gate_passed": true,
       "economic_value": 84015.62,
-      "typical_market_price_usd": 179.99,
-      "typical_market_price_n_products": 32,
+      "typical_market_price_usd": 159.9,
+      "typical_market_price_n_products": 35,
       "feasibility_2_5y": {
         "rating": "medium",
         "rank": 2,
@@ -3514,12 +3514,12 @@
           "note": "No verified comparable publishes this value - left unknown, never estimated."
         },
         "reference_market_price_usd": {
-          "median": 179.99,
+          "median": 159.9,
           "min": 28.98,
           "max": 995.0,
-          "n_comparables": 32,
+          "n_comparables": 35,
           "epistemic_type": "REFERENCE_MARKET_PRICE",
-          "caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+          "caveat": "MEDIAN real listed price across the 35 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
         }
       },
       "unknowns": [
@@ -3534,9 +3534,9 @@
         ]
       },
       "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
-      "comparable_market_median_usd": 179.99,
-      "comparable_market_median_n_products": 32,
-      "comparable_market_median_caveat": "MEDIAN real listed price across the 32 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "comparable_market_median_usd": 159.9,
+      "comparable_market_median_n_products": 35,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 35 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": true,
       "evolution_stage": "SURVIVOR",
@@ -3738,7 +3738,7 @@
         },
         "EC3": {
           "status": "PASS",
-          "note": "Median real price $179.99, n=32 products."
+          "note": "Median real price $159.90, n=35 products."
         },
         "EC6": {
           "status": "NEEDS_EVIDENCE",
@@ -6889,8 +6889,8 @@
       },
       "gate_passed": true,
       "economic_value": 16112.87,
-      "typical_market_price_usd": 79.99,
-      "typical_market_price_n_products": 15,
+      "typical_market_price_usd": 62.49,
+      "typical_market_price_n_products": 16,
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
@@ -7026,12 +7026,12 @@
           "note": "No verified comparable publishes this value - left unknown, never estimated."
         },
         "reference_market_price_usd": {
-          "median": 79.99,
+          "median": 62.49,
           "min": 12.99,
           "max": 789.99,
-          "n_comparables": 15,
+          "n_comparables": 16,
           "epistemic_type": "REFERENCE_MARKET_PRICE",
-          "caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+          "caveat": "MEDIAN real listed price across the 16 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
         },
         "form_factor_note": "The operator implies a different form factor than the room-scale verified comparables - the ranges above are category context, not a target for this concept."
       },
@@ -7047,9 +7047,9 @@
         ]
       },
       "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
-      "comparable_market_median_usd": 79.99,
-      "comparable_market_median_n_products": 15,
-      "comparable_market_median_caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "comparable_market_median_usd": 62.49,
+      "comparable_market_median_n_products": 16,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 16 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -7251,7 +7251,7 @@
         },
         "EC3": {
           "status": "PASS",
-          "note": "Median real price $79.99, n=15 products."
+          "note": "Median real price $62.49, n=16 products."
         },
         "EC6": {
           "status": "NEEDS_EVIDENCE",
@@ -7321,8 +7321,8 @@
       },
       "gate_passed": true,
       "economic_value": 16112.87,
-      "typical_market_price_usd": 79.99,
-      "typical_market_price_n_products": 15,
+      "typical_market_price_usd": 62.49,
+      "typical_market_price_n_products": 16,
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
@@ -7458,12 +7458,12 @@
           "note": "No verified comparable publishes this value - left unknown, never estimated."
         },
         "reference_market_price_usd": {
-          "median": 79.99,
+          "median": 62.49,
           "min": 12.99,
           "max": 789.99,
-          "n_comparables": 15,
+          "n_comparables": 16,
           "epistemic_type": "REFERENCE_MARKET_PRICE",
-          "caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+          "caveat": "MEDIAN real listed price across the 16 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
         },
         "form_factor_note": "The operator implies a different form factor than the room-scale verified comparables - the ranges above are category context, not a target for this concept."
       },
@@ -7479,9 +7479,9 @@
         ]
       },
       "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
-      "comparable_market_median_usd": 79.99,
-      "comparable_market_median_n_products": 15,
-      "comparable_market_median_caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "comparable_market_median_usd": 62.49,
+      "comparable_market_median_n_products": 16,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 16 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -7683,7 +7683,7 @@
         },
         "EC3": {
           "status": "PASS",
-          "note": "Median real price $79.99, n=15 products."
+          "note": "Median real price $62.49, n=16 products."
         },
         "EC6": {
           "status": "NEEDS_EVIDENCE",
@@ -7753,8 +7753,8 @@
       },
       "gate_passed": true,
       "economic_value": 16112.87,
-      "typical_market_price_usd": 79.99,
-      "typical_market_price_n_products": 15,
+      "typical_market_price_usd": 62.49,
+      "typical_market_price_n_products": 16,
       "feasibility_2_5y": {
         "rating": "high",
         "rank": 3,
@@ -7890,12 +7890,12 @@
           "note": "No verified comparable publishes this value - left unknown, never estimated."
         },
         "reference_market_price_usd": {
-          "median": 79.99,
+          "median": 62.49,
           "min": 12.99,
           "max": 789.99,
-          "n_comparables": 15,
+          "n_comparables": 16,
           "epistemic_type": "REFERENCE_MARKET_PRICE",
-          "caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
+          "caveat": "MEDIAN real listed price across the 16 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish."
         }
       },
       "unknowns": [
@@ -7910,9 +7910,9 @@
         ]
       },
       "economic_value_caveat": "SUM of real observed listed prices across affected reviews with a known price. This is a RELATIVE exposure indicator, not a revenue or market-size estimate - it has no units-sold, conversion-rate, or time-period basis. It answers 'which friction touches more expensive products' not 'how much money is at stake per year.'",
-      "comparable_market_median_usd": 79.99,
-      "comparable_market_median_n_products": 15,
-      "comparable_market_median_caveat": "MEDIAN real listed price across the 15 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
+      "comparable_market_median_usd": 62.49,
+      "comparable_market_median_n_products": 16,
+      "comparable_market_median_caveat": "MEDIAN real listed price across the 16 distinct real products affected by this friction that have a known price. This is what products in this segment actually cost today - not a proposed price for a new concept, which this evidence cannot establish.",
       "is_finalist": false,
       "is_non_dominated": false,
       "evolution_stage": "REJECTED",
@@ -8114,7 +8114,7 @@
         },
         "EC3": {
           "status": "PASS",
-          "note": "Median real price $79.99, n=15 products."
+          "note": "Median real price $62.49, n=16 products."
         },
         "EC6": {
           "status": "NEEDS_EVIDENCE",

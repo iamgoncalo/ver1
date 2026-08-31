@@ -117,6 +117,8 @@ def _corpus_stats():
     deterministic challenge threshold below is recomputed from on each run."""
     products = _load("products_real.json")["products"]
     themes = _load("taxonomy_themes_real.json")["themes"]
+    with open(os.path.join(ROOT, "data", "raw", "trend_corpus.json"), encoding="utf-8") as fh:
+        trend_articles = {a["article_id"]: a for a in json.load(fh)["articles"]}
     n = len(products)
     by_type = Counter(p["cluster_type"] for p in products)
     by_intel = Counter(p["cluster_intelligence"] for p in products)
@@ -129,6 +131,8 @@ def _corpus_stats():
         "filter_cost_prev": (themes.get("filter_cost") or {}).get("prevalence_pct"),
         "filter_cost_n": (themes.get("filter_cost") or {}).get("n_reviews"),
         "noise_prev": (themes.get("noise") or {}).get("prevalence_pct"),
+        "tc_r02_themes": (trend_articles.get("TC-R02") or {}).get("themes", []),
+        "tc_r03_themes": (trend_articles.get("TC-R03") or {}).get("themes", []),
     }
 
 
@@ -190,12 +194,15 @@ def compute_challenge_tests(stats):
             "filter_cost {}% vs noise {}%".format(stats["filter_cost_prev"], stats["noise_prev"]),
             "filter_cost share > noise share"),
         "A5": _deterministic(
-            "Challenged when a certification body in the trend corpus publishes a loss-rate or realized-"
-            "exposure metric alongside CADR - i.e. when TC-R02 (ENERGY STAR) or TC-R03 (AHAM Verifide) theme "
-            "tags stop reducing to 'cadr'. Fragile baseline: both documents carry published_date null, so "
-            "change detection has no dated anchor.",
-            ["data/raw/trend_corpus.json -> TC-R02.themes", "TC-R03.themes"],
-            "TC-R02/TC-R03 themes centre on cadr", "a non-CADR official performance metric appears"),
+            "Challenged when a certification body in the trend corpus adopts a loss-rate or realized-"
+            "exposure metric alongside CADR - concretely, when TC-R03 (AHAM Verifide, the one record "
+            "whose theme tags contain 'cadr': {}) stops centring on it, or TC-R02 (ENERGY STAR, themes "
+            "{}, CADR present only in its prose scope note) adds a non-CADR performance theme tag. "
+            "Fragile baseline: both documents carry published_date null, so change detection has no "
+            "dated anchor.".format(stats["tc_r03_themes"], stats["tc_r02_themes"]),
+            ["data/raw/trend_corpus.json -> TC-R03.themes", "TC-R02.themes"],
+            "TC-R03 themes: {}; TC-R02 themes: {}".format(stats["tc_r03_themes"], stats["tc_r02_themes"]),
+            "a non-CADR official performance metric appears in either record's theme tags"),
         "A6": _deterministic(
             "Challenged when connected+adaptive share exceeds 25% of the corpus (currently {}/{} = {:.1f}%), "
             "or when an independent trial reproduces RP-07's constant-mode filtration under auto operation.".format(
