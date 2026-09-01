@@ -3,7 +3,7 @@ import { VersuniProductsLink } from "./VersuniProductsLink";
 import type { CategoryId } from "../App";
 
 const STAGES = [
-  { n: 1, world: "Product universe", q: "What does Versuni already have and know how to build?" },
+  { n: 1, world: "Products", q: "What does Versuni already have and know how to build?" },
   { n: 2, world: "Radar", q: "What are we actually seeing?" },
   { n: 3, world: "Paths", q: "Where is reality moving, and what does that mean?" },
   { n: 4, world: "Magic box", q: "What could exist because of what we now know?" },

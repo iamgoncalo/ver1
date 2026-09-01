@@ -3,9 +3,11 @@ import { api } from "../lib/api";
 import type { Signal, SignalsResponse, Rival, RivalsResponse, WhiteSpace, WhiteSpaceResponse } from "../lib/types";
 import { Card, Pill, MiniBar, StatRow, TruthBadge, SectionLabel, DistilledRawToggle, TraceableMetric, MetricFocusPanel, CounterfactualPrompt, type ViewMode, type MetricTrace } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
+import { CompetitiveField } from "../components/CompetitiveField";
 import { ScienceConstellation } from "../components/ScienceConstellation";
 import { TerritoryIcon, FrictionIcon, FamilyIcon, ImageProvenance } from "../components/ThemeIcon";
 import { getParam, useUrlParam } from "../lib/urlState";
+import { toSentence } from "../lib/text";
 
 interface ResearchPaper {
   research_id: string; title: string; journal: string; year: number; doi: string; pmid: string | null;
@@ -170,9 +172,6 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
     : {};
   const sortedRivals = useMemo(() => [...(rivals?.rivals ?? [])].sort((a, b) => b.n_reviews - a.n_reviews), [rivals]);
   const spaces = whiteSpace?.spaces?.filter((s) => s.is_white_space) ?? [];
-  function weakestTheme(r: Rival) {
-    return [...r.theme_gaps].sort((a, b) => b.delta_pp - a.delta_pp)[0];
-  }
 
   function SignalCard({ s }: { s: Signal }) {
     const tm = themeMean(s.id);
@@ -224,24 +223,27 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
     );
   }
 
-  // The classifier's own measured limits - shown wherever its numbers are.
+  // The classifier's own measured limits - one visible sentence, full method
+  // one click away. Nothing honest is deleted, only folded.
   function ClassifierHonesty() {
     if (!cls) return null;
     const v = cls.validation ?? {};
     return (
-      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 760, lineHeight: 1.6, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px" }}>
-        <b style={{ color: "var(--ink-dim)" }}>Classifier honesty:</b> deterministic keyword classifier — {cls.unassigned_pct}% of retained
-        reviews match no theme keyword, so every "detected complaint share" is a conservative lower bound, never a population rate.
-        Corpus mean rating {corpusMean?.toFixed(3)}★ across {Number(cls.n_reviews_classified ?? 0).toLocaleString()} classified reviews.
-        {v.raw_agreement_pct != null && (
-          <details style={{ marginTop: 4 }}>
-            <summary style={{ cursor: "pointer", color: "var(--ink-dim)" }}>
-              Blind second reading: {v.raw_agreement_pct}% raw agreement on {v.n_labelled} sampled reviews ({v.status?.toLowerCase().replace(/_/g, " ")}) — what that means ▸
-            </summary>
-            <p style={{ marginTop: 4, lineHeight: 1.5 }}>{v.interpretation}</p>
-          </details>
-        )}
-      </div>
+      <details style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 10, maxWidth: 760, lineHeight: 1.6 }}>
+        <summary style={{ cursor: "pointer" }}>
+          <b style={{ color: "var(--ink-dim)" }}>Classifier honesty:</b> conservative keyword classifier — shares are lower bounds ▸
+        </summary>
+        <div style={{ marginTop: 6, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px" }}>
+          Deterministic keyword classifier — {cls.unassigned_pct}% of retained
+          reviews match no theme keyword, so every "detected complaint share" is a conservative lower bound, never a population rate.
+          Corpus mean rating {corpusMean?.toFixed(3)}★ across {Number(cls.n_reviews_classified ?? 0).toLocaleString()} classified reviews.
+          {v.raw_agreement_pct != null && (
+            <p style={{ marginTop: 4, lineHeight: 1.5 }}>
+              Blind second reading: {v.raw_agreement_pct}% raw agreement on {v.n_labelled} sampled reviews ({v.status?.toLowerCase().replace(/_/g, " ")}). {v.interpretation}
+            </p>
+          )}
+        </div>
+      </details>
     );
   }
 
@@ -313,11 +315,11 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12, marginBottom: 16 }}>
                 {([
-                  ["consumers", `${withPrevalence.length} consumer signals from ${corpus ? Number(corpus.records_after_dq).toLocaleString() : "…"} retained real reviews`, "Detected complaint shares are conservative lower bounds - see Classifier honesty."],
+                  ["consumers", `${withPrevalence.length} consumer signals from ${corpus ? Number(corpus.records_after_dq).toLocaleString() : "…"} retained real reviews`, "Detected shares are conservative lower bounds."],
                   ["research", `${research?.peer_reviewed_count ?? "…"} verified peer-reviewed papers`, "Every paper has a real DOI you can open."],
-                  ["trends", `${trends?.article_count ?? "…"} regulatory / standards / industry documents`, "Documents, not search-interest data - Google Trends is honestly not connected."],
-                  ["market", `${market ? market.sources.length : "…"} syndicated market sources - shown disagreeing`, market ? `${market.conflict_summary.spread_pp} percentage-point (pp) spread in growth estimates, reported, not averaged.` : ""],
-                  ["competitors", `${sortedRivals.length || "…"} competitor brands · ${spaces.length} white-space opportunities`, "White space needs pain + measurable competitor weakness + feasibility, all real."],
+                  ["trends", `${trends?.article_count ?? "…"} regulatory / standards / industry documents`, "Documents only — Google Trends honestly not connected."],
+                  ["market", `${market ? market.sources.length : "…"} syndicated market sources - shown disagreeing`, market ? `${market.conflict_summary.spread_pp}pp spread — reported, never averaged.` : ""],
+                  ["competitors", `${sortedRivals.length || "…"} competitor brands · ${spaces.length} white-space opportunities`, "White space: pain + competitor weakness + feasibility."],
                   ["sources", "Full source coverage - and honest gaps", "A connector that does not exist says so."],
                 ] as [Tab, string, string][]).map(([k, head, note]) => (
                   <Card key={k} onClick={() => setTab(k)}>
@@ -333,17 +335,21 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
 
               <ClassifierHonesty />
 
-              <div style={{ fontSize: 11, color: "var(--ink-faint)", maxWidth: 760, lineHeight: 1.6, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px", marginBottom: 14 }}>
-                <b style={{ color: "var(--ink-dim)" }}>Change over time:</b> no validated time-series exists in this corpus. Every number on
-                this radar is a snapshot with a retrieval date — the machine does not claim trends over time from evidence
-                that cannot support them.
-              </div>
+              <details style={{ fontSize: 11, color: "var(--ink-faint)", maxWidth: 760, lineHeight: 1.6, marginBottom: 14 }}>
+                <summary style={{ cursor: "pointer" }}>
+                  <b style={{ color: "var(--ink-dim)" }}>Change over time:</b> snapshots only — no trend claims ▸
+                </summary>
+                <div style={{ marginTop: 6, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px" }}>
+                  No validated time-series exists in this corpus. Every number on this radar is a snapshot with a
+                  retrieval date — the machine does not claim trends over time from evidence that cannot support them.
+                </div>
+              </details>
               <CounterfactualPrompt>What if the most valuable observation is the one no connected source can currently make?</CounterfactualPrompt>
             </div>
           ) : (
             <div>
               <p style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 10, maxWidth: 720, lineHeight: 1.5 }}>
-                Every headline number on the Overview, with its exact data path and builder — the raw ledger behind the distilled view.
+                Every Overview number with its data path and builder.
               </p>
               <RawTable testid="radar-raw-overview" cols={["number", "value", "data path", "builder"]}>
                 {[
@@ -400,12 +406,17 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                 trace: "GET /api/signals -> count of data/processed/signals_real.json[\"signals\"] where state === \"CONTESTED\": real evidence from different families genuinely disagrees; the pipeline reports the conflict rather than resolving it either way." })} />
           </div>
           {corpus && (
-            <div style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 760, lineHeight: 1.6, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px" }}>
-              <b style={{ color: "var(--ink-dim)" }}>Corpus provenance:</b> {corpus.source} · retrieved {corpus.retrieved_at} · {corpus.market} ·{" "}
-              {Number(corpus.records_normalized).toLocaleString()} reviews normalized → {Number(corpus.records_after_dq).toLocaleString()} retained
-              ({corpus.removed_empty_text} empty removed, {corpus.quarantined_rating_conflicts} rating-conflicts quarantined) · {corpus.distinct_products} products.
-              <span style={{ display: "block", marginTop: 4 }}><b style={{ color: "var(--ink-dim)" }}>Who is missing:</b> {corpus.who_is_missing}</span>
-            </div>
+            <details style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 10, maxWidth: 760, lineHeight: 1.6 }}>
+              <summary style={{ cursor: "pointer" }}>
+                <b style={{ color: "var(--ink-dim)" }}>Corpus provenance:</b> {Number(corpus.records_after_dq).toLocaleString()} real Amazon reviews, {corpus.distinct_products} products ▸
+              </summary>
+              <div style={{ marginTop: 6, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px" }}>
+                {corpus.source} · retrieved {corpus.retrieved_at} · {corpus.market} ·{" "}
+                {Number(corpus.records_normalized).toLocaleString()} reviews normalized → {Number(corpus.records_after_dq).toLocaleString()} retained
+                ({corpus.removed_empty_text} empty removed, {corpus.quarantined_rating_conflicts} rating-conflicts quarantined) · {corpus.distinct_products} products.
+                <span style={{ display: "block", marginTop: 4 }}><b style={{ color: "var(--ink-dim)" }}>Who is missing:</b> {corpus.who_is_missing}</span>
+              </div>
+            </details>
           )}
           <ClassifierHonesty />
           {mode === "distilled" ? (
@@ -447,7 +458,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                 trace: "count of data/processed/signals_real.json[\"signals\"] where prevalence_pct === null: real signals whose evidence comes only from peer-reviewed research, with no consumer-review analogue to compute a prevalence rate from." })} />
           </div>
           <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 640, lineHeight: 1.5 }}>
-            Peer-reviewed literature, each paper verified live — every one below has a real DOI you can open.
+            Peer-reviewed papers, each verified live with a real DOI.
           </p>
           {mode === "distilled" ? (
             <div data-testid="radar-distilled-research">
@@ -568,7 +579,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
           {market ? (
             <>
               <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 14, maxWidth: 680, lineHeight: 1.5 }}>
-                Two real syndicated vendors, shown side by side rather than averaged — they disagree.
+                Two real vendors shown side by side — disagreeing.
               </p>
               {mode === "distilled" ? (
                 <div data-testid="radar-distilled-market">
@@ -624,10 +635,13 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
 
       {tab === "sources" && (
         <div className="scrollY" style={{ flex: 1 }}>
-          <p style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 680, lineHeight: 1.55, marginBottom: 14 }}>
-            Everything the machine currently captures, by source family — and, just as deliberately, what it does not
-            capture. A snapshot is labelled a snapshot; a connector that does not exist says so.
-          </p>
+          <details style={{ fontSize: 12, color: "var(--ink-dim)", maxWidth: 680, lineHeight: 1.55, marginBottom: 14 }}>
+            <summary style={{ cursor: "pointer" }}>What the machine captures — and honestly does not ▸</summary>
+            <p style={{ marginTop: 6 }}>
+              Everything the machine currently captures, by source family — and, just as deliberately, what it does not
+              capture. A snapshot is labelled a snapshot; a connector that does not exist says so.
+            </p>
+          </details>
           {mode === "distilled" ? (
             <div data-testid="radar-distilled-sources" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 10, alignContent: "start" }}>
               {(sourceReg?.sources ?? []).map((s: any) => (
@@ -680,7 +694,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
             <div data-testid="radar-distilled-competitors">
               {spaces.map((s) => (
                 <Card key={s.opportunity_id} onClick={() => setSpaceFocus(s)} focusable={false} style={{ marginBottom: 12, maxWidth: 640 }}>
-                  <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
+                  <Pill tone="good">White space · {s.opportunity_id}</Pill>
                   <h3 style={{ fontSize: 18, marginTop: 8 }}>{s.name}</h3>
                   <div style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 6 }}>
                     {s.rivals_measurably_weak_here.length} real competitors measurably weaker here · feasibility {s.feasibility}
@@ -706,15 +720,18 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               </div>
               {showWhiteSpace ? (
                 <div style={{ display: "flex", flexDirection: "column", gap: 14, alignContent: "start" }}>
-                  <div style={{ fontSize: 12, color: "var(--ink-dim)" }}>
-                    White space requires all three, real: a Consumer Pain gate pass, ≥2 real competitors measurably weaker on that theme, and
-                    real 2–5yr feasibility evidence.
-                  </div>
+                  <details style={{ fontSize: 12, color: "var(--ink-dim)" }}>
+                    <summary style={{ cursor: "pointer" }}>White space needs pain, weakness, feasibility — all real ▸</summary>
+                    <p style={{ marginTop: 4 }}>
+                      White space requires all three, real: a Consumer Pain gate pass, ≥2 real competitors measurably weaker on that theme, and
+                      real 2–5yr feasibility evidence.
+                    </p>
+                  </details>
                   {spaces.map((s) => (
                     <Card key={s.opportunity_id} onClick={() => setSpaceFocus(s)} focusable={false}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                         <div>
-                          <Pill tone="good">WHITE SPACE · {s.opportunity_id}</Pill>
+                          <Pill tone="good">White space · {s.opportunity_id}</Pill>
                           <h3 style={{ fontSize: 19, marginTop: 8 }}>{s.name}</h3>
                         </div>
                         <button
@@ -739,34 +756,16 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
                   {!whiteSpace && <div style={{ color: "var(--ink-faint)" }}>Loading white space evidence…</div>}
                 </div>
               ) : (
-                <>
-                  <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 12 }}>
-                    {sortedRivals.length} real competitors, ≥{rivals?.min_reviews_floor ?? "…"} reviews each, from {rivals?.n_category_reviews.toLocaleString()} category reviews.
-                    Weakness = the theme each brand under-performs the category average on the most.
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10, alignContent: "start" }}>
-                    {sortedRivals.map((r) => {
-                      const w = weakestTheme(r);
-                      return (
-                        <Card key={r.brand} onClick={() => setRivalFocus(r)}>
-                          <div style={{ display: "flex", justifyContent: "space-between" }}>
-                            <span style={{ fontWeight: 600, fontSize: 14 }}>{r.brand}</span>
-                            <span className="mono" style={{ fontSize: 11, color: "var(--ink-faint)" }}>★{r.mean_rating}</span>
-                          </div>
-                          <div style={{ fontSize: 11, color: "var(--ink-faint)", margin: "4px 0 10px" }}>
-                            {r.n_reviews.toLocaleString()} reviews · {r.n_products} product{r.n_products !== 1 ? "s" : ""}
-                          </div>
-                          {w && (
-                            <Pill tone={w.delta_pp > 0 ? "rose" : "good"}>
-                              {w.delta_pp > 0 ? "weak" : "strong"}: {w.theme_name.split(" / ")[0]} ({w.delta_pp > 0 ? "+" : ""}{w.delta_pp}pp)
-                            </Pill>
-                          )}
-                        </Card>
-                      );
-                    })}
-                    {!rivals && <div style={{ color: "var(--ink-faint)" }}>Loading real competitive evidence…</div>}
-                  </div>
-                </>
+                <CompetitiveField
+                  onOpenBrand={(brand) => {
+                    // A brand that cleared the rivals evidence floor gets the
+                    // full per-theme gap panel; anyone else returns false and
+                    // the field drills to that brand's real SKUs instead.
+                    const r = sortedRivals.find((x) => x.brand.toLowerCase() === brand.toLowerCase());
+                    if (r) { setRivalFocus(r); return true; }
+                    return false;
+                  }}
+                />
               )}
             </div>
           )}
@@ -778,7 +777,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
           <>
             <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
               <TruthBadge truthClass={focus.truth_class} />
-              <Pill tone={STATE_TONE[focus.state] ?? "neutral"}>{focus.state.replace(/_/g, " ")}</Pill>
+              <Pill tone={STATE_TONE[focus.state] ?? "neutral"}>{toSentence(focus.state)}</Pill>
             </div>
             <p style={{ fontSize: 12.5, color: "var(--ink-dim)", marginBottom: 16, lineHeight: 1.5 }}>{focus.meaning}</p>
             <p style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 16 }}>{STATE_LABEL[focus.state]}</p>
@@ -820,7 +819,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
             )}
 
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>What does NOT follow</SectionLabel>
+              <SectionLabel>What does not follow</SectionLabel>
               <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{focus.limitations}</p>
             </div>
 
@@ -861,7 +860,7 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
               <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{paperFocus.found}</p>
             </div>
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <SectionLabel>Does NOT establish</SectionLabel>
+              <SectionLabel>Does not establish</SectionLabel>
               <p style={{ fontSize: 12.5, color: "var(--rose)", lineHeight: 1.5 }}>{paperFocus.does_not_establish}</p>
             </div>
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>

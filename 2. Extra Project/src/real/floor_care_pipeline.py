@@ -647,7 +647,7 @@ def compute_possibilities_doc(theme_doc, rows, themes, prices):
         for op in sorted(OPERATORS):
             poss = {
                 "id": "{}:{}".format(tid, op),
-                "name": "{} × {}".format(op, tid),
+                "name": "{} × {}".format(op.replace("_", " ").capitalize(), tid),
                 "machine_labelled": True,
                 "operator": op,
                 "operator_definition": OPERATORS[op],

@@ -3,6 +3,7 @@ import { api } from "../lib/api";
 import { Pill, SectionLabel, StatRow, DistilledRawToggle, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { getParam, useUrlParam } from "../lib/urlState";
+import { toSentence } from "../lib/text";
 
 interface Criterion {
   id: string; category: string; name: string; question: string; why_it_matters: string;
@@ -89,11 +90,14 @@ export function CriteriaWorld() {
                 </button>
               ))}
             </div>
-            <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>
-              Versuni Edge classifications are computed per criterion from the real evidence available — and
-              because no real Versuni internal-capability dataset exists in this pipeline, gaps show
-              honestly as NEEDS_EVIDENCE rather than being scored. See any criterion above for its specific gap.
-            </p>
+            <details style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>
+              <summary style={{ cursor: "pointer" }}>How Versuni Edge handles missing evidence ▸</summary>
+              <p style={{ marginTop: 6, border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px" }}>
+                Versuni Edge classifications are computed per criterion from the real evidence available — and
+                because no real Versuni internal-capability dataset exists in this pipeline, gaps show
+                honestly as Needs evidence rather than being scored. See any criterion above for its specific gap.
+              </p>
+            </details>
           </div>
 
           {/* Criteria library */}
@@ -132,7 +136,7 @@ export function CriteriaWorld() {
         </div>
       )}
 
-      <FocusPanel open={!!criterionFocus} onClose={() => setCriterionFocus(null)} eyebrow={criterionFocus?.category} title={criterionFocus ? `${criterionFocus.id} · ${criterionFocus.name}` : ""}>
+      <FocusPanel open={!!criterionFocus} onClose={() => setCriterionFocus(null)} eyebrow={criterionFocus ? toSentence(criterionFocus.category) : undefined} title={criterionFocus ? `${criterionFocus.id} · ${criterionFocus.name}` : ""}>
         {criterionFocus && (() => {
           const agg = aggregateFor(criterionFocus.id);
           return (
@@ -156,7 +160,7 @@ export function CriteriaWorld() {
                 </p>
                 <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4 }}>
                   <b>Kind of rule (how we know it):</b> {(criterionFocus.epistemic_type ?? "").replace(/_/g, " ").toLowerCase() || "not recorded"} ·{" "}
-                  <b>Missing data:</b> {criterionFocus.missing_data_behavior ?? "NEEDS_EVIDENCE"}
+                  <b>Missing data:</b> {toSentence(criterionFocus.missing_data_behavior ?? "NEEDS_EVIDENCE")}
                 </p>
                 <p className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4 }}>{criterionFocus.code_reference}</p>
               </div>
@@ -167,7 +171,7 @@ export function CriteriaWorld() {
                 <SectionLabel>Current case result — real, across all {data?.concepts.length ?? 0} concepts</SectionLabel>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
                   {Object.entries(agg.counts).filter(([, n]) => n > 0).map(([status, n]) => (
-                    <Pill key={status} tone={STATUS_TONE[status]}>{status}: {n}</Pill>
+                    <Pill key={status} tone={STATUS_TONE[status]}>{status === "N/A" ? "N/A" : toSentence(status)}: {n}</Pill>
                   ))}
                 </div>
                 {agg.passed.length > 0 && <p style={{ fontSize: 12, color: "var(--good)", marginBottom: 6 }}><b>Passed:</b> {agg.passed.join(", ")}</p>}

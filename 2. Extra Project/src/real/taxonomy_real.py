@@ -385,7 +385,7 @@ def main():
                 "than the production classifier assigns (the sample is deliberately "
                 "stratified toward 1-2 star reviews). This is the expected shape of the "
                 "classifier's design trade-off, now measured rather than asserted: the "
-                "polarity-gated keyword classifier is conservative - where it DOES "
+                "polarity-gated keyword classifier is conservative - where it does "
                 "assign a theme it tends to be right (e.g. reliability precision 1.0 "
                 "on this sample), but it misses frictions phrased mildly, mixed with "
                 "praise, or worded outside its keyword lists. Published prevalence "

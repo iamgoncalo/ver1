@@ -180,12 +180,15 @@ export function ImageProvenance({ state }: { state: "OFFICIAL" | "EDITORIAL" | "
     OFFICIAL: "var(--good)", EDITORIAL: "var(--accent-teal)", CONCEPT: "var(--accent-blue-ink)",
     GENERATED: "var(--amber)", FAMILY: "var(--amber)", UNVERIFIED: "var(--rose)",
   };
+  // All-caps words are banned in visible copy - the state prop stays an
+  // enum for callers, but the badge renders it sentence-cased.
+  const label = state.charAt(0) + state.slice(1).toLowerCase();
   return (
     <span style={{
       fontSize: 9, fontFamily: "var(--font-mono)", letterSpacing: "0.05em", padding: "1px 6px",
       borderRadius: 999, color: COLOR[state], border: `1px solid ${COLOR[state]}55`, background: `${COLOR[state]}14`,
     }}>
-      {state}
+      {label}
     </span>
   );
 }

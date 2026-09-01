@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import { Pill, SectionLabel, StatRow } from "../components/ui";
 import { TraceText } from "../components/TraceText";
+import { toSentence } from "../lib/text";
 import { FocusPanel } from "../components/FocusPanel";
 import { FunnelStageIcon, type FunnelStageKey } from "../components/FunnelIcons";
 
@@ -35,7 +36,7 @@ interface FunnelDoc {
 
 type StageDef = { key: string; icon: FunnelStageKey; label: string; tagline: string; world: number; unit: string };
 const STAGES: StageDef[] = [
-  { key: "product_universe", icon: "field", label: "Product universe", tagline: "What Versuni already has", world: 1, unit: "verified Versuni products" },
+  { key: "product_universe", icon: "field", label: "Products", tagline: "What Versuni already has", world: 1, unit: "verified Versuni products" },
   { key: "radar", icon: "radar", label: "Radar", tagline: "What we actually see", world: 2, unit: "observation records" },
   { key: "paths", icon: "paths", label: "Paths", tagline: "Tensions and beliefs to test", world: 3, unit: "tensions + assumptions" },
   { key: "magic_box", icon: "magic_box", label: "Magic box", tagline: "What could exist now", world: 4, unit: "possibilities" },
@@ -212,7 +213,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
           </div>
 
           <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 18, flexShrink: 0 }}>
-            {[["Product universe", 1], ["Radar", 2], ["Paths", 3], ["Magic box", 4], ["Innovations", 5]].map(([label, n]) => (
+            {[["Products", 1], ["Radar", 2], ["Paths", 3], ["Magic box", 4], ["Innovations", 5]].map(([label, n]) => (
               <button key={label as string} onClick={() => onGoToWorld(n as number)}
                 style={{ fontSize: 11.5, padding: "6px 12px", borderRadius: 8, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer" }}>
                 {label} →
@@ -223,7 +224,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
       )}
 
       {/* PRODUCT UNIVERSE */}
-      <FocusPanel open={openStage === "product_universe"} onClose={() => setOpenStage(null)} eyebrow="Product universe — what Versuni already has"
+      <FocusPanel open={openStage === "product_universe"} onClose={() => setOpenStage(null)} eyebrow="Products — what Versuni already has"
         title={verifiedCount != null ? `${verifiedCount} verified Versuni products` : "Verified Versuni portfolio"}>
         {hf && (
           <>
@@ -234,7 +235,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
             </p>
             <button onClick={() => goTo(1)}
               style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-              Open the Product universe →
+              Open Products →
             </button>
             <Source text="Headline: GET /api/product-images -> len(products) - the individually verified official portfolio (data/processed/product_images_real.json). Category context: GET /api/funnel -> homepage_funnel.radar.families.PRODUCTS - src/real/products_signals_real.py." />
           </>
@@ -250,7 +251,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
               return (
                 <button key={k} onClick={() => target && goTo(target.world, target.lens ? { lens: target.lens } : undefined)}
                   style={{ display: "block", width: "100%", background: "none", border: "none", padding: "8px 0", textAlign: "left", cursor: target ? "pointer" : "default" }}>
-                  <StatRow label={k.replace(/_/g, " ") + (target ? " →" : "")} value={v} />
+                  <StatRow label={toSentence(k) + (target ? " →" : "")} value={v} />
                   {hf.radar.notes[k] && <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginTop: 2 }}>{hf.radar.notes[k]}</p>}
                 </button>
               );
@@ -323,7 +324,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
             </div>
             <SectionLabel>Pattern types behind these</SectionLabel>
             {Object.entries(hf.magic_box.pattern_type_counts).map(([k, v]) => (
-              <StatRow key={k} label={k.replace(/_/g, " ")} value={v} />
+              <StatRow key={k} label={toSentence(k)} value={v} />
             ))}
             <button onClick={() => goTo(4)}
               style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
@@ -346,7 +347,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
                     <div style={{ fontSize: 13, fontWeight: 500 }}>{c.name} →</div>
                     <div style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>{c.friction_theme.replace(/_/g, " ")}</div>
                   </div>
-                  {c.critic_overall && <Pill tone={c.critic_overall === "SURVIVE" ? "good" : c.critic_overall === "REJECT" ? "rose" : "amber"}>{c.critic_overall.replace(/_/g, " ")}</Pill>}
+                  {c.critic_overall && <Pill tone={c.critic_overall === "SURVIVE" ? "good" : c.critic_overall === "REJECT" ? "rose" : "amber"}>{toSentence(c.critic_overall)}</Pill>}
                 </button>
               ))}
             </div>
@@ -357,11 +358,14 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
             <div style={{ marginTop: 14 }}>
               <SectionLabel>Ready to test ({hf.ready_to_test.count} — evidence-driven, not a ranked cut)</SectionLabel>
               {hf.ready_to_test.count === 0 && (
-                <p style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.45, marginBottom: 6 }}>
-                  No innovation currently clears every gate this state requires (non-dominated + Critic verdict
-                  SURVIVE + grounded in a real research tension) — an honest zero, not an empty placeholder. See
-                  "developing" in the Innovations world for the closest real candidates.
-                </p>
+                <details style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.45, marginBottom: 6 }}>
+                  <summary style={{ cursor: "pointer" }}>An honest zero — no candidate clears every gate ▸</summary>
+                  <p style={{ marginTop: 4 }}>
+                    No innovation currently clears every gate this state requires (non-dominated + Critic verdict
+                    Survive + grounded in a real research tension) — an honest zero, not an empty placeholder. See
+                    "developing" in the Innovations world for the closest real candidates.
+                  </p>
+                </details>
               )}
               {hf.ready_to_test.innovations.map((p) => (
                 <button key={p.id} onClick={() => goTo(5, { innovation: p.id })}

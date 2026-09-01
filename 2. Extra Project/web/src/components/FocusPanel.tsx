@@ -37,8 +37,10 @@ export function FocusPanel({ open, onClose, title, eyebrow, children }: {
       >
         <div style={{ padding: "18px 22px", borderBottom: "1px solid var(--line)", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
+            {/* No uppercase transform - all-caps words are banned across
+                this product, so the eyebrow renders exactly as authored. */}
             {eyebrow && (
-              <div style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", color: "var(--ink-faint)", marginBottom: 4, textTransform: "uppercase" }}>
+              <div style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: "0.08em", color: "var(--ink-faint)", marginBottom: 4 }}>
                 {eyebrow}
               </div>
             )}

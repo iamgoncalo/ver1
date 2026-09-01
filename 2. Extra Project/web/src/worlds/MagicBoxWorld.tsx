@@ -1,25 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
-import {
-  Pill, SectionLabel, StatRow, DistilledRawToggle, CounterfactualPrompt,
-  CompactInspector, CompactRow, TruthBadge, type ViewMode,
-} from "../components/ui";
-import { DataTable, type Column, type GroupOption } from "../components/DataTable";
+import { Card, Pill, SectionLabel, StatRow, DistilledRawToggle, CounterfactualPrompt, MiniBar, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
-import { OPERATOR_TAGLINE, type OperatorId } from "../components/OperatorIcon";
+import { FrictionIcon, ImageProvenance } from "../components/ThemeIcon";
+import { OperatorIcon, OPERATOR_TAGLINE, type OperatorId } from "../components/OperatorIcon";
 import { traceConceptChain } from "../lib/trace";
 import { TraceTree, TraceLegend } from "../components/TraceTree";
 import { TraceText } from "../components/TraceText";
 import type { DesignDna } from "../lib/types";
 import { getParam, useUrlParam } from "../lib/urlState";
+import { SmartTables } from "../components/SmartTables";
 
 interface Criterion {
   id: string; category: string; name: string; question: string; why_it_matters: string;
   how_tested: string; pass_condition: string; challenge_condition: string; kill_condition: string;
 }
 interface CriticDimension { verdict: string; reasoning: string }
-interface WhyHere { reality: string; transformation: string; product_consequence: string; consequence_basis: string }
-interface TestSpec { type: string; derivation: string; text: string; derived_from: string[] }
 interface Concept {
   id: string; name: string; friction_theme: string; friction_theme_name: string;
   operator: string; operator_definition: string; consumer_pain_csat: number; consumer_pain_prevalence_pct: number;
@@ -30,22 +26,6 @@ interface Concept {
   design_dna: DesignDna; is_finalist: boolean; is_non_dominated: boolean;
   evolution_stage: string | null; critic_overall: string | null; critic_dimensions: Record<string, CriticDimension> | null;
   criteria: Record<string, { status: string; note: string }>;
-  // Present in the real possibility objects (data/processed/magic_box_real.json)
-  // but not part of the narrower critic-merged Concept shape above — kept
-  // optional/typed here rather than sprinkling `as any` through the JSX.
-  donor_state?: string | null;
-  donor_capability_ids?: string[];
-  source_evidence_ids?: string[];
-  parent_path_ids?: string[];
-  friction_ids?: string[];
-  operator_origin?: string;
-  why_here?: WhyHere;
-  product_archetype?: Record<string, string>;
-  engineering_envelope?: Record<string, any>;
-  test?: TestSpec;
-  unknowns?: string[];
-  assumption_challenged?: { ids: string[]; note: string };
-  comparable_market_median_n_products?: number;
 }
 interface Assumption {
   assumption_id: string; text: string; status: string; evidence_for_prevalence: string;
@@ -68,6 +48,11 @@ interface CriteriaDoc {
   };
 }
 
+function sentenceCase(s: string): string {
+  const h = s.replace(/[._]/g, " ").trim().replace(/\s+/g, " ").toLowerCase();
+  return h ? h.charAt(0).toUpperCase() + h.slice(1) : s;
+}
+
 const STATUS_TONE: Record<string, "good" | "amber" | "neutral" | "rose"> = {
   PASS: "good", CHALLENGE: "amber", NEEDS_EVIDENCE: "neutral", KILL: "rose", "N/A": "neutral",
 };
@@ -80,15 +65,6 @@ const DNA_LETTER_NAME: Record<string, string> = {
 };
 const DNA_ORDER = ["F", "S", "T", "R", "C", "A", "E", "O"] as const;
 
-// Evolution stage — the machine's own evidence-driven stage classification,
-// never a card-layout invention. See src/real/critic_real.py::evolution_stage().
-const STAGE_TONE: Record<string, "good" | "amber" | "neutral" | "rose" | "blue"> = {
-  STRONG_SURVIVOR: "good", SURVIVOR: "blue", CHALLENGED: "amber", SEED: "neutral", REJECTED: "rose",
-};
-const STAGE_RANK: Record<string, number> = {
-  REJECTED: -1, SEED: 0, CHALLENGED: 1, SURVIVOR: 2, STRONG_SURVIVOR: 3,
-};
-
 const FUNNEL_STAGES: { key: string; label: string }[] = [
   { key: "sources_admitted", label: "Sources" },
   { key: "signals_total", label: "Signals" },
@@ -99,29 +75,8 @@ const FUNNEL_STAGES: { key: string; label: string }[] = [
   { key: "__versuni_edge", label: "Versuni edge" },
   { key: "critic_evaluated", label: "Critic" },
   { key: "finalists", label: "Priority to test" },
-  { key: "__bet", label: "BET" },
+  { key: "__bet", label: "Bet" },
 ];
-
-// Sentence-case any UNDERSCORE_ENUM or ALL-CAPS label — "STRONG_SURVIVOR" ->
-// "Strong survivor", "PREDICT" -> "Predict". Never renders raw shouting text.
-function sentenceCase(raw: string | null | undefined): string {
-  if (!raw) return "—";
-  const spaced = raw.toLowerCase().replace(/_/g, " ");
-  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
-}
-
-function operatorLabel(op: string): string {
-  return sentenceCase(op);
-}
-
-function stageLabel(stage: string | null | undefined): string {
-  return stage ? sentenceCase(stage) : "—";
-}
-
-function formatCurrency(v: number | null | undefined): string {
-  if (v == null) return "—";
-  return `$${Math.round(v).toLocaleString()}`;
-}
 
 function DnaBadgeRow({ dna, compact }: { dna: DesignDna; compact?: boolean }) {
   return (
@@ -149,72 +104,53 @@ function DnaBadgeRow({ dna, compact }: { dna: DesignDna; compact?: boolean }) {
   );
 }
 
-// Table-first: the shared DataTable engine renders every possibility as a
-// row, sortable/groupable/searchable for free. Columns and groups are module
-// -level so they aren't recreated every render.
-const CONCEPT_COLUMNS: Column<Concept>[] = [
-  {
-    key: "name", label: "Possibility", width: "220px",
-    render: (p) => p.name,
-    sortValue: (p) => p.name,
-  },
-  {
-    key: "friction_theme_name", label: "Friction theme", width: "170px",
-    render: (p) => p.friction_theme_name,
-    sortValue: (p) => p.friction_theme_name,
-  },
-  {
-    key: "operator", label: "Operator", width: "150px",
-    render: (p) => operatorLabel(p.operator),
-    sortValue: (p) => p.operator,
-  },
-  {
-    key: "donor", label: "Donor domain", width: "150px",
-    // Real data check: donor_capability_ids is empty for every possibility
-    // in this pipeline (no verified donor-capability dataset exists), and
-    // donor_state is only ever a fixed "no verified donor" disclosure for
-    // CROSS_CATEGORY_TRANSFER operator possibilities — never an actual
-    // donor-domain name. Rendering an invented donor domain would fabricate
-    // data, so this column can only ever say "hypothesis" or "—".
-    render: (p) => (p.donor_state ? <Pill tone="amber">Hypothesis — no donor</Pill> : "—"),
-    sortValue: (p) => (p.donor_state ? 1 : 0),
-  },
-  {
-    key: "economic_value", label: "Economic value", width: "130px", align: "right",
-    render: (p) => formatCurrency(p.economic_value),
-    sortValue: (p) => p.economic_value,
-  },
-  {
-    key: "feasibility", label: "Feasibility", width: "110px",
-    render: (p) => sentenceCase(p.feasibility_2_5y?.rating),
-    sortValue: (p) => p.feasibility_2_5y?.rank ?? null,
-  },
-  {
-    key: "gate", label: "Gate", width: "80px",
-    render: (p) => <Pill tone={p.gate_passed ? "good" : "rose"}>{p.gate_passed ? "Pass" : "Fail"}</Pill>,
-    sortValue: (p) => (p.gate_passed ? 1 : 0),
-  },
-  {
-    key: "evidence", label: "Evidence", width: "110px",
-    render: (p) => `${p.evidence_ids.length} source${p.evidence_ids.length === 1 ? "" : "s"}`,
-    sortValue: (p) => p.evidence_ids.length,
-  },
-  {
-    key: "stage", label: "Stage", width: "140px",
-    render: (p) => <Pill tone={STAGE_TONE[p.evolution_stage ?? ""] ?? "neutral"}>{stageLabel(p.evolution_stage)}</Pill>,
-    sortValue: (p) => STAGE_RANK[p.evolution_stage ?? ""] ?? -2,
-  },
-];
-
-const CONCEPT_GROUP_OPTIONS: GroupOption<Concept>[] = [
-  { key: "friction_theme_name", label: "Friction theme", groupValue: (p) => p.friction_theme_name },
-  { key: "operator", label: "Operator", groupValue: (p) => operatorLabel(p.operator) },
-  { key: "stage", label: "Stage", groupValue: (p) => stageLabel(p.evolution_stage) },
-];
+function ConceptCard({ p, onClick, maxEcon }: { p: Concept; onClick: () => void; maxEcon: number }) {
+  return (
+    <Card onClick={onClick} active={p.is_finalist}>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 4 }}>
+        <FrictionIcon theme={p.friction_theme} size={22} />
+      </div>
+      <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 10 }}>
+        <div style={{ width: 48, height: 48, borderRadius: 12, background: "var(--surface-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <OperatorIcon operator={p.operator} size={30} />
+        </div>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={p.name}>{p.name}</div>
+          <div style={{ fontSize: 10.5, color: "var(--accent-teal)", marginTop: 2 }}
+            title="Authored design vocabulary (a labelled method choice), not discovered intelligence.">
+            {OPERATOR_TAGLINE[p.operator as OperatorId] ?? p.operator}
+          </div>
+        </div>
+      </div>
+      {p.typical_market_price_usd != null && (
+        <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginBottom: 8 }}>
+          <span style={{ fontSize: 19, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>${p.typical_market_price_usd.toFixed(2)}</span>
+          <span style={{ fontSize: 10, color: "var(--ink-faint)" }} title="Median listed price of the real products carrying this friction today - a comparable, never this concept's price.">comparable market median</span>
+        </div>
+      )}
+      <div style={{ marginBottom: 8 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--ink-faint)", marginBottom: 3 }}>
+          <span title="Sum of real listed prices on the reviews carrying this friction — a relative indicator of what this friction touches, never a revenue estimate.">Why it matters — market exposure ⓘ</span><span className="mono">${p.economic_value.toLocaleString()}</span>
+        </div>
+        <MiniBar value={p.economic_value} max={maxEcon} tone="teal" />
+      </div>
+      <StatRow label="Feasibility" value={p.feasibility_2_5y.rating} />
+      <div style={{ marginTop: 6 }}>
+        <DnaBadgeRow dna={p.design_dna} compact />
+      </div>
+    </Card>
+  );
+}
 
 export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: string | null; onGoToWorld?: (n: number, params?: Record<string, string>) => void }) {
   const [data, setData] = useState<CriteriaDoc | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
+  // Discover = the existing distilled/raw concept experience; Smart tables =
+  // the single analytical-table workspace of the product (SmartTables.tsx).
+  const [boxMode, setBoxMode] = useState<"discover" | "tables">("discover");
+  // Theme sent from a Smart Tables selection — an internal, clearable override
+  // that mirrors the cross-world themeFilter prop.
+  const [localTheme, setLocalTheme] = useState<string | null>(null);
   const [conceptFocus, setConceptFocus] = useState<Concept | null>(null);
   const [assumptionFocus, setAssumptionFocus] = useState<Assumption | null>(null);
   const [winFocus, setWinFocus] = useState(false);
@@ -242,7 +178,7 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
   useEffect(() => { api.research().then(setResearch).catch(() => {}); }, []);
   useEffect(() => { api.researchTensions().then((r) => setTensions(r.tensions ?? [])).catch(() => {}); }, []);
 
-  const effectiveTheme = themeFilter ?? urlTheme;
+  const effectiveTheme = localTheme ?? themeFilter ?? urlTheme;
   const conceptsFiltered = useMemo(() => {
     const all = data?.concepts ?? [];
     if (!effectiveTheme) return all;
@@ -250,21 +186,7 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
     return filtered.length ? filtered : all;
   }, [data, effectiveTheme]);
   const finalists = useMemo(() => (data?.concepts ?? []).filter((p) => p.is_finalist), [data]);
-
-  const conceptsTable = (
-    <DataTable<Concept>
-      rows={conceptsFiltered}
-      columns={CONCEPT_COLUMNS}
-      getRowId={(p) => p.id}
-      onRowClick={(p) => setConceptFocus(p)}
-      groupOptions={CONCEPT_GROUP_OPTIONS}
-      searchable
-      searchValue={(p) => `${p.name} ${p.friction_theme_name}`}
-      defaultSortKey="economic_value"
-      defaultSortDir="desc"
-      emptyMessage="No possibilities match the current filters."
-    />
-  );
+  const maxEcon = useMemo(() => Math.max(...(data?.concepts ?? []).map((p) => p.economic_value ?? 0), 1), [data]);
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "20px 28px" }}>
@@ -274,10 +196,16 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
             4 · Magic box — what could exist now?
           </div>
           <h1 style={{ fontSize: 24 }}>Magic box</h1>
-          <div style={{ fontSize: 13, color: "var(--ink-dim)", marginTop: 2 }}>Real frictions × a declared design method — every row opens with why it exists and its full lineage.</div>
+          <div style={{ fontSize: 13, color: "var(--ink-dim)", marginTop: 2 }}>Real frictions × a declared design method — every concept opens with why it exists and its full lineage.</div>
           {effectiveTheme && (
             <div style={{ fontSize: 11.5, color: "var(--accent-teal)", marginTop: 6 }}>
-              Filtered from Competitors' white space → theme: <span className="mono">{effectiveTheme}</span>
+              {localTheme ? "Filtered from Smart tables" : "Filtered from Competitors' white space"} → theme: <span className="mono">{effectiveTheme}</span>
+              {localTheme && (
+                <button onClick={() => setLocalTheme(null)} aria-label="Clear Smart tables theme filter"
+                  style={{ marginLeft: 8, fontSize: 11, padding: "1px 7px", borderRadius: 999, border: "1px solid var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer" }}>
+                  ✕
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -289,18 +217,39 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
               ⚖ How concepts are judged →
             </button>
           )}
-          <DistilledRawToggle mode={mode} onChange={setMode} />
+          <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3 }}>
+            {([["discover", "Discover"], ["tables", "Smart tables"]] as const).map(([k, label]) => (
+              <button key={k} onClick={() => setBoxMode(k)} data-testid={`magicbox-mode-${k}`}
+                style={{
+                  padding: "7px 16px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12,
+                  fontFamily: "var(--font-mono)", letterSpacing: "0.04em",
+                  background: boxMode === k ? "var(--surface)" : "transparent", fontWeight: boxMode === k ? 700 : 500,
+                  color: boxMode === k ? "var(--ink)" : "var(--ink-faint)",
+                  boxShadow: boxMode === k ? "var(--shadow)" : "none",
+                }}>
+                {label}
+              </button>
+            ))}
+          </div>
+          {boxMode === "discover" && <DistilledRawToggle mode={mode} onChange={setMode} />}
         </div>
       </div>
 
-      {!data && <div style={{ color: "var(--ink-faint)" }}>Loading real Magic Box state…</div>}
-      {data && (
+      {boxMode === "tables" && (
         <div className="scrollY" style={{ flex: 1 }}>
-          {/* Possibilities table - the actual innovations, shown first, one row each */}
+          <SmartTables onSendToMagicBox={(themeId) => { setLocalTheme(themeId); setBoxMode("discover"); }} />
+        </div>
+      )}
+      {boxMode === "discover" && !data && <div style={{ color: "var(--ink-faint)" }}>Loading real Magic Box state…</div>}
+      {boxMode === "discover" && data && (
+        <div className="scrollY" style={{ flex: 1 }}>
+          {/* Concepts gallery - the actual innovations, shown first */}
           {mode === "distilled" ? (
             <>
-              <SectionLabel>{conceptsFiltered.length} concepts — {finalists.length} currently priority to test · click a row for the full evidence trail</SectionLabel>
-              <div style={{ marginBottom: 8 }}>{conceptsTable}</div>
+              <SectionLabel>{conceptsFiltered.length} concepts — {finalists.length} currently priority to test (blue border) · chips: F friction · S signal · T tension · R rival gap · C capability · A assumption · E economics · O operator</SectionLabel>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12, alignContent: "start", marginBottom: 8 }}>
+                {conceptsFiltered.map((p) => <ConceptCard key={p.id} p={p} onClick={() => setConceptFocus(p)} maxEcon={maxEcon} />)}
+              </div>
               <CounterfactualPrompt>What if the winning idea isn't the most powerful one, but the one competitors are least able to copy?</CounterfactualPrompt>
             </>
           ) : (
@@ -313,7 +262,9 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
                 </button>
               </div>
               {!showRejected ? (
-                <div style={{ marginBottom: 20 }}>{conceptsTable}</div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 10, alignContent: "start", marginBottom: 20 }}>
+                  {conceptsFiltered.map((p) => <ConceptCard key={p.id} p={p} onClick={() => setConceptFocus(p)} maxEcon={maxEcon} />)}
+                </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
                   {data.graveyard.map((g) => (
@@ -360,7 +311,7 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
                 <div key={f.stage} style={{ flex: 1, display: "flex", alignItems: "center" }}>
                   <div style={{ flex: 1, background: "var(--surface-2)", border: "1px solid var(--line)", borderRadius: 10, padding: "8px 12px" }}>
                     <div className="mono" style={{ fontSize: 18, fontWeight: 600 }}>{f.count}</div>
-                    <div style={{ fontSize: 10, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.04em" }}>{f.label}</div>
+                    <div style={{ fontSize: 10, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>{f.label}</div>
                   </div>
                   {i < data.magic_box_funnel.length - 1 && <div style={{ color: "var(--ink-faint)", padding: "0 4px", fontSize: 14 }}>→</div>}
                 </div>
@@ -384,181 +335,215 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
         </div>
       )}
 
-      {/* Concept FocusPanel — CompactInspector: summary grid + tabs, replacing
-          the old one-giant-card prose panel. */}
-      <FocusPanel open={!!conceptFocus} onClose={() => setConceptFocus(null)} eyebrow={conceptFocus ? `${conceptFocus.friction_theme_name} × ${operatorLabel(conceptFocus.operator)}` : ""} title={conceptFocus?.name ?? ""}>
+      {/* Concept FocusPanel - Derivation + Design DNA + Critic + Criteria evaluation */}
+      <FocusPanel open={!!conceptFocus} onClose={() => setConceptFocus(null)} eyebrow={conceptFocus ? `${conceptFocus.friction_theme_name} × ${sentenceCase(conceptFocus.operator)}` : ""} title={conceptFocus?.name ?? ""}>
         {conceptFocus && (
-          <div data-testid="concept-detail">
-            <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 12 }}>
+          <>
+            <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 10 }}>
               Generated by an analyst-designed deterministic rule (theme × operator), authored for air
               purification — a labelled method choice, not a category-general generator.
-              {conceptFocus.donor_state && (
+              {(conceptFocus as any).donor_state && (
                 <span style={{ color: "var(--amber)" }}> Donor capability: missing — the transfer is a hypothesis until a verified donor exists.</span>
               )}
             </p>
+            <div style={{
+              display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 12,
+              padding: "28px 20px", marginBottom: 18, borderRadius: 20,
+              background: "linear-gradient(160deg, var(--accent-blue) 0%, var(--accent-teal) 100%)",
+            }}>
+              <div style={{ width: 88, height: 88, borderRadius: 22, background: "rgba(255,255,255,0.16)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ color: "white", width: 52, height: 52, display: "inline-flex" }}>
+                  <OperatorIcon operator={conceptFocus.operator} size={52} />
+                </span>
+              </div>
+              <div style={{ fontSize: 19, fontWeight: 700, color: "white", lineHeight: 1.35, maxWidth: 340 }}
+                title="Authored design vocabulary (a labelled method choice), not discovered intelligence.">
+                {OPERATOR_TAGLINE[conceptFocus.operator as OperatorId] ?? conceptFocus.operator}
+              </div>
+              {conceptFocus.typical_market_price_usd != null && (
+                <div style={{ marginTop: 4 }}>
+                  <div style={{ fontSize: 30, fontWeight: 700, color: "white", fontVariantNumeric: "tabular-nums" }}>
+                    ${conceptFocus.typical_market_price_usd.toFixed(2)}
+                  </div>
+                  <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.85)" }}>
+                    comparable market median ({(conceptFocus as any).comparable_market_median_n_products ?? conceptFocus.typical_market_price_n_products} real products) — not this concept's price
+                  </div>
+                </div>
+              )}
+              <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.75)", display: "flex", alignItems: "center", gap: 6 }}>
+                <ImageProvenance state="EDITORIAL" /><span>illustration, not a real product photo</span>
+              </div>
+            </div>
 
-            <CompactInspector
-              summary={[
-                { label: "Friction theme", value: conceptFocus.friction_theme_name },
-                { label: "Operator", value: <span title={OPERATOR_TAGLINE[conceptFocus.operator as OperatorId] ?? conceptFocus.operator_definition}>{operatorLabel(conceptFocus.operator)}</span> },
-                { label: "Economic value", value: formatCurrency(conceptFocus.economic_value) },
-                { label: "Feasibility", value: `${sentenceCase(conceptFocus.feasibility_2_5y?.rating)} (rank ${conceptFocus.feasibility_2_5y?.rank ?? "—"})` },
-                { label: "Gate", value: <Pill tone={conceptFocus.gate_passed ? "good" : "rose"}>{conceptFocus.gate_passed ? "Pass" : "Fail"}</Pill> },
-                { label: "Stage", value: <Pill tone={STAGE_TONE[conceptFocus.evolution_stage ?? ""] ?? "neutral"}>{stageLabel(conceptFocus.evolution_stage)}</Pill> },
-                { label: "Evidence sources", value: `${conceptFocus.evidence_ids.length} source${conceptFocus.evidence_ids.length === 1 ? "" : "s"}` },
-                { label: "Truth class", value: <TruthBadge truthClass={conceptFocus.truth_class} /> },
-              ]}
-              tabs={[
-                {
-                  key: "why-here", label: "Why here",
-                  content: (
-                    <div data-testid="why-here">
-                      <CompactRow label="Reality" value={conceptFocus.why_here?.reality ?? "—"} title={conceptFocus.why_here?.reality} />
-                      <CompactRow label="Transformation" value={conceptFocus.why_here?.transformation ?? "—"} title={conceptFocus.why_here?.transformation} />
-                      <CompactRow label="Consequence" value={conceptFocus.why_here?.product_consequence ?? "—"} title={conceptFocus.why_here?.product_consequence} />
-                      <CompactRow label="Consequence basis" value={conceptFocus.why_here?.consequence_basis ?? "—"} />
-                      <CompactRow label="Rating gap" value={conceptFocus.consumer_pain_csat != null ? `${conceptFocus.consumer_pain_csat}★` : "unknown — evidence gap"} />
-                      <CompactRow label="Reviews affected" value={`${conceptFocus.consumer_pain_prevalence_pct}% of reviews`} />
-                      {conceptFocus.consumer_pain_methodology && (
-                        <CompactRow
-                          label="Methodology"
-                          value={`${conceptFocus.consumer_pain_methodology.n_reviews} reviews, ${conceptFocus.consumer_pain_methodology.n_distinct_products} products, ${conceptFocus.consumer_pain_methodology.pct_verified_purchase}% verified`}
-                          title={conceptFocus.consumer_pain_methodology.method}
-                        />
-                      )}
+            {(() => {
+              const grave = data?.graveyard.find((g) => g.id === conceptFocus.id);
+              return grave ? (
+                <div style={{ marginBottom: 16, padding: "10px 14px", background: "rgba(166,67,63,0.08)", border: "1px solid rgba(166,67,63,0.25)", borderRadius: 8 }}>
+                  <SectionLabel>Why this wasn't selected</SectionLabel>
+                  <p style={{ fontSize: 12.5, color: "var(--rose)", lineHeight: 1.5 }}>{grave.why_not_selected}</p>
+                </div>
+              ) : null;
+            })()}
+
+            <div style={{ marginBottom: 16 }}>
+              <SectionLabel>Where this came from</SectionLabel>
+              <p style={{ fontSize: 13, color: "var(--ink)", lineHeight: 1.5 }}>
+                <b>{conceptFocus.friction_theme_name}</b> — a real friction — transformed by <b>{conceptFocus.operator}</b>: {conceptFocus.operator_definition}
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
+                {conceptFocus.consumer_pain_csat != null ? <Pill tone={conceptFocus.consumer_pain_csat < 0 ? "rose" : "good"}>rating gap {conceptFocus.consumer_pain_csat}★</Pill> : <Pill tone="neutral">rating gap unknown — evidence gap</Pill>}
+                <Pill>{conceptFocus.consumer_pain_prevalence_pct}% of reviews</Pill>
+                {conceptFocus.competitor_gap_brands.length > 0 && <Pill tone="amber">{conceptFocus.competitor_gap_brands.length} competitors weak here</Pill>}
+              </div>
+              {conceptFocus.consumer_pain_methodology && (
+                <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 10 }}>
+                  {conceptFocus.consumer_pain_methodology.pct_verified_purchase}% verified purchase · {conceptFocus.consumer_pain_methodology.n_reviews} reviews,{" "}
+                  {conceptFocus.consumer_pain_methodology.n_distinct_products} products · {conceptFocus.consumer_pain_methodology.review_date_range?.[0]}–{conceptFocus.consumer_pain_methodology.review_date_range?.[1]}
+                </p>
+              )}
+            </div>
+
+            {(conceptFocus as any).why_here && (
+              <div style={{ marginBottom: 16 }} data-testid="why-here">
+                <SectionLabel>Why does this idea exist?</SectionLabel>
+                <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5 }}>
+                  <b>1 · Reality:</b> {(conceptFocus as any).why_here.reality}
+                </p>
+                <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 6 }}>
+                  <b>2 · Transformation:</b> {(conceptFocus as any).why_here.transformation}
+                </p>
+                <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5, marginTop: 6 }}>
+                  <b>3 · Product consequence:</b> {(conceptFocus as any).why_here.product_consequence}
+                </p>
+                <p className="mono" style={{ fontSize: 10, color: "var(--ink-faint)", marginTop: 4 }}>
+                  consequence basis: {(conceptFocus as any).why_here.consequence_basis}
+                </p>
+              </div>
+            )}
+
+            {((conceptFocus as any).parent_path_ids?.length > 0 || (conceptFocus as any).source_evidence_ids?.length > 0) && (
+              <div style={{ marginBottom: 16 }} data-testid="lineage">
+                <SectionLabel>Lineage — every parent, clickable</SectionLabel>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {((conceptFocus as any).parent_path_ids ?? []).map((pid: string) => (
+                    <button key={pid} onClick={() => onGoToWorld?.(3, { path: pid })} className="mono"
+                      style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--ink-dim)" }}>
+                      {pid} →
+                    </button>
+                  ))}
+                  {((conceptFocus as any).source_evidence_ids ?? []).map((rid: string) => (
+                    <button key={rid} onClick={() => rid.startsWith("RP-") && onGoToWorld?.(2, { paper: rid })} className="mono"
+                      style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: rid.startsWith("RP-") ? "pointer" : "default", color: "var(--accent-blue-ink)" }}>
+                      {rid}{rid.startsWith("RP-") ? " →" : ""}
+                    </button>
+                  ))}
+                </div>
+                <p className="mono" style={{ fontSize: 10, color: "var(--ink-faint)", marginTop: 6 }}>
+                  operator origin: {(conceptFocus as any).operator_origin}
+                </p>
+              </div>
+            )}
+
+            {(conceptFocus as any).engineering_envelope && (
+              <div style={{ marginBottom: 16 }} data-testid="engineering-envelope">
+                <SectionLabel>Engineering envelope — comparables only, never invented</SectionLabel>
+                {Object.entries((conceptFocus as any).engineering_envelope).map(([k, v]: [string, any]) => {
+                  if (typeof v === "string") return <p key={k} style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.45 }}>{v}</p>;
+                  if (!v || typeof v !== "object") return null;
+                  const label = k.replace(/_/g, " ");
+                  if (v.epistemic_type === "OBSERVED_COMPARABLE")
+                    return <StatRow key={k} label={`${label} (observed, ${v.n_comparables} comparables)`} value={`${v.min}–${v.max} ${v.unit}`} />;
+                  if (v.epistemic_type === "REFERENCE_MARKET_PRICE")
+                    return <StatRow key={k} label={`${label} (reference, ${v.n_comparables} products)`} value={`$${v.min}–${v.max}, median $${v.median}`} />;
+                  return <StatRow key={k} label={label} value="unknown — no comparable publishes this" />;
+                })}
+              </div>
+            )}
+
+            {conceptFocus.typical_market_price_usd != null && (
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 12 }}>
+                <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>comparable market median — the median of {conceptFocus.typical_market_price_n_products} real products' own listed prices. What this segment actually costs today, never a proposed price for this concept.</span>
+              </div>
+            )}
+            <StatRow label="Gate passed (real pain evidence)" value={conceptFocus.gate_passed ? "yes" : "no"} />
+            <StatRow label="Market exposure (price-weighted)" value={`$${conceptFocus.economic_value.toLocaleString()}`} />
+            <StatRow label="Feasibility (2–5yr)" value={`${conceptFocus.feasibility_2_5y.rating} (rank ${conceptFocus.feasibility_2_5y.rank})`} />
+            {conceptFocus.feasibility_2_5y.rationale && (
+              <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginTop: 6 }}>{conceptFocus.feasibility_2_5y.rationale}</p>
+            )}
+
+            {conceptFocus.critic_dimensions && (
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                <SectionLabel>Critic — overall: {conceptFocus.critic_overall?.replace(/_/g, " ")}</SectionLabel>
+                {Object.entries(conceptFocus.critic_dimensions).map(([dim, d]) => (
+                  <div key={dim} style={{ display: "flex", gap: 10, padding: "6px 0", borderBottom: "1px solid var(--line)" }}>
+                    <div style={{ width: 90, flexShrink: 0 }}><Pill tone={VERDICT_TONE[d.verdict] ?? "neutral"}>{dim}</Pill></div>
+                    <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4, overflowWrap: "break-word" }}>
+                      <b style={{ color: "var(--ink)" }}>{d.verdict.replace(/_/g, " ")}</b> — {d.reasoning}
                     </div>
-                  ),
-                },
-                {
-                  key: "physical", label: "Physical",
-                  content: (
-                    <div data-testid="physical">
-                      {conceptFocus.product_archetype && (
-                        <>
-                          <SectionLabel>Product archetype — design-rule derived, never invented</SectionLabel>
-                          {Object.entries(conceptFocus.product_archetype)
-                            .filter(([k]) => k !== "epistemic_type")
-                            .map(([k, v]) => (
-                              <CompactRow key={k} label={k.replace(/_/g, " ")} value={v.startsWith("UNKNOWN") ? "—" : v} title={v} />
-                            ))}
-                        </>
-                      )}
-                      {conceptFocus.engineering_envelope && (
-                        <>
-                          <SectionLabel>Engineering envelope — comparables only, never invented</SectionLabel>
-                          {conceptFocus.engineering_envelope.comparable_basis && (
-                            <CompactRow label="Comparable basis" value={conceptFocus.engineering_envelope.comparable_basis} />
-                          )}
-                          {Object.entries(conceptFocus.engineering_envelope).map(([k, v]: [string, any]) => {
-                            if (typeof v === "string") return null;
-                            if (!v || typeof v !== "object") return null;
-                            const label = k.replace(/_/g, " ");
-                            if (v.epistemic_type === "OBSERVED_COMPARABLE")
-                              return <CompactRow key={k} label={label} value={`${v.min}–${v.max} ${v.unit} (n=${v.n_comparables})`} />;
-                            if (v.epistemic_type === "REFERENCE_MARKET_PRICE")
-                              return <CompactRow key={k} label={label} value={`median $${v.median} (${v.n_comparables} products)`} />;
-                            return <CompactRow key={k} label={label} value="unknown — no comparable publishes this" />;
-                          })}
-                        </>
-                      )}
-                    </div>
-                  ),
-                },
-                {
-                  key: "evidence", label: "Evidence",
-                  content: (
-                    <div data-testid="lineage">
-                      <SectionLabel>Design DNA — genuine parent lineage only</SectionLabel>
-                      <DnaBadgeRow dna={conceptFocus.design_dna} compact />
-                      <div style={{ marginTop: 8, marginBottom: 14 }}>
-                        {DNA_ORDER.map((letter) => {
-                          const p = conceptFocus.design_dna[letter as keyof DesignDna];
-                          const present = p.status === "PRESENT";
-                          const method = p.status === "METHOD_CHOICE";
-                          const detail = method ? `Method choice — ${p.detail}` : present ? p.detail : `Missing / unverified — ${p.detail}`;
-                          return <CompactRow key={letter} label={DNA_LETTER_NAME[letter]} value={detail} title={detail} />;
-                        })}
-                      </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
-                      <SectionLabel>Lineage — every parent, clickable</SectionLabel>
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10 }}>
-                        {(conceptFocus.parent_path_ids ?? []).map((pid) => (
-                          <button key={pid} onClick={() => onGoToWorld?.(3, { path: pid })} className="mono"
-                            style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--ink-dim)" }}>
-                            {pid} →
-                          </button>
-                        ))}
-                        {(conceptFocus.source_evidence_ids ?? []).map((rid) => (
-                          <button key={rid} onClick={() => rid.startsWith("RP-") && onGoToWorld?.(2, { paper: rid })} className="mono"
-                            style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: rid.startsWith("RP-") ? "pointer" : "default", color: "var(--accent-blue-ink)" }}>
-                            {rid}{rid.startsWith("RP-") ? " →" : ""}
-                          </button>
-                        ))}
-                        {(conceptFocus.friction_ids ?? []).map((fid) => <Pill key={fid}>{fid}</Pill>)}
-                      </div>
-                      <CompactRow label="Evidence ids" value={conceptFocus.evidence_ids.join(", ") || "none"} />
-                      <CompactRow label="Donor capabilities" value={(conceptFocus.donor_capability_ids ?? []).join(", ") || "none — no verified donor dataset"} />
-                      {conceptFocus.operator_origin && <CompactRow label="Operator origin" value={conceptFocus.operator_origin} title={conceptFocus.operator_origin} />}
+            <details style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <summary style={{ cursor: "pointer", fontSize: 11.5, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>
+                Full evidence trail — {Object.keys(conceptFocus.criteria).length} criteria, 8 design-DNA parents
+              </summary>
 
-                      <button onClick={() => setConceptTraceFocus(conceptFocus)}
-                        style={{ marginTop: 12, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
-                        Trace this concept →
-                      </button>
-                    </div>
-                  ),
-                },
-                {
-                  key: "decision", label: "Decision",
-                  content: (
-                    <div data-testid="decision">
-                      {(() => {
-                        const grave = data?.graveyard.find((g) => g.id === conceptFocus.id);
-                        return grave ? (
-                          <div style={{ marginBottom: 12, padding: "10px 14px", background: "rgba(166,67,63,0.08)", border: "1px solid rgba(166,67,63,0.25)", borderRadius: 8 }}>
-                            <SectionLabel>Why this wasn't selected</SectionLabel>
-                            <p style={{ fontSize: 12.5, color: "var(--rose)", lineHeight: 1.5 }}>{grave.why_not_selected}</p>
-                          </div>
-                        ) : null;
-                      })()}
-                      <CompactRow label="Gate passed" value={conceptFocus.gate_passed ? "Yes — real pain evidence" : "No"} />
-                      <CompactRow label="White space" value={conceptFocus.is_white_space ? "Yes — competitor gap" : "No"} />
-                      <CompactRow label="Competitor gap brands" value={conceptFocus.competitor_gap_brands.join(", ") || "none identified"} title={conceptFocus.competitor_gap_brands.join(", ")} />
-                      <CompactRow
-                        label="Assumption challenged"
-                        value={conceptFocus.assumption_challenged?.ids?.length ? conceptFocus.assumption_challenged.ids.join(", ") : (conceptFocus.assumption_challenged?.note ?? "—")}
-                      />
-                      {conceptFocus.test && <CompactRow label="Test" value={conceptFocus.test.text} title={conceptFocus.test.text} />}
-                      <CompactRow label="Unknowns" value={(conceptFocus.unknowns?.length ? conceptFocus.unknowns.join("; ") : "—")} title={conceptFocus.unknowns?.join("; ")} />
-
-                      {conceptFocus.critic_dimensions && (
-                        <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
-                          <SectionLabel>Critic — overall: {sentenceCase(conceptFocus.critic_overall)}</SectionLabel>
-                          {Object.entries(conceptFocus.critic_dimensions).map(([dim, d]) => (
-                            <CompactRow key={dim} label={sentenceCase(dim)}
-                              value={<><Pill tone={VERDICT_TONE[d.verdict] ?? "neutral"}>{sentenceCase(d.verdict)}</Pill> {d.reasoning}</>}
-                              title={d.reasoning} />
-                          ))}
+              <div style={{ marginTop: 14 }}>
+                <SectionLabel>Design DNA — genuine parent lineage only</SectionLabel>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {DNA_ORDER.map((letter) => {
+                    const p = conceptFocus.design_dna[letter as keyof DesignDna];
+                    const present = p.status === "PRESENT";
+                    const method = p.status === "METHOD_CHOICE";
+                    return (
+                      <div key={letter} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                        <span style={{
+                          flexShrink: 0, width: 22, height: 22, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: 11, fontFamily: "var(--font-mono)", fontWeight: 700,
+                          color: method ? "var(--accent-blue-ink)" : present ? "var(--good)" : "var(--ink-faint)",
+                          background: method ? "rgba(58,110,165,0.10)" : present ? "rgba(47,143,91,0.12)" : "var(--surface-2)",
+                          border: method ? "1px dashed var(--accent-blue)" : `1px solid ${present ? "var(--good)" : "var(--line)"}`,
+                        }}>{letter}</span>
+                        <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 12, lineHeight: 1.45, overflowWrap: "break-word" }}>
+                          <b style={{ color: "var(--ink)" }}>{DNA_LETTER_NAME[letter]}</b>
+                          {" — "}
+                          <span style={{ color: present || method ? "var(--ink-dim)" : "var(--ink-faint)" }}>
+                            {method ? "Method choice (authored, not evidence) — " + p.detail
+                              : present ? p.detail : "Missing / unverified — " + p.detail}
+                          </span>
                         </div>
-                      )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
 
-                      <details style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
-                        <summary style={{ cursor: "pointer", fontSize: 11.5, color: "var(--ink-faint)", letterSpacing: "0.04em" }}>
-                          Every criterion this concept was tested against ({Object.keys(conceptFocus.criteria).length})
-                        </summary>
-                        <div style={{ marginTop: 10 }}>
-                          {Object.entries(conceptFocus.criteria).map(([cid, r]) => (
-                            <CompactRow key={cid} label={cid}
-                              value={<><Pill tone={STATUS_TONE[r.status]}>{sentenceCase(r.status)}</Pill> {r.note}</>}
-                              title={r.note} />
-                          ))}
-                        </div>
-                      </details>
+              <div style={{ marginTop: 16 }}>
+                <SectionLabel>Every criterion this concept was tested against</SectionLabel>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {Object.entries(conceptFocus.criteria).map(([cid, r]) => (
+                    <div key={cid} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
+                      <div style={{ width: 110, flexShrink: 0 }}><Pill tone={STATUS_TONE[r.status]}>{cid} {r.status}</Pill></div>
+                      <div style={{ flex: "1 1 auto", minWidth: 0, fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.4, overflowWrap: "break-word" }}>{r.note}</div>
                     </div>
-                  ),
-                },
-              ]}
-            />
-          </div>
+                  ))}
+                </div>
+              </div>
+            </details>
+
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+              <SectionLabel>Evidence IDs</SectionLabel>
+              <div className="mono" style={{ fontSize: 12, color: "var(--ink-dim)" }}>{conceptFocus.evidence_ids.join(", ")}</div>
+            </div>
+
+            <button onClick={() => setConceptTraceFocus(conceptFocus)}
+              style={{ marginTop: 16, width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--accent-blue)", background: "transparent", color: "var(--accent-blue-ink)", cursor: "pointer", fontSize: 12.5, fontWeight: 600 }}>
+              Trace this concept →
+            </button>
+          </>
         )}
       </FocusPanel>
 
@@ -577,7 +562,7 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
         )}
       </FocusPanel>
 
-      <FocusPanel open={!!assumptionFocus} onClose={() => setAssumptionFocus(null)} eyebrow={`Category assumption · ${assumptionFocus?.status}`} title={assumptionFocus?.text ?? ""}>
+      <FocusPanel open={!!assumptionFocus} onClose={() => setAssumptionFocus(null)} eyebrow={`Category assumption · ${sentenceCase(assumptionFocus?.status ?? "")}`} title={assumptionFocus?.text ?? ""}>
         {assumptionFocus && (
           <>
             <div style={{ marginBottom: 16 }}>
@@ -596,7 +581,7 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
         )}
       </FocusPanel>
 
-      <FocusPanel open={winFocus} onClose={() => setWinFocus(false)} eyebrow="Current Bet" title="Why did this win?">
+      <FocusPanel open={winFocus} onClose={() => setWinFocus(false)} eyebrow="Current bet" title="Why did this win?">
         {data && (
           <>
             <StatRow label="Bet" value={data.why_did_this_win.bet} />
@@ -648,8 +633,8 @@ export function MagicBoxWorld({ themeFilter, onGoToWorld }: { themeFilter?: stri
               {stageFocus === "tensions" && "Real research tensions — genuine trade-offs found across two or more peer-reviewed papers."}
               {stageFocus === "assumptions" && "Real category assumptions mapped, each with real evidence for/against its prevalence."}
               {(stageFocus === "counterfactuals_generated" || stageFocus === "concept_seeds") && "Every (friction theme × design operator) combination the fixed Magic Box rule table generates — before any gate is applied."}
-              {stageFocus === "__versuni_edge" && "Not a count — see the Versuni Edge section on Criteria, where each finalist's classification is computed from the evidence actually available (missing Versuni-internal evidence shows as NEEDS_EVIDENCE, never scored)."}
-              {stageFocus === "critic_evaluated" && "Every concept the Critic has run SURVIVE/CHALLENGE/NEEDS_EVIDENCE/REJECT verdicts against — the count shown is the live coverage."}
+              {stageFocus === "__versuni_edge" && "Not a count — see the Versuni edge section on Criteria, where each finalist's classification is computed from the evidence actually available (missing Versuni-internal evidence shows as \"needs evidence\", never scored)."}
+              {stageFocus === "critic_evaluated" && "Every concept the Critic has run survive/challenge/needs-evidence/reject verdicts against — the count shown is the live coverage."}
               {stageFocus === "finalists" && "Concepts that survived the evidence gate and dominance screening (kept unless another concept beats them on every measure), ranked by Consumer Pain."}
               {stageFocus === "__bet" && "The current recommended concept from the live decision engine — never hardcoded."}
             </p>

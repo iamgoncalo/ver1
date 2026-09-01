@@ -435,7 +435,7 @@ def _air_atlas_rows(magic_box_doc, innovations_by_id):
             "friction_theme_name": p["friction_theme_name"],
             "primary_need": need,
             "primary_need_epistemic_type": "METHOD_CHOICE",
-            "L0_mechanism": "{}: {}".format(op, OPERATORS[op]),
+            "L0_mechanism": "{}: {}".format(op.replace("_", " ").capitalize(), OPERATORS[op]),
             "L1_transformation": p["why_here"]["transformation"],
             "L2_proximal_problem": l2,
             "L3_human_need": "Human need (METHOD_CHOICE mapping): {} — {}".format(
@@ -527,7 +527,7 @@ def _floor_atlas_rows(floor_possibilities_doc, floor_themes_by_id):
             "friction_theme_name": friction.get("theme_name", theme_id),
             "primary_need": need,
             "primary_need_epistemic_type": "METHOD_CHOICE",
-            "L0_mechanism": "{}: {}".format(op, OPERATORS[op]),
+            "L0_mechanism": "{}: {}".format(op.replace("_", " ").capitalize(), OPERATORS[op]),
             "L1_transformation": ("Method choice, not evidence: the category-independent "
                                   "operator vocabulary assigns {} - \"{}\" - to this "
                                   "machine-induced friction theme (machine cross-product, "

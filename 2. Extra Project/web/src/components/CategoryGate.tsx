@@ -13,7 +13,7 @@ interface CategoryState {
 }
 
 const WORLD_NAME: Record<number, string> = {
-  1: "Product universe", 2: "Radar", 3: "Paths", 4: "Magic box", 5: "Innovations",
+  1: "Products", 2: "Radar", 3: "Paths", 4: "Magic box", 5: "Innovations",
 };
 const WORLD_STAGE: Record<number, string> = {
   1: "product_universe", 2: "radar", 3: "paths_field", 4: "magic_box", 5: "innovations",
@@ -53,15 +53,18 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
           {readiness && <Pill tone={STATE_TONE[readiness] ?? "amber"}>{readiness.toLowerCase()} evidence for this stage</Pill>}
           {state && !state.machine_runnable && <Pill tone="neutral">full machine not runnable yet</Pill>}
         </div>
-        <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4, maxWidth: 780 }}>
-          Everything below is this category's OWN evidence, acquired by the machine and derived from the reviews themselves — the same
-          method stages as air purification, run on an independently-acquired corpus. A stage with no real
-          evidence says so; nothing borrows from another category.
-        </p>
+        <details style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4, maxWidth: 780 }}>
+          <summary style={{ cursor: "pointer" }}>This category's own evidence — nothing borrowed ▸</summary>
+          <p style={{ marginTop: 4 }}>
+            Everything below is this category's own evidence, acquired by the machine and derived from the reviews themselves — the same
+            method stages as air purification, run on an independently-acquired corpus. A stage with no real
+            evidence says so; nothing borrows from another category.
+          </p>
+        </details>
       </div>
 
       <div className="scrollY" style={{ flex: 1, minHeight: 0 }} data-testid={`category-stage-${WORLD_STAGE[world]}`}>
-        {err && <p style={{ fontSize: 13, color: "var(--rose)" }}>Category state could not be computed — the API returned an error rather than a silent fallback.</p>}
+        {err && <p style={{ fontSize: 13, color: "var(--rose)" }}>Category state could not be computed — visible API error.</p>}
         {!state && !err && <p style={{ fontSize: 13, color: "var(--ink-faint)" }}>Computing live category eligibility…</p>}
 
         {world === 1 && data && (
@@ -79,16 +82,20 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
                 </span>
               </div>
             ))}
-            <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>
-              Frozen by src/real/freeze_floor_care_products.py — declared evidence floor rating_number ≥ 500;
-              acquired by streaming the real Amazon-Reviews-2023 metadata (see data/real_raw/floor_care_*.log).
-            </p>
+            <details style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.5 }}>
+              <summary style={{ cursor: "pointer" }}>Frozen corpus — declared evidence floor rating_number ≥ 500 ▸</summary>
+              <p style={{ marginTop: 4 }}>
+                Frozen by src/real/freeze_floor_care_products.py; acquired by streaming the real
+                Amazon-Reviews-2023 metadata (see data/real_raw/floor_care_*.log).
+              </p>
+            </details>
           </div>
         )}
 
         {world === 2 && data && (
           <div style={{ maxWidth: 820 }}>
-            <SectionLabel>Complaint themes learned from the reviews themselves (labels are machine-generated, validation pending human labels)</SectionLabel>
+            <SectionLabel>Complaint themes learned from the reviews themselves</SectionLabel>
+            <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginBottom: 6 }}>Labels machine-generated; human validation pending.</p>
             {topThemes.map((t: any) => (
               <div key={t.theme_id} style={{ display: "flex", justifyContent: "space-between", gap: 10, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
                 <span style={{ fontSize: 12.5, color: "var(--ink)" }}>{t.theme_name}</span>
@@ -106,40 +113,47 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
               </div>
             </div>
             <div style={{ marginTop: 14 }}>
-              <SectionLabel>Research — live PubMed discovery, CANDIDATE only</SectionLabel>
+              <SectionLabel>Research — live PubMed discovery, candidate only</SectionLabel>
               <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>
-                {candidates.length} real candidate papers retrieved live from PubMed for this category's research
-                terms — never promoted to an accepted corpus without the evidence-card reading step.
+                {candidates.length} candidate papers from PubMed — none promoted unread.
               </p>
             </div>
             <div style={{ marginTop: 14, border: "1px dashed var(--line)", borderRadius: 10, padding: "10px 14px" }}>
-              <p style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.5 }}>
-                <b>Honestly missing:</b> trend documents (0) and market reports (0) — no fetcher exists for these
-                families; they require real desk research and archiving, not automation.
-              </p>
+              <details style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.5 }}>
+                <summary style={{ cursor: "pointer" }}><b>Honestly missing:</b> trend documents (0), market reports (0) ▸</summary>
+                <p style={{ marginTop: 4 }}>
+                  No fetcher exists for these families; they require real desk research and archiving, not automation.
+                </p>
+              </details>
             </div>
           </div>
         )}
 
         {world === 3 && (
           <div style={{ maxWidth: 720 }}>
-            <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
-              No paths exist for this category yet — a tension needs an accepted research corpus (the {candidates.length}
-              PubMed candidates are unread), an assumption map needs its own authored reading, and a trajectory
-              needs temporal evidence no corpus here contains. Each would be earned by real work, never relabelled
-              from air purification.
-            </p>
+            <details style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
+              <summary style={{ cursor: "pointer" }}>No paths yet — earned by real work only ▸</summary>
+              <p style={{ marginTop: 4 }}>
+                No paths exist for this category yet — a tension needs an accepted research corpus (the {candidates.length}
+                PubMed candidates are unread), an assumption map needs its own authored reading, and a trajectory
+                needs temporal evidence no corpus here contains. Each would be earned by real work, never relabelled
+                from air purification.
+              </p>
+            </details>
           </div>
         )}
 
         {world === 4 && data && (
           <div style={{ maxWidth: 820 }}>
-            <SectionLabel>Exploratory possibilities — machine-induced cross-product, none yet promoted to an innovation</SectionLabel>
-            <p style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 10 }}>
-              The 12 authored design operators (category-independent vocabulary) crossed with every induced theme
-              clearing the same materiality floor (the minimum complaint share a theme must reach to count) the Air case uses. Labels are machine-generated; nothing here is
-              a recommendation.
-            </p>
+            <SectionLabel>Exploratory possibilities — none yet promoted to an innovation</SectionLabel>
+            <details style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 10 }}>
+              <summary style={{ cursor: "pointer" }}>Operators crossed with induced themes — nothing is a recommendation ▸</summary>
+              <p style={{ marginTop: 4 }}>
+                The 12 authored design operators (category-independent vocabulary) crossed with every induced theme
+                clearing the same materiality floor (the minimum complaint share a theme must reach to count) the Air
+                case uses. Labels are machine-generated; nothing here is a recommendation.
+              </p>
+            </details>
             {possibilities.slice(0, 12).map((x: any) => (
               <div key={x.id} style={{ display: "flex", justifyContent: "space-between", gap: 10, padding: "5px 0", borderBottom: "1px solid var(--line)" }}>
                 <span style={{ fontSize: 12.5, color: "var(--ink)" }}>{x.name}</span>
@@ -152,11 +166,14 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
 
         {world === 5 && (
           <div style={{ maxWidth: 720 }}>
-            <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
-              No innovations are promoted for this category — promotion requires feasibility evidence (trend/market
-              families are honestly empty) and criteria evaluation over an accepted research corpus. The
-              {" "}{possibilities.length} exploratory possibilities live in the Magic box stage, clearly not yet promoted.
-            </p>
+            <details style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.55 }}>
+              <summary style={{ cursor: "pointer" }}>No innovations promoted — required evidence is honestly missing ▸</summary>
+              <p style={{ marginTop: 4 }}>
+                No innovations are promoted for this category — promotion requires feasibility evidence (trend/market
+                families are honestly empty) and criteria evaluation over an accepted research corpus. The
+                {" "}{possibilities.length} exploratory possibilities live in the Magic box stage, clearly not yet promoted.
+              </p>
+            </details>
           </div>
         )}
 

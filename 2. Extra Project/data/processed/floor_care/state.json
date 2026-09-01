@@ -1,7 +1,7 @@
 {
   "_provenance": "Honest per-stage ledger for the Floor Care pipeline - what ran, what was skipped and why, and the real counts observed.",
   "generated_by": "src/real/floor_care_pipeline.py",
-  "generated_at": "2026-08-31T22:12:37.864692+00:00",
+  "generated_at": "2026-09-01T08:57:16.175572+00:00",
   "stream_note": "data/real_raw/floor_care_reviews_hk.jsonl (and the appliances file after it) are written by a background streaming job over the raw McAuley-Lab review exports; counts reflect those files as of generated_at, and this pipeline must be re-run after the stream completes.",
   "counts": {
     "products": 572,

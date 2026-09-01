@@ -161,7 +161,7 @@ FEASIBILITY = {
         "evidence_ids": ["TC-R07", "TC-R08"],
         "rationale": ("Technically the easiest of the three: TC-R07 shows Versuni "
                       "already ships Wi-Fi/app connectivity today, and TC-R08 is an "
-                      "already-standardized protocol layer. High feasibility does NOT "
+                      "already-standardized protocol layer. High feasibility does not "
                       "rescue this opportunity - it fails the upstream Consumer Pain "
                       "evidence gate below. Ease of build is not evidence of demand."),
         "missing_internal_evidence": ("None needed for this rating - TC-R07 already "

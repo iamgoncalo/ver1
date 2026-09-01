@@ -1,8 +1,8 @@
 {
   "_provenance": "Canonical normalized model over already-real Project 1 sources - no product, paper, signal, competitor, cluster, pattern, or relationship is invented here. All 7 evidence families (PRODUCTS/RESEARCH/CONSUMERS/TRENDS/MARKET/RIVALS/TECHNOLOGY_AI) stay explicitly separate. HDBSCAN/BERTopic-style clustering is deliberately NOT used anywhere - every current family is small (<100 real items), and DATA_FABRIC.md's own acceptance criteria require small-corpus clustering not be forced into a large-corpus method.",
   "generated_by": "src/real/intelligence_fabric.py",
-  "snapshot_id": "d17c5985a3a4ce6d",
-  "generated_at": "2026-08-31T18:00:05.533273+00:00",
+  "snapshot_id": "2068ff4368eed6aa",
+  "generated_at": "2026-09-01T08:57:20.197418+00:00",
   "sources": [
     {
       "id": "pubmed",

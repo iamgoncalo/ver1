@@ -275,7 +275,7 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number, params?: 
         <h1 style={{ fontSize: 22, marginTop: 2 }}>Where is reality actually moving?</h1>
         <p style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 4 }}>
           {paths && ontology
-            ? `${trajectories.length} verified trajectories · ${tensions.length} open tensions · ${assumptions.length} assumptions worth challenging — three different claims, never blended.`
+            ? `${trajectories.length} verified trajectories · ${tensions.length} open tensions · ${assumptions.length} assumptions worth challenging.`
             : "Loading the paths…"}
         </p>
       </div>
@@ -318,7 +318,7 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number, params?: 
             {assumptions.map((p) => <PathRow key={p.id} p={p} active={p.id === focusId} onClick={() => setFocusId(p.id)} />)}
           </div>
           {paths && paths.length === 0 && (
-            <p style={{ fontSize: 12.5, color: "var(--ink-faint)" }}>No paths available — run the pipeline to regenerate real state.</p>
+            <p style={{ fontSize: 12.5, color: "var(--ink-faint)" }}>No paths available — rerun the pipeline.</p>
           )}
         </div>
 
@@ -345,7 +345,7 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number, params?: 
               )}
               {!focus.causal_drivers_verified && (
                 <p style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 8 }}>
-                  No verified causal mechanism behind this {focus.epistemic_class === "TENSION" ? "trade-off" : "belief"} — the machine reports the evidence, not a proven driver.
+                  No verified causal mechanism — evidence reported, driver unproven.
                 </p>
               )}
               <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 12 }}>{focus.detail}</p>
@@ -400,7 +400,7 @@ export function PathsWorld({ onGoToWorld }: { onGoToWorld: (n: number, params?: 
 
               {fieldOpen && (
                 <div style={{ marginTop: 14, borderTop: "1px solid var(--line)", paddingTop: 12 }}>
-                  <SectionLabel>Field — what THIS path means in the real world</SectionLabel>
+                  <SectionLabel>Field — what this path means in the real world</SectionLabel>
                   <FieldBlock field={focus.field} navigate={onGoToWorld}
                     onOpenReviews={(theme, themeName) => setReviewFocus({ theme, themeName })} />
                 </div>

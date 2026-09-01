@@ -7,7 +7,7 @@
   "possibilities": [
     {
       "id": "don't waste money.:AMBIENT",
-      "name": "AMBIENT × don't waste money.",
+      "name": "Ambient × don't waste money.",
       "machine_labelled": true,
       "operator": "AMBIENT",
       "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
@@ -57,7 +57,7 @@
     },
     {
       "id": "don't waste money.:CONCENTRATE",
-      "name": "CONCENTRATE × don't waste money.",
+      "name": "Concentrate × don't waste money.",
       "machine_labelled": true,
       "operator": "CONCENTRATE",
       "operator_definition": "Multiple systems -> one system.",
@@ -107,7 +107,7 @@
     },
     {
       "id": "don't waste money.:CROSS_CATEGORY_TRANSFER",
-      "name": "CROSS_CATEGORY_TRANSFER × don't waste money.",
+      "name": "Cross category transfer × don't waste money.",
       "machine_labelled": true,
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
@@ -158,7 +158,7 @@
     },
     {
       "id": "don't waste money.:DISTRIBUTE",
-      "name": "DISTRIBUTE × don't waste money.",
+      "name": "Distribute × don't waste money.",
       "machine_labelled": true,
       "operator": "DISTRIBUTE",
       "operator_definition": "One large system -> several smaller systems.",
@@ -208,7 +208,7 @@
     },
     {
       "id": "don't waste money.:INVERT",
-      "name": "INVERT × don't waste money.",
+      "name": "Invert × don't waste money.",
       "machine_labelled": true,
       "operator": "INVERT",
       "operator_definition": "Act before instead of after.",
@@ -258,7 +258,7 @@
     },
     {
       "id": "don't waste money.:MATERIALISE",
-      "name": "MATERIALISE × don't waste money.",
+      "name": "Materialise × don't waste money.",
       "machine_labelled": true,
       "operator": "MATERIALISE",
       "operator_definition": "Turn digital perception/information into physical intervention.",
@@ -308,7 +308,7 @@
     },
     {
       "id": "don't waste money.:MERGE",
-      "name": "MERGE × don't waste money.",
+      "name": "Merge × don't waste money.",
       "machine_labelled": true,
       "operator": "MERGE",
       "operator_definition": "Combine functions / objects / jobs.",
@@ -358,7 +358,7 @@
     },
     {
       "id": "don't waste money.:MOVE",
-      "name": "MOVE × don't waste money.",
+      "name": "Move × don't waste money.",
       "machine_labelled": true,
       "operator": "MOVE",
       "operator_definition": "Change physical location.",
@@ -408,7 +408,7 @@
     },
     {
       "id": "don't waste money.:PERSONALISE",
-      "name": "PERSONALISE × don't waste money.",
+      "name": "Personalise × don't waste money.",
       "machine_labelled": true,
       "operator": "PERSONALISE",
       "operator_definition": "Room/system -> individual/context.",
@@ -458,7 +458,7 @@
     },
     {
       "id": "don't waste money.:PREDICT",
-      "name": "PREDICT × don't waste money.",
+      "name": "Predict × don't waste money.",
       "machine_labelled": true,
       "operator": "PREDICT",
       "operator_definition": "Reactive -> anticipatory.",
@@ -508,7 +508,7 @@
     },
     {
       "id": "don't waste money.:REMOVE",
-      "name": "REMOVE × don't waste money.",
+      "name": "Remove × don't waste money.",
       "machine_labelled": true,
       "operator": "REMOVE",
       "operator_definition": "Eliminate an interaction/component.",
@@ -558,7 +558,7 @@
     },
     {
       "id": "don't waste money.:TEMPORAL_SHIFT",
-      "name": "TEMPORAL_SHIFT × don't waste money.",
+      "name": "Temporal shift × don't waste money.",
       "machine_labelled": true,
       "operator": "TEMPORAL_SHIFT",
       "operator_definition": "Move the job earlier/later.",
@@ -608,7 +608,7 @@
     },
     {
       "id": "completely stopped:AMBIENT",
-      "name": "AMBIENT × completely stopped",
+      "name": "Ambient × completely stopped",
       "machine_labelled": true,
       "operator": "AMBIENT",
       "operator_definition": "Explicit interaction -> invisible environmental behaviour.",
@@ -676,7 +676,7 @@
     },
     {
       "id": "completely stopped:CONCENTRATE",
-      "name": "CONCENTRATE × completely stopped",
+      "name": "Concentrate × completely stopped",
       "machine_labelled": true,
       "operator": "CONCENTRATE",
       "operator_definition": "Multiple systems -> one system.",
@@ -744,7 +744,7 @@
     },
     {
       "id": "completely stopped:CROSS_CATEGORY_TRANSFER",
-      "name": "CROSS_CATEGORY_TRANSFER × completely stopped",
+      "name": "Cross category transfer × completely stopped",
       "machine_labelled": true,
       "operator": "CROSS_CATEGORY_TRANSFER",
       "operator_definition": "Transfer a verified capability from another product/category.",
@@ -813,7 +813,7 @@
     },
     {
       "id": "completely stopped:DISTRIBUTE",
-      "name": "DISTRIBUTE × completely stopped",
+      "name": "Distribute × completely stopped",
       "machine_labelled": true,
       "operator": "DISTRIBUTE",
       "operator_definition": "One large system -> several smaller systems.",
@@ -881,7 +881,7 @@
     },
     {
       "id": "completely stopped:INVERT",
-      "name": "INVERT × completely stopped",
+      "name": "Invert × completely stopped",
       "machine_labelled": true,
       "operator": "INVERT",
       "operator_definition": "Act before instead of after.",
@@ -949,7 +949,7 @@
     },
     {
       "id": "completely stopped:MATERIALISE",
-      "name": "MATERIALISE × completely stopped",
+      "name": "Materialise × completely stopped",
       "machine_labelled": true,
       "operator": "MATERIALISE",
       "operator_definition": "Turn digital perception/information into physical intervention.",
@@ -1017,7 +1017,7 @@
     },
     {
       "id": "completely stopped:MERGE",
-      "name": "MERGE × completely stopped",
+      "name": "Merge × completely stopped",
       "machine_labelled": true,
       "operator": "MERGE",
       "operator_definition": "Combine functions / objects / jobs.",
@@ -1085,7 +1085,7 @@
     },
     {
       "id": "completely stopped:MOVE",
-      "name": "MOVE × completely stopped",
+      "name": "Move × completely stopped",
       "machine_labelled": true,
       "operator": "MOVE",
       "operator_definition": "Change physical location.",
@@ -1153,7 +1153,7 @@
     },
     {
       "id": "completely stopped:PERSONALISE",
-      "name": "PERSONALISE × completely stopped",
+      "name": "Personalise × completely stopped",
       "machine_labelled": true,
       "operator": "PERSONALISE",
       "operator_definition": "Room/system -> individual/context.",
@@ -1221,7 +1221,7 @@
     },
     {
       "id": "completely stopped:PREDICT",
-      "name": "PREDICT × completely stopped",
+      "name": "Predict × completely stopped",
       "machine_labelled": true,
       "operator": "PREDICT",
       "operator_definition": "Reactive -> anticipatory.",
@@ -1289,7 +1289,7 @@
     },
     {
       "id": "completely stopped:REMOVE",
-      "name": "REMOVE × completely stopped",
+      "name": "Remove × completely stopped",
       "machine_labelled": true,
       "operator": "REMOVE",
       "operator_definition": "Eliminate an interaction/component.",
@@ -1357,7 +1357,7 @@
     },
     {
       "id": "completely stopped:TEMPORAL_SHIFT",
-      "name": "TEMPORAL_SHIFT × completely stopped",
+      "name": "Temporal shift × completely stopped",
       "machine_labelled": true,
       "operator": "TEMPORAL_SHIFT",
       "operator_definition": "Move the job earlier/later.",

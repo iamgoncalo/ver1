@@ -117,11 +117,14 @@ export function AtlasWorld({ navigate }: { navigate: (n: number, params?: Record
       <div style={{ flexShrink: 0, marginBottom: 12 }}>
         <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.05em" }}>Cross-cutting lens</div>
         <h1 style={{ fontSize: 22, marginTop: 2 }}>Atlas — the causal relationships behind every friction</h1>
-        <p style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 4, maxWidth: 800 }}>
-          Every real Magic Box possibility (Air and Floor care), read through one causal structure: what mechanism it
-          uses, which need it serves, what human burden it could remove, and how far it is from real. Every field
-          traces to a real number or a declared method choice — never invented.
-        </p>
+        <details style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 4, maxWidth: 800 }}>
+          <summary style={{ cursor: "pointer" }}>Every possibility read through one causal structure ▸</summary>
+          <p style={{ marginTop: 4 }}>
+            Every real Magic Box possibility (Air and Floor care), read through one causal structure: what mechanism it
+            uses, which need it serves, what human burden it could remove, and how far it is from real. Every field
+            traces to a real number or a declared method choice — never invented.
+          </p>
+        </details>
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", marginBottom: 12, flexShrink: 0 }}>
@@ -252,7 +255,7 @@ export function AtlasWorld({ navigate }: { navigate: (n: number, params?: Record
                       <CompactRow label="L6 Direction" value={focus.L6_ultimate_direction} title={focus.L6_ultimate_direction} />
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 10 }}>
                         {(focus.state_variables ?? []).map((v) => <Pill key={v} tone="blue">{v}</Pill>)}
-                        {(focus.causal_primitives ?? []).map((v) => <Pill key={v} tone="teal">{v}</Pill>)}
+                        {(focus.causal_primitives ?? []).map((v) => <Pill key={v} tone="teal">{v.toLowerCase().replace(/_/g, " ")}</Pill>)}
                       </div>
                     </div>
                   ),
@@ -299,7 +302,7 @@ export function AtlasWorld({ navigate }: { navigate: (n: number, params?: Record
         )}
       </FocusPanel>
 
-      <FocusPanel open={!!coverageFocus} onClose={() => setCoverageFocus(null)} eyebrow={coverageFocus ? DOMAIN_LABEL[coverageFocus.home_domain] ?? coverageFocus.home_domain : ""} title={coverageFocus?.need ?? ""}>
+      <FocusPanel open={!!coverageFocus} onClose={() => setCoverageFocus(null)} eyebrow={coverageFocus ? DOMAIN_LABEL[coverageFocus.home_domain] ?? coverageFocus.home_domain : ""} title={coverageFocus ? needLabel(coverageFocus.need) : ""}>
         {coverageFocus && (
           <>
             <StatRow label="Coverage" value={coverageFocus.state.toLowerCase().replace(/_/g, " ")} />

@@ -62,7 +62,7 @@ export function ScienceConstellation({ onPaperClick }: { onPaperClick: (id: stri
           {(["canonical", "emergent"] as const).map((v) => (
             <button key={v} onClick={() => setView(v)}
               style={{ padding: "5px 12px", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 11,
-                fontFamily: "var(--font-mono)", textTransform: "uppercase",
+                fontFamily: "var(--font-mono)", textTransform: "capitalize",
                 background: view === v ? "var(--surface)" : "transparent", fontWeight: view === v ? 700 : 500,
                 color: view === v ? "var(--ink)" : "var(--ink-faint)" }}>
               {v}

@@ -129,7 +129,7 @@
           "TC-R07",
           "TC-R08"
         ],
-        "rationale": "Technically the easiest of the three: TC-R07 shows Versuni already ships Wi-Fi/app connectivity today, and TC-R08 is an already-standardized protocol layer. High feasibility does NOT rescue this opportunity - it fails the upstream Consumer Pain evidence gate below. Ease of build is not evidence of demand."
+        "rationale": "Technically the easiest of the three: TC-R07 shows Versuni already ships Wi-Fi/app connectivity today, and TC-R08 is an already-standardized protocol layer. High feasibility does not rescue this opportunity - it fails the upstream Consumer Pain evidence gate below. Ease of build is not evidence of demand."
       },
       "n_reviews_supporting": 107,
       "evidence_ids": [

@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getParam, useUrlParam } from "../lib/urlState";
 import { api } from "../lib/api";
 import type { InnovationsResponse } from "../lib/types";
-import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, CompactInspector, CompactRow, type ViewMode } from "../components/ui";
-import { DataTable, type Column, type GroupOption } from "../components/DataTable";
+import { Pill, StatRow, MiniBar, SectionLabel, DistilledRawToggle, type ViewMode } from "../components/ui";
 import { FocusPanel } from "../components/FocusPanel";
 import { Lab } from "../components/Lab";
 import { traceBetChain } from "../lib/trace";
 import { TraceTree, TraceLegend } from "../components/TraceTree";
 import { FrictionIcon } from "../components/ThemeIcon";
+import { toSentence } from "../lib/text";
 
 function DocIcon() {
   return (
@@ -39,242 +39,119 @@ const DECISION_TYPE_LABEL: Record<string, string> = {
 type FetchStatus = "loading" | "success" | "empty" | "error" | "timeout";
 const TIMEOUT_MS = 15000;
 
-// --- Innovation list table: helpers -----------------------------------
-// Sentence-case a raw snake_case value for display (e.g. "ready_to_test"
-// -> "Ready to test") — never show raw snake_case or ALL-CAPS to the user.
-function sentenceCase(s: string): string {
-  if (!s) return "—";
-  const t = s.replace(/_/g, " ").toLowerCase();
-  return t.charAt(0).toUpperCase() + t.slice(1);
+function InnovationCard({ i, onOpen }: { i: any; onOpen: () => void }) {
+  const env = i.engineering_envelope ?? {};
+  const cadr = env.performance_cadr_m3h;
+  return (
+    <div onClick={onOpen} role="button" tabIndex={0} onKeyDown={(e) => e.key === "Enter" && onOpen()}
+      style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, padding: 12, cursor: "pointer" }}>
+      <img src={`/concept-visuals/${i.innovation_id.replace(":", "_")}.svg`} alt={`${i.name} concept schematic`}
+        style={{ width: "100%", borderRadius: 10, border: "1px solid var(--line)", marginBottom: 8, background: "white" }} />
+      <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }} title={i.name}>{i.name}</div>
+      <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 6 }}>
+        <Pill tone={i.state === "developing" || i.state === "ready_to_test" ? "good" : i.state === "rejected" ? "rose" : i.state === "challenged" ? "amber" : "neutral"}>{i.state.replace(/_/g, " ")}</Pill>
+        <Pill tone="neutral">{i.prototype_state === "CONCEPT_VISUAL" ? "concept visual" : "no prototype"}</Pill>
+        {i.lifecycle && i.lifecycle !== "active" && (
+          <span title="Registry-derived lifecycle — data/processed/innovation_registry.json">
+            <Pill tone={i.lifecycle === "new" ? "good" : i.lifecycle === "rejected" || i.lifecycle === "superseded" ? "rose" : "neutral"}>
+              {i.lifecycle}
+            </Pill>
+          </span>
+        )}
+      </div>
+      <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 6, lineHeight: 1.4 }}>
+        {cadr?.epistemic_type === "OBSERVED_COMPARABLE" ? `comparables: ${cadr.min}–${cadr.max} ${cadr.unit} (n=${cadr.n_comparables})` : "envelope: comparables pending"}
+      </div>
+    </div>
+  );
 }
-
-function stateTone(state: string | undefined): "good" | "rose" | "amber" | "neutral" {
-  if (state === "developing" || state === "ready_to_test") return "good";
-  if (state === "rejected") return "rose";
-  if (state === "challenged") return "amber";
-  return "neutral";
-}
-
-// The "need" a row addresses is the taxonomy tag carried in its own real
-// evidence_ids (e.g. "taxonomy:reliability" -> "reliability") — the exact
-// same theme the formal-case cards below derive via themeFromEvidenceIds.
-// Archived rows don't carry evidence_ids (see build_archive_list in
-// innovations_real.py) but do carry the theme directly as
-// previous_evidence.friction_theme — both are real, neither is invented.
-function needTheme(row: any): string | null {
-  const fromEvidence = themeFromEvidenceIds(row.evidence_ids ?? []);
-  if (fromEvidence) return fromEvidence;
-  return row.previous_evidence?.friction_theme ?? null;
-}
-
-// Real evidence-item count: the innovation's own evidence_ids minus the
-// leading taxonomy tag (which names the theme, not a piece of evidence).
-// Archived rows fall back to their previous_evidence.source_evidence_ids —
-// the one real evidence-shaped field that survives archival.
-function evidenceCount(row: any): number {
-  const ids: string[] = row.evidence_ids ?? row.previous_evidence?.source_evidence_ids ?? [];
-  return ids.filter((id) => !id.startsWith("taxonomy:")).length;
-}
-
-// critic_dimensions: 8 named per-innovation gates (decision_framework_real.py
-// / criteria_real.py lineage), each SURVIVE/CHALLENGE/NEEDS_EVIDENCE/REJECT —
-// genuinely present at the innovation-object level, not fabricated.
-const GATE_LABEL: Record<string, string> = {
-  EVIDENCE: "Evid", ECONOMIC: "Econ", COMPETITIVE: "Comp", HUMAN: "Human",
-  PHYSICAL: "Phys", VERSUNI_FIT: "Fit", TIMING: "Timing", ROBUSTNESS: "Robust",
-};
-const GATE_TONE: Record<string, "good" | "amber" | "neutral" | "rose"> = {
-  SURVIVE: "good", CHALLENGE: "amber", NEEDS_EVIDENCE: "neutral", REJECT: "rose",
-};
-
-const innovationColumns: Column<any>[] = [
-  {
-    key: "name",
-    label: "Innovation",
-    render: (row) => row.name ?? row.innovation_id,
-    sortValue: (row) => row.name ?? row.innovation_id,
-    width: "220px",
-  },
-  {
-    key: "state",
-    label: "State",
-    render: (row) => <Pill tone={stateTone(row.state)}>{sentenceCase(row.state)}</Pill>,
-    sortValue: (row) => row.state ?? "",
-    width: "130px",
-  },
-  {
-    key: "need",
-    label: "Need",
-    render: (row) => { const t = needTheme(row); return t ? sentenceCase(t) : "—"; },
-    sortValue: (row) => needTheme(row) ?? "",
-    width: "160px",
-  },
-  {
-    key: "domain",
-    label: "Domain",
-    render: (row) => (row.target_category ? sentenceCase(row.target_category) : "—"),
-    sortValue: (row) => row.target_category ?? "",
-    width: "150px",
-  },
-  {
-    key: "evidence",
-    label: "Evidence",
-    render: (row) => { const n = evidenceCount(row); return n > 0 ? `${n} evidence item${n === 1 ? "" : "s"}` : "—"; },
-    sortValue: (row) => evidenceCount(row),
-    width: "150px",
-  },
-  {
-    key: "gates",
-    label: "Gates",
-    render: (row) => {
-      const dims = row.critic_dimensions;
-      if (!dims) return "—";
-      return (
-        <div style={{ display: "flex", gap: 3 }}>
-          {Object.entries(dims).map(([k, v]: [string, any]) => (
-            <span key={k} title={`${sentenceCase(k)}: ${v.verdict}${v.reasoning ? " — " + v.reasoning : ""}`}>
-              <Pill tone={GATE_TONE[v.verdict] ?? "neutral"}>{GATE_LABEL[k] ?? sentenceCase(k)}</Pill>
-            </span>
-          ))}
-        </div>
-      );
-    },
-    width: "400px",
-  },
-  {
-    key: "economic_value",
-    label: "Economic value",
-    render: (row) => (row.economics?.price_weighted_exposure_usd != null
-      ? `$${row.economics.price_weighted_exposure_usd.toLocaleString()}` : "—"),
-    sortValue: (row) => row.economics?.price_weighted_exposure_usd ?? null,
-    align: "right",
-    width: "140px",
-  },
-];
-
-const innovationGroupOptions: GroupOption<any>[] = [
-  { key: "state", label: "State", groupValue: (row) => sentenceCase(row.state ?? "") },
-  { key: "need", label: "Need", groupValue: (row) => { const t = needTheme(row); return t ? sentenceCase(t) : ""; } },
-  { key: "domain", label: "Domain", groupValue: (row) => (row.target_category ? sentenceCase(row.target_category) : "") },
-];
-// --- end innovation list table helpers ----------------------------------
-
-function truncate(s: string | undefined, n: number): string {
-  if (!s) return "—";
-  return s.length > n ? s.slice(0, n - 1) + "…" : s;
-}
-
-const ENV_LABEL: Record<string, string> = {
-  performance_cadr_m3h: "clean-air delivery rate (CADR)", room_coverage_m2: "room coverage",
-  acoustic_min_dba: "minimum noise", target_mass_kg: "target mass", target_power_w: "target power",
-  target_dimensions: "target dimensions", reference_market_price_usd: "reference market price",
-};
 
 function InnovationDetail({ i, navigate }: { i: any; navigate?: (n: number, params?: Record<string, string>) => void }) {
   const env = i.engineering_envelope ?? {};
-  const dossier = (i.artifacts ?? []).find((a: any) => a.kind === "innovation_dossier");
   return (
     <div data-testid="innovation-detail">
-      <CompactInspector
-        summary={[
-          { label: "Current state", value: <span title={i.why_here?.reality}>{truncate(i.why_here?.reality, 70)}</span> },
-          { label: "Desired state", value: <span title={i.why_here?.product_consequence}>{truncate(i.why_here?.product_consequence, 70)}</span> },
-          { label: "Problem", value: <span title={i.problem}>{truncate(i.problem, 60)}</span> },
-          { label: "Theme", value: i.name?.split(" ").slice(0, 4).join(" ") ?? "—" },
-          { label: "Mechanism", value: i.mechanism?.operator ?? "—" },
-          { label: "State", value: <>{String(i.state).replace(/_/g, " ")}</> },
-        ]}
-        tabs={[
-          {
-            key: "physical", label: "Physical",
-            content: (
-              <div>
-                <img src={`/concept-visuals/${i.innovation_id.replace(":", "_")}.svg`} alt={`${i.name} concept schematic`}
-                  style={{ width: "100%", borderRadius: 10, border: "1px solid var(--line)", background: "white", marginBottom: 8 }} />
-                {Object.entries(env).map(([k, v]: [string, any]) => {
-                  if (typeof v === "string") return <CompactRow key={k} label={k.replace(/_/g, " ")} value={v} />;
-                  if (!v || typeof v !== "object") return null;
-                  const label = ENV_LABEL[k] ?? k.replace(/_/g, " ");
-                  if (v.epistemic_type === "OBSERVED_COMPARABLE") return <CompactRow key={k} label={label} value={`${v.min}–${v.max} ${v.unit} (n=${v.n_comparables})`} />;
-                  if (v.epistemic_type === "REFERENCE_MARKET_PRICE") return <CompactRow key={k} label={label} value={`median $${v.median} (${v.n_comparables} products)`} />;
-                  return <CompactRow key={k} label={label} value="unknown — no comparable publishes this" />;
-                })}
-              </div>
-            ),
-          },
-          {
-            key: "causality", label: "Causality",
-            content: (
-              <div>
-                <CompactRow label="Reality" value={i.why_here?.reality} title={i.why_here?.reality} />
-                <CompactRow label="Transformation" value={i.why_here?.transformation} title={i.why_here?.transformation} />
-                <CompactRow label="Consequence" value={i.why_here?.product_consequence} title={i.why_here?.product_consequence} />
-                <CompactRow label="Who / where" value={i.target_user_context?.evidence_based} title={i.target_user_context?.evidence_based} />
-                <CompactRow label="Persona" value={i.target_user_context?.persona} title={i.target_user_context?.persona} />
-              </div>
-            ),
-          },
-          {
-            key: "evidence", label: "Evidence",
-            content: (
-              <div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
-                  {(i.parent_path_ids ?? []).map((pid: string) => (
-                    <button key={pid} onClick={() => navigate?.(3, { path: pid })} className="mono"
-                      style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--ink-dim)" }}>
-                      {pid} →
-                    </button>
-                  ))}
-                  {(i.evidence_ids ?? []).filter((e: string) => e.startsWith("RP-")).map((rid: string) => (
-                    <button key={rid} onClick={() => navigate?.(2, { paper: rid })} className="mono"
-                      style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--accent-blue-ink)" }}>
-                      {rid} →
-                    </button>
-                  ))}
-                  <button onClick={() => navigate?.(4, { possibility: i.innovation_id })} className="mono"
-                    style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--accent-blue)", background: "var(--surface)", cursor: "pointer", color: "var(--accent-blue-ink)" }}>
-                    magic possibility →
-                  </button>
-                </div>
-                {(i.uncertainties ?? []).map((u: string, idx: number) => <CompactRow key={idx} label="Uncertainty" value={u} title={u} />)}
-                {i.contradictions && <CompactRow label="Contradiction" value={i.contradictions} title={i.contradictions} />}
-              </div>
-            ),
-          },
-          {
-            key: "decision", label: "Decision",
-            content: (
-              <div>
-                <CompactRow label="Next experiment" value={i.next_experiment ?? "No machine-derivable next test for this state."} title={i.next_experiment} />
-                <CompactRow label="Kill criterion" value={i.kill_criterion} title={i.kill_criterion} />
-                <CompactRow label="Why this state" value={i.state_why} title={i.state_why} />
-                {dossier && (
-                  <a href={dossier.path} target="_blank" rel="noopener noreferrer"
-                    title="The full 10-section dossier behind this summary - what it is, why it exists, the evidence, and what could kill it"
-                    style={{
-                      marginTop: 10, display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-                      padding: "9px 14px", borderRadius: 10, textDecoration: "none",
-                      background: "linear-gradient(120deg, var(--accent-blue) 0%, var(--accent-teal) 100%)",
-                      color: "#fff", fontSize: 12, fontWeight: 700,
-                    }}>
-                    <DocIcon /> Read the full innovation dossier (PDF) →
-                  </a>
-                )}
-              </div>
-            ),
-          },
-          {
-            key: "trace", label: "Trace",
-            content: (
-              <p className="mono" style={{ fontSize: 10, color: "var(--ink-faint)", lineHeight: 1.5 }}>
-                GET /api/innovation-objects — src/real/innovations_real.py; state rule is a labelled METHOD_CHOICE;
-                run {String(i.run_history?.magic_run_input_sha256 ?? "").slice(0, 12)}. Concept visual is a machine-composed
-                schematic from this innovation's own data, not a design rendering.
-              </p>
-            ),
-          },
-        ]}
-      />
+      <img src={`/concept-visuals/${i.innovation_id.replace(":", "_")}.svg`} alt={`${i.name} concept schematic`}
+        style={{ width: "100%", borderRadius: 12, border: "1px solid var(--line)", background: "white", marginBottom: 6 }} />
+      <p style={{ fontSize: 10, color: "var(--ink-faint)", marginBottom: 12 }}>
+        Concept visual — machine-composed schematic from this innovation's own data, not a design rendering.
+      </p>
+
+      <SectionLabel>What is it?</SectionLabel>
+      <p style={{ fontSize: 12.5, color: "var(--ink)", lineHeight: 1.5, marginBottom: 10 }}>{i.proposition}</p>
+
+      <SectionLabel>Why does it exist?</SectionLabel>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}><b>Reality:</b> {i.why_here?.reality}</p>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4 }}><b>Transformation:</b> {i.why_here?.transformation}</p>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginTop: 4, marginBottom: 10 }}><b>Consequence:</b> {i.why_here?.product_consequence}</p>
+
+      <SectionLabel>Who / where (only what evidence supports)</SectionLabel>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>{i.target_user_context?.evidence_based}</p>
+      <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginBottom: 10 }}>{i.target_user_context?.persona}</p>
+
+      <SectionLabel>How big / heavy / expensive might it be?</SectionLabel>
+      {Object.entries(env).map(([k, v]: [string, any]) => {
+        if (typeof v === "string") return <p key={k} style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4 }}>{v}</p>;
+        if (!v || typeof v !== "object") return null;
+        const ENV_LABEL: Record<string, string> = {
+          performance_cadr_m3h: "clean-air delivery rate (CADR)", room_coverage_m2: "room coverage",
+          acoustic_min_dba: "minimum noise", target_mass_kg: "target mass", target_power_w: "target power",
+          target_dimensions: "target dimensions", reference_market_price_usd: "reference market price",
+        };
+        const label = ENV_LABEL[k] ?? k.replace(/_/g, " ");
+        if (v.epistemic_type === "OBSERVED_COMPARABLE") return <StatRow key={k} label={`${label} (observed, n=${v.n_comparables})`} value={`${v.min}–${v.max} ${v.unit}`} />;
+        if (v.epistemic_type === "REFERENCE_MARKET_PRICE") return <StatRow key={k} label={`${label} (reference)`} value={`median $${v.median} (${v.n_comparables} products)`} />;
+        return <StatRow key={k} label={label} value="unknown — no comparable publishes this" />;
+      })}
+      <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, margin: "4px 0 10px" }}>{i.target_price_range?.note}</p>
+
+      <SectionLabel>Evidence behind it</SectionLabel>
+      <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 6 }}>{i.problem}</p>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
+        {(i.parent_path_ids ?? []).map((pid: string) => (
+          <button key={pid} onClick={() => navigate?.(3, { path: pid })} className="mono"
+            style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--ink-dim)" }}>
+            {pid} →
+          </button>
+        ))}
+        {(i.evidence_ids ?? []).filter((e: string) => e.startsWith("RP-")).map((rid: string) => (
+          <button key={rid} onClick={() => navigate?.(2, { paper: rid })} className="mono"
+            style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--line)", background: "var(--surface)", cursor: "pointer", color: "var(--accent-blue-ink)" }}>
+            {rid} →
+          </button>
+        ))}
+        <button onClick={() => navigate?.(4, { possibility: i.innovation_id })} className="mono"
+          style={{ fontSize: 10.5, padding: "3px 8px", borderRadius: 999, border: "1px solid var(--accent-blue)", background: "var(--surface)", cursor: "pointer", color: "var(--accent-blue-ink)" }}>
+          magic possibility →
+        </button>
+      </div>
+
+      <SectionLabel>Estimated vs unknown</SectionLabel>
+      {(i.uncertainties ?? []).map((u: string, idx: number) => (
+        <p key={idx} style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.45, marginBottom: 4 }}>{u}</p>
+      ))}
+      {i.contradictions && <p style={{ fontSize: 11.5, color: "var(--rose)", lineHeight: 1.45, marginBottom: 10 }}>Contradiction: {i.contradictions}</p>}
+
+      <SectionLabel>What should be tested next?</SectionLabel>
+      <p style={{ fontSize: 12, color: "var(--ink)", lineHeight: 1.5 }}>{i.next_experiment ?? "No machine-derivable next test for this state."}</p>
+      <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.45, marginTop: 4, marginBottom: 10 }}>{i.kill_criterion}</p>
+      <p style={{ fontSize: 11, color: "var(--ink-dim)", lineHeight: 1.45, marginBottom: 10 }}><b>State:</b> {i.state.replace(/_/g, " ")} — {i.state_why}</p>
+
+      {(i.artifacts ?? []).filter((a: any) => a.kind === "innovation_dossier").map((a: any) => (
+        <a key={a.id} href={a.path} target="_blank" rel="noopener noreferrer"
+          title="The full 10-section dossier behind this page's summary - what it is, why it exists, the evidence, and what could kill it"
+          style={{
+            marginTop: 6, display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+            padding: "9px 14px", borderRadius: 10, textDecoration: "none",
+            background: "linear-gradient(120deg, var(--accent-blue) 0%, var(--accent-teal) 100%)",
+            color: "#fff", fontSize: 12, fontWeight: 700,
+          }}>
+          <DocIcon /> Read the full innovation dossier (PDF) →
+        </a>
+      ))}
+      <p className="mono" style={{ fontSize: 9.5, color: "var(--ink-faint)", marginTop: 12, lineHeight: 1.5 }}>
+        GET /api/innovation-objects — src/real/innovations_real.py; state rule is a labelled METHOD_CHOICE;
+        run {String(i.run_history?.magic_run_input_sha256 ?? "").slice(0, 12)}
+      </p>
     </div>
   );
 }
@@ -295,17 +172,8 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
   // Magic possibility, mechanical states, formal case kept separate.
   const [objects, setObjects] = useState<any>(null);
   const [innovFocus, setInnovFocus] = useState<any>(null);
-  // One table, every developed possibility as an ordinary row (state
-  // distinguishes rejected; archived rows — genuinely a different real
-  // data shape, see build_archive_list in innovations_real.py — get a real
-  // state of "archived" and their innovation_id standing in for name, so
-  // the row-click -> InnovationDetail path below never sees an undefined
-  // .state to .replace() on).
-  const allInnovationRows = useMemo(() => {
-    if (!objects) return [];
-    const archived = (objects.archived_innovations ?? []).map((a: any) => ({ ...a, name: a.innovation_id, state: "archived" }));
-    return [...(objects.innovations ?? []), ...archived];
-  }, [objects]);
+  const [showRejected, setShowRejected] = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
   useEffect(() => {
     fetch("/api/innovation-objects").then((r) => r.json()).then((d) => {
       setObjects(d);
@@ -368,11 +236,14 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
             5 · Innovations — which possibilities are becoming serious?
           </div>
           <h1 style={{ fontSize: 24 }}>Innovations</h1>
-          <p style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 2 }}>
-            Every idea the machine developed lives here with the state its own evidence earns; ideas no
-            rival concept beats on every measure ("non-dominated") stay in the running. The formal case's
-            three evaluated bets follow below — each opens a full Lab.
-          </p>
+          <details style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 2, maxWidth: 640 }}>
+            <summary style={{ cursor: "pointer" }}>Every idea lives in the state its evidence earns ▸</summary>
+            <p style={{ marginTop: 4, lineHeight: 1.5 }}>
+              Every idea the machine developed lives here with the state its own evidence earns; ideas no
+              rival concept beats on every measure ("non-dominated") stay in the running. The formal case's
+              three evaluated bets follow below — each opens a full Lab.
+            </p>
+          </details>
         </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           {onGoToWorld && (
@@ -399,33 +270,74 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
 
       {objects && (
         <div style={{ marginBottom: 18 }} data-testid="innovation-population">
-          <div style={{ fontSize: 12, color: "var(--ink-dim)", marginBottom: 10, lineHeight: 1.5, maxWidth: 760 }}>
-            {objects.innovations.length} developed possibilities from the Magic box, each in the state its own
-            evidence and Critic verdict earn (<span className="mono" style={{ fontSize: 10.5 }}>method rule, never a tournament</span>) —
-            the formal case's evaluated bets and recommendation follow separately below.
-          </div>
+          <details style={{ fontSize: 12, color: "var(--ink-dim)", marginBottom: 10, lineHeight: 1.5, maxWidth: 760 }}>
+            <summary style={{ cursor: "pointer" }}>{objects.innovations.length} developed possibilities, each in its evidence-earned state ▸</summary>
+            <p style={{ marginTop: 4 }}>
+              {objects.innovations.length} developed possibilities from the Magic box, each in the state its own
+              evidence and Critic verdict earn (<span className="mono" style={{ fontSize: 10.5 }}>method rule, never a tournament</span>) —
+              the formal case's evaluated bets and recommendation follow separately below.
+            </p>
+          </details>
           {objects.new_this_run_note && (
             <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginBottom: 10, lineHeight: 1.4 }}>
               {objects.new_this_run_note}
             </div>
           )}
-          <DataTable
-            rows={allInnovationRows}
-            columns={innovationColumns}
-            getRowId={(row) => row.innovation_id}
-            onRowClick={(row) => setInnovFocus(row)}
-            groupOptions={innovationGroupOptions}
-            defaultGroupKey="state"
-            searchable
-            searchValue={(row) => row.name ?? row.innovation_id}
-            emptyMessage="No developed possibilities yet."
-          />
-          {(objects.archived_innovations ?? []).length > 0 && (
-            <div style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.4 }}>
-              Includes {objects.archived_innovations.length} archived — rejected, superseded, or stale past the
-              grace period; left the active population but kept visible here, never deleted (state "Archived").
-            </div>
-          )}
+          {(["ready_to_test", "developing", "grounded", "exploratory", "challenged", "paused"] as const).map((st) => {
+            const group = objects.innovations.filter((i: any) => i.state === st);
+            if (!group.length) return null;
+            return (
+              <div key={st} style={{ marginBottom: 12 }}>
+                <SectionLabel>{st.replace(/_/g, " ")} · {group.length}</SectionLabel>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 10 }}>
+                  {group.map((i: any) => <InnovationCard key={i.innovation_id} i={i} onOpen={() => setInnovFocus(i)} />)}
+                </div>
+              </div>
+            );
+          })}
+          {(() => {
+            const rejected = objects.innovations.filter((i: any) => i.state === "rejected");
+            if (!rejected.length) return null;
+            return (
+              <div style={{ marginBottom: 6 }}>
+                <button onClick={() => setShowRejected((v) => !v)}
+                  style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 11, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>
+                  {showRejected ? "▾" : "▸"} rejected · {rejected.length} — killed by the funnel or the Critic
+                </button>
+                {showRejected && (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 10, marginTop: 8 }}>
+                    {rejected.map((i: any) => <InnovationCard key={i.innovation_id} i={i} onOpen={() => setInnovFocus(i)} />)}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+          {(() => {
+            const archived = objects.archived_innovations ?? [];
+            if (!archived.length) return null;
+            return (
+              <div style={{ marginBottom: 6 }} data-testid="innovation-archive">
+                <button onClick={() => setShowArchived((v) => !v)}
+                  style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 11, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>
+                  {showArchived ? "▾" : "▸"} archive · {archived.length} — left the population, never deleted
+                </button>
+                {showArchived && (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 8, marginTop: 8 }}>
+                    {archived.map((a: any) => (
+                      <div key={a.innovation_id} style={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 12, padding: 10 }}>
+                        <div className="mono" style={{ fontSize: 11, fontWeight: 600, marginBottom: 4 }}>{a.innovation_id}</div>
+                        <p style={{ fontSize: 10.5, color: "var(--ink-dim)", lineHeight: 1.4, marginBottom: 4 }}>{a.reason}</p>
+                        <p style={{ fontSize: 9.5, color: "var(--ink-faint)", lineHeight: 1.4 }}>
+                          {a.run_id} · {a.date ? new Date(a.date).toLocaleDateString() : "—"}
+                          {a.successor_id && <> · superseded by <span className="mono">{a.successor_id}</span></>}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </div>
       )}
 
@@ -435,7 +347,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
         </span>
         <span style={{ flex: 1, height: 1, background: "var(--line)" }} />
         <span style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>
-          the Air case's three evaluated bets — separate from the population above
+          the Air case's three bets — kept separate
         </span>
       </div>
 
@@ -446,7 +358,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
       )}
       {status === "empty" && (
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-faint)", fontSize: 13, textAlign: "center", padding: 20 }}>
-          No candidates cleared the evidence gate for this scenario — the decision engine ran but found nothing to recommend.
+          No candidates cleared the evidence gate — an honest zero.
         </div>
       )}
       {status === "error" && (
@@ -459,7 +371,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
       )}
       {status === "timeout" && (
         <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "var(--amber)", fontSize: 13, textAlign: "center", padding: 20 }}>
-          <div>Still no response after {TIMEOUT_MS / 1000}s — the live decision engine may be stuck.</div>
+          <div>No response after {TIMEOUT_MS / 1000}s — the engine may be stuck.</div>
           <button onClick={() => setPriority((p) => p)} style={{ fontSize: 12, padding: "6px 14px", borderRadius: 8, border: "1px solid var(--amber)", background: "transparent", color: "var(--amber)", cursor: "pointer" }}>
             Retry
           </button>
@@ -502,7 +414,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
                     ${s.typical_market_price_usd.toFixed(2)}
                   </span>
                   <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>
-                    comparable market median — what {s.typical_market_price_n_products} real products in this segment cost today, never a proposed price for this concept
+                    comparable market median of {s.typical_market_price_n_products} real products — not a proposed price
                   </span>
                 </div>
               )}
@@ -530,7 +442,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
                     </div>
                     <MiniBar value={s.economic_value ?? 0} max={maxEcon} tone="teal" />
                     <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 4, lineHeight: 1.4 }}>
-                      Sum of real listed prices on affected reviews — a relative indicator, not a revenue estimate.
+                      Sum of listed prices — relative indicator, not revenue.
                     </p>
                   </div>
                 </>
@@ -614,7 +526,7 @@ export function InnovationsWorld({ onData, onGoToWorld }: { onData: (d: Innovati
       </div>
 
       <FocusPanel open={!!innovFocus} onClose={() => setInnovFocus(null)}
-        eyebrow={innovFocus ? `${innovFocus.state.replace(/_/g, " ")} · ${innovFocus.target_category}` : ""}
+        eyebrow={innovFocus ? `${toSentence(innovFocus.state)} · ${toSentence(innovFocus.target_category)}` : ""}
         title={innovFocus?.name ?? ""}>
         {innovFocus && <InnovationDetail i={innovFocus} navigate={onGoToWorld} />}
       </FocusPanel>

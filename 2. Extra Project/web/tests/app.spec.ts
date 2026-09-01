@@ -40,7 +40,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
     const expectations = [
-      { nav: /^Product universe$/, heading: "what exists today" },
+      { nav: /^Products$/, heading: "what exists today" },
       { nav: /^Radar$/, heading: "what are we observing?" },
       { nav: /^Paths$/, heading: "Where is reality actually moving?" },
       { nav: /^Magic box$/, heading: "what could exist now?" },
@@ -87,7 +87,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     }
   });
 
-  test("Distilled/raw toggle changes content on Product universe", async ({ page }) => {
+  test("Distilled/raw toggle changes content on Products", async ({ page }) => {
     await page.goto("/products");
     await expect(page.getByText("Verified Versuni portfolio").first()).toBeVisible({ timeout: 5000 });
     await page.getByRole("button", { name: "raw" }).click();
@@ -187,7 +187,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await rows.nth(2).click();
     await expect(page.getByText("Consequences")).toBeVisible();
     await expect(page).toHaveURL(/\/paths(\?|$)/);
-    // "Radar evidence" lands on the Research lens, never Product universe
+    // "Radar evidence" lands on the Research lens, never Products
     await page.getByRole("button", { name: "← Radar evidence" }).click();
     await expect(page).toHaveURL(/\/radar\?.*lens=research/);
     await noDocumentScroll(page);
@@ -242,7 +242,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // 3-part derivation, with the transformation labelled a method choice
     await expect(page.getByTestId("why-here")).toBeVisible();
     await expect(page.getByTestId("why-here").getByText(/1 · Reality:/)).toBeVisible();
-    await expect(page.getByTestId("why-here").getByText(/METHOD CHOICE, not evidence/)).toBeVisible();
+    await expect(page.getByTestId("why-here").getByText(/Method choice, not evidence/)).toBeVisible();
     await expect(page.getByTestId("why-here").getByText(/3 · Product consequence:/)).toBeVisible();
     // lineage chips resolve to real parents
     await expect(page.getByTestId("lineage").getByRole("button", { name: /tension:T\d/ }).first()).toBeVisible();
@@ -303,8 +303,8 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // no Air content leaks under the Floor care label
     await expect(page.getByText("Reviews retained")).toHaveCount(0);
     await expect(page.getByText(/Air Purifier/)).toHaveCount(0);
-    // Product universe stage shows the real frozen corpus
-    await page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /^Product universe$/ }).click();
+    // Products stage shows the real frozen corpus
+    await page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /^Products$/ }).click();
     await expect(page.getByTestId("category-stage-product_universe")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("Frozen validated products")).toBeVisible();
     await expect(page.getByText(/rating_number ≥ 500/)).toBeVisible();
@@ -321,7 +321,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
   test("Criteria is a visible system layer: shell access, Magic box entry, refresh, provenance - never stage 6", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
-    // the five-stage nav does NOT contain Criteria...
+    // the five-stage nav does not contain Criteria...
     await expect(page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /Criteria/ })).toHaveCount(0);
     // ...but the System group does, from anywhere in the shell
     await page.getByRole("group", { name: "System tools" }).getByRole("button", { name: /Criteria/ }).click();
@@ -365,9 +365,13 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText("snapshot (verified at retrieval)").first()).toBeVisible();
   });
 
-  test("Radar consumer lens shows exact corpus provenance", async ({ page }) => {
+  test("Radar consumer lens shows exact corpus provenance behind a one-line disclosure", async ({ page }) => {
     await page.goto("/radar?lens=consumers");
+    // visible at rest: one short sentence, not the full provenance block
     await expect(page.getByText("Corpus provenance:")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/10,547 reviews normalized → 10,529 retained/)).toBeHidden();
+    // the full honest detail is one click away, never deleted
+    await page.getByText("Corpus provenance:").click();
     await expect(page.getByText(/10,547 reviews normalized → 10,529 retained/)).toBeVisible();
     await expect(page.getByText("Who is missing:")).toBeVisible();
   });
@@ -416,9 +420,9 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText("not implemented").first()).toBeVisible();
   });
 
-  test("Versuni products header link goes to the catalog served locally on this same origin, same tab", async ({ page }) => {
+  test("Versuni Products header link goes to the catalog served locally on this same origin, same tab", async ({ page }) => {
     await page.goto("/");
-    const link = page.getByRole("link", { name: "Versuni products" });
+    const link = page.getByRole("link", { name: "Versuni Products" });
     await expect(link).toBeVisible();
     await expect(link).toHaveAttribute("href", "/verinfo/");
     await expect(link).not.toHaveAttribute("target", "_blank");
@@ -473,8 +477,8 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText("Criteria are not scores. They are tests.")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("Versuni edge — diagnostic, not a fourth score")).toBeVisible();
     await page.getByRole("button", { name: "V1 · Portfolio leverage" }).click();
-    await expect(page.getByText("NEEDS_EVIDENCE: 16")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText("No real Versuni internal-capability dataset").first()).toBeVisible();
+    await expect(page.getByText("Needs evidence: 16")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("dialog").getByText("No real Versuni internal-capability dataset").first()).toBeVisible();
     await page.keyboard.press("Escape");
     expect(errors).toEqual([]);
   });
@@ -499,7 +503,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText("● running")).toBeVisible();
     await expect(page.getByText(/snapshot [0-9a-f]{10}/)).toBeVisible();
 
-    for (const label of ["Product universe", "Radar", "Paths", "Magic box", "Innovations"]) {
+    for (const label of ["Products", "Radar", "Paths", "Magic box", "Innovations"]) {
       await expect(page.locator("main button").filter({ hasText: label }).first()).toBeVisible();
     }
 
@@ -528,10 +532,16 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByTestId("radar-distilled-overview")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("Reviews retained").first()).toBeVisible();
     await expect(page.getByText("Peer-reviewed papers").first()).toBeVisible();
-    // the machine never claims a trend over time from this corpus
-    await expect(page.getByText(/no validated time-series exists in this corpus/)).toBeVisible();
-    // classifier honesty is on the overview, with the measured coverage gap
+    // the machine never claims a trend over time from this corpus - one
+    // visible sentence, the full honest statement one click behind it
+    await expect(page.getByText("Change over time:")).toBeVisible();
+    await expect(page.getByText(/validated time-series exists in this corpus/)).toBeHidden();
+    await page.getByText("Change over time:").click();
+    await expect(page.getByText(/validated time-series exists in this corpus/)).toBeVisible();
+    // classifier honesty is on the overview: one visible sentence, the
+    // measured coverage gap one click behind it
     await expect(page.getByText("Classifier honesty:").first()).toBeVisible();
+    await page.getByText("Classifier honesty:").first().click();
     await expect(page.getByText(/match no theme keyword/).first()).toBeVisible();
     await expect(page.getByText(/92\.74%/).first()).toBeVisible();
     expect(errors).toEqual([]);
@@ -590,11 +600,11 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // open a specific paper via param
     await page.goto("/radar?paper=RP-01");
     await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByRole("dialog").getByText("Does NOT establish")).toBeVisible();
+    await expect(page.getByRole("dialog").getByText("Does not establish")).toBeVisible();
     // the URL keeps the object; a hard refresh restores the same panel
     await page.reload();
     await expect(page.getByRole("dialog")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByRole("dialog").getByText("Does NOT establish")).toBeVisible();
+    await expect(page.getByRole("dialog").getByText("Does not establish")).toBeVisible();
   });
 
   test("deep links: market lens and a signal focus survive refresh", async ({ page }) => {
@@ -651,29 +661,29 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
   test("homepage funnel families land on their own Radar lenses, dead families stay honest", async ({ page }) => {
     await page.goto("/");
     await page.locator("main button").filter({ hasText: "Radar" }).first().click();
-    // clicking the RESEARCH family lands on the Research lens, not the default
-    await page.getByRole("button", { name: /RESEARCH →/ }).click();
+    // clicking the Research family lands on the Research lens, not the default
+    await page.getByRole("button", { name: /Research →/ }).click();
     await expect(page).toHaveURL(/\/radar\?lens=research/);
     await expect(page.getByTestId("radar-distilled-research")).toBeVisible({ timeout: 5000 });
-    // and MARKET lands on Market
+    // and Market lands on Market
     await page.goto("/");
     await page.locator("main button").filter({ hasText: "Radar" }).first().click();
-    await page.getByRole("button", { name: /MARKET →/ }).click();
+    await page.getByRole("button", { name: /Market →/ }).click();
     await expect(page).toHaveURL(/\/radar\?lens=market/);
     await expect(page.getByText(/Why they disagree/)).toBeVisible({ timeout: 5000 });
     // families with no page render without the arrow affordance
     await page.goto("/");
     await page.locator("main button").filter({ hasText: "Radar" }).first().click();
-    await expect(page.getByText(/^ECONOMICS$/)).toBeVisible();
-    await expect(page.getByRole("button", { name: /ECONOMICS →/ })).toHaveCount(0);
+    await expect(page.getByText(/^Economics$/)).toBeVisible();
+    await expect(page.getByRole("button", { name: /Economics →/ })).toHaveCount(0);
   });
 
-  test("Product universe headline is the verified Versuni portfolio count, never the Amazon corpus", async ({ page }) => {
+  test("Products headline is the verified Versuni portfolio count, never the Amazon corpus", async ({ page }) => {
     await page.goto("/products");
     await expect(page.getByRole("heading", { name: /^\d+ verified Versuni products$/ })).toBeVisible({ timeout: 5000 });
     await expect(page.getByText("a verified subset checked against official pages")).toBeVisible();
     // the Amazon corpus stays clearly labelled as market context
-    await expect(page.getByText(/market context, NOT Versuni's portfolio/)).toBeVisible();
+    await expect(page.getByText(/market context, not Versuni's portfolio/)).toBeVisible();
     // the verified portfolio links onward to the full local catalog
     const catalogLink = page.getByTestId("products-verinfo-link");
     await expect(catalogLink).toBeVisible();
@@ -692,7 +702,9 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // mechanical states render as sections; no tournament framing over the population
     await expect(page.getByText(/developing · \d+/)).toBeVisible();
     await expect(page.getByText(/challenged · \d+/)).toBeVisible();
-    await expect(page.getByText(/rejected · \d+ — killed by the funnel or the Critic/)).toBeVisible();
+    // the registry lifecycle moves long-rejected ids into the archive on later
+    // runs - either section proves the kill/leave path is visibly separate
+    await expect(page.getByText(/(rejected · \d+ — killed by the funnel or the Critic|archive · \d+ — left the population, never deleted)/)).toBeVisible();
     // the formal case is a separately-marked lens, never blended
     await expect(page.getByText("Formal case recommendation", { exact: true })).toBeVisible();
     // concept visuals genuinely load (a broken image would leave naturalWidth 0)
@@ -702,27 +714,20 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("an Innovation detail is a compact table-first inspector: summary grid + tabs, deep-links survive refresh", async ({ page }) => {
+  test("an Innovation detail answers the 20-second questions and deep-links survive refresh", async ({ page }) => {
     await page.goto("/innovations?innovation=noise:AMBIENT");
     await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
     const d = page.getByTestId("innovation-detail");
-    // compact key/value summary leads - never a paragraph
-    await expect(d.getByText("Current state")).toBeVisible();
-    await expect(d.getByText("Desired state")).toBeVisible();
-    await expect(d.getByText("Mechanism")).toBeVisible();
-    // tabs, methodology/provenance behind Trace, never leading
-    await expect(d.getByRole("button", { name: "Physical" })).toBeVisible();
-    await expect(d.getByRole("button", { name: "Causality" })).toBeVisible();
-    await expect(d.getByRole("button", { name: "Evidence" })).toBeVisible();
-    await expect(d.getByRole("button", { name: "Decision" })).toBeVisible();
-    await expect(d.getByRole("button", { name: "Trace" })).toBeVisible();
+    await expect(d.getByText("What is it?")).toBeVisible();
+    await expect(d.getByText("Why does it exist?")).toBeVisible();
+    await expect(d.getByText("How big / heavy / expensive might it be?")).toBeVisible();
     await expect(d.getByText(/unknown — no comparable publishes this/).first()).toBeVisible();
-    await d.getByRole("button", { name: "Trace" }).click();
-    await expect(d.getByText(/machine-composed schematic/).first()).toBeVisible();
+    await expect(d.getByText("What should be tested next?")).toBeVisible();
+    // the prototype claim never exceeds what exists
+    await expect(page.getByText(/Concept visual — machine-composed schematic/).first()).toBeVisible();
     await page.reload();
     await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
-    // lineage is clickable back to the parent path, behind the Evidence tab
-    await page.getByTestId("innovation-detail").getByRole("button", { name: "Evidence" }).click();
+    // lineage is clickable back to the parent path
     await page.getByTestId("innovation-detail").getByRole("button", { name: "tension:T1 →" }).click();
     await expect(page.getByText("Where is reality actually moving?")).toBeVisible({ timeout: 5000 });
   });
@@ -731,7 +736,6 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // Innovation -> parent path
     await page.goto("/innovations?innovation=noise:AMBIENT");
     await expect(page.getByTestId("innovation-detail")).toBeVisible({ timeout: 10000 });
-    await page.getByTestId("innovation-detail").getByRole("button", { name: "Evidence" }).click();
     await page.getByTestId("innovation-detail").getByRole("button", { name: "tension:T1 →" }).click();
     await expect(page).toHaveURL(/\/paths\?path=tension/);
     // path -> its field grounding -> the real reviews behind the friction
@@ -742,7 +746,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // field -> a supporting paper, landing on the Radar's own record
     await page.getByTestId("path-field").getByRole("button", { name: /RP-\d+ ·/ }).first().click();
     await expect(page).toHaveURL(/\/radar\?.*paper=RP-/);
-    await expect(page.getByRole("dialog").getByText("Does NOT establish")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole("dialog").getByText("Does not establish")).toBeVisible({ timeout: 5000 });
     await page.keyboard.press("Escape");
     // reverse: magic possibility -> back to the same innovation's parent path
     await page.goto("/magic-box?possibility=noise:AMBIENT");
@@ -815,6 +819,8 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText(/compound annual growth rate \(CAGR\)/).first()).toBeVisible({ timeout: 5000 });
     await page.goto("/products");
     await page.getByRole("button", { name: "raw" }).click();
+    // the lens-coverage honesty note folds behind a one-line disclosure
+    await page.getByText(/two verified lenses — others lack evidence/).click();
     await expect(page.getByText(/clean-air-delivery-rate \(CADR\)/)).toBeVisible({ timeout: 5000 });
   });
 });

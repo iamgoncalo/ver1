@@ -48,7 +48,7 @@ export function VersuniProductsLink() {
         className="mono"
         style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.05em", color: "#fff" }}
       >
-        Versuni products
+        Versuni Products
       </span>
     </a>
   );
