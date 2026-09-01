@@ -22,6 +22,7 @@ export interface GroupOption<T> {
   key: string;
   label: string;
   groupValue: (row: T) => string; // the group this row belongs to; "" / null-ish -> "Ungrouped"
+  sortGroups?: (a: string, b: string) => number; // custom group ordering; default alphabetical ("Ungrouped" always last)
 }
 
 export interface DataTableProps<T> {
@@ -134,7 +135,7 @@ export function DataTable<T>({
     const labels = [...map.keys()].sort((a, b) => {
       if (a === UNGROUPED_LABEL) return 1;
       if (b === UNGROUPED_LABEL) return -1;
-      return a.localeCompare(b);
+      return activeGroup.sortGroups ? activeGroup.sortGroups(a, b) : a.localeCompare(b);
     });
     return labels.map((label) => ({ label, rows: sortRows(map.get(label)!) }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -347,7 +348,10 @@ export function DataTable<T>({
       )}
 
       <div style={{ overflowX: "auto", border: "1px solid var(--line)", borderRadius: 12 }}>
-        <table style={{ borderCollapse: "collapse", width: "100%" }}>
+        {/* Fixed layout: declared column widths win, long nowrap cell text
+            truncates with ellipsis instead of inflating its column into a
+            horizontal scroll — "no horizontal scroll as the normal condition". */}
+        <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
           <thead>
             <tr>
               {selectable && (

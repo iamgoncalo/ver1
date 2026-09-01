@@ -180,7 +180,7 @@ export function ProductsWorld() {
               <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 6 }}>Click any product for its own affordability context.</p>
             </div>
           )}
-          <CounterfactualPrompt>What if "air purifier" is the wrong unit of innovation?</CounterfactualPrompt>
+          <CounterfactualPrompt>What if clean air is something a room maintains — not something a machine produces?</CounterfactualPrompt>
         </div>
       ) : (
       <>
