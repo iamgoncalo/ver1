@@ -120,6 +120,43 @@ interface WhiteSpaceRow {
   feasibility: string; rivals_measurably_weak_here: string[]; is_white_space: boolean;
 }
 interface WhiteSpaceDoc { _provenance: string; spaces: WhiteSpaceRow[] }
+// /api/home-model — the authored strategic framework over the FULL Versuni
+// portfolio. Epistemic class JUDGMENT: authored by the case owner, dated,
+// declared in _provenance. ALWAYS badged as authored judgment, never blended
+// silently with review-derived evidence rows.
+interface AuthoredHomeSystem {
+  system: string; need: string; desired_state: string;
+  perfect_home_chain: string; current_products: string[];
+}
+interface AuthoredProduct {
+  name: string; object: string; immediate_cause: string;
+  needs_covered: string[]; burden_reduced: string[]; autonomy: string; end_state: string;
+}
+interface NeedsMatrixRow { product: string; marks: Record<string, "strong" | "secondary"> }
+interface AuthoredPrimitive { primitive: string; appears_in: string[]; adjacent_needs: string[] }
+interface MagicInput { input: string; question: string }
+interface MagicStep { step: string; meaning: string }
+interface WorkedExample { id: string; title: string; fields: { field: string; value: string }[]; closing: string }
+interface PerfectHomeRow { domain: string; does_well: string; human_handoff: string; end_product: string }
+interface ScoreMetric { metric: string; question: string; zero: string; five: string }
+interface ExampleScore {
+  product: string; need: number; causal: number; autonomy: number;
+  perception: number; integration: number; homeostasis: number; freedom: number;
+}
+interface TriggerQuestion { observe: string; ask: string }
+interface HomeModelDoc {
+  _provenance: string; generated_by: string; epistemic_type: string;
+  authored_by: string; authored_at: string;
+  home_systems: AuthoredHomeSystem[]; home_systems_thesis: string;
+  autonomy_scale: Record<string, string>;
+  products: AuthoredProduct[]; products_note: string;
+  needs_matrix_needs: string[]; needs_matrix: NeedsMatrixRow[]; needs_matrix_reading: string;
+  causal_primitives: AuthoredPrimitive[]; causal_primitives_reading: string;
+  magic_inputs: MagicInput[]; magic_sequence: MagicStep[];
+  worked_examples: WorkedExample[]; perfect_home: PerfectHomeRow[];
+  score_metrics: ScoreMetric[]; example_scores: ExampleScore[]; scores_reading: string;
+  trigger_questions: TriggerQuestion[]; closing_thesis: string;
+}
 
 // ---------------------------------------------------------------------------
 // Humanizers (duplicated from CompetitiveField.tsx)
@@ -242,25 +279,63 @@ const VIEWS: { key: ViewKey; label: string }[] = [
   { key: "competition", label: "Competition" },
   { key: "causality", label: "Causality" },
   { key: "burden", label: "Human burden" },
-  { key: "handoffs", label: "Handoffs" },
+  { key: "handoffs", label: "Home" },
   { key: "autonomy", label: "Autonomy" },
   { key: "trends", label: "Trends" },
   { key: "opportunities", label: "Opportunities" },
 ];
 
-type ProductsLens = "overview" | "market" | "human" | "specs";
+type ProductsLens = "portfolio" | "overview" | "market" | "human" | "specs";
 const PRODUCTS_LENSES: { key: ProductsLens; label: string }[] = [
+  { key: "portfolio", label: "Portfolio (authored)" },
   { key: "overview", label: "Overview" }, { key: "market", label: "Market" },
   { key: "human", label: "Human" }, { key: "specs", label: "Specs" },
 ];
-type NeedsLens = "matrix" | "coverage";
+type NeedsLens = "compression" | "matrix" | "coverage";
 const NEEDS_LENSES: { key: NeedsLens; label: string }[] = [
+  { key: "compression", label: "Compression (authored)" },
   { key: "matrix", label: "Products × needs" }, { key: "coverage", label: "Coverage" },
 ];
-type CausalLens = "chain" | "primitives" | "statevars";
+type CausalLens = "authored" | "chain" | "primitives" | "statevars";
 const CAUSAL_LENSES: { key: CausalLens; label: string }[] = [
+  { key: "authored", label: "Primitives (authored)" },
   { key: "chain", label: "Chain" }, { key: "primitives", label: "Primitives" }, { key: "statevars", label: "State variables" },
 ];
+type HomeLens = "maintains" | "gap";
+const HOME_LENSES: { key: HomeLens; label: string }[] = [
+  { key: "maintains", label: "What the home maintains (authored)" },
+  { key: "gap", label: "Today vs perfect home (authored)" },
+];
+type AutonomyLens = "scale" | "scores" | "sensing";
+const AUTONOMY_LENSES: { key: AutonomyLens; label: string }[] = [
+  { key: "scale", label: "Scale (authored)" },
+  { key: "scores", label: "Seven scores" },
+  { key: "sensing", label: "Sensing proxy (evidence)" },
+];
+type OppLens = "sources" | "questions" | "feeding";
+const OPP_LENSES: { key: OppLens; label: string }[] = [
+  { key: "sources", label: "Sources" },
+  { key: "questions", label: "Standing questions" },
+  { key: "feeding", label: "Feeding the Magic Box" },
+];
+// The two 5-need column groups of the authored ●/○ compression matrix —
+// keeps the visible column budget at 6 instead of 11.
+type CompressionGroup = "function" | "burdenRelief";
+const COMPRESSION_GROUPS: { key: CompressionGroup; label: string; needs: string[] }[] = [
+  { key: "function", label: "Function & feeling", needs: ["Basic function", "Pleasure", "Health / environment", "Variety", "Certainty / safety"] },
+  { key: "burdenRelief", label: "Burden relief", needs: ["Time", "Effort", "Skill", "Attention", "Presence"] },
+];
+// Worked deep-dive examples attach where names sensibly match: the capsule
+// example is the L'OR Barista de-embodied.
+const DEEP_DIVE_BY_PRODUCT: Record<string, string> = {
+  "Airfryer": "airfryer", "Air Purifier": "air_purifier", "L'OR Barista": "capsule",
+};
+// The 7-score comparison metric, in the authored order of score_metrics.
+const SCORE_KEYS = ["need", "causal", "autonomy", "perception", "integration", "homeostasis", "freedom"] as const;
+const SCORE_LABELS: Record<(typeof SCORE_KEYS)[number], string> = {
+  need: "Need", causal: "Causal", autonomy: "Autonomy", perception: "Perception",
+  integration: "Integration", homeostasis: "Homeostasis", freedom: "Freedom",
+};
 
 // ---------------------------------------------------------------------------
 // Derived-row shapes (all client-side deterministic joins of real data)
@@ -379,6 +454,75 @@ function EllipsisCell({ text, title, bold }: { text: string; title?: string; bol
   );
 }
 
+// Amber pill marking every authored-judgment lens/table — the framework rows
+// are never allowed to pass as review-derived evidence.
+function AuthoredPill() {
+  return (
+    <span title="Authored strategic judgment by the case owner (2026-09-01) — a declared analytical reading, not review-derived evidence.">
+      <Pill tone="amber">Authored</Pill>
+    </span>
+  );
+}
+
+// The mandatory provenance statement for every authored row's Trace tab.
+function AuthoredTrace({ extra }: { extra?: string }) {
+  return (
+    <TracePara>
+      Authored strategic judgment — case owner, 2026-09-01. Not review-derived evidence.
+      GET /api/home-model, built by src/real/home_model_authored.py; epistemic class JUDGMENT,
+      the same legitimacy model as the pipeline's operator vocabulary.{extra ? ` ${extra}` : ""}
+    </TracePara>
+  );
+}
+
+// "2 · Automates a transformation" — number + scale label; ranges ("2-3")
+// label from the lower level. Tooltip carries the full 1–5 scale.
+function autonomyMeaning(autonomy: string, scale: Record<string, string>): string {
+  const first = autonomy.split("-")[0].trim();
+  return scale[first] ?? "";
+}
+function autonomySort(autonomy: string): number {
+  const parts = autonomy.split("-").map((p) => Number(p.trim())).filter((n) => !Number.isNaN(n));
+  if (!parts.length) return 0;
+  return parts.reduce((s, n) => s + n, 0) / parts.length;
+}
+function autonomyScaleTitle(scale: Record<string, string>): string {
+  return Object.entries(scale).sort(([a], [b]) => Number(a) - Number(b)).map(([k, v]) => `${k} = ${v}`).join(" · ");
+}
+
+// Compact 0–5 score chip for the seven-score view: the digit sits on a teal
+// wash whose intensity is the score itself — 8 rows read as one picture.
+function ScoreCell({ value, title }: { value: number; title: string }) {
+  return (
+    <span
+      className="mono"
+      title={title}
+      style={{
+        display: "inline-flex", alignItems: "center", justifyContent: "center",
+        width: 26, height: 21, borderRadius: 6, fontSize: 11.5, fontWeight: 600,
+        color: value >= 4 ? "var(--accent-teal)" : value >= 2 ? "var(--ink)" : "var(--ink-faint)",
+        background: `color-mix(in srgb, var(--accent-teal) ${value * 11}%, transparent)`,
+        border: value === 5 ? "1px solid color-mix(in srgb, var(--accent-teal) 45%, transparent)" : "1px solid transparent",
+      }}
+    >
+      {value}
+    </span>
+  );
+}
+
+// ● strong / ○ secondary / blank — the authored needs-compression mark.
+function MatrixMark({ mark }: { mark: "strong" | "secondary" | undefined }) {
+  if (!mark) return <span style={{ color: "var(--ink-faint)" }} />;
+  return (
+    <span
+      title={mark === "strong" ? "Strong coverage" : "Secondary coverage"}
+      style={{ fontSize: mark === "strong" ? 13 : 12, color: mark === "strong" ? "var(--accent-teal)" : "var(--ink-faint)" }}
+    >
+      {mark === "strong" ? "●" : "○"}
+    </span>
+  );
+}
+
 interface InspectorState {
   eyebrow: string; title: string; summary: InspectorPair[]; tabs: InspectorTab[];
   image?: string | null;
@@ -406,12 +550,18 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
   const [imagesDoc, setImagesDoc] = useState<ProductImagesDoc | null | undefined>(undefined);
   const [rivalsDoc, setRivalsDoc] = useState<RivalsDoc | null | undefined>(undefined);
   const [wsDoc, setWsDoc] = useState<WhiteSpaceDoc | null | undefined>(undefined);
+  const [homeDoc, setHomeDoc] = useState<HomeModelDoc | null | undefined>(undefined);
 
   const [view, setView] = useState<ViewKey>("products");
-  const [productsLens, setProductsLens] = useState<ProductsLens>("overview");
-  const [needsLens, setNeedsLens] = useState<NeedsLens>("matrix");
-  const [causalLens, setCausalLens] = useState<CausalLens>("chain");
+  const [productsLens, setProductsLens] = useState<ProductsLens>("portfolio");
+  const [needsLens, setNeedsLens] = useState<NeedsLens>("compression");
+  const [causalLens, setCausalLens] = useState<CausalLens>("authored");
+  const [homeLens, setHomeLens] = useState<HomeLens>("maintains");
+  const [autonomyLens, setAutonomyLens] = useState<AutonomyLens>("scale");
+  const [oppLens, setOppLens] = useState<OppLens>("sources");
+  const [compressionGroup, setCompressionGroup] = useState<CompressionGroup>("function");
   const [compareRows, setCompareRows] = useState<UnifiedProduct[] | null>(null);
+  const [authoredCompare, setAuthoredCompare] = useState<AuthoredProduct[] | null>(null);
   const [inspector, setInspector] = useState<InspectorState | null>(null);
 
   useEffect(() => {
@@ -427,11 +577,13 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
     api.productImages().then((d) => setImagesDoc(d as ProductImagesDoc)).catch(() => setImagesDoc(null));
     api.rivals().then((d) => setRivalsDoc(d as unknown as RivalsDoc)).catch(() => setRivalsDoc(null));
     api.whiteSpace().then((d) => setWsDoc(d as unknown as WhiteSpaceDoc)).catch(() => setWsDoc(null));
+    api.homeModel().then((d) => setHomeDoc(d as HomeModelDoc)).catch(() => setHomeDoc(null));
   }, []);
 
   function selectView(key: ViewKey) {
     setView(key);
     setCompareRows(null);
+    setAuthoredCompare(null);
   }
 
   const products = useMemo(() => atlasDoc?.products ?? [], [atlasDoc]);
@@ -491,6 +643,26 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
     for (const p of products) if (p.domain === "AIR") for (const n of p.needs_touched) totals.set(n.need, (totals.get(n.need) ?? 0) + n.n_evidence_reviews);
     return [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k]) => k);
   }, [products]);
+
+  // ---------------------------------------------------------------- authored home model
+  const authoredProducts = useMemo(() => homeDoc?.products ?? [], [homeDoc]);
+  const authoredSystems = useMemo(() => homeDoc?.home_systems ?? [], [homeDoc]);
+  const authoredMatrix = useMemo(() => homeDoc?.needs_matrix ?? [], [homeDoc]);
+  const authoredPrimitives = useMemo(() => homeDoc?.causal_primitives ?? [], [homeDoc]);
+  const perfectHomeRows = useMemo(() => homeDoc?.perfect_home ?? [], [homeDoc]);
+  const exampleScores = useMemo(() => homeDoc?.example_scores ?? [], [homeDoc]);
+  const scoreMetrics = useMemo(() => homeDoc?.score_metrics ?? [], [homeDoc]);
+  const triggerQuestions = useMemo(() => homeDoc?.trigger_questions ?? [], [homeDoc]);
+  const magicInputs = useMemo(() => homeDoc?.magic_inputs ?? [], [homeDoc]);
+  const magicSequence = useMemo(() => homeDoc?.magic_sequence ?? [], [homeDoc]);
+  const autonomyScale = useMemo(() => homeDoc?.autonomy_scale ?? {}, [homeDoc]);
+  const scaleTitle = useMemo(() => autonomyScaleTitle(autonomyScale), [autonomyScale]);
+  // score column key → its authored metric (question + 0/5 anchors), by order.
+  const metricByKey = useMemo(() => {
+    const m: Partial<Record<(typeof SCORE_KEYS)[number], ScoreMetric>> = {};
+    SCORE_KEYS.forEach((k, i) => { if (scoreMetrics[i]) m[k] = scoreMetrics[i]; });
+    return m;
+  }, [scoreMetrics]);
 
   // ---------------------------------------------------------------- competition rows
 
@@ -1191,6 +1363,225 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
     });
   }
 
+  // ------------------------------------------------- authored inspectors
+
+  const AUTHORED_SEND_REASON = "Authored portfolio rows carry no corpus friction theme — send from the evidence lenses.";
+
+  function openAuthoredProductInspector(p: AuthoredProduct) {
+    const exampleId = DEEP_DIVE_BY_PRODUCT[p.name];
+    const example = exampleId ? homeDoc?.worked_examples.find((w) => w.id === exampleId) : undefined;
+    const tabs: InspectorTab[] = [
+      { key: "needs", label: "Needs", content: <PillWrap values={p.needs_covered} tone="blue" labeler={(s) => s} /> },
+      { key: "burden", label: "Burden", content: <PillWrap values={p.burden_reduced} tone="amber" labeler={(s) => s} /> },
+    ];
+    if (example) {
+      tabs.push({
+        key: "deep", label: "Deep dive",
+        content: (
+          <div>
+            <SectionLabel>{example.title}</SectionLabel>
+            {example.fields.map((f) => (
+              <CompactRow key={f.field} label={f.field} value={f.value} title={f.value} />
+            ))}
+            <p style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.55, marginTop: 10 }}>{example.closing}</p>
+          </div>
+        ),
+      });
+    }
+    tabs.push({ key: "trace", label: "Trace", content: <AuthoredTrace extra="One of the 48 authored portfolio products." /> });
+    setInspector({
+      eyebrow: `${p.object} · authored portfolio`,
+      title: p.name,
+      sendTheme: null,
+      sendReason: AUTHORED_SEND_REASON,
+      summary: [
+        { label: "Object", value: p.object },
+        { label: "Immediate cause", value: p.immediate_cause },
+        { label: "Autonomy", value: <span title={scaleTitle}>{`${p.autonomy} · ${autonomyMeaning(p.autonomy, autonomyScale)}`}</span> },
+        { label: "End state", value: p.end_state },
+        { label: "Record", value: <AuthoredPill /> },
+        { label: "Truth class", value: <TruthBadge truthClass="JUDGMENT" /> },
+      ],
+      tabs,
+    });
+  }
+
+  function openHomeSystemInspector(s: AuthoredHomeSystem) {
+    setInspector({
+      eyebrow: "Home system · authored",
+      title: s.system,
+      sendTheme: null,
+      sendReason: AUTHORED_SEND_REASON,
+      summary: [
+        { label: "Human need", value: s.need },
+        { label: "Desired state", value: s.desired_state },
+        { label: "Record", value: <AuthoredPill /> },
+        { label: "Truth class", value: <TruthBadge truthClass="JUDGMENT" /> },
+      ],
+      tabs: [
+        {
+          key: "chain", label: "Chain",
+          content: (
+            <div>
+              <SectionLabel>Perfect-home chain</SectionLabel>
+              {s.perfect_home_chain.split("->").map((step, i) => (
+                <CompactRow key={i} label={`Step ${i + 1}`} value={step.trim()} />
+              ))}
+            </div>
+          ),
+        },
+        { key: "products", label: "Products", content: <PillWrap values={s.current_products} tone="blue" labeler={(v) => v} /> },
+        { key: "trace", label: "Trace", content: <AuthoredTrace extra="One of the 13 authored home systems — what the home is really trying to maintain." /> },
+      ],
+    });
+  }
+
+  function openPerfectHomeInspector(r: PerfectHomeRow) {
+    setInspector({
+      eyebrow: "Today vs the perfect home · authored",
+      title: r.domain,
+      sendTheme: null,
+      sendReason: AUTHORED_SEND_REASON,
+      summary: [
+        { label: "Versuni does well", value: r.does_well },
+        { label: "Human handoff", value: r.human_handoff.replace(/->/g, "→") },
+        { label: "Logical end product", value: r.end_product },
+        { label: "Record", value: <AuthoredPill /> },
+      ],
+      tabs: [
+        {
+          key: "gap", label: "The gap",
+          content: (
+            <div>
+              <CompactRow label="Machine today" value={r.does_well} title={r.does_well} />
+              <CompactRow label="Still human" value={r.human_handoff.replace(/->/g, "→")} title={r.human_handoff.replace(/->/g, "→")} />
+              <CompactRow label="End product" value={r.end_product} title={r.end_product} />
+            </div>
+          ),
+        },
+        { key: "trace", label: "Trace", content: <AuthoredTrace extra="One of the 10 authored perfect-home gap rows." /> },
+      ],
+    });
+  }
+
+  function openAuthoredPrimitiveInspector(pr: AuthoredPrimitive) {
+    setInspector({
+      eyebrow: "Causal primitive · authored",
+      title: pr.primitive,
+      sendTheme: null,
+      sendReason: AUTHORED_SEND_REASON,
+      summary: [
+        { label: "Appears in", value: pr.appears_in.length },
+        { label: "Adjacent needs", value: pr.adjacent_needs.length },
+        { label: "Record", value: <AuthoredPill /> },
+      ],
+      tabs: [
+        { key: "appears", label: "Appears in", content: <PillWrap values={pr.appears_in} tone="teal" labeler={(v) => v} /> },
+        { key: "adjacent", label: "Adjacent needs", content: <PillWrap values={pr.adjacent_needs} tone="blue" labeler={(v) => v} /> },
+        { key: "trace", label: "Trace", content: <AuthoredTrace extra="One of the 18 authored causal primitives." /> },
+      ],
+    });
+  }
+
+  function openMatrixInspector(row: NeedsMatrixRow) {
+    const allNeeds = homeDoc?.needs_matrix_needs ?? [];
+    setInspector({
+      eyebrow: "Needs compression · authored",
+      title: row.product,
+      sendTheme: null,
+      sendReason: AUTHORED_SEND_REASON,
+      summary: [
+        { label: "Strong needs", value: Object.values(row.marks).filter((m) => m === "strong").length },
+        { label: "Secondary needs", value: Object.values(row.marks).filter((m) => m === "secondary").length },
+        { label: "Record", value: <AuthoredPill /> },
+      ],
+      tabs: [
+        {
+          key: "needs", label: "All ten needs",
+          content: (
+            <div>
+              {allNeeds.map((n) => (
+                <CompactRow key={n} label={n} value={row.marks[n] === "strong" ? "● strong" : row.marks[n] === "secondary" ? "○ secondary" : "—"} />
+              ))}
+            </div>
+          ),
+        },
+        { key: "trace", label: "Trace", content: <AuthoredTrace extra="One of the 14 rows of the authored needs-compression matrix." /> },
+      ],
+    });
+  }
+
+  function openScoreInspector(s: ExampleScore) {
+    setInspector({
+      eyebrow: "Seven-score comparison · authored",
+      title: s.product,
+      sendTheme: null,
+      sendReason: AUTHORED_SEND_REASON,
+      summary: SCORE_KEYS.map((k) => ({
+        label: SCORE_LABELS[k],
+        value: <span title={metricByKey[k]?.question}>{`${s[k]} / 5`}</span>,
+      })),
+      tabs: [
+        {
+          key: "metrics", label: "Metrics",
+          content: (
+            <div>
+              {SCORE_KEYS.map((k) => {
+                const m = metricByKey[k];
+                if (!m) return null;
+                return (
+                  <div key={k} style={{ borderBottom: "1px solid var(--line)", padding: "8px 0" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <ScoreCell value={s[k]} title={m.question} />
+                      <span style={{ fontSize: 12, fontWeight: 600, color: "var(--ink)" }}>{m.metric}</span>
+                    </div>
+                    <div style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 3 }}>{m.question}</div>
+                    <div style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 2 }}>{`0 = ${m.zero} · 5 = ${m.five}`}</div>
+                  </div>
+                );
+              })}
+              <FoldNote summary="How to read these scores ▸">{homeDoc?.scores_reading}</FoldNote>
+            </div>
+          ),
+        },
+        { key: "trace", label: "Trace", content: <AuthoredTrace extra="One of the 8 authored example scorings on the 7-score comparison metric." /> },
+      ],
+    });
+  }
+
+  function openTriggerInspector(t: TriggerQuestion) {
+    setInspector({
+      eyebrow: "Standing trigger question · authored",
+      title: t.observe,
+      sendTheme: null,
+      sendReason: AUTHORED_SEND_REASON,
+      summary: [
+        { label: "If you see", value: t.observe },
+        { label: "Ask immediately", value: t.ask },
+        { label: "Record", value: <AuthoredPill /> },
+      ],
+      tabs: [
+        { key: "trace", label: "Trace", content: <AuthoredTrace extra="One of the 14 authored standing trigger questions." /> },
+      ],
+    });
+  }
+
+  function openMagicInputInspector(m: MagicInput) {
+    setInspector({
+      eyebrow: "Magic Box input · authored",
+      title: m.input,
+      sendTheme: null,
+      sendReason: AUTHORED_SEND_REASON,
+      summary: [
+        { label: "Question", value: m.question },
+        { label: "Record", value: <AuthoredPill /> },
+      ],
+      tabs: [
+        { key: "trace", label: "Trace", content: <AuthoredTrace extra="One of the 15 authored Magic Box feeding inputs." /> },
+      ],
+    });
+  }
+
   // ------------------------------------------------------------- columns
 
   const unifiedName: Column<UnifiedProduct> = {
@@ -1403,6 +1794,97 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
     { key: "value", label: "Value", width: "110px", align: "right", render: (o) => (o.valueUsd != null ? `$${o.valueUsd.toLocaleString()}` : "—"), sortValue: (o) => o.valueUsd ?? undefined },
   ], []);
 
+  // ------------------------------------------------- authored columns
+
+  const authoredProductColumns: Column<AuthoredProduct>[] = useMemo(() => [
+    { key: "name", label: "Product", width: "160px", render: (p) => <EllipsisCell text={p.name} bold />, sortValue: (p) => p.name },
+    { key: "object", label: "Object", width: "90px", render: (p) => <EllipsisCell text={p.object} />, sortValue: (p) => p.object },
+    { key: "cause", label: "Causes", width: "190px", render: (p) => <EllipsisCell text={p.immediate_cause} />, sortValue: (p) => p.immediate_cause },
+    {
+      key: "needs", label: "Needs", width: "170px",
+      render: (p) => <EllipsisCell text={dotJoin(p.needs_covered, (s) => s, 2)} title={p.needs_covered.join(" · ")} />,
+    },
+    {
+      key: "autonomy", label: "Autonomy", width: "180px",
+      render: (p) => <EllipsisCell text={`${p.autonomy} · ${autonomyMeaning(p.autonomy, autonomyScale)}`} title={scaleTitle} />,
+      sortValue: (p) => autonomySort(p.autonomy),
+    },
+    { key: "end", label: "End state", width: "190px", render: (p) => <EllipsisCell text={p.end_state} />, sortValue: (p) => p.end_state },
+  ], [autonomyScale, scaleTitle]);
+
+  const authoredGroupOptions: GroupOption<AuthoredProduct>[] = useMemo(() => [
+    { key: "object", label: "Object", groupValue: (p) => p.object },
+    {
+      key: "autonomy", label: "Autonomy level",
+      groupValue: (p) => `Level ${p.autonomy} · ${autonomyMeaning(p.autonomy, autonomyScale)}`,
+      sortGroups: (a, b) => a.localeCompare(b),
+    },
+  ], [autonomyScale]);
+
+  const authoredScaleColumns: Column<AuthoredProduct>[] = useMemo(() => [
+    { key: "name", label: "Product", width: "180px", render: (p) => <EllipsisCell text={p.name} bold />, sortValue: (p) => p.name },
+    { key: "object", label: "Object", width: "100px", render: (p) => <EllipsisCell text={p.object} />, sortValue: (p) => p.object },
+    { key: "autonomy", label: "Autonomy", width: "80px", align: "center", render: (p) => <span className="mono" title={scaleTitle}>{p.autonomy}</span>, sortValue: (p) => autonomySort(p.autonomy) },
+    { key: "meaning", label: "Meaning", width: "200px", render: (p) => <EllipsisCell text={autonomyMeaning(p.autonomy, autonomyScale)} title={scaleTitle} />, sortValue: (p) => autonomyMeaning(p.autonomy, autonomyScale) },
+    { key: "end", label: "End state", width: "220px", render: (p) => <EllipsisCell text={p.end_state} />, sortValue: (p) => p.end_state },
+  ], [autonomyScale, scaleTitle]);
+
+  // The one sanctioned 8-column exception: 7 single-digit score chips.
+  const scoreColumns: Column<ExampleScore>[] = useMemo(() => [
+    { key: "product", label: "Product", width: "170px", render: (s) => <EllipsisCell text={s.product} bold />, sortValue: (s) => s.product } as Column<ExampleScore>,
+    ...SCORE_KEYS.map((k): Column<ExampleScore> => ({
+      key: k, label: SCORE_LABELS[k], width: "82px", align: "center",
+      render: (s) => <ScoreCell value={s[k]} title={metricByKey[k] ? `${metricByKey[k]!.question} 0 = ${metricByKey[k]!.zero} · 5 = ${metricByKey[k]!.five}` : String(s[k])} />,
+      sortValue: (s) => s[k],
+    })),
+  ], [metricByKey]);
+
+  const compressionColumns: Column<NeedsMatrixRow>[] = useMemo(() => {
+    const group = COMPRESSION_GROUPS.find((g) => g.key === compressionGroup)!;
+    return [
+      { key: "product", label: "Product", width: "180px", render: (r) => <EllipsisCell text={r.product} bold />, sortValue: (r) => r.product } as Column<NeedsMatrixRow>,
+      ...group.needs.map((need): Column<NeedsMatrixRow> => ({
+        key: `need:${need}`, label: need, width: "108px", align: "center",
+        render: (r) => <MatrixMark mark={r.marks[need]} />,
+        sortValue: (r) => (r.marks[need] === "strong" ? 2 : r.marks[need] === "secondary" ? 1 : 0),
+      })),
+    ];
+  }, [compressionGroup]);
+
+  const authoredPrimitiveColumns: Column<AuthoredPrimitive>[] = useMemo(() => [
+    { key: "primitive", label: "Primitive", width: "150px", render: (p) => <EllipsisCell text={p.primitive} bold />, sortValue: (p) => p.primitive },
+    { key: "appears", label: "Appears in", width: "300px", render: (p) => <EllipsisCell text={p.appears_in.join(" · ")} title={p.appears_in.join(" · ")} /> },
+    { key: "adjacent", label: "Adjacent needs", width: "320px", render: (p) => <EllipsisCell text={p.adjacent_needs.join(" · ")} title={p.adjacent_needs.join(" · ")} /> },
+  ], []);
+
+  const homeSystemColumns: Column<AuthoredHomeSystem>[] = useMemo(() => [
+    { key: "system", label: "System", width: "130px", render: (s) => <EllipsisCell text={s.system} bold />, sortValue: (s) => s.system },
+    { key: "need", label: "Human need", width: "160px", render: (s) => <EllipsisCell text={s.need} />, sortValue: (s) => s.need },
+    { key: "desired", label: "Desired state", width: "230px", render: (s) => <EllipsisCell text={s.desired_state} /> },
+    { key: "chain", label: "Perfect-home chain", width: "250px", render: (s) => <EllipsisCell text={s.perfect_home_chain.replace(/->/g, "→")} title={s.perfect_home_chain.replace(/->/g, "→")} /> },
+    {
+      key: "products", label: "Products", width: "190px",
+      render: (s) => <EllipsisCell text={dotJoin(s.current_products, (v) => v, 3)} title={s.current_products.join(" · ")} />,
+    },
+  ], []);
+
+  const perfectHomeColumns: Column<PerfectHomeRow>[] = useMemo(() => [
+    { key: "domain", label: "Domain", width: "120px", render: (r) => <EllipsisCell text={r.domain} bold />, sortValue: (r) => r.domain },
+    { key: "well", label: "Versuni does well", width: "230px", render: (r) => <EllipsisCell text={r.does_well} /> },
+    { key: "handoff", label: "Human handoff remaining", width: "300px", render: (r) => <EllipsisCell text={r.human_handoff.replace(/->/g, "→")} title={r.human_handoff.replace(/->/g, "→")} /> },
+    { key: "end", label: "Logical end product", width: "200px", render: (r) => <EllipsisCell text={r.end_product} />, sortValue: (r) => r.end_product },
+  ], []);
+
+  const triggerColumns: Column<TriggerQuestion>[] = useMemo(() => [
+    { key: "observe", label: "If you see", width: "300px", render: (t) => <EllipsisCell text={t.observe} bold />, sortValue: (t) => t.observe },
+    { key: "ask", label: "Ask immediately", width: "420px", render: (t) => <EllipsisCell text={t.ask} title={t.ask} /> },
+  ], []);
+
+  const magicInputColumns: Column<MagicInput>[] = useMemo(() => [
+    { key: "input", label: "Input", width: "190px", render: (m) => <EllipsisCell text={m.input} bold />, sortValue: (m) => m.input },
+    { key: "question", label: "Question", width: "480px", render: (m) => <EllipsisCell text={m.question} title={m.question} /> },
+  ], []);
+
   const domainGroup: GroupOption<AtlasProduct>[] = useMemo(() => [
     { key: "domain", label: "Domain", groupValue: (p) => DOMAIN_LABEL[p.domain] ?? p.domain },
     { key: "brand", label: "Brand", groupValue: (p) => brandLabel(p.brand) },
@@ -1494,6 +1976,66 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
     );
   }
 
+  // Compare across authored portfolio rows — the authored attribute set only,
+  // never blended with corpus/spec attributes.
+  function AuthoredCompareView({ items, onBack }: { items: AuthoredProduct[]; onBack: () => void }) {
+    interface AttrRow { label: string; value: (p: AuthoredProduct) => ReactNode }
+    const attrs: AttrRow[] = [
+      { label: "Object", value: (p) => p.object },
+      { label: "Causes", value: (p) => p.immediate_cause },
+      { label: "Needs", value: (p) => p.needs_covered.join(" · ") },
+      { label: "Burden", value: (p) => p.burden_reduced.join(" · ") },
+      { label: "Autonomy", value: (p) => `${p.autonomy} · ${autonomyMeaning(p.autonomy, autonomyScale)}` },
+      { label: "End state", value: (p) => p.end_state },
+    ];
+    return (
+      <div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+          <button onClick={onBack} style={ACTION_BTN_STYLE}>← Back to table</button>
+          <AuthoredPill />
+          <span style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>Comparing {items.length} authored portfolio rows</span>
+        </div>
+        <div style={{ border: "1px solid var(--line)", borderRadius: 12, overflow: "hidden" }}>
+          <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
+            <thead>
+              <tr>
+                <th style={{ width: 110, padding: "8px 10px", borderBottom: "1px solid var(--line)", background: "var(--surface)", textAlign: "left", fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }} />
+                {items.map((p) => (
+                  <th key={p.name} style={{ padding: "8px 10px", borderBottom: "1px solid var(--line)", background: "var(--surface)", textAlign: "left" }}>
+                    <div title={p.name} style={{ fontSize: 12, fontWeight: 700, color: "var(--ink)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</div>
+                    <div style={{ marginTop: 4 }}><Pill tone="amber">Authored</Pill></div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {attrs.map((attr) => (
+                <tr key={attr.label}>
+                  <td style={{ padding: "7px 10px", borderBottom: "1px solid var(--line)", fontSize: 10.5, color: "var(--ink-faint)", fontFamily: "var(--font-mono)", letterSpacing: "0.03em", whiteSpace: "nowrap" }}>{attr.label}</td>
+                  {items.map((p) => {
+                    const v = attr.value(p);
+                    return (
+                      <td key={p.name} style={{ padding: "7px 10px", borderBottom: "1px solid var(--line)", fontSize: 12, color: "var(--ink-dim)" }}>
+                        {typeof v === "string" || typeof v === "number"
+                          ? <span title={String(v)} style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{v}</span>
+                          : v}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <FoldNote summary="Where these values come from ▸">
+          Every attribute is the case owner's authored strategic judgment over the full Versuni
+          portfolio (GET /api/home-model, built by src/real/home_model_authored.py; dated 2026-09-01).
+          Nothing here is review-derived evidence, so no corpus attribute is mixed in.
+        </FoldNote>
+      </div>
+    );
+  }
+
   // ------------------------------------------------------------- render
 
   function loadingOrError(doc: unknown, source: string): ReactNode | null {
@@ -1504,15 +2046,16 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
 
   function activeRowCount(): number | null {
     switch (view) {
-      case "products": return unified.length;
-      case "needs": return needsLens === "matrix" ? products.length : coverageRows.length;
+      case "products": return productsLens === "portfolio" ? authoredProducts.length : unified.length;
+      case "needs": return needsLens === "compression" ? authoredMatrix.length : needsLens === "matrix" ? products.length : coverageRows.length;
       case "relationships": return relationships.length;
       case "competition": return competitionRows.length;
-      case "causality": return causalLens === "chain" ? causalRows.length : causalLens === "primitives" ? primitiveRows.length : stateVarRows.length;
+      case "causality": return causalLens === "authored" ? authoredPrimitives.length : causalLens === "chain" ? causalRows.length : causalLens === "primitives" ? primitiveRows.length : stateVarRows.length;
       case "burden": return products.length;
-      case "autonomy": return airIntelRows.length;
+      case "handoffs": return homeLens === "maintains" ? authoredSystems.length : perfectHomeRows.length;
+      case "autonomy": return autonomyLens === "scale" ? authoredProducts.length : autonomyLens === "scores" ? exampleScores.length : airIntelRows.length;
       case "trends": return trendArticles.length;
-      case "opportunities": return opportunityRows.length;
+      case "opportunities": return oppLens === "questions" ? triggerQuestions.length : oppLens === "feeding" ? magicInputs.length : opportunityRows.length;
       default: return null;
     }
   }
@@ -1520,6 +2063,54 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
   function renderView(): ReactNode {
     switch (view) {
       case "products": {
+        if (productsLens === "portfolio") {
+          const gate = loadingOrError(homeDoc, "/api/home-model");
+          if (gate) return gate;
+          if (authoredCompare) return <AuthoredCompareView items={authoredCompare} onBack={() => setAuthoredCompare(null)} />;
+          return (
+            <>
+              <FoldNote summary="Versuni's own positioning confirms the convergence ▸">
+                {homeDoc!.products_note} Everything in this lens is the case owner's authored strategic
+                judgment over the full portfolio, not review-derived evidence — the evidence lenses
+                (Overview, Market, Human, Specs) hold the corpus-derived tables.
+              </FoldNote>
+              <DataTable
+                key="products-portfolio"
+                rows={authoredProducts}
+                columns={authoredProductColumns}
+                getRowId={(p) => p.name}
+                onRowClick={openAuthoredProductInspector}
+                groupOptions={authoredGroupOptions}
+                defaultGroupKey="object"
+                searchable
+                searchValue={(p) => `${p.name} ${p.object} ${p.immediate_cause}`}
+                selectable
+                selectionActions={(sel, clear) => (
+                  <>
+                    <button
+                      key="send"
+                      disabled
+                      title="Authored portfolio rows carry no corpus friction theme — send from the evidence lenses"
+                      style={ACTION_BTN_DISABLED_STYLE}
+                    >
+                      No friction theme — authored rows
+                    </button>
+                    <button
+                      key="compare"
+                      disabled={sel.length < 2 || sel.length > 5}
+                      onClick={() => { setAuthoredCompare(sel); clear(); }}
+                      title={sel.length >= 2 && sel.length <= 5 ? "Side-by-side comparison of the selected authored rows" : "Select 2–5 products to compare"}
+                      style={sel.length >= 2 && sel.length <= 5 ? ACTION_BTN_STYLE : ACTION_BTN_DISABLED_STYLE}
+                    >
+                      Compare {sel.length >= 2 && sel.length <= 5 ? sel.length : ""}
+                    </button>
+                  </>
+                )}
+                emptyMessage="No authored products."
+              />
+            </>
+          );
+        }
         const gate = loadingOrError(atlasDoc, "/api/product-atlas");
         if (gate) return gate;
         if (compareRows) return <CompareView items={compareRows} onBack={() => setCompareRows(null)} />;
@@ -1564,6 +2155,33 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
         );
       }
       case "needs": {
+        if (needsLens === "compression") {
+          const gate = loadingOrError(homeDoc, "/api/home-model");
+          if (gate) return gate;
+          return (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3, width: "fit-content" }}>
+                  {COMPRESSION_GROUPS.map((g) => (
+                    <button key={g.key} onClick={() => setCompressionGroup(g.key)} style={lensButton(compressionGroup === g.key)}>{g.label}</button>
+                  ))}
+                </div>
+                <span style={{ fontSize: 11, color: "var(--ink-faint)" }}>● strong · ○ secondary</span>
+              </div>
+              <FoldNote summary="What jumps out ▸">{homeDoc!.needs_matrix_reading}</FoldNote>
+              <DataTable
+                key={`needs-compression-${compressionGroup}`}
+                rows={authoredMatrix}
+                columns={compressionColumns}
+                getRowId={(r) => r.product}
+                onRowClick={openMatrixInspector}
+                searchable
+                searchValue={(r) => r.product}
+                emptyMessage="No matrix rows."
+              />
+            </>
+          );
+        }
         if (needsLens === "matrix") {
           const gate = loadingOrError(atlasDoc, "/api/product-atlas");
           if (gate) return gate;
@@ -1664,6 +2282,25 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
         );
       }
       case "causality": {
+        if (causalLens === "authored") {
+          const gate = loadingOrError(homeDoc, "/api/home-model");
+          if (gate) return gate;
+          return (
+            <>
+              <FoldNote summary="How to use this map ▸">{homeDoc!.causal_primitives_reading}</FoldNote>
+              <DataTable
+                key="causal-authored"
+                rows={authoredPrimitives}
+                columns={authoredPrimitiveColumns}
+                getRowId={(p) => p.primitive}
+                onRowClick={openAuthoredPrimitiveInspector}
+                searchable
+                searchValue={(p) => `${p.primitive} ${p.appears_in.join(" ")} ${p.adjacent_needs.join(" ")}`}
+                emptyMessage="No authored primitives."
+              />
+            </>
+          );
+        }
         if (causalLens === "chain") {
           const gate = loadingOrError(causalDoc, "/api/causal-atlas");
           if (gate) return gate;
@@ -1739,15 +2376,96 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
           </>
         );
       }
-      case "handoffs":
+      case "handoffs": {
+        const gate = loadingOrError(homeDoc, "/api/home-model");
+        if (gate) return gate;
+        if (homeLens === "maintains") {
+          return (
+            <>
+              <FoldNote summary="The central point ▸">
+                {homeDoc!.home_systems_thesis} These 13 systems are the case owner's authored reading
+                of what the home is really trying to maintain — strategic judgment, not review-derived evidence.
+              </FoldNote>
+              <DataTable
+                key="home-maintains"
+                rows={authoredSystems}
+                columns={homeSystemColumns}
+                getRowId={(s) => s.system}
+                onRowClick={openHomeSystemInspector}
+                searchable
+                searchValue={(s) => `${s.system} ${s.need} ${s.current_products.join(" ")}`}
+                emptyMessage="No home systems."
+              />
+            </>
+          );
+        }
         return (
-          <EmptySlot
-            label="Handoffs"
-            summary="No real handoff dataset exists yet."
-            reason="No real dataset exists in this pipeline for human-to-machine handoffs. Building this table would require fabricating handoff/workflow data; it stays honestly empty until a real acquisition adds it."
-          />
+          <>
+            <FoldNote summary="Authored judgment, not review-derived evidence ▸">
+              Each row is the case owner's judgment of where the machine stops today and a human
+              must continue — with the logical end product that would close that handoff.
+              Authored 2026-09-01; served by GET /api/home-model.
+            </FoldNote>
+            <DataTable
+              key="home-gap"
+              rows={perfectHomeRows}
+              columns={perfectHomeColumns}
+              getRowId={(r) => r.domain}
+              onRowClick={openPerfectHomeInspector}
+              searchable
+              searchValue={(r) => `${r.domain} ${r.human_handoff} ${r.end_product}`}
+              emptyMessage="No gap rows."
+            />
+          </>
         );
+      }
       case "autonomy": {
+        if (autonomyLens === "scale") {
+          const gate = loadingOrError(homeDoc, "/api/home-model");
+          if (gate) return gate;
+          return (
+            <>
+              <FoldNote summary="The authored 1–5 autonomy scale ▸">
+                {scaleTitle}. Each product's level is the case owner's authored placement — strategic
+                judgment over the full portfolio, not a measurement from the review corpus.
+              </FoldNote>
+              <DataTable
+                key="autonomy-scale"
+                rows={authoredProducts}
+                columns={authoredScaleColumns}
+                getRowId={(p) => p.name}
+                onRowClick={openAuthoredProductInspector}
+                groupOptions={authoredGroupOptions}
+                defaultGroupKey="autonomy"
+                searchable
+                searchValue={(p) => `${p.name} ${p.object}`}
+                defaultSortKey="autonomy"
+                defaultSortDir="asc"
+                emptyMessage="No authored products."
+              />
+            </>
+          );
+        }
+        if (autonomyLens === "scores") {
+          const gate = loadingOrError(homeDoc, "/api/home-model");
+          if (gate) return gate;
+          return (
+            <>
+              <FoldNote summary="How to read these scores ▸">
+                {homeDoc!.scores_reading} Hover any score for the metric's question and its 0/5
+                anchors; click a row for the full metric definitions.
+              </FoldNote>
+              <DataTable
+                key="autonomy-scores"
+                rows={exampleScores}
+                columns={scoreColumns}
+                getRowId={(s) => s.product}
+                onRowClick={openScoreInspector}
+                emptyMessage="No example scores."
+              />
+            </>
+          );
+        }
         const gate = loadingOrError(atlasDoc, "/api/product-atlas");
         if (gate) return gate;
         return (
@@ -1806,6 +2524,50 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
         );
       }
       case "opportunities": {
+        if (oppLens === "questions") {
+          const gate = loadingOrError(homeDoc, "/api/home-model");
+          if (gate) return gate;
+          return (
+            <>
+              <FoldNote summary="The system in one line ▸">{homeDoc!.closing_thesis}</FoldNote>
+              <DataTable
+                key="opp-questions"
+                rows={triggerQuestions}
+                columns={triggerColumns}
+                getRowId={(t) => t.observe}
+                onRowClick={openTriggerInspector}
+                searchable
+                searchValue={(t) => `${t.observe} ${t.ask}`}
+                emptyMessage="No standing questions."
+              />
+            </>
+          );
+        }
+        if (oppLens === "feeding") {
+          const gate = loadingOrError(homeDoc, "/api/home-model");
+          if (gate) return gate;
+          return (
+            <>
+              <FoldNote summary="The eight-step sequence ▸">
+                <div>
+                  {magicSequence.map((s, i) => (
+                    <CompactRow key={s.step} label={`${i + 1} · ${s.step}`} value={s.meaning} title={s.meaning} />
+                  ))}
+                </div>
+              </FoldNote>
+              <DataTable
+                key="opp-feeding"
+                rows={magicInputs}
+                columns={magicInputColumns}
+                getRowId={(m) => m.input}
+                onRowClick={openMagicInputInspector}
+                searchable
+                searchValue={(m) => `${m.input} ${m.question}`}
+                emptyMessage="No feeding inputs."
+              />
+            </>
+          );
+        }
         const gates = [
           loadingOrError(wsDoc, "/api/white-space"),
           loadingOrError(magicDoc, "/api/magic-box"),
@@ -1851,7 +2613,16 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
     }
   }
 
-  const rowCount = view === "handoffs" ? null : activeRowCount();
+  const rowCount = activeRowCount();
+
+  // Is the currently visible lens an authored-judgment table?
+  const authoredLensActive =
+    (view === "products" && productsLens === "portfolio") ||
+    (view === "needs" && needsLens === "compression") ||
+    (view === "causality" && causalLens === "authored") ||
+    view === "handoffs" ||
+    (view === "autonomy" && (autonomyLens === "scale" || autonomyLens === "scores")) ||
+    (view === "opportunities" && (oppLens === "questions" || oppLens === "feeding"));
 
   const lensButton = (active: boolean) => ({
     padding: "6px 12px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 11.5,
@@ -1889,18 +2660,31 @@ export function SmartTables({ onSendToMagicBox }: { onSendToMagicBox: (themeId: 
         </span>
       </div>
 
-      {/* Contextual lenses — segmented control REPLACING the column set */}
-      {(view === "products" || view === "needs" || view === "causality") && (
-        <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3, marginBottom: 12, width: "fit-content" }}>
-          {view === "products" && PRODUCTS_LENSES.map((l) => (
-            <button key={l.key} onClick={() => { setProductsLens(l.key); setCompareRows(null); }} style={lensButton(productsLens === l.key)}>{l.label}</button>
-          ))}
-          {view === "needs" && NEEDS_LENSES.map((l) => (
-            <button key={l.key} onClick={() => setNeedsLens(l.key)} style={lensButton(needsLens === l.key)}>{l.label}</button>
-          ))}
-          {view === "causality" && CAUSAL_LENSES.map((l) => (
-            <button key={l.key} onClick={() => setCausalLens(l.key)} style={lensButton(causalLens === l.key)}>{l.label}</button>
-          ))}
+      {/* Contextual lenses — segmented control REPLACING the column set.
+          Authored lenses carry an amber pill: never blended with evidence. */}
+      {(view === "products" || view === "needs" || view === "causality" || view === "handoffs" || view === "autonomy" || view === "opportunities") && (
+        <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3, width: "fit-content", flexWrap: "wrap" }}>
+            {view === "products" && PRODUCTS_LENSES.map((l) => (
+              <button key={l.key} onClick={() => { setProductsLens(l.key); setCompareRows(null); setAuthoredCompare(null); }} style={lensButton(productsLens === l.key)}>{l.label}</button>
+            ))}
+            {view === "needs" && NEEDS_LENSES.map((l) => (
+              <button key={l.key} onClick={() => setNeedsLens(l.key)} style={lensButton(needsLens === l.key)}>{l.label}</button>
+            ))}
+            {view === "causality" && CAUSAL_LENSES.map((l) => (
+              <button key={l.key} onClick={() => setCausalLens(l.key)} style={lensButton(causalLens === l.key)}>{l.label}</button>
+            ))}
+            {view === "handoffs" && HOME_LENSES.map((l) => (
+              <button key={l.key} onClick={() => setHomeLens(l.key)} style={lensButton(homeLens === l.key)}>{l.label}</button>
+            ))}
+            {view === "autonomy" && AUTONOMY_LENSES.map((l) => (
+              <button key={l.key} onClick={() => setAutonomyLens(l.key)} style={lensButton(autonomyLens === l.key)}>{l.label}</button>
+            ))}
+            {view === "opportunities" && OPP_LENSES.map((l) => (
+              <button key={l.key} onClick={() => setOppLens(l.key)} style={lensButton(oppLens === l.key)}>{l.label}</button>
+            ))}
+          </div>
+          {authoredLensActive && <AuthoredPill />}
         </div>
       )}
 

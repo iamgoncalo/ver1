@@ -450,6 +450,15 @@ def product_relationships(domain: Optional[str] = None, relationship_type: Optio
             "capped": doc["capped"], "count": len(rows), "relationships": rows}
 
 
+@app.get("/api/home-model")
+def home_model():
+    """The case-owner-authored strategic framework over the full Versuni
+    portfolio - built offline by src/real/home_model_authored.py, served
+    verbatim. Epistemic class JUDGMENT, authored and dated in _provenance:
+    a declared analytical reading, never review-derived evidence."""
+    return read_json("home_model.json")
+
+
 @app.get("/api/innovations")
 def innovations():
     return read_json("decision_framework_real.json")
