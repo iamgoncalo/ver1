@@ -30,9 +30,17 @@ export function FocusPanel({ open, onClose, title, eyebrow, children }: {
         style={{
           position: "fixed", top: 0, right: 0, bottom: 0, width: "min(480px, 92vw)",
           background: "var(--surface)", borderLeft: "1px solid var(--line)", zIndex: 41,
-          display: "flex", flexDirection: "column", boxShadow: "-24px 0 48px -24px rgba(0,0,0,0.35)",
+          display: "flex", flexDirection: "column",
+          // Shadow only while open - a closed panel sits just off the right
+          // edge, and a persistent shadow bleeds back into every page.
+          boxShadow: open ? "-24px 0 48px -24px rgba(0,0,0,0.35)" : "none",
           transform: open ? "translateX(0)" : "translateX(100%)", pointerEvents: open ? "auto" : "none",
-          transition: "transform 240ms cubic-bezier(0.22, 1, 0.36, 1)",
+          // visibility flips after the slide-out finishes, so the panel (and
+          // anything it paints) is fully removed once closed.
+          visibility: open ? "visible" : "hidden",
+          transition: open
+            ? "transform 240ms cubic-bezier(0.22, 1, 0.36, 1)"
+            : "transform 240ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 240ms, box-shadow 0s 240ms",
         }}
       >
         <div style={{ padding: "18px 22px", borderBottom: "1px solid var(--line)", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
