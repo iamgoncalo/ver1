@@ -114,10 +114,10 @@ function headline(hf: HomepageFunnel, key: string, verifiedCount: number | null)
     // Verified official portfolio count - the all-brands Amazon corpus is
     // context inside the world, never this headline.
     case "product_universe": return verifiedCount;
-    case "radar": return Object.values(hf.radar.families).reduce((a, b) => a + b, 0);
-    case "paths": return hf.paths.length;
-    case "magic_box": return hf.magic_box.count;
-    case "innovations": return hf.innovations.count;
+    case "radar": return Object.values(hf.radar?.families ?? {}).reduce((a: number, b) => a + (b as number), 0);
+    case "paths": return hf.paths?.length ?? null;
+    case "magic_box": return hf.magic_box?.count ?? null;
+    case "innovations": return hf.innovations?.count ?? null;
     default: return null;
   }
 }
@@ -230,7 +230,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
           <>
             <p style={{ fontSize: 12.5, color: "var(--ink-dim)", lineHeight: 1.5, marginBottom: 12 }}>
               {verifiedCount != null ? `${verifiedCount} official Versuni/Philips air-purifier families, each individually checked against its official page — a verified subset, not the whole catalogue. ` : ""}
-              Alongside them: {hf.radar.families.PRODUCTS ?? 0} hand-validated category products (all brands) from the Amazon
+              Alongside them: {(hf.radar?.families ?? {}).PRODUCTS ?? 0} hand-validated category products (all brands) from the Amazon
               evidence corpus — market context the machine reasons over, never Versuni's own portfolio.
             </p>
             <button onClick={() => goTo(1)}
@@ -246,13 +246,13 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
       <FocusPanel open={openStage === "radar"} onClose={() => setOpenStage(null)} eyebrow="Radar — what the machine observes" title="Evidence families">
         {hf && (
           <>
-            {Object.entries(hf.radar.families).map(([k, v]) => {
+            {Object.entries((hf.radar?.families ?? {})).map(([k, v]) => {
               const target = FAMILY_TARGET[k];
               return (
                 <button key={k} onClick={() => target && goTo(target.world, target.lens ? { lens: target.lens } : undefined)}
                   style={{ display: "block", width: "100%", background: "none", border: "none", padding: "8px 0", textAlign: "left", cursor: target ? "pointer" : "default" }}>
                   <StatRow label={toSentence(k) + (target ? " →" : "")} value={v} />
-                  {hf.radar.notes[k] && <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginTop: 2 }}>{hf.radar.notes[k]}</p>}
+                  {(hf.radar?.notes ?? {})[k] && <p style={{ fontSize: 10.5, color: "var(--ink-faint)", lineHeight: 1.4, marginTop: 2 }}>{(hf.radar?.notes ?? {})[k]}</p>}
                 </button>
               );
             })}
@@ -263,10 +263,10 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
 
       {/* PATHS */}
       <FocusPanel open={openStage === "paths"} onClose={() => setOpenStage(null)} eyebrow="Paths — three claims, never blended"
-        title={`${hf?.paths.filter((p) => p.epistemic_class === "TENSION").length ?? 0} open tensions · ${hf?.paths.filter((p) => p.epistemic_class === "ASSUMPTION_TO_TEST").length ?? 0} assumptions to test`}>
+        title={`${(hf?.paths ?? []).filter((p) => p.epistemic_class === "TENSION").length ?? 0} open tensions · ${(hf?.paths ?? []).filter((p) => p.epistemic_class === "ASSUMPTION_TO_TEST").length ?? 0} assumptions to test`}>
         {hf && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {hf.paths.map((p) => (
+            {(hf.paths ?? []).map((p) => (
               <PathRow key={p.id} p={p} onOpen={() => goTo(3, { path: p.id })} />
             ))}
             <button onClick={() => setOpenStage("field")}
@@ -283,21 +283,21 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
 
       {/* FORMAL-CASE BRIEF - honestly named: the Air case decision verdict,
           NOT field grounding. Per-path field objects live inside Paths. */}
-      <FocusPanel open={openStage === "field"} onClose={() => setOpenStage(null)} eyebrow="Formal-case decision brief — the Air case verdict" title={hf?.formal_case_brief.now ?? ""}>
+      <FocusPanel open={openStage === "field"} onClose={() => setOpenStage(null)} eyebrow="Formal-case decision brief — the Air case verdict" title={hf?.formal_case_brief?.now ?? ""}>
         {hf && (
           <>
             <p style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5, marginBottom: 10 }}>
               One recommendation with its reasoning — the formal case's decision verdict. Field grounding
               (what each path means in the real world) is path-specific and lives inside the Paths world.
             </p>
-            <Expand label="Because" text={hf.formal_case_brief.because} />
-            <Expand label="Moving — what flips it" text={hf.formal_case_brief.moving} />
-            <Expand label="Opens" text={hf.formal_case_brief.opens} />
-            <Expand label="Wrong if" text={hf.formal_case_brief.wrong_if} tone="rose" />
-            {hf.formal_case_brief.blocked_by.length > 0 && (
+            <Expand label="Because" text={hf.formal_case_brief?.because} />
+            <Expand label="Moving — what flips it" text={hf.formal_case_brief?.moving} />
+            <Expand label="Opens" text={hf.formal_case_brief?.opens} />
+            <Expand label="Wrong if" text={hf.formal_case_brief?.wrong_if} tone="rose" />
+            {hf.formal_case_brief?.blocked_by.length > 0 && (
               <div style={{ marginBottom: 10 }}>
                 <SectionLabel>Blocked</SectionLabel>
-                {hf.formal_case_brief.blocked_by.map((k) => <Expand key={k.name} label={k.name} text={k.reason} />)}
+                {hf.formal_case_brief?.blocked_by.map((k) => <Expand key={k.name} label={k.name} text={k.reason} />)}
               </div>
             )}
             <button onClick={() => goTo(3)}
@@ -310,11 +310,11 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
       </FocusPanel>
 
       {/* MAGIC BOX */}
-      <FocusPanel open={openStage === "magic_box"} onClose={() => setOpenStage(null)} eyebrow="Magic box — reveal what could exist" title={`${hf?.magic_box.count ?? 0} possibilities generated`}>
+      <FocusPanel open={openStage === "magic_box"} onClose={() => setOpenStage(null)} eyebrow="Magic box — reveal what could exist" title={`${hf?.magic_box?.count ?? 0} possibilities generated`}>
         {hf && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
-              {hf.magic_box.possibilities.map((p) => (
+              {(hf.magic_box?.possibilities ?? []).map((p) => (
                 <button key={p.id} onClick={() => goTo(4, { possibility: p.id })}
                   style={{ display: "flex", width: "100%", justifyContent: "space-between", fontSize: 12.5, padding: "6px 0", borderBottom: "1px solid var(--line)", background: "none", border: "none", borderTop: "none", borderLeft: "none", borderRight: "none", cursor: "pointer", textAlign: "left", color: "var(--ink)" }}>
                   <span>{p.name} →</span>
@@ -323,7 +323,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
               ))}
             </div>
             <SectionLabel>Pattern types behind these</SectionLabel>
-            {Object.entries(hf.magic_box.pattern_type_counts).map(([k, v]) => (
+            {Object.entries((hf.magic_box?.pattern_type_counts ?? {})).map(([k, v]) => (
               <StatRow key={k} label={toSentence(k)} value={v} />
             ))}
             <button onClick={() => goTo(4)}
@@ -336,11 +336,11 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
       </FocusPanel>
 
       {/* INNOVATIONS */}
-      <FocusPanel open={openStage === "innovations"} onClose={() => setOpenStage(null)} eyebrow="Innovations — being challenged and evolved" title={`${hf?.innovations.count ?? 0} real candidates`}>
+      <FocusPanel open={openStage === "innovations"} onClose={() => setOpenStage(null)} eyebrow="Innovations — being challenged and evolved" title={`${hf?.innovations?.count ?? 0} real candidates`}>
         {hf && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {hf.innovations.candidates.map((c) => (
+              {(hf.innovations?.candidates ?? []).map((c) => (
                 <button key={c.id} onClick={() => goTo(5, { innovation: c.id })}
                   style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", padding: "10px 12px", border: "1px solid var(--line)", borderRadius: 10, background: "none", cursor: "pointer", textAlign: "left", color: "var(--ink)" }}>
                   <div>
@@ -356,8 +356,8 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
               Explore Innovations →
             </button>
             <div style={{ marginTop: 14 }}>
-              <SectionLabel>Ready to test ({hf.ready_to_test.count} — evidence-driven, not a ranked cut)</SectionLabel>
-              {hf.ready_to_test.count === 0 && (
+              <SectionLabel>Ready to test ({hf.ready_to_test?.count ?? 0} — evidence-driven, not a ranked cut)</SectionLabel>
+              {(hf.ready_to_test?.count ?? 0) === 0 && (
                 <details style={{ fontSize: 11.5, color: "var(--ink-faint)", lineHeight: 1.45, marginBottom: 6 }}>
                   <summary style={{ cursor: "pointer" }}>An honest zero — no candidate clears every gate ▸</summary>
                   <p style={{ marginTop: 4 }}>
@@ -367,7 +367,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
                   </p>
                 </details>
               )}
-              {hf.ready_to_test.innovations.map((p) => (
+              {(hf.ready_to_test?.innovations ?? []).map((p) => (
                 <button key={p.id} onClick={() => goTo(5, { innovation: p.id })}
                   style={{ display: "flex", width: "100%", justifyContent: "space-between", fontSize: 12, padding: "5px 0", borderBottom: "1px solid var(--line)", background: "none", border: "none", cursor: "pointer", textAlign: "left", color: "var(--ink)" }}>
                   <span>{p.name} →</span>
@@ -375,7 +375,7 @@ export function FunnelWorld({ onGoToWorld, navigate }: {
                 </button>
               ))}
               <p style={{ fontSize: 11, color: "var(--ink-faint)", marginTop: 8, lineHeight: 1.45 }}>
-                Formal-case recommendation: {hf.ready_to_test.formal_case_bet} — a separate, human-authored bet;
+                Formal-case recommendation: {hf.ready_to_test?.formal_case_bet} — a separate, human-authored bet;
                 its experiment and kill criterion live in the Innovations Lab.
               </p>
             </div>

@@ -184,7 +184,7 @@ export function CategoryGate({ category, world, onBackToAir }: { category: strin
               <div key={k} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0", borderBottom: "1px solid var(--line)" }}>
                 <span style={{ fontSize: 12, color: "var(--ink-dim)" }}>{k.replace(/_/g, " ")}</span>
                 <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                  <span className="mono" style={{ fontSize: 12 }}>{f.count.toLocaleString()}</span>
+                  <span className="mono" style={{ fontSize: 12 }}>{(f.count ?? 0).toLocaleString()}</span>
                   <Pill tone={STATE_TONE[f.state] ?? "amber"}>{f.state.toLowerCase()}</Pill>
                 </span>
               </div>
