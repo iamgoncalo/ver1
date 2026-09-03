@@ -1,17 +1,23 @@
-"""RESEARCH FOUNDATIONS - the three papers this machine implements.
+"""RESEARCH FOUNDATIONS - the papers this machine implements.
 
-EPISTEMIC CLASS: REFERENCE + JUDGMENT, declared. The three PDFs are real
-documents authored by the case owner (verified on disk under
+EPISTEMIC CLASS: REFERENCE + JUDGMENT, declared. Every PDF is a real
+document authored by the case owner (verified on disk under
 web/public/research-papers/); every description below was written after
 reading the papers themselves - title pages, abstracts, one-page
 summaries and tables of contents - never invented. The "how it relates"
 readings are the case owner's own declared mapping from paper to product,
 the same authored-judgment class as home_model_authored.py.
 
-The chain the three papers form, and why the product starts from them:
+The active chain, and why the product starts from it:
 
-    THEORY (AFI)  ->  METHOD (FPIM)  ->  BLUEPRINT (the Machine paper)
-                                     ->  this running product
+    METHOD (FPIM)  ->  FORECAST (the companion method)  ->  BLUEPRINT (the Machine paper)
+                                                         ->  this running product
+
+The theory paper (AFI) is archived for now (case-owner choice, 2026-09-03) -
+still fully present, readable and downloadable, just not part of the
+active headline chain. archived=True + archived_reason marks it; nothing
+about an archived paper is deleted, same posture as the innovation
+registry's own archive.
 
 Run:  python3 src/real/research_papers_authored.py
 """
@@ -27,6 +33,11 @@ PAPERS = [
         "id": "afi",
         "layer": 1,
         "layer_label": "Theory",
+        "archived": True,
+        "archived_reason": (
+            "Archived for now (case-owner choice, 2026-09-03) so the active set stays focused on the "
+            "operational method and the build blueprint. Still the real theoretical root every other paper "
+            "cites - fully readable and downloadable below, never deleted."),
         "title": "Why Must a Cause of All and a Law of All Be Related in a Universe?",
         "subtitle": "Freedom, Causation, and the General Problem of Navigability: Architecture of Freedom Intelligence",
         "author": "Gonçalo Melo de Magalhães",
@@ -82,7 +93,7 @@ PAPERS = [
     },
     {
         "id": "fpim",
-        "layer": 2,
+        "layer": 1,
         "layer_label": "Method",
         "title": "Creating Non-Obvious Innovations",
         "subtitle": "How to Escape the Faster-Horse Trap and Build an Innovation Machine for Products, Systems and Processes",
@@ -135,6 +146,59 @@ PAPERS = [
             "machine, that turns \"Freedom is path availability\" into "
             "concrete non-obvious product hypotheses - and says exactly what "
             "would prove it wrong.",
+        ],
+    },
+    {
+        "id": "forecast",
+        "layer": 2,
+        "layer_label": "Forecast",
+        "title": "How to Forecast Non-Obvious Innovations",
+        "subtitle": "The Non-Obvious Forecast",
+        "author": "Gonçalo Melo de Magalhães",
+        "year": "2026",
+        "pages": 35,
+        "file": "/research-papers/how-to-forecast-non-obvious-innovations.pdf",
+        "role": "The forecasting companion",
+        "one_line": "Reads a company's dependency structure, not its sales history, to see the next jump before it happens.",
+        "why_not": [
+            "The historical backtest covers roughly twenty documented technology transitions - a real but "
+            "modest sample, reported as such rather than as a large-N validation.",
+            "The prospective trial scores candidate jumps for a live company before the outcome is known - "
+            "its predictive claim is, by construction, still open at publication.",
+            "It is one method-generated hypothesis among the tests it proposes on itself; the paper's own "
+            "closing line hands the decision to the tests, not to the argument.",
+        ],
+        "what_it_is": [
+            "Argues that every standard forecasting family - trend extrapolation, diffusion curves, Delphi "
+            "panels, superforecasting tournaments, prediction markets, scenario planning, jobs-to-be-done, "
+            "language-model ensembles - performs pattern recognition: it reads the frequency of a remembered "
+            "series and projects it forward, and is structurally blind to an innovation jump, which by "
+            "definition has no frequency in any series before it happens.",
+            "Proposes path recognition as the alternative: reading the dependency structure that holds a "
+            "product's current embodiment in place - its obligations, its identity chain, the capabilities "
+            "that could change it - rather than the frequency of its past. A four-variable model (obligations "
+            "removed, identity-chain continuity, capability match, frontier gap) is specified with a coding "
+            "protocol, backtested against roughly twenty documented historical technology transitions, and "
+            "run forward as a prospective trial.",
+            "Stress-tests the model across five unrelated domains (telephony, books, drinking water, "
+            "photography, home heating) plus three deeper company forecasts - Versuni, Apple, and OpenAI - "
+            "each producing a named jump, a set of directions to leave alone, a disappearance risk, and a "
+            "stated falsifier.",
+        ],
+        "how_it_relates": [
+            "This is the machine's forecasting companion to FPIM: the same read-structure-not-frequency "
+            "operation FPIM applies to a single product request, applied here to a company's whole "
+            "forward-looking judgment - exactly the discipline the Radar and Paths worlds are meant to "
+            "practice on Versuni's real evidence, rather than trend-extrapolating the current portfolio "
+            "forward.",
+            "One of its three worked company forecasts is Versuni itself - the one paper in this set that "
+            "names a jump, a disappearance risk, and a falsifier for this exact company, not just the method "
+            "in the abstract.",
+        ],
+        "why_key": [
+            "Without this paper, the machine's Trends reading would default to what every other forecasting "
+            "method already does - extrapolating the current portfolio's attributes forward - exactly the "
+            "faster-horse failure the rest of the machine exists to escape.",
         ],
     },
     {
@@ -208,12 +272,12 @@ WHY_PAPERS_FIRST = {
               "as a given; a reader who starts at the papers can check each "
               "decision against the evidence and the stated alternatives, "
               "and knows what would falsify it."},
-        {"q": "How do the three fit together?",
-         "a": "One chain: the AFI paper defines what innovation is (creating "
-              "passible paths); the FPIM paper turns that into a repeatable "
-              "procedure with stop rules; the Machine paper turns the "
-              "procedure into a continuously running system for Versuni - "
-              "and this application is that system, live."},
+        {"q": "How do the active papers fit together?",
+         "a": "One chain: FPIM turns the faster-horse problem into a repeatable product-design procedure "
+              "with stop rules; the Forecast paper applies the same read-structure-not-frequency operation "
+              "to a company's forward judgment, naming a real jump for Versuni itself; the Machine paper "
+              "turns both into a continuously running system - and this application is that system, live. "
+              "The archived AFI paper is the theoretical root all three draw their vocabulary from."},
     ],
 }
 
@@ -225,21 +289,27 @@ def build():
     for p in PAPERS:
         disk = os.path.join(PDF_DIR, os.path.basename(p["file"]))
         entry = dict(p)
+        entry.setdefault("archived", False)
+        entry.setdefault("archived_reason", None)
         entry["file_exists"] = os.path.exists(disk)
         entry["file_size_mb"] = round(os.path.getsize(disk) / 1e6, 1) if entry["file_exists"] else None
         papers.append(entry)
 
+    n_active = sum(1 for p in papers if not p["archived"])
+    n_archived = len(papers) - n_active
     doc = {
         "_provenance": (
-            "The three research papers behind this machine, verified present "
-            "on disk. Descriptions written from the papers' own title pages, "
-            "abstracts and contents; the relation/why-key readings are the "
-            "case owner's declared authored judgment (same class as "
+            "The research papers behind this machine, verified present on "
+            "disk. Descriptions written from the papers' own title pages, "
+            "abstracts and contents; the relation/why-key/why-not readings "
+            "are the case owner's declared authored judgment (same class as "
             "home_model_authored.py). Built by "
             "src/real/research_papers_authored.py."),
         "generated_by": "src/real/research_papers_authored.py",
         "epistemic_type": "REFERENCE",
         "authored_by": "case owner",
+        "n_active": n_active,
+        "n_archived": n_archived,
         "papers": papers,
         "why_papers_first": WHY_PAPERS_FIRST,
     }
@@ -247,8 +317,8 @@ def build():
         json.dump(doc, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
     missing = [p["id"] for p in papers if not p["file_exists"]]
-    print("wrote {} ({} papers, {} pages total{})".format(
-        OUT, len(papers), sum(p["pages"] for p in papers),
+    print("wrote {} ({} active, {} archived, {} pages total{})".format(
+        OUT, n_active, n_archived, sum(p["pages"] for p in papers),
         ", MISSING FILES: " + ", ".join(missing) if missing else ""))
     return doc
 

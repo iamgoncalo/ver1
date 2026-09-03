@@ -16,6 +16,7 @@ interface Paper {
   title: string; subtitle: string; author: string; year: string;
   pages: number; file: string; role: string; one_line: string;
   file_exists: boolean; file_size_mb: number | null;
+  archived: boolean; archived_reason: string | null;
   what_it_is: string[]; how_it_relates: string[]; why_key: string[]; why_not: string[];
 }
 
@@ -27,14 +28,15 @@ function Para({ children }: { children: string }) {
 }
 
 function PaperCard({ p, onOpen }: { p: Paper; onOpen: () => void }) {
-  const color = LAYER_COLOR[p.layer] ?? "var(--ink-faint)";
+  const color = p.archived ? "var(--ink-faint)" : (LAYER_COLOR[p.layer] ?? "var(--ink-faint)");
   return (
     <div
       onClick={onOpen} role="button" tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter") onOpen(); }}
       style={{
         border: "1px solid var(--line)", borderLeft: `4px solid ${color}`, borderRadius: 14,
-        padding: "18px 20px", cursor: "pointer", background: "var(--surface)",
+        padding: "18px 20px", cursor: "pointer", background: p.archived ? "var(--surface-2)" : "var(--surface)",
+        opacity: p.archived ? 0.85 : 1,
         transition: "box-shadow 140ms, transform 140ms",
       }}
       onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "var(--shadow)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
@@ -43,10 +45,12 @@ function PaperCard({ p, onOpen }: { p: Paper; onOpen: () => void }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 30, height: 30, borderRadius: 9, background: color, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, flexShrink: 0 }}>
-            {p.layer}
+            {p.archived ? "—" : p.layer}
           </div>
           <div>
-            <div style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: "0.05em", color, fontWeight: 700 }}>{p.layer_label.toUpperCase()}</div>
+            <div style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: "0.05em", color, fontWeight: 700 }}>
+              {p.archived ? "ARCHIVED · " : ""}{p.layer_label.toUpperCase()}
+            </div>
             <div style={{ fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25 }}>{p.title}</div>
           </div>
         </div>
@@ -57,16 +61,22 @@ function PaperCard({ p, onOpen }: { p: Paper; onOpen: () => void }) {
         {p.one_line}
       </p>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginLeft: 44 }}>
-        <div style={{ padding: "10px 12px", borderRadius: 10, background: "color-mix(in srgb, var(--good) 8%, transparent)" }}>
-          <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--good)", fontWeight: 700, marginBottom: 3 }}>WHY IT MATTERS</div>
-          <div style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4 }}>{p.why_key[0]}</div>
+      {p.archived ? (
+        <div style={{ marginLeft: 44, padding: "10px 12px", borderRadius: 10, background: "var(--surface)", fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>
+          {p.archived_reason}
         </div>
-        <div style={{ padding: "10px 12px", borderRadius: 10, background: "color-mix(in srgb, var(--rose) 8%, transparent)" }}>
-          <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--rose)", fontWeight: 700, marginBottom: 3 }}>WHY NOT / LIMITS</div>
-          <div style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4 }}>{p.why_not[0]}</div>
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginLeft: 44 }}>
+          <div style={{ padding: "10px 12px", borderRadius: 10, background: "color-mix(in srgb, var(--good) 8%, transparent)" }}>
+            <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--good)", fontWeight: 700, marginBottom: 3 }}>WHY IT MATTERS</div>
+            <div style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4 }}>{p.why_key[0]}</div>
+          </div>
+          <div style={{ padding: "10px 12px", borderRadius: 10, background: "color-mix(in srgb, var(--rose) 8%, transparent)" }}>
+            <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--rose)", fontWeight: 700, marginBottom: 3 }}>WHY NOT / LIMITS</div>
+            <div style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4 }}>{p.why_not[0]}</div>
+          </div>
         </div>
-      </div>
+      )}
 
       <div style={{ display: "flex", gap: 8, marginTop: 14, marginLeft: 44 }} onClick={(e) => e.stopPropagation()}>
         {p.file_exists ? (
@@ -102,25 +112,40 @@ export function PapersWorld() {
   if (!doc) return <div style={{ padding: 40, color: "var(--ink-faint)" }}>Loading…</div>;
 
   const papers: Paper[] = doc.papers ?? [];
+  const active = papers.filter((p) => !p.archived).sort((a, b) => a.layer - b.layer);
+  const archived = papers.filter((p) => p.archived);
   const wpf = doc.why_papers_first;
+  const chain = active.map((p) => p.layer_label).join(" → ");
 
   return (
     <div className="scrollY" style={{ height: "100%", padding: "26px 28px" }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <SectionLabel>Research foundations</SectionLabel>
         <h1 style={{ fontSize: 30, fontFamily: "var(--font-display)", marginBottom: 6 }}>
-          The three papers this machine implements
+          The {active.length} papers this machine implements
         </h1>
         <p style={{ fontSize: 14, color: "var(--ink-dim)", marginBottom: 20, maxWidth: 640 }}>
-          Theory → method → blueprint → this running product. Every architectural choice in this app traces to
-          one of these three.
+          {chain} → this running product. Every architectural choice in this app traces to one of these.
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 22 }}>
-          {papers.map((p) => (
+          {active.map((p) => (
             <PaperCard key={p.id} p={p} onOpen={() => setFocus(p)} />
           ))}
         </div>
+
+        {archived.length > 0 && (
+          <details style={{ marginBottom: 22 }}>
+            <summary style={{ cursor: "pointer", fontSize: 12, color: "var(--ink-faint)", fontWeight: 600 }}>
+              Archive · {archived.length} — kept, not deleted ▸
+            </summary>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 14 }}>
+              {archived.map((p) => (
+                <PaperCard key={p.id} p={p} onOpen={() => setFocus(p)} />
+              ))}
+            </div>
+          </details>
+        )}
 
         <details style={{ maxWidth: 720 }}>
           <summary style={{ cursor: "pointer", fontSize: 12, color: "var(--ink-faint)", fontWeight: 600 }}>
@@ -144,11 +169,16 @@ export function PapersWorld() {
         {focus && (
           <>
             <p style={{ fontSize: 12, color: "var(--ink-faint)", fontStyle: "italic", marginBottom: 12 }}>{focus.subtitle}</p>
+            {focus.archived && (
+              <div style={{ marginBottom: 12, padding: "10px 12px", borderRadius: 10, border: "1px solid var(--line)", background: "var(--surface-2)", fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>
+                <b style={{ color: "var(--ink)" }}>Archived — </b>{focus.archived_reason}
+              </div>
+            )}
             <CompactInspector
               summary={[
                 { label: "Role", value: focus.role },
                 { label: "Pages", value: String(focus.pages) },
-                { label: "Layer", value: `${focus.layer} of 3 — ${focus.layer_label}` },
+                { label: "Layer", value: focus.archived ? `Archived — ${focus.layer_label}` : `${focus.layer} of ${active.length} — ${focus.layer_label}` },
                 { label: "File", value: focus.file_exists ? `PDF · ${focus.file_size_mb} MB` : "Missing" },
               ]}
               defaultTab="what"

@@ -1,13 +1,17 @@
 {
-  "_provenance": "The three research papers behind this machine, verified present on disk. Descriptions written from the papers' own title pages, abstracts and contents; the relation/why-key readings are the case owner's declared authored judgment (same class as home_model_authored.py). Built by src/real/research_papers_authored.py.",
+  "_provenance": "The research papers behind this machine, verified present on disk. Descriptions written from the papers' own title pages, abstracts and contents; the relation/why-key/why-not readings are the case owner's declared authored judgment (same class as home_model_authored.py). Built by src/real/research_papers_authored.py.",
   "generated_by": "src/real/research_papers_authored.py",
   "epistemic_type": "REFERENCE",
   "authored_by": "case owner",
+  "n_active": 3,
+  "n_archived": 1,
   "papers": [
     {
       "id": "afi",
       "layer": 1,
       "layer_label": "Theory",
+      "archived": true,
+      "archived_reason": "Archived for now (case-owner choice, 2026-09-03) so the active set stays focused on the operational method and the build blueprint. Still the real theoretical root every other paper cites - fully readable and downloadable below, never deleted.",
       "title": "Why Must a Cause of All and a Law of All Be Related in a Universe?",
       "subtitle": "Freedom, Causation, and the General Problem of Navigability: Architecture of Freedom Intelligence",
       "author": "Gonçalo Melo de Magalhães",
@@ -37,7 +41,7 @@
     },
     {
       "id": "fpim",
-      "layer": 2,
+      "layer": 1,
       "layer_label": "Method",
       "title": "Creating Non-Obvious Innovations",
       "subtitle": "How to Escape the Faster-Horse Trap and Build an Innovation Machine for Products, Systems and Processes",
@@ -63,8 +67,44 @@
       "why_key": [
         "Theory alone does not generate products. This paper is the bridge: a procedure with stop rules, executable by a person or a machine, that turns \"Freedom is path availability\" into concrete non-obvious product hypotheses - and says exactly what would prove it wrong."
       ],
+      "archived": false,
+      "archived_reason": null,
       "file_exists": true,
       "file_size_mb": 12.2
+    },
+    {
+      "id": "forecast",
+      "layer": 2,
+      "layer_label": "Forecast",
+      "title": "How to Forecast Non-Obvious Innovations",
+      "subtitle": "The Non-Obvious Forecast",
+      "author": "Gonçalo Melo de Magalhães",
+      "year": "2026",
+      "pages": 35,
+      "file": "/research-papers/how-to-forecast-non-obvious-innovations.pdf",
+      "role": "The forecasting companion",
+      "one_line": "Reads a company's dependency structure, not its sales history, to see the next jump before it happens.",
+      "why_not": [
+        "The historical backtest covers roughly twenty documented technology transitions - a real but modest sample, reported as such rather than as a large-N validation.",
+        "The prospective trial scores candidate jumps for a live company before the outcome is known - its predictive claim is, by construction, still open at publication.",
+        "It is one method-generated hypothesis among the tests it proposes on itself; the paper's own closing line hands the decision to the tests, not to the argument."
+      ],
+      "what_it_is": [
+        "Argues that every standard forecasting family - trend extrapolation, diffusion curves, Delphi panels, superforecasting tournaments, prediction markets, scenario planning, jobs-to-be-done, language-model ensembles - performs pattern recognition: it reads the frequency of a remembered series and projects it forward, and is structurally blind to an innovation jump, which by definition has no frequency in any series before it happens.",
+        "Proposes path recognition as the alternative: reading the dependency structure that holds a product's current embodiment in place - its obligations, its identity chain, the capabilities that could change it - rather than the frequency of its past. A four-variable model (obligations removed, identity-chain continuity, capability match, frontier gap) is specified with a coding protocol, backtested against roughly twenty documented historical technology transitions, and run forward as a prospective trial.",
+        "Stress-tests the model across five unrelated domains (telephony, books, drinking water, photography, home heating) plus three deeper company forecasts - Versuni, Apple, and OpenAI - each producing a named jump, a set of directions to leave alone, a disappearance risk, and a stated falsifier."
+      ],
+      "how_it_relates": [
+        "This is the machine's forecasting companion to FPIM: the same read-structure-not-frequency operation FPIM applies to a single product request, applied here to a company's whole forward-looking judgment - exactly the discipline the Radar and Paths worlds are meant to practice on Versuni's real evidence, rather than trend-extrapolating the current portfolio forward.",
+        "One of its three worked company forecasts is Versuni itself - the one paper in this set that names a jump, a disappearance risk, and a falsifier for this exact company, not just the method in the abstract."
+      ],
+      "why_key": [
+        "Without this paper, the machine's Trends reading would default to what every other forecasting method already does - extrapolating the current portfolio's attributes forward - exactly the faster-horse failure the rest of the machine exists to escape."
+      ],
+      "archived": false,
+      "archived_reason": null,
+      "file_exists": true,
+      "file_size_mb": 3.4
     },
     {
       "id": "machine",
@@ -94,6 +134,8 @@
       "why_key": [
         "It is the accountability document: every architectural choice in this product can be checked against the argument that earned it. If the app ever drifts from the blueprint, one of them is wrong - and the paper says which tests decide."
       ],
+      "archived": false,
+      "archived_reason": null,
       "file_exists": true,
       "file_size_mb": 4.6
     }
@@ -110,8 +152,8 @@
         "a": "The repository shows how the machine is built - it cannot say why it must be built this way. Code asserts; papers argue. A reader who starts at the code inherits every design decision as a given; a reader who starts at the papers can check each decision against the evidence and the stated alternatives, and knows what would falsify it."
       },
       {
-        "q": "How do the three fit together?",
-        "a": "One chain: the AFI paper defines what innovation is (creating passible paths); the FPIM paper turns that into a repeatable procedure with stop rules; the Machine paper turns the procedure into a continuously running system for Versuni - and this application is that system, live."
+        "q": "How do the active papers fit together?",
+        "a": "One chain: FPIM turns the faster-horse problem into a repeatable product-design procedure with stop rules; the Forecast paper applies the same read-structure-not-frequency operation to a company's forward judgment, naming a real jump for Versuni itself; the Machine paper turns both into a continuously running system - and this application is that system, live. The archived AFI paper is the theoretical root all three draw their vocabulary from."
       }
     ]
   }
