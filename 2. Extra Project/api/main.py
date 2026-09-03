@@ -450,6 +450,15 @@ def product_relationships(domain: Optional[str] = None, relationship_type: Optio
             "capped": doc["capped"], "count": len(rows), "relationships": rows}
 
 
+@app.get("/api/research-papers")
+def research_papers():
+    """The three research papers behind this machine (theory -> method ->
+    blueprint), with authored descriptions and verified on-disk files -
+    built offline by src/real/research_papers_authored.py, served verbatim.
+    The PDFs themselves are static assets under /research-papers/."""
+    return read_json("research_papers.json")
+
+
 @app.get("/api/home-model")
 def home_model():
     """The case-owner-authored strategic framework over the full Versuni
@@ -693,6 +702,22 @@ if os.path.isdir(WEB_DIST):
         if not os.path.isfile(path):
             raise HTTPException(status_code=404, detail="not found")
         return FileResponse(path, media_type="application/pdf", headers={"Content-Disposition": f'inline; filename="{filename}"'})
+
+    # The three research-foundation papers (see /api/research-papers) -
+    # same inline-view pattern as the disclosures above, plus ?download=1
+    # to force a save dialog for the explicit Download buttons.
+    RESEARCH_PAPERS_DIR = os.path.join(WEB_DIST, "research-papers")
+
+    @app.get("/research-papers/{filename}")
+    def research_paper_pdf(filename: str, download: bool = False):
+        if not filename.endswith(".pdf") or "/" in filename or ".." in filename:
+            raise HTTPException(status_code=404, detail="not found")
+        path = os.path.join(RESEARCH_PAPERS_DIR, filename)
+        if not os.path.isfile(path):
+            raise HTTPException(status_code=404, detail="not found")
+        disposition = "attachment" if download else "inline"
+        return FileResponse(path, media_type="application/pdf",
+                            headers={"Content-Disposition": f'{disposition}; filename="{filename}"'})
 
     # The Versuni Products catalog (a separate, independently-built Vite app,
     # committed as a built artifact under web/public/verinfo) is served from

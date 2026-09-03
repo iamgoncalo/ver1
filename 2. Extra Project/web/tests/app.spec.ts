@@ -130,7 +130,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     // Genuine abbreviations and data ids are fine; three-plus-word shouting
     // sentences are not. Checks rendered text of every world.
     const ALLOWED = /^(API|DOI|PMID|PMCID|URL|PDF|CADR|HEPA|USD|EUR|NL|US|EU|AI|IOT|PM2\.5|CSAT|WTP|OS-\d|TC-R\d+|RP-\d+|CR-\d+|MB|CO2|VOC|UV|LED|WHO|EPA|AHAM|CARB|CSA|CBS|SPA-\w+|[A-Z]{2,6}\d*[A-Z0-9/]*)$/;
-    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria", "/atlas"]) {
+    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria", "/atlas", "/papers"]) {
       await page.goto(path);
       await page.waitForTimeout(600);
       const shouts = await page.evaluate(() => {
@@ -585,7 +585,7 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     await expect(page.getByText("n (reviews in theme)")).toBeVisible();
     await page.keyboard.press("Escape");
     // no user-visible "CSAT" anywhere in the five worlds' default views
-    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria", "/atlas"]) {
+    for (const path of ["/", "/products", "/radar", "/paths", "/magic-box", "/innovations", "/criteria", "/atlas", "/papers"]) {
       await page.goto(path);
       await page.waitForTimeout(500);
       const hasCsat = await page.evaluate(() => (document.querySelector("main")?.textContent ?? "").includes("CSAT"));

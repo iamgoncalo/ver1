@@ -71,8 +71,8 @@ export function ProcessRail({ active, onSelect, onGoHome, category, onCategoryCh
           );
         })}
       </nav>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, justifySelf: "end" }}>
-        <div role="group" aria-label="System tools" style={{ display: "flex", alignItems: "center", gap: 6, paddingRight: 10, borderRight: "1px solid var(--line)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, justifySelf: "end", minWidth: 0, maxWidth: "100%", overflowX: "auto" }}>
+        <div role="group" aria-label="System tools" style={{ display: "flex", alignItems: "center", gap: 6, paddingRight: 10, borderRight: "1px solid var(--line)", flexShrink: 0 }}>
           <button onClick={() => onSelect(8)} aria-current={active === 8 ? "page" : undefined}
             title="Criteria — how the machine decides what is credible, important, generative, testable or rejectable. A system-wide governance layer, not a sixth stage."
             style={{
@@ -96,6 +96,18 @@ export function ProcessRail({ active, onSelect, onGoHome, category, onCategoryCh
               transition: "background 120ms, border-color 120ms",
             }}>
             ◈ Atlas
+          </button>
+          <button onClick={() => onSelect(10)} aria-current={active === 10 ? "page" : undefined}
+            title="Papers — the research foundations this machine implements: theory (AFI), method (FPIM), and the build blueprint. Readable and downloadable."
+            style={{
+              padding: "5px 10px", borderRadius: 8, border: "1px dashed",
+              borderColor: active === 10 ? "var(--accent-blue)" : "var(--line)",
+              background: active === 10 ? "var(--surface-2)" : "transparent",
+              cursor: "pointer", whiteSpace: "nowrap", fontSize: 11.5,
+              color: active === 10 ? "var(--accent-blue-ink)" : "var(--ink-dim)",
+              transition: "background 120ms, border-color 120ms",
+            }}>
+            ✧ Papers
           </button>
         </div>
         <VersuniProductsLink />

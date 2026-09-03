@@ -46,6 +46,7 @@ export const api = {
   causalAtlas: () => j<any>("/api/causal-atlas"),
   needCoverage: () => j<any>("/api/need-coverage"),
   homeModel: () => j<any>("/api/home-model"),
+  researchPapers: () => j<any>("/api/research-papers"),
   productAtlas: (params?: { domain?: string; evidence_state?: string }) => j<any>(`/api/product-atlas${qs(params)}`),
   productRelationships: (params?: { domain?: string; relationship_type?: string; cross_domain?: boolean }) =>
     j<any>(`/api/product-relationships${qs(params)}`),

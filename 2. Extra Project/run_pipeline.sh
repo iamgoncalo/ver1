@@ -120,6 +120,7 @@ python3 src/real/causal_atlas_real.py
 
 echo "== stage 8i3b/9: HOME MODEL - the case-owner-authored strategic framework (JUDGMENT, declared) =="
 python3 src/real/home_model_authored.py
+python3 src/real/research_papers_authored.py
 
 echo "== stage 8i4/9: PRODUCT <-> CAUSAL ATLAS JOIN + relationships (real, derived) =="
 echo "   after causal_atlas.json above; also needs floor_care/review_themes.csv, which =="
