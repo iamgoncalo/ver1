@@ -68,7 +68,7 @@ function ratingGapText(gap: number) {
   return `${gap < 0 ? "▼" : "▲"} ${Math.abs(gap).toFixed(3)}★`;
 }
 
-export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: string) => void }) {
+export function SignalsWorld({ onSendToMagicBox, onGoToWorld }: { onSendToMagicBox: (theme: string) => void; onGoToWorld?: (n: number) => void }) {
   const [data, setData] = useState<SignalsResponse | null>(null);
   const [focus, setFocus] = useState<Signal | null>(null);
   const [mode, setMode] = useState<ViewMode>("distilled");
@@ -257,7 +257,15 @@ export function SignalsWorld({ onSendToMagicBox }: { onSendToMagicBox: (theme: s
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", marginBottom: 14, flexShrink: 0, gap: 12 }}>
-        <div />
+        <div>
+          {onGoToWorld && (
+            <button onClick={() => onGoToWorld(8)} data-testid="radar-open-criteria"
+              title="Criteria — how the machine decides what is credible, important, generative, testable or rejectable."
+              style={{ fontSize: 12, fontWeight: 600, padding: "7px 12px", borderRadius: 8, border: "1px dashed var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", whiteSpace: "nowrap" }}>
+              ⚖ Criteria →
+            </button>
+          )}
+        </div>
         <div style={{ display: "flex", gap: 4, background: "var(--surface-2)", borderRadius: 10, padding: 3, justifySelf: "center" }}>
           {TABS.map((t) => (
             <button key={t.key} onClick={() => setTab(t.key)} title={t.hint}

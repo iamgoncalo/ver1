@@ -3,24 +3,92 @@ import { FocusPanel } from "../components/FocusPanel";
 import { CompactInspector, Pill, SectionLabel } from "../components/ui";
 import { api } from "../lib/api";
 
-// The research foundations lens - the three papers this machine implements,
-// shown as a compact table (one row = one paper) with read/download actions
-// and a row inspector. Descriptions come verbatim from
-// /api/research-papers (authored, provenance-badged) - nothing is written
-// here in the component.
+// The research foundations lens - the three papers this machine implements.
+// High-visibility by design: three large layer cards (theory -> method ->
+// blueprint), each scannable in seconds (one-line summary, a "why this
+// matters" line, a "why not / limits" line, all visible without a click),
+// with the full honest detail one click away in a row inspector. Content
+// comes verbatim from /api/research-papers (authored, provenance-badged) -
+// nothing is written here in the component.
 
 interface Paper {
   id: string; layer: number; layer_label: string;
   title: string; subtitle: string; author: string; year: string;
-  pages: number; file: string; role: string;
+  pages: number; file: string; role: string; one_line: string;
   file_exists: boolean; file_size_mb: number | null;
-  what_it_is: string[]; how_it_relates: string[]; why_key: string[];
+  what_it_is: string[]; how_it_relates: string[]; why_key: string[]; why_not: string[];
 }
 
+const LAYER_COLOR: Record<number, string> = { 1: "var(--accent-blue)", 2: "var(--accent-teal)", 3: "var(--amber)" };
 const LAYER_TONE: Record<number, "blue" | "teal" | "amber"> = { 1: "blue", 2: "teal", 3: "amber" };
 
 function Para({ children }: { children: string }) {
   return <p style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.55, marginBottom: 10 }}>{children}</p>;
+}
+
+function PaperCard({ p, onOpen }: { p: Paper; onOpen: () => void }) {
+  const color = LAYER_COLOR[p.layer] ?? "var(--ink-faint)";
+  return (
+    <div
+      onClick={onOpen} role="button" tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") onOpen(); }}
+      style={{
+        border: "1px solid var(--line)", borderLeft: `4px solid ${color}`, borderRadius: 14,
+        padding: "18px 20px", cursor: "pointer", background: "var(--surface)",
+        transition: "box-shadow 140ms, transform 140ms",
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "var(--shadow)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 9, background: color, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, flexShrink: 0 }}>
+            {p.layer}
+          </div>
+          <div>
+            <div style={{ fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: "0.05em", color, fontWeight: 700 }}>{p.layer_label.toUpperCase()}</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.25 }}>{p.title}</div>
+          </div>
+        </div>
+        <span className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)", flexShrink: 0, whiteSpace: "nowrap" }}>{p.pages}p · {p.year}</span>
+      </div>
+
+      <p style={{ fontSize: 13.5, color: "var(--ink)", fontWeight: 600, lineHeight: 1.4, margin: "6px 0 12px 44px" }}>
+        {p.one_line}
+      </p>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginLeft: 44 }}>
+        <div style={{ padding: "10px 12px", borderRadius: 10, background: "color-mix(in srgb, var(--good) 8%, transparent)" }}>
+          <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--good)", fontWeight: 700, marginBottom: 3 }}>WHY IT MATTERS</div>
+          <div style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4 }}>{p.why_key[0]}</div>
+        </div>
+        <div style={{ padding: "10px 12px", borderRadius: 10, background: "color-mix(in srgb, var(--rose) 8%, transparent)" }}>
+          <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--rose)", fontWeight: 700, marginBottom: 3 }}>WHY NOT / LIMITS</div>
+          <div style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.4 }}>{p.why_not[0]}</div>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, marginTop: 14, marginLeft: 44 }} onClick={(e) => e.stopPropagation()}>
+        {p.file_exists ? (
+          <>
+            <a href={p.file} target="_blank" rel="noreferrer"
+              style={{ fontSize: 12, fontWeight: 600, padding: "6px 14px", borderRadius: 8, border: `1px solid ${color}`, color, textDecoration: "none" }}>
+              Read →
+            </a>
+            <a href={`${p.file}?download=1`}
+              style={{ fontSize: 12, fontWeight: 600, padding: "6px 14px", borderRadius: 8, border: "1px solid var(--line)", color: "var(--ink-dim)", textDecoration: "none" }}
+              title={p.file_size_mb ? `PDF · ${p.file_size_mb} MB` : "PDF"}>
+              Download
+            </a>
+            <button onClick={onOpen}
+              style={{ fontSize: 12, fontWeight: 600, padding: "6px 14px", borderRadius: 8, border: "none", background: "none", color: "var(--ink-faint)", cursor: "pointer" }}>
+              Full detail →
+            </button>
+          </>
+        ) : <Pill tone="rose">File missing</Pill>}
+      </div>
+    </div>
+  );
 }
 
 export function PapersWorld() {
@@ -36,81 +104,38 @@ export function PapersWorld() {
   const papers: Paper[] = doc.papers ?? [];
   const wpf = doc.why_papers_first;
 
-  const cell: React.CSSProperties = { padding: "10px 12px", borderBottom: "1px solid var(--line)", fontSize: 12.5, verticalAlign: "top" };
-  const th: React.CSSProperties = { ...cell, fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: "0.04em", color: "var(--ink-faint)", position: "sticky", top: 0, background: "var(--surface)" };
-
   return (
-    <div className="scrollY" style={{ height: "100%", padding: "22px 28px" }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-        <SectionLabel>Research foundations — the papers this machine implements</SectionLabel>
-        <h1 style={{ fontSize: 26, fontFamily: "var(--font-display)", marginBottom: 4 }}>Papers</h1>
-        <p style={{ fontSize: 12.5, color: "var(--ink-dim)", marginBottom: 6 }}>
-          Theory → method → blueprint → this running product.
+    <div className="scrollY" style={{ height: "100%", padding: "26px 28px" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+        <SectionLabel>Research foundations</SectionLabel>
+        <h1 style={{ fontSize: 30, fontFamily: "var(--font-display)", marginBottom: 6 }}>
+          The three papers this machine implements
+        </h1>
+        <p style={{ fontSize: 14, color: "var(--ink-dim)", marginBottom: 20, maxWidth: 640 }}>
+          Theory → method → blueprint → this running product. Every architectural choice in this app traces to
+          one of these three.
         </p>
-        <details style={{ marginBottom: 16, maxWidth: 720 }}>
-          <summary style={{ cursor: "pointer", fontSize: 11.5, color: "var(--ink-faint)" }}>
-            Why the machine starts from papers, not code ▸
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 22 }}>
+          {papers.map((p) => (
+            <PaperCard key={p.id} p={p} onOpen={() => setFocus(p)} />
+          ))}
+        </div>
+
+        <details style={{ maxWidth: 720 }}>
+          <summary style={{ cursor: "pointer", fontSize: 12, color: "var(--ink-faint)", fontWeight: 600 }}>
+            Why start from papers, not the GitHub repository? ▸
           </summary>
-          <div style={{ marginTop: 8, padding: "12px 14px", border: "1px solid var(--line)", borderRadius: 10 }}>
-            <p style={{ fontSize: 12, color: "var(--ink)", fontWeight: 600, marginBottom: 8 }}>{wpf?.claim}</p>
+          <div style={{ marginTop: 10, padding: "14px 16px", border: "1px solid var(--line)", borderRadius: 12 }}>
+            <p style={{ fontSize: 12.5, color: "var(--ink)", fontWeight: 600, marginBottom: 10 }}>{wpf?.claim}</p>
             {(wpf?.points ?? []).map((pt: any, i: number) => (
-              <div key={i} style={{ marginBottom: 8 }}>
-                <div style={{ fontSize: 11.5, fontWeight: 600, color: "var(--ink)", marginBottom: 2 }}>{pt.q}</div>
-                <div style={{ fontSize: 11.5, color: "var(--ink-dim)", lineHeight: 1.5 }}>{pt.a}</div>
+              <div key={i} style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "var(--ink)", marginBottom: 2 }}>{pt.q}</div>
+                <div style={{ fontSize: 12, color: "var(--ink-dim)", lineHeight: 1.5 }}>{pt.a}</div>
               </div>
             ))}
           </div>
         </details>
-
-        <div style={{ overflowX: "auto", border: "1px solid var(--line)", borderRadius: 12 }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed" }}>
-            <thead>
-              <tr>
-                <th style={{ ...th, width: 70, textAlign: "left" }}>Layer</th>
-                <th style={{ ...th, textAlign: "left" }}>Paper</th>
-                <th style={{ ...th, width: 190, textAlign: "left" }}>Role</th>
-                <th style={{ ...th, width: 60, textAlign: "right" }}>Pages</th>
-                <th style={{ ...th, width: 170, textAlign: "left" }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {papers.map((p) => (
-                <tr key={p.id} onClick={() => setFocus(p)}
-                  style={{ cursor: "pointer" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = "var(--surface-2)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}>
-                  <td style={cell}><Pill tone={LAYER_TONE[p.layer] ?? "neutral"}>{p.layer} · {p.layer_label}</Pill></td>
-                  <td style={{ ...cell, overflow: "hidden" }}>
-                    <div style={{ fontWeight: 600, color: "var(--ink)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={p.title}>{p.title}</div>
-                    <div style={{ fontSize: 11, color: "var(--ink-faint)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={p.subtitle}>
-                      {p.author} · {p.year}
-                    </div>
-                  </td>
-                  <td style={{ ...cell, color: "var(--ink-dim)" }}>{p.role}</td>
-                  <td style={{ ...cell, textAlign: "right" }} className="mono">{p.pages}</td>
-                  <td style={cell} onClick={(e) => e.stopPropagation()}>
-                    {p.file_exists ? (
-                      <span style={{ display: "inline-flex", gap: 6 }}>
-                        <a href={p.file} target="_blank" rel="noreferrer"
-                          style={{ fontSize: 11.5, padding: "4px 10px", borderRadius: 8, border: "1px solid var(--accent-blue)", color: "var(--accent-blue-ink)", textDecoration: "none" }}>
-                          Read →
-                        </a>
-                        <a href={`${p.file}?download=1`}
-                          style={{ fontSize: 11.5, padding: "4px 10px", borderRadius: 8, border: "1px solid var(--line)", color: "var(--ink-dim)", textDecoration: "none" }}
-                          title={p.file_size_mb ? `PDF · ${p.file_size_mb} MB` : "PDF"}>
-                          Download
-                        </a>
-                      </span>
-                    ) : <Pill tone="rose">File missing</Pill>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p style={{ fontSize: 10.5, color: "var(--ink-faint)", marginTop: 8 }}>
-          One row = one paper. Click a row for what it is and how it relates.
-        </p>
       </div>
 
       <FocusPanel open={!!focus} onClose={() => setFocus(null)}
@@ -131,12 +156,13 @@ export function PapersWorld() {
                 { key: "what", label: "What it is", content: <div>{focus.what_it_is.map((s, i) => <Para key={i}>{s}</Para>)}</div> },
                 { key: "relates", label: "How it relates", content: <div>{focus.how_it_relates.map((s, i) => <Para key={i}>{s}</Para>)}</div> },
                 { key: "why", label: "Why it is key", content: <div>{focus.why_key.map((s, i) => <Para key={i}>{s}</Para>)}</div> },
+                { key: "why_not", label: "Why not", content: <div>{focus.why_not.map((s, i) => <Para key={i}>{s}</Para>)}</div> },
                 {
                   key: "trace", label: "Trace", content: (
                     <p className="mono" style={{ fontSize: 11, color: "var(--ink-faint)", lineHeight: 1.5 }}>
                       GET /api/research-papers — src/real/research_papers_authored.py. Descriptions written from the
-                      papers' own title pages, abstracts and contents; relation and why-key readings are the case
-                      owner's declared authored judgment. PDF verified on disk at {focus.file}.
+                      papers' own title pages, abstracts and contents; relation and why-key/why-not readings are the
+                      case owner's declared authored judgment. PDF verified on disk at {focus.file}.
                     </p>
                   ),
                 },

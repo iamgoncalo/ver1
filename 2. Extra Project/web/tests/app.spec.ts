@@ -287,44 +287,13 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
     expect(errors).toEqual([]);
   });
 
-  test("Floor care is a real second category: its own induced evidence per stage, never Air data", async ({ page }) => {
-    const errors = trackConsoleErrors(page);
-    await page.goto("/radar");
-    await expect(page.getByText("Reviews retained").first()).toBeVisible({ timeout: 5000 });
-    await page.getByRole("button", { name: "Floor care" }).click();
-    // the Radar stage shows Floor Care's OWN machine-induced evidence
-    await expect(page.getByTestId("category-stage-radar")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText(/Complaint themes learned from the reviews themselves/)).toBeVisible();
-    await expect(page.getByText(/share \(lower bound\)/).first()).toBeVisible();
-    await expect(page.getByText(/Real competitor brands \(\d+ with/)).toBeVisible();
-    // honestly missing families stay declared missing, not zero-faked or hidden
-    await expect(page.getByText(/Honestly missing:/)).toBeVisible();
-    await expect(page.getByText("full machine not runnable yet")).toBeVisible({ timeout: 15000 });
-    // no Air content leaks under the Floor care label
-    await expect(page.getByText("Reviews retained")).toHaveCount(0);
-    await expect(page.getByText(/Air Purifier/)).toHaveCount(0);
-    // Products stage shows the real frozen corpus
-    await page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /^Products$/ }).click();
-    await expect(page.getByTestId("category-stage-product_universe")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText("Frozen validated products")).toBeVisible();
-    await expect(page.getByText(/rating_number ≥ 500/)).toBeVisible();
-    // Magic stage shows exploratory, never-promoted possibilities
-    await page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /^Magic box$/ }).click();
-    await expect(page.getByTestId("category-stage-magic_box")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByText(/none yet promoted to an innovation/)).toBeVisible();
-    await page.getByRole("button", { name: "Back to air purification →" }).click();
-    // back on Air, the Magic box world shows Air's own real concepts again
-    await expect(page.getByText("what could exist now?")).toBeVisible({ timeout: 5000 });
-    expect(errors).toEqual([]);
-  });
-
   test("Criteria is a visible system layer: shell access, Magic box entry, refresh, provenance - never stage 6", async ({ page }) => {
     const errors = trackConsoleErrors(page);
-    await page.goto("/");
+    await page.goto("/radar");
     // the five-stage nav does not contain Criteria...
     await expect(page.getByRole("navigation", { name: "The machine" }).getByRole("button", { name: /Criteria/ })).toHaveCount(0);
-    // ...but the System group does, from anywhere in the shell
-    await page.getByRole("group", { name: "System tools" }).getByRole("button", { name: /Criteria/ }).click();
+    // ...but Radar links to it directly, from exactly where a reader would look
+    await page.getByTestId("radar-open-criteria").click();
     await expect(page.getByText("Criteria are not scores. They are tests.")).toBeVisible({ timeout: 5000 });
     await expect(page).toHaveURL(/\/criteria$/);
     // direct refresh keeps the route
@@ -758,11 +727,13 @@ test.describe("Versuni Intelligence Machine - core golden path", () => {
 
   // ---------------- PASS 4: causal atlas (cross-cutting lens) ----------------
 
-  test("Atlas is reachable as a system tool, shows real causal-atlas rows grouped by domain", async ({ page }) => {
+  test("Causal map is reachable from Products, shows real causal-atlas rows grouped by domain", async ({ page }) => {
     const errors = trackConsoleErrors(page);
-    await page.goto("/");
-    await page.getByRole("group", { name: "System tools" }).getByRole("button", { name: /Atlas/ }).click();
-    await expect(page).toHaveURL(/\/atlas$/);
+    await page.goto("/products");
+    await page.getByTestId("products-open-causal-map").click();
+    // AtlasWorld owns a ?view= param it syncs on mount - a bare /atlas or
+    // /atlas?view=atlas (its own default) are both a correct landing
+    await expect(page).toHaveURL(/\/atlas(\?view=atlas)?$/);
     await expect(page.getByTestId("atlas-table")).toBeVisible({ timeout: 5000 });
     await expect(page.getByText(/\d+ possibilities/)).toBeVisible();
     // both real domains appear as groups - never a fabricated Food/Beverage row

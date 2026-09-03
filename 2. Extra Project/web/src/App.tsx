@@ -108,8 +108,8 @@ export default function App() {
     }
     switch (world) {
       case 0: return <FunnelWorld key="overview" onGoToWorld={navigate} navigate={navigate} />;
-      case 1: return <ProductsWorld key="products" />;
-      case 2: return <SignalsWorld key="radar" onSendToMagicBox={goSendToMagicBox} />;
+      case 1: return <ProductsWorld key="products" onGoToWorld={navigate} />;
+      case 2: return <SignalsWorld key="radar" onSendToMagicBox={goSendToMagicBox} onGoToWorld={navigate} />;
       case 3: return <PathsWorld key="paths" onGoToWorld={navigate} />;
       case 4: return <MagicBoxWorld key="magic_box" themeFilter={themeFilter} onGoToWorld={navigate} />;
       case 5: return <InnovationsWorld key="innovations" onData={setInnovations} onGoToWorld={navigate} />;
@@ -122,8 +122,7 @@ export default function App() {
 
   return (
     <div style={{ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <ProcessRail active={world} onSelect={setWorld} onGoHome={() => setWorld(0)}
-        category={category} onCategoryChange={setCategory} />
+      <ProcessRail active={world} onSelect={setWorld} onGoHome={() => setWorld(0)} />
       <main style={{ flex: 1, position: "relative", overflow: "hidden" }}>
         <div key={`${world}-${category}`} className="world-enter" style={{ position: "absolute", inset: 0 }}>
           <ErrorBoundary key={`${world}-${category}`}>{worldEl}</ErrorBoundary>

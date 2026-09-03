@@ -22,7 +22,7 @@ const PRODUCT_STATUS_DETAIL: Record<string, string> = {
   EXACT_VERIFIED: "Exact match to the official product page.",
 };
 
-export function ProductsWorld() {
+export function ProductsWorld({ onGoToWorld }: { onGoToWorld?: (n: number) => void } = {}) {
   const [data, setData] = useState<ProductsResponse | null>(null);
   const [lensKey, setLensKey] = useState<keyof typeof LENS>("type");
   const [query, setQuery] = useState("");
@@ -113,7 +113,16 @@ export function ProductsWorld() {
             </div>
           )}
         </div>
-        <DistilledRawToggle mode={mode} onChange={setMode} />
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {onGoToWorld && (
+            <button onClick={() => onGoToWorld(9)} data-testid="products-open-causal-map"
+              title="Causal map — the causal relationships behind every friction: which need it serves, what mechanism addresses it, what human burden it could remove."
+              style={{ fontSize: 12, fontWeight: 600, padding: "7px 12px", borderRadius: 8, border: "1px dashed var(--line)", background: "transparent", color: "var(--ink-dim)", cursor: "pointer", whiteSpace: "nowrap" }}>
+              ◈ Causal map →
+            </button>
+          )}
+          <DistilledRawToggle mode={mode} onChange={setMode} />
+        </div>
       </div>
 
       {mode === "distilled" ? (

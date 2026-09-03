@@ -34,6 +34,15 @@ PAPERS = [
         "pages": 128,
         "file": "/research-papers/afi-cause-of-all-law-of-all.pdf",
         "role": "The theoretical foundation",
+        "one_line": "Defines innovation itself: Freedom is the structured availability of a possible next state.",
+        "why_not": [
+            "The Law of Freedom is a declared candidate, not an established law - the paper itself withholds "
+            "that word until wider testing.",
+            "Of twenty-two stated falsification criteria, only two currently pass cleanly; most pass only "
+            "partially, pending experiments the paper names but has not yet run.",
+            "Whether Freedom and its law connect, or belong to separate registers entirely, is held open on "
+            "purpose - the paper tests the question, it does not settle it.",
+        ],
         "what_it_is": [
             "The foundational theory paper of the Architecture of Freedom "
             "Intelligence (AFI). It tests five hypotheses: Freedom is "
@@ -82,6 +91,15 @@ PAPERS = [
         "pages": 97,
         "file": "/research-papers/creating-non-obvious-innovations-fpim.pdf",
         "role": "The operational method",
+        "one_line": "A seven-step procedure that turns a faster-horse request into a non-obvious product.",
+        "why_not": [
+            "Run on six Versuni product families, the method produced four genuine hypotheses and two honest "
+            "holds - cases where the candidate already exists among rivals.",
+            "Its claim of superiority over TRIZ, jobs-to-be-done and LLM ideation is pre-registered but not "
+            "yet run with blind raters - the comparison is designed, not concluded.",
+            "It escapes design fixation by procedure, not by removing human judgment - the six dependency "
+            "changes still need someone to apply them well.",
+        ],
         "what_it_is": [
             "The method paper. It defines the faster-horse problem - people "
             "ask for improvements to the solution they already have - and "
@@ -130,6 +148,15 @@ PAPERS = [
         "pages": 60,
         "file": "/research-papers/versuni-disruptive-innovation-machine.pdf",
         "role": "The build blueprint for this product",
+        "one_line": "Scores eight funnel architectures against nine criteria and specifies the winner in full.",
+        "why_not": [
+            "Its own status line reads \"proposed system\" - a specified blueprint, not yet a proven track "
+            "record of shipped disruptive products.",
+            "The 93/100 self-assessed quality score is the author's own scoring against the paper's own "
+            "criteria, not an independent audit.",
+            "The architecture choice rests on a nine-criteria comparison the paper designed itself - a "
+            "different criteria set could rank the candidates differently.",
+        ],
         "what_it_is": [
             "The blueprint this application implements. It answers one "
             "practical question - how does Versuni build and operate a "

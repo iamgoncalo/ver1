@@ -116,7 +116,7 @@ export function AtlasWorld({ navigate }: { navigate: (n: number, params?: Record
     <div style={{ height: "100%", display: "flex", flexDirection: "column", padding: "18px 28px", background: "var(--surface)", minHeight: 0 }}>
       <div style={{ flexShrink: 0, marginBottom: 12 }}>
         <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--ink-faint)", letterSpacing: "0.05em" }}>Cross-cutting lens</div>
-        <h1 style={{ fontSize: 22, marginTop: 2 }}>Atlas — the causal relationships behind every friction</h1>
+        <h1 style={{ fontSize: 22, marginTop: 2 }}>Causal map — the causal relationships behind every friction</h1>
         <details style={{ fontSize: 12, color: "var(--ink-dim)", marginTop: 4, maxWidth: 800 }}>
           <summary style={{ cursor: "pointer" }}>Every possibility read through one causal structure ▸</summary>
           <p style={{ marginTop: 4 }}>
